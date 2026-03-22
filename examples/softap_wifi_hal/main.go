@@ -1,19 +1,11 @@
-// Query WiFi HAL for chip info and AP interface state.
+// Query WiFi information from the wificond system service.
 //
-// This example shows how to interact with the WiFi HAL to query chip
-// capabilities, list AP interfaces, and get AP interface details.
-// The WiFi HAL controls the low-level WiFi driver and is the foundation
-// for both STA (client) and AP (hotspot) modes.
-//
-// The generated code returns typed interfaces (IWifiChip, IWifiApIface)
-// directly from method calls — no manual proxy construction needed for
-// sub-objects.
-//
-// Note: The WiFi HAL is only available on devices with real WiFi hardware.
+// Uses IWificond via the "wifinl80211" service to list WiFi interfaces,
+// available channels per band, and PHY capabilities.
 //
 // Build:
 //
-//	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o build/softap_wifi_hal ./examples/softap_wifi_hal/
+//	GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o build/softap_wifi_hal ./examples/softap_wifi_hal/
 //	adb push softap_wifi_hal /data/local/tmp/ && adb shell /data/local/tmp/softap_wifi_hal
 package main
 
@@ -22,14 +14,12 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/xaionaro-go/binder/android/net/wifi/nl80211"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/binder/versionaware"
-	"github.com/xaionaro-go/binder/android/hardware/wifi"
 	"github.com/xaionaro-go/binder/kernelbinder"
 	"github.com/xaionaro-go/binder/servicemanager"
 )
-
-const wifiHalService = servicemanager.ServiceName("android.hardware.wifi.IWifi/default")
 
 func main() {
 	ctx := context.Background()
@@ -49,116 +39,88 @@ func main() {
 
 	sm := servicemanager.New(transport)
 
-	svc, err := sm.GetService(ctx, wifiHalService)
+	svc, err := sm.GetService(ctx, servicemanager.WifiNl80211Service)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "get WiFi HAL: %v\n", err)
-		fmt.Fprintf(os.Stderr, "(WiFi HAL not available — no WiFi hardware or SELinux denial)\n")
+		fmt.Fprintf(os.Stderr, "get wifinl80211 service: %v\n", err)
+		fmt.Fprintf(os.Stderr, "(wificond not available or access denied by SELinux)\n")
 		os.Exit(1)
 	}
 
-	wifiHal := wifi.NewWifiProxy(svc)
+	wificond := nl80211.NewWificondProxy(svc)
 
-	// Check if WiFi is started.
-	started, err := wifiHal.IsStarted(ctx)
+	// List client (STA) interfaces.
+	clientIfaces, err := wificond.GetClientInterfaces(ctx)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "IsStarted: %v\n", err)
-		fmt.Fprintf(os.Stderr, "(WiFi HAL may have died or access may be restricted by SELinux)\n")
+		fmt.Fprintf(os.Stderr, "GetClientInterfaces: %v\n", err)
 	} else {
-		fmt.Printf("WiFi HAL started: %v\n", started)
-	}
-
-	// List available WiFi chips.
-	chipIds, err := wifiHal.GetChipIds(ctx)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "GetChipIds: %v (WiFi HAL may have died or access may be restricted by SELinux)\n", err)
-		return
-	}
-
-	fmt.Printf("WiFi chips: %v\n\n", chipIds)
-
-	for _, chipId := range chipIds {
-		printChipInfo(ctx, wifiHal, chipId)
-	}
-}
-
-func printChipInfo(
-	ctx context.Context,
-	wifiHal wifi.IWifi,
-	chipId int32,
-) {
-	fmt.Printf("=== Chip %d ===\n", chipId)
-
-	// GetChip returns IWifiChip directly — the generated proxy
-	// handles binder handle acquisition internally.
-	chip, err := wifiHal.GetChip(ctx, chipId)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "  GetChip(%d): %v\n", chipId, err)
-		return
-	}
-
-	// Get feature set bitmask.
-	features, err := chip.GetFeatureSet(ctx)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "  GetFeatureSet: %v\n", err)
-	} else {
-		fmt.Printf("  Feature set: 0x%x\n", features)
-	}
-
-	chipId2, err := chip.GetId(ctx)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "  GetId: %v\n", err)
-	} else {
-		fmt.Printf("  Chip ID: %d\n", chipId2)
-	}
-
-	// List AP interfaces — these are the SoftAP interfaces.
-	apNames, err := chip.GetApIfaceNames(ctx)
-	switch {
-	case err != nil:
-		fmt.Fprintf(os.Stderr, "  GetApIfaceNames: %v\n", err)
-	case len(apNames) == 0:
-		fmt.Printf("  AP interfaces: (none — no hotspot active)\n")
-	default:
-		fmt.Printf("  AP interfaces:\n")
-		for _, name := range apNames {
-			printApIfaceInfo(ctx, chip, name)
+		fmt.Printf("Client interfaces: %d\n", len(clientIfaces))
+		for i, iface := range clientIfaces {
+			fmt.Printf("  [%d] binder handle present\n", i)
+			_ = iface // IBinder handles
 		}
 	}
 
-	// List STA interfaces for context.
-	staNames, err := chip.GetStaIfaceNames(ctx)
+	// List AP interfaces.
+	apIfaces, err := wificond.GetApInterfaces(ctx)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "  GetStaIfaceNames: %v\n", err)
+		fmt.Fprintf(os.Stderr, "GetApInterfaces: %v\n", err)
 	} else {
-		fmt.Printf("  STA interfaces: %v\n", staNames)
+		fmt.Printf("AP interfaces:     %d\n", len(apIfaces))
+		for i, iface := range apIfaces {
+			fmt.Printf("  [%d] binder handle present\n", i)
+			_ = iface
+		}
 	}
-}
 
-func printApIfaceInfo(
-	ctx context.Context,
-	chip wifi.IWifiChip,
-	name string,
-) {
-	fmt.Printf("    - %s\n", name)
-
-	// GetApIface returns IWifiApIface directly.
-	apIface, err := chip.GetApIface(ctx, name)
+	// Available 2.4 GHz channels.
+	fmt.Println()
+	ch2g, err := wificond.GetAvailable2gChannels(ctx)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "      GetApIface(%s): %v\n", name, err)
-		return
+		fmt.Fprintf(os.Stderr, "GetAvailable2gChannels: %v\n", err)
+	} else {
+		fmt.Printf("Available 2.4 GHz channels: %v\n", ch2g)
 	}
 
-	ifName, _ := apIface.GetName(ctx)
-	fmt.Printf("      Name: %s\n", ifName)
-
-	mac, err := apIface.GetFactoryMacAddress(ctx)
-	if err == nil {
-		fmt.Printf("      Factory MAC: %x\n", mac)
+	// Available 5 GHz non-DFS channels.
+	ch5g, err := wificond.GetAvailable5gNonDFSChannels(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "GetAvailable5gNonDFSChannels: %v\n", err)
+	} else {
+		fmt.Printf("Available 5 GHz (non-DFS) channels: %v\n", ch5g)
 	}
 
-	bridged, err := apIface.GetBridgedInstances(ctx)
-	if err == nil && len(bridged) > 0 {
-		fmt.Printf("      Bridged instances: %v\n", bridged)
+	// Available DFS channels.
+	chDFS, err := wificond.GetAvailableDFSChannels(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "GetAvailableDFSChannels: %v\n", err)
+	} else {
+		fmt.Printf("Available DFS channels: %v\n", chDFS)
 	}
 
+	// Available 6 GHz channels.
+	ch6g, err := wificond.GetAvailable6gChannels(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "GetAvailable6gChannels: %v\n", err)
+	} else {
+		fmt.Printf("Available 6 GHz channels: %v\n", ch6g)
+	}
+
+	// Available 60 GHz channels.
+	ch60g, err := wificond.GetAvailable60gChannels(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "GetAvailable60gChannels: %v\n", err)
+	} else {
+		fmt.Printf("Available 60 GHz channels: %v\n", ch60g)
+	}
+
+	// PHY capabilities for common interface names.
+	fmt.Println()
+	for _, ifName := range []string{"wlan0", "wlan1", "wlan2"} {
+		caps, err := wificond.GetDeviceWiphyCapabilities(ctx, ifName)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "GetDeviceWiphyCapabilities(%s): %v\n", ifName, err)
+			continue
+		}
+		fmt.Printf("PHY capabilities for %s: %+v\n", ifName, caps)
+	}
 }
