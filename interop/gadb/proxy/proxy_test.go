@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/electricbubble/gadb"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -14,7 +15,17 @@ import (
 
 const testDeviceSerial = "41041JEKB08092"
 
+// requireADB skips the test if the ADB server is not reachable.
+func requireADB(t *testing.T) {
+	t.Helper()
+	if _, err := gadb.NewClient(); err != nil {
+		t.Skipf("ADB server not available: %v", err)
+	}
+}
+
 func TestSession(t *testing.T) {
+	requireADB(t)
+
 	ctx := context.Background()
 
 	session, err := proxy.NewSession(ctx, testDeviceSerial)

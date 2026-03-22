@@ -9,14 +9,25 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AndroidGoLab/binder/interop/gadb/runner"
+	"github.com/electricbubble/gadb"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/AndroidGoLab/binder/interop/gadb/runner"
 )
 
 const testDeviceSerial = "41041JEKB08092"
 
+// requireADB skips the test if the ADB server is not reachable.
+func requireADB(t *testing.T) {
+	t.Helper()
+	if _, err := gadb.NewClient(); err != nil {
+		t.Skipf("ADB server not available: %v", err)
+	}
+}
+
 func TestDiscoverDevices(t *testing.T) {
+	requireADB(t)
 	ctx := context.Background()
 
 	devices, err := runner.DiscoverDevices(ctx)
@@ -35,6 +46,8 @@ func TestDiscoverDevices(t *testing.T) {
 }
 
 func TestPushAndRun(t *testing.T) {
+	requireADB(t)
+
 	ctx := context.Background()
 
 	// Cross-compile examples/list_services for arm64.
@@ -68,6 +81,8 @@ func TestPushAndRun(t *testing.T) {
 }
 
 func TestRunWithTimeout(t *testing.T) {
+	requireADB(t)
+
 	ctx := context.Background()
 
 	dr, err := runner.NewDeviceRunner(testDeviceSerial)
