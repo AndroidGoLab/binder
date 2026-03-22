@@ -12,6 +12,10 @@
 /genbindercli
 /genconstants
 
+# Command binaries built to repo root
+/binder-mcp
+/binder-proxyd
+
 # Tool binaries accidentally committed to repo root
 /activity_manager
 /audio_status

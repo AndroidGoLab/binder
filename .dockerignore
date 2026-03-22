@@ -1,0 +1,11 @@
+.git
+build/
+proofs/.lake
+tools/pkg/3rdparty/
+docs/
+*.test
+*.out
+*.prof
+binder-mcp
+binder-proxyd
+bindercli

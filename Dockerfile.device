@@ -1,0 +1,23 @@
+# Device image: builds binder-mcp for linux/arm64, minimal scratch runtime.
+# Push the resulting static binary to an Android device via adb.
+#
+#   docker build -f Dockerfile.device --platform linux/arm64 -t binder-mcp-device .
+#   docker create --name tmp binder-mcp-device && docker cp tmp:/binder-mcp . && docker rm tmp
+#   adb push binder-mcp /data/local/tmp/
+
+FROM golang:1.25-alpine AS builder
+
+RUN apk add --no-cache git
+
+WORKDIR /src
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o /out/binder-mcp ./cmd/binder-mcp/
+
+FROM scratch
+
+COPY --from=builder /out/binder-mcp /binder-mcp
+
+ENTRYPOINT ["/binder-mcp"]
