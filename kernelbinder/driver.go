@@ -173,6 +173,134 @@ func (d *Driver) checkClosed() error {
 	return nil
 }
 
+// lockedCheckClosed acquires d.mu and checks whether the driver is closed.
+func (d *Driver) lockedCheckClosed() error {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	return d.checkClosed()
+}
+
+// markClosedAndTakeHandles sets d.closed to true and returns the acquired
+// handles map, clearing it from the driver. Returns ErrDriverClosed if already
+// closed. Used by Close.
+func (d *Driver) markClosedAndTakeHandles() (map[uint32]bool, error) {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+
+	if d.closed {
+		return nil, ErrDriverClosed
+	}
+	d.closed = true
+	handles := d.acquiredHandles
+	d.acquiredHandles = nil
+	return handles, nil
+}
+
+// takeDeathRecipients removes and returns all death recipient entries,
+// clearing both maps. Used by Close to drain registrations before
+// invalidating the fd.
+func (d *Driver) takeDeathRecipients() map[uint32]*deathRecipientEntry {
+	d.deathRecipientsMu.Lock()
+	defer d.deathRecipientsMu.Unlock()
+
+	entries := d.deathRecipientsByHndl
+	d.deathRecipients = nil
+	d.deathRecipientsByHndl = nil
+	return entries
+}
+
+// readFD returns the current fd under fdMu.RLock. Used by Close to read the
+// fd before closing it (the close must happen outside the lock to unblock
+// any in-flight ioctls).
+func (d *Driver) readFD() int {
+	d.fdMu.RLock()
+	defer d.fdMu.RUnlock()
+	return d.fd
+}
+
+// invalidateFDAndMapped takes the fdMu write lock, sets fd to -1 and mapped
+// to nil, and returns the previous mapped slice. The write lock ensures all
+// in-flight ioctls (which hold RLock) have completed before invalidation.
+func (d *Driver) invalidateFDAndMapped() []byte {
+	d.fdMu.Lock()
+	defer d.fdMu.Unlock()
+
+	mapped := d.mapped
+	d.fd = -1
+	d.mapped = nil
+	return mapped
+}
+
+// registerDeathRecipient inserts a death recipient entry for the given handle
+// and cookie. Returns an error if the handle already has a registration.
+func (d *Driver) registerDeathRecipient(
+	handle uint32,
+	cookie uintptr,
+	entry *deathRecipientEntry,
+) error {
+	d.deathRecipientsMu.Lock()
+	defer d.deathRecipientsMu.Unlock()
+
+	if existing := d.deathRecipientsByHndl[handle]; existing != nil {
+		return fmt.Errorf("binder: death notification already registered for handle %d; clear it first", handle)
+	}
+	d.deathRecipients[cookie] = entry
+	d.deathRecipientsByHndl[handle] = entry
+	return nil
+}
+
+// removeDeathRecipient deletes a death recipient entry by handle and cookie.
+func (d *Driver) removeDeathRecipient(
+	handle uint32,
+	cookie uintptr,
+) {
+	d.deathRecipientsMu.Lock()
+	defer d.deathRecipientsMu.Unlock()
+	delete(d.deathRecipients, cookie)
+	delete(d.deathRecipientsByHndl, handle)
+}
+
+// restoreDeathRecipient re-inserts a death recipient entry after a failed
+// kernel command, so the in-memory state stays consistent with the kernel.
+func (d *Driver) restoreDeathRecipient(
+	handle uint32,
+	cookie uintptr,
+	entry *deathRecipientEntry,
+) {
+	d.deathRecipientsMu.Lock()
+	defer d.deathRecipientsMu.Unlock()
+	d.deathRecipients[cookie] = entry
+	d.deathRecipientsByHndl[handle] = entry
+}
+
+// lookupDeathRecipient returns the death recipient entry for the given cookie,
+// or nil if not found.
+func (d *Driver) lookupDeathRecipient(cookie uintptr) *deathRecipientEntry {
+	d.deathRecipientsMu.Lock()
+	defer d.deathRecipientsMu.Unlock()
+	return d.deathRecipients[cookie]
+}
+
+// lookupAndRemoveDeathRecipient finds the death recipient entry for the given
+// handle, removes it from both maps, and returns the entry and its cookie.
+// Returns an error if no entry is registered for the handle.
+func (d *Driver) lookupAndRemoveDeathRecipient(
+	handle uint32,
+) (*deathRecipientEntry, uintptr, error) {
+	d.deathRecipientsMu.Lock()
+	defer d.deathRecipientsMu.Unlock()
+
+	entry := d.deathRecipientsByHndl[handle]
+	if entry == nil {
+		return nil, 0, fmt.Errorf("binder: no death notification registered for handle %d", handle)
+	}
+
+	cookie := uintptr(unsafe.Pointer(entry))
+	delete(d.deathRecipients, cookie)
+	delete(d.deathRecipientsByHndl, handle)
+	return entry, cookie, nil
+}
+
 // Close releases all death notifications, acquired binder handles, the mmap,
 // and the file descriptor.
 func (d *Driver) Close(
@@ -181,26 +309,17 @@ func (d *Driver) Close(
 	logger.Tracef(ctx, "Close")
 	defer func() { logger.Tracef(ctx, "/Close: %v", _err) }()
 
-	d.mu.Lock()
-	if d.closed {
-		d.mu.Unlock()
-		return ErrDriverClosed
+	handles, err := d.markClosedAndTakeHandles()
+	if err != nil {
+		return err
 	}
-	d.closed = true
-	handles := d.acquiredHandles
-	d.acquiredHandles = nil
-	d.mu.Unlock()
 
 	var errs []error
 
 	// Clear all registered death notifications BEFORE invalidating the
 	// fd, because writeDeathCmd -> writeCommand checks d.fd and returns
 	// ErrDriverClosed when it is -1.
-	d.deathRecipientsMu.Lock()
-	deathEntries := d.deathRecipientsByHndl
-	d.deathRecipients = nil
-	d.deathRecipientsByHndl = nil
-	d.deathRecipientsMu.Unlock()
+	deathEntries := d.takeDeathRecipients()
 
 	for handle, entry := range deathEntries {
 		cookie := uintptr(unsafe.Pointer(entry))
@@ -232,9 +351,7 @@ func (d *Driver) Close(
 	//
 	// No new Transact calls can start because d.closed is already true
 	// (checked under d.mu). The read loop will see EBADF and exit.
-	d.fdMu.RLock()
-	fd := d.fd
-	d.fdMu.RUnlock()
+	fd := d.readFD()
 
 	if fd >= 0 {
 		if err := unix.Close(fd); err != nil {
@@ -245,11 +362,7 @@ func (d *Driver) Close(
 	// Now take the write lock to wait for all in-flight ioctls to
 	// finish (they will see EBADF and return promptly), then
 	// invalidate fd/mapped so no stale accesses occur.
-	d.fdMu.Lock()
-	mapped := d.mapped
-	d.fd = -1
-	d.mapped = nil
-	d.fdMu.Unlock()
+	mapped := d.invalidateFDAndMapped()
 
 	if mapped != nil {
 		if err := unix.Munmap(mapped); err != nil {
@@ -283,10 +396,7 @@ func (d *Driver) Transact(
 	logger.Tracef(ctx, "Transact")
 	defer func() { logger.Tracef(ctx, "/Transact: %v", _err) }()
 
-	d.mu.Lock()
-	err := d.checkClosed()
-	d.mu.Unlock()
-	if err != nil {
+	if err := d.lockedCheckClosed(); err != nil {
 		return nil, err
 	}
 
@@ -646,9 +756,14 @@ func (d *Driver) acquireSingleReplyHandle(
 		return
 	}
 
+	d.trackAcquiredHandle(handle)
+}
+
+// trackAcquiredHandle records a handle as acquired under d.mu.
+func (d *Driver) trackAcquiredHandle(handle uint32) {
 	d.mu.Lock()
+	defer d.mu.Unlock()
 	d.acquiredHandles[handle] = true
-	d.mu.Unlock()
 }
 
 // copyFromMapped copies data from the mmap'd binder region by computing an offset
@@ -658,20 +773,21 @@ func (d *Driver) copyFromMapped(
 	size uint64,
 ) ([]byte, error) {
 	d.fdMu.RLock()
+	defer d.fdMu.RUnlock()
+
 	mapped := d.mapped
 	if mapped == nil {
-		d.fdMu.RUnlock()
 		return nil, ErrDriverClosed
 	}
+
 	base := uintptr(unsafe.Pointer(&mapped[0]))
 	relOffset := uintptr(addr) - base
 	if relOffset+uintptr(size) > uintptr(len(mapped)) {
-		d.fdMu.RUnlock()
 		return nil, fmt.Errorf("binder: mapped buffer access out of range: offset=%d size=%d mapped=%d", relOffset, size, len(mapped))
 	}
+
 	dst := make([]byte, size)
 	copy(dst, mapped[relOffset:relOffset+uintptr(size)])
-	d.fdMu.RUnlock()
 	return dst, nil
 }
 
@@ -683,10 +799,7 @@ func (d *Driver) AcquireHandle(
 	logger.Tracef(ctx, "AcquireHandle")
 	defer func() { logger.Tracef(ctx, "/AcquireHandle: %v", _err) }()
 
-	d.mu.Lock()
-	err := d.checkClosed()
-	d.mu.Unlock()
-	if err != nil {
+	if err := d.lockedCheckClosed(); err != nil {
 		return err
 	}
 
@@ -701,9 +814,7 @@ func (d *Driver) AcquireHandle(
 	if err := d.writeCommand(ctx, buf); err != nil {
 		return err
 	}
-	d.mu.Lock()
-	d.acquiredHandles[handle] = true
-	d.mu.Unlock()
+	d.trackAcquiredHandle(handle)
 	return nil
 }
 
@@ -715,10 +826,7 @@ func (d *Driver) ReleaseHandle(
 	logger.Tracef(ctx, "ReleaseHandle")
 	defer func() { logger.Tracef(ctx, "/ReleaseHandle: %v", _err) }()
 
-	d.mu.Lock()
-	err := d.checkClosed()
-	d.mu.Unlock()
-	if err != nil {
+	if err := d.lockedCheckClosed(); err != nil {
 		return err
 	}
 
@@ -733,10 +841,15 @@ func (d *Driver) ReleaseHandle(
 	if err := d.writeCommand(ctx, buf); err != nil {
 		return err
 	}
-	d.mu.Lock()
-	delete(d.acquiredHandles, handle)
-	d.mu.Unlock()
+	d.untrackAcquiredHandle(handle)
 	return nil
+}
+
+// untrackAcquiredHandle removes a handle from the acquired set under d.mu.
+func (d *Driver) untrackAcquiredHandle(handle uint32) {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	delete(d.acquiredHandles, handle)
 }
 
 // RequestDeathNotification registers a death notification for a binder handle.
@@ -750,10 +863,7 @@ func (d *Driver) RequestDeathNotification(
 	logger.Tracef(ctx, "RequestDeathNotification")
 	defer func() { logger.Tracef(ctx, "/RequestDeathNotification: %v", _err) }()
 
-	d.mu.Lock()
-	err := d.checkClosed()
-	d.mu.Unlock()
-	if err != nil {
+	if err := d.lockedCheckClosed(); err != nil {
 		return err
 	}
 
@@ -767,21 +877,13 @@ func (d *Driver) RequestDeathNotification(
 	}
 	cookie := uintptr(unsafe.Pointer(entry))
 
-	d.deathRecipientsMu.Lock()
-	if existing := d.deathRecipientsByHndl[handle]; existing != nil {
-		d.deathRecipientsMu.Unlock()
-		return fmt.Errorf("binder: death notification already registered for handle %d; clear it first", handle)
+	if err := d.registerDeathRecipient(handle, cookie, entry); err != nil {
+		return err
 	}
-	d.deathRecipients[cookie] = entry
-	d.deathRecipientsByHndl[handle] = entry
-	d.deathRecipientsMu.Unlock()
 
 	if err := d.writeDeathCmd(ctx, bcRequestDeathNotif, handle, cookie); err != nil {
 		// Roll back on failure — the kernel does not hold this cookie.
-		d.deathRecipientsMu.Lock()
-		delete(d.deathRecipients, cookie)
-		delete(d.deathRecipientsByHndl, handle)
-		d.deathRecipientsMu.Unlock()
+		d.removeDeathRecipient(handle, cookie)
 		return err
 	}
 	return nil
@@ -796,36 +898,21 @@ func (d *Driver) ClearDeathNotification(
 	logger.Tracef(ctx, "ClearDeathNotification")
 	defer func() { logger.Tracef(ctx, "/ClearDeathNotification: %v", _err) }()
 
-	d.mu.Lock()
-	err := d.checkClosed()
-	d.mu.Unlock()
+	if err := d.lockedCheckClosed(); err != nil {
+		return err
+	}
+
+	// Remove the entry optimistically; if the kernel command fails,
+	// re-insert it so the state remains consistent with the kernel.
+	entry, cookie, err := d.lookupAndRemoveDeathRecipient(handle)
 	if err != nil {
 		return err
 	}
 
-	// Hold the lock across lookup, delete, and send to prevent a
-	// concurrent RequestDeathNotification or ClearDeathNotification
-	// from racing on the same handle (TOCTOU). The writeDeathCmd call
-	// is a non-blocking write-only ioctl, so holding the lock is safe.
-	d.deathRecipientsMu.Lock()
-	entry := d.deathRecipientsByHndl[handle]
-	if entry == nil {
-		d.deathRecipientsMu.Unlock()
-		return fmt.Errorf("binder: no death notification registered for handle %d", handle)
-	}
-
-	cookie := uintptr(unsafe.Pointer(entry))
-	delete(d.deathRecipients, cookie)
-	delete(d.deathRecipientsByHndl, handle)
-	d.deathRecipientsMu.Unlock()
-
 	if err := d.writeDeathCmd(ctx, bcClearDeathNotif, handle, cookie); err != nil {
 		// Re-insert on failure so the state remains consistent with
 		// what the kernel believes is registered.
-		d.deathRecipientsMu.Lock()
-		d.deathRecipients[cookie] = entry
-		d.deathRecipientsByHndl[handle] = entry
-		d.deathRecipientsMu.Unlock()
+		d.restoreDeathRecipient(handle, cookie, entry)
 		return err
 	}
 
@@ -864,20 +951,11 @@ func (d *Driver) writeCommand(
 	}
 
 	for {
-		d.fdMu.RLock()
-		fd := d.fd
-		if fd < 0 {
-			d.fdMu.RUnlock()
+		errno, closed := d.lockedWriteReadIoctl(&bwr)
+		if closed {
 			runtime.KeepAlive(writeBuf)
 			return ErrDriverClosed
 		}
-		_, _, errno := unix.Syscall(
-			unix.SYS_IOCTL,
-			uintptr(fd),
-			binderWriteReadIoctl,
-			uintptr(unsafe.Pointer(&bwr)),
-		)
-		d.fdMu.RUnlock()
 
 		switch errno {
 		case 0:
@@ -918,19 +996,10 @@ func (d *Driver) doIoctl(
 	bwr *binderWriteRead,
 ) error {
 	for {
-		d.fdMu.RLock()
-		fd := d.fd
-		if fd < 0 {
-			d.fdMu.RUnlock()
+		errno, closed := d.lockedWriteReadIoctl(bwr)
+		if closed {
 			return ErrDriverClosed
 		}
-		_, _, errno := unix.Syscall(
-			unix.SYS_IOCTL,
-			uintptr(fd),
-			binderWriteReadIoctl,
-			uintptr(unsafe.Pointer(bwr)),
-		)
-		d.fdMu.RUnlock()
 
 		switch errno {
 		case 0:
@@ -954,6 +1023,29 @@ func (d *Driver) doIoctl(
 	}
 }
 
+// lockedWriteReadIoctl executes a single BINDER_WRITE_READ ioctl under
+// fdMu.RLock. Returns (errno, true) if the fd has been invalidated, or
+// (errno, false) with the syscall result otherwise.
+func (d *Driver) lockedWriteReadIoctl(
+	bwr *binderWriteRead,
+) (unix.Errno, bool) {
+	d.fdMu.RLock()
+	defer d.fdMu.RUnlock()
+
+	fd := d.fd
+	if fd < 0 {
+		return 0, true
+	}
+
+	_, _, errno := unix.Syscall(
+		unix.SYS_IOCTL,
+		uintptr(fd),
+		binderWriteReadIoctl,
+		uintptr(unsafe.Pointer(bwr)),
+	)
+	return errno, false
+}
+
 // handleDeadBinder processes a BR_DEAD_BINDER event by invoking the
 // registered DeathRecipient's BinderDied callback, then acknowledging
 // with BC_DEAD_BINDER_DONE. The entry is removed from both maps only
@@ -963,9 +1055,7 @@ func (d *Driver) handleDeadBinder(
 	ctx context.Context,
 	cookie uintptr,
 ) {
-	d.deathRecipientsMu.Lock()
-	entry := d.deathRecipients[cookie]
-	d.deathRecipientsMu.Unlock()
+	entry := d.lookupDeathRecipient(cookie)
 
 	if entry != nil {
 		// Run the callback in a goroutine to avoid blocking the read
@@ -992,10 +1082,7 @@ func (d *Driver) handleDeadBinder(
 
 	// Remove the entry only after BC_DEAD_BINDER_DONE succeeds.
 	if entry != nil {
-		d.deathRecipientsMu.Lock()
-		delete(d.deathRecipients, cookie)
-		delete(d.deathRecipientsByHndl, entry.handle)
-		d.deathRecipientsMu.Unlock()
+		d.removeDeathRecipient(entry.handle, cookie)
 	}
 }
 
