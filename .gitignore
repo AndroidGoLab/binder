@@ -1,12 +1,39 @@
+# Build outputs
+/build/
+*.test
+*.out
+*.prof
+*.exe
+
+# Legacy binary names (no longer built to repo root)
 /aidlgen
 /bindercli
 /genaccessors
 /genbindercli
 /genconstants
-*.test
-*.out
-*.prof
-/build/
-*.exe
+
+# Tool binaries accidentally committed to repo root
+/activity_manager
+/audio_status
+/battery_health
+/camera_connect
+/camera_fwk
+/device_info
+/display_info
+/java2spec
+/list_services
+/package_query
+/power_status
+/security_test_apk
+/softap_manage
+/softap_tether_offload
+/softap_wifi_hal
+/spec2cli
+/spec2go
+/spec2readme
+/storage_info
+/aidl2spec
+
+# Lean 4
 /.lake
 proofs/.lake
