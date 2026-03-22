@@ -47,7 +47,7 @@ func main() {
     sm := servicemanager.New(transport)
 
     lm, _ := location.GetLocationManager(ctx, sm)
-    loc, err := lm.GetLastLocation(ctx, location.FusedProvider, location.LastLocationRequest{}, "com.android.shell")
+    loc, err := lm.GetLastLocation(ctx, location.FusedProvider, location.LastLocationRequest{}, binder.DefaultCallerIdentity().PackageName)
     if err != nil {
         log.Fatal(err)
     }
@@ -168,7 +168,7 @@ import (
         log.Fatal(err)
     }
 
-    loc, err := lm.GetLastLocation(ctx, location.FusedProvider, location.LastLocationRequest{}, "com.android.shell")
+    loc, err := lm.GetLastLocation(ctx, location.FusedProvider, location.LastLocationRequest{}, binder.DefaultCallerIdentity().PackageName)
     if err != nil {
         log.Fatal(err)
     }
