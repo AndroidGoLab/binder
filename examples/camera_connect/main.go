@@ -112,8 +112,16 @@ func main() {
 	deviceUser, err := cameraProxy.ConnectDevice(ctx, callback, "0")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ConnectDevice error (expected): %v\n", err)
-		os.Exit(0)
+		// Let deferred drv.Close run for clean shutdown.
+		return
 	}
 
 	fmt.Printf("ConnectDevice succeeded: %v\n", deviceUser)
+
+	// Disconnect the camera device before closing the binder driver.
+	// This tells the camera service to release the callback, so the
+	// binder driver's read loop is not stuck waiting for transactions.
+	if err := deviceUser.Disconnect(ctx); err != nil {
+		fmt.Fprintf(os.Stderr, "Disconnect: %v\n", err)
+	}
 }

@@ -224,12 +224,28 @@ func (d *Driver) Close(
 		}
 	}
 
-	// Take fdMu write lock to wait for all in-flight ioctls (which
-	// hold RLock) to finish, then invalidate fd/mapped so no new
-	// operations can use them. The actual munmap and close happen
-	// outside both locks using local copies.
-	d.fdMu.Lock()
+	// Close the raw fd FIRST to interrupt any blocked ioctl (e.g. the
+	// read loop's BINDER_WRITE_READ). The read loop holds fdMu.RLock
+	// across a blocking ioctl, so taking fdMu.Lock here would deadlock
+	// if the ioctl never returns. Closing the fd wakes the ioctl with
+	// EBADF, allowing it to release the RLock.
+	//
+	// No new Transact calls can start because d.closed is already true
+	// (checked under d.mu). The read loop will see EBADF and exit.
+	d.fdMu.RLock()
 	fd := d.fd
+	d.fdMu.RUnlock()
+
+	if fd >= 0 {
+		if err := unix.Close(fd); err != nil {
+			errs = append(errs, &aidlerrors.BinderError{Op: "close", Err: err})
+		}
+	}
+
+	// Now take the write lock to wait for all in-flight ioctls to
+	// finish (they will see EBADF and return promptly), then
+	// invalidate fd/mapped so no stale accesses occur.
+	d.fdMu.Lock()
 	mapped := d.mapped
 	d.fd = -1
 	d.mapped = nil
@@ -238,12 +254,6 @@ func (d *Driver) Close(
 	if mapped != nil {
 		if err := unix.Munmap(mapped); err != nil {
 			errs = append(errs, &aidlerrors.BinderError{Op: "munmap", Err: err})
-		}
-	}
-
-	if fd >= 0 {
-		if err := unix.Close(fd); err != nil {
-			errs = append(errs, &aidlerrors.BinderError{Op: "close", Err: err})
 		}
 	}
 
