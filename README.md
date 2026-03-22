@@ -1788,6 +1788,99 @@ Unit tests run automatically on every push and pull request via [GitHub Actions]
 
 A [weekly workflow](.github/workflows/check-aosp-updates.yml) checks for new AOSP revision tags, regenerates version tables and proxy code, and opens a PR automatically if anything changed.
 
+## binder-mcp
+
+AI agents can interact with Android devices through [binder-mcp](cmd/binder-mcp/), a [Model Context Protocol](https://modelcontextprotocol.io/) server that exposes binder services as tools.
+
+<!-- BEGIN GENERATED BINDER_MCP -->
+
+### Device mode
+
+```bash
+# Build and push
+GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o build/binder-mcp ./cmd/binder-mcp/
+adb push build/binder-mcp /data/local/tmp/
+
+# Use with Claude Code (or any MCP client)
+# In your MCP config, add:
+# {
+#   "mcpServers": {
+#     "android": {
+#       "command": "adb",
+#       "args": ["shell", "/data/local/tmp/binder-mcp"]
+#     }
+#   }
+# }
+```
+
+### Remote mode (runs on host)
+
+```bash
+go run ./cmd/binder-mcp/ --mode remote
+# Auto-discovers device via ADB, pushes daemon, serves MCP on stdio
+```
+
+### Available tools
+
+| Tool | Description |
+|---|---|
+| `list_services` | Enumerate all binder services |
+| `get_service_info` | Descriptor, handle, liveness for a service |
+| `call_method` | Invoke raw binder transactions |
+| `get_device_info` | Power, display, thermal status |
+| `get_location` | GPS/fused location |
+| `check_permissions` | SELinux context and service accessibility |
+
+<!-- END GENERATED BINDER_MCP -->
+
+## Interoperability
+
+<!-- BEGIN GENERATED INTEROPERABILITY -->
+
+<details>
+<summary><strong>gadb</strong> — Pure Go ADB for CI/CD</summary>
+
+The `interop/gadb/runner/` package provides pure-Go ADB device control
+without requiring the `adb` binary. Discover devices, push binaries,
+and run commands programmatically:
+
+```go
+dr, _ := runner.NewDeviceRunner("SERIAL")
+dr.PushBinary(ctx, "build/mybinary", "/data/local/tmp/mybinary")
+output, _ := dr.Run(ctx, "/data/local/tmp/mybinary", "--flag")
+```
+
+For remote binder access from a host machine, `interop/gadb/proxy/`
+sets up a forwarded session:
+
+```go
+sess, _ := proxy.NewSession(ctx, "SERIAL")
+defer sess.Close(ctx)
+sm := servicemanager.New(sess.Transport())
+// Use sm as if running on-device
+```
+
+</details>
+
+<details>
+<summary><strong>gomobile</strong> — Android AAR</summary>
+
+`interop/gomobile/client/` wraps binder calls in a Java-friendly API
+via gomobile. Build the AAR:
+
+```bash
+gomobile bind -target android -o binder.aar ./interop/gomobile/client/
+```
+
+Available methods: `GetPowerStatus()`, `GetDisplayInfo()`,
+`GetLastLocation()`, `GetDeviceInfo()`.
+
+See the example app at [`examples/gomobile/`](examples/gomobile/).
+
+</details>
+
+<!-- END GENERATED INTEROPERABILITY -->
+
 ## Project Layout
 
 ```
