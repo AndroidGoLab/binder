@@ -77,11 +77,16 @@ func GenerateParcelable(
 	f.P("var _ parcel.Parcelable = (*%s)(nil)", structName)
 	f.P("")
 
-	// MarshalParcel method.
-	writeMarshalParcel(f, structName, decl.Fields, opts, typeRef, recFields)
-
-	// UnmarshalParcel method.
-	writeUnmarshalParcel(f, structName, decl.Fields, opts, typeRef, recFields)
+	if len(decl.JavaWireFormat) > 0 {
+		// Java wire format: generate marshal/unmarshal from the extracted
+		// writeToParcel() layout, handling conditional fields and opaque skips.
+		writeJavaWireMarshalParcel(f, structName, decl.JavaWireFormat)
+		writeJavaWireUnmarshalParcel(f, structName, decl.JavaWireFormat)
+	} else {
+		// Standard AIDL field-based marshal/unmarshal.
+		writeMarshalParcel(f, structName, decl.Fields, opts, typeRef, recFields)
+		writeUnmarshalParcel(f, structName, decl.Fields, opts, typeRef, recFields)
+	}
 
 	return f.Bytes()
 }
@@ -757,4 +762,136 @@ func resolveFixedSizeExpr(
 		return fixedSize
 	}
 	return "int(" + structName + AIDLToGoName(fixedSize) + ")"
+}
+
+// javaWireMethodInfo maps JavaWireField.WriteMethod values to the parcel
+// method names for writing and reading.
+type javaWireMethodInfo struct {
+	writeMethod string
+	readMethod  string
+}
+
+var javaWireMethodMap = map[string]javaWireMethodInfo{
+	"bool":     {writeMethod: "WriteBool", readMethod: "ReadBool"},
+	"int32":    {writeMethod: "WriteInt32", readMethod: "ReadInt32"},
+	"int64":    {writeMethod: "WriteInt64", readMethod: "ReadInt64"},
+	"float32":  {writeMethod: "WriteFloat32", readMethod: "ReadFloat32"},
+	"float64":  {writeMethod: "WriteFloat64", readMethod: "ReadFloat64"},
+	"string8":  {writeMethod: "WriteString", readMethod: "ReadString"},
+	"string16": {writeMethod: "WriteString16", readMethod: "ReadString16"},
+}
+
+// javaWireConditionToGo converts a spec condition like "FieldsMask & 256"
+// into a Go boolean expression like "s.FieldsMask & 256 != 0".
+// The field name in the condition is converted to PascalCase via AIDLToGoName.
+func javaWireConditionToGo(condition string) string {
+	parts := strings.SplitN(condition, " & ", 2)
+	if len(parts) != 2 {
+		return condition
+	}
+	return fmt.Sprintf("s.%s & %s != 0", AIDLToGoName(parts[0]), parts[1])
+}
+
+// writeJavaWireMarshalParcel generates a MarshalParcel method that follows
+// the Java writeToParcel() wire format, including conditional fields.
+func writeJavaWireMarshalParcel(
+	f *GoFile,
+	structName string,
+	wireFields []parser.JavaWireField,
+) {
+	f.P("func (s *%s) MarshalParcel(", structName)
+	f.P("\tp *parcel.Parcel,")
+	f.P(") error {")
+	f.P("\t_headerPos := parcel.WriteParcelableHeader(p)")
+
+	for _, wf := range wireFields {
+		info, ok := javaWireMethodMap[wf.WriteMethod]
+		if !ok {
+			// Opaque or unknown — skip in marshal.
+			continue
+		}
+
+		goName := AIDLToGoName(wf.Name)
+		if wf.Condition != "" {
+			cond := javaWireConditionToGo(wf.Condition)
+			f.P("\tif %s {", cond)
+			f.P("\t\tp.%s(s.%s)", info.writeMethod, goName)
+			f.P("\t}")
+		} else {
+			f.P("\tp.%s(s.%s)", info.writeMethod, goName)
+		}
+	}
+
+	f.P("")
+	f.P("\tparcel.WriteParcelableFooter(p, _headerPos)")
+	f.P("\treturn nil")
+	f.P("}")
+	f.P("")
+}
+
+// writeJavaWireUnmarshalParcel generates an UnmarshalParcel method that
+// follows the Java writeToParcel() wire format, including conditional fields
+// and opaque field skipping.
+func writeJavaWireUnmarshalParcel(
+	f *GoFile,
+	structName string,
+	wireFields []parser.JavaWireField,
+) {
+	f.P("func (s *%s) UnmarshalParcel(", structName)
+	f.P("\tp *parcel.Parcel,")
+	f.P(") error {")
+	f.P("\t_endPos, _err := parcel.ReadParcelableHeader(p)")
+	f.P("\tif _err != nil {")
+	f.P("\t\treturn _err")
+	f.P("\t}")
+
+	for _, wf := range wireFields {
+		info, ok := javaWireMethodMap[wf.WriteMethod]
+
+		// Emit position guard before every field so older API parcels
+		// (with fewer fields) don't over-read.
+		f.P("")
+		f.P("\tif p.Position() >= _endPos {")
+		f.P("\t\tparcel.SkipToParcelableEnd(p, _endPos)")
+		f.P("\t\treturn nil")
+		f.P("\t}")
+
+		if !ok {
+			// Opaque field: skip by reading length-prefixed data.
+			// Android's writeBundle/writeParcelable writes int32(length)
+			// followed by <length> bytes.
+			f.P("\t{")
+			f.P("\t\t_opaqueLen, _opaqueErr := p.ReadInt32()")
+			f.P("\t\tif _opaqueErr != nil {")
+			f.P("\t\t\treturn _opaqueErr")
+			f.P("\t\t}")
+			f.P("\t\tif _opaqueLen > 0 {")
+			f.P("\t\t\tp.SetPosition(p.Position() + int(_opaqueLen))")
+			f.P("\t\t}")
+			f.P("\t}")
+			continue
+		}
+
+		goName := AIDLToGoName(wf.Name)
+		if wf.Condition != "" {
+			cond := javaWireConditionToGo(wf.Condition)
+			f.P("\tif %s {", cond)
+			f.P("\t\ts.%s, _err = p.%s()", goName, info.readMethod)
+			f.P("\t\tif _err != nil {")
+			f.P("\t\t\treturn _err")
+			f.P("\t\t}")
+			f.P("\t}")
+		} else {
+			f.P("\ts.%s, _err = p.%s()", goName, info.readMethod)
+			f.P("\tif _err != nil {")
+			f.P("\t\treturn _err")
+			f.P("\t}")
+		}
+	}
+
+	f.P("")
+	f.P("\tparcel.SkipToParcelableEnd(p, _endPos)")
+	f.P("\treturn nil")
+	f.P("}")
+	f.P("")
 }

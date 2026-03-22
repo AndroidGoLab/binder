@@ -5678,14 +5678,16 @@ func (p *ActivityManagerProxy) GetCurrentUser(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
 			return _result, _err
 		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -13489,10 +13491,7 @@ func (s *ActivityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIActivityManagerGetCurrentUserId:
 		_result, _err := s.Impl.GetCurrentUserId(ctx)
