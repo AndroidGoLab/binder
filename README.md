@@ -5,6 +5,7 @@
 [![CI](https://github.com/AndroidGoLab/binder/actions/workflows/ci.yml/badge.svg)](https://github.com/AndroidGoLab/binder/actions/workflows/ci.yml)
 [![License: CC0-1.0](https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg)](LICENSE)
 [![Go Version](https://img.shields.io/github/go-mod/go-version/AndroidGoLab/binder)](go.mod)
+[![Ask AI](https://img.shields.io/badge/Ask_AI-Context7-059669)](https://context7.com/androidgolab/binder)
 
 Call Android system services from pure Go. Provides ~14,000 type-safe Go methods across 1,500+ Android interfaces — ActivityManager, PowerManager, SurfaceFlinger, PackageManager, audio, camera and sensor HALs, and more — by speaking the Binder IPC wire protocol directly via `/dev/binder` ioctl syscalls. No Java, no NDK, no cgo required.
 
@@ -132,10 +133,10 @@ graph TD
     CAPI -. "some use" .-> BINDER
 ```
 
-| Library                                                            | Interface                    | Requires            | Best for                                                                                            |
-| ------------------------------------------------------------------ | ---------------------------- | ------------------- | --------------------------------------------------------------------------------------------------- |
-| **[ndk](https://github.com/xaionaro-go/ndk)**                      | Android NDK C APIs           | cgo + NDK toolchain | High-performance hardware access: camera, audio, sensors, OpenGL/Vulkan, media codecs               |
-| **[jni](https://github.com/xaionaro-go/jni)**                      | Java Android SDK via JNI     | cgo + JNI + JVM/ART | Java-only APIs with no NDK equivalent: Bluetooth, WiFi, NFC, location, telephony, content providers |
+| Library                                                             | Interface                    | Requires            | Best for                                                                                            |
+| ------------------------------------------------------------------- | ---------------------------- | ------------------- | --------------------------------------------------------------------------------------------------- |
+| **[ndk](https://github.com/xaionaro-go/ndk)**                       | Android NDK C APIs           | cgo + NDK toolchain | High-performance hardware access: camera, audio, sensors, OpenGL/Vulkan, media codecs               |
+| **[jni](https://github.com/xaionaro-go/jni)**                       | Java Android SDK via JNI     | cgo + JNI + JVM/ART | Java-only APIs with no NDK equivalent: Bluetooth, WiFi, NFC, location, telephony, content providers |
 | **[binder](https://github.com/AndroidGoLab/binder)** (this project) | Binder IPC (system services) | pure Go (no cgo)    | Direct system service calls without Java: works on non-Android Linux with binder, minimal footprint |
 
 ### When to use which
@@ -477,20 +478,20 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 ## Packages
 
-|                                                                                                                                                           | Package              | Description                                                                            | Import Path                                        |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| **AIDL Pipeline** ([`tools/pkg/`](tools/pkg/))                                                                                                            |                      |                                                                                        |                                                    |
+|                                                                                                                                                            | Package              | Description                                                                            | Import Path                                         |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| **AIDL Pipeline** ([`tools/pkg/`](tools/pkg/))                                                                                                             |                      |                                                                                        |                                                     |
 | [![parser](https://img.shields.io/badge/parser-AIDL_Parser-2962FF)](https://pkg.go.dev/github.com/AndroidGoLab/binder/tools/pkg/parser)                    | `tools/pkg/parser`   | Lexer and recursive-descent parser producing an AST from `.aidl` files                 | `github.com/AndroidGoLab/binder/tools/pkg/parser`   |
 | [![resolver](https://img.shields.io/badge/resolver-Import_Resolver-2962FF)](https://pkg.go.dev/github.com/AndroidGoLab/binder/tools/pkg/resolver)          | `tools/pkg/resolver` | Import resolution across search paths with type registry and circular-import detection | `github.com/AndroidGoLab/binder/tools/pkg/resolver` |
 | [![codegen](https://img.shields.io/badge/codegen-Code_Generator-2962FF)](https://pkg.go.dev/github.com/AndroidGoLab/binder/tools/pkg/codegen)              | `tools/pkg/codegen`  | Go code generator for proxies, parcelables, enums, unions, and constants               | `github.com/AndroidGoLab/binder/tools/pkg/codegen`  |
 | [![validate](https://img.shields.io/badge/validate-Type_Validation-2962FF)](https://pkg.go.dev/github.com/AndroidGoLab/binder/tools/pkg/validate)          | `tools/pkg/validate` | Semantic validation: type resolution, parameter directions, oneway constraints         | `github.com/AndroidGoLab/binder/tools/pkg/validate` |
-| **Runtime**                                                                                                                                               |                      |                                                                                        |                                                    |
+| **Runtime**                                                                                                                                                |                      |                                                                                        |                                                     |
 | [![binder](https://img.shields.io/badge/binder-Binder_IPC-2E7D32)](https://pkg.go.dev/github.com/AndroidGoLab/binder/binder)                               | `binder`             | Binder IPC abstractions: `IBinder` interface, `Transact()`, status/exception handling  | `github.com/AndroidGoLab/binder/binder`             |
 | [![parcel](https://img.shields.io/badge/parcel-Serialization-2E7D32)](https://pkg.go.dev/github.com/AndroidGoLab/binder/parcel)                            | `parcel`             | Binder wire format: 4-byte aligned, little-endian serialization                        | `github.com/AndroidGoLab/binder/parcel`             |
 | [![kernelbinder](https://img.shields.io/badge/kernelbinder-Kernel_Driver-2E7D32)](https://pkg.go.dev/github.com/AndroidGoLab/binder/kernelbinder)          | `kernelbinder`       | Linux `/dev/binder` driver: open, mmap, ioctl, protocol negotiation                    | `github.com/AndroidGoLab/binder/kernelbinder`       |
 | [![servicemanager](https://img.shields.io/badge/servicemanager-Service_Registry-2E7D32)](https://pkg.go.dev/github.com/AndroidGoLab/binder/servicemanager) | `servicemanager`     | Client for `android.os.IServiceManager`: `GetService()`, `ListServices()`, etc.        | `github.com/AndroidGoLab/binder/servicemanager`     |
 | [![errors](https://img.shields.io/badge/errors-AIDL_Exceptions-2E7D32)](https://pkg.go.dev/github.com/AndroidGoLab/binder/errors)                          | `errors`             | AIDL exception types: `ExceptionCode`, `StatusError`                                   | `github.com/AndroidGoLab/binder/errors`             |
-| **Testing**                                                                                                                                               |                      |                                                                                        |                                                    |
+| **Testing**                                                                                                                                                |                      |                                                                                        |                                                     |
 | [![testutil](https://img.shields.io/badge/testutil-Test_Utilities-7B1FA2)](https://pkg.go.dev/github.com/AndroidGoLab/binder/tools/pkg/testutil)           | `tools/pkg/testutil` | Mock binder and reflection-based smoke testing for generated proxies                   | `github.com/AndroidGoLab/binder/tools/pkg/testutil` |
 
 ### Generated AOSP Packages
