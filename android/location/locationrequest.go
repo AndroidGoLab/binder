@@ -40,7 +40,13 @@ func (s *LocationRequest) MarshalParcel(
 	p.WriteBool(s.AdasGnssBypass)
 	p.WriteBool(s.Bypass)
 	p.WriteBool(s.LowPower)
-	p.WriteInt32(-1) // null WorkSource
+	// WorkSource uses writeTypedObject (0 = null, 1 = non-null).
+	// The LocationManager NPEs on null, so write an empty WorkSource.
+	p.WriteInt32(1)  // non-null WorkSource
+	p.WriteInt32(0)  // mNum = 0
+	p.WriteInt32(-1) // mUids = null (writeIntArray)
+	p.WriteInt32(-1) // mNames = null (writeStringArray)
+	p.WriteInt32(-1) // mChains = null
 	return nil
 }
 
