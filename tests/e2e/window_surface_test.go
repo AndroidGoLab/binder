@@ -210,8 +210,7 @@ func TestWindowSurface_DisplayManager_GetOverlaySupport(t *testing.T) {
 	// parcelables, exercising nested array-of-parcelable unmarshaling.
 	overlay, err := dm.GetOverlaySupport(ctx)
 	requireOrSkip(t, err)
-	t.Logf("OverlaySupport: %d combinations, supportMixedColorSpaces=%v",
-		len(overlay.Combinations), overlay.SupportMixedColorSpaces)
+	t.Logf("OverlaySupport: %+v", overlay)
 }
 
 func TestWindowSurface_DisplayManager_GetSupportedHdrOutputTypes(t *testing.T) {

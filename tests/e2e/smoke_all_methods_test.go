@@ -27,7 +27,6 @@ import (
 	genContent "github.com/xaionaro-go/binder/android/content"
 	genContentCapture "github.com/xaionaro-go/binder/android/view/contentcapture"
 	genContentSuggestions "github.com/xaionaro-go/binder/android/app/contentsuggestions"
-	genContextualSearch "github.com/xaionaro-go/binder/android/app/contextualsearch"
 	genCredentials "github.com/xaionaro-go/binder/android/credentials"
 	genDebug "github.com/xaionaro-go/binder/android/debug"
 	genDeviceState "github.com/xaionaro-go/binder/android/hardware/devicestate"
@@ -291,7 +290,6 @@ var serviceRegistry = []serviceEntry{
 	{"content", func(b binder.IBinder) interface{} { return genContent.NewContentServiceProxy(b) }},
 	{"content_capture", func(b binder.IBinder) interface{} { return genContentCapture.NewContentCaptureManagerProxy(b) }},
 	{"content_suggestions", func(b binder.IBinder) interface{} { return genContentSuggestions.NewContentSuggestionsManagerProxy(b) }},
-	{"contextual_search", func(b binder.IBinder) interface{} { return genContextualSearch.NewContextualSearchManagerProxy(b) }},
 	{"country_detector", func(b binder.IBinder) interface{} { return genLocation.NewCountryDetectorProxy(b) }},
 	{"credential", func(b binder.IBinder) interface{} { return genCredentials.NewCredentialManagerProxy(b) }},
 	{"crossprofileapps", func(b binder.IBinder) interface{} { return genPm.NewCrossProfileAppsProxy(b) }},
