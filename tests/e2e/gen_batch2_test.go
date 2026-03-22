@@ -10,11 +10,11 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	aidlerrors "github.com/xaionaro-go/binder/errors"
-	genIntegrity "github.com/xaionaro-go/binder/android/content/integrity"
-	genNN "github.com/xaionaro-go/binder/android/hardware/neuralnetworks"
-	genKeystore2 "github.com/xaionaro-go/binder/android/system/keystore2"
-	"github.com/xaionaro-go/binder/servicemanager"
+	aidlerrors "github.com/AndroidGoLab/binder/errors"
+	genIntegrity "github.com/AndroidGoLab/binder/android/content/integrity"
+	genNN "github.com/AndroidGoLab/binder/android/hardware/neuralnetworks"
+	genKeystore2 "github.com/AndroidGoLab/binder/android/system/keystore2"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // isPermissionError returns true if the error is an AIDL security or

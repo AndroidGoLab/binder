@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/xaionaro-go/binder/tools/pkg/parser"
+	"github.com/AndroidGoLab/binder/tools/pkg/parser"
 )
 
 func TestAIDLToGoName(t *testing.T) {

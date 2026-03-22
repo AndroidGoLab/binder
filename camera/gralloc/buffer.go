@@ -5,7 +5,7 @@ package gralloc
 import (
 	"fmt"
 
-	common "github.com/xaionaro-go/binder/android/hardware/common"
+	common "github.com/AndroidGoLab/binder/android/hardware/common"
 
 	"golang.org/x/sys/unix"
 )

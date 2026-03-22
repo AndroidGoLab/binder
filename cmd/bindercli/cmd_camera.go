@@ -11,14 +11,14 @@ import (
 	"sync"
 	"time"
 
-	gfxCommon "github.com/xaionaro-go/binder/android/hardware/graphics/common"
+	gfxCommon "github.com/AndroidGoLab/binder/android/hardware/graphics/common"
 
-	fwkDevice "github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
-	fwkService "github.com/xaionaro-go/binder/android/frameworks/cameraservice/service"
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/camera"
-	"github.com/xaionaro-go/binder/camera/gralloc"
-	cameraIGBP "github.com/xaionaro-go/binder/camera/igbp"
+	fwkDevice "github.com/AndroidGoLab/binder/android/frameworks/cameraservice/device"
+	fwkService "github.com/AndroidGoLab/binder/android/frameworks/cameraservice/service"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/camera"
+	"github.com/AndroidGoLab/binder/camera/gralloc"
+	cameraIGBP "github.com/AndroidGoLab/binder/camera/igbp"
 
 	"github.com/spf13/cobra"
 )

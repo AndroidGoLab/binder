@@ -1,6 +1,6 @@
 package camera
 
-import gfxCommon "github.com/xaionaro-go/binder/android/hardware/graphics/common"
+import gfxCommon "github.com/AndroidGoLab/binder/android/hardware/graphics/common"
 
 // Format identifies a pixel format for camera capture.
 type Format = gfxCommon.PixelFormat

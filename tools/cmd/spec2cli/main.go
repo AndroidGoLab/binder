@@ -19,13 +19,13 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/xaionaro-go/binder/tools/pkg/codegen"
-	"github.com/xaionaro-go/binder/tools/pkg/parser"
-	"github.com/xaionaro-go/binder/tools/pkg/spec"
+	"github.com/AndroidGoLab/binder/tools/pkg/codegen"
+	"github.com/AndroidGoLab/binder/tools/pkg/parser"
+	"github.com/AndroidGoLab/binder/tools/pkg/spec"
 )
 
 const (
-	modulePath = "github.com/xaionaro-go/binder"
+	modulePath = "github.com/AndroidGoLab/binder"
 
 	// legacyInterfaceType is the legacy spelling of "any" produced by
 	// the codegen library for unresolvable types. Spelled as a
@@ -71,7 +71,7 @@ type interfaceInfo struct {
 	Descriptor       string
 	ProxyConstructor string // e.g. "NewActivityManagerProxy"
 	ProxyType        string // e.g. "ActivityManagerProxy"
-	ImportPath       string // e.g. "github.com/xaionaro-go/binder/android/app"
+	ImportPath       string // e.g. "github.com/AndroidGoLab/binder/android/app"
 	PkgName          string // e.g. "app"
 	Methods          []methodInfo
 }
@@ -1751,7 +1751,7 @@ func (gc *genContext) resolveFieldGoType(
 func (gc *genContext) ensureImport(
 	importPath string,
 ) string {
-	if importPath == "github.com/xaionaro-go/binder/binder" {
+	if importPath == "github.com/AndroidGoLab/binder/binder" {
 		return "binder"
 	}
 	if alias, ok := gc.importAliases[importPath]; ok {
@@ -2046,8 +2046,8 @@ func writeImports(
 	}
 	buf.WriteString("\n")
 	buf.WriteString("\t\"github.com/spf13/cobra\"\n")
-	buf.WriteString("\t\"github.com/xaionaro-go/binder/binder\"\n")
-	buf.WriteString("\t\"github.com/xaionaro-go/binder/servicemanager\"\n")
+	buf.WriteString("\t\"github.com/AndroidGoLab/binder/binder\"\n")
+	buf.WriteString("\t\"github.com/AndroidGoLab/binder/servicemanager\"\n")
 
 	type importEntry struct {
 		path  string
@@ -2055,7 +2055,7 @@ func writeImports(
 	}
 	var imports []importEntry
 	for path, alias := range importAliases {
-		if path == "github.com/xaionaro-go/binder/binder" || path == modulePath {
+		if path == "github.com/AndroidGoLab/binder/binder" || path == modulePath {
 			continue
 		}
 		imports = append(imports, importEntry{path: path, alias: alias})

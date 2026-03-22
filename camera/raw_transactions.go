@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	fwkDevice "github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/parcel"
+	fwkDevice "github.com/AndroidGoLab/binder/android/frameworks/cameraservice/device"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/parcel"
 )
 
 // CreateStreamWithSurface creates a camera stream with the given IGBP

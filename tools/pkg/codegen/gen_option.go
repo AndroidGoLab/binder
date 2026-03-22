@@ -1,6 +1,6 @@
 package codegen
 
-import "github.com/xaionaro-go/binder/tools/pkg/resolver"
+import "github.com/AndroidGoLab/binder/tools/pkg/resolver"
 
 // GenOption configures code generation.
 type GenOption func(*GenOptions)

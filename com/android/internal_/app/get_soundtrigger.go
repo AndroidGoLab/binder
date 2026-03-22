@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // GetSoundTriggerService retrieves the SoundTriggerService service and returns a typed proxy.

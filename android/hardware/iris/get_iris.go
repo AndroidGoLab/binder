@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // GetIrisService retrieves the IrisService service and returns a typed proxy.

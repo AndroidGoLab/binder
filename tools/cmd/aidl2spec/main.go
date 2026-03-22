@@ -11,11 +11,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/tools/pkg/codegen"
-	"github.com/xaionaro-go/binder/tools/pkg/parser"
-	"github.com/xaionaro-go/binder/tools/pkg/resolver"
-	"github.com/xaionaro-go/binder/tools/pkg/spec"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/tools/pkg/codegen"
+	"github.com/AndroidGoLab/binder/tools/pkg/parser"
+	"github.com/AndroidGoLab/binder/tools/pkg/resolver"
+	"github.com/AndroidGoLab/binder/tools/pkg/spec"
 )
 
 // apiLevelMajorVersion maps Android API levels to the major.minor.patch

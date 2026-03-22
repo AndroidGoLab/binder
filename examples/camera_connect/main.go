@@ -16,12 +16,12 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
-	"github.com/xaionaro-go/binder/android/frameworks/cameraservice/service"
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/binder/versionaware"
-	"github.com/xaionaro-go/binder/kernelbinder"
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/android/frameworks/cameraservice/device"
+	"github.com/AndroidGoLab/binder/android/frameworks/cameraservice/service"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/binder/versionaware"
+	"github.com/AndroidGoLab/binder/kernelbinder"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // noopCallback is a no-op ICameraDeviceCallbackServer implementation.

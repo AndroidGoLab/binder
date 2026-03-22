@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // GetPowerManager retrieves the PowerService service and returns a typed proxy.

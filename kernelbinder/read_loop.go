@@ -9,10 +9,10 @@ import (
 	"runtime"
 	"unsafe"
 
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/logger"
-	aidlerrors "github.com/xaionaro-go/binder/errors"
-	"github.com/xaionaro-go/binder/parcel"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/logger"
+	aidlerrors "github.com/AndroidGoLab/binder/errors"
+	"github.com/AndroidGoLab/binder/parcel"
 	"golang.org/x/sys/unix"
 )
 

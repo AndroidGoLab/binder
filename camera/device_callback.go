@@ -6,7 +6,7 @@ import (
 	"context"
 	"sync"
 
-	fwkDevice "github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
+	fwkDevice "github.com/AndroidGoLab/binder/android/frameworks/cameraservice/device"
 )
 
 // deviceCallback implements fwkDevice.ICameraDeviceCallback, tracking

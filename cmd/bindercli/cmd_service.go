@@ -11,9 +11,9 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/parcel"
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/parcel"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 func newServiceCmd() *cobra.Command {

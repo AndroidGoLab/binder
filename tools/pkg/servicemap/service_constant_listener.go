@@ -3,7 +3,7 @@ package servicemap
 import (
 	"strings"
 
-	"github.com/xaionaro-go/binder/tools/pkg/javaparser"
+	"github.com/AndroidGoLab/binder/tools/pkg/javaparser"
 )
 
 // serviceConstantListener walks a Java AST and collects

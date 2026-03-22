@@ -7,8 +7,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/xaionaro-go/binder/tools/pkg/parser"
-	"github.com/xaionaro-go/binder/tools/pkg/resolver"
+	"github.com/AndroidGoLab/binder/tools/pkg/parser"
+	"github.com/AndroidGoLab/binder/tools/pkg/resolver"
 )
 
 // ImportGraph represents the directed dependency graph between AIDL packages.

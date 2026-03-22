@@ -20,10 +20,10 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/xaionaro-go/binder/tools/pkg/codegen"
-	"github.com/xaionaro-go/binder/tools/pkg/parcelspec"
-	"github.com/xaionaro-go/binder/tools/pkg/servicemap"
-	"github.com/xaionaro-go/binder/tools/pkg/spec"
+	"github.com/AndroidGoLab/binder/tools/pkg/codegen"
+	"github.com/AndroidGoLab/binder/tools/pkg/parcelspec"
+	"github.com/AndroidGoLab/binder/tools/pkg/servicemap"
+	"github.com/AndroidGoLab/binder/tools/pkg/spec"
 )
 
 func main() {

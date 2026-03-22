@@ -13,8 +13,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	aidlparser "github.com/xaionaro-go/binder/tools/pkg/parser"
-	"github.com/xaionaro-go/binder/tools/pkg/resolver"
+	aidlparser "github.com/AndroidGoLab/binder/tools/pkg/parser"
+	"github.com/AndroidGoLab/binder/tools/pkg/resolver"
 )
 
 // parseAIDL is a test helper that parses an AIDL source string.
@@ -1001,8 +1001,8 @@ func TestGeneratedCode_Compiles(t *testing.T) {
 	// Create a Go module that imports the generated code.
 	modRoot, _ := filepath.Abs("../../..") // project root
 	goMod := "module test-gen\n\ngo 1.25.0\n\n" +
-		"require github.com/xaionaro-go/binder v0.0.0\n\n" +
-		"replace github.com/xaionaro-go/binder => " + modRoot + "\n"
+		"require github.com/AndroidGoLab/binder v0.0.0\n\n" +
+		"replace github.com/AndroidGoLab/binder => " + modRoot + "\n"
 	require.NoError(t, os.WriteFile(filepath.Join(outDir, "go.mod"), []byte(goMod), 0o644))
 
 	// Run `go mod tidy` then `go build ./...` in the temp module.

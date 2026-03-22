@@ -8,11 +8,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/xaionaro-go/binder/android/hardware/security/keymint"
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/binder/versionaware"
-	"github.com/xaionaro-go/binder/kernelbinder"
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/android/hardware/security/keymint"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/binder/versionaware"
+	"github.com/AndroidGoLab/binder/kernelbinder"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 func main() {

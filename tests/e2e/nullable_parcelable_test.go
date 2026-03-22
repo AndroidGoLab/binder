@@ -6,8 +6,8 @@ import (
 	"context"
 	"testing"
 
-	genGui "github.com/xaionaro-go/binder/android/gui"
-	"github.com/xaionaro-go/binder/parcel"
+	genGui "github.com/AndroidGoLab/binder/android/gui"
+	"github.com/AndroidGoLab/binder/parcel"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

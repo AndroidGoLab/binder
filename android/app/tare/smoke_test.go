@@ -1,7 +1,7 @@
 package tare
 
 import (
-	"github.com/xaionaro-go/binder/tools/pkg/testutil"
+	"github.com/AndroidGoLab/binder/tools/pkg/testutil"
 	"testing"
 )
 

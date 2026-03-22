@@ -3,11 +3,11 @@ package codegen
 import (
 	"strings"
 
-	"github.com/xaionaro-go/binder/tools/pkg/parser"
-	"github.com/xaionaro-go/binder/tools/pkg/resolver"
+	"github.com/AndroidGoLab/binder/tools/pkg/parser"
+	"github.com/AndroidGoLab/binder/tools/pkg/resolver"
 )
 
-const goModulePath = "github.com/xaionaro-go/binder"
+const goModulePath = "github.com/AndroidGoLab/binder"
 
 // resolveTypeRef converts a TypeSpecifier to a Go type string using the
 // TypeRefResolver if available, falling back to AIDLTypeToGo otherwise.

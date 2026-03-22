@@ -8,10 +8,10 @@ import (
 
 	"github.com/facebookincubator/go-belt/tool/logger"
 	"github.com/spf13/cobra"
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/binder/versionaware"
-	"github.com/xaionaro-go/binder/kernelbinder"
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/binder/versionaware"
+	"github.com/AndroidGoLab/binder/kernelbinder"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // Conn wraps the binder driver and service manager into a single

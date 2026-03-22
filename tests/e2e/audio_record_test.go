@@ -8,12 +8,12 @@ import (
 	"strings"
 	"testing"
 
-	content "github.com/xaionaro-go/binder/android/content"
-	"github.com/xaionaro-go/binder/android/media"
-	common "github.com/xaionaro-go/binder/android/media/audio/common"
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/parcel"
-	"github.com/xaionaro-go/binder/servicemanager"
+	content "github.com/AndroidGoLab/binder/android/content"
+	"github.com/AndroidGoLab/binder/android/media"
+	common "github.com/AndroidGoLab/binder/android/media/audio/common"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/parcel"
+	"github.com/AndroidGoLab/binder/servicemanager"
 
 	"github.com/stretchr/testify/assert"
 )

@@ -10,13 +10,13 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/xaionaro-go/binder/binder"
-	genApp "github.com/xaionaro-go/binder/android/app"
-	genContent "github.com/xaionaro-go/binder/android/content"
-	genGui "github.com/xaionaro-go/binder/android/gui"
-	genNet "github.com/xaionaro-go/binder/android/net"
-	genOs "github.com/xaionaro-go/binder/android/os"
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/binder"
+	genApp "github.com/AndroidGoLab/binder/android/app"
+	genContent "github.com/AndroidGoLab/binder/android/content"
+	genGui "github.com/AndroidGoLab/binder/android/gui"
+	genNet "github.com/AndroidGoLab/binder/android/net"
+	genOs "github.com/AndroidGoLab/binder/android/os"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // --- ServiceManager generated proxy (via handle 0) ---

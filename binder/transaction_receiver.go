@@ -3,7 +3,7 @@ package binder
 import (
 	"context"
 
-	"github.com/xaionaro-go/binder/parcel"
+	"github.com/AndroidGoLab/binder/parcel"
 )
 
 // TransactionReceiver processes incoming binder transactions.

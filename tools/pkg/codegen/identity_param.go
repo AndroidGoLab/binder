@@ -1,7 +1,7 @@
 package codegen
 
 import (
-	"github.com/xaionaro-go/binder/tools/pkg/parser"
+	"github.com/AndroidGoLab/binder/tools/pkg/parser"
 )
 
 // identityParamMapping associates an AIDL parameter name with the

@@ -6,14 +6,14 @@ import (
 	"fmt"
 	"time"
 
-	gfxCommon "github.com/xaionaro-go/binder/android/hardware/graphics/common"
+	gfxCommon "github.com/AndroidGoLab/binder/android/hardware/graphics/common"
 
-	fwkDevice "github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
-	fwkService "github.com/xaionaro-go/binder/android/frameworks/cameraservice/service"
-	"github.com/xaionaro-go/binder/binder"
-	cameraIGBP "github.com/xaionaro-go/binder/camera/igbp"
-	"github.com/xaionaro-go/binder/camera/gralloc"
-	"github.com/xaionaro-go/binder/servicemanager"
+	fwkDevice "github.com/AndroidGoLab/binder/android/frameworks/cameraservice/device"
+	fwkService "github.com/AndroidGoLab/binder/android/frameworks/cameraservice/service"
+	"github.com/AndroidGoLab/binder/binder"
+	cameraIGBP "github.com/AndroidGoLab/binder/camera/igbp"
+	"github.com/AndroidGoLab/binder/camera/gralloc"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // Device represents a connected camera device with a configured capture

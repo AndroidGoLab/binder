@@ -9,18 +9,18 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	genAccessibility "github.com/xaionaro-go/binder/android/view/accessibility"
+	genAccessibility "github.com/AndroidGoLab/binder/android/view/accessibility"
 
-	genAccounts "github.com/xaionaro-go/binder/android/accounts"
+	genAccounts "github.com/AndroidGoLab/binder/android/accounts"
 
-	genApp "github.com/xaionaro-go/binder/android/app"
+	genApp "github.com/AndroidGoLab/binder/android/app"
 
-	genDebug "github.com/xaionaro-go/binder/android/debug"
+	genDebug "github.com/AndroidGoLab/binder/android/debug"
 
-	genCameraProvider "github.com/xaionaro-go/binder/android/hardware/camera/provider"
-	genCas "github.com/xaionaro-go/binder/android/hardware/cas"
-	genDrm "github.com/xaionaro-go/binder/android/hardware/drm"
-	"github.com/xaionaro-go/binder/servicemanager"
+	genCameraProvider "github.com/AndroidGoLab/binder/android/hardware/camera/provider"
+	genCas "github.com/AndroidGoLab/binder/android/hardware/cas"
+	genDrm "github.com/AndroidGoLab/binder/android/hardware/drm"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // --- Framework services ---

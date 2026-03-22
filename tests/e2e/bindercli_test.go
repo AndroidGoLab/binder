@@ -186,7 +186,7 @@ func buildBindercli() error {
 		"GOARCH=amd64",
 		"CGO_ENABLED=0",
 	)
-	cmd.Dir = "/home/streaming/go/src/github.com/xaionaro-go/binder"
+	cmd.Dir = "/home/streaming/go/src/github.com/AndroidGoLab/binder"
 	cmd.Stdout = os.Stderr
 	cmd.Stderr = os.Stderr
 	return cmd.Run()

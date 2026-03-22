@@ -3,7 +3,7 @@ package binder
 import (
 	"context"
 
-	"github.com/xaionaro-go/binder/parcel"
+	"github.com/AndroidGoLab/binder/parcel"
 )
 
 // IBinder is the high-level interface to a remote Binder object.

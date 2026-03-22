@@ -6,9 +6,9 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/xaionaro-go/binder/tools/pkg/codegen"
-	"github.com/xaionaro-go/binder/tools/pkg/parser"
-	"github.com/xaionaro-go/binder/tools/pkg/resolver"
+	"github.com/AndroidGoLab/binder/tools/pkg/codegen"
+	"github.com/AndroidGoLab/binder/tools/pkg/parser"
+	"github.com/AndroidGoLab/binder/tools/pkg/resolver"
 )
 
 func newAIDLCmd() *cobra.Command {

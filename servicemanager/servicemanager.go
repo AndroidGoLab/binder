@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/xaionaro-go/binder/logger"
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/parcel"
+	"github.com/AndroidGoLab/binder/logger"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/parcel"
 )
 
 const (

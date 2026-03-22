@@ -4,9 +4,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/xaionaro-go/binder/parcel"
+	"github.com/AndroidGoLab/binder/parcel"
 
-	aidlerrors "github.com/xaionaro-go/binder/errors"
+	aidlerrors "github.com/AndroidGoLab/binder/errors"
 )
 
 // skipFatReplyHeader reads the header size from the current position

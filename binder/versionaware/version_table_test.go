@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/xaionaro-go/binder/binder"
+	"github.com/AndroidGoLab/binder/binder"
 )
 
 func TestVersionTableResolve(t *testing.T) {

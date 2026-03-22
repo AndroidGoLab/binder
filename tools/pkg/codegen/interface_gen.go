@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/tools/pkg/parser"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/tools/pkg/parser"
 )
 
 // GenerateInterface generates Go source for an AIDL interface declaration.
@@ -32,11 +32,11 @@ func GenerateInterface(
 		typeRef.ReserveNames(collectParamNames(decl.Methods))
 	}
 
-	f.AddImport("github.com/xaionaro-go/binder/binder", "")
+	f.AddImport("github.com/AndroidGoLab/binder/binder", "")
 	// The stub's OnTransaction method always references context.Context and
 	// *parcel.Parcel, so these imports are needed even for method-less interfaces.
 	f.AddImport("context", "")
-	f.AddImport("github.com/xaionaro-go/binder/parcel", "")
+	f.AddImport("github.com/AndroidGoLab/binder/parcel", "")
 
 	interfaceName := AIDLToGoName(decl.IntfName)
 	proxyName := deriveProxyName(interfaceName)
@@ -1453,7 +1453,7 @@ func readReturnValue(
 		// resolve to any but still use the typed-object wire format:
 		// int32(null indicator) + int32(size) + payload.
 		if isLikelyParcelable(retType) {
-			f.AddImport("github.com/xaionaro-go/binder/parcel", "")
+			f.AddImport("github.com/AndroidGoLab/binder/parcel", "")
 			f.P("\t_nullInd, _err := _reply.ReadInt32()")
 			f.P("\tif _err != nil {")
 			f.P("\t\treturn _result, _err")
@@ -1561,7 +1561,7 @@ func readArrayFromReply(
 		// Opaque/unresolvable element type: skip each element's parcelable
 		// data on the wire so the parcel position stays consistent.
 		if isLikelyParcelable(elemType) {
-			f.AddImport("github.com/xaionaro-go/binder/parcel", "")
+			f.AddImport("github.com/AndroidGoLab/binder/parcel", "")
 			f.P("\t\t\tif _, _err = _reply.ReadInt32(); _err != nil {")
 			f.P("\t\t\t\treturn _result, _err")
 			f.P("\t\t\t}")

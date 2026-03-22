@@ -16,11 +16,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/binder/versionaware"
-	"github.com/xaionaro-go/binder/kernelbinder"
-	"github.com/xaionaro-go/binder/parcel"
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/binder/versionaware"
+	"github.com/AndroidGoLab/binder/kernelbinder"
+	"github.com/AndroidGoLab/binder/parcel"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // Android BatteryManager property IDs (from android.os.BatteryManager).

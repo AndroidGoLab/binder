@@ -11,10 +11,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/xaionaro-go/binder/binder"
-	aidlerrors "github.com/xaionaro-go/binder/errors"
-	"github.com/xaionaro-go/binder/parcel"
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/binder"
+	aidlerrors "github.com/AndroidGoLab/binder/errors"
+	"github.com/AndroidGoLab/binder/parcel"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 func TestServiceBreadth_PingManyServices(t *testing.T) {

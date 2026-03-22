@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/camera/gralloc"
-	"github.com/xaionaro-go/binder/igbp"
-	"github.com/xaionaro-go/binder/parcel"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/camera/gralloc"
+	"github.com/AndroidGoLab/binder/igbp"
+	"github.com/AndroidGoLab/binder/parcel"
 )
 
 // ProducerStub implements a minimal IGraphicBufferProducer that provides

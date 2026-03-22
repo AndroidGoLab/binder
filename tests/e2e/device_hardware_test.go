@@ -8,16 +8,16 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/servicemanager"
 
-	genNfc "github.com/xaionaro-go/binder/android/nfc"
-	genBluetooth "github.com/xaionaro-go/binder/android/bluetooth"
-	genSensorSvc "github.com/xaionaro-go/binder/android/frameworks/sensorservice"
-	genDrm "github.com/xaionaro-go/binder/android/hardware/drm"
-	genInput "github.com/xaionaro-go/binder/android/hardware/input"
-	genLocation "github.com/xaionaro-go/binder/android/location"
-	genOs "github.com/xaionaro-go/binder/android/os"
-	genOsStorage "github.com/xaionaro-go/binder/android/os/storage"
+	genNfc "github.com/AndroidGoLab/binder/android/nfc"
+	genBluetooth "github.com/AndroidGoLab/binder/android/bluetooth"
+	genSensorSvc "github.com/AndroidGoLab/binder/android/frameworks/sensorservice"
+	genDrm "github.com/AndroidGoLab/binder/android/hardware/drm"
+	genInput "github.com/AndroidGoLab/binder/android/hardware/input"
+	genLocation "github.com/AndroidGoLab/binder/android/location"
+	genOs "github.com/AndroidGoLab/binder/android/os"
+	genOsStorage "github.com/AndroidGoLab/binder/android/os/storage"
 )
 
 // TestDeviceHardware_GPS verifies GPS/GNSS hardware info via the location service.

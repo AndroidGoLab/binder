@@ -3,7 +3,7 @@ package resolver
 import (
 	"sync"
 
-	"github.com/xaionaro-go/binder/tools/pkg/parser"
+	"github.com/AndroidGoLab/binder/tools/pkg/parser"
 )
 
 // TypeRegistry maps fully qualified AIDL names to their parsed definitions.

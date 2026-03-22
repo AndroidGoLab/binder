@@ -2,7 +2,7 @@
 
 package kernelbinder
 
-import "github.com/xaionaro-go/binder/binder"
+import "github.com/AndroidGoLab/binder/binder"
 
 // receiverEntry holds a registered TransactionReceiver together with the
 // heap-allocated anchor whose address is used as the binder cookie.

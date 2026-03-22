@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	aidlerrors "github.com/xaionaro-go/binder/errors"
-	"github.com/xaionaro-go/binder/parcel"
+	aidlerrors "github.com/AndroidGoLab/binder/errors"
+	"github.com/AndroidGoLab/binder/parcel"
 )
 
 func TestReadStatus_ExceptionNone(t *testing.T) {

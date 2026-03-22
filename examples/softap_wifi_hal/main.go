@@ -14,11 +14,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/xaionaro-go/binder/android/net/wifi/nl80211"
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/binder/versionaware"
-	"github.com/xaionaro-go/binder/kernelbinder"
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/android/net/wifi/nl80211"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/binder/versionaware"
+	"github.com/AndroidGoLab/binder/kernelbinder"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 func main() {

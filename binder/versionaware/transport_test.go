@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/xaionaro-go/binder/binder"
+	"github.com/AndroidGoLab/binder/binder"
 )
 
 func TestCacheRoundTrip_Gob(t *testing.T) {

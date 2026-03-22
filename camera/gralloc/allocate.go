@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/xaionaro-go/binder/android/hardware/graphics/allocator"
-	gfxCommon "github.com/xaionaro-go/binder/android/hardware/graphics/common"
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/android/hardware/graphics/allocator"
+	gfxCommon "github.com/AndroidGoLab/binder/android/hardware/graphics/common"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // Allocate allocates a gralloc buffer using the IAllocator HAL service.

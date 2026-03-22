@@ -21,7 +21,7 @@ func TestGoFile_EmptyFile(t *testing.T) {
 func TestGoFile_WithImports(t *testing.T) {
 	f := NewGoFile("mypackage")
 	f.AddImport("fmt", "")
-	f.AddImport("github.com/xaionaro-go/binder/binder", "")
+	f.AddImport("github.com/AndroidGoLab/binder/binder", "")
 	f.P("var _ fmt.Stringer")
 	f.P("var _ binder.IBinder")
 
@@ -31,19 +31,19 @@ func TestGoFile_WithImports(t *testing.T) {
 	src := string(b)
 	assert.Contains(t, src, "package mypackage")
 	assert.Contains(t, src, `"fmt"`)
-	assert.Contains(t, src, `"github.com/xaionaro-go/binder/binder"`)
+	assert.Contains(t, src, `"github.com/AndroidGoLab/binder/binder"`)
 }
 
 func TestGoFile_WithAliasedImport(t *testing.T) {
 	f := NewGoFile("mypackage")
-	f.AddImport("github.com/xaionaro-go/binder/binder", "b")
+	f.AddImport("github.com/AndroidGoLab/binder/binder", "b")
 	f.P("var _ b.IBinder")
 
 	b, err := f.Bytes()
 	require.NoError(t, err)
 
 	src := string(b)
-	assert.Contains(t, src, `b "github.com/xaionaro-go/binder/binder"`)
+	assert.Contains(t, src, `b "github.com/AndroidGoLab/binder/binder"`)
 }
 
 func TestGoFile_SortedImports(t *testing.T) {

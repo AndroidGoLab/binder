@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/xaionaro-go/binder/tools/pkg/javaparser"
+	"github.com/AndroidGoLab/binder/tools/pkg/javaparser"
 )
 
 // parcelableListener walks a Java AST and extracts ParcelableSpec

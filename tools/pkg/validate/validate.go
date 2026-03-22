@@ -3,7 +3,7 @@ package validate
 import (
 	"strings"
 
-	"github.com/xaionaro-go/binder/tools/pkg/parser"
+	"github.com/AndroidGoLab/binder/tools/pkg/parser"
 )
 
 // validPrimitiveBackingTypes is the set of valid backing types for AIDL enums.

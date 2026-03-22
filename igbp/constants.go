@@ -2,7 +2,7 @@
 // interactions used by multiple camera-related commands.
 package igbp
 
-import "github.com/xaionaro-go/binder/binder"
+import "github.com/AndroidGoLab/binder/binder"
 
 // Descriptor is the interface descriptor for IGraphicBufferProducer.
 const Descriptor = "android.gui.IGraphicBufferProducer"

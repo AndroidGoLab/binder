@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	aidlparser "github.com/xaionaro-go/binder/tools/pkg/parser"
+	aidlparser "github.com/AndroidGoLab/binder/tools/pkg/parser"
 )
 
 func TestIdentityFieldForParam(t *testing.T) {

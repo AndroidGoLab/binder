@@ -7,7 +7,7 @@ import (
 	"unsafe"
 
 	"github.com/facebookincubator/go-belt/tool/logger"
-	"github.com/xaionaro-go/binder/parcel"
+	"github.com/AndroidGoLab/binder/parcel"
 )
 
 // StubBinder is a server-side IBinder that wraps a TransactionReceiver.

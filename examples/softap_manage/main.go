@@ -17,11 +17,11 @@ import (
 	"fmt"
 	"os"
 
-	genOs "github.com/xaionaro-go/binder/android/os"
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/binder/versionaware"
-	"github.com/xaionaro-go/binder/kernelbinder"
-	"github.com/xaionaro-go/binder/servicemanager"
+	genOs "github.com/AndroidGoLab/binder/android/os"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/binder/versionaware"
+	"github.com/AndroidGoLab/binder/kernelbinder"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 func main() {

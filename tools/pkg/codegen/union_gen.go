@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/xaionaro-go/binder/tools/pkg/parser"
+	"github.com/AndroidGoLab/binder/tools/pkg/parser"
 )
 
 // GenerateUnion generates Go source for an AIDL union declaration.
@@ -23,11 +23,11 @@ func GenerateUnion(
 	f := NewGoFile(pkg)
 	typeRef := opts.newTypeRefResolver(f)
 	f.AddImport("fmt", "")
-	f.AddImport("github.com/xaionaro-go/binder/parcel", "")
+	f.AddImport("github.com/AndroidGoLab/binder/parcel", "")
 
 	// Add binder import if any field is an interface or IBinder type.
 	if hasBinderField(decl.Fields, opts, typeRef) {
-		f.AddImport("github.com/xaionaro-go/binder/binder", "")
+		f.AddImport("github.com/AndroidGoLab/binder/binder", "")
 	}
 
 	structName := AIDLToGoName(decl.UnionName)

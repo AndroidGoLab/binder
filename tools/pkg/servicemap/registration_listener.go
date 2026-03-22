@@ -5,7 +5,7 @@ import (
 
 	antlr "github.com/antlr4-go/antlr/v4"
 
-	"github.com/xaionaro-go/binder/tools/pkg/javaparser"
+	"github.com/AndroidGoLab/binder/tools/pkg/javaparser"
 )
 
 var (

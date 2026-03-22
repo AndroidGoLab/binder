@@ -1,4 +1,4 @@
-module github.com/xaionaro-go/binder
+module github.com/AndroidGoLab/binder
 
 go 1.25.0
 

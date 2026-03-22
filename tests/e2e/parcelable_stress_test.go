@@ -10,16 +10,16 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	genAccounts "github.com/xaionaro-go/binder/android/accounts"
-	genApp "github.com/xaionaro-go/binder/android/app"
-	genPm "github.com/xaionaro-go/binder/android/content/pm"
-	genDisplay "github.com/xaionaro-go/binder/android/hardware/display"
-	genInput "github.com/xaionaro-go/binder/android/hardware/input"
-	genLocation "github.com/xaionaro-go/binder/android/location"
-	"github.com/xaionaro-go/binder/binder"
-	genTelephony "github.com/xaionaro-go/binder/com/android/internal_/telephony"
-	"github.com/xaionaro-go/binder/parcel"
-	"github.com/xaionaro-go/binder/servicemanager"
+	genAccounts "github.com/AndroidGoLab/binder/android/accounts"
+	genApp "github.com/AndroidGoLab/binder/android/app"
+	genPm "github.com/AndroidGoLab/binder/android/content/pm"
+	genDisplay "github.com/AndroidGoLab/binder/android/hardware/display"
+	genInput "github.com/AndroidGoLab/binder/android/hardware/input"
+	genLocation "github.com/AndroidGoLab/binder/android/location"
+	"github.com/AndroidGoLab/binder/binder"
+	genTelephony "github.com/AndroidGoLab/binder/com/android/internal_/telephony"
+	"github.com/AndroidGoLab/binder/parcel"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // ==========================================================================

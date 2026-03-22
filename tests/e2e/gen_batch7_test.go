@@ -6,7 +6,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 func TestGenBatch7_PingServices(t *testing.T) {

@@ -1,6 +1,6 @@
 package servicemanager
 
-import "github.com/xaionaro-go/binder/binder"
+import "github.com/AndroidGoLab/binder/binder"
 
 // Option configures a ServiceManager.
 type Option interface {

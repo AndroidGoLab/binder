@@ -11,14 +11,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	genGui "github.com/xaionaro-go/binder/android/gui"
-	genDisplay "github.com/xaionaro-go/binder/android/hardware/display"
-	"github.com/xaionaro-go/binder/android/graphics"
-	genView "github.com/xaionaro-go/binder/android/view"
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/binder/versionaware"
-	"github.com/xaionaro-go/binder/parcel"
-	"github.com/xaionaro-go/binder/servicemanager"
+	genGui "github.com/AndroidGoLab/binder/android/gui"
+	genDisplay "github.com/AndroidGoLab/binder/android/hardware/display"
+	"github.com/AndroidGoLab/binder/android/graphics"
+	genView "github.com/AndroidGoLab/binder/android/view"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/binder/versionaware"
+	"github.com/AndroidGoLab/binder/parcel"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // --- helpers ---

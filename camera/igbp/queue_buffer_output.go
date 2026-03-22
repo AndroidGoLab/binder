@@ -3,7 +3,7 @@ package igbp
 import (
 	"encoding/binary"
 
-	"github.com/xaionaro-go/binder/parcel"
+	"github.com/AndroidGoLab/binder/parcel"
 )
 
 // queueBufferOutputPayload is a pre-computed 61-byte QueueBufferOutput

@@ -9,12 +9,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	genApp "github.com/xaionaro-go/binder/android/app"
-	genDisplay "github.com/xaionaro-go/binder/android/hardware/display"
-	genOs "github.com/xaionaro-go/binder/android/os"
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/parcel"
-	"github.com/xaionaro-go/binder/servicemanager"
+	genApp "github.com/AndroidGoLab/binder/android/app"
+	genDisplay "github.com/AndroidGoLab/binder/android/hardware/display"
+	genOs "github.com/AndroidGoLab/binder/android/os"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/parcel"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // --- audio: android.media.IAudioService ---

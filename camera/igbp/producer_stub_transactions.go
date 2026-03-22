@@ -1,8 +1,8 @@
 package igbp
 
 import (
-	"github.com/xaionaro-go/binder/igbp"
-	"github.com/xaionaro-go/binder/parcel"
+	"github.com/AndroidGoLab/binder/igbp"
+	"github.com/AndroidGoLab/binder/parcel"
 )
 
 func (g *ProducerStub) onRequestBuffer(

@@ -2,7 +2,7 @@
 
 package kernelbinder
 
-import "github.com/xaionaro-go/binder/binder"
+import "github.com/AndroidGoLab/binder/binder"
 
 // deathRecipientEntry holds a DeathRecipient together with the handle it
 // monitors. The entry is heap-allocated and its address is used as the

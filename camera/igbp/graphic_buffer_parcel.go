@@ -3,9 +3,9 @@ package igbp
 import (
 	"encoding/binary"
 
-	"github.com/xaionaro-go/binder/camera/gralloc"
-	"github.com/xaionaro-go/binder/igbp"
-	"github.com/xaionaro-go/binder/parcel"
+	"github.com/AndroidGoLab/binder/camera/gralloc"
+	"github.com/AndroidGoLab/binder/igbp"
+	"github.com/AndroidGoLab/binder/parcel"
 )
 
 // WriteGrallocGraphicBuffer writes a flattened GraphicBuffer backed by a

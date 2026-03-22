@@ -12,14 +12,14 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/xaionaro-go/binder/binder"
-	"github.com/xaionaro-go/binder/binder/versionaware"
-	"github.com/xaionaro-go/binder/android/hardware/input"
-	"github.com/xaionaro-go/binder/android/location"
-	genOs "github.com/xaionaro-go/binder/android/os"
-	"github.com/xaionaro-go/binder/android/service/dreams"
-	"github.com/xaionaro-go/binder/kernelbinder"
-	"github.com/xaionaro-go/binder/servicemanager"
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/binder/versionaware"
+	"github.com/AndroidGoLab/binder/android/hardware/input"
+	"github.com/AndroidGoLab/binder/android/location"
+	genOs "github.com/AndroidGoLab/binder/android/os"
+	"github.com/AndroidGoLab/binder/android/service/dreams"
+	"github.com/AndroidGoLab/binder/kernelbinder"
+	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 func main() {
