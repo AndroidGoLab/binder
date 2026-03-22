@@ -6,7 +6,7 @@
 [![License: CC0-1.0](https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg)](LICENSE)
 [![Go Version](https://img.shields.io/github/go-mod/go-version/AndroidGoLab/binder)](go.mod)
 
-Call Android system services from pure Go. Provides ~14,000 type-safe Go methods across 350+ Android system services — ActivityManager, PowerManager, SurfaceFlinger, PackageManager, audio, camera and sensor HALs, and more — by speaking the Binder IPC wire protocol directly via `/dev/binder` ioctl syscalls. No Java, no NDK, no cgo required.
+Call Android system services from pure Go. Provides ~14,000 type-safe Go methods across 1,500+ Android interfaces — ActivityManager, PowerManager, SurfaceFlinger, PackageManager, audio, camera and sensor HALs, and more — by speaking the Binder IPC wire protocol directly via `/dev/binder` ioctl syscalls. No Java, no NDK, no cgo required.
 
 Includes a complete AIDL compiler that parses Android Interface Definition Language files and generates the Go proxies, a version-aware runtime that adapts transaction codes across Android API levels, and a CLI tool (`bindercli`) for interactive service discovery and invocation.
 
@@ -14,7 +14,7 @@ Includes a complete AIDL compiler that parses Android Interface Definition Langu
 
 - **Query system services** — battery level, GPS location, thermal status, running processes, installed packages
 - **Control hardware** — connect to WiFi, toggle flashlight, manage Bluetooth, configure audio
-- **Interact with any binder service** — ActivityManager, PowerManager, SurfaceFlinger, camera/sensor HALs, and 350+ more
+- **Interact with any binder service** — ActivityManager, PowerManager, SurfaceFlinger, camera/sensor HALs, and more
 - **No Java, no cgo** — pure Go, cross-compiles to a static binary, runs on Android or any Linux with `/dev/binder`
 - **CLI tool included** — `bindercli` for interactive service discovery, method invocation, and debugging
 

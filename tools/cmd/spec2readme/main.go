@@ -584,7 +584,6 @@ func formatCount(n int) string {
 func updateInlineStats(content string, stats codebaseStats, packages []packageInfo) string {
 	// Compute human-friendly rounded values.
 	methodsRounded := roundDown(stats.methods, 1000) // e.g. 14454 -> 14000
-	packagesRounded := roundDown(stats.packages, 50)  // e.g. 399 -> 350
 
 	// Compute total spec-based interface count for the "N+ interfaces" pattern.
 	totalInterfaces := 0
@@ -593,19 +592,17 @@ func updateInlineStats(content string, stats codebaseStats, packages []packageIn
 	}
 	interfacesRounded := roundDown(totalInterfaces, 100) // e.g. 1507 -> 1500
 
-	// Helper to compute the order of magnitude for "N+" display.
-	// e.g. 14000 -> "~14,000", 350 -> "350+"
 	replacements := []struct {
 		pattern string
 		replace string
 	}{
-		// Hero paragraph: "~12000 type-safe Go methods" or "~14,000 type-safe Go methods"
+		// Hero paragraph: "~14,000 type-safe Go methods"
 		{`~[\d,]+ type-safe Go methods`, fmt.Sprintf("~%s type-safe Go methods", formatCount(methodsRounded))},
-		// Hero paragraph: "across 600+ Android system services" or similar
-		{`across [\d,]+\+ Android system services`, fmt.Sprintf("across %s+ Android system services", formatCount(packagesRounded))},
-		// Bullet point: "and 600+ more" or similar package count
-		{`and [\d,]+\+ more`, fmt.Sprintf("and %s+ more", formatCount(packagesRounded))},
-		// bindercli section: "1,500+ interfaces, 12,000+ methods"
+		// Hero paragraph: "across 1,500+ Android interfaces"
+		{`across [\d,]+\+ Android (?:system services|interfaces)`, fmt.Sprintf("across %s+ Android interfaces", formatCount(interfacesRounded))},
+		// Bullet point: "and more" (no misleading count)
+		{`and [\d,]+\+ more`, "and more"},
+		// bindercli section: "1,500+ interfaces, 14,000+ methods"
 		{`[\d,]+\+ interfaces, [\d,]+\+ methods`, fmt.Sprintf("%s+ interfaces, %s+ methods", formatCount(interfacesRounded), formatCount(methodsRounded))},
 		// AOSP bulk generation: "**5,490 Go files** across **666 packages**"
 		{`\*\*[\d,]+ Go files\*\* across \*\*[\d,]+ packages\*\*`,
