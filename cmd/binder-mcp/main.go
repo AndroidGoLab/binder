@@ -1,8 +1,9 @@
 //go:build linux
 
 // binder-mcp is an MCP server that exposes Android binder services as
-// tools for AI agents. It runs on-device and communicates via stdio,
-// so an agent can connect through `adb shell /data/local/tmp/binder-mcp`.
+// tools for AI agents. In device mode it runs on-device (agents connect
+// via adb shell); in remote mode it runs on the host and proxies binder
+// transactions to a device through adb port-forwarding.
 package main
 
 import (
@@ -22,7 +23,8 @@ const (
 	// ModeDevice runs the MCP server on-device, opening /dev/binder directly.
 	ModeDevice Mode = "device"
 
-	// ModeRemote is a placeholder for future adb-bridge mode.
+	// ModeRemote runs the MCP server on the host and proxies binder
+	// transactions to an Android device via gadb.
 	ModeRemote Mode = "remote"
 )
 
@@ -33,8 +35,11 @@ func newRootCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "binder-mcp",
 		Short: "MCP server exposing Android binder services as AI-agent tools",
-		Long: `binder-mcp opens /dev/binder and serves Model Context Protocol (MCP)
-tools over stdio. AI agents connect via adb shell /data/local/tmp/binder-mcp.`,
+		Long: `binder-mcp serves Model Context Protocol (MCP) tools over stdio.
+
+In device mode it opens /dev/binder directly (agents connect via
+adb shell /data/local/tmp/binder-mcp). In remote mode it proxies
+binder transactions to a device through adb port-forwarding.`,
 		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
 			l := logrus.Default().WithLevel(logLevel)
 			ctx := belt.CtxWithBelt(cmd.Context(), belt.New())
@@ -47,7 +52,7 @@ tools over stdio. AI agents connect via adb shell /data/local/tmp/binder-mcp.`,
 			case ModeDevice:
 				return runDevice(cmd, args)
 			case ModeRemote:
-				return fmt.Errorf("remote mode is not yet implemented")
+				return runRemoteMode(cmd, args)
 			default:
 				return fmt.Errorf("unknown mode %q; supported: device, remote", mode)
 			}
@@ -63,7 +68,12 @@ tools over stdio. AI agents connect via adb shell /data/local/tmp/binder-mcp.`,
 		(*string)(&mode),
 		"mode",
 		string(ModeDevice),
-		"operating mode: device (on-device binder) or remote (adb bridge, not yet implemented)",
+		"operating mode: device (on-device binder) or remote (adb bridge via gadb)",
+	)
+	cmd.Flags().String(
+		"serial",
+		"",
+		"device serial for remote mode (empty = auto-discover first device)",
 	)
 	cmd.Flags().String(
 		"binder-device",

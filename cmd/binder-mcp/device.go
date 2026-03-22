@@ -60,8 +60,7 @@ func runDevice(cmd *cobra.Command, _ []string) error {
 	sm := servicemanager.New(transport)
 
 	tools := &ToolSet{
-		sm:        sm,
-		transport: transport,
+		sm: sm,
 	}
 
 	mcpServer := server.NewMCPServer(
