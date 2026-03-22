@@ -1,8 +1,12 @@
-// Query battery health from the hardware HAL: capacity, charge status, current.
+// Query battery health from the system battery properties service.
+//
+// Uses IBatteryPropertiesRegistrar via the "batteryproperties" service to query
+// battery properties via raw binder transact. Falls back to reading sysfs
+// if binder access is denied.
 //
 // Build:
 //
-//	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o build/battery_health ./examples/battery_health/
+//	GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o build/battery_health ./examples/battery_health/
 //	adb push battery_health /data/local/tmp/ && adb shell /data/local/tmp/battery_health
 package main
 
@@ -10,13 +14,25 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/binder/versionaware"
-	"github.com/xaionaro-go/binder/android/hardware/health"
 	"github.com/xaionaro-go/binder/kernelbinder"
+	"github.com/xaionaro-go/binder/parcel"
 	"github.com/xaionaro-go/binder/servicemanager"
 )
+
+// Android BatteryManager property IDs (from android.os.BatteryManager).
+const (
+	batteryPropertyChargeCounter = 1 // BATTERY_PROPERTY_CHARGE_COUNTER (µAh)
+	batteryPropertyCurrentNow    = 2 // BATTERY_PROPERTY_CURRENT_NOW (µA)
+	batteryPropertyCurrentAvg    = 3 // BATTERY_PROPERTY_CURRENT_AVERAGE (µA)
+	batteryPropertyCapacity      = 4 // BATTERY_PROPERTY_CAPACITY (%)
+	batteryPropertyStatus        = 6 // BATTERY_PROPERTY_STATUS
+)
+
+const descriptorBatteryProps = "android.os.IBatteryPropertiesRegistrar"
 
 func main() {
 	ctx := context.Background()
@@ -36,53 +52,159 @@ func main() {
 
 	sm := servicemanager.New(transport)
 
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.health.IHealth/default"))
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("batteryproperties"))
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "get health HAL: %v\n", err)
-		fmt.Fprintf(os.Stderr, "(health HAL may not be available on this device, or access may be blocked by SELinux)\n")
-		os.Exit(1)
+		fmt.Fprintf(os.Stderr, "get batteryproperties service: %v\n", err)
+		fmt.Fprintln(os.Stderr, "Falling back to sysfs...")
+		printSysfs()
+		os.Exit(0)
 	}
 
-	h := health.NewHealthProxy(svc)
+	binderOK := false
 
-	capacity, err := h.GetCapacity(ctx)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "GetCapacity: %v (health HAL may have died or returned an error)\n", err)
-	} else {
-		fmt.Printf("Battery level:    %d%%\n", capacity)
+	// Query each property using raw binder transact to properly read
+	// the BatteryProperty out-parameter.
+	type propQuery struct {
+		name string
+		id   int32
+		unit string
 	}
 
-	status, err := h.GetChargeStatus(ctx)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "GetChargeStatus: %v (health HAL may have died or returned an error)\n", err)
-	} else {
-		statusName := "unknown"
-		switch status {
-		case health.BatteryStatusUNKNOWN:
-			statusName = "unknown"
-		case health.BatteryStatusCHARGING:
-			statusName = "charging"
-		case health.BatteryStatusDISCHARGING:
-			statusName = "discharging"
-		case health.BatteryStatusNotCharging:
-			statusName = "not charging"
-		case health.BatteryStatusFULL:
-			statusName = "full"
+	queries := []propQuery{
+		{"Battery level", batteryPropertyCapacity, "%"},
+		{"Charge counter", batteryPropertyChargeCounter, " uAh"},
+		{"Current draw", batteryPropertyCurrentNow, " uA"},
+		{"Current average", batteryPropertyCurrentAvg, " uA"},
+		{"Battery status", batteryPropertyStatus, ""},
+	}
+
+	for _, q := range queries {
+		val, status, err := getProperty(ctx, svc, q.id)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "GetProperty(%s): %v\n", q.name, err)
+			continue
 		}
-		fmt.Printf("Charge status:    %s (%d)\n", statusName, status)
+		if status != 0 {
+			fmt.Fprintf(os.Stderr, "GetProperty(%s): status=%d\n", q.name, status)
+			continue
+		}
+		binderOK = true
+		if q.id == batteryPropertyStatus {
+			fmt.Printf("  %-20s %s (%d)\n", q.name+":", statusToString(int32(val)), val)
+		} else {
+			fmt.Printf("  %-20s %d%s\n", q.name+":", val, q.unit)
+		}
 	}
 
-	current, err := h.GetCurrentNowMicroamps(ctx)
+	if !binderOK {
+		fmt.Fprintln(os.Stderr, "\nBinder calls failed; falling back to sysfs...")
+		printSysfs()
+	}
+}
+
+// getProperty performs a raw binder transact to IBatteryPropertiesRegistrar.getProperty,
+// properly reading both the BatteryProperty out-parameter and the status code.
+func getProperty(
+	ctx context.Context,
+	remote binder.IBinder,
+	propertyID int32,
+) (value int64, status int32, err error) {
+	data := parcel.New()
+	defer data.Recycle()
+	data.WriteInterfaceToken(descriptorBatteryProps)
+	data.WriteInt32(propertyID)
+
+	code, err := remote.ResolveCode(ctx, descriptorBatteryProps, "getProperty")
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "GetCurrentNowMicroamps: %v (health HAL may have died or returned an error)\n", err)
-	} else {
-		fmt.Printf("Current draw:     %d µA\n", current)
+		return 0, 0, fmt.Errorf("resolving getProperty: %w", err)
 	}
 
-	counter, err := h.GetChargeCounterUah(ctx)
+	reply, err := remote.Transact(ctx, code, 0, data)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "GetChargeCounterUah: %v (health HAL may have died or returned an error)\n", err)
-	} else {
-		fmt.Printf("Charge counter:   %d µAh\n", counter)
+		return 0, 0, err
 	}
+	defer reply.Recycle()
+
+	if err = binder.ReadStatus(reply); err != nil {
+		return 0, 0, err
+	}
+
+	// Read the BatteryProperty out-parameter (nullable Parcelable).
+	nullInd, err := reply.ReadInt32()
+	if err != nil {
+		return 0, 0, fmt.Errorf("reading null indicator: %w", err)
+	}
+	if nullInd != 0 {
+		// BatteryProperty: { int64 ValueLong; String ValueString; }
+		value, err = reply.ReadInt64()
+		if err != nil {
+			return 0, 0, fmt.Errorf("reading ValueLong: %w", err)
+		}
+		_, err = reply.ReadString() // ValueString (usually empty)
+		if err != nil {
+			return 0, 0, fmt.Errorf("reading ValueString: %w", err)
+		}
+	}
+
+	// Read the return value (status code: 0 = success).
+	status, err = reply.ReadInt32()
+	if err != nil {
+		return 0, 0, fmt.Errorf("reading status: %w", err)
+	}
+
+	return value, status, nil
+}
+
+func statusToString(status int32) string {
+	switch status {
+	case 1:
+		return "unknown"
+	case 2:
+		return "charging"
+	case 3:
+		return "discharging"
+	case 4:
+		return "not charging"
+	case 5:
+		return "full"
+	default:
+		return fmt.Sprintf("unknown(%d)", status)
+	}
+}
+
+func printSysfs() {
+	base := "/sys/class/power_supply/"
+	entries, err := os.ReadDir(base)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "read sysfs: %v\n", err)
+		return
+	}
+
+	for _, entry := range entries {
+		dir := base + entry.Name() + "/"
+		typ := readSysfs(dir + "type")
+		if typ == "" {
+			continue
+		}
+		fmt.Printf("\n=== %s (type: %s) ===\n", entry.Name(), typ)
+
+		for _, attr := range []string{
+			"status", "capacity", "charge_counter",
+			"current_now", "current_avg", "voltage_now",
+			"temp", "health", "technology",
+		} {
+			val := readSysfs(dir + attr)
+			if val != "" {
+				fmt.Printf("  %-18s %s\n", attr+":", val)
+			}
+		}
+	}
+}
+
+func readSysfs(path string) string {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return ""
+	}
+	return strings.TrimSpace(string(data))
 }
