@@ -33,3 +33,30 @@ func (ts *ToolSet) Register(s *server.MCPServer) {
 	ts.registerGetLocation(s)
 	ts.registerCheckPermissions(s)
 }
+
+// RegisterShellTools adds all shell-based MCP tools to the given server.
+// These tools use direct shell command execution and do not require a binder
+// connection. They are available in both device and remote modes.
+func RegisterShellTools(s *server.MCPServer) {
+	registerGetDeviceProperties(s)
+	registerGetDeviceSpecs(s)
+	registerTakeScreenshot(s)
+	registerTap(s)
+	registerLongPress(s)
+	registerSwipe(s)
+	registerInputText(s)
+	registerPressKey(s)
+	registerDumpUIHierarchy(s)
+	registerFindUIElement(s)
+	registerClickUIElement(s)
+	registerGetFocusedWindow(s)
+	registerInstallApp(s)
+	registerUninstallApp(s)
+	registerGetSetting(s)
+	registerSetSetting(s)
+	registerGetLogcat(s)
+	registerShellExec(s)
+	registerDumpService(s)
+	registerOpenURL(s)
+	registerStartActivity(s)
+}

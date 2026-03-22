@@ -92,6 +92,7 @@ func runRemoteMode(
 	)
 
 	tools.Register(mcpServer)
+	RegisterShellTools(mcpServer)
 
 	logger.Debugf(ctx, "serving MCP over stdio (remote mode)")
 

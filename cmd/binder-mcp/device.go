@@ -71,6 +71,7 @@ func runDevice(cmd *cobra.Command, _ []string) error {
 	)
 
 	tools.Register(mcpServer)
+	RegisterShellTools(mcpServer)
 
 	logger.Debugf(ctx, "serving MCP over stdio")
 
