@@ -13,7 +13,9 @@ import (
 	fwkService "github.com/xaionaro-go/binder/android/frameworks/cameraservice/service"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/binder/versionaware"
-	"github.com/xaionaro-go/binder/cmd/internal/igbp"
+	"github.com/xaionaro-go/binder/camera"
+	cameraIGBP "github.com/xaionaro-go/binder/camera/igbp"
+	"github.com/xaionaro-go/binder/igbp"
 	"github.com/xaionaro-go/binder/kernelbinder"
 	"github.com/xaionaro-go/binder/parcel"
 	"github.com/xaionaro-go/binder/servicemanager"
@@ -376,7 +378,7 @@ func (g *GraphicBufferProducerStub) onDequeueBuffer(
 	reply.WriteUint64(0)
 
 	if getTimestamps {
-		writeEmptyFrameEventHistoryDelta(reply)
+		cameraIGBP.WriteEmptyFrameEventHistoryDelta(reply)
 	}
 
 	if needsRealloc {
@@ -387,16 +389,6 @@ func (g *GraphicBufferProducerStub) onDequeueBuffer(
 	return reply, nil
 }
 
-// writeEmptyFrameEventHistoryDelta writes an empty FrameEventHistoryDelta
-// as a Flattenable: compositorTiming (3 * int64) + int32(0 deltas) = 28 bytes.
-func writeEmptyFrameEventHistoryDelta(reply *parcel.Parcel) {
-	reply.WriteInt32(28) // flattenedSize
-	reply.WriteInt32(0)  // fdCount
-	reply.WriteInt64(0)  // compositor deadline
-	reply.WriteInt64(0)  // compositor interval
-	reply.WriteInt64(0)  // compositor presentLatency
-	reply.WriteInt32(0)  // delta count
-}
 
 func (g *GraphicBufferProducerStub) onQueueBuffer(
 	data *parcel.Parcel,
@@ -410,47 +402,11 @@ func (g *GraphicBufferProducerStub) onQueueBuffer(
 	}
 
 	reply := parcel.New()
-	writeQueueBufferOutput(reply)
+	cameraIGBP.WriteQueueBufferOutput(reply)
 	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
-// writeQueueBufferOutput writes a minimal QueueBufferOutput Flattenable.
-// Fields (all written inline, not through Parcel::write wrapper):
-//
-//	width(4) + height(4) + transformHint(4) + numPendingBuffers(4) +
-//	nextFrameNumber(8) + bufferReplaced(1) + maxBufferCount(4) +
-//	FrameEventHistoryDelta(28 inlined) + result(4) = 61 bytes
-func writeQueueBufferOutput(reply *parcel.Parcel) {
-	const flatSize = 61
-	reply.WriteInt32(flatSize)
-	reply.WriteInt32(0) // fdCount
-
-	buf := make([]byte, flatSize)
-	off := 0
-	binary.LittleEndian.PutUint32(buf[off:], 0) // width
-	off += 4
-	binary.LittleEndian.PutUint32(buf[off:], 0) // height
-	off += 4
-	binary.LittleEndian.PutUint32(buf[off:], 0) // transformHint
-	off += 4
-	binary.LittleEndian.PutUint32(buf[off:], 0) // numPendingBuffers
-	off += 4
-	binary.LittleEndian.PutUint64(buf[off:], 1) // nextFrameNumber
-	off += 8
-	buf[off] = 0 // bufferReplaced
-	off += 1
-	binary.LittleEndian.PutUint32(buf[off:], 64) // maxBufferCount
-	off += 4
-	// FrameEventHistoryDelta inline: compositorTiming (3*8=24) + deltaCount (4) = 28
-	off += 24 // zeros for compositor timing
-	binary.LittleEndian.PutUint32(buf[off:], 0) // deltaCount
-	off += 4
-	binary.LittleEndian.PutUint32(buf[off:], 0) // result = NO_ERROR
-	_ = off
-
-	reply.WriteRawBytes(buf)
-}
 
 func (g *GraphicBufferProducerStub) onCancelBuffer(
 	data *parcel.Parcel,
@@ -523,7 +479,7 @@ func (g *GraphicBufferProducerStub) onConnect(
 	fmt.Printf("  [IGBP] connect(api=%d, producerControlled=%d)\n", api, producerControlled)
 
 	reply := parcel.New()
-	writeQueueBufferOutput(reply)
+	cameraIGBP.WriteQueueBufferOutput(reply)
 	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
@@ -569,177 +525,6 @@ func (g *GraphicBufferProducerStub) onGetLastQueuedBuffer() (*parcel.Parcel, err
 	return reply, nil
 }
 
-// --------------------------------------------------------------------
-// CreateStream with Surface via raw parcel (writes IGBP binder)
-// --------------------------------------------------------------------
-
-func createStreamWithSurface(
-	ctx context.Context,
-	deviceUser fwkDevice.ICameraDeviceUser,
-	transport binder.Transport,
-	igbpStub *binder.StubBinder,
-	width int32,
-	height int32,
-) (int32, error) {
-	data := parcel.New()
-	data.WriteInterfaceToken(fwkDevice.DescriptorICameraDeviceUser)
-
-	// Null indicator for OutputConfiguration parcelable.
-	data.WriteInt32(1)
-
-	headerPos := parcel.WriteParcelableHeader(data)
-
-	// windowHandles: empty array (non-nullable in AIDL).
-	data.WriteInt32(0)
-
-	data.WriteInt32(0)  // rotation: R0
-	data.WriteInt32(-1) // windowGroupId: NONE
-	data.WriteString16("")
-	data.WriteInt32(width)
-	data.WriteInt32(height)
-	data.WriteBool(false) // isDeferred
-
-	// surfaces: array of 1 android.view.Surface.
-	data.WriteInt32(1)
-
-	// Each element has a null indicator in AIDL serialization.
-	data.WriteInt32(1) // non-null
-
-	// view::Surface::writeToParcel(parcel, false):
-	data.WriteString16("GoCamera")
-	data.WriteInt32(0) // isSingleBuffered
-	// IGraphicBufferProducer::exportToParcel: magic + strong binder.
-	data.WriteUint32(0x62717565) // USE_BUFFER_QUEUE
-	fmt.Printf("  [DEBUG] IGBP binder offset in parcel: %d\n", data.Len())
-	binder.WriteBinderToParcel(ctx, data, igbpStub, transport)
-	fmt.Printf("  [DEBUG] After IGBP binder, parcel pos: %d\n", data.Len())
-	// surfaceControlHandle: null
-	data.WriteNullStrongBinder()
-	fmt.Printf("  [DEBUG] After null binder, parcel pos: %d\n", data.Len())
-	fmt.Printf("  [DEBUG] Objects in parcel: %v\n", data.Objects())
-
-	parcel.WriteParcelableFooter(data, headerPos)
-	fmt.Printf("  [DEBUG] Final parcel size: %d, objects: %v\n", data.Len(), data.Objects())
-
-	reply, err := deviceUser.AsBinder().Transact(
-		ctx,
-		fwkDevice.TransactionICameraDeviceUserCreateStream,
-		0,
-		data,
-	)
-	if err != nil {
-		return 0, fmt.Errorf("transaction: %w", err)
-	}
-	defer reply.Recycle()
-
-	if err = binder.ReadStatus(reply); err != nil {
-		return 0, fmt.Errorf("status: %w", err)
-	}
-
-	streamId, err := reply.ReadInt32()
-	if err != nil {
-		return 0, fmt.Errorf("readStreamId: %w", err)
-	}
-	return streamId, nil
-}
-
-// createDefaultRequestRaw calls CreateDefaultRequest using raw parcel I/O.
-func createDefaultRequestRaw(
-	ctx context.Context,
-	deviceUser fwkDevice.ICameraDeviceUser,
-	templateId fwkDevice.TemplateId,
-) ([]byte, error) {
-	data := parcel.New()
-	data.WriteInterfaceToken(fwkDevice.DescriptorICameraDeviceUser)
-	data.WriteInt32(int32(templateId))
-
-	reply, err := deviceUser.AsBinder().Transact(
-		ctx,
-		fwkDevice.TransactionICameraDeviceUserCreateDefaultRequest,
-		0,
-		data,
-	)
-	if err != nil {
-		return nil, fmt.Errorf("transaction: %w", err)
-	}
-	defer reply.Recycle()
-
-	if err = binder.ReadStatus(reply); err != nil {
-		return nil, fmt.Errorf("status: %w", err)
-	}
-
-	nullInd, err := reply.ReadInt32()
-	if err != nil {
-		return nil, fmt.Errorf("null indicator: %w", err)
-	}
-	if nullInd == 0 {
-		return nil, fmt.Errorf("null metadata")
-	}
-
-	endPos, err := parcel.ReadParcelableHeader(reply)
-	if err != nil {
-		return nil, fmt.Errorf("parcelable header: %w", err)
-	}
-
-	metadataBytes, err := reply.ReadByteArray()
-	if err != nil {
-		return nil, fmt.Errorf("ReadByteArray: %w", err)
-	}
-
-	parcel.SkipToParcelableEnd(reply, endPos)
-	return metadataBytes, nil
-}
-
-// submitRequestProxy sends a SubmitRequestList using the generated
-// CaptureRequest.MarshalParcel (correct format without per-element null
-// indicators) and a raw Transact with the correct transaction code.
-func submitRequestProxy(
-	ctx context.Context,
-	deviceUser fwkDevice.ICameraDeviceUser,
-	captureReq fwkDevice.CaptureRequest,
-	isRepeating bool,
-) (fwkDevice.SubmitInfo, error) {
-	var result fwkDevice.SubmitInfo
-
-	data := parcel.New()
-	data.WriteInterfaceToken(fwkDevice.DescriptorICameraDeviceUser)
-	data.WriteInt32(1) // requestList: array of 1
-	data.WriteInt32(1) // non-null indicator for CaptureRequest element
-	if err := captureReq.MarshalParcel(data); err != nil {
-		return result, fmt.Errorf("marshal: %w", err)
-	}
-	data.WriteBool(isRepeating)
-
-	fmt.Printf("  [DEBUG] submitRequestProxy: size=%d, isRepeating=%v\n",
-		data.Len(), isRepeating)
-
-	reply, err := deviceUser.AsBinder().Transact(
-		ctx,
-		fwkDevice.TransactionICameraDeviceUserSubmitRequestList,
-		0,
-		data,
-	)
-	if err != nil {
-		return result, fmt.Errorf("transaction: %w", err)
-	}
-	defer reply.Recycle()
-
-	if err = binder.ReadStatus(reply); err != nil {
-		return result, fmt.Errorf("status: %w", err)
-	}
-
-	nullInd, err := reply.ReadInt32()
-	if err != nil {
-		return result, fmt.Errorf("null indicator: %w", err)
-	}
-	if nullInd != 0 {
-		if err = result.UnmarshalParcel(reply); err != nil {
-			return result, fmt.Errorf("unmarshal SubmitInfo: %w", err)
-		}
-	}
-
-	return result, nil
-}
 
 // --------------------------------------------------------------------
 // Main flow
@@ -791,7 +576,7 @@ func run(ctx context.Context) error {
 
 	// Step 2: CreateDefaultRequest
 	fmt.Println("\n=== Step 2: CreateDefaultRequest (PREVIEW) ===")
-	metadataBytes, err := createDefaultRequestRaw(ctx, deviceUser, fwkDevice.TemplateIdPREVIEW)
+	metadataBytes, err := camera.CreateDefaultRequest(ctx, deviceUser, fwkDevice.TemplateIdPREVIEW)
 	if err != nil {
 		return fmt.Errorf("CreateDefaultRequest: %w", err)
 	}
@@ -806,7 +591,7 @@ func run(ctx context.Context) error {
 	igbpStubBinder := binder.NewStubBinder(igbp)
 	igbpStubBinder.RegisterWithTransport(ctx, transport)
 
-	streamId, err := createStreamWithSurface(ctx, deviceUser, transport, igbpStubBinder, 640, 480)
+	streamId, err := camera.CreateStreamWithSurface(ctx, deviceUser, transport, igbpStubBinder, 640, 480)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "CreateStream with Surface FAILED: %v\n", err)
 
@@ -924,11 +709,11 @@ func run(ctx context.Context) error {
 	}
 
 	// Use the generated proxy with fixed null indicators.
-	submitInfo, err := submitRequestProxy(ctx, deviceUser, captureReq, true)
+	submitInfo, err := camera.SubmitRequest(ctx, deviceUser, captureReq, true)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "SubmitRequestList (proxy, repeating) FAILED: %v\n", err)
+		fmt.Fprintf(os.Stderr, "SubmitRequestList (repeating) FAILED: %v\n", err)
 
-		submitInfo, err = submitRequestProxy(ctx, deviceUser, captureReq, false)
+		submitInfo, err = camera.SubmitRequest(ctx, deviceUser, captureReq, false)
 		if err != nil {
 			return fmt.Errorf("SubmitRequestList: %w", err)
 		}
