@@ -139,6 +139,7 @@ func run(
 		{"EXAMPLES_TABLE", renderExamplesTable(examples)},
 		{"BINDERCLI_POWER", renderBindercliPower()},
 		{"BINDER_MCP", renderBinderMCP()},
+		{"AGENT_CONFIGS", renderAgentConfigs()},
 		{"INTEROPERABILITY", renderInteroperability()},
 	}
 
@@ -196,6 +197,10 @@ func discoverExamples(dir string) ([]exampleInfo, error) {
 		"softap_tether_offload": "Tethering offload config, stats",
 		"camera_connect":        "Camera device connection with callback stub",
 		"gps_location":          "Live GPS fix via ILocationListener callback",
+		"flashlight_torch":      "Toggle flashlight/torch via ICameraService",
+		"list_packages":         "List all installed packages via GetAllPackages",
+		"error_handling":        "Graceful error handling: service checks, typed errors, permissions",
+		"server_service":        "Register a Go service and call it back via binder",
 	}
 
 	var examples []exampleInfo
@@ -441,6 +446,118 @@ import (
     fmt.Printf("Is monkey: %v\n", monkey)
 ` + "```" + `
 
+### Toggle Flashlight
+
+` + "```go" + `
+import (
+    "github.com/AndroidGoLab/binder/android/hardware"
+    "github.com/AndroidGoLab/binder/servicemanager"
+)
+
+    svc, err := sm.GetService(ctx, servicemanager.ServiceName("media.camera"))
+    if err != nil {
+        log.Fatal(err)
+    }
+    camera := hardware.NewCameraServiceProxy(svc)
+
+    // Turn torch on for camera "0"
+    if err := camera.SetTorchMode(ctx, "0", true, nil); err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println("Torch ON")
+
+    // Turn torch off
+    _ = camera.SetTorchMode(ctx, "0", false, nil)
+` + "```" + `
+
+### List All Installed Packages
+
+` + "```go" + `
+import (
+    "github.com/AndroidGoLab/binder/android/content/pm"
+    "github.com/AndroidGoLab/binder/servicemanager"
+)
+
+    svc, err := sm.GetService(ctx, servicemanager.ServiceName("package"))
+    if err != nil {
+        log.Fatal(err)
+    }
+    pkgMgr := pm.NewPackageManagerProxy(svc)
+
+    packages, err := pkgMgr.GetAllPackages(ctx)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Printf("Found %d packages:\n", len(packages))
+    for _, pkg := range packages {
+        fmt.Println(" ", pkg)
+    }
+` + "```" + `
+
+### Handle Errors Gracefully
+
+` + "```go" + `
+import (
+    "errors"
+    aidlerrors "github.com/AndroidGoLab/binder/errors"
+    "github.com/AndroidGoLab/binder/servicemanager"
+)
+
+    // Non-blocking service check (returns nil if not found)
+    svc, err := sm.CheckService(ctx, servicemanager.ServiceName("media.camera"))
+    if err != nil {
+        log.Fatal(err)
+    }
+    if svc == nil {
+        fmt.Println("Camera service not available")
+        return
+    }
+
+    // Typed error inspection
+    _, err = someProxy.SomeMethod(ctx)
+    var status *aidlerrors.StatusError
+    if errors.As(err, &status) {
+        switch status.Exception {
+        case aidlerrors.ExceptionSecurity:
+            fmt.Printf("Permission denied: %s\n", status.Message)
+        case aidlerrors.ExceptionServiceSpecific:
+            fmt.Printf("Service error %d: %s\n", status.ServiceSpecificCode, status.Message)
+        default:
+            fmt.Printf("AIDL error: %v\n", status)
+        }
+    }
+` + "```" + `
+
+### Register a Server-Side Service
+
+` + "```go" + `
+import (
+    "github.com/AndroidGoLab/binder/binder"
+    "github.com/AndroidGoLab/binder/parcel"
+    "github.com/AndroidGoLab/binder/servicemanager"
+)
+
+    // Implement the TransactionReceiver interface
+    type myService struct{}
+
+    func (s *myService) Descriptor() string { return "com.example.IPingService" }
+
+    func (s *myService) OnTransaction(
+        ctx context.Context,
+        code binder.TransactionCode,
+        data *parcel.Parcel,
+    ) (*parcel.Parcel, error) {
+        reply := parcel.New()
+        binder.WriteStatus(reply, nil)
+        reply.WriteString16("pong")
+        return reply, nil
+    }
+
+    // Register with ServiceManager
+    err := sm.AddService(ctx, servicemanager.ServiceName("my.service"), &myService{}, false, 0)
+` + "```" + `
+
 More examples: [` + "`examples/`" + `](examples/)
 `
 }
@@ -594,6 +711,85 @@ go run ./cmd/binder-mcp/ --mode remote
 | ` + "`get_device_info`" + ` | Power, display, thermal status |
 | ` + "`get_location`" + ` | GPS/fused location |
 | ` + "`check_permissions`" + ` | SELinux context and service accessibility |
+`
+}
+
+func renderAgentConfigs() string {
+	return `### Installation
+
+` + "```bash" + `
+# Via go install
+go install github.com/AndroidGoLab/binder/cmd/binder-mcp@latest
+
+# Via GitHub releases (pre-built binaries)
+# Download from https://github.com/AndroidGoLab/binder/releases
+
+# Via Docker (host mode)
+docker run ghcr.io/androidgolab/binder-mcp
+` + "```" + `
+
+### Claude Code
+
+` + "```bash" + `
+claude mcp add --transport stdio binder-mcp -- binder-mcp --mode remote
+` + "```" + `
+
+### Cursor
+
+Add to ` + "`.cursor/mcp.json`" + `:
+
+` + "```json" + `
+{
+  "mcpServers": {
+    "binder-mcp": {
+      "command": "binder-mcp",
+      "args": ["--mode", "remote"]
+    }
+  }
+}
+` + "```" + `
+
+### Windsurf
+
+Add to ` + "`~/.codeium/windsurf/mcp_config.json`" + `:
+
+` + "```json" + `
+{
+  "mcpServers": {
+    "binder-mcp": {
+      "command": "binder-mcp",
+      "args": ["--mode", "remote"]
+    }
+  }
+}
+` + "```" + `
+
+### Cline
+
+Add to Cline MCP settings:
+
+` + "```json" + `
+{
+  "mcpServers": {
+    "binder-mcp": {
+      "command": "binder-mcp",
+      "args": ["--mode", "remote"],
+      "alwaysAllow": ["list_services", "get_device_info", "take_screenshot"]
+    }
+  }
+}
+` + "```" + `
+
+### On-device mode (via adb)
+
+` + "```bash" + `
+# Build for Android
+GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o binder-mcp ./cmd/binder-mcp/
+adb push binder-mcp /data/local/tmp/
+
+# Configure agent to use adb transport
+claude mcp add --transport stdio binder-mcp -- adb shell /data/local/tmp/binder-mcp
+` + "```" + `
 `
 }
 
