@@ -1005,7 +1005,7 @@ parcelables:
         - name: Position
           write_method: typed_object
         - name: Float9
-          write_method: opaque
+          write_method: float_array
         - name: Rotation
           write_method: float32
         - name: CornerRadius
@@ -1036,16 +1036,16 @@ parcelables:
         - name: Flg
           write_method: int32
         - name: Horizontal
-          write_method: opaque
+          write_method: int_array
           condition: mHorizontal!=null
         - name: Vertical
-          write_method: opaque
+          write_method: int_array
           condition: mVertical!=null
         - name: Smallest
-          write_method: opaque
+          write_method: int_array
           condition: mSmallest!=null
         - name: ScreenLayoutSize
-          write_method: opaque
+          write_method: int_array
           condition: mScreenLayoutSize!=null
     - name: SplashScreenView.SplashScreenViewParcelable
     - name: StartingWindowInfo
@@ -1224,7 +1224,7 @@ parcelables:
     - name: TransitionFilter
       java_wire_format:
         - name: TypeSet
-          write_method: opaque
+          write_method: int_array
         - name: Flags
           write_method: int32
         - name: NotFlags

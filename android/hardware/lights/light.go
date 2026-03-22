@@ -24,7 +24,7 @@ func (s *Light) MarshalParcel(
 	p.WriteInt32(s.Ordinal)
 	p.WriteInt32(s.Type)
 	p.WriteInt32(s.Capabilities)
-	p.WriteInt32(0) // null PreferredBrightnessLevels
+	p.WriteInt32(-1) // null PreferredBrightnessLevels
 	return nil
 }
 

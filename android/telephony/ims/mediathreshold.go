@@ -14,9 +14,9 @@ var _ parcel.Parcelable = (*MediaThreshold)(nil)
 func (s *MediaThreshold) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null RtpPacketLossRate
-	p.WriteInt32(0) // null RtpJitter
-	p.WriteInt32(0) // null RtpInactivityTimeMillis
+	p.WriteInt32(-1) // null RtpPacketLossRate
+	p.WriteInt32(-1) // null RtpJitter
+	p.WriteInt32(-1) // null RtpInactivityTimeMillis
 	return nil
 }
 

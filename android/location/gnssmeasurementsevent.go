@@ -17,9 +17,9 @@ func (s *GnssMeasurementsEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flag)
-	p.WriteInt32(0) // null Clock
-	p.WriteInt32(0) // null Measurements
-	p.WriteInt32(0) // null GnssAgcs
+	p.WriteInt32(0)  // null Clock
+	p.WriteInt32(-1) // null Measurements
+	p.WriteInt32(-1) // null GnssAgcs
 	p.WriteBool(s.IsFullTracking)
 	return nil
 }

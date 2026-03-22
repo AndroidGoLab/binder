@@ -30,7 +30,7 @@ func (s *StorageVolume) MarshalParcel(
 	p.WriteInt32(0) // null AllowMassStorage?1:0
 	p.WriteInt64(s.MaxFileSize)
 	p.WriteInt32(0) // null Owner
-	p.WriteInt32(0) // null 1
+	p.WriteInt32(1)
 	p.WriteInt32(0) // null StorageManager.convert(mUuid)
 	p.WriteString(s.FsUuid)
 	p.WriteString(s.State)
@@ -125,14 +125,8 @@ func (s *StorageVolume) UnmarshalParcel(
 			return nil // non-null Owner: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()

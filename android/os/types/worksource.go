@@ -16,9 +16,9 @@ func (s *WorkSource) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Num)
-	p.WriteInt32(0) // null Uids
-	p.WriteInt32(0) // null Names
-	p.WriteInt32(0) // null -1
+	p.WriteInt32(-1) // null Uids
+	p.WriteInt32(-1) // null Names
+	p.WriteInt32(-1)
 	return nil
 }
 
@@ -48,14 +48,8 @@ func (s *WorkSource) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null -1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	return nil
 }

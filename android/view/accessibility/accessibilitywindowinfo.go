@@ -31,11 +31,11 @@ func (s *AccessibilityWindowInfo) MarshalParcel(
 	p.WriteInt32(s.Id)
 	p.WriteInt32(s.ParentId)
 	p.WriteInt32(s.TaskId)
-	p.WriteInt32(0) // null Parcel
-	p.WriteInt32(0) // null Title
+	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null Title
 	p.WriteInt64(s.AnchorId)
 	p.WriteInt64(s.TransitionTime)
-	p.WriteInt32(0) // null 0
+	p.WriteInt32(0)
 	p.WriteInt32(s.ConnectionId)
 	p.WriteInt32(0) // null Locales
 	return nil
@@ -99,14 +99,8 @@ func (s *AccessibilityWindowInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	s.ConnectionId, _err = p.ReadInt32()
 	if _err != nil {

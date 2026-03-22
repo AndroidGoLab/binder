@@ -18,7 +18,7 @@ func (s *ContentCaptureContext) MarshalParcel(
 ) error {
 	p.WriteInt32(0)  // null HasClientContext?1:0
 	p.WriteInt32(0)  // null Id
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null Extras
 	if s.ComponentName != nil {
 		p.WriteInt32(1)
 		if _err := s.ComponentName.MarshalParcel(p); _err != nil {
@@ -27,10 +27,10 @@ func (s *ContentCaptureContext) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null DisplayId
-	p.WriteInt32(0) // null WindowToken
-	p.WriteInt32(0) // null Flags
-	p.WriteInt32(0) // null Parcel
+	p.WriteInt32(0)  // null DisplayId
+	p.WriteInt32(-1) // null WindowToken
+	p.WriteInt32(0)  // null Flags
+	p.WriteInt32(-1) // null Parcel
 	return nil
 }
 

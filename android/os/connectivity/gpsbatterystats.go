@@ -18,7 +18,7 @@ func (s *GpsBatteryStats) MarshalParcel(
 ) error {
 	p.WriteInt64(s.LoggingDurationMs)
 	p.WriteInt64(s.EnergyConsumedMaMs)
-	p.WriteInt32(0) // null TimeInGpsSignalQualityLevel
+	p.WriteInt32(-1) // null TimeInGpsSignalQualityLevel
 	return nil
 }
 

@@ -16,9 +16,9 @@ func (s *SentenceSuggestionsInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.InfoSize)
-	p.WriteInt32(0) // null SuggestionsInfos
-	p.WriteInt32(0) // null Offsets
-	p.WriteInt32(0) // null Lengths
+	p.WriteInt32(-1) // null SuggestionsInfos
+	p.WriteInt32(-1) // null Offsets
+	p.WriteInt32(-1) // null Lengths
 	return nil
 }
 

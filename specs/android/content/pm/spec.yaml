@@ -5851,9 +5851,9 @@ parcelables:
         - name: LabelText
           write_method: opaque
         - name: RequestedPermissions
-          write_method: opaque
+          write_method: string_array
         - name: GrantedPermissions
-          write_method: opaque
+          write_method: string_array
         - name: ApplicationInfo
           write_method: typed_object
     - name: InstantAppRequestInfo
@@ -5863,7 +5863,7 @@ parcelables:
         - name: Intent
           write_method: typed_object
         - name: HostDigestPrefix
-          write_method: opaque
+          write_method: int_array
           condition: mHostDigestPrefix!=null
         - name: UserHandle
           write_method: typed_object
@@ -5973,7 +5973,7 @@ parcelables:
         - name: BaseRevisionCode
           write_method: int32
         - name: SplitRevisionCodes
-          write_method: opaque
+          write_method: int_array
         - name: SharedUserId
           write_method: string8
         - name: SharedUserLabel
@@ -5989,7 +5989,7 @@ parcelables:
         - name: LastUpdateTime
           write_method: int64
         - name: Gids
-          write_method: opaque
+          write_method: int_array
         - name: Activities
           write_method: opaque
         - name: Receivers
@@ -6005,7 +6005,7 @@ parcelables:
         - name: RequestedPermissions
           write_method: opaque
         - name: RequestedPermissionsFlags
-          write_method: opaque
+          write_method: int_array
         - name: Signatures
           write_method: opaque
         - name: ConfigPreferences
@@ -6063,7 +6063,7 @@ parcelables:
         - name: PackageName
           write_method: string16
         - name: SplitNames
-          write_method: opaque
+          write_method: string_array
         - name: VersionCode
           write_method: int32
         - name: VersionCodeMajor
@@ -6071,7 +6071,7 @@ parcelables:
         - name: BaseRevisionCode
           write_method: int32
         - name: SplitRevisionCodes
-          write_method: opaque
+          write_method: int_array
         - name: RecommendedInstallLocation
           write_method: int32
         - name: InstallLocation

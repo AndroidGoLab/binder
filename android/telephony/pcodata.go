@@ -20,7 +20,7 @@ func (s *PcoData) MarshalParcel(
 	p.WriteInt32(s.Cid)
 	p.WriteString16(s.BearerProto)
 	p.WriteInt32(s.PcoId)
-	p.WriteInt32(0) // null Contents
+	p.WriteInt32(-1) // null Contents
 	return nil
 }
 

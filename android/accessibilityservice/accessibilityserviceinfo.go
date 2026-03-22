@@ -38,7 +38,7 @@ func (s *AccessibilityServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.EventTypes)
-	p.WriteInt32(0) // null PackageNames
+	p.WriteInt32(-1) // null PackageNames
 	p.WriteInt32(s.FeedbackType)
 	p.WriteInt64(s.NotificationTimeout)
 	p.WriteInt32(s.NonInteractiveUiTimeout)

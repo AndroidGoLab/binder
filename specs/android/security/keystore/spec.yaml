@@ -57,17 +57,17 @@ parcelables:
         - name: Spec.getCertificateNotAfter().getTime()
           write_method: int64
         - name: Spec.getDigests()
-          write_method: opaque
+          write_method: string_array
           condition: mSpec.isDigestsSpecified()
         - name: List.copyOf(mSpec.getMgf1Digests())
           write_method: opaque
           condition: mSpec.isMgf1DigestsSpecified()
         - name: Spec.getEncryptionPaddings()
-          write_method: opaque
+          write_method: string_array
         - name: Spec.getSignaturePaddings()
-          write_method: opaque
+          write_method: string_array
         - name: Spec.getBlockModes()
-          write_method: opaque
+          write_method: string_array
         - name: Spec.isRandomizedEncryptionRequired()
           write_method: bool
         - name: Spec.isUserAuthenticationRequired()
@@ -83,7 +83,7 @@ parcelables:
         - name: Spec.isDevicePropertiesAttestationIncluded()
           write_method: bool
         - name: Spec.getAttestationIds()
-          write_method: opaque
+          write_method: int_array
         - name: Spec.isUniqueIdIncluded()
           write_method: bool
         - name: Spec.isUserAuthenticationValidWhileOnBody()

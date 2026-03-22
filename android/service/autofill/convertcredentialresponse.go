@@ -25,7 +25,7 @@ func (s *ConvertCredentialResponse) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(-1) // null ClientState (Bundle)
+	p.WriteInt32(-1) // null ClientState
 	return nil
 }
 

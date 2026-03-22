@@ -29,7 +29,7 @@ func (s *Address) MarshalParcel(
 ) error {
 	p.WriteInt32(0) // null Locale.getLanguage()
 	p.WriteInt32(0) // null Locale.getCountry()
-	p.WriteInt32(0) // null 0
+	p.WriteInt32(0)
 	p.WriteString16(s.FeatureName)
 	p.WriteString16(s.AdminArea)
 	p.WriteString16(s.SubAdminArea)
@@ -47,7 +47,7 @@ func (s *Address) MarshalParcel(
 	p.WriteInt32(0) // null Longitude
 	p.WriteString16(s.Phone)
 	p.WriteString16(s.Url)
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 
@@ -73,14 +73,8 @@ func (s *Address) UnmarshalParcel(
 			return nil // non-null Locale.getCountry(): cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	s.FeatureName, _err = p.ReadString16()
 	if _err != nil {

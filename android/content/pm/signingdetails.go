@@ -17,10 +17,10 @@ func (s *SigningDetails) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteBool(s.IsUnknown)
-	p.WriteInt32(0) // null Signatures
+	p.WriteInt32(-1) // null Signatures
 	p.WriteInt32(s.SignatureSchemeVersion)
-	p.WriteInt32(0) // null PublicKeys
-	p.WriteInt32(0) // null PastSigningCertificates
+	p.WriteInt32(-1) // null PublicKeys
+	p.WriteInt32(-1) // null PastSigningCertificates
 	return nil
 }
 

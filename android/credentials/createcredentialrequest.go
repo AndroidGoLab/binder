@@ -19,8 +19,8 @@ func (s *CreateCredentialRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString(s.Type)
-	p.WriteInt32(-1) // null CredentialData (Bundle)
-	p.WriteInt32(-1) // null CandidateQueryData (Bundle)
+	p.WriteInt32(-1) // null CredentialData
+	p.WriteInt32(-1) // null CandidateQueryData
 	p.WriteBool(s.IsSystemProviderRequired)
 	p.WriteBool(s.AlwaysSendAppInfoToProvider)
 	p.WriteString(s.Origin)

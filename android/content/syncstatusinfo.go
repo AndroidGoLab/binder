@@ -46,10 +46,10 @@ func (s *SyncStatusInfo) MarshalParcel(
 	p.WriteInt32(0) // null TotalStats.numFailures
 	p.WriteInt32(0) // null TotalStats.numCancels
 	p.WriteInt64(s.LastTodayResetTime)
-	p.WriteInt32(0) // null Parcel
-	p.WriteInt32(0) // null Parcel
-	p.WriteInt32(0) // null PerSourceLastSuccessTimes
-	p.WriteInt32(0) // null PerSourceLastFailureTimes
+	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null PerSourceLastSuccessTimes
+	p.WriteInt32(-1) // null PerSourceLastFailureTimes
 	return nil
 }
 

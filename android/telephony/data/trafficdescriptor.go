@@ -16,7 +16,7 @@ func (s *TrafficDescriptor) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Dnn)
-	p.WriteInt32(0) // null OsAppId!=null?mOsAppId.getBytes():null
+	p.WriteInt32(-1) // null OsAppId!=null?mOsAppId.getBytes():null
 	return nil
 }
 

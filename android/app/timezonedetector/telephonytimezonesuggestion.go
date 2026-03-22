@@ -22,7 +22,7 @@ func (s *TelephonyTimeZoneSuggestion) MarshalParcel(
 	p.WriteString16(s.ZoneId)
 	p.WriteInt32(s.MatchType)
 	p.WriteInt32(s.Quality)
-	p.WriteInt32(0) // null DebugInfo
+	p.WriteInt32(-1) // null DebugInfo
 	return nil
 }
 

@@ -16,10 +16,10 @@ var _ parcel.Parcelable = (*TransitionFilter)(nil)
 func (s *TransitionFilter) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null TypeSet
+	p.WriteInt32(-1) // null TypeSet
 	p.WriteInt32(s.Flags)
 	p.WriteInt32(s.NotFlags)
-	p.WriteInt32(0) // null Requirements
+	p.WriteInt32(-1) // null Requirements
 	return nil
 }
 

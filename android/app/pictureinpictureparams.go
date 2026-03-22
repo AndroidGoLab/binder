@@ -14,20 +14,20 @@ var _ parcel.Parcelable = (*PictureInPictureParams)(nil)
 func (s *PictureInPictureParams) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null UserActions
-	p.WriteInt32(0) // null CloseAction
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null Out
-	p.WriteInt32(0) // null 1
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null UserActions
+	p.WriteInt32(0)  // null CloseAction
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(1)
 	p.WriteInt32(0) // null AutoEnterEnabled
-	p.WriteInt32(0) // null 1
+	p.WriteInt32(1)
 	p.WriteInt32(0) // null SeamlessResizeEnabled
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null Title
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null Subtitle
-	p.WriteInt32(0) // null 1
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null Title
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null Subtitle
+	p.WriteInt32(1)
 	p.WriteInt32(0) // null IsLaunchIntoPip
 	return nil
 }
@@ -35,14 +35,9 @@ func (s *PictureInPictureParams) MarshalParcel(
 func (s *PictureInPictureParams) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -62,14 +57,8 @@ func (s *PictureInPictureParams) UnmarshalParcel(
 			return nil // non-null CloseAction: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -80,14 +69,8 @@ func (s *PictureInPictureParams) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -98,14 +81,8 @@ func (s *PictureInPictureParams) UnmarshalParcel(
 			return nil // non-null AutoEnterEnabled: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -116,14 +93,8 @@ func (s *PictureInPictureParams) UnmarshalParcel(
 			return nil // non-null SeamlessResizeEnabled: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -134,14 +105,8 @@ func (s *PictureInPictureParams) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -152,14 +117,8 @@ func (s *PictureInPictureParams) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()

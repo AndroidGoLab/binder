@@ -14,8 +14,8 @@ var _ parcel.Parcelable = (*NanoAppBinary)(nil)
 func (s *NanoAppBinary) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null NanoAppBinary.length
-	p.WriteInt32(0) // null NanoAppBinary
+	p.WriteInt32(0)  // null NanoAppBinary.length
+	p.WriteInt32(-1) // null NanoAppBinary
 	return nil
 }
 

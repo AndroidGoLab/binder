@@ -355,7 +355,7 @@ parcelables:
         - name: SecondaryIds
           write_method: opaque
         - name: VendorIds
-          write_method: opaque
+          write_method: long_array
     - name: RadioConst
       constants:
         - name: MAX_RILDS

@@ -15,38 +15,38 @@ var _ parcel.Parcelable = (*CapInfo)(nil)
 func (s *CapInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null ImSupported?1:0
-	p.WriteInt32(0) // null FtSupported?1:0
-	p.WriteInt32(0) // null FtThumbSupported?1:0
-	p.WriteInt32(0) // null FtSnFSupported?1:0
-	p.WriteInt32(0) // null FtHttpSupported?1:0
-	p.WriteInt32(0) // null IsSupported?1:0
-	p.WriteInt32(0) // null VsDuringCSSupported?1:0
-	p.WriteInt32(0) // null VsSupported?1:0
-	p.WriteInt32(0) // null SpSupported?1:0
-	p.WriteInt32(0) // null CdViaPresenceSupported?1:0
-	p.WriteInt32(0) // null IpVoiceSupported?1:0
-	p.WriteInt32(0) // null IpVideoSupported?1:0
-	p.WriteInt32(0) // null GeoPullFtSupported?1:0
-	p.WriteInt32(0) // null GeoPullSupported?1:0
-	p.WriteInt32(0) // null GeoPushSupported?1:0
-	p.WriteInt32(0) // null SmSupported?1:0
-	p.WriteInt32(0) // null FullSnFGroupChatSupported?1:0
-	p.WriteInt32(0) // null GeoSmsSupported?1:0
-	p.WriteInt32(0) // null CallComposerSupported?1:0
-	p.WriteInt32(0) // null PostCallSupported?1:0
-	p.WriteInt32(0) // null SharedMapSupported?1:0
-	p.WriteInt32(0) // null SharedSketchSupported?1:0
-	p.WriteInt32(0) // null ChatbotSupported?1:0
-	p.WriteInt32(0) // null ChatbotRoleSupported?1:0
-	p.WriteInt32(0) // null SmChatbotSupported?1:0
-	p.WriteInt32(0) // null MmtelCallComposerSupported?1:0
-	p.WriteInt32(0) // null RcsIpVoiceCallSupported?1:0
-	p.WriteInt32(0) // null RcsIpVideoCallSupported?1:0
-	p.WriteInt32(0) // null RcsIpVideoOnlyCallSupported?1:0
-	p.WriteInt32(0) // null Exts
+	p.WriteInt32(0)  // null ImSupported?1:0
+	p.WriteInt32(0)  // null FtSupported?1:0
+	p.WriteInt32(0)  // null FtThumbSupported?1:0
+	p.WriteInt32(0)  // null FtSnFSupported?1:0
+	p.WriteInt32(0)  // null FtHttpSupported?1:0
+	p.WriteInt32(0)  // null IsSupported?1:0
+	p.WriteInt32(0)  // null VsDuringCSSupported?1:0
+	p.WriteInt32(0)  // null VsSupported?1:0
+	p.WriteInt32(0)  // null SpSupported?1:0
+	p.WriteInt32(0)  // null CdViaPresenceSupported?1:0
+	p.WriteInt32(0)  // null IpVoiceSupported?1:0
+	p.WriteInt32(0)  // null IpVideoSupported?1:0
+	p.WriteInt32(0)  // null GeoPullFtSupported?1:0
+	p.WriteInt32(0)  // null GeoPullSupported?1:0
+	p.WriteInt32(0)  // null GeoPushSupported?1:0
+	p.WriteInt32(0)  // null SmSupported?1:0
+	p.WriteInt32(0)  // null FullSnFGroupChatSupported?1:0
+	p.WriteInt32(0)  // null GeoSmsSupported?1:0
+	p.WriteInt32(0)  // null CallComposerSupported?1:0
+	p.WriteInt32(0)  // null PostCallSupported?1:0
+	p.WriteInt32(0)  // null SharedMapSupported?1:0
+	p.WriteInt32(0)  // null SharedSketchSupported?1:0
+	p.WriteInt32(0)  // null ChatbotSupported?1:0
+	p.WriteInt32(0)  // null ChatbotRoleSupported?1:0
+	p.WriteInt32(0)  // null SmChatbotSupported?1:0
+	p.WriteInt32(0)  // null MmtelCallComposerSupported?1:0
+	p.WriteInt32(0)  // null RcsIpVoiceCallSupported?1:0
+	p.WriteInt32(0)  // null RcsIpVideoCallSupported?1:0
+	p.WriteInt32(0)  // null RcsIpVideoOnlyCallSupported?1:0
+	p.WriteInt32(-1) // null Exts
 	p.WriteInt64(s.CapTimestamp)
-	p.WriteInt32(-1) // null CapInfoBundle (Bundle)
+	p.WriteInt32(-1) // null CapInfoBundle
 	return nil
 }
 

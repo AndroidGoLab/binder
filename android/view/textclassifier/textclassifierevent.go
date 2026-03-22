@@ -22,16 +22,16 @@ func (s *TextClassifierEvent) MarshalParcel(
 	p.WriteInt32(0) // null GetParcelToken()
 	p.WriteInt32(s.EventCategory)
 	p.WriteInt32(s.EventType)
-	p.WriteInt32(0) // null EntityTypes
-	p.WriteInt32(0) // null EventContext
+	p.WriteInt32(-1) // null EntityTypes
+	p.WriteInt32(0)  // null EventContext
 	p.WriteString16(s.ResultId)
 	p.WriteInt32(s.EventIndex)
-	p.WriteInt32(0) // null Scores.length
-	p.WriteInt32(0) // null Scores
+	p.WriteInt32(0)  // null Scores.length
+	p.WriteInt32(-1) // null Scores
 	p.WriteString16(s.ModelName)
-	p.WriteInt32(0)  // null ActionIndices
+	p.WriteInt32(-1) // null ActionIndices
 	p.WriteInt32(0)  // null Locale==null?null:mLocale.toLanguageTag()
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

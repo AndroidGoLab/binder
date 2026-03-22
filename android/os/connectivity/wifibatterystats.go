@@ -41,9 +41,9 @@ func (s *WifiBatteryStats) MarshalParcel(
 	p.WriteInt64(s.TxTimeMillis)
 	p.WriteInt64(s.EnergyConsumedMaMillis)
 	p.WriteInt64(s.AppScanRequestCount)
-	p.WriteInt32(0) // null TimeInStateMillis
-	p.WriteInt32(0) // null TimeInRxSignalStrengthLevelMillis
-	p.WriteInt32(0) // null TimeInSupplicantStateMillis
+	p.WriteInt32(-1) // null TimeInStateMillis
+	p.WriteInt32(-1) // null TimeInRxSignalStrengthLevelMillis
+	p.WriteInt32(-1) // null TimeInSupplicantStateMillis
 	p.WriteInt64(s.MonitoredRailChargeConsumedMaMillis)
 	return nil
 }

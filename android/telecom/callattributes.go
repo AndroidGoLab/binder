@@ -28,7 +28,7 @@ func (s *CallAttributes) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null DisplayName
+	p.WriteInt32(-1) // null DisplayName
 	if s.Address != nil {
 		p.WriteInt32(1)
 		if _err := s.Address.MarshalParcel(p); _err != nil {

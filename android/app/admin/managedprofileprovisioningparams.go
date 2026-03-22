@@ -26,7 +26,7 @@ func (s *ManagedProfileProvisioningParams) MarshalParcel(
 	p.WriteBool(s.LeaveAllSystemAppsEnabled)
 	p.WriteBool(s.OrganizationOwnedProvisioning)
 	p.WriteBool(s.KeepAccountOnMigration)
-	p.WriteInt32(0) // null AdminExtras
+	p.WriteInt32(-1) // null AdminExtras
 	return nil
 }
 

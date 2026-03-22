@@ -19,8 +19,8 @@ func (s *DisplayHash) MarshalParcel(
 	p.WriteInt64(s.TimeMillis)
 	p.WriteInt32(0) // null BoundsInWindow
 	p.WriteString16(s.HashAlgorithm)
-	p.WriteInt32(0) // null ImageHash
-	p.WriteInt32(0) // null Hmac
+	p.WriteInt32(-1) // null ImageHash
+	p.WriteInt32(-1) // null Hmac
 	return nil
 }
 

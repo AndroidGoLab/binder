@@ -24,11 +24,11 @@ parcelables:
         - name: EnergyConsumedMaMs
           write_method: int64
         - name: TimeInRatMs
-          write_method: opaque
+          write_method: long_array
         - name: TimeInRxSignalStrengthLevelMs
-          write_method: opaque
+          write_method: long_array
         - name: TxTimeMs
-          write_method: opaque
+          write_method: long_array
         - name: MonitoredRailChargeConsumedMaMs
           write_method: int64
     - name: GpsBatteryStats
@@ -38,7 +38,7 @@ parcelables:
         - name: EnergyConsumedMaMs
           write_method: int64
         - name: TimeInGpsSignalQualityLevel
-          write_method: opaque
+          write_method: long_array
     - name: WifiActivityEnergyInfo
       java_wire_format:
         - name: TimeSinceBootMillis
@@ -82,10 +82,10 @@ parcelables:
         - name: AppScanRequestCount
           write_method: int64
         - name: TimeInStateMillis
-          write_method: opaque
+          write_method: long_array
         - name: TimeInRxSignalStrengthLevelMillis
-          write_method: opaque
+          write_method: long_array
         - name: TimeInSupplicantStateMillis
-          write_method: opaque
+          write_method: long_array
         - name: MonitoredRailChargeConsumedMaMillis
           write_method: int64

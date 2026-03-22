@@ -18,9 +18,9 @@ func (s *MediaDescription) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.MediaId)
-	p.WriteInt32(0) // null Title
-	p.WriteInt32(0) // null Subtitle
-	p.WriteInt32(0) // null Description
+	p.WriteInt32(-1) // null Title
+	p.WriteInt32(-1) // null Subtitle
+	p.WriteInt32(-1) // null Description
 	if s.Icon != nil {
 		p.WriteInt32(1)
 		if _err := s.Icon.MarshalParcel(p); _err != nil {
@@ -30,7 +30,7 @@ func (s *MediaDescription) MarshalParcel(
 		p.WriteInt32(0)
 	}
 	p.WriteInt32(0)  // null IconUri
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(0)  // null MediaUri
 	return nil
 }

@@ -47,13 +47,13 @@ func (s *CameraSessionStats) MarshalParcel(
 	p.WriteInt64(s.RequestCount)
 	p.WriteInt64(s.ResultErrorCount)
 	p.WriteBool(s.DeviceError)
-	p.WriteInt32(0) // null StreamStats
+	p.WriteInt32(-1) // null StreamStats
 	p.WriteString16(s.UserTag)
 	p.WriteInt32(s.VideoStabilizationMode)
 	p.WriteBool(s.UsedUltraWide)
 	p.WriteBool(s.UsedZoomOverride)
 	p.WriteInt32(s.SessionIndex)
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

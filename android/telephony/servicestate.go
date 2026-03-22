@@ -48,7 +48,7 @@ func (s *ServiceState) MarshalParcel(
 	p.WriteInt32(0) // null IsEmergencyOnly?1:0
 	p.WriteInt32(s.ArfcnRsrpBoost)
 	p.WriteInt32(s.ChannelNumber)
-	p.WriteInt32(0) // null CellBandwidths
+	p.WriteInt32(-1) // null CellBandwidths
 	p.WriteInt32(s.NrFrequencyRange)
 	p.WriteString16(s.OperatorAlphaLongRaw)
 	p.WriteString16(s.OperatorAlphaShortRaw)

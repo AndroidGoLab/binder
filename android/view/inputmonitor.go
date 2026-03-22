@@ -24,7 +24,7 @@ func (s *InputMonitor) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null Host
+	p.WriteInt32(-1) // null Host
 	if s.Surface != nil {
 		p.WriteInt32(1)
 		if _err := s.Surface.MarshalParcel(p); _err != nil {

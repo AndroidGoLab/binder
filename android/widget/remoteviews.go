@@ -17,11 +17,11 @@ var _ parcel.Parcelable = (*RemoteViews)(nil)
 func (s *RemoteViews) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null MODE_NORMAL
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null 0
+	p.WriteInt32(0)  // null MODE_NORMAL
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(0)
 	p.WriteInt32(0) // null LayoutId
 	p.WriteInt32(0) // null ViewId
 	p.WriteInt32(0) // null LightBackgroundLayoutId
@@ -71,14 +71,8 @@ func (s *RemoteViews) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()

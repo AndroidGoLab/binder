@@ -16,9 +16,9 @@ func (s *AssistStructure) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.TaskId)
-	p.WriteInt32(0) // null ActivityComponent
-	p.WriteInt32(0) // null IsHomeActivity?1:0
-	p.WriteInt32(0) // null SendChannel
+	p.WriteInt32(-1) // null ActivityComponent
+	p.WriteInt32(0)  // null IsHomeActivity?1:0
+	p.WriteInt32(-1) // null SendChannel
 	return nil
 }
 

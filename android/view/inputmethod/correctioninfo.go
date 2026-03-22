@@ -16,8 +16,8 @@ func (s *CorrectionInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Offset)
-	p.WriteInt32(0) // null OldText
-	p.WriteInt32(0) // null NewText
+	p.WriteInt32(-1) // null OldText
+	p.WriteInt32(-1) // null NewText
 	return nil
 }
 

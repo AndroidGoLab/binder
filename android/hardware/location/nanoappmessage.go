@@ -20,9 +20,9 @@ func (s *NanoAppMessage) MarshalParcel(
 	p.WriteInt64(s.NanoAppId)
 	p.WriteInt32(0) // null IsBroadcasted?1:0
 	p.WriteInt32(s.MessageType)
-	p.WriteInt32(0) // null MessageBody.length
-	p.WriteInt32(0) // null MessageBody
-	p.WriteInt32(0) // null IsReliable?1:0
+	p.WriteInt32(0)  // null MessageBody.length
+	p.WriteInt32(-1) // null MessageBody
+	p.WriteInt32(0)  // null IsReliable?1:0
 	p.WriteInt32(s.MessageSequenceNumber)
 	return nil
 }

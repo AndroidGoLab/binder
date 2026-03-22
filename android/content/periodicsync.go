@@ -28,7 +28,7 @@ func (s *PeriodicSync) MarshalParcel(
 		p.WriteInt32(0)
 	}
 	p.WriteString16(s.Authority)
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt64(s.Period)
 	p.WriteInt64(s.FlexTime)
 	return nil

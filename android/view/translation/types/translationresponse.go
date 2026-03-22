@@ -18,8 +18,8 @@ func (s *TranslationResponse) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Flg)
 	p.WriteInt32(s.TranslationStatus)
-	p.WriteInt32(0) // null TranslationResponseValues
-	p.WriteInt32(0) // null ViewTranslationResponses
+	p.WriteInt32(-1) // null TranslationResponseValues
+	p.WriteInt32(-1) // null ViewTranslationResponses
 	return nil
 }
 

@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*RemoteDisplayState)(nil)
 func (s *RemoteDisplayState) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Displays
+	p.WriteInt32(-1) // null Displays
 	return nil
 }
 

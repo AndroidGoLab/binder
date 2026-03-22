@@ -14,8 +14,8 @@ var _ parcel.Parcelable = (*FingerprintSensorConfigurations)(nil)
 func (s *FingerprintSensorConfigurations) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null (byte)(mResetLockoutRequiresHardwareAuthToken?1:0)
-	p.WriteInt32(0) // null SensorPropsMap
+	p.WriteInt32(0)  // null (byte)(mResetLockoutRequiresHardwareAuthToken?1:0)
+	p.WriteInt32(-1) // null SensorPropsMap
 	return nil
 }
 

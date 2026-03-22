@@ -22,12 +22,12 @@ func (s *ContentCaptureEvent) MarshalParcel(
 	p.WriteInt32(s.SessionId)
 	p.WriteInt32(s.Type)
 	p.WriteInt64(s.EventTime)
-	p.WriteInt32(0) // null Id
-	p.WriteInt32(0) // null Ids
-	p.WriteInt32(0) // null Parcel
-	p.WriteInt32(0) // null Text
-	p.WriteInt32(0) // null ParentSessionId
-	p.WriteInt32(0) // null ClientContext
+	p.WriteInt32(0)  // null Id
+	p.WriteInt32(-1) // null Ids
+	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null Text
+	p.WriteInt32(0)  // null ParentSessionId
+	p.WriteInt32(0)  // null ClientContext
 	if s.Insets != nil {
 		p.WriteInt32(1)
 		if _err := s.Insets.MarshalParcel(p); _err != nil {

@@ -23,24 +23,24 @@ func (s *VpnConfig) MarshalParcel(
 	p.WriteString16(s.Interfaze)
 	p.WriteString16(s.Session)
 	p.WriteInt32(s.Mtu)
-	p.WriteInt32(0) // null Addresses
-	p.WriteInt32(0) // null Routes
-	p.WriteInt32(0) // null DnsServers
-	p.WriteInt32(0) // null SearchDomains
-	p.WriteInt32(0) // null AllowedApplications
-	p.WriteInt32(0) // null DisallowedApplications
-	p.WriteInt32(0) // null ConfigureIntent
+	p.WriteInt32(-1) // null Addresses
+	p.WriteInt32(-1) // null Routes
+	p.WriteInt32(-1) // null DnsServers
+	p.WriteInt32(-1) // null SearchDomains
+	p.WriteInt32(-1) // null AllowedApplications
+	p.WriteInt32(-1) // null DisallowedApplications
+	p.WriteInt32(0)  // null ConfigureIntent
 	p.WriteInt64(s.StartTime)
-	p.WriteInt32(0) // null Legacy?1:0
-	p.WriteInt32(0) // null Blocking?1:0
-	p.WriteInt32(0) // null AllowBypass?1:0
-	p.WriteInt32(0) // null AllowIPv4?1:0
-	p.WriteInt32(0) // null AllowIPv6?1:0
-	p.WriteInt32(0) // null IsMetered?1:0
-	p.WriteInt32(0) // null RequiresInternetValidation?1:0
-	p.WriteInt32(0) // null ExcludeLocalRoutes?1:0
-	p.WriteInt32(0) // null UnderlyingNetworks
-	p.WriteInt32(0) // null ProxyInfo
+	p.WriteInt32(0)  // null Legacy?1:0
+	p.WriteInt32(0)  // null Blocking?1:0
+	p.WriteInt32(0)  // null AllowBypass?1:0
+	p.WriteInt32(0)  // null AllowIPv4?1:0
+	p.WriteInt32(0)  // null AllowIPv6?1:0
+	p.WriteInt32(0)  // null IsMetered?1:0
+	p.WriteInt32(0)  // null RequiresInternetValidation?1:0
+	p.WriteInt32(0)  // null ExcludeLocalRoutes?1:0
+	p.WriteInt32(-1) // null UnderlyingNetworks
+	p.WriteInt32(0)  // null ProxyInfo
 	return nil
 }
 

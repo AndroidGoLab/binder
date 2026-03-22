@@ -18,8 +18,8 @@ func (s *NotificationHistory) MarshalParcel(
 ) error {
 	p.WriteInt32(s.HistoryCount)
 	p.WriteInt32(s.Index)
-	p.WriteInt32(0) // null StringPool
-	p.WriteInt32(0) // null Data.marshall()
+	p.WriteInt32(-1) // null StringPool
+	p.WriteInt32(-1) // null Data.marshall()
 	return nil
 }
 

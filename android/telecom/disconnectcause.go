@@ -22,8 +22,8 @@ func (s *DisconnectCause) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.DisconnectCode)
-	p.WriteInt32(0) // null DisconnectLabel
-	p.WriteInt32(0) // null DisconnectDescription
+	p.WriteInt32(-1) // null DisconnectLabel
+	p.WriteInt32(-1) // null DisconnectDescription
 	p.WriteString16(s.DisconnectReason)
 	p.WriteInt32(s.ToneToPlay)
 	p.WriteInt32(s.TelephonyDisconnectCause)

@@ -16,7 +16,7 @@ func (s *UssdResponse) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.UssdRequest)
-	p.WriteInt32(0) // null ReturnMessage
+	p.WriteInt32(-1) // null ReturnMessage
 	return nil
 }
 

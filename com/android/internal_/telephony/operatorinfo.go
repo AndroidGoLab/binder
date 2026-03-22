@@ -21,7 +21,7 @@ func (s *OperatorInfo) MarshalParcel(
 	p.WriteString16(s.OperatorAlphaLong)
 	p.WriteString16(s.OperatorAlphaShort)
 	p.WriteString16(s.OperatorNumeric)
-	p.WriteInt32(0) // null State
+	p.WriteInt32(-1) // null State
 	p.WriteInt32(s.Ran)
 	return nil
 }

@@ -16,8 +16,8 @@ func (s *GatewayInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.GatewayProviderPackageName)
-	p.WriteInt32(0) // null Destination
-	p.WriteInt32(0) // null Destination
+	p.WriteInt32(-1) // null Destination
+	p.WriteInt32(-1) // null Destination
 	return nil
 }
 

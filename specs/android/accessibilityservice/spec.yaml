@@ -935,7 +935,7 @@ parcelables:
         - name: EventTypes
           write_method: int32
         - name: PackageNames
-          write_method: opaque
+          write_method: string_array
         - name: FeedbackType
           write_method: int32
         - name: NotificationTimeout

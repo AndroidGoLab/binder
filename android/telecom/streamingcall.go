@@ -27,7 +27,7 @@ func (s *StreamingCall) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null DisplayName
+	p.WriteInt32(-1) // null DisplayName
 	if s.Address != nil {
 		p.WriteInt32(1)
 		if _err := s.Address.MarshalParcel(p); _err != nil {
@@ -36,7 +36,7 @@ func (s *StreamingCall) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(s.State)
 	return nil
 }

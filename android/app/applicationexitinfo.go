@@ -44,11 +44,11 @@ func (s *ApplicationExitInfo) MarshalParcel(
 	p.WriteInt64(s.Rss)
 	p.WriteInt64(s.Timestamp)
 	p.WriteString16(s.Description)
-	p.WriteInt32(0) // null State
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null AppTraceRetriever.asBinder()
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null NativeTombstoneRetriever.asBinder()
+	p.WriteInt32(-1) // null State
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null AppTraceRetriever.asBinder()
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null NativeTombstoneRetriever.asBinder()
 	return nil
 }
 
@@ -125,14 +125,8 @@ func (s *ApplicationExitInfo) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -143,14 +137,8 @@ func (s *ApplicationExitInfo) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()

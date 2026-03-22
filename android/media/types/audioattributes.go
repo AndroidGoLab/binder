@@ -22,9 +22,9 @@ func (s *AudioAttributes) MarshalParcel(
 	p.WriteInt32(s.ContentType)
 	p.WriteInt32(s.Source)
 	p.WriteInt32(s.Flags)
-	p.WriteInt32(0) // null Flags&ALL_PARCEL_FLAGS
-	p.WriteInt32(0) // null TagsArray
-	p.WriteInt32(0) // null ATTR_PARCEL_IS_NULL_BUNDLE
+	p.WriteInt32(0)  // null Flags&ALL_PARCEL_FLAGS
+	p.WriteInt32(-1) // null TagsArray
+	p.WriteInt32(0)  // null ATTR_PARCEL_IS_NULL_BUNDLE
 	return nil
 }
 

@@ -40,15 +40,15 @@ func (s *PrintJobInfo) MarshalParcel(
 	p.WriteString16(s.Tag)
 	p.WriteInt64(s.CreationTime)
 	p.WriteInt32(s.Copies)
-	p.WriteInt32(0) // null PageRanges
-	p.WriteInt32(0) // null Attributes
-	p.WriteInt32(0) // null DocumentInfo
+	p.WriteInt32(-1) // null PageRanges
+	p.WriteInt32(0)  // null Attributes
+	p.WriteInt32(0)  // null DocumentInfo
 	p.WriteFloat32(s.Progress)
-	p.WriteInt32(0) // null Status
+	p.WriteInt32(-1) // null Status
 	p.WriteInt32(s.StatusRes)
-	p.WriteInt32(0)  // null StatusResAppPackageName
+	p.WriteInt32(-1) // null StatusResAppPackageName
 	p.WriteInt32(0)  // null Canceling?1:0
-	p.WriteInt32(-1) // null AdvancedOptions (Bundle)
+	p.WriteInt32(-1) // null AdvancedOptions
 	return nil
 }
 

@@ -24,8 +24,8 @@ func (s *KeyboardLayout) MarshalParcel(
 	p.WriteString16(s.Label)
 	p.WriteString16(s.Collection)
 	p.WriteInt32(s.Priority)
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null LayoutType.getValue()
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(0)  // null LayoutType.getValue()
 	p.WriteInt32(s.VendorId)
 	p.WriteInt32(s.ProductId)
 	return nil

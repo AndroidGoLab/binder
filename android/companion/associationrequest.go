@@ -18,11 +18,11 @@ func (s *AssociationRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flg)
-	p.WriteInt32(0) // null DeviceFilters
-	p.WriteInt32(0) // null DeviceProfile
-	p.WriteInt32(0) // null DisplayName
-	p.WriteInt32(0) // null AssociatedDevice
-	p.WriteInt32(0) // null PackageName
+	p.WriteInt32(-1) // null DeviceFilters
+	p.WriteInt32(0)  // null DeviceProfile
+	p.WriteInt32(-1) // null DisplayName
+	p.WriteInt32(0)  // null AssociatedDevice
+	p.WriteInt32(0)  // null PackageName
 	p.WriteInt32(s.UserId)
 	p.WriteInt32(0) // null DeviceProfilePrivilegesDescription
 	p.WriteInt64(s.CreationTime)

@@ -5816,7 +5816,7 @@ parcelables:
         - name: ChargeTimeRemainingMs
           write_method: int64
         - name: CustomPowerComponentNames
-          write_method: opaque
+          write_method: string_array
         - name: IncludesPowerModels
           write_method: bool
         - name: IncludesProcessStateData
@@ -5836,7 +5836,7 @@ parcelables:
         - name: UserIds.length
           write_method: int32
         - name: UserIds
-          write_method: opaque
+          write_method: int_array
         - name: MaxStatsAgeMs
           write_method: int64
         - name: MinConsumedPowerThreshold
@@ -5846,7 +5846,7 @@ parcelables:
         - name: ToTimestamp
           write_method: int64
         - name: PowerComponents
-          write_method: opaque
+          write_method: int_array
     - name: BluetoothBatteryStats
       java_wire_format:
         - name: Size
@@ -6171,7 +6171,7 @@ parcelables:
         - name: Type
           write_method: int32
         - name: ParsedPattern
-          write_method: opaque
+          write_method: int_array
     - name: PersistableBundle
       annotations:
         - JavaOnlyStableParcelable
@@ -6340,9 +6340,9 @@ parcelables:
         - name: Num
           write_method: int32
         - name: Uids
-          write_method: opaque
+          write_method: int_array
         - name: Names
-          write_method: opaque
+          write_method: string_array
         - name: "-1"
           write_method: int32
           condition: mChains==null

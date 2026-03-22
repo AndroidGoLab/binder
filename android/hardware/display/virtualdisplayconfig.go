@@ -42,7 +42,7 @@ func (s *VirtualDisplayConfig) MarshalParcel(
 	p.WriteString(s.UniqueId)
 	p.WriteInt32(s.DisplayIdToMirror)
 	p.WriteBool(s.WindowManagerMirroringEnabled)
-	p.WriteInt32(0) // null DisplayCategories
+	p.WriteInt32(-1) // null DisplayCategories
 	p.WriteFloat32(s.RequestedRefreshRate)
 	p.WriteBool(s.IsHomeSupported)
 	return nil

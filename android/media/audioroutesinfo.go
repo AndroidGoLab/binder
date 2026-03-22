@@ -15,7 +15,7 @@ var _ parcel.Parcelable = (*AudioRoutesInfo)(nil)
 func (s *AudioRoutesInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null BluetoothName
+	p.WriteInt32(-1) // null BluetoothName
 	p.WriteInt32(s.MainType)
 	return nil
 }

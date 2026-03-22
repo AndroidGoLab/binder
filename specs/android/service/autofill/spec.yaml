@@ -470,7 +470,7 @@ parcelables:
         - name: Flags
           write_method: int32
         - name: CancelIds
-          write_method: opaque
+          write_method: int_array
         - name: RequestId
           write_method: int32
     - name: InlinePresentation
@@ -494,9 +494,9 @@ parcelables:
         - name: Id
           write_method: string16
         - name: CategoryIds
-          write_method: opaque
+          write_method: string_array
         - name: Values
-          write_method: opaque
+          write_method: string_array
         - name: DefaultAlgorithm
           write_method: string16
         - name: DefaultArgs

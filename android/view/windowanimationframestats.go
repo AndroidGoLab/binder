@@ -16,7 +16,7 @@ func (s *WindowAnimationFrameStats) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt64(s.RefreshPeriodNano)
-	p.WriteInt32(0) // null FramesPresentedTimeNano
+	p.WriteInt32(-1) // null FramesPresentedTimeNano
 	return nil
 }
 

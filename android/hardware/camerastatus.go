@@ -19,7 +19,7 @@ func (s *CameraStatus) MarshalParcel(
 ) error {
 	p.WriteString16(s.CameraId)
 	p.WriteInt32(s.Status)
-	p.WriteInt32(0) // null UnavailablePhysicalCameras
+	p.WriteInt32(-1) // null UnavailablePhysicalCameras
 	p.WriteString16(s.ClientPackage)
 	return nil
 }

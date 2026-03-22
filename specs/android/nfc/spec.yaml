@@ -1195,7 +1195,7 @@ parcelables:
         - name: TechList.length
           write_method: int32
         - name: TechList
-          write_method: opaque
+          write_method: int_array
         - name: TechExtras
           write_method: opaque
         - name: ServiceHandle

@@ -20,7 +20,7 @@ func (s *EuiccNotification) MarshalParcel(
 	p.WriteInt32(s.Seq)
 	p.WriteString16(s.TargetAddr)
 	p.WriteInt32(s.Event)
-	p.WriteInt32(0) // null Data
+	p.WriteInt32(-1) // null Data
 	return nil
 }
 

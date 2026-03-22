@@ -14,14 +14,14 @@ var _ parcel.Parcelable = (*AudioPresentation)(nil)
 func (s *AudioPresentation) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null GetPresentationId()
-	p.WriteInt32(0) // null GetProgramId()
-	p.WriteInt32(0) // null GetULocale()
-	p.WriteInt32(0) // null GetMasteringIndication()
-	p.WriteInt32(0) // null HasAudioDescription()
-	p.WriteInt32(0) // null HasSpokenSubtitles()
-	p.WriteInt32(0) // null HasDialogueEnhancement()
-	p.WriteInt32(0) // null Labels
+	p.WriteInt32(0)  // null GetPresentationId()
+	p.WriteInt32(0)  // null GetProgramId()
+	p.WriteInt32(-1) // null GetULocale()
+	p.WriteInt32(0)  // null GetMasteringIndication()
+	p.WriteInt32(0)  // null HasAudioDescription()
+	p.WriteInt32(0)  // null HasSpokenSubtitles()
+	p.WriteInt32(0)  // null HasDialogueEnhancement()
+	p.WriteInt32(-1) // null Labels
 	return nil
 }
 

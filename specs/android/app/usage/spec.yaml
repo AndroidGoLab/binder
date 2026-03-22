@@ -861,10 +861,10 @@ parcelables:
         - name: EventTypes.length
           write_method: int32
         - name: EventTypes
-          write_method: opaque
+          write_method: int_array
         - name: UserId
           write_method: int32
         - name: PackageNames.length
           write_method: int32
         - name: PackageNames
-          write_method: opaque
+          write_method: string_array

@@ -14,8 +14,8 @@ var _ parcel.Parcelable = (*TelecomAnalytics)(nil)
 func (s *TelecomAnalytics) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null SessionTimings
-	p.WriteInt32(0) // null CallAnalytics
+	p.WriteInt32(-1) // null SessionTimings
+	p.WriteInt32(-1) // null CallAnalytics
 	return nil
 }
 

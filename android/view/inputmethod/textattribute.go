@@ -14,8 +14,8 @@ var _ parcel.Parcelable = (*TextAttribute)(nil)
 func (s *TextAttribute) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null TextConversionSuggestions
-	p.WriteInt32(0) // null Extras
+	p.WriteInt32(-1) // null TextConversionSuggestions
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

@@ -20,7 +20,7 @@ func (s *PrepareGetCredentialResponseInternal) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteBool(s.HasQueryApiPermission)
-	p.WriteInt32(0) // null CredentialResultTypes
+	p.WriteInt32(-1) // null CredentialResultTypes
 	p.WriteBool(s.HasAuthenticationResults)
 	p.WriteBool(s.HasRemoteResults)
 	if s.PendingIntent != nil {

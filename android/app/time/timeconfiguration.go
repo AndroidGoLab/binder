@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*TimeConfiguration)(nil)
 func (s *TimeConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Bundle (Bundle)
+	p.WriteInt32(-1) // null Bundle
 	return nil
 }
 

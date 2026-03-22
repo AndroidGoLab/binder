@@ -28,10 +28,10 @@ func (s *TaskFragmentOperation) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0)  // null ActivityToken
+	p.WriteInt32(-1) // null ActivityToken
 	p.WriteInt32(0)  // null ActivityIntent
-	p.WriteInt32(-1) // null Bundle (Bundle)
-	p.WriteInt32(0)  // null SecondaryFragmentToken
+	p.WriteInt32(-1) // null Bundle
+	p.WriteInt32(-1) // null SecondaryFragmentToken
 	p.WriteInt32(0)  // null AnimationParams
 	p.WriteBool(s.IsolatedNav)
 	p.WriteBool(s.DimOnTask)

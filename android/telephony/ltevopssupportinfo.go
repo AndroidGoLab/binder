@@ -16,7 +16,7 @@ var _ parcel.Parcelable = (*LteVopsSupportInfo)(nil)
 func (s *LteVopsSupportInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Out
+	p.WriteInt32(-1) // null Out
 	p.WriteInt32(s.VopsSupport)
 	p.WriteInt32(s.EmcBearerSupport)
 	return nil

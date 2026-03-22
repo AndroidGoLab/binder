@@ -19,9 +19,9 @@ func (s *BlobInfo) MarshalParcel(
 ) error {
 	p.WriteInt64(s.Id)
 	p.WriteInt64(s.ExpiryTimeMs)
-	p.WriteInt32(0) // null Label
+	p.WriteInt32(-1) // null Label
 	p.WriteInt64(s.SizeBytes)
-	p.WriteInt32(0) // null LeaseInfos
+	p.WriteInt32(-1) // null LeaseInfos
 	return nil
 }
 

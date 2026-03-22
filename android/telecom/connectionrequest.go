@@ -30,11 +30,11 @@ func (s *ConnectionRequest) MarshalParcel(
 	p.WriteInt32(0) // null Extras
 	p.WriteInt32(s.VideoState)
 	p.WriteString16(s.TelecomCallId)
-	p.WriteInt32(0) // null ShouldShowIncomingCallUi?1:0
-	p.WriteInt32(0) // null RttPipeFromInCall
-	p.WriteInt32(0) // null RttPipeToInCall
-	p.WriteInt32(0) // null Participants
-	p.WriteInt32(0) // null IsAdhocConference?1:0
+	p.WriteInt32(0)  // null ShouldShowIncomingCallUi?1:0
+	p.WriteInt32(0)  // null RttPipeFromInCall
+	p.WriteInt32(0)  // null RttPipeToInCall
+	p.WriteInt32(-1) // null Participants
+	p.WriteInt32(0)  // null IsAdhocConference?1:0
 	return nil
 }
 

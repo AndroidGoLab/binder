@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*LocationResult)(nil)
 func (s *LocationResult) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Locations
+	p.WriteInt32(-1) // null Locations
 	return nil
 }
 

@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*Content)(nil)
 func (s *Content) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Data (Bundle)
+	p.WriteInt32(-1) // null Data
 	return nil
 }
 

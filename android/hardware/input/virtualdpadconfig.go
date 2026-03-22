@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*VirtualDpadConfig)(nil)
 func (s *VirtualDpadConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

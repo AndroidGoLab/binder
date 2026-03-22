@@ -27,8 +27,8 @@ func (s *ConversationChannelWrapper) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null GroupLabel
-	p.WriteInt32(0) // null ParentChannelLabel
+	p.WriteInt32(-1) // null GroupLabel
+	p.WriteInt32(-1) // null ParentChannelLabel
 	if s.ShortcutInfo != nil {
 		p.WriteInt32(1)
 		if _err := s.ShortcutInfo.MarshalParcel(p); _err != nil {
@@ -37,7 +37,7 @@ func (s *ConversationChannelWrapper) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null Pkg
+	p.WriteInt32(-1) // null Pkg
 	p.WriteInt32(s.Uid)
 	return nil
 }

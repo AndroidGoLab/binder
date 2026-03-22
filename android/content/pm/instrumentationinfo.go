@@ -25,15 +25,15 @@ var _ parcel.Parcelable = (*InstrumentationInfo)(nil)
 func (s *InstrumentationInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	p.WriteString(s.TargetPackage)
 	p.WriteString(s.TargetProcesses)
 	p.WriteString(s.SourceDir)
 	p.WriteString(s.PublicSourceDir)
-	p.WriteInt32(0) // null SplitNames
-	p.WriteInt32(0) // null SplitSourceDirs
-	p.WriteInt32(0) // null SplitPublicSourceDirs
-	p.WriteInt32(0) // null (SparseArray)splitDependencies
+	p.WriteInt32(-1) // null SplitNames
+	p.WriteInt32(-1) // null SplitSourceDirs
+	p.WriteInt32(-1) // null SplitPublicSourceDirs
+	p.WriteInt32(-1) // null (SparseArray)splitDependencies
 	p.WriteString(s.DataDir)
 	p.WriteString(s.DeviceProtectedDataDir)
 	p.WriteString(s.CredentialProtectedDataDir)

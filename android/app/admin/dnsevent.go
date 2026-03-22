@@ -22,7 +22,7 @@ func (s *DnsEvent) MarshalParcel(
 ) error {
 	p.WriteInt32(s.ParcelTokenDnsEvent)
 	p.WriteString16(s.Hostname)
-	p.WriteInt32(0) // null IpAddresses
+	p.WriteInt32(-1) // null IpAddresses
 	p.WriteInt32(s.IpAddressesCount)
 	p.WriteString16(s.PackageName)
 	p.WriteInt64(s.Timestamp)

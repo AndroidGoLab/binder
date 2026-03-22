@@ -21,16 +21,16 @@ func (s *PackageInfoLite) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.PackageName)
-	p.WriteInt32(0) // null SplitNames
+	p.WriteInt32(-1) // null SplitNames
 	p.WriteInt32(s.VersionCode)
 	p.WriteInt32(s.VersionCodeMajor)
 	p.WriteInt32(s.BaseRevisionCode)
-	p.WriteInt32(0) // null SplitRevisionCodes
+	p.WriteInt32(-1) // null SplitRevisionCodes
 	p.WriteInt32(s.RecommendedInstallLocation)
 	p.WriteInt32(s.InstallLocation)
 	p.WriteInt32(0) // null MultiArch?1:0
 	p.WriteInt32(0) // null Debuggable?1:0
-	p.WriteInt32(0) // null 0
+	p.WriteInt32(0)
 	return nil
 }
 
@@ -98,14 +98,8 @@ func (s *PackageInfoLite) UnmarshalParcel(
 			return nil // non-null Debuggable?1:0: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	return nil
 }

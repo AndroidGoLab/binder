@@ -508,7 +508,7 @@ parcelables:
         - name: TriggeredContentUris
           write_method: opaque
         - name: TriggeredContentAuthorities
-          write_method: opaque
+          write_method: string_array
         - name: "1"
           write_method: int32
           condition: mNetwork!=null

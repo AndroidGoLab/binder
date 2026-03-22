@@ -237,7 +237,7 @@ parcelables:
           write_method: string16
           condition: mPlayerVersion!=null
         - name: ExperimentIds
-          write_method: opaque
+          write_method: long_array
         - name: VideoFramesPlayed
           write_method: int32
         - name: VideoFramesDropped

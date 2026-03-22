@@ -356,9 +356,9 @@ parcelables:
     - name: CompatibilityChangeConfig
       java_wire_format:
         - name: Enabled
-          write_method: opaque
+          write_method: long_array
         - name: Disabled
-          write_method: opaque
+          write_method: long_array
     - name: CompatibilityChangeInfo
       java_wire_format:
         - name: ChangeId

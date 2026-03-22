@@ -20,23 +20,23 @@ var _ parcel.Parcelable = (*ApduServiceInfo)(nil)
 func (s *ApduServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	p.WriteString16(s.Description)
 	p.WriteInt32(0) // null OnHost?1:0
 	p.WriteString16(s.OffHostName)
 	p.WriteString16(s.StaticOffHostName)
-	p.WriteInt32(0) // null StaticAidGroups.size()
-	p.WriteInt32(0) // null NewArrayList<AidGroup>(mStaticAidGroups.values())
-	p.WriteInt32(0) // null DynamicAidGroups.size()
-	p.WriteInt32(0) // null NewArrayList<AidGroup>(mDynamicAidGroups.values())
-	p.WriteInt32(0) // null RequiresDeviceUnlock?1:0
-	p.WriteInt32(0) // null RequiresDeviceScreenOn?1:0
+	p.WriteInt32(0)  // null StaticAidGroups.size()
+	p.WriteInt32(-1) // null NewArrayList<AidGroup>(mStaticAidGroups.values())
+	p.WriteInt32(0)  // null DynamicAidGroups.size()
+	p.WriteInt32(-1) // null NewArrayList<AidGroup>(mDynamicAidGroups.values())
+	p.WriteInt32(0)  // null RequiresDeviceUnlock?1:0
+	p.WriteInt32(0)  // null RequiresDeviceScreenOn?1:0
 	p.WriteInt32(s.BannerResourceId)
 	p.WriteInt32(s.Uid)
 	p.WriteString16(s.SettingsActivityName)
-	p.WriteInt32(0) // null CategoryOtherServiceEnabled?1:0
-	p.WriteInt32(0) // null AutoTransact.size()
-	p.WriteInt32(0) // null AutoTransact
+	p.WriteInt32(0)  // null CategoryOtherServiceEnabled?1:0
+	p.WriteInt32(0)  // null AutoTransact.size()
+	p.WriteInt32(-1) // null AutoTransact
 	return nil
 }
 

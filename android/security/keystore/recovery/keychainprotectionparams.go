@@ -27,7 +27,7 @@ func (s *KeyChainProtectionParams) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null Secret
+	p.WriteInt32(-1) // null Secret
 	return nil
 }
 

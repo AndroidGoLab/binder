@@ -35,9 +35,9 @@ func (s *CellularBatteryStats) MarshalParcel(
 	p.WriteInt64(s.IdleTimeMs)
 	p.WriteInt64(s.RxTimeMs)
 	p.WriteInt64(s.EnergyConsumedMaMs)
-	p.WriteInt32(0) // null TimeInRatMs
-	p.WriteInt32(0) // null TimeInRxSignalStrengthLevelMs
-	p.WriteInt32(0) // null TxTimeMs
+	p.WriteInt32(-1) // null TimeInRatMs
+	p.WriteInt32(-1) // null TimeInRxSignalStrengthLevelMs
+	p.WriteInt32(-1) // null TxTimeMs
 	p.WriteInt64(s.MonitoredRailChargeConsumedMaMs)
 	return nil
 }

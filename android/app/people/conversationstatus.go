@@ -24,7 +24,7 @@ func (s *ConversationStatus) MarshalParcel(
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.Activity)
 	p.WriteInt32(s.Availability)
-	p.WriteInt32(0) // null Description
+	p.WriteInt32(-1) // null Description
 	if s.Icon != nil {
 		p.WriteInt32(1)
 		if _err := s.Icon.MarshalParcel(p); _err != nil {

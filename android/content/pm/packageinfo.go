@@ -36,32 +36,32 @@ func (s *PackageInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString(s.PackageName)
-	p.WriteInt32(0) // null SplitNames
+	p.WriteInt32(-1) // null SplitNames
 	p.WriteInt32(s.VersionCode)
 	p.WriteInt32(s.VersionCodeMajor)
 	p.WriteString(s.VersionName)
 	p.WriteInt32(s.BaseRevisionCode)
-	p.WriteInt32(0) // null SplitRevisionCodes
+	p.WriteInt32(-1) // null SplitRevisionCodes
 	p.WriteString(s.SharedUserId)
 	p.WriteInt32(s.SharedUserLabel)
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt64(s.FirstInstallTime)
 	p.WriteInt64(s.LastUpdateTime)
-	p.WriteInt32(0) // null Gids
-	p.WriteInt32(0) // null Activities
-	p.WriteInt32(0) // null Receivers
-	p.WriteInt32(0) // null Services
-	p.WriteInt32(0) // null Providers
-	p.WriteInt32(0) // null Instrumentation
-	p.WriteInt32(0) // null Permissions
-	p.WriteInt32(0) // null RequestedPermissions
-	p.WriteInt32(0) // null RequestedPermissionsFlags
-	p.WriteInt32(0) // null Signatures
-	p.WriteInt32(0) // null ConfigPreferences
-	p.WriteInt32(0) // null ReqFeatures
-	p.WriteInt32(0) // null FeatureGroups
-	p.WriteInt32(0) // null Attributions
+	p.WriteInt32(-1) // null Gids
+	p.WriteInt32(-1) // null Activities
+	p.WriteInt32(-1) // null Receivers
+	p.WriteInt32(-1) // null Services
+	p.WriteInt32(-1) // null Providers
+	p.WriteInt32(-1) // null Instrumentation
+	p.WriteInt32(-1) // null Permissions
+	p.WriteInt32(-1) // null RequestedPermissions
+	p.WriteInt32(-1) // null RequestedPermissionsFlags
+	p.WriteInt32(-1) // null Signatures
+	p.WriteInt32(-1) // null ConfigPreferences
+	p.WriteInt32(-1) // null ReqFeatures
+	p.WriteInt32(-1) // null FeatureGroups
+	p.WriteInt32(-1) // null Attributions
 	p.WriteInt32(s.InstallLocation)
 	p.WriteInt32(0) // null IsStub?1:0
 	p.WriteInt32(0) // null CoreApp?1:0
@@ -74,12 +74,12 @@ func (s *PackageInfo) MarshalParcel(
 	p.WriteBool(s.OverlayIsStatic)
 	p.WriteInt32(s.CompileSdkVersion)
 	p.WriteString(s.CompileSdkVersionCodename)
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null Dest
 	p.WriteBool(s.IsApex)
 	p.WriteBool(s.IsActiveApex)
 	p.WriteInt64(s.ArchiveTimeMillis)
-	p.WriteInt32(0) // null 1
+	p.WriteInt32(1)
 	p.WriteInt32(0) // null ApexPackageName
 	return nil
 }
@@ -134,14 +134,8 @@ func (s *PackageInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -349,14 +343,8 @@ func (s *PackageInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -379,14 +367,8 @@ func (s *PackageInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()

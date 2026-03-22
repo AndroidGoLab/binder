@@ -19,7 +19,7 @@ func (s *VerifyCredentialResponse) MarshalParcel(
 ) error {
 	p.WriteInt32(s.ResponseCode)
 	p.WriteInt32(s.Timeout)
-	p.WriteInt32(0) // null GatekeeperHAT
+	p.WriteInt32(-1) // null GatekeeperHAT
 	p.WriteInt64(s.GatekeeperPasswordHandle)
 	return nil
 }

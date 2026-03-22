@@ -18,7 +18,7 @@ func (s *CapabilityParams) MarshalParcel(
 ) error {
 	p.WriteString16(s.Name)
 	p.WriteString16(s.PrimaryValue)
-	p.WriteInt32(0) // null Aliases
+	p.WriteInt32(-1) // null Aliases
 	return nil
 }
 

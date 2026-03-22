@@ -41,7 +41,7 @@ func (s *TvTrackInfo) MarshalParcel(
 	p.WriteFloat32(s.VideoFrameRate)
 	p.WriteFloat32(s.VideoPixelAspectRatio)
 	p.WriteInt32(s.VideoActiveFormatDescription)
-	p.WriteInt32(-1) // null Extra (Bundle)
+	p.WriteInt32(-1) // null Extra
 	return nil
 }
 

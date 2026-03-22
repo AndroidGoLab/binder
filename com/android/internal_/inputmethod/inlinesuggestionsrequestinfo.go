@@ -34,7 +34,7 @@ func (s *InlineSuggestionsRequestInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(-1) // null UiExtras (Bundle)
+	p.WriteInt32(-1) // null UiExtras
 	return nil
 }
 

@@ -41,7 +41,7 @@ func (s *TrackChangeEvent) MarshalParcel(
 	p.WriteInt32(s.Width)
 	p.WriteInt32(s.Height)
 	p.WriteFloat32(s.VideoFrameRate)
-	p.WriteInt32(-1) // null MetricsBundle (Bundle)
+	p.WriteInt32(-1) // null MetricsBundle
 	return nil
 }
 

@@ -16,9 +16,9 @@ var _ parcel.Parcelable = (*FontConfig)(nil)
 func (s *FontConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Families
-	p.WriteInt32(0) // null Aliases
-	p.WriteInt32(0) // null NamedFamilyLists
+	p.WriteInt32(-1) // null Families
+	p.WriteInt32(-1) // null Aliases
+	p.WriteInt32(-1) // null NamedFamilyLists
 	p.WriteInt64(s.LastModifiedTimeMillis)
 	p.WriteInt32(s.ConfigVersion)
 	return nil

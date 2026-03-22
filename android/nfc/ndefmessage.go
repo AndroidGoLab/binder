@@ -14,8 +14,8 @@ var _ parcel.Parcelable = (*NdefMessage)(nil)
 func (s *NdefMessage) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Records.length
-	p.WriteInt32(0) // null Records
+	p.WriteInt32(0)  // null Records.length
+	p.WriteInt32(-1) // null Records
 	return nil
 }
 

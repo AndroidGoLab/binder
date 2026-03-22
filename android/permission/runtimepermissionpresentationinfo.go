@@ -15,7 +15,7 @@ var _ parcel.Parcelable = (*RuntimePermissionPresentationInfo)(nil)
 func (s *RuntimePermissionPresentationInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Label
+	p.WriteInt32(-1) // null Label
 	p.WriteInt32(s.Flags)
 	return nil
 }

@@ -796,6 +796,28 @@ var javaWireMethodMap = map[string]javaWireMethodInfo{
 // javaWireConditionToGo converts a spec condition like "FieldsMask & 256"
 // into a Go boolean expression like "s.FieldsMask & 256 != 0".
 // The field name in the condition is converted to PascalCase via AIDLToGoName.
+// isJavaWireNumericLiteral returns true if s is a decimal integer literal,
+// optionally negative (e.g., "0", "-1", "42"). These appear as field names
+// in JavaWireFormat when Java writes a literal value (e.g., writeInt(-1)).
+func isJavaWireNumericLiteral(s string) bool {
+	if len(s) == 0 {
+		return false
+	}
+	start := 0
+	if s[0] == '-' {
+		start = 1
+	}
+	if start >= len(s) {
+		return false
+	}
+	for i := start; i < len(s); i++ {
+		if s[i] < '0' || s[i] > '9' {
+			return false
+		}
+	}
+	return true
+}
+
 func javaWireConditionToGo(condition string) string {
 	parts := strings.SplitN(condition, " & ", 2)
 	if len(parts) != 2 {
@@ -836,12 +858,24 @@ func writeJavaWireMarshalParcel(
 
 		info, ok := javaWireMethodMap[wf.WriteMethod]
 		if !ok {
+			// Write the correct null marker for each opaque type:
+			//   bundle: int32(-1) — writeBundle null protocol
+			//   *_array: int32(-1) — writeIntArray/writeStringArray null protocol
+			//   typed_object: int32(0) — writeTypedObject null protocol (0=null, 1=present)
+			//   others: int32(-1) — length-based protocols use -1 for null
 			switch wf.WriteMethod {
-			case "bundle":
-				f.P("\tp.WriteInt32(-1) // null %s (Bundle)", wf.Name)
-			default:
+			case "typed_object":
 				f.P("\tp.WriteInt32(0) // null %s", wf.Name)
+			default:
+				f.P("\tp.WriteInt32(-1) // null %s", wf.Name)
 			}
+			continue
+		}
+
+		// If the name is a numeric literal (e.g., "-1" from Java's writeInt(-1)),
+		// emit the literal value directly instead of a struct field access.
+		if isJavaWireNumericLiteral(wf.Name) {
+			f.P("\tp.%s(%s)", info.writeMethod, wf.Name)
 			continue
 		}
 
@@ -948,6 +982,14 @@ func writeJavaWireUnmarshalParcel(
 				f.P("\t\t}")
 				f.P("\t}")
 			}
+			continue
+		}
+
+		// Numeric literal: read and discard (no struct field to store in).
+		if isJavaWireNumericLiteral(wf.Name) {
+			f.P("\tif _, _err = p.%s(); _err != nil {", info.readMethod)
+			f.P("\t\treturn _err")
+			f.P("\t}")
 			continue
 		}
 

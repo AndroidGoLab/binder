@@ -18,7 +18,7 @@ func (s *Query) MarshalParcel(
 ) error {
 	p.WriteString16(s.Input)
 	p.WriteInt64(s.TimestampMillis)
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

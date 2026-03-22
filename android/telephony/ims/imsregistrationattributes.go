@@ -21,7 +21,7 @@ func (s *ImsRegistrationAttributes) MarshalParcel(
 	p.WriteInt32(s.RegistrationTech)
 	p.WriteInt32(s.TransportType)
 	p.WriteInt32(s.ImsAttributeFlags)
-	p.WriteInt32(0) // null FeatureTags
+	p.WriteInt32(-1) // null FeatureTags
 	if s.SipDetails != nil {
 		p.WriteInt32(1)
 		if _err := s.SipDetails.MarshalParcel(p); _err != nil {

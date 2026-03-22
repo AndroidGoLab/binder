@@ -16,7 +16,7 @@ func (s *ClientTransaction) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteBool(s.WriteTransactionItems)
-	p.WriteInt32(0) // null TransactionItems
+	p.WriteInt32(-1) // null TransactionItems
 	return nil
 }
 

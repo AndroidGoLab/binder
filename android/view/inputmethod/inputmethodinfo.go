@@ -38,8 +38,8 @@ func (s *InputMethodInfo) MarshalParcel(
 	p.WriteBool(s.ShowInInputMethodPicker)
 	p.WriteBool(s.IsVrOnly)
 	p.WriteBool(s.IsVirtualDeviceOnly)
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.HandledConfigChanges)
 	p.WriteBool(s.SupportsStylusHandwriting)
 	p.WriteBool(s.SupportsConnectionlessStylusHandwriting)

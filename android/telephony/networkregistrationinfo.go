@@ -35,7 +35,7 @@ func (s *NetworkRegistrationInfo) MarshalParcel(
 	p.WriteInt32(s.AccessNetworkTechnology)
 	p.WriteInt32(s.RejectCause)
 	p.WriteBool(s.EmergencyOnly)
-	p.WriteInt32(0) // null AvailableServices
+	p.WriteInt32(-1) // null AvailableServices
 	if s.CellIdentity != nil {
 		p.WriteInt32(1)
 		if _err := s.CellIdentity.MarshalParcel(p); _err != nil {

@@ -20,9 +20,9 @@ func (s *TextSelection) MarshalParcel(
 ) error {
 	p.WriteInt32(s.StartIndex)
 	p.WriteInt32(s.EndIndex)
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	p.WriteString16(s.Id)
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null Extras
 	if s.TextClassification != nil {
 		p.WriteInt32(1)
 		if _err := s.TextClassification.MarshalParcel(p); _err != nil {

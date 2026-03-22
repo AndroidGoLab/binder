@@ -15,12 +15,12 @@ var _ parcel.Parcelable = (*InputContentInfo)(nil)
 func (s *InputContentInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.ContentUriOwnerUserId)
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null UriToken.asBinder()
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null UriToken.asBinder()
 	return nil
 }
 
@@ -59,14 +59,8 @@ func (s *InputContentInfo) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()

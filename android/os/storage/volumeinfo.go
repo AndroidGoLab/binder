@@ -27,8 +27,8 @@ func (s *VolumeInfo) MarshalParcel(
 ) error {
 	p.WriteString(s.Id)
 	p.WriteInt32(s.Type)
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null Parcel
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null Parcel
 	p.WriteString(s.PartGuid)
 	p.WriteInt32(s.MountFlags)
 	p.WriteInt32(s.MountUserId)
@@ -53,14 +53,8 @@ func (s *VolumeInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()

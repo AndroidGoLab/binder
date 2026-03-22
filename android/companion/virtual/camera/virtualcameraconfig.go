@@ -18,8 +18,8 @@ func (s *VirtualCameraConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString(s.Name)
-	p.WriteInt32(0) // null Callback
-	p.WriteInt32(0) // null StreamConfigurations.toArray(newVirtualCameraStreamConfig[0])
+	p.WriteInt32(-1) // null Callback
+	p.WriteInt32(-1) // null StreamConfigurations.toArray(newVirtualCameraStreamConfig[0])
 	p.WriteInt32(s.SensorOrientation)
 	p.WriteInt32(s.LensFacing)
 	return nil

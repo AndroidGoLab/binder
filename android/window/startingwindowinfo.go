@@ -36,9 +36,9 @@ func (s *StartingWindowInfo) MarshalParcel(
 		p.WriteInt32(0)
 	}
 	p.WriteInt32(s.RequestedVisibleTypes)
-	p.WriteInt32(0) // null AppToken
-	p.WriteInt32(0) // null WindowlessStartingSurfaceCallback
-	p.WriteInt32(0) // null RootSurface
+	p.WriteInt32(-1) // null AppToken
+	p.WriteInt32(-1) // null WindowlessStartingSurfaceCallback
+	p.WriteInt32(0)  // null RootSurface
 	return nil
 }
 

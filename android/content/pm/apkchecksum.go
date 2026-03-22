@@ -26,8 +26,8 @@ func (s *ApkChecksum) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null InstallerPackageName
-	p.WriteInt32(0) // null InstallerCertificate
+	p.WriteInt32(0)  // null InstallerPackageName
+	p.WriteInt32(-1) // null InstallerCertificate
 	return nil
 }
 

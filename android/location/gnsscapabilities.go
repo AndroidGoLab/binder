@@ -22,7 +22,7 @@ func (s *GnssCapabilities) MarshalParcel(
 	p.WriteBool(s.IsAdrCapabilityKnown)
 	p.WriteInt32(s.MeasurementCorrectionsFlags)
 	p.WriteInt32(s.PowerFlags)
-	p.WriteInt32(0) // null GnssSignalTypes
+	p.WriteInt32(-1) // null GnssSignalTypes
 	return nil
 }
 

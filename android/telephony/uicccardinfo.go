@@ -29,7 +29,7 @@ func (s *UiccCardInfo) MarshalParcel(
 	p.WriteInt32(s.PhysicalSlotIndex)
 	p.WriteBool(s.IsRemovable)
 	p.WriteBool(s.IsMultipleEnabledProfilesSupported)
-	p.WriteInt32(0) // null PortList
+	p.WriteInt32(-1) // null PortList
 	p.WriteBool(s.IccIdAccessRestricted)
 	return nil
 }

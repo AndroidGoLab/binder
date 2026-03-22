@@ -14,8 +14,8 @@ var _ parcel.Parcelable = (*ControlButton)(nil)
 func (s *ControlButton) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Checked?(byte)1:(byte)0
-	p.WriteInt32(0) // null ActionDescription
+	p.WriteInt32(0)  // null Checked?(byte)1:(byte)0
+	p.WriteInt32(-1) // null ActionDescription
 	return nil
 }
 

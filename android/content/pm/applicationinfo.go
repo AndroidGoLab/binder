@@ -68,7 +68,7 @@ var _ parcel.Parcelable = (*ApplicationInfo)(nil)
 func (s *ApplicationInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	p.WriteString(s.TaskAffinity)
 	p.WriteString(s.Permission)
 	p.WriteString(s.ProcessName)
@@ -80,30 +80,30 @@ func (s *ApplicationInfo) MarshalParcel(
 	p.WriteInt32(s.RequiresSmallestWidthDp)
 	p.WriteInt32(s.CompatibleWidthLimitDp)
 	p.WriteInt32(s.LargestWidthLimitDp)
-	p.WriteInt32(0) // null 1
+	p.WriteInt32(1)
 	p.WriteInt32(0) // null StorageUuid.getMostSignificantBits()
 	p.WriteInt32(0) // null StorageUuid.getLeastSignificantBits()
 	p.WriteString(s.ScanSourceDir)
 	p.WriteString(s.ScanPublicSourceDir)
 	p.WriteString(s.SourceDir)
 	p.WriteString(s.PublicSourceDir)
-	p.WriteInt32(0) // null SplitNames
-	p.WriteInt32(0) // null SplitSourceDirs
-	p.WriteInt32(0) // null SplitPublicSourceDirs
-	p.WriteInt32(0) // null (SparseArray)splitDependencies
+	p.WriteInt32(-1) // null SplitNames
+	p.WriteInt32(-1) // null SplitSourceDirs
+	p.WriteInt32(-1) // null SplitPublicSourceDirs
+	p.WriteInt32(-1) // null (SparseArray)splitDependencies
 	p.WriteString(s.NativeLibraryDir)
 	p.WriteString(s.SecondaryNativeLibraryDir)
 	p.WriteString(s.NativeLibraryRootDir)
 	p.WriteInt32(0) // null NativeLibraryRootRequiresIsa?1:0
 	p.WriteString(s.PrimaryCpuAbi)
 	p.WriteString(s.SecondaryCpuAbi)
-	p.WriteInt32(0) // null ResourceDirs
-	p.WriteInt32(0) // null OverlayPaths
+	p.WriteInt32(-1) // null ResourceDirs
+	p.WriteInt32(-1) // null OverlayPaths
 	p.WriteString(s.SeInfo)
 	p.WriteString(s.SeInfoUser)
-	p.WriteInt32(0) // null SharedLibraryFiles
-	p.WriteInt32(0) // null SharedLibraryInfos
-	p.WriteInt32(0) // null OptionalSharedLibraryInfos
+	p.WriteInt32(-1) // null SharedLibraryFiles
+	p.WriteInt32(-1) // null SharedLibraryInfos
+	p.WriteInt32(-1) // null OptionalSharedLibraryInfos
 	p.WriteString(s.DataDir)
 	p.WriteString(s.DeviceProtectedDataDir)
 	p.WriteString(s.CredentialProtectedDataDir)
@@ -125,7 +125,7 @@ func (s *ApplicationInfo) MarshalParcel(
 	p.WriteInt32(s.Category)
 	p.WriteInt32(s.TargetSandboxVersion)
 	p.WriteString(s.ClassLoaderName)
-	p.WriteInt32(0) // null SplitClassLoaderNames
+	p.WriteInt32(-1) // null SplitClassLoaderNames
 	p.WriteInt32(s.CompileSdkVersion)
 	p.WriteString(s.CompileSdkVersionCodename)
 	p.WriteString(s.AppComponentFactory)
@@ -138,7 +138,7 @@ func (s *ApplicationInfo) MarshalParcel(
 	p.WriteInt32(s.MemtagMode)
 	p.WriteInt32(s.NativeHeapZeroInitialized)
 	p.WriteInt64(s.CreateTimestamp)
-	p.WriteInt32(0) // null 0
+	p.WriteInt32(0)
 	p.WriteInt32(s.LocaleConfigRes)
 	p.WriteInt32(0) // null AllowCrossUidActivitySwitchFromBelow?1:0
 	return nil
@@ -201,14 +201,8 @@ func (s *ApplicationInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -513,14 +507,8 @@ func (s *ApplicationInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	s.LocaleConfigRes, _err = p.ReadInt32()
 	if _err != nil {

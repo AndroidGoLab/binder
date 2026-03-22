@@ -18,9 +18,9 @@ func (s *WebViewProviderInfo) MarshalParcel(
 ) error {
 	p.WriteString16(s.PackageName)
 	p.WriteString16(s.Description)
-	p.WriteInt32(0) // null AvailableByDefault?1:0
-	p.WriteInt32(0) // null IsFallback?1:0
-	p.WriteInt32(0) // null Signatures
+	p.WriteInt32(0)  // null AvailableByDefault?1:0
+	p.WriteInt32(0)  // null IsFallback?1:0
+	p.WriteInt32(-1) // null Signatures
 	return nil
 }
 

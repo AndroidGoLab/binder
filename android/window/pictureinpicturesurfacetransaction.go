@@ -20,8 +20,8 @@ func (s *PictureInPictureSurfaceTransaction) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteFloat32(s.Alpha)
-	p.WriteInt32(0) // null Position
-	p.WriteInt32(0) // null Float9
+	p.WriteInt32(0)  // null Position
+	p.WriteInt32(-1) // null Float9
 	p.WriteFloat32(s.Rotation)
 	p.WriteFloat32(s.CornerRadius)
 	p.WriteFloat32(s.ShadowRadius)

@@ -3941,17 +3941,17 @@ parcelables:
         - name: RefreshPeriodNano
           write_method: int64
         - name: FramesPresentedTimeNano
-          write_method: opaque
+          write_method: long_array
     - name: WindowContentFrameStats
       java_wire_format:
         - name: RefreshPeriodNano
           write_method: int64
         - name: FramesPostedTimeNano
-          write_method: opaque
+          write_method: long_array
         - name: FramesPresentedTimeNano
-          write_method: opaque
+          write_method: long_array
         - name: FramesReadyTimeNano
-          write_method: opaque
+          write_method: long_array
     - name: WindowInfo
       java_wire_format:
         - name: DisplayId
@@ -3981,7 +3981,7 @@ parcelables:
         - name: HasFlagWatchOutsideTouch?1:0
           write_method: int32
         - name: TransformMatrix
-          write_method: opaque
+          write_method: float_array
         - name: "1"
           write_method: int32
           condition: childTokens!=null&&!childTokens.isEmpty()

@@ -14,9 +14,9 @@ var _ parcel.Parcelable = (*SignalingDataResponse)(nil)
 func (s *SignalingDataResponse) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null SignalingDataTypes
-	p.WriteInt32(0) // null SignalingDataInfoList
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null SignalingDataTypes
+	p.WriteInt32(-1) // null SignalingDataInfoList
 	return nil
 }
 

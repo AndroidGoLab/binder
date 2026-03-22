@@ -18,8 +18,8 @@ func (s *IccOpenLogicalChannelResponse) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Channel)
 	p.WriteInt32(s.Status)
-	p.WriteInt32(0) // null SelectResponse.length
-	p.WriteInt32(0) // null SelectResponse
+	p.WriteInt32(0)  // null SelectResponse.length
+	p.WriteInt32(-1) // null SelectResponse
 	return nil
 }
 

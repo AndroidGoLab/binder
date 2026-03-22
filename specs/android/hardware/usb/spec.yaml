@@ -1087,7 +1087,7 @@ parcelables:
         - name: PowerBrickConnectionStatus
           write_method: int32
         - name: ComplianceWarnings
-          write_method: opaque
+          write_method: int_array
         - name: PlugState
           write_method: int32
         - name: "False"

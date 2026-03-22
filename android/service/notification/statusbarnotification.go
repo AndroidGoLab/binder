@@ -17,23 +17,24 @@ func (s *StatusBarNotification) MarshalParcel(
 	p.WriteInt32(0) // null This.pkg
 	p.WriteInt32(0) // null This.opPkg
 	p.WriteInt32(0) // null This.id
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null This.tag
-	p.WriteInt32(0) // null This.uid
-	p.WriteInt32(0) // null This.initialPid
-	p.WriteInt32(0) // null Out
-	p.WriteInt32(0) // null Out
-	p.WriteInt32(0) // null This.postTime
-	p.WriteInt32(0) // null 1
+	p.WriteInt32(1)
+	p.WriteInt32(0)  // null This.tag
+	p.WriteInt32(0)  // null This.uid
+	p.WriteInt32(0)  // null This.initialPid
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(0)  // null This.postTime
+	p.WriteInt32(1)
 	p.WriteInt32(0) // null This.overrideGroupKey
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null Out
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null Out
 	return nil
 }
 
 func (s *StatusBarNotification) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	var _err error
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -61,14 +62,8 @@ func (s *StatusBarNotification) UnmarshalParcel(
 			return nil // non-null This.id: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -124,14 +119,8 @@ func (s *StatusBarNotification) UnmarshalParcel(
 			return nil // non-null This.postTime: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -142,14 +131,8 @@ func (s *StatusBarNotification) UnmarshalParcel(
 			return nil // non-null This.overrideGroupKey: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()

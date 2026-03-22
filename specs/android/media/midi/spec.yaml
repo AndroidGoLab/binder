@@ -315,9 +315,9 @@ parcelables:
         - name: OutputPortCount
           write_method: int32
         - name: InputPortNames
-          write_method: opaque
+          write_method: string_array
         - name: OutputPortNames
-          write_method: opaque
+          write_method: string_array
         - name: IsPrivate?1:0
           write_method: int32
         - name: DefaultProtocol
@@ -331,6 +331,6 @@ parcelables:
         - name: DeviceInfo
           write_method: typed_object
         - name: InputPortOpen
-          write_method: opaque
+          write_method: boolean_array
         - name: OutputPortOpenCount
-          write_method: opaque
+          write_method: int_array

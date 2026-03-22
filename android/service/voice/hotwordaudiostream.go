@@ -26,10 +26,10 @@ func (s *HotwordAudioStream) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null AudioStreamParcelFileDescriptor
-	p.WriteInt32(0) // null Timestamp
-	p.WriteInt32(0) // null Metadata
-	p.WriteInt32(0) // null InitialAudio
+	p.WriteInt32(0)  // null AudioStreamParcelFileDescriptor
+	p.WriteInt32(0)  // null Timestamp
+	p.WriteInt32(0)  // null Metadata
+	p.WriteInt32(-1) // null InitialAudio
 	return nil
 }
 

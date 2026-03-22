@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*ClearCredentialStateRequest)(nil)
 func (s *ClearCredentialStateRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Data (Bundle)
+	p.WriteInt32(-1) // null Data
 	return nil
 }
 

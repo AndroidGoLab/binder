@@ -755,9 +755,9 @@ parcelables:
         - name: LocalDate.toString()
           write_method: string16
         - name: BucketBoundaries
-          write_method: opaque
+          write_method: float_array
         - name: Stats
-          write_method: opaque
+          write_method: float_array
     - name: BrightnessChangeEvent
       java_wire_format:
         - name: Brightness
@@ -771,9 +771,9 @@ parcelables:
         - name: UniqueDisplayId
           write_method: string16
         - name: LuxValues
-          write_method: opaque
+          write_method: float_array
         - name: LuxTimestamps
-          write_method: opaque
+          write_method: long_array
         - name: BatteryLevel
           write_method: float32
         - name: PowerBrightnessFactor
@@ -795,15 +795,15 @@ parcelables:
         - name: IsUserSetBrightness
           write_method: bool
         - name: ColorValueBuckets
-          write_method: opaque
+          write_method: long_array
         - name: ColorSampleDuration
           write_method: int64
     - name: BrightnessConfiguration
       java_wire_format:
         - name: Lux
-          write_method: opaque
+          write_method: float_array
         - name: Nits
-          write_method: opaque
+          write_method: float_array
         - name: CorrectionsByPackageName.size()
           write_method: int32
         - name: CorrectionsByCategory.size()
@@ -841,9 +841,9 @@ parcelables:
     - name: Curve
       java_wire_format:
         - name: X
-          write_method: opaque
+          write_method: float_array
         - name: "Y"
-          write_method: opaque
+          write_method: float_array
     - name: HdrConversionMode
       java_wire_format:
         - name: ConversionMode

@@ -24,7 +24,7 @@ parcelables:
         - name: IsMultiResolution?1:0
           write_method: int32
         - name: ConvertIntegerToIntList(mSensorPixelModesUsed)
-          write_method: opaque
+          write_method: int_array
         - name: DynamicRangeProfile
           write_method: int64
         - name: ColorSpace

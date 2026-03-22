@@ -23,7 +23,7 @@ func (s *PlaybackErrorEvent) MarshalParcel(
 	p.WriteInt32(s.ErrorCode)
 	p.WriteInt32(s.SubErrorCode)
 	p.WriteInt64(s.TimeSinceCreatedMillis)
-	p.WriteInt32(-1) // null MetricsBundle (Bundle)
+	p.WriteInt32(-1) // null MetricsBundle
 	return nil
 }
 

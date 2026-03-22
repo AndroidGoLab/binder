@@ -100,7 +100,7 @@ parcelables:
         - name: EventType
           write_method: int32
         - name: EntityTypes
-          write_method: opaque
+          write_method: string_array
         - name: EventContext
           write_method: typed_object
         - name: ResultId
@@ -110,11 +110,11 @@ parcelables:
         - name: Scores.length
           write_method: int32
         - name: Scores
-          write_method: opaque
+          write_method: float_array
         - name: ModelName
           write_method: string16
         - name: ActionIndices
-          write_method: opaque
+          write_method: int_array
         - name: Locale==null?null:mLocale.toLanguageTag()
           write_method: string16
         - name: Extras

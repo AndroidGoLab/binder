@@ -24,7 +24,7 @@ func (s *ViewTranslationResponse) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null TranslationResponseValues
+	p.WriteInt32(-1) // null TranslationResponseValues
 	return nil
 }
 

@@ -23,11 +23,11 @@ func (s *RestrictionEntry) MarshalParcel(
 	p.WriteString16(s.Key)
 	p.WriteString16(s.Title)
 	p.WriteString16(s.Description)
-	p.WriteInt32(0) // null ChoiceEntries
-	p.WriteInt32(0) // null ChoiceValues
+	p.WriteInt32(-1) // null ChoiceEntries
+	p.WriteInt32(-1) // null ChoiceValues
 	p.WriteString16(s.CurrentValue)
-	p.WriteInt32(0) // null CurrentValues
-	p.WriteInt32(0) // null Restrictions
+	p.WriteInt32(-1) // null CurrentValues
+	p.WriteInt32(-1) // null Restrictions
 	return nil
 }
 

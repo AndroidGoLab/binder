@@ -14,14 +14,15 @@ var _ parcel.Parcelable = (*FillEventHistory)(nil)
 func (s *FillEventHistory) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null ClientState (Bundle)
-	p.WriteInt32(0)  // null 0
+	p.WriteInt32(-1) // null ClientState
+	p.WriteInt32(0)
 	return nil
 }
 
 func (s *FillEventHistory) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	var _err error
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -31,14 +32,8 @@ func (s *FillEventHistory) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	return nil
 }

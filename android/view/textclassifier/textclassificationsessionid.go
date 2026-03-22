@@ -16,7 +16,7 @@ func (s *TextClassificationSessionId) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Value)
-	p.WriteInt32(0) // null Token
+	p.WriteInt32(-1) // null Token
 	return nil
 }
 

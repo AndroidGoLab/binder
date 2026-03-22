@@ -46,9 +46,9 @@ parcelables:
         - name: EditorBoundsInfo
           write_method: typed_object
         - name: MatrixValues
-          write_method: opaque
+          write_method: float_array
         - name: VisibleLineBounds
-          write_method: opaque
+          write_method: float_array
         - name: TextAppearanceInfo
           write_method: typed_object
     - name: DeleteGesture
@@ -121,7 +121,7 @@ parcelables:
           write_method: opaque
           condition: hintLocales!=null
         - name: ContentMimeTypes
-          write_method: opaque
+          write_method: string_array
         - name: TargetInputMethodUser
           write_method: opaque
     - name: ExtractedText
@@ -171,7 +171,7 @@ parcelables:
         - name: Source
           write_method: string16
         - name: AutofillHints
-          write_method: opaque
+          write_method: string_array
           condition: mAutofillHints!=null
         - name: Type
           write_method: string16

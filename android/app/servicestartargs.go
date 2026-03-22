@@ -18,8 +18,8 @@ func (s *ServiceStartArgs) MarshalParcel(
 	p.WriteInt32(0) // null TaskRemoved?1:0
 	p.WriteInt32(s.StartId)
 	p.WriteInt32(0) // null This.flags
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null Out
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null Out
 	return nil
 }
 
@@ -49,14 +49,8 @@ func (s *ServiceStartArgs) UnmarshalParcel(
 			return nil // non-null This.flags: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()

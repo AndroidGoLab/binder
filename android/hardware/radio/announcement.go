@@ -17,7 +17,7 @@ func (s *Announcement) MarshalParcel(
 ) error {
 	p.WriteInt32(0) // null Selector
 	p.WriteInt32(s.Type)
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

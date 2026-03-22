@@ -20,7 +20,7 @@ func (s *SurfaceControl) MarshalParcel(
 	p.WriteString(s.Name)
 	p.WriteInt32(s.Width)
 	p.WriteInt32(s.Height)
-	p.WriteInt32(0) // null 0
+	p.WriteInt32(0)
 	return nil
 }
 
@@ -40,14 +40,8 @@ func (s *SurfaceControl) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	return nil
 }

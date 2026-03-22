@@ -24,7 +24,7 @@ func (s *ClientRequestStats) MarshalParcel(
 	p.WriteInt64(s.CompletedRequestsCount)
 	p.WriteInt64(s.PendingRequestsWakelockTime)
 	p.WriteInt64(s.PendingRequestsCount)
-	p.WriteInt32(0) // null GetRequestHistograms()
+	p.WriteInt32(-1) // null GetRequestHistograms()
 	return nil
 }
 

@@ -84,10 +84,13 @@ func main() {
 	listener := location.NewLocationListenerStub(impl)
 
 	request := location.LocationRequest{
-		Provider:               location.GpsProvider,
-		IntervalMillis:         1000,
-		ExpireAtRealtimeMillis: math.MaxInt64,
-		DurationMillis:         math.MaxInt64,
+		Provider:                location.GpsProvider,
+		IntervalMillis:          1000,
+		Quality:                 102, // QUALITY_BALANCED_POWER_ACCURACY
+		ExpireAtRealtimeMillis:  math.MaxInt64,
+		DurationMillis:          math.MaxInt64,
+		MaxUpdates:              math.MaxInt32,
+		MinUpdateIntervalMillis: -1,
 		// WorkSource must be non-null; Java's LocationRequest always
 		// initializes it to an empty WorkSource (Num=0).
 		WorkSource: &osTypes.WorkSource{},

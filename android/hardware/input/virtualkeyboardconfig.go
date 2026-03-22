@@ -16,7 +16,7 @@ var _ parcel.Parcelable = (*VirtualKeyboardConfig)(nil)
 func (s *VirtualKeyboardConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	p.WriteString(s.LanguageTag)
 	p.WriteString(s.LayoutType)
 	return nil

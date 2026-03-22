@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*InputTransferToken)(nil)
 func (s *InputTransferToken) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Token
+	p.WriteInt32(-1) // null Token
 	return nil
 }
 

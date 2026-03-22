@@ -51,7 +51,7 @@ func (s *ConversationChannel) MarshalParcel(
 	p.WriteInt64(s.LastEventTimestamp)
 	p.WriteBool(s.HasActiveNotifications)
 	p.WriteBool(s.HasBirthdayToday)
-	p.WriteInt32(0) // null Statuses
+	p.WriteInt32(-1) // null Statuses
 	return nil
 }
 

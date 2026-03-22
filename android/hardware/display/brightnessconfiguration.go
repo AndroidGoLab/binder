@@ -19,10 +19,10 @@ var _ parcel.Parcelable = (*BrightnessConfiguration)(nil)
 func (s *BrightnessConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Lux
-	p.WriteInt32(0) // null Nits
-	p.WriteInt32(0) // null CorrectionsByPackageName.size()
-	p.WriteInt32(0) // null CorrectionsByCategory.size()
+	p.WriteInt32(-1) // null Lux
+	p.WriteInt32(-1) // null Nits
+	p.WriteInt32(0)  // null CorrectionsByPackageName.size()
+	p.WriteInt32(0)  // null CorrectionsByCategory.size()
 	p.WriteString16(s.Description)
 	p.WriteBool(s.ShouldCollectColorSamples)
 	p.WriteInt64(s.ShortTermModelTimeout)

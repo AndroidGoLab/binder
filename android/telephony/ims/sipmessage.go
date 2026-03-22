@@ -20,8 +20,8 @@ func (s *SipMessage) MarshalParcel(
 ) error {
 	p.WriteString16(s.StartLine)
 	p.WriteString16(s.HeaderSection)
-	p.WriteInt32(0) // null Content.length
-	p.WriteInt32(0) // null Content
+	p.WriteInt32(0)  // null Content.length
+	p.WriteInt32(-1) // null Content
 	p.WriteString16(s.ViaBranchParam)
 	p.WriteString16(s.CallIdParam)
 	return nil

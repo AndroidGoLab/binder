@@ -16,8 +16,8 @@ func (s *RadioAccessSpecifier) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.RadioAccessNetwork)
-	p.WriteInt32(0) // null Bands
-	p.WriteInt32(0) // null Channels
+	p.WriteInt32(-1) // null Bands
+	p.WriteInt32(-1) // null Channels
 	return nil
 }
 

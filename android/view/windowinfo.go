@@ -23,20 +23,20 @@ func (s *WindowInfo) MarshalParcel(
 	p.WriteInt32(s.TaskId)
 	p.WriteInt32(s.Type)
 	p.WriteInt32(s.Layer)
-	p.WriteInt32(0) // null Token
-	p.WriteInt32(0) // null ParentToken
-	p.WriteInt32(0) // null ActivityToken
-	p.WriteInt32(0) // null Focused?1:0
-	p.WriteInt32(0) // null Parcel
-	p.WriteInt32(0) // null Title
+	p.WriteInt32(-1) // null Token
+	p.WriteInt32(-1) // null ParentToken
+	p.WriteInt32(-1) // null ActivityToken
+	p.WriteInt32(0)  // null Focused?1:0
+	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null Title
 	p.WriteInt64(s.AccessibilityIdOfAnchor)
-	p.WriteInt32(0) // null InPictureInPicture?1:0
-	p.WriteInt32(0) // null HasFlagWatchOutsideTouch?1:0
-	p.WriteInt32(0) // null TransformMatrix
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null ChildTokens
-	p.WriteInt32(0) // null Parcel
-	p.WriteInt32(0) // null Locales
+	p.WriteInt32(0)  // null InPictureInPicture?1:0
+	p.WriteInt32(0)  // null HasFlagWatchOutsideTouch?1:0
+	p.WriteInt32(-1) // null TransformMatrix
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null ChildTokens
+	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(0)  // null Locales
 	return nil
 }
 
@@ -145,14 +145,8 @@ func (s *WindowInfo) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()

@@ -17,7 +17,7 @@ func (s *BeginCreateCredentialRequest) MarshalParcel(
 ) error {
 	p.WriteInt32(0) // null CallingAppInfo
 	p.WriteString(s.Type)
-	p.WriteInt32(-1) // null Data (Bundle)
+	p.WriteInt32(-1) // null Data
 	return nil
 }
 

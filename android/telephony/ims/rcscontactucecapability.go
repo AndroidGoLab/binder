@@ -21,9 +21,9 @@ func (s *RcsContactUceCapability) MarshalParcel(
 	p.WriteInt32(s.CapabilityMechanism)
 	p.WriteInt32(s.SourceType)
 	p.WriteInt32(s.RequestResult)
-	p.WriteInt32(0) // null EntityUri
-	p.WriteInt32(0) // null NewArrayList<>(mFeatureTags)
-	p.WriteInt32(0) // null PresenceTuples
+	p.WriteInt32(0)  // null EntityUri
+	p.WriteInt32(-1) // null NewArrayList<>(mFeatureTags)
+	p.WriteInt32(-1) // null PresenceTuples
 	return nil
 }
 

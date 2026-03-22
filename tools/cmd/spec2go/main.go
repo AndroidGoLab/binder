@@ -299,6 +299,27 @@ var javaWireTypeToAIDL = map[string]string{
 
 // isValidJavaWireFieldName returns true if the name is a simple identifier
 // suitable for use as a Go struct field (no dots, parens, or Java-isms).
+// isNumericLiteral returns true if the string is a decimal integer literal
+// (optionally negative), e.g., "0", "-1", "42".
+func isNumericLiteral(s string) bool {
+	if len(s) == 0 {
+		return false
+	}
+	start := 0
+	if s[0] == '-' {
+		start = 1
+	}
+	if start >= len(s) {
+		return false
+	}
+	for i := start; i < len(s); i++ {
+		if s[i] < '0' || s[i] > '9' {
+			return false
+		}
+	}
+	return true
+}
+
 func isValidJavaWireFieldName(name string) bool {
 	if len(name) == 0 {
 		return false
@@ -399,12 +420,12 @@ func convertParcelableToAST(
 			// method calls to Go, and the field has no corresponding struct field.
 			if !validName || !resolvableCond || !knownType {
 				wm := jwf.WriteMethod
-				// If the write method is a known primitive type (bool, int32, etc.),
-				// but the field can't become a struct field (invalid name or
-				// unresolvable condition), force it to "typed_object" so the
-				// codegen writes a null marker instead of accessing a
-				// non-existent struct field.
-				if knownType {
+				// If the write method is a known primitive type (bool, int32, etc.)
+				// but the field can't become a struct field, check if the name
+				// is a numeric literal (e.g., "-1" from Java's writeInt(-1)).
+				// If so, keep the original write method + name (codegen will
+				// emit the literal). Otherwise, mark as opaque.
+				if knownType && !isNumericLiteral(jwf.Name) {
 					wm = "typed_object"
 				}
 				wireFields = append(wireFields, parser.JavaWireField{

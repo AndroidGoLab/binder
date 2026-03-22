@@ -54,9 +54,9 @@ func (s *VpnProfile) MarshalParcel(
 	p.WriteString16(s.IpsecUserCert)
 	p.WriteString16(s.IpsecCaCert)
 	p.WriteString16(s.IpsecServerCert)
-	p.WriteInt32(0) // null SaveLogin?1:0
-	p.WriteInt32(0) // null Proxy
-	p.WriteInt32(0) // null AllowedAlgorithms
+	p.WriteInt32(0)  // null SaveLogin?1:0
+	p.WriteInt32(0)  // null Proxy
+	p.WriteInt32(-1) // null AllowedAlgorithms
 	p.WriteBool(s.IsBypassable)
 	p.WriteBool(s.IsMetered)
 	p.WriteInt32(s.MaxMtu)

@@ -14,8 +14,8 @@ var _ parcel.Parcelable = (*AccessibilityWindowAttributes)(nil)
 func (s *AccessibilityWindowAttributes) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null WindowTitle
-	p.WriteInt32(0) // null Locales
+	p.WriteInt32(-1) // null WindowTitle
+	p.WriteInt32(0)  // null Locales
 	return nil
 }
 

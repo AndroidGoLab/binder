@@ -19,11 +19,11 @@ func (s *UsageEventsQuery) MarshalParcel(
 ) error {
 	p.WriteInt64(s.BeginTimeMillis)
 	p.WriteInt64(s.EndTimeMillis)
-	p.WriteInt32(0) // null EventTypes.length
-	p.WriteInt32(0) // null EventTypes
+	p.WriteInt32(0)  // null EventTypes.length
+	p.WriteInt32(-1) // null EventTypes
 	p.WriteInt32(s.UserId)
-	p.WriteInt32(0) // null PackageNames.length
-	p.WriteInt32(0) // null PackageNames
+	p.WriteInt32(0)  // null PackageNames.length
+	p.WriteInt32(-1) // null PackageNames
 	return nil
 }
 

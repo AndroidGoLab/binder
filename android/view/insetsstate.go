@@ -17,8 +17,8 @@ var _ parcel.Parcelable = (*InsetsState)(nil)
 func (s *InsetsState) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest
 	if s.RoundedCorners != nil {
 		p.WriteInt32(1)
 		if _err := s.RoundedCorners.MarshalParcel(p); _err != nil {
@@ -27,8 +27,8 @@ func (s *InsetsState) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null PrivacyIndicatorBounds
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(0)  // null PrivacyIndicatorBounds
 	if s.DisplayShape != nil {
 		p.WriteInt32(1)
 		if _err := s.DisplayShape.MarshalParcel(p); _err != nil {

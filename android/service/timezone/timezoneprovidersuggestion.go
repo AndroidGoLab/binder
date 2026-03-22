@@ -15,7 +15,7 @@ var _ parcel.Parcelable = (*TimeZoneProviderSuggestion)(nil)
 func (s *TimeZoneProviderSuggestion) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null TimeZoneIds
+	p.WriteInt32(-1) // null TimeZoneIds
 	p.WriteInt64(s.ElapsedRealtimeMillis)
 	return nil
 }

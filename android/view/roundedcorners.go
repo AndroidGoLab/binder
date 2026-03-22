@@ -14,21 +14,16 @@ var _ parcel.Parcelable = (*RoundedCorners)(nil)
 func (s *RoundedCorners) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null 0
+	p.WriteInt32(0)
 	return nil
 }
 
 func (s *RoundedCorners) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	return nil
 }

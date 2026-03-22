@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*RecoveryCertPath)(nil)
 func (s *RecoveryCertPath) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null EncodedCertPath
+	p.WriteInt32(-1) // null EncodedCertPath
 	return nil
 }
 

@@ -32,10 +32,10 @@ func (s *NanoAppInstanceInfo) MarshalParcel(
 	p.WriteInt32(s.NeededReadMemBytes)
 	p.WriteInt32(s.NeededWriteMemBytes)
 	p.WriteInt32(s.NeededExecMemBytes)
-	p.WriteInt32(0) // null NeededSensors.length
-	p.WriteInt32(0) // null NeededSensors
-	p.WriteInt32(0) // null OutputEvents.length
-	p.WriteInt32(0) // null OutputEvents
+	p.WriteInt32(0)  // null NeededSensors.length
+	p.WriteInt32(-1) // null NeededSensors
+	p.WriteInt32(0)  // null OutputEvents.length
+	p.WriteInt32(-1) // null OutputEvents
 	return nil
 }
 

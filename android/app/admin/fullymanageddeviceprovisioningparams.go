@@ -27,7 +27,7 @@ func (s *FullyManagedDeviceProvisioningParams) MarshalParcel(
 	p.WriteInt64(s.LocalTime)
 	p.WriteInt32(0) // null Locale==null?null:mLocale.toLanguageTag()
 	p.WriteBool(s.DeviceOwnerCanGrantSensorsPermissions)
-	p.WriteInt32(0) // null AdminExtras
+	p.WriteInt32(-1) // null AdminExtras
 	p.WriteBool(s.DemoDevice)
 	return nil
 }

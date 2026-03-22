@@ -18,17 +18,17 @@ var _ parcel.Parcelable = (*PhoneAccount)(nil)
 func (s *PhoneAccount) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null 0
-	p.WriteInt32(0) // null 0
-	p.WriteInt32(0) // null 0
+	p.WriteInt32(0)
+	p.WriteInt32(0)
+	p.WriteInt32(0)
 	p.WriteInt32(s.Capabilities)
 	p.WriteInt32(s.HighlightColor)
-	p.WriteInt32(0)  // null Label
-	p.WriteInt32(0)  // null ShortDescription
-	p.WriteInt32(0)  // null SupportedUriSchemes
-	p.WriteInt32(0)  // null 0
+	p.WriteInt32(-1) // null Label
+	p.WriteInt32(-1) // null ShortDescription
+	p.WriteInt32(-1) // null SupportedUriSchemes
+	p.WriteInt32(0)
 	p.WriteInt32(0)  // null (byte)(mIsEnabled?1:0)
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null Extras
 	p.WriteString16(s.GroupId)
 	p.WriteInt32(s.SupportedAudioRoutes)
 	p.WriteInt32(0) // null False
@@ -39,32 +39,14 @@ func (s *PhoneAccount) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	s.Capabilities, _err = p.ReadInt32()
 	if _err != nil {
@@ -101,14 +83,8 @@ func (s *PhoneAccount) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()

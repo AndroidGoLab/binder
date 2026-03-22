@@ -18,8 +18,8 @@ func (s *NfcAntennaInfo) MarshalParcel(
 ) error {
 	p.WriteInt32(s.DeviceWidth)
 	p.WriteInt32(s.DeviceHeight)
-	p.WriteInt32(0) // null (byte)(mDeviceFoldable?1:0)
-	p.WriteInt32(0) // null AvailableNfcAntennas
+	p.WriteInt32(0)  // null (byte)(mDeviceFoldable?1:0)
+	p.WriteInt32(-1) // null AvailableNfcAntennas
 	return nil
 }
 

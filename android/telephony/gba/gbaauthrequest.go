@@ -21,11 +21,11 @@ func (s *GbaAuthRequest) MarshalParcel(
 	p.WriteInt32(s.Token)
 	p.WriteInt32(s.SubId)
 	p.WriteInt32(s.AppType)
-	p.WriteInt32(0) // null NafUrl
-	p.WriteInt32(0) // null SecurityProtocol.length
-	p.WriteInt32(0) // null SecurityProtocol
+	p.WriteInt32(0)  // null NafUrl
+	p.WriteInt32(0)  // null SecurityProtocol.length
+	p.WriteInt32(-1) // null SecurityProtocol
 	p.WriteBool(s.ForceBootStrapping)
-	p.WriteInt32(0) // null Callback
+	p.WriteInt32(-1) // null Callback
 	return nil
 }
 

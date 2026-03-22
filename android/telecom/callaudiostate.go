@@ -19,8 +19,8 @@ func (s *CallAudioState) MarshalParcel(
 	p.WriteInt32(0) // null (byte)(isMuted?1:0)
 	p.WriteInt32(s.Route)
 	p.WriteInt32(s.SupportedRouteMask)
-	p.WriteInt32(0) // null ActiveBluetoothDevice
-	p.WriteInt32(0) // null NewArrayList<>(supportedBluetoothDevices)
+	p.WriteInt32(0)  // null ActiveBluetoothDevice
+	p.WriteInt32(-1) // null NewArrayList<>(supportedBluetoothDevices)
 	return nil
 }
 

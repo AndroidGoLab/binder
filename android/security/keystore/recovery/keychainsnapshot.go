@@ -18,13 +18,13 @@ func (s *KeyChainSnapshot) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.SnapshotVersion)
-	p.WriteInt32(0) // null KeyChainProtectionParams
-	p.WriteInt32(0) // null EncryptedRecoveryKeyBlob
-	p.WriteInt32(0) // null EntryRecoveryData
+	p.WriteInt32(-1) // null KeyChainProtectionParams
+	p.WriteInt32(-1) // null EncryptedRecoveryKeyBlob
+	p.WriteInt32(-1) // null EntryRecoveryData
 	p.WriteInt32(s.MaxAttempts)
 	p.WriteInt64(s.CounterId)
-	p.WriteInt32(0) // null ServerParams
-	p.WriteInt32(0) // null CertPath
+	p.WriteInt32(-1) // null ServerParams
+	p.WriteInt32(0)  // null CertPath
 	return nil
 }
 

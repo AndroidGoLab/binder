@@ -68,8 +68,8 @@ func (s *ProcessStats) MarshalParcel(
 	p.WriteString16(s.Runtime)
 	p.WriteInt32(0) // null HasSwappedOutPss?1:0
 	p.WriteInt32(s.Flags)
-	p.WriteInt32(0) // null Out
-	p.WriteInt32(0) // null Out
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null Out
 	p.WriteInt32(s.NumOfUids)
 	p.WriteInt32(s.NPROC)
 	p.WriteInt32(s.NPKG)

@@ -21,8 +21,8 @@ func (s *ServiceInfo) MarshalParcel(
 	p.WriteString16(s.ClassName)
 	p.WriteInt32(s.LocalesCount)
 	p.WriteString16(s.ServiceId)
-	p.WriteInt32(0) // null SessionStartTime
-	p.WriteInt32(0) // null SessionEndTime
+	p.WriteInt32(-1) // null SessionStartTime
+	p.WriteInt32(-1) // null SessionEndTime
 	return nil
 }
 

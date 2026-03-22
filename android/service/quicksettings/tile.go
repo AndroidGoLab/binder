@@ -15,16 +15,16 @@ var _ parcel.Parcelable = (*Tile)(nil)
 func (s *Tile) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null (byte)1
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null (byte)1
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(0)  // null (byte)1
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(0)  // null (byte)1
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.State)
-	p.WriteInt32(0) // null Label
-	p.WriteInt32(0) // null DefaultLabel
-	p.WriteInt32(0) // null Subtitle
-	p.WriteInt32(0) // null ContentDescription
-	p.WriteInt32(0) // null StateDescription
+	p.WriteInt32(-1) // null Label
+	p.WriteInt32(-1) // null DefaultLabel
+	p.WriteInt32(-1) // null Subtitle
+	p.WriteInt32(-1) // null ContentDescription
+	p.WriteInt32(-1) // null StateDescription
 	return nil
 }
 

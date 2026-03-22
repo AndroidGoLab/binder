@@ -11710,9 +11710,9 @@ parcelables:
         - name: ActiveGameMode
           write_method: int32
         - name: AvailableGameModes
-          write_method: opaque
+          write_method: int_array
         - name: OverriddenGameModes
-          write_method: opaque
+          write_method: int_array
         - name: IsDownscalingAllowed
           write_method: bool
         - name: IsFpsOverrideAllowed
@@ -11779,7 +11779,7 @@ parcelables:
         - name: Lights?(byte)1:(byte)0
           write_method: int32
         - name: VibrationPattern
-          write_method: opaque
+          write_method: long_array
         - name: "1"
           write_method: int32
           condition: Flags.notificationChannelVibrationEffectApi() && mVibrationEffect!=null
@@ -11865,7 +11865,7 @@ parcelables:
         - name: Index
           write_method: int32
         - name: StringPool
-          write_method: opaque
+          write_method: string_array
           condition: mHistoryCount>0
         - name: Data.marshall()
           write_method: blob

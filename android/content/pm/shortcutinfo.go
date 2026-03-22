@@ -45,8 +45,8 @@ func (s *ShortcutInfo) MarshalParcel(
 	p.WriteInt32(s.IconResId)
 	p.WriteInt64(s.LastChangedTimestamp)
 	p.WriteInt32(s.DisabledReason)
-	p.WriteInt32(0) // null 0
-	p.WriteInt32(0) // null 1
+	p.WriteInt32(0)
+	p.WriteInt32(1)
 	if s.Icon != nil {
 		p.WriteInt32(1)
 		if _err := s.Icon.MarshalParcel(p); _err != nil {
@@ -55,14 +55,14 @@ func (s *ShortcutInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null Title
+	p.WriteInt32(-1) // null Title
 	p.WriteInt32(s.TitleResId)
-	p.WriteInt32(0) // null Text
+	p.WriteInt32(-1) // null Text
 	p.WriteInt32(s.TextResId)
-	p.WriteInt32(0) // null DisabledMessage
+	p.WriteInt32(-1) // null DisabledMessage
 	p.WriteInt32(s.DisabledMessageResId)
-	p.WriteInt32(0) // null Intents
-	p.WriteInt32(0) // null IntentPersistableExtrases
+	p.WriteInt32(-1) // null Intents
+	p.WriteInt32(-1) // null IntentPersistableExtrases
 	p.WriteInt32(s.Rank)
 	p.WriteInt32(0) // null Extras
 	p.WriteString(s.BitmapPath)
@@ -70,8 +70,8 @@ func (s *ShortcutInfo) MarshalParcel(
 	p.WriteString(s.TitleResName)
 	p.WriteString(s.TextResName)
 	p.WriteString(s.DisabledMessageResName)
-	p.WriteInt32(0) // null N
-	p.WriteInt32(0) // null Persons
+	p.WriteInt32(0)  // null N
+	p.WriteInt32(-1) // null Persons
 	if s.LocusId != nil {
 		p.WriteInt32(1)
 		if _err := s.LocusId.MarshalParcel(p); _err != nil {
@@ -83,7 +83,7 @@ func (s *ShortcutInfo) MarshalParcel(
 	p.WriteString(s.IconUri)
 	p.WriteString(s.StartingThemeResName)
 	p.WriteInt32(s.ExcludedSurfaces)
-	p.WriteInt32(0) // null CapabilityBindings
+	p.WriteInt32(-1) // null CapabilityBindings
 	return nil
 }
 
@@ -128,23 +128,11 @@ func (s *ShortcutInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_flag, _err := p.ReadInt32()

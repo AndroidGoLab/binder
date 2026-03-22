@@ -16,8 +16,8 @@ func (s *AidGroup) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString(s.Category)
-	p.WriteInt32(0) // null Aids.size()
-	p.WriteInt32(0) // null Aids
+	p.WriteInt32(0)  // null Aids.size()
+	p.WriteInt32(-1) // null Aids
 	return nil
 }
 

@@ -16,8 +16,8 @@ func (s *TranslationRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flags)
-	p.WriteInt32(0) // null TranslationRequestValues
-	p.WriteInt32(0) // null ViewTranslationRequests
+	p.WriteInt32(-1) // null TranslationRequestValues
+	p.WriteInt32(-1) // null ViewTranslationRequests
 	return nil
 }
 

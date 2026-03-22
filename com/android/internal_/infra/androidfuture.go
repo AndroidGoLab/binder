@@ -16,8 +16,8 @@ func (s *AndroidFuture) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteBool(s.Done)
-	p.WriteInt32(0) // null False
-	p.WriteInt32(0) // null Result
+	p.WriteInt32(0)  // null False
+	p.WriteInt32(-1) // null Result
 	return nil
 }
 

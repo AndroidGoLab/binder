@@ -181,7 +181,7 @@ parcelables:
     - name: Slice
       java_wire_format:
         - name: Hints
-          write_method: opaque
+          write_method: string_array
         - name: Items.length
           write_method: int32
         - name: Dest

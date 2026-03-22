@@ -23,8 +23,8 @@ func (s *GnssNavigationMessage) MarshalParcel(
 	p.WriteInt32(s.Svid)
 	p.WriteInt32(s.MessageId)
 	p.WriteInt32(s.SubmessageId)
-	p.WriteInt32(0) // null Data.length
-	p.WriteInt32(0) // null Data
+	p.WriteInt32(0)  // null Data.length
+	p.WriteInt32(-1) // null Data
 	p.WriteInt32(s.Status)
 	return nil
 }

@@ -45,9 +45,9 @@ func (s *ContextHubInfo) MarshalParcel(
 	p.WriteInt32(s.ChreApiMajorVersion)
 	p.WriteInt32(s.ChreApiMinorVersion)
 	p.WriteInt32(s.ChrePatchVersion)
-	p.WriteInt32(0) // null SupportedSensors.length
-	p.WriteInt32(0) // null SupportedSensors
-	p.WriteInt32(0) // null MemoryRegions
+	p.WriteInt32(0)  // null SupportedSensors.length
+	p.WriteInt32(-1) // null SupportedSensors
+	p.WriteInt32(-1) // null MemoryRegions
 	p.WriteBool(s.SupportsReliableMessages)
 	return nil
 }

@@ -20,13 +20,13 @@ func (s *BatteryUsageStatsQuery) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flags)
-	p.WriteInt32(0) // null UserIds.length
-	p.WriteInt32(0) // null UserIds
+	p.WriteInt32(0)  // null UserIds.length
+	p.WriteInt32(-1) // null UserIds
 	p.WriteInt64(s.MaxStatsAgeMs)
 	p.WriteFloat64(s.MinConsumedPowerThreshold)
 	p.WriteInt64(s.FromTimestamp)
 	p.WriteInt64(s.ToTimestamp)
-	p.WriteInt32(0) // null PowerComponents
+	p.WriteInt32(-1) // null PowerComponents
 	return nil
 }
 

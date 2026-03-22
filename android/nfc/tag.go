@@ -17,13 +17,13 @@ var _ parcel.Parcelable = (*Tag)(nil)
 func (s *Tag) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null TechList.length
-	p.WriteInt32(0) // null TechList
-	p.WriteInt32(0) // null TechExtras
+	p.WriteInt32(0)  // null TechList.length
+	p.WriteInt32(-1) // null TechList
+	p.WriteInt32(-1) // null TechExtras
 	p.WriteInt32(s.ServiceHandle)
 	p.WriteInt64(s.Cookie)
 	p.WriteInt32(s.IsMock)
-	p.WriteInt32(0) // null TagService.asBinder()
+	p.WriteInt32(-1) // null TagService.asBinder()
 	return nil
 }
 

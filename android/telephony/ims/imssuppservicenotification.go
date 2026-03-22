@@ -24,7 +24,7 @@ func (s *ImsSuppServiceNotification) MarshalParcel(
 	p.WriteInt32(s.Index)
 	p.WriteInt32(s.Type)
 	p.WriteString16(s.Number)
-	p.WriteInt32(0) // null History
+	p.WriteInt32(-1) // null History
 	return nil
 }
 

@@ -7701,7 +7701,7 @@ parcelables:
         - name: Flags&ALL_PARCEL_FLAGS
           write_method: int32
         - name: TagsArray
-          write_method: opaque
+          write_method: string_array
           condition: (flags&FLATTEN_TAGS)==0
         - name: ATTR_PARCEL_IS_NULL_BUNDLE
           write_method: int32
@@ -8480,13 +8480,13 @@ parcelables:
         - name: AttrToFadeWrapperMap
           write_method: opaque
         - name: FadeableUsages.toArray()
-          write_method: opaque
+          write_method: int_array
         - name: UnfadeableContentTypes.toArray()
-          write_method: opaque
+          write_method: int_array
         - name: UnfadeablePlayerTypes.toArray()
-          write_method: opaque
+          write_method: int_array
         - name: UnfadeableUids.toArray()
-          write_method: opaque
+          write_method: int_array
         - name: UnfadeableAudioAttributes
           write_method: opaque
     - name: GetInputForAttrResponse
@@ -8687,7 +8687,7 @@ parcelables:
         - name: Address
           write_method: string16
         - name: DeduplicationIds.toArray(newString[mDeduplicationIds.size()])
-          write_method: opaque
+          write_method: string_array
         - name: Extras
           write_method: bundle
         - name: ProviderId

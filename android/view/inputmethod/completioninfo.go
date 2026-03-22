@@ -18,8 +18,8 @@ func (s *CompletionInfo) MarshalParcel(
 ) error {
 	p.WriteInt64(s.Id)
 	p.WriteInt32(s.Position)
-	p.WriteInt32(0) // null Text
-	p.WriteInt32(0) // null Label
+	p.WriteInt32(-1) // null Text
+	p.WriteInt32(-1) // null Label
 	return nil
 }
 

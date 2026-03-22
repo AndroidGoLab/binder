@@ -18,8 +18,8 @@ func (s *BackNavigationInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Type)
-	p.WriteInt32(0) // null OnBackNavigationDone
-	p.WriteInt32(0) // null OnBackInvokedCallback
+	p.WriteInt32(0)  // null OnBackNavigationDone
+	p.WriteInt32(-1) // null OnBackInvokedCallback
 	p.WriteBool(s.PrepareRemoteAnimation)
 	p.WriteBool(s.AnimationCallback)
 	p.WriteInt32(0) // null CustomAnimationInfo

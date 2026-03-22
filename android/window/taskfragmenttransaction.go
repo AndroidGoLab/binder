@@ -14,8 +14,8 @@ var _ parcel.Parcelable = (*TaskFragmentTransaction)(nil)
 func (s *TaskFragmentTransaction) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null TransactionToken
-	p.WriteInt32(0) // null Changes
+	p.WriteInt32(-1) // null TransactionToken
+	p.WriteInt32(-1) // null Changes
 	return nil
 }
 

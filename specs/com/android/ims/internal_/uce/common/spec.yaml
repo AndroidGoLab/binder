@@ -62,7 +62,7 @@ parcelables:
         - name: RcsIpVideoOnlyCallSupported?1:0
           write_method: int32
         - name: Exts
-          write_method: opaque
+          write_method: string_array
         - name: CapTimestamp
           write_method: int64
         - name: CapInfoBundle

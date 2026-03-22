@@ -16,7 +16,7 @@ func (s *MediaRoute2ProviderInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.UniqueId)
-	p.WriteInt32(0) // null Routes
+	p.WriteInt32(-1) // null Routes
 	return nil
 }
 

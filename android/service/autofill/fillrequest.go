@@ -21,9 +21,9 @@ func (s *FillRequest) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Flg)
 	p.WriteInt32(s.Id)
-	p.WriteInt32(0)  // null FillContexts
-	p.WriteInt32(0)  // null Hints
-	p.WriteInt32(-1) // null ClientState (Bundle)
+	p.WriteInt32(-1) // null FillContexts
+	p.WriteInt32(-1) // null Hints
+	p.WriteInt32(-1) // null ClientState
 	p.WriteInt32(s.Flags)
 	if s.InlineSuggestionsRequest != nil {
 		p.WriteInt32(1)

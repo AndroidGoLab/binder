@@ -30,7 +30,7 @@ func (s *AccessibilityEvent) MarshalParcel(
 	p.WriteInt32(s.ContentChangeTypes)
 	p.WriteInt32(s.WindowChangeTypes)
 	p.WriteInt32(s.SpeechStateChangeTypes)
-	p.WriteInt32(0) // null PackageName
+	p.WriteInt32(-1) // null PackageName
 	p.WriteInt64(s.EventTime)
 	p.WriteInt32(s.ConnectionId)
 	p.WriteInt32(s.RecordCount)

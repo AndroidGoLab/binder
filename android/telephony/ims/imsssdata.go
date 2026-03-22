@@ -14,14 +14,14 @@ var _ parcel.Parcelable = (*ImsSsData)(nil)
 func (s *ImsSsData) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null GetServiceType()
-	p.WriteInt32(0) // null GetRequestType()
-	p.WriteInt32(0) // null GetTeleserviceType()
-	p.WriteInt32(0) // null GetServiceClass()
-	p.WriteInt32(0) // null GetResult()
-	p.WriteInt32(0) // null SsInfo
-	p.WriteInt32(0) // null CfInfo
-	p.WriteInt32(0) // null ImsSsInfo
+	p.WriteInt32(0)  // null GetServiceType()
+	p.WriteInt32(0)  // null GetRequestType()
+	p.WriteInt32(0)  // null GetTeleserviceType()
+	p.WriteInt32(0)  // null GetServiceClass()
+	p.WriteInt32(0)  // null GetResult()
+	p.WriteInt32(-1) // null SsInfo
+	p.WriteInt32(-1) // null CfInfo
+	p.WriteInt32(-1) // null ImsSsInfo
 	return nil
 }
 

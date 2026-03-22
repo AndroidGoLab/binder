@@ -25,21 +25,21 @@ var _ parcel.Parcelable = (*RegisterStatusBarResult)(nil)
 func (s *RegisterStatusBarResult) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Icons
+	p.WriteInt32(-1) // null Icons
 	p.WriteInt32(s.DisabledFlags1)
 	p.WriteInt32(s.Appearance)
-	p.WriteInt32(0) // null AppearanceRegions
+	p.WriteInt32(-1) // null AppearanceRegions
 	p.WriteInt32(s.ImeWindowVis)
 	p.WriteInt32(s.ImeBackDisposition)
 	p.WriteBool(s.ShowImeSwitcher)
 	p.WriteInt32(s.DisabledFlags2)
-	p.WriteInt32(0) // null ImeToken
+	p.WriteInt32(-1) // null ImeToken
 	p.WriteBool(s.NavbarColorManagedByIme)
 	p.WriteInt32(s.Behavior)
 	p.WriteInt32(s.RequestedVisibleTypes)
 	p.WriteString16(s.PackageName)
 	p.WriteInt32(s.TransientBarTypes)
-	p.WriteInt32(0) // null LetterboxDetails
+	p.WriteInt32(-1) // null LetterboxDetails
 	return nil
 }
 

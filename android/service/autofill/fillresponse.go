@@ -23,12 +23,12 @@ var _ parcel.Parcelable = (*FillResponse)(nil)
 func (s *FillResponse) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Datasets
-	p.WriteInt32(0) // null SaveInfo
-	p.WriteInt32(0) // null ClientState
-	p.WriteInt32(0) // null AuthenticationIds
-	p.WriteInt32(0) // null Authentication
-	p.WriteInt32(0) // null Presentation
+	p.WriteInt32(0)  // null Datasets
+	p.WriteInt32(0)  // null SaveInfo
+	p.WriteInt32(0)  // null ClientState
+	p.WriteInt32(-1) // null AuthenticationIds
+	p.WriteInt32(0)  // null Authentication
+	p.WriteInt32(0)  // null Presentation
 	if s.InlinePresentation != nil {
 		p.WriteInt32(1)
 		if _err := s.InlinePresentation.MarshalParcel(p); _err != nil {
@@ -37,13 +37,13 @@ func (s *FillResponse) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null InlineTooltipPresentation
-	p.WriteInt32(0) // null DialogPresentation
-	p.WriteInt32(0) // null DialogHeader
-	p.WriteInt32(0) // null DialogPendingIntent
-	p.WriteInt32(0) // null FillDialogTriggerIds
-	p.WriteInt32(0) // null Header
-	p.WriteInt32(0) // null Footer
+	p.WriteInt32(0)  // null InlineTooltipPresentation
+	p.WriteInt32(0)  // null DialogPresentation
+	p.WriteInt32(0)  // null DialogHeader
+	p.WriteInt32(0)  // null DialogPendingIntent
+	p.WriteInt32(-1) // null FillDialogTriggerIds
+	p.WriteInt32(0)  // null Header
+	p.WriteInt32(0)  // null Footer
 	if s.UserData != nil {
 		p.WriteInt32(1)
 		if _err := s.UserData.MarshalParcel(p); _err != nil {
@@ -52,16 +52,16 @@ func (s *FillResponse) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null IgnoredIds
+	p.WriteInt32(-1) // null IgnoredIds
 	p.WriteInt64(s.DisableDuration)
-	p.WriteInt32(0) // null FieldClassificationIds
-	p.WriteInt32(0) // null DetectedFieldTypes
+	p.WriteInt32(-1) // null FieldClassificationIds
+	p.WriteInt32(-1) // null DetectedFieldTypes
 	p.WriteInt32(s.IconResourceId)
 	p.WriteInt32(s.ServiceDisplayNameResourceId)
 	p.WriteBool(s.ShowFillDialogIcon)
 	p.WriteBool(s.ShowSaveDialogIcon)
 	p.WriteInt32(s.Flags)
-	p.WriteInt32(0) // null CancelIds
+	p.WriteInt32(-1) // null CancelIds
 	p.WriteInt32(s.RequestId)
 	return nil
 }

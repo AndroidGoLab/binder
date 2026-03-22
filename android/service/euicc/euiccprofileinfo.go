@@ -27,10 +27,10 @@ func (s *EuiccProfileInfo) MarshalParcel(
 	p.WriteString16(s.ProfileName)
 	p.WriteInt32(s.ProfileClass)
 	p.WriteInt32(s.State)
-	p.WriteInt32(0) // null (byte)1
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(0)  // null (byte)1
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.PolicyRules)
-	p.WriteInt32(0) // null AccessRules
+	p.WriteInt32(-1) // null AccessRules
 	return nil
 }
 

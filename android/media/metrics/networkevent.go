@@ -18,7 +18,7 @@ func (s *NetworkEvent) MarshalParcel(
 ) error {
 	p.WriteInt32(s.NetworkType)
 	p.WriteInt64(s.TimeSinceCreatedMillis)
-	p.WriteInt32(-1) // null MetricsBundle (Bundle)
+	p.WriteInt32(-1) // null MetricsBundle
 	return nil
 }
 

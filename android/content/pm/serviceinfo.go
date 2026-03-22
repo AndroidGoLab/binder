@@ -17,7 +17,7 @@ var _ parcel.Parcelable = (*ServiceInfo)(nil)
 func (s *ServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	p.WriteString(s.Permission)
 	p.WriteInt32(s.Flags)
 	p.WriteInt32(s.ForegroundServiceType)

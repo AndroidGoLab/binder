@@ -20,7 +20,7 @@ func (s *ModemActivityInfo) MarshalParcel(
 	p.WriteInt64(s.Timestamp)
 	p.WriteInt32(s.SleepTimeMs)
 	p.WriteInt32(s.IdleTimeMs)
-	p.WriteInt32(0) // null ActivityStatsTechSpecificInfo
+	p.WriteInt32(-1) // null ActivityStatsTechSpecificInfo
 	return nil
 }
 

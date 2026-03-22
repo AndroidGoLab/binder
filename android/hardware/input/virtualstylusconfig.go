@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*VirtualStylusConfig)(nil)
 func (s *VirtualStylusConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

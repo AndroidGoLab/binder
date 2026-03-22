@@ -22,7 +22,7 @@ func (s *SensorPropertiesInternal) MarshalParcel(
 	p.WriteInt32(s.SensorId)
 	p.WriteInt32(s.SensorStrength)
 	p.WriteInt32(s.MaxEnrollmentsPerUser)
-	p.WriteInt32(0) // null ComponentInfo
+	p.WriteInt32(-1) // null ComponentInfo
 	p.WriteBool(s.ResetLockoutRequiresHardwareAuthToken)
 	p.WriteBool(s.ResetLockoutRequiresChallenge)
 	return nil

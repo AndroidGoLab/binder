@@ -124,7 +124,7 @@ parcelables:
         - name: GetResult()
           write_method: int32
         - name: SsInfo
-          write_method: opaque
+          write_method: int_array
         - name: CfInfo
           write_method: opaque
         - name: ImsSsInfo
@@ -170,7 +170,7 @@ parcelables:
         - name: Number
           write_method: string16
         - name: History
-          write_method: opaque
+          write_method: string_array
     - name: MediaQualityStatus
       java_wire_format:
         - name: ImsCallSessionId
@@ -188,11 +188,11 @@ parcelables:
     - name: MediaThreshold
       java_wire_format:
         - name: RtpPacketLossRate
-          write_method: opaque
+          write_method: int_array
         - name: RtpJitter
-          write_method: opaque
+          write_method: int_array
         - name: RtpInactivityTimeMillis
-          write_method: opaque
+          write_method: long_array
     - name: PublishAttributes
       java_wire_format:
         - name: PublishState

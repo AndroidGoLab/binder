@@ -28,7 +28,7 @@ var _ parcel.Parcelable = (*InputDevice)(nil)
 func (s *InputDevice) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Out
+	p.WriteInt32(-1) // null Out
 	p.WriteInt32(s.Id)
 	p.WriteInt32(s.Generation)
 	p.WriteInt32(s.ControllerNumber)
@@ -42,12 +42,12 @@ func (s *InputDevice) MarshalParcel(
 	p.WriteInt32(s.KeyboardType)
 	p.WriteString(s.KeyboardLanguageTag)
 	p.WriteString(s.KeyboardLayoutType)
-	p.WriteInt32(0) // null HasVibrator?1:0
-	p.WriteInt32(0) // null HasMicrophone?1:0
-	p.WriteInt32(0) // null HasButtonUnderPad?1:0
-	p.WriteInt32(0) // null HasSensor?1:0
-	p.WriteInt32(0) // null HasBattery?1:0
-	p.WriteInt32(0) // null Out
+	p.WriteInt32(0)  // null HasVibrator?1:0
+	p.WriteInt32(0)  // null HasMicrophone?1:0
+	p.WriteInt32(0)  // null HasButtonUnderPad?1:0
+	p.WriteInt32(0)  // null HasSensor?1:0
+	p.WriteInt32(0)  // null HasBattery?1:0
+	p.WriteInt32(-1) // null Out
 	p.WriteInt32(s.AssociatedDisplayId)
 	p.WriteInt32(s.NumRanges)
 	p.WriteInt32(0) // null ViewBehavior.mShouldSmoothScroll

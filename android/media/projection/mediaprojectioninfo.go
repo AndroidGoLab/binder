@@ -16,8 +16,8 @@ func (s *MediaProjectionInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.PackageName)
-	p.WriteInt32(0) // null UserHandle
-	p.WriteInt32(0) // null LaunchCookie
+	p.WriteInt32(-1) // null UserHandle
+	p.WriteInt32(-1) // null LaunchCookie
 	return nil
 }
 

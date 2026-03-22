@@ -18,9 +18,9 @@ func (s *TranslationResponseValue) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Flg)
 	p.WriteInt32(s.StatusCode)
-	p.WriteInt32(0)  // null Text
-	p.WriteInt32(-1) // null Extras (Bundle)
-	p.WriteInt32(0)  // null Transliteration
+	p.WriteInt32(-1) // null Text
+	p.WriteInt32(-1) // null Extras
+	p.WriteInt32(-1) // null Transliteration
 	return nil
 }
 

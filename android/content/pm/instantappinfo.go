@@ -17,9 +17,9 @@ func (s *InstantAppInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.PackageName)
-	p.WriteInt32(0) // null LabelText
-	p.WriteInt32(0) // null RequestedPermissions
-	p.WriteInt32(0) // null GrantedPermissions
+	p.WriteInt32(-1) // null LabelText
+	p.WriteInt32(-1) // null RequestedPermissions
+	p.WriteInt32(-1) // null GrantedPermissions
 	if s.ApplicationInfo != nil {
 		p.WriteInt32(1)
 		if _err := s.ApplicationInfo.MarshalParcel(p); _err != nil {

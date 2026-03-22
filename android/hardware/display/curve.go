@@ -14,8 +14,8 @@ var _ parcel.Parcelable = (*Curve)(nil)
 func (s *Curve) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null X
-	p.WriteInt32(0) // null Y
+	p.WriteInt32(-1) // null X
+	p.WriteInt32(-1) // null Y
 	return nil
 }
 

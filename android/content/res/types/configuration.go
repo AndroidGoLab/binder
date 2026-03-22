@@ -51,7 +51,7 @@ func (s *Configuration) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null 1
+	p.WriteInt32(1)
 	p.WriteInt32(s.Touchscreen)
 	p.WriteInt32(s.Keyboard)
 	p.WriteInt32(s.KeyboardHidden)
@@ -69,7 +69,7 @@ func (s *Configuration) MarshalParcel(
 	p.WriteInt32(s.CompatScreenWidthDp)
 	p.WriteInt32(s.CompatScreenHeightDp)
 	p.WriteInt32(s.CompatSmallestScreenWidthDp)
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.AssetsSeq)
 	p.WriteInt32(s.Seq)
 	p.WriteInt32(s.FontWeightAdjustment)
@@ -105,14 +105,8 @@ func (s *Configuration) UnmarshalParcel(
 			}
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	s.Touchscreen, _err = p.ReadInt32()
 	if _err != nil {

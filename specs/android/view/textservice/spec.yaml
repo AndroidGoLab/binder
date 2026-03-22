@@ -8,9 +8,9 @@ parcelables:
         - name: SuggestionsInfos
           write_method: opaque
         - name: Offsets
-          write_method: opaque
+          write_method: int_array
         - name: Lengths
-          write_method: opaque
+          write_method: int_array
     - name: SpellCheckerInfo
       java_wire_format:
         - name: Label
@@ -40,7 +40,7 @@ parcelables:
         - name: SuggestionsAttributes
           write_method: int32
         - name: Suggestions
-          write_method: opaque
+          write_method: string_array
         - name: Cookie
           write_method: int32
         - name: Sequence

@@ -14,8 +14,8 @@ var _ parcel.Parcelable = (*NetworkSlicingConfig)(nil)
 func (s *NetworkSlicingConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null UrspRules
-	p.WriteInt32(0) // null SliceInfo
+	p.WriteInt32(-1) // null UrspRules
+	p.WriteInt32(-1) // null SliceInfo
 	return nil
 }
 

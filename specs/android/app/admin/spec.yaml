@@ -4856,7 +4856,7 @@ parcelables:
         - name: Hostname
           write_method: string16
         - name: IpAddresses
-          write_method: opaque
+          write_method: string_array
         - name: IpAddressesCount
           write_method: int32
         - name: PackageName
@@ -4977,9 +4977,9 @@ parcelables:
         - name: NetworkId
           write_method: int32
         - name: IncludedUids
-          write_method: opaque
+          write_method: int_array
         - name: ExcludedUids
-          write_method: opaque
+          write_method: int_array
     - name: SecurityLog.SecurityEvent
     - name: SystemUpdateInfo
       java_wire_format:

@@ -19,8 +19,8 @@ var _ parcel.Parcelable = (*ImsiEncryptionInfo)(nil)
 func (s *ImsiEncryptionInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null B.length
-	p.WriteInt32(0) // null b
+	p.WriteInt32(0)  // null B.length
+	p.WriteInt32(-1) // null b
 	p.WriteString16(s.Mcc)
 	p.WriteString16(s.Mnc)
 	p.WriteString16(s.KeyIdentifier)

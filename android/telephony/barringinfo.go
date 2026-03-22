@@ -23,7 +23,7 @@ func (s *BarringInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null BarringServiceInfos
+	p.WriteInt32(-1) // null BarringServiceInfos
 	return nil
 }
 

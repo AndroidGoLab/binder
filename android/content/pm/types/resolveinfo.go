@@ -23,16 +23,16 @@ var _ parcel.Parcelable = (*ResolveInfo)(nil)
 func (s *ResolveInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.Priority)
 	p.WriteInt32(s.PreferredOrder)
 	p.WriteInt32(s.Match)
 	p.WriteInt32(s.SpecificIndex)
 	p.WriteInt32(s.LabelRes)
-	p.WriteInt32(0) // null NonLocalizedLabel
+	p.WriteInt32(-1) // null NonLocalizedLabel
 	p.WriteInt32(s.Icon)
 	p.WriteString(s.ResolvePackageName)
 	p.WriteInt32(s.TargetUserId)
@@ -50,14 +50,8 @@ func (s *ResolveInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -68,14 +62,8 @@ func (s *ResolveInfo) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()

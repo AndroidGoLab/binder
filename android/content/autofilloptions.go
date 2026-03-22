@@ -22,7 +22,7 @@ func (s *AutofillOptions) MarshalParcel(
 	p.WriteInt32(s.LoggingLevel)
 	p.WriteBool(s.CompatModeEnabled)
 	p.WriteBool(s.AugmentedAutofillEnabled)
-	p.WriteInt32(0) // null WhitelistedActivitiesForAugmentedAutofill
+	p.WriteInt32(-1) // null WhitelistedActivitiesForAugmentedAutofill
 	p.WriteInt64(s.AppDisabledExpiration)
 	p.WriteInt32(s.Size)
 	return nil

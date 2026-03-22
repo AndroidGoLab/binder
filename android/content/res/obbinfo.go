@@ -22,7 +22,7 @@ func (s *ObbInfo) MarshalParcel(
 	p.WriteString16(s.PackageName)
 	p.WriteInt32(s.Version)
 	p.WriteInt32(s.Flags)
-	p.WriteInt32(0) // null Salt
+	p.WriteInt32(-1) // null Salt
 	return nil
 }
 

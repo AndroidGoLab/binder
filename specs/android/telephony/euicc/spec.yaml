@@ -28,6 +28,6 @@ parcelables:
     - name: EuiccRulesAuthTable
       java_wire_format:
         - name: PolicyRules
-          write_method: opaque
+          write_method: int_array
         - name: PolicyRuleFlags
-          write_method: opaque
+          write_method: int_array

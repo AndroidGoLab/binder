@@ -27,17 +27,17 @@ func (s *Dataset) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null InlineTooltipPresentation
-	p.WriteInt32(0) // null FieldIds
-	p.WriteInt32(0) // null FieldValues
-	p.WriteInt32(0) // null FieldPresentations
-	p.WriteInt32(0) // null FieldDialogPresentations
-	p.WriteInt32(0) // null FieldInlinePresentations
-	p.WriteInt32(0) // null FieldInlineTooltipPresentations
-	p.WriteInt32(0) // null FieldFilters
-	p.WriteInt32(0) // null AutofillDatatypes
-	p.WriteInt32(0) // null FieldContent
-	p.WriteInt32(0) // null Authentication
+	p.WriteInt32(0)  // null InlineTooltipPresentation
+	p.WriteInt32(-1) // null FieldIds
+	p.WriteInt32(-1) // null FieldValues
+	p.WriteInt32(-1) // null FieldPresentations
+	p.WriteInt32(-1) // null FieldDialogPresentations
+	p.WriteInt32(-1) // null FieldInlinePresentations
+	p.WriteInt32(-1) // null FieldInlineTooltipPresentations
+	p.WriteInt32(-1) // null FieldFilters
+	p.WriteInt32(-1) // null AutofillDatatypes
+	p.WriteInt32(0)  // null FieldContent
+	p.WriteInt32(0)  // null Authentication
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.EligibleReason)
 	p.WriteInt32(0) // null CredentialFillInIntent

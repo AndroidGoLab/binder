@@ -18,7 +18,7 @@ var _ parcel.Parcelable = (*CrateInfo)(nil)
 func (s *CrateInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Label
+	p.WriteInt32(-1) // null Label
 	p.WriteInt64(s.Expiration)
 	p.WriteInt32(s.Uid)
 	p.WriteString16(s.PackageName)

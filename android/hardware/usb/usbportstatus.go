@@ -33,7 +33,7 @@ func (s *UsbPortStatus) MarshalParcel(
 	p.WriteInt32(s.UsbDataStatus)
 	p.WriteBool(s.PowerTransferLimited)
 	p.WriteInt32(s.PowerBrickConnectionStatus)
-	p.WriteInt32(0) // null ComplianceWarnings
+	p.WriteInt32(-1) // null ComplianceWarnings
 	p.WriteInt32(s.PlugState)
 	p.WriteInt32(0) // null False
 	return nil

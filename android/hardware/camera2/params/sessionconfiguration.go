@@ -16,13 +16,13 @@ func (s *SessionConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.SessionType)
-	p.WriteInt32(0) // null InputConfig.getWidth()
-	p.WriteInt32(0) // null InputConfig.getHeight()
-	p.WriteInt32(0) // null InputConfig.getFormat()
-	p.WriteInt32(0) // null InputConfig.isMultiResolution()
-	p.WriteInt32(0) // null OutputConfigurations
-	p.WriteInt32(0) // null True
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(0)  // null InputConfig.getWidth()
+	p.WriteInt32(0)  // null InputConfig.getHeight()
+	p.WriteInt32(0)  // null InputConfig.getFormat()
+	p.WriteInt32(0)  // null InputConfig.isMultiResolution()
+	p.WriteInt32(-1) // null OutputConfigurations
+	p.WriteInt32(0)  // null True
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

@@ -20,12 +20,12 @@ func (s *NetworkScanRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.ScanType)
-	p.WriteInt32(0) // null Specifiers
+	p.WriteInt32(-1) // null Specifiers
 	p.WriteInt32(s.SearchPeriodicity)
 	p.WriteInt32(s.MaxSearchTime)
 	p.WriteBool(s.IncrementalResults)
 	p.WriteInt32(s.IncrementalResultsPeriodicity)
-	p.WriteInt32(0) // null MccMncs
+	p.WriteInt32(-1) // null MccMncs
 	return nil
 }
 

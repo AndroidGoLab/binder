@@ -83,7 +83,7 @@ parcelables:
         - name: Capabilities
           write_method: int32
         - name: PreferredBrightnessLevels
-          write_method: opaque
+          write_method: int_array
     - name: LightState
       java_wire_format:
         - name: Color

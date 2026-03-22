@@ -25,10 +25,10 @@ func (s *DragEvent) MarshalParcel(
 	p.WriteFloat32(s.OffsetX)
 	p.WriteFloat32(s.OffsetY)
 	p.WriteInt32(0) // null DragResult?1:0
-	p.WriteInt32(0) // null 0
-	p.WriteInt32(0) // null 0
-	p.WriteInt32(0) // null 0
-	p.WriteInt32(0) // null 0
+	p.WriteInt32(0)
+	p.WriteInt32(0)
+	p.WriteInt32(0)
+	p.WriteInt32(0)
 	return nil
 }
 
@@ -65,41 +65,17 @@ func (s *DragEvent) UnmarshalParcel(
 			return nil // non-null DragResult?1:0: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	return nil
 }

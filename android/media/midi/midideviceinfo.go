@@ -23,12 +23,12 @@ func (s *MidiDeviceInfo) MarshalParcel(
 	p.WriteInt32(s.Id)
 	p.WriteInt32(s.InputPortCount)
 	p.WriteInt32(s.OutputPortCount)
-	p.WriteInt32(0) // null InputPortNames
-	p.WriteInt32(0) // null OutputPortNames
-	p.WriteInt32(0) // null IsPrivate?1:0
+	p.WriteInt32(-1) // null InputPortNames
+	p.WriteInt32(-1) // null OutputPortNames
+	p.WriteInt32(0)  // null IsPrivate?1:0
 	p.WriteInt32(s.DefaultProtocol)
-	p.WriteInt32(-1) // null GetBasicProperties(newString[]{PROPERTY_NAME,PROPERTY_MANUFACTURER,PROPERTY_PRODUCT,PROPERTY_VERSION,PROPERTY_SERIAL_NUMBER,PROPERTY_ALSA_CARD,PROPERTY_ALSA_DEVICE}) (Bundle)
-	p.WriteInt32(-1) // null Properties (Bundle)
+	p.WriteInt32(-1) // null GetBasicProperties(newString[]{PROPERTY_NAME,PROPERTY_MANUFACTURER,PROPERTY_PRODUCT,PROPERTY_VERSION,PROPERTY_SERIAL_NUMBER,PROPERTY_ALSA_CARD,PROPERTY_ALSA_DEVICE})
+	p.WriteInt32(-1) // null Properties
 	return nil
 }
 

@@ -35,8 +35,8 @@ func (s *BrightnessChangeEvent) MarshalParcel(
 	p.WriteString16(s.PackageName)
 	p.WriteInt32(s.UserId)
 	p.WriteString16(s.UniqueDisplayId)
-	p.WriteInt32(0) // null LuxValues
-	p.WriteInt32(0) // null LuxTimestamps
+	p.WriteInt32(-1) // null LuxValues
+	p.WriteInt32(-1) // null LuxTimestamps
 	p.WriteFloat32(s.BatteryLevel)
 	p.WriteFloat32(s.PowerBrightnessFactor)
 	p.WriteBool(s.NightMode)
@@ -47,7 +47,7 @@ func (s *BrightnessChangeEvent) MarshalParcel(
 	p.WriteFloat32(s.LastBrightness)
 	p.WriteBool(s.IsDefaultBrightnessConfig)
 	p.WriteBool(s.IsUserSetBrightness)
-	p.WriteInt32(0) // null ColorValueBuckets
+	p.WriteInt32(-1) // null ColorValueBuckets
 	p.WriteInt64(s.ColorSampleDuration)
 	return nil
 }

@@ -25,21 +25,21 @@ func (s *RoutingSessionInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Id)
-	p.WriteInt32(0) // null Name
+	p.WriteInt32(-1) // null Name
 	p.WriteString16(s.OwnerPackageName)
 	p.WriteString16(s.ClientPackageName)
 	p.WriteString16(s.ProviderId)
-	p.WriteInt32(0) // null SelectedRoutes
-	p.WriteInt32(0) // null SelectableRoutes
-	p.WriteInt32(0) // null DeselectableRoutes
-	p.WriteInt32(0) // null TransferableRoutes
+	p.WriteInt32(-1) // null SelectedRoutes
+	p.WriteInt32(-1) // null SelectableRoutes
+	p.WriteInt32(-1) // null DeselectableRoutes
+	p.WriteInt32(-1) // null TransferableRoutes
 	p.WriteInt32(s.VolumeHandling)
 	p.WriteInt32(s.VolumeMax)
 	p.WriteInt32(s.Volume)
-	p.WriteInt32(-1) // null ControlHints (Bundle)
+	p.WriteInt32(-1) // null ControlHints
 	p.WriteBool(s.IsSystemSession)
 	p.WriteInt32(s.TransferReason)
-	p.WriteInt32(0) // null TransferInitiatorUserHandle
+	p.WriteInt32(-1) // null TransferInitiatorUserHandle
 	p.WriteString16(s.TransferInitiatorPackageName)
 	return nil
 }

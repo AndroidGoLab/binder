@@ -78,6 +78,12 @@ var javaWriteMethodToSpecType = map[string]string{
 	"writeTypedObject":  "typed_object",
 	"writeByte":         "int32",
 	"writeByteArray":    "byte_array",
+	"writeIntArray":     "int_array",
+	"writeLongArray":    "long_array",
+	"writeFloatArray":   "float_array",
+	"writeDoubleArray":  "double_array",
+	"writeBooleanArray": "boolean_array",
+	"writeStringArray":  "string_array",
 	"writeBlob":         "blob",
 	"writeStrongBinder": "binder",
 }

@@ -18,9 +18,9 @@ func (s *NetworkScorerAppData) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.PackageUid)
-	p.WriteInt32(0) // null RecommendationService
+	p.WriteInt32(-1) // null RecommendationService
 	p.WriteString16(s.RecommendationServiceLabel)
-	p.WriteInt32(0) // null EnableUseOpenWifiActivity
+	p.WriteInt32(-1) // null EnableUseOpenWifiActivity
 	p.WriteString16(s.NetworkAvailableNotificationChannelId)
 	return nil
 }

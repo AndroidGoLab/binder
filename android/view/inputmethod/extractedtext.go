@@ -19,14 +19,14 @@ var _ parcel.Parcelable = (*ExtractedText)(nil)
 func (s *ExtractedText) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Text
+	p.WriteInt32(-1) // null Text
 	p.WriteInt32(s.StartOffset)
 	p.WriteInt32(s.PartialStartOffset)
 	p.WriteInt32(s.PartialEndOffset)
 	p.WriteInt32(s.SelectionStart)
 	p.WriteInt32(s.SelectionEnd)
-	p.WriteInt32(0) // null This.flags
-	p.WriteInt32(0) // null Hint
+	p.WriteInt32(0)  // null This.flags
+	p.WriteInt32(-1) // null Hint
 	return nil
 }
 

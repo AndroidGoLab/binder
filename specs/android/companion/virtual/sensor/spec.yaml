@@ -99,6 +99,6 @@ parcelables:
         - name: Values.length
           write_method: int32
         - name: Values
-          write_method: opaque
+          write_method: float_array
         - name: TimestampNanos
           write_method: int64

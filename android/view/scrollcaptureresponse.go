@@ -18,12 +18,12 @@ func (s *ScrollCaptureResponse) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Flg)
 	p.WriteString16(s.Description)
-	p.WriteInt32(0) // null Connection
-	p.WriteInt32(0) // null WindowBounds
-	p.WriteInt32(0) // null BoundsInWindow
-	p.WriteInt32(0) // null WindowTitle
-	p.WriteInt32(0) // null PackageName
-	p.WriteInt32(0) // null Messages
+	p.WriteInt32(-1) // null Connection
+	p.WriteInt32(0)  // null WindowBounds
+	p.WriteInt32(0)  // null BoundsInWindow
+	p.WriteInt32(0)  // null WindowTitle
+	p.WriteInt32(0)  // null PackageName
+	p.WriteInt32(-1) // null Messages
 	return nil
 }
 

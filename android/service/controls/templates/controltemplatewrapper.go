@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*ControlTemplateWrapper)(nil)
 func (s *ControlTemplateWrapper) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null ControlTemplate.getDataBundle() (Bundle)
+	p.WriteInt32(-1) // null ControlTemplate.getDataBundle()
 	return nil
 }
 

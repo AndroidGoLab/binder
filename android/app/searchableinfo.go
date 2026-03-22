@@ -35,7 +35,7 @@ func (s *SearchableInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.LabelId)
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.HintId)
 	p.WriteInt32(s.SearchMode)
 	p.WriteInt32(s.IconId)
@@ -52,7 +52,7 @@ func (s *SearchableInfo) MarshalParcel(
 	p.WriteString16(s.SuggestIntentAction)
 	p.WriteString16(s.SuggestIntentData)
 	p.WriteInt32(s.SuggestThreshold)
-	p.WriteInt32(0) // null 0
+	p.WriteInt32(0)
 	p.WriteString16(s.SuggestProviderPackage)
 	p.WriteInt32(s.VoiceSearchMode)
 	p.WriteInt32(s.VoiceLanguageModeId)
@@ -158,14 +158,8 @@ func (s *SearchableInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	s.SuggestProviderPackage, _err = p.ReadString16()
 	if _err != nil {

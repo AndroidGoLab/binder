@@ -18,7 +18,7 @@ func (s *AlternativeSpan) MarshalParcel(
 ) error {
 	p.WriteInt32(s.StartPosition)
 	p.WriteInt32(s.EndPosition)
-	p.WriteInt32(0) // null Alternatives
+	p.WriteInt32(-1) // null Alternatives
 	return nil
 }
 

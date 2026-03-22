@@ -29,7 +29,7 @@ func (s *InlineSuggestionInfo) MarshalParcel(
 		p.WriteInt32(0)
 	}
 	p.WriteString16(s.Source)
-	p.WriteInt32(0) // null AutofillHints
+	p.WriteInt32(-1) // null AutofillHints
 	p.WriteString16(s.Type)
 	p.WriteInt32(0) // null Tooltip
 	return nil

@@ -30,8 +30,8 @@ func (s *ContentCaptureOptions) MarshalParcel(
 	p.WriteInt32(s.LogHistorySize)
 	p.WriteBool(s.DisableFlushForViewTreeAppearing)
 	p.WriteBool(s.EnableReceiver)
-	p.WriteInt32(0) // null Parcel
-	p.WriteInt32(0) // null WhitelistedComponents
+	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null WhitelistedComponents
 	return nil
 }
 

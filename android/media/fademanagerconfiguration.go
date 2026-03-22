@@ -22,13 +22,13 @@ func (s *FadeManagerConfiguration) MarshalParcel(
 	p.WriteInt64(s.FadeOutDurationMillis)
 	p.WriteInt64(s.FadeInDurationMillis)
 	p.WriteInt64(s.FadeInDelayForOffendersMillis)
-	p.WriteInt32(0) // null UsageToFadeWrapperMap
-	p.WriteInt32(0) // null AttrToFadeWrapperMap
-	p.WriteInt32(0) // null FadeableUsages.toArray()
-	p.WriteInt32(0) // null UnfadeableContentTypes.toArray()
-	p.WriteInt32(0) // null UnfadeablePlayerTypes.toArray()
-	p.WriteInt32(0) // null UnfadeableUids.toArray()
-	p.WriteInt32(0) // null UnfadeableAudioAttributes
+	p.WriteInt32(-1) // null UsageToFadeWrapperMap
+	p.WriteInt32(-1) // null AttrToFadeWrapperMap
+	p.WriteInt32(-1) // null FadeableUsages.toArray()
+	p.WriteInt32(-1) // null UnfadeableContentTypes.toArray()
+	p.WriteInt32(-1) // null UnfadeablePlayerTypes.toArray()
+	p.WriteInt32(-1) // null UnfadeableUids.toArray()
+	p.WriteInt32(-1) // null UnfadeableAudioAttributes
 	return nil
 }
 

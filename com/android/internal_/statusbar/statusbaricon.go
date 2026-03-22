@@ -14,13 +14,13 @@ var _ parcel.Parcelable = (*StatusBarIcon)(nil)
 func (s *StatusBarIcon) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null This.icon
-	p.WriteInt32(0) // null This.pkg
-	p.WriteInt32(0) // null This.user
-	p.WriteInt32(0) // null This.iconLevel
-	p.WriteInt32(0) // null This.visible?1:0
-	p.WriteInt32(0) // null This.number
-	p.WriteInt32(0) // null This.contentDescription
+	p.WriteInt32(0)  // null This.icon
+	p.WriteInt32(0)  // null This.pkg
+	p.WriteInt32(0)  // null This.user
+	p.WriteInt32(0)  // null This.iconLevel
+	p.WriteInt32(0)  // null This.visible?1:0
+	p.WriteInt32(0)  // null This.number
+	p.WriteInt32(-1) // null This.contentDescription
 	return nil
 }
 

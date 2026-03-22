@@ -16,7 +16,7 @@ var _ parcel.Parcelable = (*JobSnapshot)(nil)
 func (s *JobSnapshot) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Out
+	p.WriteInt32(-1) // null Out
 	p.WriteInt32(s.SatisfiedConstraints)
 	p.WriteBool(s.IsRunnable)
 	return nil

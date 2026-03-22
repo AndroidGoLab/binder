@@ -53,7 +53,7 @@ func (s *ParcelableConnection) MarshalParcel(
 	p.WriteInt32(s.AddressPresentation)
 	p.WriteString16(s.CallerDisplayName)
 	p.WriteInt32(s.CallerDisplayNamePresentation)
-	p.WriteInt32(0) // null VideoProvider!=null?mVideoProvider.asBinder():null
+	p.WriteInt32(-1) // null VideoProvider!=null?mVideoProvider.asBinder():null
 	p.WriteInt32(s.VideoState)
 	p.WriteInt32(0) // null (byte)(mRingbackRequested?1:0)
 	p.WriteInt32(0) // null (byte)(mIsVoipAudioMode?1:0)
@@ -74,8 +74,8 @@ func (s *ParcelableConnection) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0)  // null ConferenceableConnectionIds
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null ConferenceableConnectionIds
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(s.ConnectionProperties)
 	p.WriteInt32(s.SupportedAudioRoutes)
 	p.WriteString16(s.ParentCallId)

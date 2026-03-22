@@ -236,7 +236,7 @@ parcelables:
         - name: FrequencyRange
           write_method: int32
         - name: TxTimeMs
-          write_method: opaque
+          write_method: int_array
         - name: RxTimeMs
           write_method: int32
     - name: AvailableNetworkInfo
@@ -419,7 +419,7 @@ parcelables:
         - name: Earfcn
           write_method: int32
         - name: Bands
-          write_method: opaque
+          write_method: int_array
         - name: Bandwidth
           write_method: int32
         - name: AdditionalPlmns
@@ -674,7 +674,7 @@ parcelables:
         - name: LogicalModemList
           write_method: opaque
         - name: DeviceNrCapabilities
-          write_method: opaque
+          write_method: int_array
     - name: PhoneNumberRange
       java_wire_format:
         - name: CountryCode
@@ -702,7 +702,7 @@ parcelables:
         - name: FrequencyRange
           write_method: int32
         - name: ContextIds
-          write_method: opaque
+          write_method: int_array
         - name: PhysicalCellId
           write_method: int32
         - name: Band
@@ -750,9 +750,9 @@ parcelables:
         - name: RadioAccessNetwork
           write_method: int32
         - name: Bands
-          write_method: opaque
+          write_method: int_array
         - name: Channels
-          write_method: opaque
+          write_method: int_array
     - name: ServiceState
       java_wire_format:
         - name: VoiceRegState
@@ -788,7 +788,7 @@ parcelables:
         - name: ChannelNumber
           write_method: int32
         - name: CellBandwidths
-          write_method: opaque
+          write_method: int_array
         - name: NrFrequencyRange
           write_method: int32
         - name: OperatorAlphaLongRaw
@@ -874,9 +874,9 @@ parcelables:
         - name: Type
           write_method: int32
         - name: Ehplmns
-          write_method: opaque
+          write_method: string_array
         - name: Hplmns
-          write_method: opaque
+          write_method: string_array
         - name: GroupOwner
           write_method: string16
         - name: CarrierConfigAccessRules
@@ -908,7 +908,7 @@ parcelables:
         - name: DataUsageTime
           write_method: int64
         - name: NetworkTypes
-          write_method: opaque
+          write_method: int_array
     - name: TelephonyDisplayInfo
       java_wire_format:
         - name: NetworkType
@@ -937,9 +937,9 @@ parcelables:
         - name: BucketCount
           write_method: int32
         - name: BucketEndPoints
-          write_method: opaque
+          write_method: int_array
         - name: BucketCounters
-          write_method: opaque
+          write_method: int_array
     - name: ThermalMitigationRequest
       java_wire_format:
         - name: ThermalMitigationAction

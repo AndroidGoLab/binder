@@ -17,8 +17,8 @@ var _ parcel.Parcelable = (*DisplayAreaInfo)(nil)
 func (s *DisplayAreaInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.DisplayId)
 	p.WriteInt32(s.FeatureId)
 	p.WriteInt32(s.RootDisplayAreaId)

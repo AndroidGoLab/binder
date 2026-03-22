@@ -44,8 +44,8 @@ func (s *SelectionEvent) MarshalParcel(
 	p.WriteInt64(s.DurationSinceSessionStart)
 	p.WriteInt64(s.DurationSincePreviousEvent)
 	p.WriteInt32(s.EventIndex)
-	p.WriteInt32(0) // null SessionId!=null?1:0
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(0)  // null SessionId!=null?1:0
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.Start)
 	p.WriteInt32(s.End)
 	p.WriteInt32(s.SmartStart)

@@ -88,7 +88,7 @@ func (s *DisplayInfo) MarshalParcel(
 	p.WriteInt32(s.LargestNominalAppHeight)
 	p.WriteInt32(s.LogicalWidth)
 	p.WriteInt32(s.LogicalHeight)
-	p.WriteInt32(0) // null DisplayCutout
+	p.WriteInt32(-1) // null DisplayCutout
 	p.WriteInt32(s.Rotation)
 	p.WriteInt32(s.ModeId)
 	p.WriteFloat32(s.RenderFrameRate)
@@ -134,7 +134,7 @@ func (s *DisplayInfo) MarshalParcel(
 	}
 	p.WriteInt32(0) // null LayoutLimitedRefreshRate
 	p.WriteFloat32(s.HdrSdrRatio)
-	p.WriteInt32(0) // null ThermalRefreshRateThrottling
+	p.WriteInt32(-1) // null ThermalRefreshRateThrottling
 	p.WriteString(s.ThermalBrightnessThrottlingDataId)
 	return nil
 }

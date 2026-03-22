@@ -23,19 +23,19 @@ func (s *JobParameters) MarshalParcel(
 ) error {
 	p.WriteInt32(s.JobId)
 	p.WriteString16(s.JobNamespace)
-	p.WriteInt32(0)  // null Extras
-	p.WriteInt32(-1) // null TransientExtras (Bundle)
-	p.WriteInt32(0)  // null 1
-	p.WriteInt32(0)  // null Dest
+	p.WriteInt32(-1) // null Extras
+	p.WriteInt32(-1) // null TransientExtras
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(0)  // null ClipGrantFlags
-	p.WriteInt32(0)  // null Callback
+	p.WriteInt32(-1) // null Callback
 	p.WriteInt32(0)  // null OverrideDeadlineExpired?1:0
 	p.WriteBool(s.IsExpedited)
 	p.WriteBool(s.IsUserInitiated)
-	p.WriteInt32(0) // null TriggeredContentUris
-	p.WriteInt32(0) // null TriggeredContentAuthorities
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null TriggeredContentUris
+	p.WriteInt32(-1) // null TriggeredContentAuthorities
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.StopReason)
 	p.WriteInt32(s.InternalStopReason)
 	p.WriteString16(s.DebugStopReason)
@@ -72,14 +72,8 @@ func (s *JobParameters) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -143,14 +137,8 @@ func (s *JobParameters) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()

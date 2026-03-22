@@ -34,8 +34,8 @@ func (s *HotwordDetectedResult) MarshalParcel(
 	p.WriteInt32(s.Score)
 	p.WriteInt32(s.PersonalizedScore)
 	p.WriteInt32(s.HotwordPhraseId)
-	p.WriteInt32(0) // null AudioStreams
-	p.WriteInt32(0) // null Extras
+	p.WriteInt32(-1) // null AudioStreams
+	p.WriteInt32(0)  // null Extras
 	p.WriteInt32(s.BackgroundAudioPower)
 	return nil
 }

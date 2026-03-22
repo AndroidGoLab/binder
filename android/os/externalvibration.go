@@ -18,8 +18,8 @@ func (s *ExternalVibration) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Uid)
 	p.WriteString16(s.Pkg)
-	p.WriteInt32(0) // null Controller.asBinder()
-	p.WriteInt32(0) // null Token
+	p.WriteInt32(-1) // null Controller.asBinder()
+	p.WriteInt32(-1) // null Token
 	return nil
 }
 

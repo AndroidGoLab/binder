@@ -995,7 +995,7 @@ parcelables:
         - name: Status
           write_method: int32
         - name: UnavailablePhysicalCameras
-          write_method: opaque
+          write_method: string_array
         - name: ClientPackage
           write_method: string16
     - name: HardwareBuffer

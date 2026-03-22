@@ -17,11 +17,11 @@ var _ parcel.Parcelable = (*ModuleInfo)(nil)
 func (s *ModuleInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Name
+	p.WriteInt32(-1) // null Name
 	p.WriteString16(s.PackageName)
 	p.WriteBool(s.Hidden)
 	p.WriteString16(s.ApexModuleName)
-	p.WriteInt32(0) // null ApkInApexPackageNames
+	p.WriteInt32(-1) // null ApkInApexPackageNames
 	return nil
 }
 

@@ -16,9 +16,9 @@ func (s *ProgramSelector) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.ProgramType)
-	p.WriteInt32(0) // null PrimaryId
-	p.WriteInt32(0) // null SecondaryIds
-	p.WriteInt32(0) // null VendorIds
+	p.WriteInt32(0)  // null PrimaryId
+	p.WriteInt32(-1) // null SecondaryIds
+	p.WriteInt32(-1) // null VendorIds
 	return nil
 }
 

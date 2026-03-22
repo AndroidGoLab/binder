@@ -31,22 +31,22 @@ func (s *PromptInfo) MarshalParcel(
 	p.WriteInt32(s.LogoRes)
 	p.WriteInt32(0) // null LogoBitmap
 	p.WriteString16(s.LogoDescription)
-	p.WriteInt32(0) // null Title
+	p.WriteInt32(-1) // null Title
 	p.WriteBool(s.UseDefaultTitle)
-	p.WriteInt32(0) // null Subtitle
+	p.WriteInt32(-1) // null Subtitle
 	p.WriteBool(s.UseDefaultSubtitle)
-	p.WriteInt32(0) // null Description
-	p.WriteInt32(0) // null ContentView
-	p.WriteInt32(0) // null DeviceCredentialTitle
-	p.WriteInt32(0) // null DeviceCredentialSubtitle
-	p.WriteInt32(0) // null DeviceCredentialDescription
-	p.WriteInt32(0) // null NegativeButtonText
+	p.WriteInt32(-1) // null Description
+	p.WriteInt32(0)  // null ContentView
+	p.WriteInt32(-1) // null DeviceCredentialTitle
+	p.WriteInt32(-1) // null DeviceCredentialSubtitle
+	p.WriteInt32(-1) // null DeviceCredentialDescription
+	p.WriteInt32(-1) // null NegativeButtonText
 	p.WriteBool(s.ConfirmationRequested)
 	p.WriteBool(s.DeviceCredentialAllowed)
 	p.WriteInt32(s.Authenticators)
 	p.WriteBool(s.DisallowBiometricsIfPolicyExists)
 	p.WriteBool(s.ReceiveSystemEvents)
-	p.WriteInt32(0) // null AllowedSensorIds
+	p.WriteInt32(-1) // null AllowedSensorIds
 	p.WriteBool(s.AllowBackgroundAuthentication)
 	p.WriteBool(s.IgnoreEnrollmentState)
 	p.WriteBool(s.IsForLegacyFingerprintManager)

@@ -790,7 +790,7 @@ parcelables:
         - name: SupportedSensors.length
           write_method: int32
         - name: SupportedSensors
-          write_method: opaque
+          write_method: int_array
         - name: MemoryRegions
           write_method: opaque
         - name: SupportsReliableMessages
@@ -856,11 +856,11 @@ parcelables:
         - name: NeededSensors.length
           write_method: int32
         - name: NeededSensors
-          write_method: opaque
+          write_method: int_array
         - name: OutputEvents.length
           write_method: int32
         - name: OutputEvents
-          write_method: opaque
+          write_method: int_array
         - name: AppBinary.length
           write_method: int32
         - name: AppBinary
@@ -904,11 +904,11 @@ parcelables:
         - name: NeededSensors.length
           write_method: int32
         - name: NeededSensors
-          write_method: opaque
+          write_method: int_array
         - name: OutputEvents.length
           write_method: int32
         - name: OutputEvents
-          write_method: opaque
+          write_method: int_array
     - name: NanoAppMessage
       java_wire_format:
         - name: NanoAppId

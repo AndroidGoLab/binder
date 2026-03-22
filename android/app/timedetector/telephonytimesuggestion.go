@@ -26,7 +26,7 @@ func (s *TelephonyTimeSuggestion) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null DebugInfo
+	p.WriteInt32(-1) // null DebugInfo
 	return nil
 }
 

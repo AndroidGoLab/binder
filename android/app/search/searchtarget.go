@@ -51,7 +51,7 @@ func (s *SearchTarget) MarshalParcel(
 		p.WriteInt32(0)
 	}
 	p.WriteInt32(0)  // null SliceUri
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

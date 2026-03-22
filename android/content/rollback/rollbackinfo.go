@@ -19,9 +19,9 @@ func (s *RollbackInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.RollbackId)
-	p.WriteInt32(0) // null Packages
+	p.WriteInt32(-1) // null Packages
 	p.WriteBool(s.IsStaged)
-	p.WriteInt32(0) // null CausePackages
+	p.WriteInt32(-1) // null CausePackages
 	p.WriteInt32(s.CommittedSessionId)
 	p.WriteInt32(s.RollbackImpactLevel)
 	return nil

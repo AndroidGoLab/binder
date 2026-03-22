@@ -15,9 +15,9 @@ var _ parcel.Parcelable = (*ReferrerIntent)(nil)
 func (s *ReferrerIntent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	p.WriteString16(s.Referrer)
-	p.WriteInt32(0) // null CallerToken
+	p.WriteInt32(-1) // null CallerToken
 	return nil
 }
 

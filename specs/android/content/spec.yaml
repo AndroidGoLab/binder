@@ -1264,7 +1264,7 @@ parcelables:
     - name: IntentFilter
       java_wire_format:
         - name: Actions.toArray(newString[mActions.size()])
-          write_method: opaque
+          write_method: string_array
         - name: "1"
           write_method: int32
           condition: mCategories!=null
@@ -1356,13 +1356,13 @@ parcelables:
         - name: Description
           write_method: string16
         - name: ChoiceEntries
-          write_method: opaque
+          write_method: string_array
         - name: ChoiceValues
-          write_method: opaque
+          write_method: string_array
         - name: CurrentValue
           write_method: string16
         - name: CurrentValues
-          write_method: opaque
+          write_method: string_array
         - name: Restrictions
           write_method: opaque
     - name: SyncAdapterType
@@ -1509,9 +1509,9 @@ parcelables:
         - name: Parcel
           write_method: opaque
         - name: PerSourceLastSuccessTimes
-          write_method: opaque
+          write_method: long_array
         - name: PerSourceLastFailureTimes
-          write_method: opaque
+          write_method: long_array
     - name: UriRelativeFilterGroup
       java_wire_format:
         - name: Action

@@ -15,7 +15,7 @@ var _ parcel.Parcelable = (*MediaMetadata)(nil)
 func (s *MediaMetadata) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Bundle (Bundle)
+	p.WriteInt32(-1) // null Bundle
 	p.WriteInt32(s.BitmapDimensionLimit)
 	return nil
 }

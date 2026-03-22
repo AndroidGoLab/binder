@@ -16,10 +16,10 @@ var _ parcel.Parcelable = (*TvInteractiveAppServiceInfo)(nil)
 func (s *TvInteractiveAppServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.Types)
-	p.WriteInt32(0) // null ExtraTypes
+	p.WriteInt32(-1) // null ExtraTypes
 	return nil
 }
 

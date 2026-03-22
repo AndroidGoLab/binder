@@ -14,9 +14,9 @@ var _ parcel.Parcelable = (*MergedConfiguration)(nil)
 func (s *MergedConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null Dest
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

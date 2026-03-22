@@ -20,10 +20,10 @@ func (s *InlineSuggestionsRequest) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Flg)
 	p.WriteInt32(s.MaxSuggestionCount)
-	p.WriteInt32(0) // null InlinePresentationSpecs
+	p.WriteInt32(-1) // null InlinePresentationSpecs
 	p.WriteString16(s.HostPackageName)
 	p.WriteInt32(0)  // null SupportedLocales
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(s.HostDisplayId)
 	p.WriteInt32(0) // null InlineTooltipPresentationSpec
 	return nil

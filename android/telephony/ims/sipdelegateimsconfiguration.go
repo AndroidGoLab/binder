@@ -16,7 +16,7 @@ func (s *SipDelegateImsConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt64(s.Version)
-	p.WriteInt32(0) // null Bundle
+	p.WriteInt32(-1) // null Bundle
 	return nil
 }
 

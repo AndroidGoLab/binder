@@ -34,14 +34,14 @@ func (s *EditorInfo) MarshalParcel(
 	p.WriteInt32(s.ImeOptions)
 	p.WriteString16(s.PrivateImeOptions)
 	p.WriteInt32(s.InternalImeOptions)
-	p.WriteInt32(0) // null ActionLabel
+	p.WriteInt32(-1) // null ActionLabel
 	p.WriteInt32(s.ActionId)
 	p.WriteInt32(s.InitialSelStart)
 	p.WriteInt32(s.InitialSelEnd)
 	p.WriteInt32(s.InitialCapsMode)
 	p.WriteInt32(s.InitialToolType)
-	p.WriteInt32(0) // null HintText
-	p.WriteInt32(0) // null Label
+	p.WriteInt32(-1) // null HintText
+	p.WriteInt32(-1) // null Label
 	p.WriteString16(s.PackageName)
 	if s.AutofillId != nil {
 		p.WriteInt32(1)
@@ -53,15 +53,15 @@ func (s *EditorInfo) MarshalParcel(
 	}
 	p.WriteInt32(s.FieldId)
 	p.WriteString16(s.FieldName)
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(s.SupportedHandwritingGestureTypes)
 	p.WriteInt32(s.SupportedHandwritingGesturePreviewTypes)
-	p.WriteInt32(0) // null IsStylusHandwritingEnabled
-	p.WriteInt32(0) // null InitialSurroundingText!=null
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null Dest
-	p.WriteInt32(0) // null ContentMimeTypes
-	p.WriteInt32(0) // null TargetInputMethodUser
+	p.WriteInt32(0)  // null IsStylusHandwritingEnabled
+	p.WriteInt32(0)  // null InitialSurroundingText!=null
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null ContentMimeTypes
+	p.WriteInt32(-1) // null TargetInputMethodUser
 	return nil
 }
 

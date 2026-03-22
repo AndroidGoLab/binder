@@ -23,7 +23,7 @@ func (s *SyncResult) MarshalParcel(
 	p.WriteInt32(0) // null PartialSyncUnavailable?1:0
 	p.WriteInt32(0) // null MoreRecordsToGet?1:0
 	p.WriteInt64(s.DelayUntil)
-	p.WriteInt32(0) // null Parcel
+	p.WriteInt32(-1) // null Parcel
 	return nil
 }
 

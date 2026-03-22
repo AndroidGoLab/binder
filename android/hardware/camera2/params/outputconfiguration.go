@@ -26,14 +26,14 @@ func (s *OutputConfiguration) MarshalParcel(
 	p.WriteInt32(s.Rotation)
 	p.WriteInt32(s.SurfaceGroupId)
 	p.WriteInt32(s.SurfaceType)
-	p.WriteInt32(0) // null ConfiguredSize.getWidth()
-	p.WriteInt32(0) // null ConfiguredSize.getHeight()
-	p.WriteInt32(0) // null IsDeferredConfig?1:0
-	p.WriteInt32(0) // null IsShared?1:0
-	p.WriteInt32(0) // null Surfaces
+	p.WriteInt32(0)  // null ConfiguredSize.getWidth()
+	p.WriteInt32(0)  // null ConfiguredSize.getHeight()
+	p.WriteInt32(0)  // null IsDeferredConfig?1:0
+	p.WriteInt32(0)  // null IsShared?1:0
+	p.WriteInt32(-1) // null Surfaces
 	p.WriteString16(s.PhysicalCameraId)
-	p.WriteInt32(0) // null IsMultiResolution?1:0
-	p.WriteInt32(0) // null ConvertIntegerToIntList(mSensorPixelModesUsed)
+	p.WriteInt32(0)  // null IsMultiResolution?1:0
+	p.WriteInt32(-1) // null ConvertIntegerToIntList(mSensorPixelModesUsed)
 	p.WriteInt64(s.DynamicRangeProfile)
 	p.WriteInt32(s.ColorSpace)
 	p.WriteInt64(s.StreamUseCase)

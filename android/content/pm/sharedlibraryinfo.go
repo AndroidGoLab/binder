@@ -22,16 +22,16 @@ func (s *SharedLibraryInfo) MarshalParcel(
 ) error {
 	p.WriteString(s.Path)
 	p.WriteString(s.PackageName)
-	p.WriteInt32(0) // null 1
-	p.WriteInt32(0) // null CodePaths.toArray(newString[mCodePaths.size()])
+	p.WriteInt32(1)
+	p.WriteInt32(-1) // null CodePaths.toArray(newString[mCodePaths.size()])
 	p.WriteString(s.Name)
 	p.WriteInt64(s.Version)
 	p.WriteInt32(s.Type)
-	p.WriteInt32(0) // null DeclaringPackage
-	p.WriteInt32(0) // null DependentPackages
-	p.WriteInt32(0) // null Dependencies
+	p.WriteInt32(0)  // null DeclaringPackage
+	p.WriteInt32(-1) // null DependentPackages
+	p.WriteInt32(-1) // null Dependencies
 	p.WriteBool(s.IsNative)
-	p.WriteInt32(0) // null OptionalDependentPackages
+	p.WriteInt32(-1) // null OptionalDependentPackages
 	return nil
 }
 
@@ -47,14 +47,8 @@ func (s *SharedLibraryInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null 1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()

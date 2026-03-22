@@ -66,7 +66,7 @@ func (s *Location) MarshalParcel(
 	if s.FieldsMask&1024 != 0 {
 		p.WriteFloat32(s.MslAltitudeAccuracyMeters)
 	}
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

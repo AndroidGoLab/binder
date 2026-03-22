@@ -21,8 +21,8 @@ func (s *Suggestion) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Id)
-	p.WriteInt32(0) // null Title
-	p.WriteInt32(0) // null Summary
+	p.WriteInt32(-1) // null Title
+	p.WriteInt32(-1) // null Summary
 	if s.Icon != nil {
 		p.WriteInt32(1)
 		if _err := s.Icon.MarshalParcel(p); _err != nil {

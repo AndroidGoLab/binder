@@ -39,9 +39,9 @@ func (s *ParcelableConference) MarshalParcel(
 	}
 	p.WriteInt32(s.State)
 	p.WriteInt32(s.ConnectionCapabilities)
-	p.WriteInt32(0) // null ConnectionIds
+	p.WriteInt32(-1) // null ConnectionIds
 	p.WriteInt64(s.ConnectTimeMillis)
-	p.WriteInt32(0) // null VideoProvider!=null?mVideoProvider.asBinder():null
+	p.WriteInt32(-1) // null VideoProvider!=null?mVideoProvider.asBinder():null
 	p.WriteInt32(s.VideoState)
 	if s.StatusHints != nil {
 		p.WriteInt32(1)
@@ -51,7 +51,7 @@ func (s *ParcelableConference) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(-1) // null Extras (Bundle)
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(s.ConnectionProperties)
 	p.WriteInt64(s.ConnectElapsedTimeMillis)
 	if s.Address != nil {
