@@ -300,12 +300,16 @@ More examples: [`examples/`](examples/)
 | [`battery_health`](examples/battery_health/) | Capacity, charge status, current draw |
 | [`camera_capture`](examples/camera_capture/) | Camera frame capture using gralloc-allocated buffers. |
 | [`camera_connect`](examples/camera_connect/) | Camera device connection with callback stub |
+| [`camera_fwk`](examples/camera_fwk/) |  |
 | [`device_info`](examples/device_info/) | Device properties, build info |
 | [`display_info`](examples/display_info/) | Display IDs, brightness, night mode |
+| [`getservice_vs_checkservice`](examples/getservice_vs_checkservice/) | Binary getservice_vs_checkservice compares GetService vs CheckService |
 | [`gps_location`](examples/gps_location/) | Live GPS fix via ILocationListener callback |
+| [`keymint_delete_test`](examples/keymint_delete_test/) | Binary keymint_delete_test calls DeleteAllKeys on the KeyMint HAL |
 | [`list_services`](examples/list_services/) | Enumerate all binder services, ping each |
 | [`package_query`](examples/package_query/) | Package list, installation info |
 | [`power_status`](examples/power_status/) | Power supply state, charging info |
+| [`security_test_apk`](examples/security_test_apk/) | Binary security_test_apk probes whether an app-sandboxed process can |
 | [`softap_manage`](examples/softap_manage/) | WiFi hotspot enable/disable, config |
 | [`softap_tether_offload`](examples/softap_tether_offload/) | Tethering offload config, stats |
 | [`softap_wifi_hal`](examples/softap_wifi_hal/) | WiFi chip info, AP interface state |
@@ -1827,6 +1831,6 @@ A [weekly workflow](.github/workflows/check-aosp-updates.yml) checks for new AOS
 │   ├── hardware/             HAL interfaces
 │   └── ...                   666 packages total
 ├── com/                      AOSP com.android.* service proxies
-├── examples/                 15 runnable examples
+├── examples/                 19 runnable examples
 └── .github/workflows/        CI configuration
 ```
