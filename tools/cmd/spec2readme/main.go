@@ -9,20 +9,82 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
+	"math"
 	"os"
 	"path/filepath"
 	"regexp"
 	"sort"
 	"strings"
 
-	"github.com/xaionaro-go/binder/tools/pkg/spec"
+	"github.com/AndroidGoLab/binder/tools/pkg/spec"
 )
 
 const (
-	moduleBase = "github.com/xaionaro-go/binder"
+	moduleBase = "github.com/AndroidGoLab/binder"
 )
+
+// generatedDirs lists directories containing generated Go code.
+var generatedDirs = []string{"android", "com"}
+
+// codebaseStats holds dynamically computed statistics about the generated codebase.
+type codebaseStats struct {
+	goFiles    int
+	packages   int
+	methods    int
+	interfaces int
+}
+
+// computeCodebaseStats counts Go files, packages, and proxy methods in the
+// generated code directories.
+func computeCodebaseStats() (codebaseStats, error) {
+	var stats codebaseStats
+	packageDirs := make(map[string]bool)
+	proxyMethodRe := regexp.MustCompile(`^func \(p \*\w+`)
+	interfaceRe := regexp.MustCompile(`^type I\w+ interface \{`)
+
+	for _, dir := range generatedDirs {
+		err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return nil // skip inaccessible paths
+			}
+			if info.IsDir() {
+				return nil
+			}
+			if !strings.HasSuffix(path, ".go") || strings.HasSuffix(path, "_test.go") {
+				return nil
+			}
+			stats.goFiles++
+			packageDirs[filepath.Dir(path)] = true
+
+			f, err := os.Open(path)
+			if err != nil {
+				return nil
+			}
+			defer f.Close()
+
+			scanner := bufio.NewScanner(f)
+			for scanner.Scan() {
+				line := scanner.Text()
+				if proxyMethodRe.MatchString(line) {
+					stats.methods++
+				}
+				if interfaceRe.MatchString(line) {
+					stats.interfaces++
+				}
+			}
+			return nil
+		})
+		if err != nil {
+			return stats, fmt.Errorf("walking %s: %w", dir, err)
+		}
+	}
+
+	stats.packages = len(packageDirs)
+	return stats, nil
+}
 
 func main() {
 	specsDir := flag.String("specs", "specs/", "Directory containing spec YAML files")
@@ -89,6 +151,16 @@ func run(
 
 	// Update inline example count in directory tree.
 	content = updateExampleCount(content, len(examples))
+
+	// Compute and update inline codebase stats.
+	stats, err := computeCodebaseStats()
+	if err != nil {
+		return fmt.Errorf("computing codebase stats: %w", err)
+	}
+	fmt.Fprintf(os.Stderr, "Codebase stats: %d Go files, %d packages, %d methods, %d interfaces\n",
+		stats.goFiles, stats.packages, stats.methods, stats.interfaces)
+
+	content = updateInlineStats(content, stats, packages)
 
 	return os.WriteFile(outputPath, []byte(content), 0o644)
 }
@@ -169,7 +241,7 @@ func extractDocComment(path string) string {
 }
 
 func renderQuickStart() string {
-	return `**Go library** — ` + "`go get github.com/xaionaro-go/binder`" + ` — live GPS location via binder IPC:
+	return `**Go library** — ` + "`go get github.com/AndroidGoLab/binder`" + ` — live GPS location via binder IPC:
 
 ` + "```go" + `
 package main
@@ -181,12 +253,12 @@ import (
     "os"
     "time"
 
-    "github.com/xaionaro-go/binder/android/location"
-    androidos "github.com/xaionaro-go/binder/android/os"
-    "github.com/xaionaro-go/binder/binder"
-    "github.com/xaionaro-go/binder/binder/versionaware"
-    "github.com/xaionaro-go/binder/kernelbinder"
-    "github.com/xaionaro-go/binder/servicemanager"
+    "github.com/AndroidGoLab/binder/android/location"
+    androidos "github.com/AndroidGoLab/binder/android/os"
+    "github.com/AndroidGoLab/binder/binder"
+    "github.com/AndroidGoLab/binder/binder/versionaware"
+    "github.com/AndroidGoLab/binder/kernelbinder"
+    "github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // gpsListener receives location callbacks from the LocationManager.
@@ -250,11 +322,11 @@ import (
     "fmt"
     "log"
 
-    "github.com/xaionaro-go/binder/android/location"
-    "github.com/xaionaro-go/binder/binder"
-    "github.com/xaionaro-go/binder/binder/versionaware"
-    "github.com/xaionaro-go/binder/kernelbinder"
-    "github.com/xaionaro-go/binder/servicemanager"
+    "github.com/AndroidGoLab/binder/android/location"
+    "github.com/AndroidGoLab/binder/binder"
+    "github.com/AndroidGoLab/binder/binder/versionaware"
+    "github.com/AndroidGoLab/binder/kernelbinder"
+    "github.com/AndroidGoLab/binder/servicemanager"
 )
 
     ctx := context.Background()
@@ -295,11 +367,11 @@ import (
     "fmt"
     "log"
 
-    genOs "github.com/xaionaro-go/binder/android/os"
-    "github.com/xaionaro-go/binder/binder"
-    "github.com/xaionaro-go/binder/binder/versionaware"
-    "github.com/xaionaro-go/binder/kernelbinder"
-    "github.com/xaionaro-go/binder/servicemanager"
+    genOs "github.com/AndroidGoLab/binder/android/os"
+    "github.com/AndroidGoLab/binder/binder"
+    "github.com/AndroidGoLab/binder/binder/versionaware"
+    "github.com/AndroidGoLab/binder/kernelbinder"
+    "github.com/AndroidGoLab/binder/servicemanager"
 )
 
     ctx := context.Background()
@@ -350,8 +422,8 @@ import (
 
 ` + "```go" + `
 import (
-    "github.com/xaionaro-go/binder/android/app"
-    "github.com/xaionaro-go/binder/servicemanager"
+    "github.com/AndroidGoLab/binder/android/app"
+    "github.com/AndroidGoLab/binder/servicemanager"
 )
 
     svc, err := sm.GetService(ctx, servicemanager.ActivityService)
@@ -487,6 +559,95 @@ bindercli android.hardware.health.IHealth get-health-info
 func updateExampleCount(content string, count int) string {
 	re := regexp.MustCompile(`\d+ runnable examples`)
 	return re.ReplaceAllString(content, fmt.Sprintf("%d runnable examples", count))
+}
+
+// roundDown rounds n down to the nearest multiple of unit.
+func roundDown(n, unit int) int {
+	return (n / unit) * unit
+}
+
+// formatCount returns a human-readable count like "14,000" or "5,092".
+func formatCount(n int) string {
+	if n < 1000 {
+		return fmt.Sprintf("%d", n)
+	}
+	thousands := n / 1000
+	remainder := n % 1000
+	if remainder == 0 {
+		return fmt.Sprintf("%d,000", thousands)
+	}
+	return fmt.Sprintf("%d,%03d", thousands, remainder)
+}
+
+// updateInlineStats replaces hardcoded codebase statistics in the README with
+// dynamically computed values from the generated code.
+func updateInlineStats(content string, stats codebaseStats, packages []packageInfo) string {
+	// Compute human-friendly rounded values.
+	methodsRounded := roundDown(stats.methods, 1000) // e.g. 14454 -> 14000
+	packagesRounded := roundDown(stats.packages, 50)  // e.g. 399 -> 350
+
+	// Compute total spec-based interface count for the "N+ interfaces" pattern.
+	totalInterfaces := 0
+	for _, pkg := range packages {
+		totalInterfaces += pkg.interfaceCount
+	}
+	interfacesRounded := roundDown(totalInterfaces, 100) // e.g. 1507 -> 1500
+
+	// Helper to compute the order of magnitude for "N+" display.
+	// e.g. 14000 -> "~14,000", 350 -> "350+"
+	replacements := []struct {
+		pattern string
+		replace string
+	}{
+		// Hero paragraph: "~12000 type-safe Go methods" or "~14,000 type-safe Go methods"
+		{`~[\d,]+ type-safe Go methods`, fmt.Sprintf("~%s type-safe Go methods", formatCount(methodsRounded))},
+		// Hero paragraph: "across 600+ Android system services" or similar
+		{`across [\d,]+\+ Android system services`, fmt.Sprintf("across %s+ Android system services", formatCount(packagesRounded))},
+		// Bullet point: "and 600+ more" or similar package count
+		{`and [\d,]+\+ more`, fmt.Sprintf("and %s+ more", formatCount(packagesRounded))},
+		// bindercli section: "1,500+ interfaces, 12,000+ methods"
+		{`[\d,]+\+ interfaces, [\d,]+\+ methods`, fmt.Sprintf("%s+ interfaces, %s+ methods", formatCount(interfacesRounded), formatCount(methodsRounded))},
+		// AOSP bulk generation: "**5,490 Go files** across **666 packages**"
+		{`\*\*[\d,]+ Go files\*\* across \*\*[\d,]+ packages\*\*`,
+			fmt.Sprintf("**%s Go files** across **%s packages**", formatCount(stats.goFiles), formatCount(stats.packages))},
+		// Directory tree: "(5,490 files)"
+		{`Pre-generated AOSP service proxies \([\d,]+ files\)`,
+			fmt.Sprintf("Pre-generated AOSP service proxies (%s files)", formatCount(stats.goFiles))},
+		// Directory tree: "666 packages total"
+		{`[\d,]+ packages total`, fmt.Sprintf("%s packages total", formatCount(stats.packages))},
+		// AIDL file count: "~12,000 AIDL files" — compute from actual AIDL source count
+		// (leave as-is since this refers to AIDL source files, not generated Go files)
+	}
+
+	for _, r := range replacements {
+		re := regexp.MustCompile(r.pattern)
+		content = re.ReplaceAllString(content, r.replace)
+	}
+
+	// Also update the log-scale approximation: "~12,000 AIDL files"
+	// We keep this as a round number since it refers to the AIDL source files.
+	aidlRounded := int(math.Round(float64(countAIDLFiles()) / 1000.0)) * 1000
+	if aidlRounded > 0 {
+		aidlRe := regexp.MustCompile(`~[\d,]+ AIDL files`)
+		content = aidlRe.ReplaceAllString(content, fmt.Sprintf("~%s AIDL files", formatCount(aidlRounded)))
+	}
+
+	return content
+}
+
+// countAIDLFiles counts .aidl files in the 3rdparty directory.
+func countAIDLFiles() int {
+	count := 0
+	_ = filepath.Walk("tools/pkg/3rdparty", func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return nil
+		}
+		if !info.IsDir() && strings.HasSuffix(path, ".aidl") {
+			count++
+		}
+		return nil
+	})
+	return count
 }
 
 // packageInfo describes a single package for README generation.
