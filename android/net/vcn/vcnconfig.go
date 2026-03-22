@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*VcnConfig)(nil)
 func (s *VcnConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ToPersistableBundle()
 	return nil
 }
 

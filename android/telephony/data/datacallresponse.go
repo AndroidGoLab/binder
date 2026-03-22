@@ -32,11 +32,19 @@ func (s *DataCallResponse) MarshalParcel(
 	p.WriteInt32(s.LinkStatus)
 	p.WriteInt32(s.ProtocolType)
 	p.WriteString16(s.InterfaceName)
+	p.WriteInt32(-1) // null Addresses
+	p.WriteInt32(-1) // null DnsAddresses
+	p.WriteInt32(-1) // null GatewayAddresses
+	p.WriteInt32(-1) // null PcscfAddresses
 	p.WriteInt32(s.Mtu)
 	p.WriteInt32(s.MtuV4)
 	p.WriteInt32(s.MtuV6)
 	p.WriteInt32(s.HandoverFailureMode)
 	p.WriteInt32(s.PduSessionId)
+	p.WriteInt32(-1) // null DefaultQos
+	p.WriteInt32(-1) // null QosBearerSessions
+	p.WriteInt32(-1) // null SliceInfo
+	p.WriteInt32(-1) // null TrafficDescriptors
 	p.WriteInt32(s.NetworkValidationStatus)
 	return nil
 }

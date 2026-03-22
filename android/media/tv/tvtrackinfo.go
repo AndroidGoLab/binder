@@ -28,14 +28,20 @@ func (s *TvTrackInfo) MarshalParcel(
 	p.WriteInt32(s.Type)
 	p.WriteString16(s.Id)
 	p.WriteString16(s.Language)
+	p.WriteInt32(-1) // null Description!=null?mDescription.toString():null
 	p.WriteString16(s.Encoding)
+	p.WriteInt32(-1) // null Encrypted?1:0
 	p.WriteInt32(s.AudioChannelCount)
 	p.WriteInt32(s.AudioSampleRate)
+	p.WriteInt32(-1) // null AudioDescription?1:0
+	p.WriteInt32(-1) // null HardOfHearing?1:0
+	p.WriteInt32(-1) // null SpokenSubtitle?1:0
 	p.WriteInt32(s.VideoWidth)
 	p.WriteInt32(s.VideoHeight)
 	p.WriteFloat32(s.VideoFrameRate)
 	p.WriteFloat32(s.VideoPixelAspectRatio)
 	p.WriteInt32(s.VideoActiveFormatDescription)
+	p.WriteInt32(-1) // null Extra
 	return nil
 }
 

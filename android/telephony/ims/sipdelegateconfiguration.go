@@ -42,6 +42,7 @@ func (s *SipDelegateConfiguration) MarshalParcel(
 	p.WriteString16(s.PrivateUserIdentifier)
 	p.WriteString16(s.HomeDomain)
 	p.WriteString16(s.Imei)
+	p.WriteInt32(-1) // null Gruu
 	p.WriteString16(s.SipAuthHeader)
 	p.WriteString16(s.SipAuthNonce)
 	p.WriteString16(s.ServiceRouteHeader)
@@ -52,6 +53,8 @@ func (s *SipDelegateConfiguration) MarshalParcel(
 	p.WriteString16(s.PlaniHeader)
 	p.WriteString16(s.CniHeader)
 	p.WriteString16(s.AssociatedUriHeader)
+	p.WriteInt32(-1) // null IpSecConfiguration!=null
+	p.WriteInt32(-1) // null NatAddress!=null
 	return nil
 }
 

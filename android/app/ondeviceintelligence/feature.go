@@ -20,8 +20,11 @@ func (s *Feature) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Flg)
 	p.WriteInt32(s.Id)
+	p.WriteInt32(-1) // null Name
+	p.WriteInt32(-1) // null ModelName
 	p.WriteInt32(s.Type)
 	p.WriteInt32(s.Variant)
+	p.WriteInt32(-1) // null FeatureParams
 	return nil
 }
 

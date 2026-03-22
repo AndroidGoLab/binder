@@ -16,6 +16,9 @@ func (s *OptionsCmdStatus) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.UserData)
+	p.WriteInt32(-1) // null CmdId
+	p.WriteInt32(-1) // null Status
+	p.WriteInt32(-1) // null CapInfo
 	return nil
 }
 

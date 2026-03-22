@@ -23,11 +23,15 @@ func (s *VibratorInfo) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Id)
 	p.WriteInt64(s.Capabilities)
+	p.WriteInt32(-1) // null SupportedEffects
+	p.WriteInt32(-1) // null SupportedBraking
+	p.WriteInt32(-1) // null SupportedPrimitives
 	p.WriteInt32(s.PrimitiveDelayMax)
 	p.WriteInt32(s.CompositionSizeMax)
 	p.WriteInt32(s.PwlePrimitiveDurationMax)
 	p.WriteInt32(s.PwleSizeMax)
 	p.WriteFloat32(s.QFactor)
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

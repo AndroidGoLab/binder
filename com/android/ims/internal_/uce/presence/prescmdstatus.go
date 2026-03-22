@@ -18,6 +18,8 @@ func (s *PresCmdStatus) MarshalParcel(
 ) error {
 	p.WriteInt32(s.UserData)
 	p.WriteInt32(s.RequestId)
+	p.WriteInt32(-1) // null CmdId
+	p.WriteInt32(-1) // null Status
 	return nil
 }
 

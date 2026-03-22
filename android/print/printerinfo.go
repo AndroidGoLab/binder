@@ -19,11 +19,15 @@ var _ parcel.Parcelable = (*PrinterInfo)(nil)
 func (s *PrinterInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Id
 	p.WriteString16(s.Name)
 	p.WriteInt32(s.Status)
 	p.WriteString16(s.Description)
+	p.WriteInt32(-1) // null Capabilities
 	p.WriteInt32(s.IconResourceId)
+	p.WriteInt32(-1) // null (byte)(mHasCustomPrinterIcon?1:0)
 	p.WriteInt32(s.CustomPrinterIconGen)
+	p.WriteInt32(-1) // null InfoIntent
 	return nil
 }
 

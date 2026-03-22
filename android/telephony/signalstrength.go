@@ -15,6 +15,12 @@ var _ parcel.Parcelable = (*SignalStrength)(nil)
 func (s *SignalStrength) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Cdma
+	p.WriteInt32(-1) // null Gsm
+	p.WriteInt32(-1) // null Wcdma
+	p.WriteInt32(-1) // null Tdscdma
+	p.WriteInt32(-1) // null Lte
+	p.WriteInt32(-1) // null Nr
 	p.WriteInt64(s.TimestampMillis)
 	return nil
 }

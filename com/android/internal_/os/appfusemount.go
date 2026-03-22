@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*AppFuseMount)(nil)
 func (s *AppFuseMount) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null This.mountPointId
+	p.WriteInt32(-1) // null Fd
 	return nil
 }
 

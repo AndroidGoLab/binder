@@ -42,6 +42,8 @@ func (s *SubscriptionInfo) MarshalParcel(
 	p.WriteInt32(s.Id)
 	p.WriteString16(s.IccId)
 	p.WriteInt32(s.SimSlotIndex)
+	p.WriteInt32(-1) // null DisplayName
+	p.WriteInt32(-1) // null CarrierName
 	p.WriteInt32(s.DisplayNameSource)
 	p.WriteInt32(s.IconTint)
 	p.WriteString16(s.Number)
@@ -50,15 +52,20 @@ func (s *SubscriptionInfo) MarshalParcel(
 	p.WriteString16(s.Mnc)
 	p.WriteString16(s.CountryIso)
 	p.WriteBool(s.IsEmbedded)
+	p.WriteInt32(-1) // null NativeAccessRules
 	p.WriteString16(s.CardString)
 	p.WriteInt32(s.CardId)
 	p.WriteInt32(s.PortIndex)
 	p.WriteBool(s.IsOpportunistic)
+	p.WriteInt32(-1) // null GroupUuid==null?null:mGroupUuid.toString()
 	p.WriteBool(s.IsGroupDisabled)
 	p.WriteInt32(s.CarrierId)
 	p.WriteInt32(s.ProfileClass)
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null Ehplmns
+	p.WriteInt32(-1) // null Hplmns
 	p.WriteString16(s.GroupOwner)
+	p.WriteInt32(-1) // null CarrierConfigAccessRules
 	p.WriteBool(s.AreUiccApplicationsEnabled)
 	p.WriteInt32(s.UsageSetting)
 	p.WriteBool(s.IsOnlyNonTerrestrialNetwork)

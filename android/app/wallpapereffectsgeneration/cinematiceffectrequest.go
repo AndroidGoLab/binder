@@ -16,6 +16,7 @@ func (s *CinematicEffectRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.TaskId)
+	p.WriteInt32(-1) // null Out
 	return nil
 }
 

@@ -22,6 +22,8 @@ func (s *PreferentialNetworkServiceConfig) MarshalParcel(
 	p.WriteBool(s.AllowFallbackToDefaultConnection)
 	p.WriteBool(s.ShouldBlockNonMatchingNetworks)
 	p.WriteInt32(s.NetworkId)
+	p.WriteInt32(-1) // null IncludedUids
+	p.WriteInt32(-1) // null ExcludedUids
 	return nil
 }
 

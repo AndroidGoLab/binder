@@ -68,6 +68,7 @@ var _ parcel.Parcelable = (*ApplicationInfo)(nil)
 func (s *ApplicationInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	p.WriteString(s.TaskAffinity)
 	p.WriteString(s.Permission)
 	p.WriteString(s.ProcessName)
@@ -79,17 +80,30 @@ func (s *ApplicationInfo) MarshalParcel(
 	p.WriteInt32(s.RequiresSmallestWidthDp)
 	p.WriteInt32(s.CompatibleWidthLimitDp)
 	p.WriteInt32(s.LargestWidthLimitDp)
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null StorageUuid.getMostSignificantBits()
+	p.WriteInt32(-1) // null StorageUuid.getLeastSignificantBits()
 	p.WriteString(s.ScanSourceDir)
 	p.WriteString(s.ScanPublicSourceDir)
 	p.WriteString(s.SourceDir)
 	p.WriteString(s.PublicSourceDir)
+	p.WriteInt32(-1) // null SplitNames
+	p.WriteInt32(-1) // null SplitSourceDirs
+	p.WriteInt32(-1) // null SplitPublicSourceDirs
+	p.WriteInt32(-1) // null (SparseArray)splitDependencies
 	p.WriteString(s.NativeLibraryDir)
 	p.WriteString(s.SecondaryNativeLibraryDir)
 	p.WriteString(s.NativeLibraryRootDir)
+	p.WriteInt32(-1) // null NativeLibraryRootRequiresIsa?1:0
 	p.WriteString(s.PrimaryCpuAbi)
 	p.WriteString(s.SecondaryCpuAbi)
+	p.WriteInt32(-1) // null ResourceDirs
+	p.WriteInt32(-1) // null OverlayPaths
 	p.WriteString(s.SeInfo)
 	p.WriteString(s.SeInfoUser)
+	p.WriteInt32(-1) // null SharedLibraryFiles
+	p.WriteInt32(-1) // null SharedLibraryInfos
+	p.WriteInt32(-1) // null OptionalSharedLibraryInfos
 	p.WriteString(s.DataDir)
 	p.WriteString(s.DeviceProtectedDataDir)
 	p.WriteString(s.CredentialProtectedDataDir)
@@ -97,6 +111,7 @@ func (s *ApplicationInfo) MarshalParcel(
 	p.WriteInt32(s.MinSdkVersion)
 	p.WriteInt32(s.TargetSdkVersion)
 	p.WriteInt64(s.LongVersionCode)
+	p.WriteInt32(-1) // null Enabled?1:0
 	p.WriteInt32(s.EnabledSetting)
 	p.WriteInt32(s.InstallLocation)
 	p.WriteString(s.ManageSpaceActivityName)
@@ -110,18 +125,22 @@ func (s *ApplicationInfo) MarshalParcel(
 	p.WriteInt32(s.Category)
 	p.WriteInt32(s.TargetSandboxVersion)
 	p.WriteString(s.ClassLoaderName)
+	p.WriteInt32(-1) // null SplitClassLoaderNames
 	p.WriteInt32(s.CompileSdkVersion)
 	p.WriteString(s.CompileSdkVersionCodename)
 	p.WriteString(s.AppComponentFactory)
 	p.WriteInt32(s.IconRes)
 	p.WriteInt32(s.RoundIconRes)
 	p.WriteInt32(s.HiddenApiPolicy)
+	p.WriteInt32(-1) // null HiddenUntilInstalled?1:0
 	p.WriteString(s.ZygotePreloadName)
 	p.WriteInt32(s.GwpAsanMode)
 	p.WriteInt32(s.MemtagMode)
 	p.WriteInt32(s.NativeHeapZeroInitialized)
 	p.WriteInt64(s.CreateTimestamp)
+	p.WriteInt32(-1) // null 0
 	p.WriteInt32(s.LocaleConfigRes)
+	p.WriteInt32(-1) // null AllowCrossUidActivitySwitchFromBelow?1:0
 	return nil
 }
 

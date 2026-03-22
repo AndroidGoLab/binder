@@ -16,6 +16,9 @@ func (s *FontUpdateRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null Fd
+	p.WriteInt32(-1) // null Signature
+	p.WriteInt32(-1) // null FontFamily
 	return nil
 }
 

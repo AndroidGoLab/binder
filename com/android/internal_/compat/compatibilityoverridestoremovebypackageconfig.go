@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*CompatibilityOverridesToRemoveByPackageConfig)(nil)
 func (s *CompatibilityOverridesToRemoveByPackageConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null PackageNameToOverridesToRemove.size()
 	return nil
 }
 

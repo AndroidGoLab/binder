@@ -27,6 +27,8 @@ func (s *VolumeInfo) MarshalParcel(
 ) error {
 	p.WriteString(s.Id)
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Parcel
 	p.WriteString(s.PartGuid)
 	p.WriteInt32(s.MountFlags)
 	p.WriteInt32(s.MountUserId)

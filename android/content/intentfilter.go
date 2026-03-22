@@ -17,9 +17,29 @@ var _ parcel.Parcelable = (*IntentFilter)(nil)
 func (s *IntentFilter) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Actions.toArray(newString[mActions.size()])
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Categories
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null DataSchemes
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null StaticDataTypes
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null DataTypes
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null MimeGroups
+	p.WriteInt32(-1) // null N
+	p.WriteInt32(-1) // null N
+	p.WriteInt32(-1) // null N
 	p.WriteInt32(s.Priority)
+	p.WriteInt32(-1) // null HasStaticPartialTypes?1:0
+	p.WriteInt32(-1) // null HasDynamicPartialTypes?1:0
+	p.WriteInt32(-1) // null GetAutoVerify()?1:0
 	p.WriteInt32(s.InstantAppVisibility)
 	p.WriteInt32(s.Order)
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null N
 	return nil
 }
 

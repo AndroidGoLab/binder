@@ -20,6 +20,7 @@ func (s *LeaseInfo) MarshalParcel(
 	p.WriteString16(s.PackageName)
 	p.WriteInt64(s.ExpiryTimeMillis)
 	p.WriteInt32(s.DescriptionResId)
+	p.WriteInt32(-1) // null Description
 	return nil
 }
 

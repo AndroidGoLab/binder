@@ -20,6 +20,7 @@ func (s *GnssMeasurementRequest) MarshalParcel(
 	p.WriteBool(s.FullTracking)
 	p.WriteBool(s.CorrelationVectorOutputsEnabled)
 	p.WriteInt32(s.IntervalMillis)
+	p.WriteInt32(-1) // null WorkSource
 	return nil
 }
 

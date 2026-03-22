@@ -19,11 +19,18 @@ var _ parcel.Parcelable = (*TaskFragmentInfo)(nil)
 func (s *TaskFragmentInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null FragmentToken
+	p.WriteInt32(-1) // null Token
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.RunningActivityCount)
 	p.WriteBool(s.IsVisible)
+	p.WriteInt32(-1) // null Activities
+	p.WriteInt32(-1) // null InRequestedTaskFragmentActivities
+	p.WriteInt32(-1) // null Dest2
 	p.WriteBool(s.IsTaskClearedForReuse)
 	p.WriteBool(s.IsTaskFragmentClearedForPip)
 	p.WriteBool(s.IsClearedForReorderActivityToFront)
+	p.WriteInt32(-1) // null Dest3
 	return nil
 }
 

@@ -14,6 +14,9 @@ var _ parcel.Parcelable = (*Face)(nil)
 func (s *Face) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null GetName().toString()
+	p.WriteInt32(-1) // null GetBiometricId()
+	p.WriteInt32(-1) // null GetDeviceId()
 	return nil
 }
 

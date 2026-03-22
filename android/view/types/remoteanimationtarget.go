@@ -28,9 +28,20 @@ func (s *RemoteAnimationTarget) MarshalParcel(
 ) error {
 	p.WriteInt32(s.TaskId)
 	p.WriteInt32(s.Mode)
+	p.WriteInt32(-1) // null Leash
 	p.WriteBool(s.IsTranslucent)
+	p.WriteInt32(-1) // null ClipRect
+	p.WriteInt32(-1) // null ContentInsets
 	p.WriteInt32(s.PrefixOrderIndex)
+	p.WriteInt32(-1) // null Position
+	p.WriteInt32(-1) // null LocalBounds
+	p.WriteInt32(-1) // null SourceContainerBounds
+	p.WriteInt32(-1) // null ScreenSpaceBounds
+	p.WriteInt32(-1) // null WindowConfiguration
 	p.WriteBool(s.IsNotInRecents)
+	p.WriteInt32(-1) // null StartLeash
+	p.WriteInt32(-1) // null StartBounds
+	p.WriteInt32(-1) // null TaskInfo
 	p.WriteBool(s.AllowEnterPip)
 	p.WriteInt32(s.WindowType)
 	p.WriteBool(s.HasAnimatingParent)

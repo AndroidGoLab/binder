@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*SatelliteDatagram)(nil)
 func (s *SatelliteDatagram) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Data
 	return nil
 }
 

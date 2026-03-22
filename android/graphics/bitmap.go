@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*Bitmap)(nil)
 func (s *Bitmap) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null True
+	p.WriteInt32(-1) // null Gainmap
 	return nil
 }
 

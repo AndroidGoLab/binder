@@ -53,6 +53,7 @@ func (s *ApnSetting) MarshalParcel(
 	p.WriteString16(s.ApnName)
 	p.WriteString16(s.ProxyAddress)
 	p.WriteInt32(s.ProxyPort)
+	p.WriteInt32(-1) // null Mmsc
 	p.WriteString16(s.MmsProxyAddress)
 	p.WriteInt32(s.MmsProxyPort)
 	p.WriteString16(s.User)

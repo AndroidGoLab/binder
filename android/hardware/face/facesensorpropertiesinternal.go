@@ -17,6 +17,7 @@ var _ parcel.Parcelable = (*FaceSensorPropertiesInternal)(nil)
 func (s *FaceSensorPropertiesInternal) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.SensorType)
 	p.WriteBool(s.SupportsFaceDetection)
 	p.WriteBool(s.SupportsSelfIllumination)

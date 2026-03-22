@@ -17,9 +17,22 @@ var _ parcel.Parcelable = (*AutomaticZenRule)(nil)
 func (s *AutomaticZenRule) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Enabled?ENABLED:DISABLED
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Name
 	p.WriteInt32(s.InterruptionFilter)
+	p.WriteInt32(-1) // null ConditionId
+	p.WriteInt32(-1) // null Owner
+	p.WriteInt32(-1) // null ConfigurationActivity
 	p.WriteInt64(s.CreationTime)
+	p.WriteInt32(-1) // null ZenPolicy
+	p.WriteInt32(-1) // null Modified?ENABLED:DISABLED
 	p.WriteString16(s.Pkg)
+	p.WriteInt32(-1) // null DeviceEffects
+	p.WriteInt32(-1) // null AllowManualInvocation
+	p.WriteInt32(-1) // null IconResId
+	p.WriteInt32(-1) // null TriggerDescription
+	p.WriteInt32(-1) // null Type
 	return nil
 }
 

@@ -14,6 +14,10 @@ var _ parcel.Parcelable = (*Slice)(nil)
 func (s *Slice) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Hints
+	p.WriteInt32(-1) // null Items.length
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Spec
 	return nil
 }
 

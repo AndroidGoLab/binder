@@ -18,6 +18,8 @@ func (s *DataProfile) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null ApnSetting
+	p.WriteInt32(-1) // null TrafficDescriptor
 	p.WriteBool(s.Preferred)
 	p.WriteInt64(s.SetupTimestamp)
 	return nil

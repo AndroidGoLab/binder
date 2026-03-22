@@ -28,6 +28,7 @@ func (s *BackMotionEvent) MarshalParcel(
 	p.WriteFloat32(s.VelocityY)
 	p.WriteBool(s.TriggerBack)
 	p.WriteInt32(s.SwipeEdge)
+	p.WriteInt32(-1) // null DepartingAnimationTarget
 	return nil
 }
 

@@ -16,6 +16,7 @@ func (s *ContentSelection) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.SelectionId)
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

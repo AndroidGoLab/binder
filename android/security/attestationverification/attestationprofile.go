@@ -18,6 +18,8 @@ func (s *AttestationProfile) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Flg)
 	p.WriteInt32(s.AttestationProfileId)
+	p.WriteInt32(-1) // null PackageName
+	p.WriteInt32(-1) // null ProfileName
 	return nil
 }
 

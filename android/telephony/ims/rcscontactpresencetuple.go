@@ -18,10 +18,13 @@ var _ parcel.Parcelable = (*RcsContactPresenceTuple)(nil)
 func (s *RcsContactPresenceTuple) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ContactUri
+	p.WriteInt32(-1) // null ConvertInstantToStringFormat(mTimestamp)
 	p.WriteString16(s.Status)
 	p.WriteString16(s.ServiceId)
 	p.WriteString16(s.ServiceVersion)
 	p.WriteString16(s.ServiceDescription)
+	p.WriteInt32(-1) // null ServiceCapabilities
 	return nil
 }
 

@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*RadioMetadata)(nil)
 func (s *RadioMetadata) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Bundle
 	return nil
 }
 

@@ -16,8 +16,10 @@ var _ parcel.Parcelable = (*FingerprintSensorPropertiesInternal)(nil)
 func (s *FingerprintSensorPropertiesInternal) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.SensorType)
 	p.WriteBool(s.HalControlsIllumination)
+	p.WriteInt32(-1) // null SensorLocations
 	return nil
 }
 

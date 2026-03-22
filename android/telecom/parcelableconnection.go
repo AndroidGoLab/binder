@@ -27,13 +27,22 @@ var _ parcel.Parcelable = (*ParcelableConnection)(nil)
 func (s *ParcelableConnection) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null PhoneAccount
 	p.WriteInt32(s.State)
 	p.WriteInt32(s.ConnectionCapabilities)
+	p.WriteInt32(-1) // null Address
 	p.WriteInt32(s.AddressPresentation)
 	p.WriteString16(s.CallerDisplayName)
 	p.WriteInt32(s.CallerDisplayNamePresentation)
+	p.WriteInt32(-1) // null VideoProvider!=null?mVideoProvider.asBinder():null
 	p.WriteInt32(s.VideoState)
+	p.WriteInt32(-1) // null (byte)(mRingbackRequested?1:0)
+	p.WriteInt32(-1) // null (byte)(mIsVoipAudioMode?1:0)
 	p.WriteInt64(s.ConnectTimeMillis)
+	p.WriteInt32(-1) // null StatusHints
+	p.WriteInt32(-1) // null DisconnectCause
+	p.WriteInt32(-1) // null ConferenceableConnectionIds
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(s.ConnectionProperties)
 	p.WriteInt32(s.SupportedAudioRoutes)
 	p.WriteString16(s.ParentCallId)

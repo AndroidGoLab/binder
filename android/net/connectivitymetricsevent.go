@@ -22,6 +22,7 @@ func (s *ConnectivityMetricsEvent) MarshalParcel(
 	p.WriteInt64(s.Transports)
 	p.WriteInt32(s.NetId)
 	p.WriteString16(s.Ifname)
+	p.WriteInt32(-1) // null Data
 	return nil
 }
 

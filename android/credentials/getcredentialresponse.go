@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*GetCredentialResponse)(nil)
 func (s *GetCredentialResponse) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Credential
 	return nil
 }
 

@@ -36,8 +36,12 @@ func (s *BatteryUsageStats) MarshalParcel(
 	p.WriteInt64(s.DischargeDurationMs)
 	p.WriteInt64(s.BatteryTimeRemainingMs)
 	p.WriteInt64(s.ChargeTimeRemainingMs)
+	p.WriteInt32(-1) // null CustomPowerComponentNames
 	p.WriteBool(s.IncludesPowerModels)
 	p.WriteBool(s.IncludesProcessStateData)
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null True
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

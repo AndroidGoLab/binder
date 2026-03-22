@@ -18,10 +18,14 @@ var _ parcel.Parcelable = (*ConversationChannel)(nil)
 func (s *ConversationChannel) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ShortcutInfo
 	p.WriteInt32(s.Uid)
+	p.WriteInt32(-1) // null NotificationChannel
+	p.WriteInt32(-1) // null NotificationChannelGroup
 	p.WriteInt64(s.LastEventTimestamp)
 	p.WriteBool(s.HasActiveNotifications)
 	p.WriteBool(s.HasBirthdayToday)
+	p.WriteInt32(-1) // null Statuses
 	return nil
 }
 

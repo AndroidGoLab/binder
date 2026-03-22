@@ -20,6 +20,7 @@ func (s *AudioMixingRule) MarshalParcel(
 	p.WriteBool(s.AllowPrivilegedPlaybackCapture)
 	p.WriteBool(s.VoiceCommunicationCaptureAllowed)
 	p.WriteInt32(s.TargetMixType)
+	p.WriteInt32(-1) // null Criteria.size()
 	return nil
 }
 

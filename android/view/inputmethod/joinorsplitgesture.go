@@ -15,6 +15,7 @@ var _ parcel.Parcelable = (*JoinOrSplitGesture)(nil)
 func (s *JoinOrSplitGesture) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Point
 	p.WriteString(s.FallbackText)
 	return nil
 }

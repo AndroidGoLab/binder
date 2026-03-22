@@ -24,8 +24,14 @@ func (s *TaskSnapshot) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt64(s.Id)
+	p.WriteInt32(-1) // null TopActivityComponent
+	p.WriteInt32(-1) // null Snapshot!=null&&!mSnapshot.isClosed()?mSnapshot:null
+	p.WriteInt32(-1) // null ColorSpace.getId()
 	p.WriteInt32(s.Orientation)
 	p.WriteInt32(s.Rotation)
+	p.WriteInt32(-1) // null TaskSize
+	p.WriteInt32(-1) // null ContentInsets
+	p.WriteInt32(-1) // null LetterboxInsets
 	p.WriteBool(s.IsLowResolution)
 	p.WriteBool(s.IsRealSnapshot)
 	p.WriteInt32(s.WindowingMode)

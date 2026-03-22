@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*EuiccRulesAuthTable)(nil)
 func (s *EuiccRulesAuthTable) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null PolicyRules
+	p.WriteInt32(-1) // null PolicyRuleFlags
 	return nil
 }
 

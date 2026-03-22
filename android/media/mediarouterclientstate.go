@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*MediaRouterClientState)(nil)
 func (s *MediaRouterClientState) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Routes
 	return nil
 }
 

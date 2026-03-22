@@ -16,6 +16,7 @@ var _ parcel.Parcelable = (*TextInfo)(nil)
 func (s *TextInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null CharSequence
 	p.WriteInt32(s.Cookie)
 	p.WriteInt32(s.SequenceNumber)
 	return nil

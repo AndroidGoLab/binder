@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*AudioHalVersionInfo)(nil)
 func (s *AudioHalVersionInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null HalVersion
 	return nil
 }
 

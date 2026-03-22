@@ -15,7 +15,10 @@ var _ parcel.Parcelable = (*RecommendationInfo)(nil)
 func (s *RecommendationInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null PackageName
+	p.WriteInt32(-1) // null Name
 	p.WriteInt32(s.NumDiscoveredPrinters)
+	p.WriteInt32(-1) // null (byte)(mRecommendsMultiVendorService?1:0)
 	return nil
 }
 

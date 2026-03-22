@@ -40,6 +40,7 @@ var _ parcel.Parcelable = (*ActivityInfo)(nil)
 func (s *ActivityInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.Theme)
 	p.WriteInt32(s.LaunchMode)
 	p.WriteInt32(s.DocumentLaunchMode)
@@ -57,6 +58,8 @@ func (s *ActivityInfo) MarshalParcel(
 	p.WriteInt32(s.PersistableMode)
 	p.WriteInt32(s.MaxRecents)
 	p.WriteInt32(s.LockTaskLaunchMode)
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.ResizeMode)
 	p.WriteString(s.RequestedVrComponent)
 	p.WriteInt32(s.RotationAnimation)

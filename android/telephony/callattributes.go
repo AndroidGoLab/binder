@@ -15,7 +15,9 @@ var _ parcel.Parcelable = (*CallAttributes)(nil)
 func (s *CallAttributes) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null PreciseCallState
 	p.WriteInt32(s.NetworkType)
+	p.WriteInt32(-1) // null CallQuality
 	return nil
 }
 

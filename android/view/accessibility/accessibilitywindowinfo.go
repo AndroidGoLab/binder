@@ -31,9 +31,13 @@ func (s *AccessibilityWindowInfo) MarshalParcel(
 	p.WriteInt32(s.Id)
 	p.WriteInt32(s.ParentId)
 	p.WriteInt32(s.TaskId)
+	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null Title
 	p.WriteInt64(s.AnchorId)
 	p.WriteInt64(s.TransitionTime)
+	p.WriteInt32(-1) // null 0
 	p.WriteInt32(s.ConnectionId)
+	p.WriteInt32(-1) // null Locales
 	return nil
 }
 

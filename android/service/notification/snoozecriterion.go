@@ -14,6 +14,12 @@ var _ parcel.Parcelable = (*SnoozeCriterion)(nil)
 func (s *SnoozeCriterion) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null (byte)1
+	p.WriteInt32(-1) // null Id
+	p.WriteInt32(-1) // null (byte)1
+	p.WriteInt32(-1) // null Explanation
+	p.WriteInt32(-1) // null (byte)1
+	p.WriteInt32(-1) // null Confirmation
 	return nil
 }
 

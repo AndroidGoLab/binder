@@ -26,6 +26,7 @@ func (s *AuthenticatorDescription) MarshalParcel(
 	p.WriteInt32(s.IconId)
 	p.WriteInt32(s.SmallIconId)
 	p.WriteInt32(s.AccountPreferencesId)
+	p.WriteInt32(-1) // null (byte)(customTokens?1:0)
 	return nil
 }
 

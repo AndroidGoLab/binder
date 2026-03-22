@@ -27,7 +27,12 @@ func (s *WallpaperInfo) MarshalParcel(
 	p.WriteInt32(s.DescriptionResource)
 	p.WriteInt32(s.ContextUriResource)
 	p.WriteInt32(s.ContextDescriptionResource)
+	p.WriteInt32(-1) // null ShowMetadataInPreview?1:0
+	p.WriteInt32(-1) // null SupportsAmbientMode?1:0
 	p.WriteString16(s.SettingsSliceUri)
+	p.WriteInt32(-1) // null SupportMultipleDisplays?1:0
+	p.WriteInt32(-1) // null ShouldUseDefaultUnfoldTransition?1:0
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

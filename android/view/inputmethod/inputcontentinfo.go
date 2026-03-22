@@ -15,7 +15,12 @@ var _ parcel.Parcelable = (*InputContentInfo)(nil)
 func (s *InputContentInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.ContentUriOwnerUserId)
+	p.WriteInt32(-1) // null Dest2
+	p.WriteInt32(-1) // null Dest3
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null UriToken.asBinder()
 	return nil
 }
 

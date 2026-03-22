@@ -17,7 +17,11 @@ func (s *Suggestion) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Id)
+	p.WriteInt32(-1) // null Title
+	p.WriteInt32(-1) // null Summary
+	p.WriteInt32(-1) // null Icon
 	p.WriteInt32(s.Flags)
+	p.WriteInt32(-1) // null PendingIntent
 	return nil
 }
 

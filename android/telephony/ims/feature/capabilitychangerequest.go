@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*CapabilityChangeRequest)(nil)
 func (s *CapabilityChangeRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null CapabilitiesToEnable.size()
+	p.WriteInt32(-1) // null CapabilitiesToDisable.size()
 	return nil
 }
 

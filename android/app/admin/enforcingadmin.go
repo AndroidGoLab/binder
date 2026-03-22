@@ -16,6 +16,9 @@ func (s *EnforcingAdmin) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.PackageName)
+	p.WriteInt32(-1) // null UserHandle.getIdentifier()
+	p.WriteInt32(-1) // null Authority
+	p.WriteInt32(-1) // null ComponentName
 	return nil
 }
 

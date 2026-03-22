@@ -16,6 +16,10 @@ var _ parcel.Parcelable = (*AppTarget)(nil)
 func (s *AppTarget) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Id
+	p.WriteInt32(-1) // null ShortcutInfo
+	p.WriteInt32(-1) // null PackageName
+	p.WriteInt32(-1) // null User.getIdentifier()
 	p.WriteString16(s.ClassName)
 	p.WriteInt32(s.Rank)
 	return nil

@@ -15,6 +15,9 @@ var _ parcel.Parcelable = (*Fingerprint)(nil)
 func (s *Fingerprint) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null GetName().toString()
+	p.WriteInt32(-1) // null GetBiometricId()
+	p.WriteInt32(-1) // null GetDeviceId()
 	p.WriteInt32(s.GroupId)
 	return nil
 }

@@ -16,6 +16,8 @@ func (s *ConvertCredentialResponse) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flg)
+	p.WriteInt32(-1) // null Dataset
+	p.WriteInt32(-1) // null ClientState
 	return nil
 }
 

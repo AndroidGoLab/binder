@@ -33,6 +33,7 @@ func (s *KeyEvent) MarshalParcel(
 	p.WriteInt32(s.DeviceId)
 	p.WriteInt32(s.Source)
 	p.WriteInt32(s.DisplayId)
+	p.WriteInt32(-1) // null Hmac
 	p.WriteInt32(s.Action)
 	p.WriteInt32(s.KeyCode)
 	p.WriteInt32(s.RepeatCount)

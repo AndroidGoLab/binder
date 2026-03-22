@@ -16,6 +16,10 @@ func (s *ApkChecksum) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flg)
+	p.WriteInt32(-1) // null SplitName
+	p.WriteInt32(-1) // null Checksum
+	p.WriteInt32(-1) // null InstallerPackageName
+	p.WriteInt32(-1) // null InstallerCertificate
 	return nil
 }
 

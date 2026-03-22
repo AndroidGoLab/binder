@@ -17,9 +17,14 @@ var _ parcel.Parcelable = (*CredentialProviderInfo)(nil)
 func (s *CredentialProviderInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ServiceInfo
 	p.WriteBool(s.IsSystemProvider)
+	p.WriteInt32(-1) // null Capabilities
 	p.WriteBool(s.IsEnabled)
 	p.WriteBool(s.IsPrimary)
+	p.WriteInt32(-1) // null OverrideLabel
+	p.WriteInt32(-1) // null SettingsSubtitle
+	p.WriteInt32(-1) // null SettingsActivity
 	return nil
 }
 

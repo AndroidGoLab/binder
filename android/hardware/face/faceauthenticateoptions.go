@@ -28,6 +28,7 @@ func (s *FaceAuthenticateOptions) MarshalParcel(
 	p.WriteInt32(s.AuthenticateReason)
 	p.WriteInt32(s.WakeReason)
 	p.WriteString16(s.OpPackageName)
+	p.WriteInt32(-1) // null AttributionTag
 	return nil
 }
 

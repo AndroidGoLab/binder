@@ -24,15 +24,23 @@ var _ parcel.Parcelable = (*ParcelableConference)(nil)
 func (s *ParcelableConference) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null PhoneAccount
 	p.WriteInt32(s.State)
 	p.WriteInt32(s.ConnectionCapabilities)
+	p.WriteInt32(-1) // null ConnectionIds
 	p.WriteInt64(s.ConnectTimeMillis)
+	p.WriteInt32(-1) // null VideoProvider!=null?mVideoProvider.asBinder():null
 	p.WriteInt32(s.VideoState)
+	p.WriteInt32(-1) // null StatusHints
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(s.ConnectionProperties)
 	p.WriteInt64(s.ConnectElapsedTimeMillis)
+	p.WriteInt32(-1) // null Address
 	p.WriteInt32(s.AddressPresentation)
 	p.WriteString16(s.CallerDisplayName)
 	p.WriteInt32(s.CallerDisplayNamePresentation)
+	p.WriteInt32(-1) // null DisconnectCause
+	p.WriteInt32(-1) // null RingbackRequested?1:0
 	p.WriteInt32(s.CallDirection)
 	return nil
 }

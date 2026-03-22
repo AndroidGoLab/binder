@@ -22,6 +22,8 @@ func (s *ConversationStatus) MarshalParcel(
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.Activity)
 	p.WriteInt32(s.Availability)
+	p.WriteInt32(-1) // null Description
+	p.WriteInt32(-1) // null Icon
 	p.WriteInt64(s.StartTimeMs)
 	p.WriteInt64(s.EndTimeMs)
 	return nil

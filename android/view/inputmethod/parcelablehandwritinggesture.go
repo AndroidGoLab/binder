@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*ParcelableHandwritingGesture)(nil)
 func (s *ParcelableHandwritingGesture) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Gesture.getGestureType()
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

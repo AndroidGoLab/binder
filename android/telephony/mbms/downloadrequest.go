@@ -19,6 +19,8 @@ func (s *DownloadRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.FileServiceId)
+	p.WriteInt32(-1) // null SourceUri
+	p.WriteInt32(-1) // null DestinationUri
 	p.WriteInt32(s.SubscriptionId)
 	p.WriteString16(s.SerializedResultIntentForApp)
 	p.WriteInt32(s.Version)

@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*TvContentRatingSystemInfo)(nil)
 func (s *TvContentRatingSystemInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null XmlUri
+	p.WriteInt32(-1) // null ApplicationInfo
 	return nil
 }
 

@@ -18,8 +18,10 @@ func (s *PrepareGetCredentialResponseInternal) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteBool(s.HasQueryApiPermission)
+	p.WriteInt32(-1) // null CredentialResultTypes
 	p.WriteBool(s.HasAuthenticationResults)
 	p.WriteBool(s.HasRemoteResults)
+	p.WriteInt32(-1) // null PendingIntent
 	return nil
 }
 

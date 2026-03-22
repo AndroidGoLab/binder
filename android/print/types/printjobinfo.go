@@ -23,15 +23,24 @@ var _ parcel.Parcelable = (*PrintJobInfo)(nil)
 func (s *PrintJobInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Id
 	p.WriteString16(s.Label)
+	p.WriteInt32(-1) // null PrinterId
 	p.WriteString16(s.PrinterName)
 	p.WriteInt32(s.State)
 	p.WriteInt32(s.AppId)
 	p.WriteString16(s.Tag)
 	p.WriteInt64(s.CreationTime)
 	p.WriteInt32(s.Copies)
+	p.WriteInt32(-1) // null PageRanges
+	p.WriteInt32(-1) // null Attributes
+	p.WriteInt32(-1) // null DocumentInfo
 	p.WriteFloat32(s.Progress)
+	p.WriteInt32(-1) // null Status
 	p.WriteInt32(s.StatusRes)
+	p.WriteInt32(-1) // null StatusResAppPackageName
+	p.WriteInt32(-1) // null Canceling?1:0
+	p.WriteInt32(-1) // null AdvancedOptions
 	return nil
 }
 

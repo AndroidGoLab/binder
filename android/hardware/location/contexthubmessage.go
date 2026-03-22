@@ -18,6 +18,8 @@ func (s *ContextHubMessage) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Type)
 	p.WriteInt32(s.Version)
+	p.WriteInt32(-1) // null Data.length
+	p.WriteInt32(-1) // null Data
 	return nil
 }
 

@@ -21,11 +21,16 @@ func (s *PackageInfoLite) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.PackageName)
+	p.WriteInt32(-1) // null SplitNames
 	p.WriteInt32(s.VersionCode)
 	p.WriteInt32(s.VersionCodeMajor)
 	p.WriteInt32(s.BaseRevisionCode)
+	p.WriteInt32(-1) // null SplitRevisionCodes
 	p.WriteInt32(s.RecommendedInstallLocation)
 	p.WriteInt32(s.InstallLocation)
+	p.WriteInt32(-1) // null MultiArch?1:0
+	p.WriteInt32(-1) // null Debuggable?1:0
+	p.WriteInt32(-1) // null 0
 	return nil
 }
 

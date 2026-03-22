@@ -19,11 +19,19 @@ var _ parcel.Parcelable = (*TextClassifierEvent)(nil)
 func (s *TextClassifierEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null GetParcelToken()
 	p.WriteInt32(s.EventCategory)
 	p.WriteInt32(s.EventType)
+	p.WriteInt32(-1) // null EntityTypes
+	p.WriteInt32(-1) // null EventContext
 	p.WriteString16(s.ResultId)
 	p.WriteInt32(s.EventIndex)
+	p.WriteInt32(-1) // null Scores.length
+	p.WriteInt32(-1) // null Scores
 	p.WriteString16(s.ModelName)
+	p.WriteInt32(-1) // null ActionIndices
+	p.WriteInt32(-1) // null Locale==null?null:mLocale.toLanguageTag()
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

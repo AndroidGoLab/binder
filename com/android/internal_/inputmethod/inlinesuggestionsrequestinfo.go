@@ -14,6 +14,9 @@ var _ parcel.Parcelable = (*InlineSuggestionsRequestInfo)(nil)
 func (s *InlineSuggestionsRequestInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ComponentName
+	p.WriteInt32(-1) // null AutofillId
+	p.WriteInt32(-1) // null UiExtras
 	return nil
 }
 

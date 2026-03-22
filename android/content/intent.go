@@ -22,12 +22,24 @@ func (s *Intent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString(s.Action)
+	p.WriteInt32(-1) // null Out
 	p.WriteString(s.Type)
 	p.WriteString(s.Identifier)
 	p.WriteInt32(s.Flags)
 	p.WriteInt32(s.ExtendedFlags)
 	p.WriteString(s.Package)
+	p.WriteInt32(-1) // null Component
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null N
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Out
 	p.WriteInt32(s.ContentUserHint)
+	p.WriteInt32(-1) // null Extras
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Out
 	return nil
 }
 

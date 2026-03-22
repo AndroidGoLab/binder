@@ -14,6 +14,9 @@ var _ parcel.Parcelable = (*LauncherActivityInfoInternal)(nil)
 func (s *LauncherActivityInfoInternal) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ActivityInfo
+	p.WriteInt32(-1) // null IncrementalStatesInfo
+	p.WriteInt32(-1) // null User
 	return nil
 }
 

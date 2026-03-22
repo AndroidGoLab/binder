@@ -16,6 +16,8 @@ func (s *OverlayIdentifier) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flg)
+	p.WriteInt32(-1) // null PackageName
+	p.WriteInt32(-1) // null OverlayName
 	return nil
 }
 

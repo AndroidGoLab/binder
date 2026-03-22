@@ -28,6 +28,7 @@ func (s *VolumeInfo) MarshalParcel(
 	p.WriteInt32(s.VolIndex)
 	p.WriteInt32(s.MinVolIndex)
 	p.WriteInt32(s.MaxVolIndex)
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

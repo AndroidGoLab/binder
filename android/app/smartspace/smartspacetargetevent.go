@@ -16,6 +16,7 @@ var _ parcel.Parcelable = (*SmartspaceTargetEvent)(nil)
 func (s *SmartspaceTargetEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null SmartspaceTarget
 	p.WriteString16(s.SmartspaceActionId)
 	p.WriteInt32(s.EventType)
 	return nil

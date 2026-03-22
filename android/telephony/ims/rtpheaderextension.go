@@ -16,6 +16,7 @@ func (s *RtpHeaderExtension) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.LocalIdentifier)
+	p.WriteInt32(-1) // null ExtensionData
 	return nil
 }
 

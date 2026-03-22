@@ -17,9 +17,13 @@ var _ parcel.Parcelable = (*RcsContactUceCapability)(nil)
 func (s *RcsContactUceCapability) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ContactUri
 	p.WriteInt32(s.CapabilityMechanism)
 	p.WriteInt32(s.SourceType)
 	p.WriteInt32(s.RequestResult)
+	p.WriteInt32(-1) // null EntityUri
+	p.WriteInt32(-1) // null NewArrayList<>(mFeatureTags)
+	p.WriteInt32(-1) // null PresenceTuples
 	return nil
 }
 

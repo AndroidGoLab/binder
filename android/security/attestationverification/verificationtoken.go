@@ -17,8 +17,11 @@ var _ parcel.Parcelable = (*VerificationToken)(nil)
 func (s *VerificationToken) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null AttestationProfile
 	p.WriteInt32(s.LocalBindingType)
+	p.WriteInt32(-1) // null Requirements
 	p.WriteInt32(s.VerificationResult)
+	p.WriteInt32(-1) // null Hmac
 	p.WriteInt32(s.Uid)
 	return nil
 }

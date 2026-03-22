@@ -16,6 +16,8 @@ func (s *ParcelableUsageEventList) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.N)
+	p.WriteInt32(-1) // null 0
+	p.WriteInt32(-1) // null Retriever
 	return nil
 }
 

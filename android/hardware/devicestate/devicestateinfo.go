@@ -16,6 +16,7 @@ var _ parcel.Parcelable = (*DeviceStateInfo)(nil)
 func (s *DeviceStateInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null SupportedStates.length
 	p.WriteInt32(s.BaseState)
 	p.WriteInt32(s.CurrentState)
 	return nil

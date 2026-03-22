@@ -16,6 +16,12 @@ func (s *ProviderRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt64(s.IntervalMillis)
+	p.WriteInt32(-1) // null Quality
+	p.WriteInt32(-1) // null MaxUpdateDelayMillis
+	p.WriteInt32(-1) // null LowPower
+	p.WriteInt32(-1) // null AdasGnssBypass
+	p.WriteInt32(-1) // null LocationSettingsIgnored
+	p.WriteInt32(-1) // null WorkSource
 	return nil
 }
 

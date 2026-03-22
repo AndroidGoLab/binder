@@ -14,6 +14,11 @@ var _ parcel.Parcelable = (*ContentProviderHolder)(nil)
 func (s *ContentProviderHolder) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Provider.asBinder()
+	p.WriteInt32(-1) // null Connection
+	p.WriteInt32(-1) // null NoReleaseNeeded?1:0
+	p.WriteInt32(-1) // null Local?1:0
 	return nil
 }
 

@@ -32,6 +32,10 @@ func (s *TvRecordingInfo) MarshalParcel(
 	p.WriteString16(s.Description)
 	p.WriteInt64(s.ScheduledStartTimeMillis)
 	p.WriteInt64(s.ScheduledDurationMillis)
+	p.WriteInt32(-1) // null ChannelUri==null?null:mChannelUri.toString()
+	p.WriteInt32(-1) // null ProgramUri==null?null:mProgramUri.toString()
+	p.WriteInt32(-1) // null ContentRatings
+	p.WriteInt32(-1) // null RecordingUri==null?null:mProgramUri.toString()
 	p.WriteInt64(s.RecordingDurationMillis)
 	p.WriteInt64(s.RecordingStartTimeMillis)
 	return nil

@@ -26,6 +26,7 @@ func (s *UsbInterface) MarshalParcel(
 	p.WriteInt32(s.Class)
 	p.WriteInt32(s.Subclass)
 	p.WriteInt32(s.Protocol)
+	p.WriteInt32(-1) // null Endpoints
 	return nil
 }
 

@@ -18,6 +18,7 @@ var _ parcel.Parcelable = (*TimeZoneCapabilities)(nil)
 func (s *TimeZoneCapabilities) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null UserHandle
 	p.WriteInt32(s.ConfigureAutoDetectionEnabledCapability)
 	p.WriteBool(s.UseLocationEnabled)
 	p.WriteInt32(s.ConfigureGeoDetectionEnabledCapability)

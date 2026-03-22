@@ -27,7 +27,10 @@ func (s *TelephonyHistogram) MarshalParcel(
 	p.WriteInt32(s.MaxTimeMs)
 	p.WriteInt32(s.AverageTimeMs)
 	p.WriteInt32(s.SampleCount)
+	p.WriteInt32(-1) // null ABSENT
 	p.WriteInt32(s.BucketCount)
+	p.WriteInt32(-1) // null BucketEndPoints
+	p.WriteInt32(-1) // null BucketCounters
 	return nil
 }
 

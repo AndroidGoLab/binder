@@ -16,6 +16,8 @@ func (s *InlinePresentation) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flg)
+	p.WriteInt32(-1) // null Slice
+	p.WriteInt32(-1) // null InlinePresentationSpec
 	return nil
 }
 

@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*DelegateRegistrationState)(nil)
 func (s *DelegateRegistrationState) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null RegisteredTags
+	p.WriteInt32(-1) // null RegisteringTags
 	return nil
 }
 

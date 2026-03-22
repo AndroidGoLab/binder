@@ -15,6 +15,7 @@ var _ parcel.Parcelable = (*ConversationActions)(nil)
 func (s *ConversationActions) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ConversationActions
 	p.WriteString16(s.Id)
 	return nil
 }

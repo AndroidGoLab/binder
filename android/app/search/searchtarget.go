@@ -28,6 +28,12 @@ func (s *SearchTarget) MarshalParcel(
 	p.WriteFloat32(s.Score)
 	p.WriteBool(s.Hidden)
 	p.WriteString16(s.PackageName)
+	p.WriteInt32(-1) // null UserHandle.getIdentifier()
+	p.WriteInt32(-1) // null SearchAction
+	p.WriteInt32(-1) // null ShortcutInfo
+	p.WriteInt32(-1) // null AppWidgetProviderInfo
+	p.WriteInt32(-1) // null SliceUri
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

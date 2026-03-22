@@ -14,6 +14,9 @@ var _ parcel.Parcelable = (*StatusHints)(nil)
 func (s *StatusHints) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Label
+	p.WriteInt32(-1) // null Icon
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

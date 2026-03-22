@@ -30,6 +30,7 @@ func (s *PhysicalChannelConfig) MarshalParcel(
 	p.WriteInt32(s.DownlinkChannelNumber)
 	p.WriteInt32(s.UplinkChannelNumber)
 	p.WriteInt32(s.FrequencyRange)
+	p.WriteInt32(-1) // null ContextIds
 	p.WriteInt32(s.PhysicalCellId)
 	p.WriteInt32(s.Band)
 	return nil

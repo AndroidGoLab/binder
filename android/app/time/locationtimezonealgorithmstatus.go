@@ -19,7 +19,9 @@ func (s *LocationTimeZoneAlgorithmStatus) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Status)
 	p.WriteInt32(s.PrimaryProviderStatus)
+	p.WriteInt32(-1) // null PrimaryProviderReportedStatus
 	p.WriteInt32(s.SecondaryProviderStatus)
+	p.WriteInt32(-1) // null SecondaryProviderReportedStatus
 	return nil
 }
 

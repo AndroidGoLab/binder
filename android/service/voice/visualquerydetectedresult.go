@@ -18,6 +18,7 @@ func (s *VisualQueryDetectedResult) MarshalParcel(
 ) error {
 	p.WriteString16(s.PartialQuery)
 	p.WriteInt32(s.SpeakerId)
+	p.WriteInt32(-1) // null AccessibilityDetectionData
 	return nil
 }
 

@@ -16,6 +16,13 @@ func (s *MediaDescription) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.MediaId)
+	p.WriteInt32(-1) // null Title
+	p.WriteInt32(-1) // null Subtitle
+	p.WriteInt32(-1) // null Description
+	p.WriteInt32(-1) // null Icon
+	p.WriteInt32(-1) // null IconUri
+	p.WriteInt32(-1) // null Extras
+	p.WriteInt32(-1) // null MediaUri
 	return nil
 }
 

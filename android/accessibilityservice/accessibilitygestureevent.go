@@ -18,6 +18,7 @@ func (s *AccessibilityGestureEvent) MarshalParcel(
 ) error {
 	p.WriteInt32(s.GestureId)
 	p.WriteInt32(s.DisplayId)
+	p.WriteInt32(-1) // null NewParceledListSlice<MotionEvent>(mMotionEvents)
 	return nil
 }
 

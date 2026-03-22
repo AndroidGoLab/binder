@@ -16,6 +16,7 @@ var _ parcel.Parcelable = (*AudioState)(nil)
 func (s *AudioState) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null (byte)(isMuted?1:0)
 	p.WriteInt32(s.Route)
 	p.WriteInt32(s.SupportedRouteMask)
 	return nil

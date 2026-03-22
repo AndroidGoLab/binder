@@ -16,6 +16,7 @@ func (s *VerifierInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.PackageName)
+	p.WriteInt32(-1) // null PublicKey
 	return nil
 }
 

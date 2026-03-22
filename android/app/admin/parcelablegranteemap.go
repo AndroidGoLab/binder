@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*ParcelableGranteeMap)(nil)
 func (s *ParcelableGranteeMap) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null PackagesByUid.size()
 	return nil
 }
 

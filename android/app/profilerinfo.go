@@ -20,7 +20,11 @@ func (s *ProfilerInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.ProfileFile)
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Out
 	p.WriteInt32(s.SamplingInterval)
+	p.WriteInt32(-1) // null AutoStopProfiler?1:0
+	p.WriteInt32(-1) // null StreamingOutput?1:0
 	p.WriteString16(s.Agent)
 	p.WriteBool(s.AttachAgentDuringBind)
 	p.WriteInt32(s.ClockType)

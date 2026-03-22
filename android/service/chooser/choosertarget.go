@@ -15,7 +15,12 @@ var _ parcel.Parcelable = (*ChooserTarget)(nil)
 func (s *ChooserTarget) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Title
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Dest
 	p.WriteFloat32(s.Score)
+	p.WriteInt32(-1) // null ComponentName
+	p.WriteInt32(-1) // null IntentExtras
 	return nil
 }
 

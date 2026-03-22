@@ -20,6 +20,8 @@ func (s *RouteSelectionDescriptor) MarshalParcel(
 	p.WriteInt32(s.Precedence)
 	p.WriteInt32(s.SessionType)
 	p.WriteInt32(s.SscMode)
+	p.WriteInt32(-1) // null SliceInfo
+	p.WriteInt32(-1) // null Dnn
 	return nil
 }
 

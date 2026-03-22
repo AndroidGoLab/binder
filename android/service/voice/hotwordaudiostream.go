@@ -16,6 +16,11 @@ func (s *HotwordAudioStream) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flg)
+	p.WriteInt32(-1) // null AudioFormat
+	p.WriteInt32(-1) // null AudioStreamParcelFileDescriptor
+	p.WriteInt32(-1) // null Timestamp
+	p.WriteInt32(-1) // null Metadata
+	p.WriteInt32(-1) // null InitialAudio
 	return nil
 }
 

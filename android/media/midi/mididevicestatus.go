@@ -14,6 +14,9 @@ var _ parcel.Parcelable = (*MidiDeviceStatus)(nil)
 func (s *MidiDeviceStatus) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null DeviceInfo
+	p.WriteInt32(-1) // null InputPortOpen
+	p.WriteInt32(-1) // null OutputPortOpenCount
 	return nil
 }
 

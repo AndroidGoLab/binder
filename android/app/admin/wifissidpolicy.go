@@ -16,6 +16,7 @@ func (s *WifiSsidPolicy) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.PolicyType)
+	p.WriteInt32(-1) // null Ssids
 	return nil
 }
 

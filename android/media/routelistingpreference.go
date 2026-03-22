@@ -15,7 +15,9 @@ var _ parcel.Parcelable = (*RouteListingPreference)(nil)
 func (s *RouteListingPreference) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Items
 	p.WriteBool(s.UseSystemOrdering)
+	p.WriteInt32(-1) // null LinkedItemComponentName
 	return nil
 }
 

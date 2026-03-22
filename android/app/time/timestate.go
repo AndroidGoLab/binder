@@ -15,6 +15,7 @@ var _ parcel.Parcelable = (*TimeState)(nil)
 func (s *TimeState) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null UnixEpochTime
 	p.WriteBool(s.UserShouldConfirmTime)
 	return nil
 }

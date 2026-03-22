@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*AttributionSource)(nil)
 func (s *AttributionSource) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

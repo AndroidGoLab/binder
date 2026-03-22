@@ -16,6 +16,9 @@ func (s *WorkSource) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Num)
+	p.WriteInt32(-1) // null Uids
+	p.WriteInt32(-1) // null Names
+	p.WriteInt32(-1) // null -1
 	return nil
 }
 

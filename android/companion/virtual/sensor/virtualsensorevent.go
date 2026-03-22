@@ -15,6 +15,8 @@ var _ parcel.Parcelable = (*VirtualSensorEvent)(nil)
 func (s *VirtualSensorEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Values.length
+	p.WriteInt32(-1) // null Values
 	p.WriteInt64(s.TimestampNanos)
 	return nil
 }

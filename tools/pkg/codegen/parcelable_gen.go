@@ -808,7 +808,9 @@ func writeJavaWireMarshalParcel(
 	for _, wf := range wireFields {
 		info, ok := javaWireMethodMap[wf.WriteMethod]
 		if !ok {
-			// Opaque or unknown — skip in marshal.
+			// Opaque field (Bundle, Parcelable, etc.) — write null marker.
+			// Android's writeBundle(null) writes int32(-1).
+			f.P("\tp.WriteInt32(-1) // null %s", wf.Name)
 			continue
 		}
 

@@ -20,8 +20,12 @@ func (s *ScreenshotRequest) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Type)
 	p.WriteInt32(s.Source)
+	p.WriteInt32(-1) // null TopComponent
 	p.WriteInt32(s.TaskId)
 	p.WriteInt32(s.UserId)
+	p.WriteInt32(-1) // null HardwareBitmapBundler.hardwareBitmapToBundle(mBitmap)
+	p.WriteInt32(-1) // null BoundsInScreen
+	p.WriteInt32(-1) // null Insets
 	return nil
 }
 

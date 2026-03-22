@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*ApduList)(nil)
 func (s *ApduList) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Commands.size()
 	return nil
 }
 

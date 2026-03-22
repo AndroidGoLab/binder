@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*DelegateRequest)(nil)
 func (s *DelegateRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null FeatureTags
 	return nil
 }
 

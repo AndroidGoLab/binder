@@ -18,10 +18,19 @@ var _ parcel.Parcelable = (*StartingWindowInfo)(nil)
 func (s *StartingWindowInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null TaskInfo
+	p.WriteInt32(-1) // null TargetActivityInfo
 	p.WriteInt32(s.StartingWindowTypeParameter)
+	p.WriteInt32(-1) // null TopOpaqueWindowInsetsState
+	p.WriteInt32(-1) // null TopOpaqueWindowLayoutParams
+	p.WriteInt32(-1) // null MainWindowLayoutParams
 	p.WriteInt32(s.SplashScreenThemeResId)
 	p.WriteBool(s.IsKeyguardOccluded)
+	p.WriteInt32(-1) // null TaskSnapshot
 	p.WriteInt32(s.RequestedVisibleTypes)
+	p.WriteInt32(-1) // null AppToken
+	p.WriteInt32(-1) // null WindowlessStartingSurfaceCallback
+	p.WriteInt32(-1) // null RootSurface
 	return nil
 }
 

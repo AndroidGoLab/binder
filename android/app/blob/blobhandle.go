@@ -18,6 +18,8 @@ func (s *BlobHandle) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Algorithm)
+	p.WriteInt32(-1) // null Digest
+	p.WriteInt32(-1) // null Label
 	p.WriteInt64(s.ExpiryTimeMillis)
 	p.WriteString16(s.Tag)
 	return nil

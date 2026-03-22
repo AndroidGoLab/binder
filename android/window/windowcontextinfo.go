@@ -15,6 +15,7 @@ var _ parcel.Parcelable = (*WindowContextInfo)(nil)
 func (s *WindowContextInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Configuration
 	p.WriteInt32(s.DisplayId)
 	return nil
 }

@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*FaceAuthenticationFrame)(nil)
 func (s *FaceAuthenticationFrame) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Data
 	return nil
 }
 

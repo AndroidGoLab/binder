@@ -21,13 +21,25 @@ var _ parcel.Parcelable = (*TvInputInfo)(nil)
 func (s *TvInputInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null IsHardwareInput?(byte)1:0
+	p.WriteInt32(-1) // null Label
+	p.WriteInt32(-1) // null IconUri
 	p.WriteInt32(s.LabelResId)
+	p.WriteInt32(-1) // null Icon
+	p.WriteInt32(-1) // null IconStandby
+	p.WriteInt32(-1) // null IconDisconnected
 	p.WriteString16(s.SetupActivity)
+	p.WriteInt32(-1) // null CanRecord?(byte)1:0
+	p.WriteInt32(-1) // null CanPauseRecording?(byte)1:0
 	p.WriteInt32(s.TunerCount)
+	p.WriteInt32(-1) // null HdmiDeviceInfo
+	p.WriteInt32(-1) // null IsConnectedToHdmiSwitch?(byte)1:0
 	p.WriteInt32(s.HdmiConnectionRelativePosition)
 	p.WriteString16(s.ParentId)
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

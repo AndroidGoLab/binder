@@ -15,7 +15,9 @@ var _ parcel.Parcelable = (*ActivityEvent)(nil)
 func (s *ActivityEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ComponentName
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null ActivityId
 	return nil
 }
 

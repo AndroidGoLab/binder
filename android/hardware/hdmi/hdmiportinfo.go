@@ -20,6 +20,10 @@ func (s *HdmiPortInfo) MarshalParcel(
 	p.WriteInt32(s.Id)
 	p.WriteInt32(s.Type)
 	p.WriteInt32(s.Address)
+	p.WriteInt32(-1) // null CecSupported?1:0
+	p.WriteInt32(-1) // null ArcSupported?1:0
+	p.WriteInt32(-1) // null MhlSupported?1:0
+	p.WriteInt32(-1) // null EarcSupported?1:0
 	return nil
 }
 

@@ -20,6 +20,9 @@ func (s *WifiDisplay) MarshalParcel(
 	p.WriteString16(s.DeviceAddress)
 	p.WriteString16(s.DeviceName)
 	p.WriteString16(s.DeviceAlias)
+	p.WriteInt32(-1) // null IsAvailable?1:0
+	p.WriteInt32(-1) // null CanConnect?1:0
+	p.WriteInt32(-1) // null IsRemembered?1:0
 	return nil
 }
 

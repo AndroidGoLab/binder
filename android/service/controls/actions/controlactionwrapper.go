@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*ControlActionWrapper)(nil)
 func (s *ControlActionWrapper) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ControlAction.getDataBundle()
 	return nil
 }
 

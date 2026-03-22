@@ -23,6 +23,7 @@ func (s *ContentRecordingSession) MarshalParcel(
 	p.WriteInt32(s.VirtualDisplayId)
 	p.WriteInt32(s.ContentToRecord)
 	p.WriteInt32(s.DisplayToRecord)
+	p.WriteInt32(-1) // null TokenToRecord
 	p.WriteInt32(s.TargetUid)
 	return nil
 }

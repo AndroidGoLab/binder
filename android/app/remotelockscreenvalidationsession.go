@@ -17,6 +17,7 @@ func (s *RemoteLockscreenValidationSession) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.LockType)
+	p.WriteInt32(-1) // null SourcePublicKey
 	p.WriteInt32(s.RemainingAttempts)
 	return nil
 }

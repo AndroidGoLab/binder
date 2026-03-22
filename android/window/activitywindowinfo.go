@@ -16,6 +16,8 @@ func (s *ActivityWindowInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteBool(s.IsEmbedded)
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest2
 	return nil
 }
 

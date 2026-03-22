@@ -17,7 +17,12 @@ func (s *UserData) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Id)
+	p.WriteInt32(-1) // null CategoryIds
+	p.WriteInt32(-1) // null Values
 	p.WriteString16(s.DefaultAlgorithm)
+	p.WriteInt32(-1) // null DefaultArgs
+	p.WriteInt32(-1) // null CategoryAlgorithms
+	p.WriteInt32(-1) // null CategoryArgs
 	return nil
 }
 

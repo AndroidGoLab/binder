@@ -18,6 +18,9 @@ func (s *AvailableNetworkInfo) MarshalParcel(
 ) error {
 	p.WriteInt32(s.SubId)
 	p.WriteInt32(s.Priority)
+	p.WriteInt32(-1) // null MccMncs
+	p.WriteInt32(-1) // null Bands
+	p.WriteInt32(-1) // null RadioAccessSpecifiers
 	return nil
 }
 

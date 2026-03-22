@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*CompatibilityOverridesToRemoveConfig)(nil)
 func (s *CompatibilityOverridesToRemoveConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ChangeIds.size()
 	return nil
 }
 

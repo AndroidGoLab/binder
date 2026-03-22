@@ -16,6 +16,8 @@ func (s *InlineSuggestion) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flg)
+	p.WriteInt32(-1) // null Info
+	p.WriteInt32(-1) // null ContentProvider
 	return nil
 }
 

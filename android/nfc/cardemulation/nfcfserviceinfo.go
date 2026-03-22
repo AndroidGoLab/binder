@@ -19,9 +19,14 @@ var _ parcel.Parcelable = (*NfcFServiceInfo)(nil)
 func (s *NfcFServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	p.WriteString16(s.Description)
 	p.WriteString16(s.SystemCode)
+	p.WriteInt32(-1) // null DynamicSystemCode!=null?1:0
+	p.WriteInt32(-1) // null DynamicSystemCode
 	p.WriteString16(s.Nfcid2)
+	p.WriteInt32(-1) // null DynamicNfcid2!=null?1:0
+	p.WriteInt32(-1) // null DynamicNfcid2
 	p.WriteInt32(s.Uid)
 	p.WriteString16(s.T3tPmm)
 	return nil

@@ -17,8 +17,10 @@ var _ parcel.Parcelable = (*LabeledIntent)(nil)
 func (s *LabeledIntent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	p.WriteString16(s.SourcePackage)
 	p.WriteInt32(s.LabelRes)
+	p.WriteInt32(-1) // null NonLocalizedLabel
 	p.WriteInt32(s.Icon)
 	return nil
 }

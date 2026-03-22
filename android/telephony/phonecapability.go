@@ -20,6 +20,8 @@ func (s *PhoneCapability) MarshalParcel(
 	p.WriteInt32(s.MaxActiveVoiceSubscriptions)
 	p.WriteInt32(s.MaxActiveDataSubscriptions)
 	p.WriteBool(s.NetworkValidationBeforeSwitchSupported)
+	p.WriteInt32(-1) // null LogicalModemList
+	p.WriteInt32(-1) // null DeviceNrCapabilities
 	return nil
 }
 

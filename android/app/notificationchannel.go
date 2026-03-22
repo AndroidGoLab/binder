@@ -27,9 +27,30 @@ var _ parcel.Parcelable = (*NotificationChannel)(nil)
 func (s *NotificationChannel) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null (byte)1
+	p.WriteInt32(-1) // null Id
+	p.WriteInt32(-1) // null (byte)1
+	p.WriteInt32(-1) // null Name
+	p.WriteInt32(-1) // null (byte)1
+	p.WriteInt32(-1) // null Desc
 	p.WriteInt32(s.Importance)
+	p.WriteInt32(-1) // null BypassDnd?(byte)1:(byte)0
 	p.WriteInt32(s.LockscreenVisibility)
+	p.WriteInt32(-1) // null (byte)1
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Lights?(byte)1:(byte)0
+	p.WriteInt32(-1) // null VibrationPattern
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.UserLockedFields)
+	p.WriteInt32(-1) // null UserVisibleTaskShown?(byte)1:(byte)0
+	p.WriteInt32(-1) // null VibrationEnabled?(byte)1:(byte)0
+	p.WriteInt32(-1) // null ShowBadge?(byte)1:(byte)0
+	p.WriteInt32(-1) // null Deleted?(byte)1:(byte)0
+	p.WriteInt32(-1) // null (byte)1
+	p.WriteInt32(-1) // null Group
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.LightColor)
 	p.WriteBool(s.BlockableSystem)
 	p.WriteInt32(s.AllowBubbles)

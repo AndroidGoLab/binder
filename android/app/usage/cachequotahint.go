@@ -20,6 +20,7 @@ func (s *CacheQuotaHint) MarshalParcel(
 	p.WriteString16(s.Uuid)
 	p.WriteInt32(s.Uid)
 	p.WriteInt64(s.Quota)
+	p.WriteInt32(-1) // null UsageStats
 	return nil
 }
 

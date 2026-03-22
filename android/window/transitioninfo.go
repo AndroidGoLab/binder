@@ -20,6 +20,9 @@ func (s *TransitionInfo) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Type)
 	p.WriteInt32(s.Flags)
+	p.WriteInt32(-1) // null Changes
+	p.WriteInt32(-1) // null Roots
+	p.WriteInt32(-1) // null Options
 	p.WriteInt32(s.DebugId)
 	p.WriteInt32(s.Track)
 	return nil

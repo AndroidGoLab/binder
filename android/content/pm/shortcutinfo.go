@@ -36,22 +36,36 @@ func (s *ShortcutInfo) MarshalParcel(
 	p.WriteInt32(s.UserId)
 	p.WriteString(s.Id)
 	p.WriteString(s.PackageName)
+	p.WriteInt32(-1) // null Activity
 	p.WriteInt32(s.Flags)
 	p.WriteInt32(s.IconResId)
 	p.WriteInt64(s.LastChangedTimestamp)
 	p.WriteInt32(s.DisabledReason)
+	p.WriteInt32(-1) // null 0
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Icon
+	p.WriteInt32(-1) // null Title
 	p.WriteInt32(s.TitleResId)
+	p.WriteInt32(-1) // null Text
 	p.WriteInt32(s.TextResId)
+	p.WriteInt32(-1) // null DisabledMessage
 	p.WriteInt32(s.DisabledMessageResId)
+	p.WriteInt32(-1) // null Intents
+	p.WriteInt32(-1) // null IntentPersistableExtrases
 	p.WriteInt32(s.Rank)
+	p.WriteInt32(-1) // null Extras
 	p.WriteString(s.BitmapPath)
 	p.WriteString(s.IconResName)
 	p.WriteString(s.TitleResName)
 	p.WriteString(s.TextResName)
 	p.WriteString(s.DisabledMessageResName)
+	p.WriteInt32(-1) // null N
+	p.WriteInt32(-1) // null Persons
+	p.WriteInt32(-1) // null LocusId
 	p.WriteString(s.IconUri)
 	p.WriteString(s.StartingThemeResName)
 	p.WriteInt32(s.ExcludedSurfaces)
+	p.WriteInt32(-1) // null CapabilityBindings
 	return nil
 }
 

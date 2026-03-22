@@ -15,6 +15,7 @@ var _ parcel.Parcelable = (*LauncherUserInfo)(nil)
 func (s *LauncherUserInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null UserType
 	p.WriteInt32(s.UserSerialNumber)
 	return nil
 }

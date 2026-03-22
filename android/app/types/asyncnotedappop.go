@@ -22,6 +22,7 @@ func (s *AsyncNotedAppOp) MarshalParcel(
 	p.WriteInt32(s.Flg)
 	p.WriteInt32(s.OpCode)
 	p.WriteInt32(s.NotingUid)
+	p.WriteInt32(-1) // null AttributionTag
 	p.WriteString16(s.Message)
 	p.WriteInt64(s.Time)
 	return nil

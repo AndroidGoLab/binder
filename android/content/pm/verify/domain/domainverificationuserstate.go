@@ -18,6 +18,7 @@ func (s *DomainVerificationUserState) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Flg)
 	p.WriteString16(s.PackageName)
+	p.WriteInt32(-1) // null User
 	return nil
 }
 

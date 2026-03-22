@@ -19,6 +19,7 @@ var _ parcel.Parcelable = (*CellIdentityCdma)(nil)
 func (s *CellIdentityCdma) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.NetworkId)
 	p.WriteInt32(s.SystemId)
 	p.WriteInt32(s.BasestationId)

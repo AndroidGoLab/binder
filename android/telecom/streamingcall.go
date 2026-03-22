@@ -15,6 +15,10 @@ var _ parcel.Parcelable = (*StreamingCall)(nil)
 func (s *StreamingCall) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ComponentName
+	p.WriteInt32(-1) // null DisplayName
+	p.WriteInt32(-1) // null Address
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(s.State)
 	return nil
 }

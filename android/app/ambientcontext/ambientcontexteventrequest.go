@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*AmbientContextEventRequest)(nil)
 func (s *AmbientContextEventRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null NewArraySet<>(mEventTypes)
+	p.WriteInt32(-1) // null Options
 	return nil
 }
 

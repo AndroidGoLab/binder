@@ -16,6 +16,7 @@ func (s *CameraIdAndSessionConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.CameraId)
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

@@ -16,6 +16,7 @@ var _ parcel.Parcelable = (*AppTargetEvent)(nil)
 func (s *AppTargetEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Target
 	p.WriteString16(s.Location)
 	p.WriteInt32(s.Action)
 	return nil

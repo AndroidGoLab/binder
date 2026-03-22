@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*TaskAppearedInfo)(nil)
 func (s *TaskAppearedInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null TaskInfo
+	p.WriteInt32(-1) // null Leash
 	return nil
 }
 

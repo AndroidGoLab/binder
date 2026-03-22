@@ -24,6 +24,8 @@ func (s *Message) MarshalParcel(
 	p.WriteInt32(s.Arg1)
 	p.WriteInt32(s.Arg2)
 	p.WriteInt64(s.When)
+	p.WriteInt32(-1) // null Data
+	p.WriteInt32(-1) // null ReplyTo
 	p.WriteInt32(s.SendingUid)
 	p.WriteInt32(s.WorkSourceUid)
 	return nil

@@ -16,6 +16,7 @@ var _ parcel.Parcelable = (*VirtualNavigationTouchpadConfig)(nil)
 func (s *VirtualNavigationTouchpadConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.Height)
 	p.WriteInt32(s.Width)
 	return nil

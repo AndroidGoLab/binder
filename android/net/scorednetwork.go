@@ -14,6 +14,11 @@ var _ parcel.Parcelable = (*ScoredNetwork)(nil)
 func (s *ScoredNetwork) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null (byte)1
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null (byte)(meteredHint?1:0)
+	p.WriteInt32(-1) // null Attributes
 	return nil
 }
 

@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*ParcelableException)(nil)
 func (s *ParcelableException) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null T.getClass().getName()
+	p.WriteInt32(-1) // null T.getMessage()
 	return nil
 }
 

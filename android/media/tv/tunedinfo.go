@@ -20,6 +20,9 @@ func (s *TunedInfo) MarshalParcel(
 ) error {
 	p.WriteString16(s.InputId)
 	p.WriteString16(s.UriString)
+	p.WriteInt32(-1) // null IsRecordingSession?1:0
+	p.WriteInt32(-1) // null IsVisible?1:0
+	p.WriteInt32(-1) // null IsMainSession?1:0
 	p.WriteInt32(s.AppType)
 	p.WriteInt32(s.AppTag)
 	return nil

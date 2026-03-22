@@ -16,6 +16,12 @@ func (s *NdefRecord) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Tnf)
+	p.WriteInt32(-1) // null Type.length
+	p.WriteInt32(-1) // null Type
+	p.WriteInt32(-1) // null Id.length
+	p.WriteInt32(-1) // null Id
+	p.WriteInt32(-1) // null Payload.length
+	p.WriteInt32(-1) // null Payload
 	return nil
 }
 

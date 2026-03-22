@@ -15,6 +15,7 @@ var _ parcel.Parcelable = (*ContentCaptureCondition)(nil)
 func (s *ContentCaptureCondition) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null LocusId
 	p.WriteInt32(s.Flags)
 	return nil
 }

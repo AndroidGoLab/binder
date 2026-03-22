@@ -17,6 +17,7 @@ func (s *GetEuiccProfileInfoListResult) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Result)
+	p.WriteInt32(-1) // null Profiles
 	p.WriteBool(s.IsRemovable)
 	return nil
 }

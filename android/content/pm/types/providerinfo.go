@@ -19,11 +19,18 @@ var _ parcel.Parcelable = (*ProviderInfo)(nil)
 func (s *ProviderInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Out
 	p.WriteString(s.Authority)
 	p.WriteString(s.ReadPermission)
 	p.WriteString(s.WritePermission)
+	p.WriteInt32(-1) // null GrantUriPermissions?1:0
+	p.WriteInt32(-1) // null ForceUriPermissions?1:0
+	p.WriteInt32(-1) // null UriPermissionPatterns
+	p.WriteInt32(-1) // null PathPermissions
+	p.WriteInt32(-1) // null Multiprocess?1:0
 	p.WriteInt32(s.InitOrder)
 	p.WriteInt32(s.Flags)
+	p.WriteInt32(-1) // null IsSyncable?1:0
 	return nil
 }
 

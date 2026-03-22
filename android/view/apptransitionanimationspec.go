@@ -16,6 +16,8 @@ func (s *AppTransitionAnimationSpec) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.TaskId)
+	p.WriteInt32(-1) // null Rect
+	p.WriteInt32(-1) // null Buffer
 	return nil
 }
 

@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*GetCandidateCredentialsResponse)(nil)
 func (s *GetCandidateCredentialsResponse) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null CandidateProviderDataList
+	p.WriteInt32(-1) // null Intent
 	return nil
 }
 

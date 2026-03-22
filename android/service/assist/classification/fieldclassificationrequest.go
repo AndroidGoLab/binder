@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*FieldClassificationRequest)(nil)
 func (s *FieldClassificationRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null AssistStructure
 	return nil
 }
 

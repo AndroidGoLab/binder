@@ -17,6 +17,8 @@ var _ parcel.Parcelable = (*PowerSaveState)(nil)
 func (s *PowerSaveState) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null (byte)(batterySaverEnabled?1:0)
+	p.WriteInt32(-1) // null (byte)(globalBatterySaverEnabled?1:0)
 	p.WriteInt32(s.LocationMode)
 	p.WriteInt32(s.SoundTriggerMode)
 	p.WriteFloat32(s.BrightnessFactor)

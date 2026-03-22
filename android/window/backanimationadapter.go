@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*BackAnimationAdapter)(nil)
 func (s *BackAnimationAdapter) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Runner
 	return nil
 }
 

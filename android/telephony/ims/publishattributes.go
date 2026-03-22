@@ -16,6 +16,8 @@ func (s *PublishAttributes) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.PublishState)
+	p.WriteInt32(-1) // null PresenceTuples
+	p.WriteInt32(-1) // null SipDetails
 	return nil
 }
 

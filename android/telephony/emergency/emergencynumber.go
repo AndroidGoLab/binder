@@ -24,6 +24,7 @@ func (s *EmergencyNumber) MarshalParcel(
 	p.WriteString16(s.CountryIso)
 	p.WriteString16(s.Mnc)
 	p.WriteInt32(s.EmergencyServiceCategoryBitmask)
+	p.WriteInt32(-1) // null EmergencyUrns
 	p.WriteInt32(s.EmergencyNumberSourceBitmask)
 	p.WriteInt32(s.EmergencyCallRouting)
 	return nil

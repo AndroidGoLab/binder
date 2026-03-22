@@ -16,6 +16,7 @@ var _ parcel.Parcelable = (*UiccAccessRule)(nil)
 func (s *UiccAccessRule) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null CertificateHash
 	p.WriteString16(s.PackageName)
 	p.WriteInt64(s.AccessType)
 	return nil

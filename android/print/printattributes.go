@@ -16,6 +16,12 @@ var _ parcel.Parcelable = (*PrintAttributes)(nil)
 func (s *PrintAttributes) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Parcel
 	p.WriteInt32(s.ColorMode)
 	p.WriteInt32(s.DuplexMode)
 	return nil

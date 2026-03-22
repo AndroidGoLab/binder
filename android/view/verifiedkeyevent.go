@@ -21,6 +21,7 @@ var _ parcel.Parcelable = (*VerifiedKeyEvent)(nil)
 func (s *VerifiedKeyEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.Action)
 	p.WriteInt64(s.DownTimeNanos)
 	p.WriteInt32(s.Flags)

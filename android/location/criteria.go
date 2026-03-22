@@ -24,6 +24,10 @@ func (s *Criteria) MarshalParcel(
 	p.WriteInt32(s.SpeedAccuracy)
 	p.WriteInt32(s.BearingAccuracy)
 	p.WriteInt32(s.PowerRequirement)
+	p.WriteInt32(-1) // null AltitudeRequired?1:0
+	p.WriteInt32(-1) // null BearingRequired?1:0
+	p.WriteInt32(-1) // null SpeedRequired?1:0
+	p.WriteInt32(-1) // null CostAllowed?1:0
 	return nil
 }
 

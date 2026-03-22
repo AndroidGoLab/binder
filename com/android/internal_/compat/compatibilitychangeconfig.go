@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*CompatibilityChangeConfig)(nil)
 func (s *CompatibilityChangeConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Enabled
+	p.WriteInt32(-1) // null Disabled
 	return nil
 }
 

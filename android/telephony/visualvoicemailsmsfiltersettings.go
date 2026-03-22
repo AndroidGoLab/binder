@@ -18,6 +18,7 @@ func (s *VisualVoicemailSmsFilterSettings) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.ClientPrefix)
+	p.WriteInt32(-1) // null OriginatingNumbers
 	p.WriteInt32(s.DestinationPort)
 	p.WriteString16(s.PackageName)
 	return nil

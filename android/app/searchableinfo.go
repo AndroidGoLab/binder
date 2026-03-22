@@ -35,12 +35,16 @@ func (s *SearchableInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.LabelId)
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.HintId)
 	p.WriteInt32(s.SearchMode)
 	p.WriteInt32(s.IconId)
 	p.WriteInt32(s.SearchButtonText)
 	p.WriteInt32(s.SearchInputType)
 	p.WriteInt32(s.SearchImeOptions)
+	p.WriteInt32(-1) // null IncludeInGlobalSearch?1:0
+	p.WriteInt32(-1) // null QueryAfterZeroResults?1:0
+	p.WriteInt32(-1) // null AutoUrlDetect?1:0
 	p.WriteInt32(s.SettingsDescriptionId)
 	p.WriteString16(s.SuggestAuthority)
 	p.WriteString16(s.SuggestPath)
@@ -48,6 +52,7 @@ func (s *SearchableInfo) MarshalParcel(
 	p.WriteString16(s.SuggestIntentAction)
 	p.WriteString16(s.SuggestIntentData)
 	p.WriteInt32(s.SuggestThreshold)
+	p.WriteInt32(-1) // null 0
 	p.WriteString16(s.SuggestProviderPackage)
 	p.WriteInt32(s.VoiceSearchMode)
 	p.WriteInt32(s.VoiceLanguageModeId)

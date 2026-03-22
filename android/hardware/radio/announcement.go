@@ -15,7 +15,9 @@ var _ parcel.Parcelable = (*Announcement)(nil)
 func (s *Announcement) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Selector
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

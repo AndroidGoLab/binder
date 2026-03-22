@@ -16,6 +16,8 @@ func (s *CredentialDescription) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString(s.Type)
+	p.WriteInt32(-1) // null SupportedElementKeys.stream().toList()
+	p.WriteInt32(-1) // null CredentialEntries
 	return nil
 }
 

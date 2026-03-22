@@ -18,6 +18,8 @@ func (s *KeyChainProtectionParams) MarshalParcel(
 ) error {
 	p.WriteInt32(s.UserSecretType)
 	p.WriteInt32(s.LockScreenUiFormat)
+	p.WriteInt32(-1) // null KeyDerivationParams
+	p.WriteInt32(-1) // null Secret
 	return nil
 }
 

@@ -20,6 +20,7 @@ func (s *DownloadableSubscription) MarshalParcel(
 	p.WriteString16(s.EncodedActivationCode)
 	p.WriteString16(s.ConfirmationCode)
 	p.WriteString16(s.CarrierName)
+	p.WriteInt32(-1) // null AccessRules
 	return nil
 }
 

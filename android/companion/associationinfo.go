@@ -30,7 +30,10 @@ func (s *AssociationInfo) MarshalParcel(
 	p.WriteInt32(s.UserId)
 	p.WriteString16(s.PackageName)
 	p.WriteString16(s.Tag)
+	p.WriteInt32(-1) // null DeviceMacAddress
+	p.WriteInt32(-1) // null DisplayName
 	p.WriteString16(s.DeviceProfile)
+	p.WriteInt32(-1) // null AssociatedDevice
 	p.WriteBool(s.SelfManaged)
 	p.WriteBool(s.NotifyOnDeviceNearby)
 	p.WriteBool(s.Revoked)

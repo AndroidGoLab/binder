@@ -18,6 +18,7 @@ func (s *DevicePolicyStringResource) MarshalParcel(
 ) error {
 	p.WriteString16(s.StringId)
 	p.WriteInt32(s.ResourceIdInCallingPackage)
+	p.WriteInt32(-1) // null Resource
 	return nil
 }
 

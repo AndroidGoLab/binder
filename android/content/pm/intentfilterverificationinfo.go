@@ -18,6 +18,7 @@ func (s *IntentFilterVerificationInfo) MarshalParcel(
 ) error {
 	p.WriteString16(s.PackageName)
 	p.WriteInt32(s.Status)
+	p.WriteInt32(-1) // null NewArrayList<>(mDomains)
 	return nil
 }
 

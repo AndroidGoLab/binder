@@ -14,6 +14,16 @@ var _ parcel.Parcelable = (*GeofenceHardwareRequestParcelable)(nil)
 func (s *GeofenceHardwareRequestParcelable) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null GetType()
+	p.WriteInt32(-1) // null GetLatitude()
+	p.WriteInt32(-1) // null GetLongitude()
+	p.WriteInt32(-1) // null GetRadius()
+	p.WriteInt32(-1) // null GetLastTransition()
+	p.WriteInt32(-1) // null GetMonitorTransitions()
+	p.WriteInt32(-1) // null GetUnknownTimer()
+	p.WriteInt32(-1) // null GetNotificationResponsiveness()
+	p.WriteInt32(-1) // null GetSourceTechnologies()
+	p.WriteInt32(-1) // null GetId()
 	return nil
 }
 

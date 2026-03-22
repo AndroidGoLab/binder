@@ -22,6 +22,9 @@ func (s *AudioMix) MarshalParcel(
 	p.WriteInt32(s.CallbackFlags)
 	p.WriteInt32(s.DeviceSystemType)
 	p.WriteString(s.DeviceAddress)
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest2
+	p.WriteInt32(-1) // null Token
 	return nil
 }
 

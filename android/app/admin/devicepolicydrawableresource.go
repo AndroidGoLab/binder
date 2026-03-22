@@ -22,6 +22,7 @@ func (s *DevicePolicyDrawableResource) MarshalParcel(
 	p.WriteString16(s.DrawableStyle)
 	p.WriteString16(s.DrawableSource)
 	p.WriteInt32(s.ResourceIdInCallingPackage)
+	p.WriteInt32(-1) // null Resource
 	return nil
 }
 

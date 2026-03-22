@@ -24,6 +24,11 @@ func (s *DragEvent) MarshalParcel(
 	p.WriteFloat32(s.Y)
 	p.WriteFloat32(s.OffsetX)
 	p.WriteFloat32(s.OffsetY)
+	p.WriteInt32(-1) // null DragResult?1:0
+	p.WriteInt32(-1) // null 0
+	p.WriteInt32(-1) // null 0
+	p.WriteInt32(-1) // null 0
+	p.WriteInt32(-1) // null 0
 	return nil
 }
 

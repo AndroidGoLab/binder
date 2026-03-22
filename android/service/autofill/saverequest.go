@@ -14,6 +14,9 @@ var _ parcel.Parcelable = (*SaveRequest)(nil)
 func (s *SaveRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null FillContexts
+	p.WriteInt32(-1) // null ClientState
+	p.WriteInt32(-1) // null DatasetIds
 	return nil
 }
 

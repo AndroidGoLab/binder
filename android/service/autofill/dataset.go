@@ -16,8 +16,23 @@ var _ parcel.Parcelable = (*Dataset)(nil)
 func (s *Dataset) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Presentation
+	p.WriteInt32(-1) // null DialogPresentation
+	p.WriteInt32(-1) // null InlinePresentation
+	p.WriteInt32(-1) // null InlineTooltipPresentation
+	p.WriteInt32(-1) // null FieldIds
+	p.WriteInt32(-1) // null FieldValues
+	p.WriteInt32(-1) // null FieldPresentations
+	p.WriteInt32(-1) // null FieldDialogPresentations
+	p.WriteInt32(-1) // null FieldInlinePresentations
+	p.WriteInt32(-1) // null FieldInlineTooltipPresentations
+	p.WriteInt32(-1) // null FieldFilters
+	p.WriteInt32(-1) // null AutofillDatatypes
+	p.WriteInt32(-1) // null FieldContent
+	p.WriteInt32(-1) // null Authentication
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.EligibleReason)
+	p.WriteInt32(-1) // null CredentialFillInIntent
 	return nil
 }
 

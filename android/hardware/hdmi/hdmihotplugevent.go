@@ -16,6 +16,7 @@ func (s *HdmiHotplugEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Port)
+	p.WriteInt32(-1) // null (byte)(mConnected?1:0)
 	return nil
 }
 

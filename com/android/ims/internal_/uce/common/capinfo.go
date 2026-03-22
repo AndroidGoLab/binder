@@ -15,7 +15,38 @@ var _ parcel.Parcelable = (*CapInfo)(nil)
 func (s *CapInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ImSupported?1:0
+	p.WriteInt32(-1) // null FtSupported?1:0
+	p.WriteInt32(-1) // null FtThumbSupported?1:0
+	p.WriteInt32(-1) // null FtSnFSupported?1:0
+	p.WriteInt32(-1) // null FtHttpSupported?1:0
+	p.WriteInt32(-1) // null IsSupported?1:0
+	p.WriteInt32(-1) // null VsDuringCSSupported?1:0
+	p.WriteInt32(-1) // null VsSupported?1:0
+	p.WriteInt32(-1) // null SpSupported?1:0
+	p.WriteInt32(-1) // null CdViaPresenceSupported?1:0
+	p.WriteInt32(-1) // null IpVoiceSupported?1:0
+	p.WriteInt32(-1) // null IpVideoSupported?1:0
+	p.WriteInt32(-1) // null GeoPullFtSupported?1:0
+	p.WriteInt32(-1) // null GeoPullSupported?1:0
+	p.WriteInt32(-1) // null GeoPushSupported?1:0
+	p.WriteInt32(-1) // null SmSupported?1:0
+	p.WriteInt32(-1) // null FullSnFGroupChatSupported?1:0
+	p.WriteInt32(-1) // null GeoSmsSupported?1:0
+	p.WriteInt32(-1) // null CallComposerSupported?1:0
+	p.WriteInt32(-1) // null PostCallSupported?1:0
+	p.WriteInt32(-1) // null SharedMapSupported?1:0
+	p.WriteInt32(-1) // null SharedSketchSupported?1:0
+	p.WriteInt32(-1) // null ChatbotSupported?1:0
+	p.WriteInt32(-1) // null ChatbotRoleSupported?1:0
+	p.WriteInt32(-1) // null SmChatbotSupported?1:0
+	p.WriteInt32(-1) // null MmtelCallComposerSupported?1:0
+	p.WriteInt32(-1) // null RcsIpVoiceCallSupported?1:0
+	p.WriteInt32(-1) // null RcsIpVideoCallSupported?1:0
+	p.WriteInt32(-1) // null RcsIpVideoOnlyCallSupported?1:0
+	p.WriteInt32(-1) // null Exts
 	p.WriteInt64(s.CapTimestamp)
+	p.WriteInt32(-1) // null CapInfoBundle
 	return nil
 }
 

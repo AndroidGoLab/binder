@@ -20,6 +20,8 @@ func (s *SpellCheckerInfo) MarshalParcel(
 	p.WriteInt32(s.Label)
 	p.WriteString16(s.Id)
 	p.WriteString16(s.SettingsActivityName)
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Subtypes
 	return nil
 }
 

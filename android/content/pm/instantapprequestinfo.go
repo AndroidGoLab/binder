@@ -17,6 +17,9 @@ func (s *InstantAppRequestInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flg)
+	p.WriteInt32(-1) // null Intent
+	p.WriteInt32(-1) // null HostDigestPrefix
+	p.WriteInt32(-1) // null UserHandle
 	p.WriteString16(s.Token)
 	return nil
 }

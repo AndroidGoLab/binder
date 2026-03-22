@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*ImsFeatureConfiguration)(nil)
 func (s *ImsFeatureConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null FeatureSlotPairs.length
 	return nil
 }
 

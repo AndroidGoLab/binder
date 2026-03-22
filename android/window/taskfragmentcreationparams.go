@@ -16,7 +16,13 @@ var _ parcel.Parcelable = (*TaskFragmentCreationParams)(nil)
 func (s *TaskFragmentCreationParams) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null FragmentToken
+	p.WriteInt32(-1) // null OwnerToken
+	p.WriteInt32(-1) // null Dest2
 	p.WriteInt32(s.WindowingMode)
+	p.WriteInt32(-1) // null PairedPrimaryFragmentToken
+	p.WriteInt32(-1) // null PairedActivityToken
 	p.WriteBool(s.AllowTransitionWhenEmpty)
 	return nil
 }

@@ -16,6 +16,7 @@ var _ parcel.Parcelable = (*OnBackInvokedCallbackInfo)(nil)
 func (s *OnBackInvokedCallbackInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Callback
 	p.WriteInt32(s.Priority)
 	p.WriteBool(s.IsAnimationCallback)
 	return nil

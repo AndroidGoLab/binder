@@ -19,11 +19,14 @@ var _ parcel.Parcelable = (*Condition)(nil)
 func (s *Condition) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Id
 	p.WriteString16(s.Summary)
 	p.WriteString16(s.Line1)
 	p.WriteString16(s.Line2)
 	p.WriteInt32(s.Icon)
 	p.WriteInt32(s.State)
+	p.WriteInt32(-1) // null This.source
+	p.WriteInt32(-1) // null This.flags
 	return nil
 }
 

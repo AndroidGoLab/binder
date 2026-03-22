@@ -27,7 +27,10 @@ func (s *EditingEndedEvent) MarshalParcel(
 	p.WriteInt64(s.TimeSinceCreatedMillis)
 	p.WriteString16(s.ExporterName)
 	p.WriteString16(s.MuxerName)
+	p.WriteInt32(-1) // null InputMediaItemInfos
+	p.WriteInt32(-1) // null OutputMediaItemInfo
 	p.WriteInt64(s.OperationTypes)
+	p.WriteInt32(-1) // null MetricsBundle
 	return nil
 }
 

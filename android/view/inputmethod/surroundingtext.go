@@ -17,6 +17,7 @@ var _ parcel.Parcelable = (*SurroundingText)(nil)
 func (s *SurroundingText) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Text
 	p.WriteInt32(s.SelectionStart)
 	p.WriteInt32(s.SelectionEnd)
 	p.WriteInt32(s.Offset)

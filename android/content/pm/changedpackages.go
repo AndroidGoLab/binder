@@ -16,6 +16,7 @@ func (s *ChangedPackages) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.SequenceNumber)
+	p.WriteInt32(-1) // null PackageNames
 	return nil
 }
 

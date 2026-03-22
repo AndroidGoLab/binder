@@ -17,6 +17,7 @@ func (s *KeyboardLayoutSelectionResult) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flg)
+	p.WriteInt32(-1) // null LayoutDescriptor
 	p.WriteInt32(s.SelectionCriteria)
 	return nil
 }

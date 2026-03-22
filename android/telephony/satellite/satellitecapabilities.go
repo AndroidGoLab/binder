@@ -16,8 +16,10 @@ var _ parcel.Parcelable = (*SatelliteCapabilities)(nil)
 func (s *SatelliteCapabilities) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null SupportedRadioTechnologies.size()
 	p.WriteBool(s.IsPointingRequired)
 	p.WriteInt32(s.MaxBytesPerOutgoingDatagram)
+	p.WriteInt32(-1) // null Size
 	return nil
 }
 

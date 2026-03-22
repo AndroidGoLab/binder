@@ -16,6 +16,8 @@ func (s *ParcelableRttCall) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.RttMode)
+	p.WriteInt32(-1) // null TransmitStream
+	p.WriteInt32(-1) // null ReceiveStream
 	return nil
 }
 

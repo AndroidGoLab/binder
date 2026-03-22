@@ -18,8 +18,10 @@ func (s *SuggestionsInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.SuggestionsAttributes)
+	p.WriteInt32(-1) // null Suggestions
 	p.WriteInt32(s.Cookie)
 	p.WriteInt32(s.Sequence)
+	p.WriteInt32(-1) // null SuggestionsAvailable?1:0
 	return nil
 }
 

@@ -18,6 +18,7 @@ func (s *InsertGesture) MarshalParcel(
 ) error {
 	p.WriteString(s.FallbackText)
 	p.WriteString(s.TextToInsert)
+	p.WriteInt32(-1) // null Point
 	return nil
 }
 

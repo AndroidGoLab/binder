@@ -17,9 +17,12 @@ var _ parcel.Parcelable = (*ServiceInfo)(nil)
 func (s *ServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null KeySet.size()
 	p.WriteString16(s.ClassName)
 	p.WriteInt32(s.LocalesCount)
 	p.WriteString16(s.ServiceId)
+	p.WriteInt32(-1) // null SessionStartTime
+	p.WriteInt32(-1) // null SessionEndTime
 	return nil
 }
 

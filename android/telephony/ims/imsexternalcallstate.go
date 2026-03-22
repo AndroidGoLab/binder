@@ -18,8 +18,12 @@ func (s *ImsExternalCallState) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.CallId)
+	p.WriteInt32(-1) // null Address
+	p.WriteInt32(-1) // null LocalAddress
+	p.WriteInt32(-1) // null IsPullable?1:0
 	p.WriteInt32(s.CallState)
 	p.WriteInt32(s.CallType)
+	p.WriteInt32(-1) // null IsHeld?1:0
 	return nil
 }
 

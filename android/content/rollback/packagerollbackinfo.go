@@ -16,6 +16,8 @@ var _ parcel.Parcelable = (*PackageRollbackInfo)(nil)
 func (s *PackageRollbackInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null Out2
 	p.WriteBool(s.IsApex)
 	p.WriteBool(s.IsApkInApex)
 	return nil

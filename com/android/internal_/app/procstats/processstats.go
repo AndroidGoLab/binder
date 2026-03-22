@@ -48,6 +48,7 @@ func (s *ProcessStats) MarshalParcel(
 	p.WriteInt32(s.AdjCount)
 	p.WriteInt32(s.PssCount)
 	p.WriteInt32(s.SysMemUsageCount)
+	p.WriteInt32(-1) // null SparseMappingTable.ARRAY_SIZE
 	p.WriteInt32(s.NumAggregated)
 	p.WriteInt64(s.TimePeriodStartClock)
 	p.WriteInt64(s.TimePeriodStartRealtime)
@@ -65,7 +66,10 @@ func (s *ProcessStats) MarshalParcel(
 	p.WriteInt64(s.ExternalSlowPssCount)
 	p.WriteInt64(s.ExternalSlowPssTime)
 	p.WriteString16(s.Runtime)
+	p.WriteInt32(-1) // null HasSwappedOutPss?1:0
 	p.WriteInt32(s.Flags)
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null Out2
 	p.WriteInt32(s.NumOfUids)
 	p.WriteInt32(s.NPROC)
 	p.WriteInt32(s.NPKG)

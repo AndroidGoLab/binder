@@ -20,7 +20,10 @@ func (s *InsetsSourceControl) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Id)
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null Leash
 	p.WriteBool(s.InitiallyVisible)
+	p.WriteInt32(-1) // null SurfacePosition
+	p.WriteInt32(-1) // null InsetsHint
 	p.WriteBool(s.SkipAnimationOnce)
 	return nil
 }

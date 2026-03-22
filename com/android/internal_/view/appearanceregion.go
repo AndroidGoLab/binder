@@ -16,6 +16,7 @@ func (s *AppearanceRegion) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Appearance)
+	p.WriteInt32(-1) // null Bounds
 	return nil
 }
 

@@ -16,6 +16,13 @@ var _ parcel.Parcelable = (*NotificationStats)(nil)
 func (s *NotificationStats) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null (byte)(mSeen?1:0)
+	p.WriteInt32(-1) // null (byte)(mExpanded?1:0)
+	p.WriteInt32(-1) // null (byte)(mDirectReplied?1:0)
+	p.WriteInt32(-1) // null (byte)(mSmartReplied?1:0)
+	p.WriteInt32(-1) // null (byte)(mSnoozed?1:0)
+	p.WriteInt32(-1) // null (byte)(mViewedSettings?1:0)
+	p.WriteInt32(-1) // null (byte)(mInteracted?1:0)
 	p.WriteInt32(s.DismissalSurface)
 	p.WriteInt32(s.DismissalSentiment)
 	return nil

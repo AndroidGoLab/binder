@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*DisplayAreaAppearedInfo)(nil)
 func (s *DisplayAreaAppearedInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null DisplayAreaInfo
+	p.WriteInt32(-1) // null Leash
 	return nil
 }
 

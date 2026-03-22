@@ -20,6 +20,10 @@ func (s *TransitionRequestInfo) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Flg)
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null TriggerTask
+	p.WriteInt32(-1) // null PipTask
+	p.WriteInt32(-1) // null RemoteTransition
+	p.WriteInt32(-1) // null DisplayChange
 	p.WriteInt32(s.Flags)
 	p.WriteInt32(s.DebugId)
 	return nil

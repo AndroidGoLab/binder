@@ -21,11 +21,13 @@ var _ parcel.Parcelable = (*PermissionGroupInfo)(nil)
 func (s *PermissionGroupInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.DescriptionRes)
 	p.WriteInt32(s.RequestRes)
 	p.WriteInt32(s.RequestDetailResourceId)
 	p.WriteInt32(s.BackgroundRequestResourceId)
 	p.WriteInt32(s.BackgroundRequestDetailResourceId)
+	p.WriteInt32(-1) // null NonLocalizedDescription
 	p.WriteInt32(s.Flags)
 	p.WriteInt32(s.Priority)
 	return nil

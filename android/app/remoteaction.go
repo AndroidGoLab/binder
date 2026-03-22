@@ -16,6 +16,10 @@ var _ parcel.Parcelable = (*RemoteAction)(nil)
 func (s *RemoteAction) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null Title
+	p.WriteInt32(-1) // null ContentDescription
+	p.WriteInt32(-1) // null Out2
 	p.WriteBool(s.Enabled)
 	p.WriteBool(s.ShouldShowIcon)
 	return nil

@@ -15,6 +15,7 @@ var _ parcel.Parcelable = (*Rule)(nil)
 func (s *Rule) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Formula
 	p.WriteInt32(s.Effect)
 	return nil
 }

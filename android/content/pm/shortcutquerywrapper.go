@@ -19,6 +19,10 @@ func (s *ShortcutQueryWrapper) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Flg)
 	p.WriteInt64(s.ChangedSince)
+	p.WriteInt32(-1) // null Package
+	p.WriteInt32(-1) // null ShortcutIds
+	p.WriteInt32(-1) // null LocusIds
+	p.WriteInt32(-1) // null Activity
 	p.WriteInt32(s.QueryFlags)
 	return nil
 }

@@ -41,6 +41,8 @@ func (s *Configuration) MarshalParcel(
 	p.WriteFloat32(s.FontScale)
 	p.WriteInt32(s.Mcc)
 	p.WriteInt32(s.Mnc)
+	p.WriteInt32(-1) // null LocaleList
+	p.WriteInt32(-1) // null 1
 	p.WriteInt32(s.Touchscreen)
 	p.WriteInt32(s.Keyboard)
 	p.WriteInt32(s.KeyboardHidden)
@@ -58,6 +60,7 @@ func (s *Configuration) MarshalParcel(
 	p.WriteInt32(s.CompatScreenWidthDp)
 	p.WriteInt32(s.CompatScreenHeightDp)
 	p.WriteInt32(s.CompatSmallestScreenWidthDp)
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.AssetsSeq)
 	p.WriteInt32(s.Seq)
 	p.WriteInt32(s.FontWeightAdjustment)

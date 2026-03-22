@@ -15,6 +15,7 @@ var _ parcel.Parcelable = (*GrantedUriPermission)(nil)
 func (s *GrantedUriPermission) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Uri
 	p.WriteString16(s.PackageName)
 	return nil
 }

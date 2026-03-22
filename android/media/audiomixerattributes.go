@@ -15,6 +15,7 @@ var _ parcel.Parcelable = (*AudioMixerAttributes)(nil)
 func (s *AudioMixerAttributes) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Format
 	p.WriteInt32(s.MixerBehavior)
 	return nil
 }

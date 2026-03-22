@@ -34,6 +34,10 @@ func (s *NetworkRegistrationInfo) MarshalParcel(
 	p.WriteInt32(s.AccessNetworkTechnology)
 	p.WriteInt32(s.RejectCause)
 	p.WriteBool(s.EmergencyOnly)
+	p.WriteInt32(-1) // null AvailableServices
+	p.WriteInt32(-1) // null CellIdentity
+	p.WriteInt32(-1) // null VoiceSpecificInfo
+	p.WriteInt32(-1) // null DataSpecificInfo
 	p.WriteInt32(s.NrState)
 	p.WriteString16(s.Rplmn)
 	p.WriteBool(s.IsUsingCarrierAggregation)

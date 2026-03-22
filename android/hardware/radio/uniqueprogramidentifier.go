@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*UniqueProgramIdentifier)(nil)
 func (s *UniqueProgramIdentifier) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null PrimaryId
+	p.WriteInt32(-1) // null CriticalSecondaryIds
 	return nil
 }
 

@@ -18,6 +18,7 @@ func (s *PresResInfo) MarshalParcel(
 ) error {
 	p.WriteString16(s.ResUri)
 	p.WriteString16(s.DisplayName)
+	p.WriteInt32(-1) // null InstanceInfo
 	return nil
 }
 

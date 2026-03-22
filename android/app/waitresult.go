@@ -18,6 +18,8 @@ func (s *WaitResult) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Result)
+	p.WriteInt32(-1) // null Timeout?1:0
+	p.WriteInt32(-1) // null Who
 	p.WriteInt64(s.TotalTime)
 	p.WriteInt32(s.LaunchState)
 	return nil

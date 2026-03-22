@@ -16,6 +16,7 @@ func (s *OptionsCapInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Sdp)
+	p.WriteInt32(-1) // null CapInfo
 	return nil
 }
 

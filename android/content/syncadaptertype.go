@@ -20,6 +20,10 @@ func (s *SyncAdapterType) MarshalParcel(
 ) error {
 	p.WriteString16(s.Authority)
 	p.WriteString16(s.AccountType)
+	p.WriteInt32(-1) // null UserVisible?1:0
+	p.WriteInt32(-1) // null SupportsUploading?1:0
+	p.WriteInt32(-1) // null IsAlwaysSyncable?1:0
+	p.WriteInt32(-1) // null AllowParallelSyncs?1:0
 	p.WriteString16(s.SettingsActivity)
 	p.WriteString16(s.PackageName)
 	return nil

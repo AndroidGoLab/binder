@@ -32,10 +32,13 @@ func (s *CaptureResultExtras) MarshalParcel(
 	p.WriteInt64(s.FrameNumber)
 	p.WriteInt32(s.PartialResultCount)
 	p.WriteInt32(s.ErrorStreamId)
+	p.WriteInt32(-1) // null True
+	p.WriteInt32(-1) // null ErrorPhysicalCameraId
 	p.WriteInt64(s.LastCompletedRegularFrameNumber)
 	p.WriteInt64(s.LastCompletedReprocessFrameNumber)
 	p.WriteInt64(s.LastCompletedZslFrameNumber)
 	p.WriteBool(s.HasReadoutTimestamp)
+	p.WriteInt32(-1) // null ReadoutTimestamp
 	return nil
 }
 

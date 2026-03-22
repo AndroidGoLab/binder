@@ -16,6 +16,8 @@ func (s *TelephonyTimeSuggestion) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.SlotIndex)
+	p.WriteInt32(-1) // null UnixEpochTime
+	p.WriteInt32(-1) // null DebugInfo
 	return nil
 }
 

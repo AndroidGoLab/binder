@@ -15,6 +15,8 @@ var _ parcel.Parcelable = (*GetWalletCardsResponse)(nil)
 func (s *GetWalletCardsResponse) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null WalletCards.size()
+	p.WriteInt32(-1) // null WalletCards
 	p.WriteInt32(s.SelectedIndex)
 	return nil
 }

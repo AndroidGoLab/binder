@@ -21,6 +21,8 @@ func (s *StartingWindowRemovalInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.TaskId)
+	p.WriteInt32(-1) // null WindowAnimationLeash
+	p.WriteInt32(-1) // null MainFrame
 	p.WriteBool(s.PlayRevealAnimation)
 	p.WriteInt32(s.DeferRemoveForImeMode)
 	p.WriteFloat32(s.RoundedCornerRadius)

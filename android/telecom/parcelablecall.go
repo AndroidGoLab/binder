@@ -32,20 +32,35 @@ func (s *ParcelableCall) MarshalParcel(
 ) error {
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.State)
+	p.WriteInt32(-1) // null DisconnectCause
+	p.WriteInt32(-1) // null CannedSmsResponses
 	p.WriteInt32(s.Capabilities)
 	p.WriteInt32(s.Properties)
 	p.WriteInt64(s.ConnectTimeMillis)
+	p.WriteInt32(-1) // null Destination
 	p.WriteInt32(s.HandlePresentation)
 	p.WriteString16(s.CallerDisplayName)
 	p.WriteInt32(s.CallerDisplayNamePresentation)
+	p.WriteInt32(-1) // null GatewayInfo
+	p.WriteInt32(-1) // null AccountHandle
+	p.WriteInt32(-1) // null (byte)(mIsVideoCallProviderChanged?1:0)
+	p.WriteInt32(-1) // null VideoCallProvider!=null?mVideoCallProvider.asBinder():null
 	p.WriteString16(s.ParentCallId)
+	p.WriteInt32(-1) // null ChildCallIds
+	p.WriteInt32(-1) // null StatusHints
 	p.WriteInt32(s.VideoState)
+	p.WriteInt32(-1) // null ConferenceableCallIds
+	p.WriteInt32(-1) // null IntentExtras
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(s.SupportedAudioRoutes)
+	p.WriteInt32(-1) // null (byte)(mIsRttCallChanged?1:0)
+	p.WriteInt32(-1) // null RttCall
 	p.WriteInt64(s.CreationTimeMillis)
 	p.WriteInt32(s.CallDirection)
 	p.WriteInt32(s.CallerNumberVerificationStatus)
 	p.WriteString16(s.ContactDisplayName)
 	p.WriteString16(s.ActiveChildCallId)
+	p.WriteInt32(-1) // null ContactPhotoUri
 	return nil
 }
 

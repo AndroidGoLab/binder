@@ -15,7 +15,9 @@ var _ parcel.Parcelable = (*FaceEnrollFrame)(nil)
 func (s *FaceEnrollFrame) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Cell
 	p.WriteInt32(s.Stage)
+	p.WriteInt32(-1) // null Data
 	return nil
 }
 

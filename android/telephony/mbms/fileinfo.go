@@ -15,6 +15,7 @@ var _ parcel.Parcelable = (*FileInfo)(nil)
 func (s *FileInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Uri
 	p.WriteString16(s.MimeType)
 	return nil
 }

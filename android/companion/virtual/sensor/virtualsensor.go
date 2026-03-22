@@ -20,6 +20,8 @@ func (s *VirtualSensor) MarshalParcel(
 	p.WriteInt32(s.Handle)
 	p.WriteInt32(s.Type)
 	p.WriteString(s.Name)
+	p.WriteInt32(-1) // null VirtualDevice.asBinder()
+	p.WriteInt32(-1) // null Token
 	return nil
 }
 

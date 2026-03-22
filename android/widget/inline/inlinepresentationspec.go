@@ -14,6 +14,9 @@ var _ parcel.Parcelable = (*InlinePresentationSpec)(nil)
 func (s *InlinePresentationSpec) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null MinSize
+	p.WriteInt32(-1) // null MaxSize
+	p.WriteInt32(-1) // null Style
 	return nil
 }
 

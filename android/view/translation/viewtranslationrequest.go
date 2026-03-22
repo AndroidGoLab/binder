@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*ViewTranslationRequest)(nil)
 func (s *ViewTranslationRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null AutofillId
+	p.WriteInt32(-1) // null TranslationRequestValues
 	return nil
 }
 

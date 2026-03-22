@@ -17,9 +17,14 @@ var _ parcel.Parcelable = (*CarrierRestrictionRules)(nil)
 func (s *CarrierRestrictionRules) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null AllowedCarriers
+	p.WriteInt32(-1) // null ExcludedCarriers
 	p.WriteInt32(s.CarrierRestrictionDefault)
 	p.WriteInt32(s.MultiSimPolicy)
 	p.WriteInt32(s.CarrierRestrictionStatus)
+	p.WriteInt32(-1) // null AllowedCarrierInfo
+	p.WriteInt32(-1) // null ExcludedCarrierInfo
+	p.WriteInt32(-1) // null UseCarrierLockInfo
 	return nil
 }
 

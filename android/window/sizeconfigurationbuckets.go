@@ -16,6 +16,10 @@ func (s *SizeConfigurationBuckets) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flg)
+	p.WriteInt32(-1) // null Horizontal
+	p.WriteInt32(-1) // null Vertical
+	p.WriteInt32(-1) // null Smallest
+	p.WriteInt32(-1) // null ScreenLayoutSize
 	return nil
 }
 

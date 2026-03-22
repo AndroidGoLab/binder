@@ -16,6 +16,8 @@ func (s *TextLanguage) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Id)
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Bundle
 	return nil
 }
 

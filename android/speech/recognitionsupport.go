@@ -14,6 +14,10 @@ var _ parcel.Parcelable = (*RecognitionSupport)(nil)
 func (s *RecognitionSupport) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null InstalledOnDeviceLanguages
+	p.WriteInt32(-1) // null PendingOnDeviceLanguages
+	p.WriteInt32(-1) // null SupportedOnDeviceLanguages
+	p.WriteInt32(-1) // null OnlineLanguages
 	return nil
 }
 

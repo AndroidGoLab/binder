@@ -16,6 +16,8 @@ func (s *Icon) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null 0
+	p.WriteInt32(-1) // null BlendMode.toValue(mBlendMode)
 	return nil
 }
 

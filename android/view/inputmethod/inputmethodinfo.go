@@ -30,10 +30,16 @@ func (s *InputMethodInfo) MarshalParcel(
 	p.WriteString16(s.SettingsActivityName)
 	p.WriteString(s.LanguageSettingsActivityName)
 	p.WriteInt32(s.IsDefaultResId)
+	p.WriteInt32(-1) // null IsAuxIme?1:0
+	p.WriteInt32(-1) // null SupportsSwitchingToNextInputMethod?1:0
+	p.WriteInt32(-1) // null InlineSuggestionsEnabled?1:0
+	p.WriteInt32(-1) // null SupportsInlineSuggestionsWithTouchExploration?1:0
 	p.WriteBool(s.SuppressesSpellChecker)
 	p.WriteBool(s.ShowInInputMethodPicker)
 	p.WriteBool(s.IsVrOnly)
 	p.WriteBool(s.IsVirtualDeviceOnly)
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest2
 	p.WriteInt32(s.HandledConfigChanges)
 	p.WriteBool(s.SupportsStylusHandwriting)
 	p.WriteBool(s.SupportsConnectionlessStylusHandwriting)

@@ -14,6 +14,31 @@ var _ parcel.Parcelable = (*AppWidgetProviderInfo)(nil)
 func (s *AppWidgetProviderInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null This.provider
+	p.WriteInt32(-1) // null This.minWidth
+	p.WriteInt32(-1) // null This.minHeight
+	p.WriteInt32(-1) // null This.minResizeWidth
+	p.WriteInt32(-1) // null This.minResizeHeight
+	p.WriteInt32(-1) // null This.maxResizeWidth
+	p.WriteInt32(-1) // null This.maxResizeHeight
+	p.WriteInt32(-1) // null This.targetCellWidth
+	p.WriteInt32(-1) // null This.targetCellHeight
+	p.WriteInt32(-1) // null This.updatePeriodMillis
+	p.WriteInt32(-1) // null This.initialLayout
+	p.WriteInt32(-1) // null This.initialKeyguardLayout
+	p.WriteInt32(-1) // null This.configure
+	p.WriteInt32(-1) // null This.label
+	p.WriteInt32(-1) // null This.icon
+	p.WriteInt32(-1) // null This.previewImage
+	p.WriteInt32(-1) // null This.previewLayout
+	p.WriteInt32(-1) // null This.autoAdvanceViewId
+	p.WriteInt32(-1) // null This.resizeMode
+	p.WriteInt32(-1) // null This.widgetCategory
+	p.WriteInt32(-1) // null This.providerInfo
+	p.WriteInt32(-1) // null This.widgetFeatures
+	p.WriteInt32(-1) // null This.descriptionRes
+	p.WriteInt32(-1) // null This.isExtendedFromAppWidgetProvider
+	p.WriteInt32(-1) // null This.generatedPreviewCategories
 	return nil
 }
 

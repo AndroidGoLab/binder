@@ -20,6 +20,8 @@ func (s *SyncNotedAppOp) MarshalParcel(
 	p.WriteInt32(s.Flg)
 	p.WriteInt32(s.OpMode)
 	p.WriteInt32(s.OpCode)
+	p.WriteInt32(-1) // null AttributionTag
+	p.WriteInt32(-1) // null PackageName
 	return nil
 }
 

@@ -18,6 +18,7 @@ func (s *PatternMatcher) MarshalParcel(
 ) error {
 	p.WriteString16(s.Pattern)
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null ParsedPattern
 	return nil
 }
 

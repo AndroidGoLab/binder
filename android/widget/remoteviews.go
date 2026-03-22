@@ -17,6 +17,14 @@ var _ parcel.Parcelable = (*RemoteViews)(nil)
 func (s *RemoteViews) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null MODE_NORMAL
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null 0
+	p.WriteInt32(-1) // null LayoutId
+	p.WriteInt32(-1) // null ViewId
+	p.WriteInt32(-1) // null LightBackgroundLayoutId
 	p.WriteInt32(s.ApplyFlags)
 	p.WriteInt64(s.ProviderInstanceId)
 	p.WriteBool(s.HasDrawInstructions)

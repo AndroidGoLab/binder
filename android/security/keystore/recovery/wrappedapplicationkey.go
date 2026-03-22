@@ -16,6 +16,8 @@ func (s *WrappedApplicationKey) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Alias)
+	p.WriteInt32(-1) // null EncryptedKeyMaterial
+	p.WriteInt32(-1) // null Metadata
 	return nil
 }
 

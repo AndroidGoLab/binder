@@ -16,6 +16,9 @@ func (s *GnssAntennaInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteFloat64(s.CarrierFrequencyMHz)
+	p.WriteInt32(-1) // null PhaseCenterOffset
+	p.WriteInt32(-1) // null PhaseCenterVariationCorrections
+	p.WriteInt32(-1) // null SignalGainCorrections
 	return nil
 }
 

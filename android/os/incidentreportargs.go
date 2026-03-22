@@ -19,6 +19,7 @@ var _ parcel.Parcelable = (*IncidentReportArgs)(nil)
 func (s *IncidentReportArgs) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null All?1:0
 	p.WriteInt32(s.N)
 	p.WriteInt32(s.N2)
 	p.WriteInt32(s.PrivacyPolicy)

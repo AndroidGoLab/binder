@@ -21,11 +21,19 @@ func (s *VirtualDeviceParams) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.LockState)
+	p.WriteInt32(-1) // null UsersWithMatchingAccounts
 	p.WriteInt32(s.DefaultNavigationPolicy)
+	p.WriteInt32(-1) // null CrossTaskNavigationExemptions
 	p.WriteInt32(s.DefaultActivityPolicy)
+	p.WriteInt32(-1) // null ActivityPolicyExemptions
 	p.WriteString(s.Name)
+	p.WriteInt32(-1) // null DevicePolicies
+	p.WriteInt32(-1) // null VirtualSensorConfigs
+	p.WriteInt32(-1) // null VirtualSensorCallback!=null?mVirtualSensorCallback.asBinder():null
 	p.WriteInt32(s.AudioPlaybackSessionId)
 	p.WriteInt32(s.AudioRecordingSessionId)
+	p.WriteInt32(-1) // null HomeComponent
+	p.WriteInt32(-1) // null InputMethodComponent
 	return nil
 }
 

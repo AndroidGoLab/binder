@@ -22,6 +22,7 @@ func (s *PresResInstanceInfo) MarshalParcel(
 	p.WriteString16(s.Reason)
 	p.WriteInt32(s.ResInstanceState)
 	p.WriteString16(s.PresentityUri)
+	p.WriteInt32(-1) // null TupleInfoArray
 	return nil
 }
 

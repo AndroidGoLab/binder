@@ -27,12 +27,15 @@ func (s *HotwordDetectedResult) MarshalParcel(
 	p.WriteInt32(s.Flg)
 	p.WriteInt32(s.SpeakerId)
 	p.WriteInt32(s.ConfidenceLevel)
+	p.WriteInt32(-1) // null MediaSyncEvent
 	p.WriteInt32(s.HotwordOffsetMillis)
 	p.WriteInt32(s.HotwordDurationMillis)
 	p.WriteInt32(s.AudioChannel)
 	p.WriteInt32(s.Score)
 	p.WriteInt32(s.PersonalizedScore)
 	p.WriteInt32(s.HotwordPhraseId)
+	p.WriteInt32(-1) // null AudioStreams
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(s.BackgroundAudioPower)
 	return nil
 }

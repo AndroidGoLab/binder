@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*CameraInfo)(nil)
 func (s *CameraInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Info.facing
+	p.WriteInt32(-1) // null Info.orientation
 	return nil
 }
 

@@ -14,6 +14,14 @@ var _ parcel.Parcelable = (*ContentCaptureContext)(nil)
 func (s *ContentCaptureContext) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null HasClientContext?1:0
+	p.WriteInt32(-1) // null Id
+	p.WriteInt32(-1) // null Extras
+	p.WriteInt32(-1) // null ComponentName
+	p.WriteInt32(-1) // null DisplayId
+	p.WriteInt32(-1) // null WindowToken
+	p.WriteInt32(-1) // null Flags
+	p.WriteInt32(-1) // null Parcel
 	return nil
 }
 

@@ -18,8 +18,11 @@ func (s *GameModeInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.ActiveGameMode)
+	p.WriteInt32(-1) // null AvailableGameModes
+	p.WriteInt32(-1) // null OverriddenGameModes
 	p.WriteBool(s.IsDownscalingAllowed)
 	p.WriteBool(s.IsFpsOverrideAllowed)
+	p.WriteInt32(-1) // null ConfigMap
 	return nil
 }
 

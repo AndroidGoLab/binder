@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*AppUriAuthenticationPolicy)(nil)
 func (s *AppUriAuthenticationPolicy) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null AppToUris
 	return nil
 }
 

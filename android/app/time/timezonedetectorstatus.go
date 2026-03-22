@@ -16,6 +16,8 @@ func (s *TimeZoneDetectorStatus) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.DetectorStatus)
+	p.WriteInt32(-1) // null TelephonyTimeZoneAlgorithmStatus
+	p.WriteInt32(-1) // null LocationTimeZoneAlgorithmStatus
 	return nil
 }
 

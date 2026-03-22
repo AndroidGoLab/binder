@@ -25,6 +25,7 @@ func (s *InputMethodSubtype) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.SubtypeNameResId)
+	p.WriteInt32(-1) // null SubtypeNameOverride
 	p.WriteString(s.PkLanguageTag)
 	p.WriteString(s.PkLayoutType)
 	p.WriteInt32(s.SubtypeIconResId)
@@ -32,8 +33,11 @@ func (s *InputMethodSubtype) MarshalParcel(
 	p.WriteString16(s.SubtypeLanguageTag)
 	p.WriteString16(s.SubtypeMode)
 	p.WriteString16(s.SubtypeExtraValue)
+	p.WriteInt32(-1) // null IsAuxiliary?1:0
+	p.WriteInt32(-1) // null OverridesImplicitlyEnabledSubtype?1:0
 	p.WriteInt32(s.SubtypeHashCode)
 	p.WriteInt32(s.SubtypeId)
+	p.WriteInt32(-1) // null IsAsciiCapable?1:0
 	return nil
 }
 

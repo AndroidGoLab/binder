@@ -20,6 +20,7 @@ func (s *RecognitionPart) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Flg)
 	p.WriteString16(s.RawText)
+	p.WriteInt32(-1) // null FormattedText
 	p.WriteInt64(s.TimestampMillis)
 	p.WriteInt32(s.ConfidenceLevel)
 	return nil

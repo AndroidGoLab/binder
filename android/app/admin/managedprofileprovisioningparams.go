@@ -19,11 +19,14 @@ var _ parcel.Parcelable = (*ManagedProfileProvisioningParams)(nil)
 func (s *ManagedProfileProvisioningParams) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ProfileAdminComponentName
 	p.WriteString16(s.OwnerName)
 	p.WriteString16(s.ProfileName)
+	p.WriteInt32(-1) // null AccountToMigrate
 	p.WriteBool(s.LeaveAllSystemAppsEnabled)
 	p.WriteBool(s.OrganizationOwnedProvisioning)
 	p.WriteBool(s.KeepAccountOnMigration)
+	p.WriteInt32(-1) // null AdminExtras
 	return nil
 }
 

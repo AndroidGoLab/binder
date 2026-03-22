@@ -20,6 +20,7 @@ func (s *InstallSourceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.InitiatingPackageName)
+	p.WriteInt32(-1) // null InitiatingPackageSigningInfo
 	p.WriteString16(s.OriginatingPackageName)
 	p.WriteString16(s.InstallingPackageName)
 	p.WriteString(s.UpdateOwnerPackageName)

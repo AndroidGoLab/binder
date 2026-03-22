@@ -40,6 +40,7 @@ func (s *LocationRequest) MarshalParcel(
 	p.WriteBool(s.AdasGnssBypass)
 	p.WriteBool(s.Bypass)
 	p.WriteBool(s.LowPower)
+	p.WriteInt32(-1) // null WorkSource
 	return nil
 }
 

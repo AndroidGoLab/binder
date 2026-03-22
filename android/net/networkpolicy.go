@@ -19,11 +19,15 @@ var _ parcel.Parcelable = (*NetworkPolicy)(nil)
 func (s *NetworkPolicy) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Template
+	p.WriteInt32(-1) // null CycleRule
 	p.WriteInt64(s.WarningBytes)
 	p.WriteInt64(s.LimitBytes)
 	p.WriteInt64(s.LastWarningSnooze)
 	p.WriteInt64(s.LastLimitSnooze)
 	p.WriteInt64(s.LastRapidSnooze)
+	p.WriteInt32(-1) // null Metered?1:0
+	p.WriteInt32(-1) // null Inferred?1:0
 	return nil
 }
 

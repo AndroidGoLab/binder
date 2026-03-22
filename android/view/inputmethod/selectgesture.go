@@ -18,6 +18,7 @@ func (s *SelectGesture) MarshalParcel(
 ) error {
 	p.WriteString(s.FallbackText)
 	p.WriteInt32(s.Granularity)
+	p.WriteInt32(-1) // null Area
 	return nil
 }
 

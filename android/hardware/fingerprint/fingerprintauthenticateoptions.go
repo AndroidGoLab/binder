@@ -24,6 +24,8 @@ func (s *FingerprintAuthenticateOptions) MarshalParcel(
 	p.WriteInt32(s.SensorId)
 	p.WriteInt32(s.DisplayState)
 	p.WriteString16(s.OpPackageName)
+	p.WriteInt32(-1) // null AttributionTag
+	p.WriteInt32(-1) // null VendorReason
 	return nil
 }
 

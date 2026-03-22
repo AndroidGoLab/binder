@@ -20,6 +20,7 @@ func (s *SurfaceControl) MarshalParcel(
 	p.WriteString(s.Name)
 	p.WriteInt32(s.Width)
 	p.WriteInt32(s.Height)
+	p.WriteInt32(-1) // null 0
 	return nil
 }
 

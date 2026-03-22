@@ -16,6 +16,7 @@ func (s *NotificationListenerFilter) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.AllowedNotificationTypes)
+	p.WriteInt32(-1) // null DisallowedPackages
 	return nil
 }
 

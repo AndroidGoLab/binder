@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*SharedMemory)(nil)
 func (s *SharedMemory) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null FileDescriptor
 	return nil
 }
 

@@ -17,6 +17,7 @@ func (s *SplitPermissionInfoParcelable) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.SplitPermission)
+	p.WriteInt32(-1) // null NewPermissions
 	p.WriteInt32(s.TargetSdk)
 	return nil
 }

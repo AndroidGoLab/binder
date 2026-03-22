@@ -20,6 +20,7 @@ func (s *TextClassificationContext) MarshalParcel(
 	p.WriteString16(s.PackageName)
 	p.WriteString16(s.WidgetType)
 	p.WriteString16(s.WidgetVersion)
+	p.WriteInt32(-1) // null SystemTcMetadata
 	return nil
 }
 

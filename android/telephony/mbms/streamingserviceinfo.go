@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*StreamingServiceInfo)(nil)
 func (s *StreamingServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

@@ -15,6 +15,11 @@ var _ parcel.Parcelable = (*ConversationChannelWrapper)(nil)
 func (s *ConversationChannelWrapper) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null NotificationChannel
+	p.WriteInt32(-1) // null GroupLabel
+	p.WriteInt32(-1) // null ParentChannelLabel
+	p.WriteInt32(-1) // null ShortcutInfo
+	p.WriteInt32(-1) // null Pkg
 	p.WriteInt32(s.Uid)
 	return nil
 }

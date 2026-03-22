@@ -19,7 +19,9 @@ func (s *TimeZoneProviderEvent) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Type)
 	p.WriteInt64(s.CreationElapsedMillis)
+	p.WriteInt32(-1) // null Suggestion
 	p.WriteString(s.FailureCause)
+	p.WriteInt32(-1) // null TimeZoneProviderStatus
 	return nil
 }
 

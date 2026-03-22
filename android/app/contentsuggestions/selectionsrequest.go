@@ -16,6 +16,8 @@ func (s *SelectionsRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.TaskId)
+	p.WriteInt32(-1) // null InterestPoint
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

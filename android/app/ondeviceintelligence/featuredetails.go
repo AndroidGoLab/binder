@@ -16,6 +16,7 @@ func (s *FeatureDetails) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Status)
+	p.WriteInt32(-1) // null FeatureDetailParams
 	return nil
 }
 

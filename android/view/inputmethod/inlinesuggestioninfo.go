@@ -18,8 +18,11 @@ func (s *InlineSuggestionInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flg)
+	p.WriteInt32(-1) // null InlinePresentationSpec
 	p.WriteString16(s.Source)
+	p.WriteInt32(-1) // null AutofillHints
 	p.WriteString16(s.Type)
+	p.WriteInt32(-1) // null Tooltip
 	return nil
 }
 

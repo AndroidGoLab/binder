@@ -15,7 +15,9 @@ var _ parcel.Parcelable = (*PhoneAccountHandle)(nil)
 func (s *PhoneAccountHandle) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Out
 	p.WriteString16(s.Id)
+	p.WriteInt32(-1) // null Out2
 	return nil
 }
 

@@ -18,8 +18,11 @@ func (s *Voice) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Name)
+	p.WriteInt32(-1) // null Locale
 	p.WriteInt32(s.Quality)
 	p.WriteInt32(s.Latency)
+	p.WriteInt32(-1) // null (byte)(mRequiresNetworkConnection?1:0)
+	p.WriteInt32(-1) // null NewArrayList<String>(mFeatures)
 	return nil
 }
 

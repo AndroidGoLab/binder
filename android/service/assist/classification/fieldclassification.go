@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*FieldClassification)(nil)
 func (s *FieldClassification) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null AutofillId
 	return nil
 }
 

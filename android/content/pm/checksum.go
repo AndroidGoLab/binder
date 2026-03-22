@@ -16,6 +16,7 @@ func (s *Checksum) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null Value
 	return nil
 }
 

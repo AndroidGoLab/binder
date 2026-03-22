@@ -19,6 +19,10 @@ func (s *InputBindResult) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Result)
+	p.WriteInt32(-1) // null Method
+	p.WriteInt32(-1) // null -1
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Dest
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.Sequence)
 	p.WriteBool(s.IsInputMethodSuppressingSpellChecker)

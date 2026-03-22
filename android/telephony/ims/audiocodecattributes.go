@@ -17,7 +17,11 @@ func (s *AudioCodecAttributes) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteFloat32(s.BitrateKbps)
+	p.WriteInt32(-1) // null BitrateRangeKbps.getLower()
+	p.WriteInt32(-1) // null BitrateRangeKbps.getUpper()
 	p.WriteFloat32(s.BandwidthKhz)
+	p.WriteInt32(-1) // null BandwidthRangeKhz.getLower()
+	p.WriteInt32(-1) // null BandwidthRangeKhz.getUpper()
 	return nil
 }
 

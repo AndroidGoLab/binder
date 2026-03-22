@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*AudioPolicyConfig)(nil)
 func (s *AudioPolicyConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Mixes.size()
 	return nil
 }
 

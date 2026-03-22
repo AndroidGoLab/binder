@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*ContentValues)(nil)
 func (s *ContentValues) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Map.size()
+	p.WriteInt32(-1) // null Map
 	return nil
 }
 

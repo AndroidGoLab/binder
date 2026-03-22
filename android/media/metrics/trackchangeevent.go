@@ -28,14 +28,20 @@ func (s *TrackChangeEvent) MarshalParcel(
 	p.WriteInt32(s.Flg)
 	p.WriteInt32(s.State)
 	p.WriteInt32(s.Reason)
+	p.WriteInt32(-1) // null ContainerMimeType
+	p.WriteInt32(-1) // null SampleMimeType
+	p.WriteInt32(-1) // null CodecName
 	p.WriteInt32(s.Bitrate)
 	p.WriteInt64(s.TimeSinceCreatedMillis)
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null Language
+	p.WriteInt32(-1) // null LanguageRegion
 	p.WriteInt32(s.ChannelCount)
 	p.WriteInt32(s.AudioSampleRate)
 	p.WriteInt32(s.Width)
 	p.WriteInt32(s.Height)
 	p.WriteFloat32(s.VideoFrameRate)
+	p.WriteInt32(-1) // null MetricsBundle
 	return nil
 }
 

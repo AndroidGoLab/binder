@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*ConvertCredentialRequest)(nil)
 func (s *ConvertCredentialRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null GetCredentialResponse
+	p.WriteInt32(-1) // null ClientState
 	return nil
 }
 

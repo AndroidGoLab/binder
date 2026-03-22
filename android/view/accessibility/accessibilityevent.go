@@ -23,15 +23,18 @@ var _ parcel.Parcelable = (*AccessibilityEvent)(nil)
 func (s *AccessibilityEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null IsSealed()?1:0
 	p.WriteInt32(s.EventType)
 	p.WriteInt32(s.MovementGranularity)
 	p.WriteInt32(s.Action)
 	p.WriteInt32(s.ContentChangeTypes)
 	p.WriteInt32(s.WindowChangeTypes)
 	p.WriteInt32(s.SpeechStateChangeTypes)
+	p.WriteInt32(-1) // null PackageName
 	p.WriteInt64(s.EventTime)
 	p.WriteInt32(s.ConnectionId)
 	p.WriteInt32(s.RecordCount)
+	p.WriteInt32(-1) // null OriginStackTrace.length
 	return nil
 }
 

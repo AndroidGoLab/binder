@@ -14,6 +14,9 @@ var _ parcel.Parcelable = (*InputMonitor)(nil)
 func (s *InputMonitor) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null InputChannel
+	p.WriteInt32(-1) // null Host
+	p.WriteInt32(-1) // null Surface
 	return nil
 }
 

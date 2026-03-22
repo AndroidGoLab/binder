@@ -17,7 +17,9 @@ var _ parcel.Parcelable = (*PeriodicSync)(nil)
 func (s *PeriodicSync) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Account
 	p.WriteString16(s.Authority)
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt64(s.Period)
 	p.WriteInt64(s.FlexTime)
 	return nil

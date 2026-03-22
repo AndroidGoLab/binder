@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*KeymasterCertificateChain)(nil)
 func (s *KeymasterCertificateChain) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null 0
 	return nil
 }
 

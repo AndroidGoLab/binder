@@ -32,20 +32,34 @@ func (s *JobInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.JobId)
+	p.WriteInt32(-1) // null Extras
+	p.WriteInt32(-1) // null TransientExtras
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null ClipGrantFlags
+	p.WriteInt32(-1) // null Service
 	p.WriteInt32(s.ConstraintFlags)
+	p.WriteInt32(-1) // null TriggerContentUris
 	p.WriteInt64(s.TriggerContentUpdateDelay)
 	p.WriteInt64(s.TriggerContentMaxDelay)
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Out
 	p.WriteInt64(s.NetworkDownloadBytes)
 	p.WriteInt64(s.NetworkUploadBytes)
 	p.WriteInt64(s.MinimumNetworkChunkBytes)
 	p.WriteInt64(s.MinLatencyMillis)
 	p.WriteInt64(s.MaxExecutionDelayMillis)
+	p.WriteInt32(-1) // null IsPeriodic?1:0
+	p.WriteInt32(-1) // null IsPersisted?1:0
 	p.WriteInt64(s.IntervalMillis)
 	p.WriteInt64(s.FlexMillis)
 	p.WriteInt64(s.InitialBackoffMillis)
 	p.WriteInt32(s.BackoffPolicy)
+	p.WriteInt32(-1) // null HasEarlyConstraint?1:0
+	p.WriteInt32(-1) // null HasLateConstraint?1:0
 	p.WriteInt32(s.Bias)
 	p.WriteInt32(s.Priority)
+	p.WriteInt32(-1) // null This.flags
 	p.WriteInt32(s.NumDebugTags)
 	p.WriteString16(s.TraceTag)
 	return nil

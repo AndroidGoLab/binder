@@ -18,6 +18,8 @@ func (s *AutofillId) MarshalParcel(
 ) error {
 	p.WriteInt32(s.ViewId)
 	p.WriteInt32(s.Flags)
+	p.WriteInt32(-1) // null SessionId
+	p.WriteInt32(-1) // null VirtualIntId
 	return nil
 }
 

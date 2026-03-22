@@ -34,11 +34,15 @@ func (s *AccessibilityServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.EventTypes)
+	p.WriteInt32(-1) // null PackageNames
 	p.WriteInt32(s.FeedbackType)
 	p.WriteInt64(s.NotificationTimeout)
 	p.WriteInt32(s.NonInteractiveUiTimeout)
 	p.WriteInt32(s.InteractiveUiTimeout)
 	p.WriteInt32(s.Flags)
+	p.WriteInt32(-1) // null Crashed?1:0
+	p.WriteInt32(-1) // null ComponentName
+	p.WriteInt32(-1) // null ResolveInfo
 	p.WriteString16(s.SettingsActivityName)
 	p.WriteInt32(s.Capabilities)
 	p.WriteInt32(s.SummaryResId)

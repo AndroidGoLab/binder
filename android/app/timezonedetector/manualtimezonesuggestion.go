@@ -16,6 +16,7 @@ func (s *ManualTimeZoneSuggestion) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.ZoneId)
+	p.WriteInt32(-1) // null DebugInfo
 	return nil
 }
 

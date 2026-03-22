@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*FaceSensorConfigurations)(nil)
 func (s *FaceSensorConfigurations) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null (byte)(mResetLockoutRequiresChallenge?1:0)
+	p.WriteInt32(-1) // null SensorPropsMap
 	return nil
 }
 

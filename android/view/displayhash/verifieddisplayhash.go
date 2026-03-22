@@ -17,7 +17,9 @@ func (s *VerifiedDisplayHash) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt64(s.TimeMillis)
+	p.WriteInt32(-1) // null BoundsInWindow
 	p.WriteString16(s.HashAlgorithm)
+	p.WriteInt32(-1) // null ImageHash
 	return nil
 }
 

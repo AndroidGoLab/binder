@@ -21,6 +21,7 @@ var _ parcel.Parcelable = (*VerifiedMotionEvent)(nil)
 func (s *VerifiedMotionEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	p.WriteFloat32(s.RawX)
 	p.WriteFloat32(s.RawY)
 	p.WriteInt32(s.ActionMasked)

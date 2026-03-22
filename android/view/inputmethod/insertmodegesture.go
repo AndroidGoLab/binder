@@ -16,6 +16,8 @@ func (s *InsertModeGesture) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString(s.FallbackText)
+	p.WriteInt32(-1) // null Point
+	p.WriteInt32(-1) // null CancellationSignalBeamer.Sender.beamFromScope(mCancellationSignal)
 	return nil
 }
 

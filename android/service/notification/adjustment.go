@@ -16,6 +16,13 @@ var _ parcel.Parcelable = (*Adjustment)(nil)
 func (s *Adjustment) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Package
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Key
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Explanation
+	p.WriteInt32(-1) // null Signals
 	p.WriteInt32(s.User)
 	p.WriteString16(s.Issuer)
 	return nil

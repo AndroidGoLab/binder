@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*ConcurrentCameraIdCombination)(nil)
 func (s *ConcurrentCameraIdCombination) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ConcurrentCameraIds.size()
 	return nil
 }
 

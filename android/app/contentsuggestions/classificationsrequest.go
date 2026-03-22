@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*ClassificationsRequest)(nil)
 func (s *ClassificationsRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Selections
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

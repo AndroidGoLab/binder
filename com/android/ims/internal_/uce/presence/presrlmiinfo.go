@@ -22,8 +22,10 @@ func (s *PresRlmiInfo) MarshalParcel(
 ) error {
 	p.WriteString16(s.Uri)
 	p.WriteInt32(s.Version)
+	p.WriteInt32(-1) // null FullState?1:0
 	p.WriteString16(s.ListName)
 	p.WriteInt32(s.RequestId)
+	p.WriteInt32(-1) // null PresSubscriptionState
 	p.WriteInt32(s.SubscriptionExpireTime)
 	p.WriteString16(s.SubscriptionTerminatedReason)
 	return nil

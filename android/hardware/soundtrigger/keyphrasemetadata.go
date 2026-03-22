@@ -19,6 +19,7 @@ func (s *KeyphraseMetadata) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Id)
 	p.WriteString16(s.Keyphrase)
+	p.WriteInt32(-1) // null SupportedLocales
 	p.WriteInt32(s.RecognitionModeFlags)
 	return nil
 }

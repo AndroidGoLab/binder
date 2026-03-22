@@ -20,6 +20,10 @@ func (s *WifiDisplayStatus) MarshalParcel(
 	p.WriteInt32(s.FeatureState)
 	p.WriteInt32(s.ScanState)
 	p.WriteInt32(s.ActiveDisplayState)
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Displays.length
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

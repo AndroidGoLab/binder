@@ -47,12 +47,16 @@ func (s *VpnProfile) MarshalParcel(
 	p.WriteString16(s.DnsServers)
 	p.WriteString16(s.SearchDomains)
 	p.WriteString16(s.Routes)
+	p.WriteInt32(-1) // null Mppe?1:0
 	p.WriteString16(s.L2tpSecret)
 	p.WriteString16(s.IpsecIdentifier)
 	p.WriteString16(s.IpsecSecret)
 	p.WriteString16(s.IpsecUserCert)
 	p.WriteString16(s.IpsecCaCert)
 	p.WriteString16(s.IpsecServerCert)
+	p.WriteInt32(-1) // null SaveLogin?1:0
+	p.WriteInt32(-1) // null Proxy
+	p.WriteInt32(-1) // null AllowedAlgorithms
 	p.WriteBool(s.IsBypassable)
 	p.WriteBool(s.IsMetered)
 	p.WriteInt32(s.MaxMtu)
@@ -60,6 +64,7 @@ func (s *VpnProfile) MarshalParcel(
 	p.WriteBool(s.IsRestrictedToTestNetworks)
 	p.WriteBool(s.ExcludeLocalRoutes)
 	p.WriteBool(s.RequiresInternetValidation)
+	p.WriteInt32(-1) // null IkeTunConnParams==null?null:TunnelConnectionParamsUtils.toPersistableBundle(ikeTunConnParams)
 	p.WriteBool(s.AutomaticNattKeepaliveTimerEnabled)
 	p.WriteBool(s.AutomaticIpVersionSelectionEnabled)
 	return nil

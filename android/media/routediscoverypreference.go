@@ -15,7 +15,11 @@ var _ parcel.Parcelable = (*RouteDiscoveryPreference)(nil)
 func (s *RouteDiscoveryPreference) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null PreferredFeatures
+	p.WriteInt32(-1) // null PackageOrder
+	p.WriteInt32(-1) // null AllowedPackages
 	p.WriteBool(s.ShouldPerformActiveScan)
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

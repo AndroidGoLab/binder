@@ -20,6 +20,7 @@ func (s *AmbientContextEvent) MarshalParcel(
 	p.WriteInt32(s.EventType)
 	p.WriteInt32(s.ConfidenceLevel)
 	p.WriteInt32(s.DensityLevel)
+	p.WriteInt32(-1) // null VendorData
 	return nil
 }
 

@@ -18,10 +18,20 @@ var _ parcel.Parcelable = (*PhoneAccount)(nil)
 func (s *PhoneAccount) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null 0
+	p.WriteInt32(-1) // null 0
+	p.WriteInt32(-1) // null 0
 	p.WriteInt32(s.Capabilities)
 	p.WriteInt32(s.HighlightColor)
+	p.WriteInt32(-1) // null Label
+	p.WriteInt32(-1) // null ShortDescription
+	p.WriteInt32(-1) // null SupportedUriSchemes
+	p.WriteInt32(-1) // null 0
+	p.WriteInt32(-1) // null (byte)(mIsEnabled?1:0)
+	p.WriteInt32(-1) // null Extras
 	p.WriteString16(s.GroupId)
 	p.WriteInt32(s.SupportedAudioRoutes)
+	p.WriteInt32(-1) // null False
 	return nil
 }
 

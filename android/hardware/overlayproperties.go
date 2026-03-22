@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*OverlayProperties)(nil)
 func (s *OverlayProperties) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null 0
+	p.WriteInt32(-1) // null 1
 	return nil
 }
 

@@ -14,6 +14,38 @@ var _ parcel.Parcelable = (*ParcelableKeyGenParameterSpec)(nil)
 func (s *ParcelableKeyGenParameterSpec) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Spec.getKeystoreAlias()
+	p.WriteInt32(-1) // null Spec.getPurposes()
+	p.WriteInt32(-1) // null Spec.getNamespace()
+	p.WriteInt32(-1) // null Spec.getKeySize()
+	p.WriteInt32(-1) // null ALGORITHM_PARAMETER_SPEC_NONE
+	p.WriteInt32(-1) // null Spec.getCertificateSubject().getEncoded()
+	p.WriteInt32(-1) // null Spec.getCertificateSerialNumber().toByteArray()
+	p.WriteInt32(-1) // null Spec.getCertificateNotBefore().getTime()
+	p.WriteInt32(-1) // null Spec.getCertificateNotAfter().getTime()
+	p.WriteInt32(-1) // null Spec.getDigests()
+	p.WriteInt32(-1) // null List.copyOf(mSpec.getMgf1Digests())
+	p.WriteInt32(-1) // null Spec.getEncryptionPaddings()
+	p.WriteInt32(-1) // null Spec.getSignaturePaddings()
+	p.WriteInt32(-1) // null Spec.getBlockModes()
+	p.WriteInt32(-1) // null Spec.isRandomizedEncryptionRequired()
+	p.WriteInt32(-1) // null Spec.isUserAuthenticationRequired()
+	p.WriteInt32(-1) // null Spec.getUserAuthenticationValidityDurationSeconds()
+	p.WriteInt32(-1) // null Spec.getUserAuthenticationType()
+	p.WriteInt32(-1) // null Spec.isUserPresenceRequired()
+	p.WriteInt32(-1) // null Spec.getAttestationChallenge()
+	p.WriteInt32(-1) // null Spec.isDevicePropertiesAttestationIncluded()
+	p.WriteInt32(-1) // null Spec.getAttestationIds()
+	p.WriteInt32(-1) // null Spec.isUniqueIdIncluded()
+	p.WriteInt32(-1) // null Spec.isUserAuthenticationValidWhileOnBody()
+	p.WriteInt32(-1) // null Spec.isInvalidatedByBiometricEnrollment()
+	p.WriteInt32(-1) // null Spec.isStrongBoxBacked()
+	p.WriteInt32(-1) // null Spec.isUserConfirmationRequired()
+	p.WriteInt32(-1) // null Spec.isUnlockedDeviceRequired()
+	p.WriteInt32(-1) // null Spec.isCriticalToDeviceEncryption()
+	p.WriteInt32(-1) // null Spec.getMaxUsageCount()
+	p.WriteInt32(-1) // null Spec.getAttestKeyAlias()
+	p.WriteInt32(-1) // null Spec.getBoundToSpecificSecureUserId()
 	return nil
 }
 

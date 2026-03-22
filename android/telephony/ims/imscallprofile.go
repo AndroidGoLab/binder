@@ -24,12 +24,16 @@ func (s *ImsCallProfile) MarshalParcel(
 ) error {
 	p.WriteInt32(s.ServiceType)
 	p.WriteInt32(s.CallType)
+	p.WriteInt32(-1) // null FilteredExtras
+	p.WriteInt32(-1) // null MediaProfile
 	p.WriteInt32(s.EmergencyServiceCategories)
+	p.WriteInt32(-1) // null EmergencyUrns
 	p.WriteInt32(s.EmergencyCallRouting)
 	p.WriteBool(s.EmergencyCallTesting)
 	p.WriteBool(s.HasKnownUserIntentEmergency)
 	p.WriteInt32(s.RestrictCause)
 	p.WriteInt32(s.CallerNumberVerificationStatus)
+	p.WriteInt32(-1) // null AcceptedRtpHeaderExtensionTypes.toArray()
 	return nil
 }
 

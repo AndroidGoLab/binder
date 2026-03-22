@@ -18,6 +18,8 @@ func (s *AudioVolumeGroup) MarshalParcel(
 ) error {
 	p.WriteString16(s.Name)
 	p.WriteInt32(s.Id)
+	p.WriteInt32(-1) // null AudioAttributes.length
+	p.WriteInt32(-1) // null LegacyStreamTypes.length
 	return nil
 }
 

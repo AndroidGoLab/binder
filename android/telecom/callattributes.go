@@ -17,6 +17,9 @@ var _ parcel.Parcelable = (*CallAttributes)(nil)
 func (s *CallAttributes) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null PhoneAccountHandle
+	p.WriteInt32(-1) // null DisplayName
+	p.WriteInt32(-1) // null Address
 	p.WriteInt32(s.Direction)
 	p.WriteInt32(s.CallType)
 	p.WriteInt32(s.CallCapabilities)

@@ -14,6 +14,20 @@ var _ parcel.Parcelable = (*StatusBarNotification)(nil)
 func (s *StatusBarNotification) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null This.pkg
+	p.WriteInt32(-1) // null This.opPkg
+	p.WriteInt32(-1) // null This.id
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null This.tag
+	p.WriteInt32(-1) // null This.uid
+	p.WriteInt32(-1) // null This.initialPid
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null Out2
+	p.WriteInt32(-1) // null This.postTime
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null This.overrideGroupKey
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Out
 	return nil
 }
 

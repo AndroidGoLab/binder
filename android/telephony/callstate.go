@@ -22,6 +22,7 @@ func (s *CallState) MarshalParcel(
 ) error {
 	p.WriteInt32(s.PreciseCallState)
 	p.WriteInt32(s.NetworkType)
+	p.WriteInt32(-1) // null CallQuality
 	p.WriteInt32(s.CallClassification)
 	p.WriteString16(s.ImsCallId)
 	p.WriteInt32(s.ImsCallServiceType)

@@ -20,6 +20,9 @@ var _ parcel.Parcelable = (*WindowConfiguration)(nil)
 func (s *WindowConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null AppBounds
+	p.WriteInt32(-1) // null Dest2
 	p.WriteInt32(s.WindowingMode)
 	p.WriteInt32(s.ActivityType)
 	p.WriteInt32(s.AlwaysOnTop)

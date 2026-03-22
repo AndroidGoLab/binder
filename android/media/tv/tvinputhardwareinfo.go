@@ -23,6 +23,7 @@ func (s *TvInputHardwareInfo) MarshalParcel(
 	p.WriteInt32(s.Type)
 	p.WriteInt32(s.AudioType)
 	p.WriteString16(s.AudioAddress)
+	p.WriteInt32(-1) // null HdmiPortId
 	p.WriteInt32(s.CableConnectionStatus)
 	return nil
 }

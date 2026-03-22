@@ -15,6 +15,7 @@ var _ parcel.Parcelable = (*WebViewProviderResponse)(nil)
 func (s *WebViewProviderResponse) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null PackageInfo
 	p.WriteInt32(s.Status)
 	return nil
 }

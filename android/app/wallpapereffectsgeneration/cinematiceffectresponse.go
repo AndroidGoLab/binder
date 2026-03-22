@@ -20,6 +20,9 @@ func (s *CinematicEffectResponse) MarshalParcel(
 	p.WriteInt32(s.StatusCode)
 	p.WriteString16(s.TaskId)
 	p.WriteInt32(s.ImageContentType)
+	p.WriteInt32(-1) // null TexturedMeshes
+	p.WriteInt32(-1) // null StartKeyFrame
+	p.WriteInt32(-1) // null EndKeyFrame
 	return nil
 }
 

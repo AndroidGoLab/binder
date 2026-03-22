@@ -19,6 +19,7 @@ func (s *DataShareRequest) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Flg)
 	p.WriteString16(s.PackageName)
+	p.WriteInt32(-1) // null LocusId
 	p.WriteString16(s.MimeType)
 	return nil
 }

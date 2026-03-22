@@ -15,6 +15,7 @@ var _ parcel.Parcelable = (*AntennaPosition)(nil)
 func (s *AntennaPosition) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null AntennaDirection
 	p.WriteInt32(s.SuggestedHoldPosition)
 	return nil
 }

@@ -18,6 +18,7 @@ func (s *CellInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null Registered?1:0
 	p.WriteInt64(s.TimeStamp)
 	p.WriteInt32(s.CellConnectionStatus)
 	return nil

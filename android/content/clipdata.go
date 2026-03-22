@@ -15,6 +15,9 @@ var _ parcel.Parcelable = (*ClipData)(nil)
 func (s *ClipData) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.N)
 	return nil
 }

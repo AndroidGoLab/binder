@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*UriPathPair)(nil)
 func (s *UriPathPair) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null FilePathUri
+	p.WriteInt32(-1) // null ContentUri
 	return nil
 }
 

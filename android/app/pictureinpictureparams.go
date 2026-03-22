@@ -14,6 +14,21 @@ var _ parcel.Parcelable = (*PictureInPictureParams)(nil)
 func (s *PictureInPictureParams) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null UserActions
+	p.WriteInt32(-1) // null CloseAction
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null AutoEnterEnabled
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null SeamlessResizeEnabled
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Title
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Subtitle
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null IsLaunchIntoPip
 	return nil
 }
 

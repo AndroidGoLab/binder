@@ -16,6 +16,14 @@ var _ parcel.Parcelable = (*NotificationChannelGroup)(nil)
 func (s *NotificationChannelGroup) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null (byte)1
+	p.WriteInt32(-1) // null Id
+	p.WriteInt32(-1) // null (byte)1
+	p.WriteInt32(-1) // null Name.toString()
+	p.WriteInt32(-1) // null (byte)1
+	p.WriteInt32(-1) // null Description
+	p.WriteInt32(-1) // null (byte)1
+	p.WriteInt32(-1) // null NewParceledListSlice<>(mChannels)
 	p.WriteBool(s.Blocked)
 	p.WriteInt32(s.UserLockedFields)
 	return nil

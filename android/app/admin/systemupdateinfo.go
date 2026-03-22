@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*SystemUpdateInfo)(nil)
 func (s *SystemUpdateInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null GetReceivedTime()
+	p.WriteInt32(-1) // null GetSecurityPatchState()
 	return nil
 }
 

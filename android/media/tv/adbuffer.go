@@ -22,6 +22,7 @@ func (s *AdBuffer) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Id)
 	p.WriteString16(s.MimeType)
+	p.WriteInt32(-1) // null Buffer
 	p.WriteInt32(s.Offset)
 	p.WriteInt32(s.Length)
 	p.WriteInt64(s.PresentationTimeUs)

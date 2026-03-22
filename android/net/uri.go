@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*Uri)(nil)
 func (s *Uri) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null NULL_TYPE_ID
 	return nil
 }
 

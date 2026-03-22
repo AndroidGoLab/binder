@@ -37,14 +37,18 @@ func (s *ServiceState) MarshalParcel(
 	p.WriteString16(s.OperatorAlphaLong)
 	p.WriteString16(s.OperatorAlphaShort)
 	p.WriteString16(s.OperatorNumeric)
+	p.WriteInt32(-1) // null IsManualNetworkSelection?1:0
+	p.WriteInt32(-1) // null CssIndicator?1:0
 	p.WriteInt32(s.NetworkId)
 	p.WriteInt32(s.SystemId)
 	p.WriteInt32(s.CdmaRoamingIndicator)
 	p.WriteInt32(s.CdmaDefaultRoamingIndicator)
 	p.WriteInt32(s.CdmaEriIconIndex)
 	p.WriteInt32(s.CdmaEriIconMode)
+	p.WriteInt32(-1) // null IsEmergencyOnly?1:0
 	p.WriteInt32(s.ArfcnRsrpBoost)
 	p.WriteInt32(s.ChannelNumber)
+	p.WriteInt32(-1) // null CellBandwidths
 	p.WriteInt32(s.NrFrequencyRange)
 	p.WriteString16(s.OperatorAlphaLongRaw)
 	p.WriteString16(s.OperatorAlphaShortRaw)

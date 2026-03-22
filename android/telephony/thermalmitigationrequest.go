@@ -16,6 +16,7 @@ func (s *ThermalMitigationRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.ThermalMitigationAction)
+	p.WriteInt32(-1) // null DataThrottlingRequest
 	return nil
 }
 

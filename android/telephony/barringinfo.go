@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*BarringInfo)(nil)
 func (s *BarringInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null CellIdentity
+	p.WriteInt32(-1) // null BarringServiceInfos
 	return nil
 }
 

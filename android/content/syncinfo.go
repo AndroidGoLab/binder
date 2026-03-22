@@ -18,6 +18,7 @@ func (s *SyncInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.AuthorityId)
+	p.WriteInt32(-1) // null Account
 	p.WriteString16(s.Authority)
 	p.WriteInt64(s.StartTime)
 	return nil

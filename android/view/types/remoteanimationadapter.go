@@ -17,9 +17,11 @@ var _ parcel.Parcelable = (*RemoteAnimationAdapter)(nil)
 func (s *RemoteAnimationAdapter) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Runner
 	p.WriteInt64(s.Duration)
 	p.WriteInt64(s.StatusBarTransitionDelay)
 	p.WriteBool(s.ChangeNeedsSnapshot)
+	p.WriteInt32(-1) // null CallingApplication
 	return nil
 }
 

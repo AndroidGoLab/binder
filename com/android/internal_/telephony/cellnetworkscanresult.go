@@ -16,6 +16,7 @@ func (s *CellNetworkScanResult) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Status)
+	p.WriteInt32(-1) // null Operators.size()
 	return nil
 }
 

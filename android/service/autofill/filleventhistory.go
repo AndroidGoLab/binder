@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*FillEventHistory)(nil)
 func (s *FillEventHistory) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ClientState
+	p.WriteInt32(-1) // null 0
 	return nil
 }
 

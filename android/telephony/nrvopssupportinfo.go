@@ -17,6 +17,7 @@ var _ parcel.Parcelable = (*NrVopsSupportInfo)(nil)
 func (s *NrVopsSupportInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Out
 	p.WriteInt32(s.VopsSupport)
 	p.WriteInt32(s.EmcSupport)
 	p.WriteInt32(s.EmfSupport)

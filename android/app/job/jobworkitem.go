@@ -19,6 +19,9 @@ var _ parcel.Parcelable = (*JobWorkItem)(nil)
 func (s *JobWorkItem) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt64(s.NetworkDownloadBytes)
 	p.WriteInt64(s.NetworkUploadBytes)
 	p.WriteInt64(s.MinimumChunkBytes)

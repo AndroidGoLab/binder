@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*TimeZoneConfiguration)(nil)
 func (s *TimeZoneConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Bundle
 	return nil
 }
 

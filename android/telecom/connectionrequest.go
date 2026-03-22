@@ -16,8 +16,16 @@ var _ parcel.Parcelable = (*ConnectionRequest)(nil)
 func (s *ConnectionRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null AccountHandle
+	p.WriteInt32(-1) // null Address
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(s.VideoState)
 	p.WriteString16(s.TelecomCallId)
+	p.WriteInt32(-1) // null ShouldShowIncomingCallUi?1:0
+	p.WriteInt32(-1) // null RttPipeFromInCall
+	p.WriteInt32(-1) // null RttPipeToInCall
+	p.WriteInt32(-1) // null Participants
+	p.WriteInt32(-1) // null IsAdhocConference?1:0
 	return nil
 }
 

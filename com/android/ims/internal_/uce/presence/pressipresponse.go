@@ -22,6 +22,7 @@ func (s *PresSipResponse) MarshalParcel(
 	p.WriteInt32(s.RequestId)
 	p.WriteInt32(s.SipResponseCode)
 	p.WriteString16(s.ReasonPhrase)
+	p.WriteInt32(-1) // null CmdId
 	p.WriteInt32(s.RetryAfter)
 	p.WriteString16(s.ReasonHeader)
 	return nil

@@ -16,6 +16,7 @@ func (s *ContentClassification) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.ClassificationId)
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

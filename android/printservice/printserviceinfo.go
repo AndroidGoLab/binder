@@ -19,6 +19,8 @@ func (s *PrintServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Id)
+	p.WriteInt32(-1) // null (byte)(mIsEnabled?1:0)
+	p.WriteInt32(-1) // null ResolveInfo
 	p.WriteString16(s.SettingsActivityName)
 	p.WriteString16(s.AddPrintersActivityName)
 	p.WriteString16(s.AdvancedPrintOptionsActivityName)

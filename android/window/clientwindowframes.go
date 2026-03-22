@@ -16,6 +16,10 @@ var _ parcel.Parcelable = (*ClientWindowFrames)(nil)
 func (s *ClientWindowFrames) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest2
+	p.WriteInt32(-1) // null Dest3
+	p.WriteInt32(-1) // null AttachedFrame
 	p.WriteBool(s.IsParentFrameClippedByDisplayCutout)
 	p.WriteFloat32(s.CompatScale)
 	return nil

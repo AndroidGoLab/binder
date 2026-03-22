@@ -19,6 +19,12 @@ func (s *TaskFragmentOperation) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.OpType)
+	p.WriteInt32(-1) // null TaskFragmentCreationParams
+	p.WriteInt32(-1) // null ActivityToken
+	p.WriteInt32(-1) // null ActivityIntent
+	p.WriteInt32(-1) // null Bundle
+	p.WriteInt32(-1) // null SecondaryFragmentToken
+	p.WriteInt32(-1) // null AnimationParams
 	p.WriteBool(s.IsolatedNav)
 	p.WriteBool(s.DimOnTask)
 	p.WriteBool(s.MoveToBottomIfClearWhenLaunch)

@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*AlternativeSpans)(nil)
 func (s *AlternativeSpans) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Spans
 	return nil
 }
 

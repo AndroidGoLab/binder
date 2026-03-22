@@ -18,6 +18,9 @@ func (s *NanoAppState) MarshalParcel(
 ) error {
 	p.WriteInt64(s.NanoAppId)
 	p.WriteInt32(s.NanoAppVersion)
+	p.WriteInt32(-1) // null IsEnabled?1:0
+	p.WriteInt32(-1) // null NanoAppPermissions
+	p.WriteInt32(-1) // null NanoAppRpcServiceList.toArray(newNanoAppRpcService[0])
 	return nil
 }
 

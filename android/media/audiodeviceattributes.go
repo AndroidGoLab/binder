@@ -24,6 +24,8 @@ func (s *AudioDeviceAttributes) MarshalParcel(
 	p.WriteString16(s.Address)
 	p.WriteString16(s.Name)
 	p.WriteInt32(s.NativeType)
+	p.WriteInt32(-1) // null AudioProfiles.toArray(newAudioProfile[mAudioProfiles.size()])
+	p.WriteInt32(-1) // null AudioDescriptors.toArray(newAudioDescriptor[mAudioDescriptors.size()])
 	return nil
 }
 

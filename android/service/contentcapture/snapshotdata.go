@@ -14,6 +14,9 @@ var _ parcel.Parcelable = (*SnapshotData)(nil)
 func (s *SnapshotData) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null AssistData
+	p.WriteInt32(-1) // null AssistStructure
+	p.WriteInt32(-1) // null AssistContent
 	return nil
 }
 

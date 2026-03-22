@@ -20,8 +20,18 @@ func (s *StorageVolume) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString(s.Id)
+	p.WriteInt32(-1) // null Path.toString()
+	p.WriteInt32(-1) // null InternalPath.toString()
 	p.WriteString(s.Description)
+	p.WriteInt32(-1) // null Primary?1:0
+	p.WriteInt32(-1) // null Removable?1:0
+	p.WriteInt32(-1) // null Emulated?1:0
+	p.WriteInt32(-1) // null ExternallyManaged?1:0
+	p.WriteInt32(-1) // null AllowMassStorage?1:0
 	p.WriteInt64(s.MaxFileSize)
+	p.WriteInt32(-1) // null Owner
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null StorageManager.convert(mUuid)
 	p.WriteString(s.FsUuid)
 	p.WriteString(s.State)
 	return nil

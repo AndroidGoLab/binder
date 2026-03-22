@@ -14,6 +14,9 @@ var _ parcel.Parcelable = (*TimeZoneCapabilitiesAndConfig)(nil)
 func (s *TimeZoneCapabilitiesAndConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null DetectorStatus
+	p.WriteInt32(-1) // null Capabilities
+	p.WriteInt32(-1) // null Configuration
 	return nil
 }
 

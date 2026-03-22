@@ -24,12 +24,16 @@ func (s *AudioRecordingConfiguration) MarshalParcel(
 ) error {
 	p.WriteInt32(s.ClientSessionId)
 	p.WriteInt32(s.ClientSource)
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Dest2
 	p.WriteInt32(s.PatchHandle)
 	p.WriteString16(s.ClientPackageName)
 	p.WriteInt32(s.ClientUid)
 	p.WriteInt32(s.ClientPortId)
 	p.WriteBool(s.ClientSilenced)
 	p.WriteInt32(s.DeviceSource)
+	p.WriteInt32(-1) // null ClientEffects.length
+	p.WriteInt32(-1) // null DeviceEffects.length
 	return nil
 }
 

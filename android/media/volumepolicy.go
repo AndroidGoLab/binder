@@ -15,6 +15,9 @@ var _ parcel.Parcelable = (*VolumePolicy)(nil)
 func (s *VolumePolicy) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null VolumeDownToEnterSilent?1:0
+	p.WriteInt32(-1) // null VolumeUpToExitSilent?1:0
+	p.WriteInt32(-1) // null DoNotDisturbWhenSilent?1:0
 	p.WriteInt32(s.VibrateToSilentDebounce)
 	return nil
 }

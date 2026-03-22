@@ -16,6 +16,9 @@ func (s *InterfaceConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.HwAddr)
+	p.WriteInt32(-1) // null (byte)1
+	p.WriteInt32(-1) // null Addr
+	p.WriteInt32(-1) // null Flags.size()
 	return nil
 }
 

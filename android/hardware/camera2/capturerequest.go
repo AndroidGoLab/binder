@@ -18,6 +18,10 @@ func (s *CaptureRequest) MarshalParcel(
 ) error {
 	p.WriteInt32(s.PhysicalCameraCount)
 	p.WriteString16(s.LogicalCameraId)
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null IsReprocess?1:0
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null UserTagStr.substring(SET_TAG_STRING_PREFIX.length())
 	return nil
 }
 

@@ -29,6 +29,7 @@ func (s *UiccSlotInfo) MarshalParcel(
 	p.WriteInt32(s.LogicalSlotIdx)
 	p.WriteBool(s.IsExtendedApduSupported)
 	p.WriteBool(s.IsRemovable)
+	p.WriteInt32(-1) // null PortList
 	p.WriteBool(s.LogicalSlotAccessRestricted)
 	return nil
 }

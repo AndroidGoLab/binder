@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*VirtualTouchscreenConfig)(nil)
 func (s *VirtualTouchscreenConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Dest
 	return nil
 }
 

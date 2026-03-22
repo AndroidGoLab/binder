@@ -15,6 +15,8 @@ var _ parcel.Parcelable = (*RemoveSpaceGesture)(nil)
 func (s *RemoveSpaceGesture) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null StartPoint
+	p.WriteInt32(-1) // null EndPoint
 	p.WriteString(s.FallbackText)
 	return nil
 }

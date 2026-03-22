@@ -19,6 +19,7 @@ func (s *PointerIcon) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null Out
 	p.WriteFloat32(s.HotSpotX)
 	p.WriteFloat32(s.HotSpotY)
 	p.WriteBool(s.DrawNativeDropShadow)

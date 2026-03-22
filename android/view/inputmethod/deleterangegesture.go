@@ -18,6 +18,8 @@ func (s *DeleteRangeGesture) MarshalParcel(
 ) error {
 	p.WriteString(s.FallbackText)
 	p.WriteInt32(s.Granularity)
+	p.WriteInt32(-1) // null StartArea
+	p.WriteInt32(-1) // null EndArea
 	return nil
 }
 

@@ -27,7 +27,10 @@ func (s *GnssMeasurementCorrections) MarshalParcel(
 	p.WriteFloat64(s.HorizontalPositionUncertaintyMeters)
 	p.WriteFloat64(s.VerticalPositionUncertaintyMeters)
 	p.WriteInt64(s.ToaGpsNanosecondsOfWeek)
+	p.WriteInt32(-1) // null SingleSatCorrectionList
 	p.WriteBool(s.HasEnvironmentBearing)
+	p.WriteInt32(-1) // null EnvironmentBearingDegrees
+	p.WriteInt32(-1) // null EnvironmentBearingUncertaintyDegrees
 	return nil
 }
 

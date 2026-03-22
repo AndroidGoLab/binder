@@ -17,6 +17,8 @@ var _ parcel.Parcelable = (*RecognitionRequest)(nil)
 func (s *RecognitionRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null AudioFormat
+	p.WriteInt32(-1) // null AudioAttributes
 	p.WriteInt32(s.CaptureSession)
 	p.WriteInt32(s.MaxAudioLengthSeconds)
 	p.WriteInt32(s.IgnoreBeginningFrames)

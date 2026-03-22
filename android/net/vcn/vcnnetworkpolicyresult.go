@@ -16,6 +16,7 @@ func (s *VcnNetworkPolicyResult) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteBool(s.IsTearDownRequested)
+	p.WriteInt32(-1) // null NetworkCapabilities
 	return nil
 }
 

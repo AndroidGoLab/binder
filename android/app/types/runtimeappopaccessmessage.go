@@ -24,6 +24,7 @@ func (s *RuntimeAppOpAccessMessage) MarshalParcel(
 	p.WriteInt32(s.Uid)
 	p.WriteInt32(s.OpCode)
 	p.WriteString16(s.PackageName)
+	p.WriteInt32(-1) // null AttributionTag
 	p.WriteString16(s.Message)
 	p.WriteInt32(s.SamplingStrategy)
 	return nil

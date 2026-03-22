@@ -34,12 +34,18 @@ func (s *PlaybackMetrics) MarshalParcel(
 	p.WriteInt32(s.PlaybackType)
 	p.WriteInt32(s.DrmType)
 	p.WriteInt32(s.ContentType)
+	p.WriteInt32(-1) // null PlayerName
+	p.WriteInt32(-1) // null PlayerVersion
+	p.WriteInt32(-1) // null ExperimentIds
 	p.WriteInt32(s.VideoFramesPlayed)
 	p.WriteInt32(s.VideoFramesDropped)
 	p.WriteInt32(s.AudioUnderrunCount)
 	p.WriteInt64(s.NetworkBytesRead)
 	p.WriteInt64(s.LocalBytesRead)
 	p.WriteInt64(s.NetworkTransferDurationMillis)
+	p.WriteInt32(-1) // null DrmSessionId.length
+	p.WriteInt32(-1) // null DrmSessionId
+	p.WriteInt32(-1) // null MetricsBundle
 	return nil
 }
 

@@ -20,6 +20,7 @@ func (s *GeofenceHardwareMonitorEvent) MarshalParcel(
 	p.WriteInt32(s.MonitoringType)
 	p.WriteInt32(s.MonitoringStatus)
 	p.WriteInt32(s.SourceTechnologies)
+	p.WriteInt32(-1) // null Location
 	return nil
 }
 

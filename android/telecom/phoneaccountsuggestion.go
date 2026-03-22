@@ -15,7 +15,9 @@ var _ parcel.Parcelable = (*PhoneAccountSuggestion)(nil)
 func (s *PhoneAccountSuggestion) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Handle
 	p.WriteInt32(s.Reason)
+	p.WriteInt32(-1) // null (byte)(mShouldAutoSelect?1:0)
 	return nil
 }
 

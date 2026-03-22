@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*SetEnabledProvidersRequest)(nil)
 func (s *SetEnabledProvidersRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Providers
 	return nil
 }
 

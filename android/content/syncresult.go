@@ -15,7 +15,15 @@ var _ parcel.Parcelable = (*SyncResult)(nil)
 func (s *SyncResult) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null SyncAlreadyInProgress?1:0
+	p.WriteInt32(-1) // null TooManyDeletions?1:0
+	p.WriteInt32(-1) // null TooManyRetries?1:0
+	p.WriteInt32(-1) // null DatabaseError?1:0
+	p.WriteInt32(-1) // null FullSyncRequested?1:0
+	p.WriteInt32(-1) // null PartialSyncUnavailable?1:0
+	p.WriteInt32(-1) // null MoreRecordsToGet?1:0
 	p.WriteInt64(s.DelayUntil)
+	p.WriteInt32(-1) // null Parcel
 	return nil
 }
 

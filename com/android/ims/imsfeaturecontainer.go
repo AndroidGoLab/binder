@@ -16,6 +16,10 @@ var _ parcel.Parcelable = (*ImsFeatureContainer)(nil)
 func (s *ImsFeatureContainer) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ImsFeature
+	p.WriteInt32(-1) // null ImsConfig
+	p.WriteInt32(-1) // null ImsRegistration
+	p.WriteInt32(-1) // null SipTransport
 	p.WriteInt32(s.State)
 	p.WriteInt64(s.Capabilities)
 	return nil

@@ -15,7 +15,11 @@ var _ parcel.Parcelable = (*ServiceStartArgs)(nil)
 func (s *ServiceStartArgs) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null TaskRemoved?1:0
 	p.WriteInt32(s.StartId)
+	p.WriteInt32(-1) // null This.flags
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Out
 	return nil
 }
 

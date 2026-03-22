@@ -24,7 +24,10 @@ func (s *PreciseDataConnectionState) MarshalParcel(
 	p.WriteInt32(s.Id)
 	p.WriteInt32(s.State)
 	p.WriteInt32(s.NetworkType)
+	p.WriteInt32(-1) // null LinkProperties
 	p.WriteInt32(s.FailCause)
+	p.WriteInt32(-1) // null ApnSetting
+	p.WriteInt32(-1) // null DefaultQos
 	p.WriteInt32(s.NetworkValidationStatus)
 	return nil
 }

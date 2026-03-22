@@ -18,6 +18,11 @@ func (s *WalletCard) MarshalParcel(
 ) error {
 	p.WriteString16(s.CardId)
 	p.WriteInt32(s.CardType)
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null ContentDescription
+	p.WriteInt32(-1) // null PendingIntent
+	p.WriteInt32(-1) // null CardLabel
+	p.WriteInt32(-1) // null CardLocations
 	return nil
 }
 

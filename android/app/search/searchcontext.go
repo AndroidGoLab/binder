@@ -20,6 +20,7 @@ func (s *SearchContext) MarshalParcel(
 	p.WriteInt32(s.ResultTypes)
 	p.WriteInt32(s.TimeoutMillis)
 	p.WriteString16(s.PackageName)
+	p.WriteInt32(-1) // null Extras
 	return nil
 }
 

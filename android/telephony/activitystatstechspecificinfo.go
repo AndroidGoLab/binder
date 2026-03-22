@@ -19,6 +19,7 @@ func (s *ActivityStatsTechSpecificInfo) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Rat)
 	p.WriteInt32(s.FrequencyRange)
+	p.WriteInt32(-1) // null TxTimeMs
 	p.WriteInt32(s.RxTimeMs)
 	return nil
 }

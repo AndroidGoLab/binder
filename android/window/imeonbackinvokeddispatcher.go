@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*ImeOnBackInvokedDispatcher)(nil)
 func (s *ImeOnBackInvokedDispatcher) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ResultReceiver
 	return nil
 }
 

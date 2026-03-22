@@ -18,6 +18,7 @@ func (s *SrvccCall) MarshalParcel(
 ) error {
 	p.WriteString16(s.CallId)
 	p.WriteInt32(s.CallState)
+	p.WriteInt32(-1) // null ImsCallProfile
 	return nil
 }
 

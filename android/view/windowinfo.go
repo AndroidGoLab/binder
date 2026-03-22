@@ -23,7 +23,20 @@ func (s *WindowInfo) MarshalParcel(
 	p.WriteInt32(s.TaskId)
 	p.WriteInt32(s.Type)
 	p.WriteInt32(s.Layer)
+	p.WriteInt32(-1) // null Token
+	p.WriteInt32(-1) // null ParentToken
+	p.WriteInt32(-1) // null ActivityToken
+	p.WriteInt32(-1) // null Focused?1:0
+	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null Title
 	p.WriteInt64(s.AccessibilityIdOfAnchor)
+	p.WriteInt32(-1) // null InPictureInPicture?1:0
+	p.WriteInt32(-1) // null HasFlagWatchOutsideTouch?1:0
+	p.WriteInt32(-1) // null TransformMatrix
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null ChildTokens
+	p.WriteInt32(-1) // null Parcel2
+	p.WriteInt32(-1) // null Locales
 	return nil
 }
 

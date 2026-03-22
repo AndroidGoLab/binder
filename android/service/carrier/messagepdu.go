@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*MessagePdu)(nil)
 func (s *MessagePdu) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null NULL_LENGTH
 	return nil
 }
 

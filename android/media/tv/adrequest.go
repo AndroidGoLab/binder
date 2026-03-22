@@ -22,10 +22,13 @@ func (s *AdRequest) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Id)
 	p.WriteInt32(s.RequestType)
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt64(s.StartTime)
 	p.WriteInt64(s.StopTime)
 	p.WriteInt64(s.EchoInterval)
 	p.WriteString16(s.MediaFileType)
+	p.WriteInt32(-1) // null Metadata
 	return nil
 }
 

@@ -19,7 +19,10 @@ func (s *TextSelection) MarshalParcel(
 ) error {
 	p.WriteInt32(s.StartIndex)
 	p.WriteInt32(s.EndIndex)
+	p.WriteInt32(-1) // null Dest
 	p.WriteString16(s.Id)
+	p.WriteInt32(-1) // null Extras
+	p.WriteInt32(-1) // null TextClassification
 	return nil
 }
 

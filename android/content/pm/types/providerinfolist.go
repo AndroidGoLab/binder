@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*ProviderInfoList)(nil)
 func (s *ProviderInfoList) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null List
 	return nil
 }
 

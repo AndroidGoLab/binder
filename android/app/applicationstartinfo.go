@@ -33,7 +33,9 @@ func (s *ApplicationStartInfo) MarshalParcel(
 	p.WriteString16(s.PackageName)
 	p.WriteString16(s.ProcessName)
 	p.WriteInt32(s.Reason)
+	p.WriteInt32(-1) // null StartupTimestampsNs==null?0:mStartupTimestampsNs.size()
 	p.WriteInt32(s.StartType)
+	p.WriteInt32(-1) // null StartIntent
 	p.WriteInt32(s.LaunchMode)
 	p.WriteBool(s.WasForceStopped)
 	return nil

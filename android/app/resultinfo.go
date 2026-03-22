@@ -20,6 +20,9 @@ func (s *ResultInfo) MarshalParcel(
 	p.WriteString16(s.ResultWho)
 	p.WriteInt32(s.RequestCode)
 	p.WriteInt32(s.ResultCode)
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null CallerToken
 	return nil
 }
 

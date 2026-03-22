@@ -20,6 +20,7 @@ func (s *DiskInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Id)
+	p.WriteInt32(-1) // null This.flags
 	p.WriteInt64(s.Size)
 	p.WriteString16(s.Label)
 	p.WriteInt32(s.VolumeCount)

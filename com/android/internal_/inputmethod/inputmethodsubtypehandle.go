@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*InputMethodSubtypeHandle)(nil)
 func (s *InputMethodSubtypeHandle) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ToStringHandle()
 	return nil
 }
 

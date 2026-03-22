@@ -22,10 +22,16 @@ func (s *SharedLibraryInfo) MarshalParcel(
 ) error {
 	p.WriteString(s.Path)
 	p.WriteString(s.PackageName)
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null CodePaths.toArray(newString[mCodePaths.size()])
 	p.WriteString(s.Name)
 	p.WriteInt64(s.Version)
 	p.WriteInt32(s.Type)
+	p.WriteInt32(-1) // null DeclaringPackage
+	p.WriteInt32(-1) // null DependentPackages
+	p.WriteInt32(-1) // null Dependencies
 	p.WriteBool(s.IsNative)
+	p.WriteInt32(-1) // null OptionalDependentPackages
 	return nil
 }
 

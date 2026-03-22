@@ -25,13 +25,31 @@ func (s *SyncStatusInfo) MarshalParcel(
 ) error {
 	p.WriteInt32(s.VERSION)
 	p.WriteInt32(s.AuthorityId)
+	p.WriteInt32(-1) // null TotalStats.totalElapsedTime
+	p.WriteInt32(-1) // null TotalStats.numSyncs
+	p.WriteInt32(-1) // null TotalStats.numSourcePoll
+	p.WriteInt32(-1) // null TotalStats.numSourceOther
+	p.WriteInt32(-1) // null TotalStats.numSourceLocal
+	p.WriteInt32(-1) // null TotalStats.numSourceUser
 	p.WriteInt64(s.LastSuccessTime)
 	p.WriteInt32(s.LastSuccessSource)
 	p.WriteInt64(s.LastFailureTime)
 	p.WriteInt32(s.LastFailureSource)
 	p.WriteString16(s.LastFailureMesg)
 	p.WriteInt64(s.InitialFailureTime)
+	p.WriteInt32(-1) // null Pending?1:0
+	p.WriteInt32(-1) // null Initialize?1:0
+	p.WriteInt32(-1) // null PeriodicSyncTimes.size()
+	p.WriteInt32(-1) // null LastEventTimes.size()
+	p.WriteInt32(-1) // null TotalStats.numSourcePeriodic
+	p.WriteInt32(-1) // null TotalStats.numSourceFeed
+	p.WriteInt32(-1) // null TotalStats.numFailures
+	p.WriteInt32(-1) // null TotalStats.numCancels
 	p.WriteInt64(s.LastTodayResetTime)
+	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null Parcel2
+	p.WriteInt32(-1) // null PerSourceLastSuccessTimes
+	p.WriteInt32(-1) // null PerSourceLastFailureTimes
 	return nil
 }
 

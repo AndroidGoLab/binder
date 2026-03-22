@@ -18,6 +18,7 @@ func (s *PlaybackStateEvent) MarshalParcel(
 ) error {
 	p.WriteInt32(s.State)
 	p.WriteInt64(s.TimeSinceCreatedMillis)
+	p.WriteInt32(-1) // null MetricsBundle
 	return nil
 }
 

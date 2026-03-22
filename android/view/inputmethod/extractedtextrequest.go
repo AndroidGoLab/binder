@@ -18,6 +18,7 @@ func (s *ExtractedTextRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Token)
+	p.WriteInt32(-1) // null This.flags
 	p.WriteInt32(s.HintMaxLines)
 	p.WriteInt32(s.HintMaxChars)
 	return nil

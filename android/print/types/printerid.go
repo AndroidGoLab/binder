@@ -15,6 +15,7 @@ var _ parcel.Parcelable = (*PrinterId)(nil)
 func (s *PrinterId) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ServiceName
 	p.WriteString16(s.LocalId)
 	return nil
 }

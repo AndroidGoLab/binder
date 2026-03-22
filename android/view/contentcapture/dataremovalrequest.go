@@ -18,6 +18,7 @@ func (s *DataRemovalRequest) MarshalParcel(
 ) error {
 	p.WriteString16(s.PackageName)
 	p.WriteBool(s.ForEverything)
+	p.WriteInt32(-1) // null Size
 	return nil
 }
 

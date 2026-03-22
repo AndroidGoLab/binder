@@ -14,6 +14,11 @@ var _ parcel.Parcelable = (*NotificationVisibility)(nil)
 func (s *NotificationVisibility) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null This.key
+	p.WriteInt32(-1) // null This.rank
+	p.WriteInt32(-1) // null This.count
+	p.WriteInt32(-1) // null This.visible?1:0
+	p.WriteInt32(-1) // null This.location.name()
 	return nil
 }
 

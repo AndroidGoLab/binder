@@ -14,6 +14,8 @@ var _ parcel.Parcelable = (*ActivityChangedEvent)(nil)
 func (s *ActivityChangedEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ActivityRecognitionEventArray.length
+	p.WriteInt32(-1) // null ActivityRecognitionEventArray
 	return nil
 }
 

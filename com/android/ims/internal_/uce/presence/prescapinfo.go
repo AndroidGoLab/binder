@@ -16,6 +16,7 @@ func (s *PresCapInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.ContactUri)
+	p.WriteInt32(-1) // null CapInfo
 	return nil
 }
 

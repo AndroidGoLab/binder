@@ -23,8 +23,19 @@ func (s *JobParameters) MarshalParcel(
 ) error {
 	p.WriteInt32(s.JobId)
 	p.WriteString16(s.JobNamespace)
+	p.WriteInt32(-1) // null Extras
+	p.WriteInt32(-1) // null TransientExtras
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null ClipGrantFlags
+	p.WriteInt32(-1) // null Callback
+	p.WriteInt32(-1) // null OverrideDeadlineExpired?1:0
 	p.WriteBool(s.IsExpedited)
 	p.WriteBool(s.IsUserInitiated)
+	p.WriteInt32(-1) // null TriggeredContentUris
+	p.WriteInt32(-1) // null TriggeredContentAuthorities
+	p.WriteInt32(-1) // null 1
+	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.StopReason)
 	p.WriteInt32(s.InternalStopReason)
 	p.WriteString16(s.DebugStopReason)

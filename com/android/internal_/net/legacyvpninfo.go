@@ -18,6 +18,7 @@ func (s *LegacyVpnInfo) MarshalParcel(
 ) error {
 	p.WriteString16(s.Key)
 	p.WriteInt32(s.State)
+	p.WriteInt32(-1) // null Intent
 	return nil
 }
 

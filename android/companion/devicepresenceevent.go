@@ -18,6 +18,7 @@ func (s *DevicePresenceEvent) MarshalParcel(
 ) error {
 	p.WriteInt32(s.AssociationId)
 	p.WriteInt32(s.Event)
+	p.WriteInt32(-1) // null PARCEL_UUID_NULL
 	return nil
 }
 

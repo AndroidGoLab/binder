@@ -25,6 +25,9 @@ func (s *PermissionGroupUsage) MarshalParcel(
 	p.WriteInt32(s.Uid)
 	p.WriteInt64(s.LastAccessTimeMillis)
 	p.WriteString16(s.PermissionGroupName)
+	p.WriteInt32(-1) // null AttributionTag
+	p.WriteInt32(-1) // null AttributionLabel
+	p.WriteInt32(-1) // null ProxyLabel
 	p.WriteString16(s.PersistentDeviceId)
 	return nil
 }

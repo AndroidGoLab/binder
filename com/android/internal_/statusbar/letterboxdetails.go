@@ -15,6 +15,8 @@ var _ parcel.Parcelable = (*LetterboxDetails)(nil)
 func (s *LetterboxDetails) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null LetterboxInnerBounds
+	p.WriteInt32(-1) // null LetterboxFullBounds
 	p.WriteInt32(s.AppAppearance)
 	return nil
 }

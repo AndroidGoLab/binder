@@ -14,6 +14,9 @@ var _ parcel.Parcelable = (*AmbientBrightnessDayStats)(nil)
 func (s *AmbientBrightnessDayStats) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null LocalDate.toString()
+	p.WriteInt32(-1) // null BucketBoundaries
+	p.WriteInt32(-1) // null Stats
 	return nil
 }
 

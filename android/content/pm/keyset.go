@@ -14,6 +14,7 @@ var _ parcel.Parcelable = (*KeySet)(nil)
 func (s *KeySet) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Token
 	return nil
 }
 

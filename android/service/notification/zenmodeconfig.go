@@ -20,12 +20,23 @@ var _ parcel.Parcelable = (*ZenModeConfig)(nil)
 func (s *ZenModeConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null AllowCalls?1:0
+	p.WriteInt32(-1) // null AllowRepeatCallers?1:0
+	p.WriteInt32(-1) // null AllowMessages?1:0
+	p.WriteInt32(-1) // null AllowReminders?1:0
+	p.WriteInt32(-1) // null AllowEvents?1:0
 	p.WriteInt32(s.AllowCallsFrom)
 	p.WriteInt32(s.AllowMessagesFrom)
 	p.WriteInt32(s.User)
+	p.WriteInt32(-1) // null ManualRule
+	p.WriteInt32(-1) // null AllowAlarms?1:0
+	p.WriteInt32(-1) // null AllowMedia?1:0
+	p.WriteInt32(-1) // null AllowSystem?1:0
 	p.WriteInt32(s.SuppressedVisualEffects)
+	p.WriteInt32(-1) // null AreChannelsBypassingDnd?1:0
 	p.WriteBool(s.AllowConversations)
 	p.WriteInt32(s.AllowConversationsFrom)
+	p.WriteInt32(-1) // null AllowPriorityChannels
 	return nil
 }
 

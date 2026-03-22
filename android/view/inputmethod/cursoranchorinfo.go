@@ -27,11 +27,17 @@ func (s *CursorAnchorInfo) MarshalParcel(
 	p.WriteInt32(s.SelectionStart)
 	p.WriteInt32(s.SelectionEnd)
 	p.WriteInt32(s.ComposingTextStart)
+	p.WriteInt32(-1) // null ComposingText
 	p.WriteInt32(s.InsertionMarkerFlags)
 	p.WriteFloat32(s.InsertionMarkerHorizontal)
 	p.WriteFloat32(s.InsertionMarkerTop)
 	p.WriteFloat32(s.InsertionMarkerBaseline)
 	p.WriteFloat32(s.InsertionMarkerBottom)
+	p.WriteInt32(-1) // null CharacterBoundsArray
+	p.WriteInt32(-1) // null EditorBoundsInfo
+	p.WriteInt32(-1) // null MatrixValues
+	p.WriteInt32(-1) // null VisibleLineBounds
+	p.WriteInt32(-1) // null TextAppearanceInfo
 	return nil
 }
 

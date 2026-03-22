@@ -19,6 +19,8 @@ func (s *TranslationCapability) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Flg)
 	p.WriteInt32(s.State)
+	p.WriteInt32(-1) // null SourceSpec
+	p.WriteInt32(-1) // null TargetSpec
 	p.WriteInt32(s.SupportedTranslationFlags)
 	return nil
 }

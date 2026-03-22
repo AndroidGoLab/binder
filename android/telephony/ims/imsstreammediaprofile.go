@@ -22,6 +22,7 @@ func (s *ImsStreamMediaProfile) MarshalParcel(
 ) error {
 	p.WriteInt32(s.AudioQuality)
 	p.WriteInt32(s.AudioDirection)
+	p.WriteInt32(-1) // null AudioCodecAttributes
 	p.WriteInt32(s.VideoQuality)
 	p.WriteInt32(s.VideoDirection)
 	p.WriteInt32(s.RttMode)

@@ -17,8 +17,15 @@ var _ parcel.Parcelable = (*SyncRequest)(nil)
 func (s *SyncRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null Extras
 	p.WriteInt64(s.SyncFlexTimeSecs)
 	p.WriteInt64(s.SyncRunTimeSecs)
+	p.WriteInt32(-1) // null (mIsPeriodic?1:0)
+	p.WriteInt32(-1) // null (mDisallowMetered?1:0)
+	p.WriteInt32(-1) // null (mIsAuthority?1:0)
+	p.WriteInt32(-1) // null (mIsExpedited?1:0)
+	p.WriteInt32(-1) // null IsScheduledAsExpeditedJob?1:0
+	p.WriteInt32(-1) // null AccountToSync
 	p.WriteString16(s.Authority)
 	return nil
 }

@@ -15,6 +15,7 @@ var _ parcel.Parcelable = (*RcsContactTerminatedReason)(nil)
 func (s *RcsContactTerminatedReason) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	p.WriteInt32(-1) // null ContactUri
 	p.WriteString16(s.Reason)
 	return nil
 }
