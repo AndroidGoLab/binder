@@ -24,7 +24,6 @@ var _ parcel.Parcelable = (*LinkQualityInfo)(nil)
 func (s *LinkQualityInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.ObjectType)
 	p.WriteInt32(s.NetworkType)
 	p.WriteInt32(s.NormalizedSignalStrength)
@@ -35,109 +34,52 @@ func (s *LinkQualityInfo) MarshalParcel(
 	p.WriteInt32(s.TheoreticalLatency)
 	p.WriteInt64(s.LastDataSampleTime)
 	p.WriteInt32(s.DataSampleDuration)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *LinkQualityInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
+	var _err error
 	s.ObjectType, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.NetworkType, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.NormalizedSignalStrength, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.PacketCount, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.PacketErrorCount, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.TheoreticalTxBandwidth, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.TheoreticalRxBandwidth, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.TheoreticalLatency, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.LastDataSampleTime, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.DataSampleDuration, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

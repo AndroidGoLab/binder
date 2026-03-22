@@ -18,60 +18,32 @@ var _ parcel.Parcelable = (*Temperature)(nil)
 func (s *Temperature) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteFloat32(s.Value)
 	p.WriteInt32(s.Type)
 	p.WriteString16(s.Name)
 	p.WriteInt32(s.Status)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *Temperature) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
+	var _err error
 	s.Value, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.Type, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.Name, _err = p.ReadString16()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.Status, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

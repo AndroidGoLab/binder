@@ -18,60 +18,32 @@ var _ parcel.Parcelable = (*GameState)(nil)
 func (s *GameState) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteBool(s.IsLoading)
 	p.WriteInt32(s.Mode)
 	p.WriteInt32(s.Label)
 	p.WriteInt32(s.Quality)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *GameState) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
+	var _err error
 	s.IsLoading, _err = p.ReadBool()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.Mode, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.Label, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.Quality, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

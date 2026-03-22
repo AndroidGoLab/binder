@@ -17,50 +17,27 @@ var _ parcel.Parcelable = (*AmbientContextDetectionServiceStatus)(nil)
 func (s *AmbientContextDetectionServiceStatus) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Flg)
 	p.WriteInt32(s.StatusCode)
 	p.WriteString16(s.PackageName)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *AmbientContextDetectionServiceStatus) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
+	var _err error
 	s.Flg, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.StatusCode, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.PackageName, _err = p.ReadString16()
 	if _err != nil {
 		return _err
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

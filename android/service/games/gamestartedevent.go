@@ -16,40 +16,22 @@ var _ parcel.Parcelable = (*GameStartedEvent)(nil)
 func (s *GameStartedEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.TaskId)
 	p.WriteString16(s.PackageName)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *GameStartedEvent) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
+	var _err error
 	s.TaskId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.PackageName, _err = p.ReadString16()
 	if _err != nil {
 		return _err
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

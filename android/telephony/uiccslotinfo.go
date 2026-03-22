@@ -22,7 +22,6 @@ var _ parcel.Parcelable = (*UiccSlotInfo)(nil)
 func (s *UiccSlotInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteBool(s.IsActive)
 	p.WriteBool(s.IsEuicc)
 	p.WriteString(s.CardId)
@@ -31,85 +30,40 @@ func (s *UiccSlotInfo) MarshalParcel(
 	p.WriteBool(s.IsExtendedApduSupported)
 	p.WriteBool(s.IsRemovable)
 	p.WriteBool(s.LogicalSlotAccessRestricted)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *UiccSlotInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
+	var _err error
 	s.IsActive, _err = p.ReadBool()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.IsEuicc, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.CardId, _err = p.ReadString()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.CardStateInfo, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.LogicalSlotIdx, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.IsExtendedApduSupported, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.IsRemovable, _err = p.ReadBool()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -120,16 +74,9 @@ func (s *UiccSlotInfo) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.LogicalSlotAccessRestricted, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

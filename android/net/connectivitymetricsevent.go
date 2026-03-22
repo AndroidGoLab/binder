@@ -18,63 +18,32 @@ var _ parcel.Parcelable = (*ConnectivityMetricsEvent)(nil)
 func (s *ConnectivityMetricsEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt64(s.Timestamp)
 	p.WriteInt64(s.Transports)
 	p.WriteInt32(s.NetId)
 	p.WriteString16(s.Ifname)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *ConnectivityMetricsEvent) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
+	var _err error
 	s.Timestamp, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.Transports, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.NetId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.Ifname, _err = p.ReadString16()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -85,7 +54,5 @@ func (s *ConnectivityMetricsEvent) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

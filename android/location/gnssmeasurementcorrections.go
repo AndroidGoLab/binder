@@ -21,7 +21,6 @@ var _ parcel.Parcelable = (*GnssMeasurementCorrections)(nil)
 func (s *GnssMeasurementCorrections) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteFloat64(s.LatitudeDegrees)
 	p.WriteFloat64(s.LongitudeDegrees)
 	p.WriteFloat64(s.AltitudeMeters)
@@ -29,77 +28,37 @@ func (s *GnssMeasurementCorrections) MarshalParcel(
 	p.WriteFloat64(s.VerticalPositionUncertaintyMeters)
 	p.WriteInt64(s.ToaGpsNanosecondsOfWeek)
 	p.WriteBool(s.HasEnvironmentBearing)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *GnssMeasurementCorrections) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
+	var _err error
 	s.LatitudeDegrees, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.LongitudeDegrees, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.AltitudeMeters, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.HorizontalPositionUncertaintyMeters, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.VerticalPositionUncertaintyMeters, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.ToaGpsNanosecondsOfWeek, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -108,20 +67,19 @@ func (s *GnssMeasurementCorrections) UnmarshalParcel(
 		if _opaqueLen > 0 {
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.HasEnvironmentBearing, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
+	{
+		_opaqueLen, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueLen > 0 {
+			p.SetPosition(p.Position() + int(_opaqueLen))
+		}
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -132,21 +90,5 @@ func (s *GnssMeasurementCorrections) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

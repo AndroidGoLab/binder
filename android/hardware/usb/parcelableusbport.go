@@ -21,7 +21,6 @@ var _ parcel.Parcelable = (*ParcelableUsbPort)(nil)
 func (s *ParcelableUsbPort) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.SupportedModes)
 	p.WriteInt32(s.SupportedContaminantProtectionModes)
@@ -29,82 +28,40 @@ func (s *ParcelableUsbPort) MarshalParcel(
 	p.WriteBool(s.SupportsEnableContaminantPresenceDetection)
 	p.WriteBool(s.SupportsComplianceWarnings)
 	p.WriteInt32(s.SupportedAltModesMask)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *ParcelableUsbPort) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
+	var _err error
 	s.Id, _err = p.ReadString16()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.SupportedModes, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.SupportedContaminantProtectionModes, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.SupportsEnableContaminantPresenceProtection, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.SupportsEnableContaminantPresenceDetection, _err = p.ReadBool()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.SupportsComplianceWarnings, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.SupportedAltModesMask, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

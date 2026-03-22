@@ -17,53 +17,27 @@ var _ parcel.Parcelable = (*GeofenceHardwareMonitorEvent)(nil)
 func (s *GeofenceHardwareMonitorEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.MonitoringType)
 	p.WriteInt32(s.MonitoringStatus)
 	p.WriteInt32(s.SourceTechnologies)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *GeofenceHardwareMonitorEvent) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
+	var _err error
 	s.MonitoringType, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.MonitoringStatus, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.SourceTechnologies, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -74,7 +48,5 @@ func (s *GeofenceHardwareMonitorEvent) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

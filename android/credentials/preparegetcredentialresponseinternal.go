@@ -17,35 +17,19 @@ var _ parcel.Parcelable = (*PrepareGetCredentialResponseInternal)(nil)
 func (s *PrepareGetCredentialResponseInternal) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteBool(s.HasQueryApiPermission)
 	p.WriteBool(s.HasAuthenticationResults)
 	p.WriteBool(s.HasRemoteResults)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *PrepareGetCredentialResponseInternal) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
+	var _err error
 	s.HasQueryApiPermission, _err = p.ReadBool()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -55,29 +39,14 @@ func (s *PrepareGetCredentialResponseInternal) UnmarshalParcel(
 		if _opaqueLen > 0 {
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.HasAuthenticationResults, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.HasRemoteResults, _err = p.ReadBool()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -88,7 +57,5 @@ func (s *PrepareGetCredentialResponseInternal) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

@@ -30,7 +30,6 @@ var _ parcel.Parcelable = (*Location)(nil)
 func (s *Location) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString(s.Provider)
 	p.WriteInt32(s.FieldsMask)
 	p.WriteInt64(s.TimeMs)
@@ -67,58 +66,28 @@ func (s *Location) MarshalParcel(
 	if s.FieldsMask&1024 != 0 {
 		p.WriteFloat32(s.MslAltitudeAccuracyMeters)
 	}
-
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *Location) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
+	var _err error
 	s.Provider, _err = p.ReadString()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.FieldsMask, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.TimeMs, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.ElapsedRealtimeNs, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	if s.FieldsMask&256 != 0 {
 		s.ElapsedRealtimeUncertaintyNs, _err = p.ReadFloat64()
@@ -126,28 +95,13 @@ func (s *Location) UnmarshalParcel(
 			return _err
 		}
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.LatitudeDegrees, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.LongitudeDegrees, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	if s.FieldsMask&1 != 0 {
 		s.AltitudeMeters, _err = p.ReadFloat64()
@@ -155,21 +109,11 @@ func (s *Location) UnmarshalParcel(
 			return _err
 		}
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	if s.FieldsMask&2 != 0 {
 		s.SpeedMetersPerSecond, _err = p.ReadFloat32()
 		if _err != nil {
 			return _err
 		}
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	if s.FieldsMask&4 != 0 {
 		s.BearingDegrees, _err = p.ReadFloat32()
@@ -177,21 +121,11 @@ func (s *Location) UnmarshalParcel(
 			return _err
 		}
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	if s.FieldsMask&8 != 0 {
 		s.HorizontalAccuracyMeters, _err = p.ReadFloat32()
 		if _err != nil {
 			return _err
 		}
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	if s.FieldsMask&32 != 0 {
 		s.AltitudeAccuracyMeters, _err = p.ReadFloat32()
@@ -199,21 +133,11 @@ func (s *Location) UnmarshalParcel(
 			return _err
 		}
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	if s.FieldsMask&64 != 0 {
 		s.SpeedAccuracyMetersPerSecond, _err = p.ReadFloat32()
 		if _err != nil {
 			return _err
 		}
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	if s.FieldsMask&128 != 0 {
 		s.BearingAccuracyDegrees, _err = p.ReadFloat32()
@@ -221,32 +145,17 @@ func (s *Location) UnmarshalParcel(
 			return _err
 		}
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	if s.FieldsMask&512 != 0 {
 		s.MslAltitudeMeters, _err = p.ReadFloat64()
 		if _err != nil {
 			return _err
 		}
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	if s.FieldsMask&1024 != 0 {
 		s.MslAltitudeAccuracyMeters, _err = p.ReadFloat32()
 		if _err != nil {
 			return _err
 		}
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
@@ -257,7 +166,5 @@ func (s *Location) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

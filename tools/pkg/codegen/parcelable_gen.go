@@ -794,6 +794,8 @@ func javaWireConditionToGo(condition string) string {
 
 // writeJavaWireMarshalParcel generates a MarshalParcel method that follows
 // the Java writeToParcel() wire format, including conditional fields.
+// Java-defined parcelables do not use the AIDL header/footer framing;
+// fields are written directly (matching the handwritten writeToParcel).
 func writeJavaWireMarshalParcel(
 	f *GoFile,
 	structName string,
@@ -802,7 +804,6 @@ func writeJavaWireMarshalParcel(
 	f.P("func (s *%s) MarshalParcel(", structName)
 	f.P("\tp *parcel.Parcel,")
 	f.P(") error {")
-	f.P("\t_headerPos := parcel.WriteParcelableHeader(p)")
 
 	for _, wf := range wireFields {
 		info, ok := javaWireMethodMap[wf.WriteMethod]
@@ -822,8 +823,6 @@ func writeJavaWireMarshalParcel(
 		}
 	}
 
-	f.P("")
-	f.P("\tparcel.WriteParcelableFooter(p, _headerPos)")
 	f.P("\treturn nil")
 	f.P("}")
 	f.P("")
@@ -832,6 +831,8 @@ func writeJavaWireMarshalParcel(
 // writeJavaWireUnmarshalParcel generates an UnmarshalParcel method that
 // follows the Java writeToParcel() wire format, including conditional fields
 // and opaque field skipping.
+// Java-defined parcelables do not use the AIDL header/footer framing;
+// fields are read directly (matching the handwritten createFromParcel).
 func writeJavaWireUnmarshalParcel(
 	f *GoFile,
 	structName string,
@@ -840,21 +841,21 @@ func writeJavaWireUnmarshalParcel(
 	f.P("func (s *%s) UnmarshalParcel(", structName)
 	f.P("\tp *parcel.Parcel,")
 	f.P(") error {")
-	f.P("\t_endPos, _err := parcel.ReadParcelableHeader(p)")
-	f.P("\tif _err != nil {")
-	f.P("\t\treturn _err")
-	f.P("\t}")
+
+	// Only declare _err if there is at least one non-opaque field that uses it.
+	hasNonOpaque := false
+	for _, wf := range wireFields {
+		if _, ok := javaWireMethodMap[wf.WriteMethod]; ok {
+			hasNonOpaque = true
+			break
+		}
+	}
+	if hasNonOpaque {
+		f.P("\tvar _err error")
+	}
 
 	for _, wf := range wireFields {
 		info, ok := javaWireMethodMap[wf.WriteMethod]
-
-		// Emit position guard before every field so older API parcels
-		// (with fewer fields) don't over-read.
-		f.P("")
-		f.P("\tif p.Position() >= _endPos {")
-		f.P("\t\tparcel.SkipToParcelableEnd(p, _endPos)")
-		f.P("\t\treturn nil")
-		f.P("\t}")
 
 		if !ok {
 			// Opaque field: skip by reading length-prefixed data.
@@ -889,8 +890,6 @@ func writeJavaWireUnmarshalParcel(
 		}
 	}
 
-	f.P("")
-	f.P("\tparcel.SkipToParcelableEnd(p, _endPos)")
 	f.P("\treturn nil")
 	f.P("}")
 	f.P("")

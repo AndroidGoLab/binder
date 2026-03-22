@@ -19,70 +19,37 @@ var _ parcel.Parcelable = (*SatelliteSessionStats)(nil)
 func (s *SatelliteSessionStats) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.CountOfSuccessfulUserMessages)
 	p.WriteInt32(s.CountOfUnsuccessfulUserMessages)
 	p.WriteInt32(s.CountOfTimedOutUserMessagesWaitingForConnection)
 	p.WriteInt32(s.CountOfTimedOutUserMessagesWaitingForAck)
 	p.WriteInt32(s.CountOfUserMessagesInQueueToBeSent)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *SatelliteSessionStats) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
+	var _err error
 	s.CountOfSuccessfulUserMessages, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.CountOfUnsuccessfulUserMessages, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.CountOfTimedOutUserMessagesWaitingForConnection, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
 	}
 	s.CountOfTimedOutUserMessagesWaitingForAck, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	if p.Position() >= _endPos {
-		parcel.SkipToParcelableEnd(p, _endPos)
-		return nil
-	}
 	s.CountOfUserMessagesInQueueToBeSent, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

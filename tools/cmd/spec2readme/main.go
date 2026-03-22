@@ -171,11 +171,40 @@ func renderQuickStart() string {
 	return `**Go library** — ` + "`go get github.com/xaionaro-go/binder`" + ` and call any service:
 
 ` + "```go" + `
-driver, _ := kernelbinder.Open(ctx, binder.WithMapSize(128*1024))
-defer driver.Close(ctx)
-transport, _ := versionaware.NewTransport(ctx, driver, 0)
-sm := servicemanager.New(transport)
+package main
 
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/xaionaro-go/binder/android/location"
+    "github.com/xaionaro-go/binder/binder"
+    "github.com/xaionaro-go/binder/binder/versionaware"
+    "github.com/xaionaro-go/binder/kernelbinder"
+    "github.com/xaionaro-go/binder/servicemanager"
+)
+
+func main() {
+    ctx := context.Background()
+    driver, _ := kernelbinder.Open(ctx, binder.WithMapSize(128*1024))
+    defer driver.Close(ctx)
+    transport, _ := versionaware.NewTransport(ctx, driver, 0)
+    sm := servicemanager.New(transport)
+
+    lm, _ := location.GetLocationManager(ctx, sm)
+    loc, err := lm.GetLastLocation(ctx, location.FusedProvider, location.LastLocationRequest{}, "com.android.shell")
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Printf("Lat: %f, Lon: %f, Alt: %f\n",
+        loc.LatitudeDegrees, loc.LongitudeDegrees, loc.AltitudeMeters)
+}
+` + "```" + `
+
+Or query power state:
+
+` + "```go" + `
 power, _ := os.GetPowerManager(ctx, sm)
 interactive, _ := power.IsInteractive(ctx)
 fmt.Printf("Screen on: %v\n", interactive)
@@ -184,7 +213,52 @@ fmt.Printf("Screen on: %v\n", interactive)
 }
 
 func renderUsageExamples() string {
-	return `### Check Power State
+	return `### Get GPS Location
+
+` + "```go" + `
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/xaionaro-go/binder/android/location"
+    "github.com/xaionaro-go/binder/binder"
+    "github.com/xaionaro-go/binder/binder/versionaware"
+    "github.com/xaionaro-go/binder/kernelbinder"
+    "github.com/xaionaro-go/binder/servicemanager"
+)
+
+    ctx := context.Background()
+
+    driver, err := kernelbinder.Open(ctx, binder.WithMapSize(128*1024))
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer driver.Close(ctx)
+
+    transport, err := versionaware.NewTransport(ctx, driver, 0)
+    if err != nil {
+        log.Fatal(err)
+    }
+    sm := servicemanager.New(transport)
+
+    lm, err := location.GetLocationManager(ctx, sm)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    loc, err := lm.GetLastLocation(ctx, location.FusedProvider, location.LastLocationRequest{}, "com.android.shell")
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Printf("Lat: %f, Lon: %f, Alt: %f\n",
+        loc.LatitudeDegrees, loc.LongitudeDegrees, loc.AltitudeMeters)
+    fmt.Printf("Speed: %f m/s, Bearing: %f°\n",
+        loc.SpeedMetersPerSecond, loc.BearingDegrees)
+` + "```" + `
+
+### Check Power State
 
 ` + "```go" + `
 import (
