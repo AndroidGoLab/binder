@@ -20,6 +20,8 @@ Includes a complete AIDL compiler that parses Android Interface Definition Langu
 
 ## Quick start
 
+<!-- BEGIN GENERATED QUICK_START -->
+
 **Go library** — `go get github.com/xaionaro-go/binder` and call any service:
 
 ```go
@@ -28,11 +30,12 @@ defer driver.Close(ctx)
 transport, _ := versionaware.NewTransport(ctx, driver, 0)
 sm := servicemanager.New(transport)
 
-mgr, _ := location.GetLocationManager(ctx, sm)
-loc, _ := mgr.GetLastLocation(ctx, string(location.ProviderFused),
-    location.LastLocationRequest{}, "com.android.shell")
-fmt.Printf("Lat: %.6f, Lon: %.6f\n", loc.LatitudeDegrees, loc.LongitudeDegrees)
+power, _ := os.GetPowerManager(ctx, sm)
+interactive, _ := power.IsInteractive(ctx)
+fmt.Printf("Screen on: %v\n", interactive)
 ```
+
+<!-- END GENERATED QUICK_START -->
 
 ## Related Projects
 
@@ -100,11 +103,17 @@ All three libraries talk to the same Android system services, but through differ
 
 ## Usage Examples
 
-### Get GPS Coordinates
+<!-- BEGIN GENERATED USAGE_EXAMPLES -->
+
+### Check Power State
 
 ```go
 import (
-    "github.com/xaionaro-go/binder/android/location"
+    "context"
+    "fmt"
+    "log"
+
+    genOs "github.com/xaionaro-go/binder/android/os"
     "github.com/xaionaro-go/binder/binder"
     "github.com/xaionaro-go/binder/binder/versionaware"
     "github.com/xaionaro-go/binder/kernelbinder"
@@ -125,19 +134,16 @@ import (
     }
     sm := servicemanager.New(transport)
 
-    mgr, err := location.GetLocationManager(ctx, sm)
+    power, err := genOs.GetPowerManager(ctx, sm)
     if err != nil {
         log.Fatal(err)
     }
 
-    loc, err := mgr.GetLastLocation(ctx, string(location.ProviderFused),
-        location.LastLocationRequest{}, "com.android.shell")
-    if err != nil {
-        log.Fatal(err)
-    }
+    interactive, _ := power.IsInteractive(ctx)
+    fmt.Printf("Screen on: %v\n", interactive)
 
-    fmt.Printf("Lat: %.6f, Lon: %.6f\n", loc.LatitudeDegrees, loc.LongitudeDegrees)
-    fmt.Printf("Altitude: %.1f m\n", loc.AltitudeMeters)
+    powerSave, _ := power.IsPowerSaveMode(ctx)
+    fmt.Printf("Power save: %v\n", powerSave)
 ```
 
 ### List Binder Services
@@ -158,39 +164,50 @@ import (
     }
 ```
 
-### Call a System Service (PowerManager)
+### Call a System Service (ActivityManager)
 
 ```go
-import "github.com/xaionaro-go/binder/android/os"
+import (
+    "github.com/xaionaro-go/binder/android/app"
+    "github.com/xaionaro-go/binder/servicemanager"
+)
 
-    pm, err := os.GetPowerManager(ctx, sm)
+    svc, err := sm.GetService(ctx, servicemanager.ActivityService)
     if err != nil {
         log.Fatal(err)
     }
+    am := app.NewActivityManagerProxy(svc)
 
-    interactive, _ := pm.IsInteractive(ctx)
-    fmt.Printf("Screen on: %v\n", interactive)
+    limit, _ := am.GetProcessLimit(ctx)
+    fmt.Printf("Process limit: %d\n", limit)
 
-    powerSave, _ := pm.IsPowerSaveMode(ctx)
-    fmt.Printf("Power save: %v\n", powerSave)
+    monkey, _ := am.IsUserAMonkey(ctx)
+    fmt.Printf("Is monkey: %v\n", monkey)
 ```
 
 More examples: [`examples/`](examples/)
 
+<!-- END GENERATED USAGE_EXAMPLES -->
+
+<!-- BEGIN GENERATED EXAMPLES_TABLE -->
+
 | Example                                                    | Queries                                             |
 | ---------------------------------------------------------- | --------------------------------------------------- |
-| [`list_services`](examples/list_services/)                 | Enumerate all binder services, ping each            |
-| [`activity_manager`](examples/activity_manager/)           | Process limits, monkey test flag, permission checks |
-| [`battery_health`](examples/battery_health/)               | Capacity, charge status, current draw               |
-| [`device_info`](examples/device_info/)                     | Device properties, build info                       |
-| [`display_info`](examples/display_info/)                   | Display IDs, brightness, night mode                 |
-| [`audio_status`](examples/audio_status/)                   | Audio device info, volume state                     |
-| [`power_status`](examples/power_status/)                   | Power supply state, charging info                   |
-| [`storage_info`](examples/storage_info/)                   | Storage device stats, mount points                  |
-| [`package_query`](examples/package_query/)                 | Package list, installation info                     |
-| [`softap_manage`](examples/softap_manage/)                 | WiFi hotspot enable/disable, config                 |
-| [`softap_wifi_hal`](examples/softap_wifi_hal/)             | WiFi chip info, AP interface state                  |
-| [`softap_tether_offload`](examples/softap_tether_offload/) | Tethering offload config, stats                     |
+| [`activity_manager`](examples/activity_manager/) | Process limits, monkey test flag, permission checks |
+| [`audio_status`](examples/audio_status/) | Audio device info, volume state |
+| [`battery_health`](examples/battery_health/) | Capacity, charge status, current draw |
+| [`camera_connect`](examples/camera_connect/) | Camera device connection with callback stub |
+| [`device_info`](examples/device_info/) | Device properties, build info |
+| [`display_info`](examples/display_info/) | Display IDs, brightness, night mode |
+| [`list_services`](examples/list_services/) | Enumerate all binder services, ping each |
+| [`package_query`](examples/package_query/) | Package list, installation info |
+| [`power_status`](examples/power_status/) | Power supply state, charging info |
+| [`softap_manage`](examples/softap_manage/) | WiFi hotspot enable/disable, config |
+| [`softap_tether_offload`](examples/softap_tether_offload/) | Tethering offload config, stats |
+| [`softap_wifi_hal`](examples/softap_wifi_hal/) | WiFi chip info, AP interface state |
+| [`storage_info`](examples/storage_info/) | Storage device stats, mount points |
+
+<!-- END GENERATED EXAMPLES_TABLE -->
 
 ## bindercli Quick Start
 
@@ -1009,6 +1026,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 </details>
 
+
 <!-- END GENERATED PACKAGES -->
 
 ### Commands and Tools
@@ -1073,31 +1091,28 @@ bindercli service transact SurfaceFlinger 64
 </details>
 
 <details>
-<summary>Get GPS coordinates</summary>
+<!-- BEGIN GENERATED BINDERCLI_POWER -->
+
+<summary>Query power and battery state</summary>
 
 ```bash
-# List all location providers
-bindercli android.location.ILocationManager get-all-providers
-# Example output: {"result":["passive","network","fused","gps_hardware","gps"]}
+# Check if screen is on
+bindercli android.os.IPowerManager is-interactive
+# Example output: {"result":true}
 
-# Check if GPS provider is enabled
-bindercli android.location.ILocationManager is-provider-enabled-for-user \
-  --provider gps --userId 0
+# Check power save mode
+bindercli android.os.IPowerManager is-power-save-mode
+# Example output: {"result":false}
 
-# Get GNSS hardware info
-bindercli android.location.ILocationManager get-gnss-hardware-model-name
-# Example output: {"result":"S.LSI,K041,SPOTNAV_4.15.4_9_250930_R1_291847"}
+# Check if device is in Doze mode
+bindercli android.os.IPowerManager is-device-idle-mode
+# Example output: {"result":false}
 
-bindercli android.location.ILocationManager get-gnss-year-of-hardware
-# Example output: {"result":2023}
-
-# Get last known GPS location (returns Location parcelable with lat/lon/alt)
-bindercli android.location.ILocationManager get-last-location \
-  --provider gps \
-  --packageName com.android.shell \
-  --attributionTag ""
+# Get battery health info
+bindercli android.hardware.health.IHealth get-health-info
 ```
 
+<!-- END GENERATED BINDERCLI_POWER -->
 </details>
 
 <details>
@@ -1471,6 +1486,8 @@ flowchart TD
 
 ### Generated Code
 
+<!-- BEGIN GENERATED GENERATED_CODE -->
+
 For an AIDL interface like:
 
 ```java
@@ -1493,8 +1510,14 @@ package app
 const DescriptorIActivityManager = "android.app.IActivityManager"
 
 const (
-    TransactionIActivityManagerGetProcessLimit = binder.FirstCallTransaction + 52
-    TransactionIActivityManagerCheckPermission = binder.FirstCallTransaction + 8
+    TransactionIActivityManagerGetProcessLimit  = binder.FirstCallTransaction + 51
+    TransactionIActivityManagerCheckPermission  = binder.FirstCallTransaction + 8
+    // ...
+)
+
+const (
+    MethodIActivityManagerGetProcessLimit  = "getProcessLimit"
+    MethodIActivityManagerCheckPermission  = "checkPermission"
     // ...
 )
 
@@ -1506,19 +1529,25 @@ type IActivityManager interface {
 }
 
 type ActivityManagerProxy struct {
-    remote binder.IBinder
+    Remote binder.IBinder
 }
 
 func NewActivityManagerProxy(remote binder.IBinder) *ActivityManagerProxy {
-    return &ActivityManagerProxy{remote: remote}
+    return &ActivityManagerProxy{Remote: remote}
 }
 
 func (p *ActivityManagerProxy) GetProcessLimit(ctx context.Context) (int32, error) {
     var _result int32
     _data := parcel.New()
+    defer _data.Recycle()
     _data.WriteInterfaceToken(DescriptorIActivityManager)
 
-    _reply, _err := p.remote.Transact(ctx, TransactionIActivityManagerGetProcessLimit, 0, _data)
+    _code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityManager, MethodIActivityManagerGetProcessLimit)
+    if _err != nil {
+        return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityManager, MethodIActivityManagerGetProcessLimit, _err)
+    }
+
+    _reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
     if _err != nil {
         return _result, _err
     }
@@ -1535,6 +1564,8 @@ func (p *ActivityManagerProxy) GetProcessLimit(ctx context.Context) (int32, erro
     return _result, nil
 }
 ```
+
+<!-- END GENERATED GENERATED_CODE -->
 
 ### Supported AIDL Constructs
 
@@ -1692,6 +1723,6 @@ A [weekly workflow](.github/workflows/check-aosp-updates.yml) checks for new AOS
 │   ├── hardware/             HAL interfaces
 │   └── ...                   666 packages total
 ├── com/                      AOSP com.android.* service proxies
-├── examples/                 12 runnable examples
+├── examples/                 13 runnable examples
 └── .github/workflows/        CI configuration
 ```
