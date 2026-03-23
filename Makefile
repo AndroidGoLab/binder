@@ -103,8 +103,9 @@ check-generated:
 	make readme
 	git diff --exit-code
 
-# Remove all generated code and specs.
+# Remove all generated code and specs (preserving hand-written overlay.yaml files).
 clean:
-	rm -rf $(GENERATED_DIRS) specs
+	rm -rf $(GENERATED_DIRS)
+	find specs -name spec.yaml -delete 2>/dev/null; find specs -type d -empty -delete 2>/dev/null; true
 	find . -maxdepth 1 -name '*.go' -exec grep -l 'Code generated' {} \; | xargs -r rm -f
 	rm -f servicemanager/service_names_gen.go
