@@ -892,8 +892,9 @@ func TestGenerateInterface_ParcelableArrayParam(t *testing.T) {
 	assert.Contains(t, srcStr, "_data.WriteInt32(1)")
 	assert.Contains(t, srcStr, "_item.MarshalParcel(_data)")
 
-	// Proxy unmarshal (return value): read non-null indicator before each element.
-	assert.Contains(t, srcStr, "if _, _err = _reply.ReadInt32(); _err != nil")
+	// Proxy unmarshal (return value): read non-null indicator before each element,
+	// with API 36+ typed-list-element-header support.
+	assert.Contains(t, srcStr, "_nonNull, _err := _reply.ReadInt32()")
 	assert.Contains(t, srcStr, "_result[_i].UnmarshalParcel(_reply)")
 }
 

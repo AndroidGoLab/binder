@@ -18,11 +18,17 @@ import (
 
 const testDeviceSerial = "41041JEKB08092"
 
-// requireADB skips the test if the ADB server is not reachable.
+// requireADB skips the test if the ADB server is not reachable
+// or no devices are connected.
 func requireADB(t *testing.T) {
 	t.Helper()
-	if _, err := gadb.NewClient(); err != nil {
+	client, err := gadb.NewClient()
+	if err != nil {
 		t.Skipf("ADB server not available: %v", err)
+	}
+	devices, err := client.DeviceList()
+	if err != nil || len(devices) == 0 {
+		t.Skipf("no ADB devices connected")
 	}
 }
 

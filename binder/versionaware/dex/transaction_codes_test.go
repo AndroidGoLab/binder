@@ -44,7 +44,7 @@ func TestExtractFromJAR_RealFile(t *testing.T) {
 
 	monkey, ok := codes["isUserAMonkey"]
 	require.True(t, ok, "expected isUserAMonkey transaction code")
-	assert.Equal(t, uint32(110), monkey, "isUserAMonkey transaction code")
+	assert.Equal(t, uint32(111), monkey, "isUserAMonkey transaction code")
 
 	// Verify we found a reasonable number of methods.
 	assert.Greater(t, len(codes), 100, "IActivityManager should have >100 transaction codes")
@@ -123,7 +123,7 @@ func TestExtractDescriptorFromJAR_RealFile(t *testing.T) {
 
 	monkey, ok := codes["isUserAMonkey"]
 	require.True(t, ok, "expected isUserAMonkey transaction code")
-	assert.Equal(t, uint32(110), monkey, "isUserAMonkey transaction code")
+	assert.Equal(t, uint32(111), monkey, "isUserAMonkey transaction code")
 	assert.Greater(t, len(codes), 100, "IActivityManager should have >100 transaction codes")
 
 	// Verify consistency with full extraction.
