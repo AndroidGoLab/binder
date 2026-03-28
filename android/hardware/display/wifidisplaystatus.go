@@ -21,9 +21,9 @@ func (s *WifiDisplayStatus) MarshalParcel(
 	p.WriteInt32(s.ScanState)
 	p.WriteInt32(s.ActiveDisplayState)
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(0)  // null Displays.length
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null ActiveDisplay
+	p.WriteInt32(0)  // placeholder Displays.length
+	p.WriteInt32(-1) // null SessionInfo
 	return nil
 }
 
@@ -46,32 +46,10 @@ func (s *WifiDisplayStatus) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	return nil                                // opaque ActiveDisplay: cannot skip without known wire format
+	if _, _err = p.ReadInt32(); _err != nil { // skip Displays.length
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Displays.length: cannot skip unknown-size typed object
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque SessionInfo: cannot skip without known wire format
 	return nil
 }

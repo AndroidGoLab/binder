@@ -15,9 +15,9 @@ var _ parcel.Parcelable = (*Fingerprint)(nil)
 func (s *Fingerprint) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null GetName().toString()
-	p.WriteInt32(0) // null GetBiometricId()
-	p.WriteInt32(0) // null GetDeviceId()
+	p.WriteString16("") // placeholder GetName().toString()
+	p.WriteInt32(0)     // placeholder GetBiometricId()
+	p.WriteInt64(0)     // placeholder GetDeviceId()
 	p.WriteInt32(s.GroupId)
 	return nil
 }
@@ -26,32 +26,14 @@ func (s *Fingerprint) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetName().toString(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString16(); _err != nil { // skip GetName().toString()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetBiometricId(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip GetBiometricId()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetDeviceId(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt64(); _err != nil { // skip GetDeviceId()
+		return _err
 	}
 	s.GroupId, _err = p.ReadInt32()
 	if _err != nil {

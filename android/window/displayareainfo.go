@@ -1,6 +1,7 @@
 package window
 
 import (
+	types "github.com/AndroidGoLab/binder/android/content/res/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -10,6 +11,7 @@ type DisplayAreaInfo struct {
 	DisplayId         int32
 	FeatureId         int32
 	RootDisplayAreaId int32
+	Configuration     types.Configuration
 }
 
 var _ parcel.Parcelable = (*DisplayAreaInfo)(nil)
@@ -17,8 +19,10 @@ var _ parcel.Parcelable = (*DisplayAreaInfo)(nil)
 func (s *DisplayAreaInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Token
+	if _err := s.Configuration.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.DisplayId)
 	p.WriteInt32(s.FeatureId)
 	p.WriteInt32(s.RootDisplayAreaId)
@@ -29,23 +33,9 @@ func (s *DisplayAreaInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	return nil // opaque Token: cannot skip without known wire format
+	if _err := s.Configuration.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	s.DisplayId, _err = p.ReadInt32()
 	if _err != nil {

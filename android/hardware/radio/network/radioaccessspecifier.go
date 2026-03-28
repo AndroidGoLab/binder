@@ -20,6 +20,7 @@ func (s *RadioAccessSpecifier) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(int32(s.AccessNetwork))
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Bands.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -60,6 +61,9 @@ func (s *RadioAccessSpecifier) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Bands.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

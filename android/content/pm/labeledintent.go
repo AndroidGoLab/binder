@@ -17,10 +17,10 @@ var _ parcel.Parcelable = (*LabeledIntent)(nil)
 func (s *LabeledIntent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Super
 	p.WriteString16(s.SourcePackage)
 	p.WriteInt32(s.LabelRes)
-	p.WriteInt32(-1) // null NonLocalizedLabel
+	p.WriteInt32(-1) // null TextUtils
 	p.WriteInt32(s.Icon)
 	return nil
 }
@@ -29,15 +29,7 @@ func (s *LabeledIntent) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Super: cannot skip without known wire format
 	s.SourcePackage, _err = p.ReadString16()
 	if _err != nil {
 		return _err
@@ -46,15 +38,7 @@ func (s *LabeledIntent) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TextUtils: cannot skip without known wire format
 	s.Icon, _err = p.ReadInt32()
 	if _err != nil {
 		return _err

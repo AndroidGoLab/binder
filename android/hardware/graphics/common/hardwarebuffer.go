@@ -18,9 +18,11 @@ func (s *HardwareBuffer) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Description.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Handle.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -42,6 +44,9 @@ func (s *HardwareBuffer) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Description.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -51,6 +56,9 @@ func (s *HardwareBuffer) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Handle.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

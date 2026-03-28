@@ -1009,8 +1009,8 @@ parcelables:
           write_method: string16
         - name: Priority
           write_method: int32
-        - name: Dest
-          write_method: opaque
+        - name: Locales
+          write_method: delegate
         - name: LayoutType.getValue()
           write_method: int32
         - name: VendorId
@@ -1042,8 +1042,8 @@ parcelables:
           write_method: float32
     - name: VirtualDpadConfig
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
     - name: VirtualKeyEvent
       java_wire_format:
         - name: Action
@@ -1054,8 +1054,8 @@ parcelables:
           write_method: int64
     - name: VirtualKeyboardConfig
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: LanguageTag
           write_method: string8
         - name: LayoutType
@@ -1070,8 +1070,8 @@ parcelables:
           write_method: int64
     - name: VirtualMouseConfig
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
     - name: VirtualMouseRelativeEvent
       java_wire_format:
         - name: RelativeX
@@ -1090,8 +1090,8 @@ parcelables:
           write_method: int64
     - name: VirtualNavigationTouchpadConfig
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: Height
           write_method: int32
         - name: Width
@@ -1106,8 +1106,8 @@ parcelables:
           write_method: int64
     - name: VirtualStylusConfig
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
     - name: VirtualStylusMotionEvent
       java_wire_format:
         - name: ToolType
@@ -1146,5 +1146,5 @@ parcelables:
           write_method: int64
     - name: VirtualTouchscreenConfig
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate

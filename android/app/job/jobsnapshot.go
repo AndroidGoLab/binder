@@ -16,7 +16,7 @@ var _ parcel.Parcelable = (*JobSnapshot)(nil)
 func (s *JobSnapshot) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null Job
 	p.WriteInt32(s.SatisfiedConstraints)
 	p.WriteBool(s.IsRunnable)
 	return nil
@@ -26,15 +26,7 @@ func (s *JobSnapshot) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Job: cannot skip without known wire format
 	s.SatisfiedConstraints, _err = p.ReadInt32()
 	if _err != nil {
 		return _err

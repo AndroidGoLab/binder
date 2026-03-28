@@ -766,11 +766,11 @@ parcelables:
           write_method: int32
         - name: Address
           write_method: int32
-        - name: CecSupported?1:0
-          write_method: int32
-        - name: ArcSupported?1:0
-          write_method: int32
-        - name: MhlSupported?1:0
-          write_method: int32
-        - name: EarcSupported?1:0
-          write_method: int32
+        - name: CecSupported
+          write_method: bool
+        - name: ArcSupported
+          write_method: bool
+        - name: MhlSupported
+          write_method: bool
+        - name: EarcSupported
+          write_method: bool

@@ -17,11 +17,11 @@ func (s *PrintAttributes) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null MediaSize
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null Resolution
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null MinMargins
 	p.WriteInt32(s.ColorMode)
 	p.WriteInt32(s.DuplexMode)
 	return nil
@@ -34,39 +34,15 @@ func (s *PrintAttributes) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque MediaSize: cannot skip without known wire format
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Resolution: cannot skip without known wire format
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque MinMargins: cannot skip without known wire format
 	s.ColorMode, _err = p.ReadInt32()
 	if _err != nil {
 		return _err

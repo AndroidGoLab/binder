@@ -1,6 +1,7 @@
 package telecom
 
 import (
+	net "github.com/AndroidGoLab/binder/android/net"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -24,6 +25,7 @@ type ParcelableCall struct {
 	ContactDisplayName             string
 	ActiveChildCallId              string
 	DisconnectCause                *DisconnectCause
+	Uri                            net.Uri
 	GatewayInfo                    *GatewayInfo
 	StatusHints                    *StatusHints
 }
@@ -47,7 +49,9 @@ func (s *ParcelableCall) MarshalParcel(
 	p.WriteInt32(s.Capabilities)
 	p.WriteInt32(s.Properties)
 	p.WriteInt64(s.ConnectTimeMillis)
-	p.WriteInt32(-1) // null Destination
+	if _err := s.Uri.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.HandlePresentation)
 	p.WriteString16(s.CallerDisplayName)
 	p.WriteInt32(s.CallerDisplayNamePresentation)
@@ -59,9 +63,9 @@ func (s *ParcelableCall) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0)  // null AccountHandle
-	p.WriteInt32(0)  // null (byte)(mIsVideoCallProviderChanged?1:0)
-	p.WriteInt32(-1) // null VideoCallProvider!=null?mVideoCallProvider.asBinder():null
+	p.WriteInt32(0)    // null AccountHandle
+	p.WriteInt32(0)    // placeholder (byte)(mIsVideoCallProviderChanged?1:0)
+	p.WriteBool(false) // placeholder VideoCallProvider!=null
 	p.WriteString16(s.ParentCallId)
 	p.WriteInt32(-1) // null ChildCallIds
 	if s.StatusHints != nil {
@@ -77,7 +81,7 @@ func (s *ParcelableCall) MarshalParcel(
 	p.WriteInt32(-1) // null IntentExtras
 	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(s.SupportedAudioRoutes)
-	p.WriteInt32(0) // null (byte)(mIsRttCallChanged?1:0)
+	p.WriteInt32(0) // placeholder (byte)(mIsRttCallChanged?1:0)
 	p.WriteInt32(0) // null RttCall
 	p.WriteInt64(s.CreationTimeMillis)
 	p.WriteInt32(s.CallDirection)
@@ -112,15 +116,7 @@ func (s *ParcelableCall) UnmarshalParcel(
 			}
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque CannedSmsResponses: cannot skip without known wire format
 	s.Capabilities, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -133,14 +129,8 @@ func (s *ParcelableCall) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.Uri.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	s.HandlePresentation, _err = p.ReadInt32()
 	if _err != nil {
@@ -175,37 +165,17 @@ func (s *ParcelableCall) UnmarshalParcel(
 			return nil // non-null AccountHandle: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mIsVideoCallProviderChanged?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mIsVideoCallProviderChanged?1:0)
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip VideoCallProvider!=null
+		return _err
 	}
 	s.ParentCallId, _err = p.ReadString16()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ChildCallIds: cannot skip without known wire format
 	{
 		_flag, _err := p.ReadInt32()
 		if _err != nil {
@@ -222,15 +192,7 @@ func (s *ParcelableCall) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ConferenceableCallIds: cannot skip without known wire format
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -253,14 +215,8 @@ func (s *ParcelableCall) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mIsRttCallChanged?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mIsRttCallChanged?1:0)
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()

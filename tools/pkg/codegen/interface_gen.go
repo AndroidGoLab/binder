@@ -1578,13 +1578,33 @@ func readArrayFromReply(
 
 	switch {
 	case strings.Contains(elemReadExpr, ".UnmarshalParcel"):
-		// NDK AIDL wire format: int32 non-null indicator before each
-		// parcelable element, matching readTypedObject semantics.
-		f.P("\t\t\tif _, _err = _reply.ReadInt32(); _err != nil {")
-		f.P("\t\t\t\treturn _result, _err")
+		// Read non-null indicator, then the element. On API 36+ the
+		// element is wrapped in a size-prefixed header (writeTypedList
+		// format change). ReadTypedListElementHeader checks the API
+		// level and reads the header when present.
+		f.AddImport("github.com/AndroidGoLab/binder/parcel", "")
+		f.P("\t\t\t_nonNull, _err := _reply.ReadInt32()")
+		f.P("\t\t\tif _err != nil {")
+		f.P("\t\t\t\tbreak // end of inline elements (may be fewer than count)")
 		f.P("\t\t\t}")
-		f.P("\t\t\tif _err = _result[_i].UnmarshalParcel(_reply); _err != nil {")
-		f.P("\t\t\t\treturn _result, _err")
+		f.P("\t\t\tif _nonNull != 0 {")
+		f.P("\t\t\t\tif _reply.Position() >= _reply.Len() {")
+		f.P("\t\t\t\t\tbreak // truncated list (element non-null but no data remaining)")
+		f.P("\t\t\t\t}")
+		f.P("\t\t\t\t_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)")
+		f.P("\t\t\t\tif _hasElemHeader {")
+		f.P("\t\t\t\t\t// Enforce element boundary so UnmarshalParcel")
+		f.P("\t\t\t\t\t// stops at the size-prefix envelope edge.")
+		f.P("\t\t\t\t\t_savedLimit := _reply.ReadLimit()")
+		f.P("\t\t\t\t\t_reply.SetReadLimit(_elemEnd)")
+		f.P("\t\t\t\t\t_ = _result[_i].UnmarshalParcel(_reply)")
+		f.P("\t\t\t\t\t_reply.SetReadLimit(_savedLimit)")
+		f.P("\t\t\t\t\tparcel.SkipToParcelableEnd(_reply, _elemEnd)")
+		f.P("\t\t\t\t} else {")
+		f.P("\t\t\t\t\tif _err = _result[_i].UnmarshalParcel(_reply); _err != nil {")
+		f.P("\t\t\t\t\t\treturn _result, _err")
+		f.P("\t\t\t\t\t}")
+		f.P("\t\t\t\t}")
 		f.P("\t\t\t}")
 	case elemInfo.IsInterface:
 		proxyConstructor := interfaceProxyConstructor(typeRef, elemType)

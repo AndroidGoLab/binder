@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*ContentValues)(nil)
 func (s *ContentValues) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0)  // null Map.size()
+	p.WriteInt32(0)  // placeholder Map.size()
 	p.WriteInt32(-1) // null Map
 	return nil
 }
@@ -22,23 +22,10 @@ func (s *ContentValues) MarshalParcel(
 func (s *ContentValues) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Map.size(): cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil { // skip Map.size()
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Map: cannot skip without known wire format
 	return nil
 }

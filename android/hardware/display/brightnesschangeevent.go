@@ -76,24 +76,8 @@ func (s *BrightnessChangeEvent) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque LuxValues: cannot skip without known wire format
+	return nil // opaque LuxTimestamps: cannot skip without known wire format
 	s.BatteryLevel, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
@@ -134,15 +118,7 @@ func (s *BrightnessChangeEvent) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ColorValueBuckets: cannot skip without known wire format
 	s.ColorSampleDuration, _err = p.ReadInt64()
 	if _err != nil {
 		return _err

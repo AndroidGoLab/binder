@@ -17,7 +17,7 @@ var _ parcel.Parcelable = (*ClipDescription)(nil)
 func (s *ClipDescription) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Label
+	p.WriteInt32(-1) // null TextUtils
 	p.WriteInt32(-1) // null MimeTypes
 	p.WriteInt32(-1) // null Extras
 	p.WriteInt64(s.TimeStamp)
@@ -31,33 +31,9 @@ func (s *ClipDescription) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TextUtils: cannot skip without known wire format
+	return nil // opaque MimeTypes: cannot skip without known wire format
+	return nil // opaque Extras: cannot skip without known wire format
 	s.TimeStamp, _err = p.ReadInt64()
 	if _err != nil {
 		return _err

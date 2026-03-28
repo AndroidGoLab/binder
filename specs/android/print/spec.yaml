@@ -926,20 +926,20 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: mMediaSize!=null
-        - name: Parcel
-          write_method: opaque
+        - name: MediaSize
+          write_method: delegate
           condition: mMediaSize!=null
         - name: "1"
           write_method: int32
           condition: mResolution!=null
-        - name: Parcel
-          write_method: opaque
+        - name: Resolution
+          write_method: delegate
           condition: mResolution!=null
         - name: "1"
           write_method: int32
           condition: mMinMargins!=null
-        - name: Parcel
-          write_method: opaque
+        - name: MinMargins
+          write_method: delegate
           condition: mMinMargins!=null
         - name: ColorMode
           write_method: int32
@@ -993,8 +993,8 @@ parcelables:
           write_method: int32
         - name: StatusResAppPackageName
           write_method: opaque
-        - name: Canceling?1:0
-          write_method: int32
+        - name: Canceling
+          write_method: bool
         - name: AdvancedOptions
           write_method: bundle
     - name: PrinterCapabilitiesInfo

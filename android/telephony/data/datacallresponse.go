@@ -86,42 +86,10 @@ func (s *DataCallResponse) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Addresses: cannot skip without known wire format
+	return nil // opaque DnsAddresses: cannot skip without known wire format
+	return nil // opaque GatewayAddresses: cannot skip without known wire format
+	return nil // opaque PcscfAddresses: cannot skip without known wire format
 	s.Mtu, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -151,15 +119,7 @@ func (s *DataCallResponse) UnmarshalParcel(
 			return nil // non-null DefaultQos: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque QosBearerSessions: cannot skip without known wire format
 	{
 		_flag, _err := p.ReadInt32()
 		if _err != nil {
@@ -172,15 +132,7 @@ func (s *DataCallResponse) UnmarshalParcel(
 			}
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TrafficDescriptors: cannot skip without known wire format
 	s.NetworkValidationStatus, _err = p.ReadInt32()
 	if _err != nil {
 		return _err

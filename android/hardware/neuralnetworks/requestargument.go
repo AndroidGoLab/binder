@@ -19,6 +19,7 @@ func (s *RequestArgument) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteBool(s.HasNoValue)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Location.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -58,6 +59,9 @@ func (s *RequestArgument) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Location.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

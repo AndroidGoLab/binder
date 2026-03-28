@@ -382,8 +382,8 @@ parcelables:
           write_method: string16
     - name: CellIdentityCdma
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: NetworkId
           write_method: int32
         - name: SystemId
@@ -396,8 +396,8 @@ parcelables:
           write_method: int32
     - name: CellIdentityGsm
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: Lac
           write_method: int32
         - name: Cid
@@ -410,8 +410,8 @@ parcelables:
           write_method: opaque
     - name: CellIdentityLte
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: Ci
           write_method: int32
         - name: Pci
@@ -430,8 +430,8 @@ parcelables:
           write_method: typed_object
     - name: CellIdentityTdscdma
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: Lac
           write_method: int32
         - name: Cid
@@ -446,8 +446,8 @@ parcelables:
           write_method: typed_object
     - name: CellIdentityWcdma
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: Lac
           write_method: int32
         - name: Cid
@@ -464,8 +464,8 @@ parcelables:
       java_wire_format:
         - name: Type
           write_method: int32
-        - name: Registered?1:0
-          write_method: int32
+        - name: Registered
+          write_method: bool
         - name: TimeStamp
           write_method: int64
         - name: CellConnectionStatus
@@ -567,8 +567,8 @@ parcelables:
           write_method: int32
     - name: LteVopsSupportInfo
       java_wire_format:
-        - name: Out
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: VopsSupport
           write_method: int32
         - name: EmcBearerSupport
@@ -647,8 +647,8 @@ parcelables:
           write_method: opaque
     - name: NrVopsSupportInfo
       java_wire_format:
-        - name: Out
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: VopsSupport
           write_method: int32
         - name: EmcSupport
@@ -767,10 +767,10 @@ parcelables:
           write_method: string16
         - name: OperatorNumeric
           write_method: string16
-        - name: IsManualNetworkSelection?1:0
-          write_method: int32
-        - name: CssIndicator?1:0
-          write_method: int32
+        - name: IsManualNetworkSelection
+          write_method: bool
+        - name: CssIndicator
+          write_method: bool
         - name: NetworkId
           write_method: int32
         - name: SystemId
@@ -783,8 +783,8 @@ parcelables:
           write_method: int32
         - name: CdmaEriIconMode
           write_method: int32
-        - name: IsEmergencyOnly?1:0
-          write_method: int32
+        - name: IsEmergencyOnly
+          write_method: bool
         - name: ArfcnRsrpBoost
           write_method: int32
         - name: ChannelNumber
@@ -835,10 +835,10 @@ parcelables:
           write_method: string16
         - name: SimSlotIndex
           write_method: int32
-        - name: DisplayName
-          write_method: opaque
-        - name: CarrierName
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
+        - name: TextUtils
+          write_method: delegate
         - name: DisplayNameSource
           write_method: int32
         - name: IconTint
@@ -865,8 +865,8 @@ parcelables:
           write_method: int32
         - name: IsOpportunistic
           write_method: bool
-        - name: GroupUuid==null?null:mGroupUuid.toString()
-          write_method: string8
+        - name: GroupUuid==null
+          write_method: bool
         - name: IsGroupDisabled
           write_method: bool
         - name: CarrierId
@@ -1018,8 +1018,8 @@ parcelables:
       java_wire_format:
         - name: UssdRequest
           write_method: string16
-        - name: ReturnMessage
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
     - name: VisualVoicemailSmsFilterSettings
       java_wire_format:
         - name: ClientPrefix

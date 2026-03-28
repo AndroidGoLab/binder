@@ -16,11 +16,11 @@ func (s *NdefRecord) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Tnf)
-	p.WriteInt32(0)  // null Type.length
+	p.WriteInt32(0)  // placeholder Type.length
 	p.WriteInt32(-1) // null Type
-	p.WriteInt32(0)  // null Id.length
+	p.WriteInt32(0)  // placeholder Id.length
 	p.WriteInt32(-1) // null Id
-	p.WriteInt32(0)  // null Payload.length
+	p.WriteInt32(0)  // placeholder Payload.length
 	p.WriteInt32(-1) // null Payload
 	return nil
 }
@@ -33,59 +33,17 @@ func (s *NdefRecord) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Type.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip Type.length
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	return nil                                // opaque Type: cannot skip without known wire format
+	if _, _err = p.ReadInt32(); _err != nil { // skip Id.length
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Id.length: cannot skip unknown-size typed object
-		}
+	return nil                                // opaque Id: cannot skip without known wire format
+	if _, _err = p.ReadInt32(); _err != nil { // skip Payload.length
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Payload.length: cannot skip unknown-size typed object
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Payload: cannot skip without known wire format
 	return nil
 }

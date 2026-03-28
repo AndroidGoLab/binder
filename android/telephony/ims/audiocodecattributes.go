@@ -17,11 +17,11 @@ func (s *AudioCodecAttributes) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteFloat32(s.BitrateKbps)
-	p.WriteInt32(0) // null BitrateRangeKbps.getLower()
-	p.WriteInt32(0) // null BitrateRangeKbps.getUpper()
+	p.WriteFloat32(0) // placeholder BitrateRangeKbps.getLower()
+	p.WriteFloat32(0) // placeholder BitrateRangeKbps.getUpper()
 	p.WriteFloat32(s.BandwidthKhz)
-	p.WriteInt32(0) // null BandwidthRangeKhz.getLower()
-	p.WriteInt32(0) // null BandwidthRangeKhz.getUpper()
+	p.WriteFloat32(0) // placeholder BandwidthRangeKhz.getLower()
+	p.WriteFloat32(0) // placeholder BandwidthRangeKhz.getUpper()
 	return nil
 }
 
@@ -33,45 +33,21 @@ func (s *AudioCodecAttributes) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null BitrateRangeKbps.getLower(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadFloat32(); _err != nil { // skip BitrateRangeKbps.getLower()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null BitrateRangeKbps.getUpper(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadFloat32(); _err != nil { // skip BitrateRangeKbps.getUpper()
+		return _err
 	}
 	s.BandwidthKhz, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null BandwidthRangeKhz.getLower(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadFloat32(); _err != nil { // skip BandwidthRangeKhz.getLower()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null BandwidthRangeKhz.getUpper(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadFloat32(); _err != nil { // skip BandwidthRangeKhz.getUpper()
+		return _err
 	}
 	return nil
 }

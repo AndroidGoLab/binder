@@ -24,6 +24,7 @@ func (s *CodecConfiguration) MarshalParcel(
 	p.WriteInt32(s.EncodedAudioBitrate)
 	p.WriteInt32(s.PeerMtu)
 	p.WriteBool(s.IsScmstEnabled)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Config.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -86,6 +87,9 @@ func (s *CodecConfiguration) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Config.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

@@ -21,8 +21,8 @@ parcelables:
           write_method: string16
         - name: SettingsActivityName
           write_method: string16
-        - name: Dest
-          write_method: opaque
+        - name: Service
+          write_method: delegate
         - name: Subtypes
           write_method: opaque
     - name: SpellCheckerSubtype
@@ -47,12 +47,12 @@ parcelables:
           write_method: int32
         - name: Sequence
           write_method: int32
-        - name: SuggestionsAvailable?1:0
-          write_method: int32
+        - name: SuggestionsAvailable
+          write_method: bool
     - name: TextInfo
       java_wire_format:
-        - name: CharSequence
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: Cookie
           write_method: int32
         - name: SequenceNumber

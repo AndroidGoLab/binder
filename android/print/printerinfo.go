@@ -34,7 +34,7 @@ func (s *PrinterInfo) MarshalParcel(
 		p.WriteInt32(0)
 	}
 	p.WriteInt32(s.IconResourceId)
-	p.WriteInt32(0) // null (byte)(mHasCustomPrinterIcon?1:0)
+	p.WriteInt32(0) // placeholder (byte)(mHasCustomPrinterIcon?1:0)
 	p.WriteInt32(s.CustomPrinterIconGen)
 	p.WriteInt32(0) // null InfoIntent
 	return nil
@@ -81,14 +81,8 @@ func (s *PrinterInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mHasCustomPrinterIcon?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mHasCustomPrinterIcon?1:0)
+		return _err
 	}
 	s.CustomPrinterIconGen, _err = p.ReadInt32()
 	if _err != nil {

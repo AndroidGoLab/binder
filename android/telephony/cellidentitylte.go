@@ -19,7 +19,7 @@ var _ parcel.Parcelable = (*CellIdentityLte)(nil)
 func (s *CellIdentityLte) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Super
 	p.WriteInt32(s.Ci)
 	p.WriteInt32(s.Pci)
 	p.WriteInt32(s.Tac)
@@ -35,15 +35,7 @@ func (s *CellIdentityLte) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Super: cannot skip without known wire format
 	s.Ci, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -61,27 +53,19 @@ func (s *CellIdentityLte) UnmarshalParcel(
 		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
 	s.Bandwidth, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque AdditionalPlmns: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {

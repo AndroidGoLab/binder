@@ -26,7 +26,7 @@ func (s *AuthenticatorDescription) MarshalParcel(
 	p.WriteInt32(s.IconId)
 	p.WriteInt32(s.SmallIconId)
 	p.WriteInt32(s.AccountPreferencesId)
-	p.WriteInt32(0) // null (byte)(customTokens?1:0)
+	p.WriteInt32(0) // placeholder (byte)(customTokens?1:0)
 	return nil
 }
 
@@ -58,14 +58,8 @@ func (s *AuthenticatorDescription) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(customTokens?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(customTokens?1:0)
+		return _err
 	}
 	return nil
 }

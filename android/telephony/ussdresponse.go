@@ -16,7 +16,7 @@ func (s *UssdResponse) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.UssdRequest)
-	p.WriteInt32(-1) // null ReturnMessage
+	p.WriteInt32(-1) // null TextUtils
 	return nil
 }
 
@@ -28,14 +28,6 @@ func (s *UssdResponse) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TextUtils: cannot skip without known wire format
 	return nil
 }

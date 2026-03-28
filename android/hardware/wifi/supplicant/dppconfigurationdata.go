@@ -25,6 +25,7 @@ func (s *DppConfigurationData) MarshalParcel(
 	p.WriteString16(s.Password)
 	p.WriteByteArray(s.Psk)
 	p.WriteInt32(int32(s.SecurityAkm))
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.DppConnectionKeys.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -88,6 +89,9 @@ func (s *DppConfigurationData) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.DppConnectionKeys.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

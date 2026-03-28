@@ -31,15 +31,7 @@ func (s *GetCandidateCredentialsResponse) MarshalParcel(
 func (s *GetCandidateCredentialsResponse) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque CandidateProviderDataList: cannot skip without known wire format
 	{
 		_flag, _err := p.ReadInt32()
 		if _err != nil {

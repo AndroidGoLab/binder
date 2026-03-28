@@ -28,7 +28,7 @@ func (s *VolumeInfo) MarshalParcel(
 	p.WriteInt32(s.VolIndex)
 	p.WriteInt32(s.MinVolIndex)
 	p.WriteInt32(s.MaxVolIndex)
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null VolGroup
 	return nil
 }
 
@@ -64,14 +64,6 @@ func (s *VolumeInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque VolGroup: cannot skip without known wire format
 	return nil
 }

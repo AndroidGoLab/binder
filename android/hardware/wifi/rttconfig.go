@@ -36,6 +36,7 @@ func (s *RttConfig) MarshalParcel(
 	p.WriteFixedByteArray(s.Addr, 6)
 	p.WriteInt32(int32(s.Type))
 	p.WriteInt32(int32(s.Peer))
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Channel.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -112,6 +113,9 @@ func (s *RttConfig) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Channel.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

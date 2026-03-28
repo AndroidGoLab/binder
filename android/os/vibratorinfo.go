@@ -31,7 +31,7 @@ func (s *VibratorInfo) MarshalParcel(
 	p.WriteInt32(s.PwlePrimitiveDurationMax)
 	p.WriteInt32(s.PwleSizeMax)
 	p.WriteFloat32(s.QFactor)
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null FrequencyProfile
 	return nil
 }
 
@@ -47,33 +47,9 @@ func (s *VibratorInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque SupportedEffects: cannot skip without known wire format
+	return nil // opaque SupportedBraking: cannot skip without known wire format
+	return nil // opaque SupportedPrimitives: cannot skip without known wire format
 	s.PrimitiveDelayMax, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -94,14 +70,6 @@ func (s *VibratorInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque FrequencyProfile: cannot skip without known wire format
 	return nil
 }

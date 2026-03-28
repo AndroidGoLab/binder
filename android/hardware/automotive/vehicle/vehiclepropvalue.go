@@ -24,6 +24,7 @@ func (s *VehiclePropValue) MarshalParcel(
 	p.WriteInt32(s.AreaId)
 	p.WriteInt32(s.Prop)
 	p.WriteInt32(int32(s.Status))
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Value.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -86,6 +87,9 @@ func (s *VehiclePropValue) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Value.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

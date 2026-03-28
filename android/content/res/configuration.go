@@ -1,7 +1,7 @@
 package res
 
 import (
-	types "github.com/AndroidGoLab/binder/android/os/types"
+	types "github.com/AndroidGoLab/binder/android/app/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -32,7 +32,7 @@ type Configuration struct {
 	Seq                         int32
 	FontWeightAdjustment        int32
 	GrammaticalGender           int32
-	LocaleList                  *types.LocaleList
+	WindowConfiguration         types.WindowConfiguration
 }
 
 var _ parcel.Parcelable = (*Configuration)(nil)
@@ -43,14 +43,7 @@ func (s *Configuration) MarshalParcel(
 	p.WriteFloat32(s.FontScale)
 	p.WriteInt32(s.Mcc)
 	p.WriteInt32(s.Mnc)
-	if s.LocaleList != nil {
-		p.WriteInt32(1)
-		if _err := s.LocaleList.MarshalParcel(p); _err != nil {
-			return _err
-		}
-	} else {
-		p.WriteInt32(0)
-	}
+	p.WriteInt32(0) // opaque: cycle prevents typed marshal
 	p.WriteInt32(1)
 	p.WriteInt32(s.Touchscreen)
 	p.WriteInt32(s.Keyboard)
@@ -69,7 +62,9 @@ func (s *Configuration) MarshalParcel(
 	p.WriteInt32(s.CompatScreenWidthDp)
 	p.WriteInt32(s.CompatScreenHeightDp)
 	p.WriteInt32(s.CompatSmallestScreenWidthDp)
-	p.WriteInt32(-1) // null Dest
+	if _err := s.WindowConfiguration.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.AssetsSeq)
 	p.WriteInt32(s.Seq)
 	p.WriteInt32(s.FontWeightAdjustment)
@@ -98,12 +93,7 @@ func (s *Configuration) UnmarshalParcel(
 		if _err != nil {
 			return _err
 		}
-		if _flag != 0 {
-			s.LocaleList = &types.LocaleList{}
-			if _err = s.LocaleList.UnmarshalParcel(p); _err != nil {
-				return _err
-			}
-		}
+		_ = _flag // opaque: cycle prevents typed unmarshal
 	}
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
@@ -176,14 +166,8 @@ func (s *Configuration) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.WindowConfiguration.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	s.AssetsSeq, _err = p.ReadInt32()
 	if _err != nil {

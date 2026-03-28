@@ -21,7 +21,7 @@ func (s *Voice) MarshalParcel(
 	p.WriteInt32(-1) // null Locale
 	p.WriteInt32(s.Quality)
 	p.WriteInt32(s.Latency)
-	p.WriteInt32(0)  // null (byte)(mRequiresNetworkConnection?1:0)
+	p.WriteInt32(0)  // placeholder (byte)(mRequiresNetworkConnection?1:0)
 	p.WriteInt32(-1) // null NewArrayList<String>(mFeatures)
 	return nil
 }
@@ -34,15 +34,7 @@ func (s *Voice) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Locale: cannot skip without known wire format
 	s.Quality, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -51,23 +43,9 @@ func (s *Voice) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mRequiresNetworkConnection?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mRequiresNetworkConnection?1:0)
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque NewArrayList<String>(mFeatures): cannot skip without known wire format
 	return nil
 }

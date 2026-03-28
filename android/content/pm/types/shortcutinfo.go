@@ -1,7 +1,6 @@
 package types
 
 import (
-	contentTypes "github.com/AndroidGoLab/binder/android/content/types"
 	drawable "github.com/AndroidGoLab/binder/android/graphics/drawable"
 	"github.com/AndroidGoLab/binder/parcel"
 )
@@ -29,7 +28,6 @@ type ShortcutInfo struct {
 	StartingThemeResName   string
 	ExcludedSurfaces       int32
 	Icon                   *drawable.Icon
-	LocusId                *contentTypes.LocusId
 }
 
 var _ parcel.Parcelable = (*ShortcutInfo)(nil)
@@ -72,14 +70,7 @@ func (s *ShortcutInfo) MarshalParcel(
 	p.WriteString(s.DisabledMessageResName)
 	p.WriteInt32(0)  // null N
 	p.WriteInt32(-1) // null Persons
-	if s.LocusId != nil {
-		p.WriteInt32(1)
-		if _err := s.LocusId.MarshalParcel(p); _err != nil {
-			return _err
-		}
-	} else {
-		p.WriteInt32(0)
-	}
+	p.WriteInt32(0)  // opaque: cycle prevents typed marshal
 	p.WriteString(s.IconUri)
 	p.WriteString(s.StartingThemeResName)
 	p.WriteInt32(s.ExcludedSurfaces)
@@ -146,63 +137,23 @@ func (s *ShortcutInfo) UnmarshalParcel(
 			}
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Title: cannot skip without known wire format
 	s.TitleResId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Text: cannot skip without known wire format
 	s.TextResId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque DisabledMessage: cannot skip without known wire format
 	s.DisabledMessageResId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Intents: cannot skip without known wire format
+	return nil // opaque IntentPersistableExtrases: cannot skip without known wire format
 	s.Rank, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -245,26 +196,13 @@ func (s *ShortcutInfo) UnmarshalParcel(
 			return nil // non-null N: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Persons: cannot skip without known wire format
 	{
 		_flag, _err := p.ReadInt32()
 		if _err != nil {
 			return _err
 		}
-		if _flag != 0 {
-			s.LocusId = &contentTypes.LocusId{}
-			if _err = s.LocusId.UnmarshalParcel(p); _err != nil {
-				return _err
-			}
-		}
+		_ = _flag // opaque: cycle prevents typed unmarshal
 	}
 	s.IconUri, _err = p.ReadString()
 	if _err != nil {
@@ -278,14 +216,6 @@ func (s *ShortcutInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque CapabilityBindings: cannot skip without known wire format
 	return nil
 }

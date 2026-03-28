@@ -80,6 +80,7 @@ type Driver struct {
 	readLoopOnce    sync.Once
 	readLoopDone    chan struct{} // closed when the read loop exits
 	readLoopStarted atomic.Bool  // true after the read loop goroutine is launched
+	readLoopStop    chan struct{} // closed by Close() to signal read loop to send BC_EXIT_LOOPER before fd close
 }
 
 // Compile-time interface check.
@@ -159,6 +160,7 @@ func Open(
 		deathRecipients:       make(map[uintptr]*deathRecipientEntry),
 		deathRecipientsByHndl: make(map[uint32]*deathRecipientEntry),
 		readLoopDone:          make(chan struct{}),
+		readLoopStop:          make(chan struct{}),
 	}
 
 	return d, nil
@@ -343,14 +345,24 @@ func (d *Driver) Close(
 		}
 	}
 
-	// Close the raw fd FIRST to interrupt any blocked ioctl (e.g. the
-	// read loop's BINDER_WRITE_READ). The read loop holds fdMu.RLock
-	// across a blocking ioctl, so taking fdMu.Lock here would deadlock
-	// if the ioctl never returns. Closing the fd wakes the ioctl with
-	// EBADF, allowing it to release the RLock.
-	//
-	// No new Transact calls can start because d.closed is already true
-	// (checked under d.mu). The read loop will see EBADF and exit.
+	// Signal the read loop to send BC_EXIT_LOOPER and exit BEFORE
+	// closing the fd. The kernel requires BC_EXIT_LOOPER while the fd
+	// is still open; without it, the kernel keeps the thread registered
+	// and per-process binder state accumulates across fd open/close
+	// cycles, eventually exhausting resources.
+	close(d.readLoopStop)
+
+	// Wait briefly for the read loop to send BC_EXIT_LOOPER.
+	if d.readLoopStarted.Load() {
+		select {
+		case <-d.readLoopDone:
+			// Read loop exited cleanly with BC_EXIT_LOOPER sent.
+		case <-time.After(1 * time.Second):
+			// Timed out — proceed to close fd which will unblock it.
+		}
+	}
+
+	// Close the raw fd to interrupt any remaining blocked ioctl.
 	fd := d.readFD()
 
 	if fd >= 0 {
@@ -370,15 +382,13 @@ func (d *Driver) Close(
 		}
 	}
 
-	// Wait for the read loop goroutine to exit after closing the fd.
-	// The read loop detects the closed fd via EBADF and returns.
-	// Only wait if the read loop was actually started; otherwise
-	// readLoopDone is never closed and we would block forever.
+	// Final wait for read loop if it was started but didn't exit
+	// during the pre-close wait (e.g. was blocked in ioctl).
 	if d.readLoopStarted.Load() {
 		select {
 		case <-d.readLoopDone:
-		case <-time.After(5 * time.Second):
-			logger.Warnf(ctx, "timed out waiting for read loop to exit")
+		case <-time.After(3 * time.Second):
+			logger.Warnf(ctx, "timed out waiting for read loop to exit after fd close")
 		}
 	}
 
@@ -498,6 +508,9 @@ func (d *Driver) Transact(
 		if err := d.doIoctl(&bwr); err != nil {
 			return nil, err
 		}
+		// Keep readBuf alive across the ioctl — the GC cannot track
+		// the raw pointer stored in bwr.readBuffer (uint64).
+		runtime.KeepAlive(readBuf)
 	}
 }
 
@@ -686,7 +699,12 @@ func (d *Driver) parseReadBuffer(
 			logger.Tracef(ctx, "BR_SPAWN_LOOPER (ignored)")
 
 		default:
-			logger.Warnf(ctx, "binder: unknown BR code 0x%08x at offset %d", cmd, offset-4)
+			// Dump first 32 bytes for debugging unknown BR codes.
+			n := len(buf)
+			if n > 32 {
+				n = 32
+			}
+			logger.Warnf(ctx, "binder: unknown BR code 0x%08x at offset %d (bufLen=%d, gotTC=%v, first%dB=%x)", cmd, offset-4, len(buf), gotTransactionComplete, n, buf[:n])
 			return nil, false, gotTransactionComplete, fmt.Errorf("binder: unknown BR code 0x%08x", cmd)
 		}
 	}

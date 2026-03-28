@@ -1,6 +1,7 @@
 package app
 
 import (
+	drawable "github.com/AndroidGoLab/binder/android/graphics/drawable"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -9,6 +10,7 @@ import (
 type RemoteAction struct {
 	Enabled        bool
 	ShouldShowIcon bool
+	Icon           drawable.Icon
 }
 
 var _ parcel.Parcelable = (*RemoteAction)(nil)
@@ -16,10 +18,12 @@ var _ parcel.Parcelable = (*RemoteAction)(nil)
 func (s *RemoteAction) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Out
-	p.WriteInt32(-1) // null Title
-	p.WriteInt32(-1) // null ContentDescription
-	p.WriteInt32(-1) // null Out
+	if _err := s.Icon.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null ActionIntent
 	p.WriteBool(s.Enabled)
 	p.WriteBool(s.ShouldShowIcon)
 	return nil
@@ -29,42 +33,12 @@ func (s *RemoteAction) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.Icon.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TextUtils: cannot skip without known wire format
+	return nil // opaque TextUtils: cannot skip without known wire format
+	return nil // opaque ActionIntent: cannot skip without known wire format
 	s.Enabled, _err = p.ReadBool()
 	if _err != nil {
 		return _err

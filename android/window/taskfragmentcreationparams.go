@@ -16,10 +16,10 @@ var _ parcel.Parcelable = (*TaskFragmentCreationParams)(nil)
 func (s *TaskFragmentCreationParams) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Organizer
 	p.WriteInt32(-1) // null FragmentToken
 	p.WriteInt32(-1) // null OwnerToken
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null InitialRelativeBounds
 	p.WriteInt32(s.WindowingMode)
 	p.WriteInt32(-1) // null PairedPrimaryFragmentToken
 	p.WriteInt32(-1) // null PairedActivityToken
@@ -31,64 +31,16 @@ func (s *TaskFragmentCreationParams) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Organizer: cannot skip without known wire format
+	return nil // opaque FragmentToken: cannot skip without known wire format
+	return nil // opaque OwnerToken: cannot skip without known wire format
+	return nil // opaque InitialRelativeBounds: cannot skip without known wire format
 	s.WindowingMode, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque PairedPrimaryFragmentToken: cannot skip without known wire format
+	return nil // opaque PairedActivityToken: cannot skip without known wire format
 	s.AllowTransitionWhenEmpty, _err = p.ReadBool()
 	if _err != nil {
 		return _err

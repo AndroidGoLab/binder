@@ -33,9 +33,11 @@ func (s *ParcelImage) MarshalParcel(
 	p.WriteInt32(s.ScalingMode)
 	p.WriteInt64(s.Timestamp)
 	p.WriteInt32(s.PlaneCount)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Crop.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Buffer.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -128,6 +130,9 @@ func (s *ParcelImage) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Crop.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -137,6 +142,9 @@ func (s *ParcelImage) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Buffer.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

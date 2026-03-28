@@ -21,6 +21,7 @@ func (s *EmbeddedData) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.WidthInBytes)
 	p.WriteInt32(s.HeightInLines)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Data.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -62,6 +63,9 @@ func (s *EmbeddedData) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Data.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*AppFuseMount)(nil)
 func (s *AppFuseMount) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null This.mountPointId
+	p.WriteInt32(0) // placeholder This.mountPointId
 	p.WriteInt32(0) // null Fd
 	return nil
 }
@@ -22,14 +22,9 @@ func (s *AppFuseMount) MarshalParcel(
 func (s *AppFuseMount) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.mountPointId: cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.mountPointId
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()

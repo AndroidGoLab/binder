@@ -25,6 +25,7 @@ func (s *HardwareAuthToken) MarshalParcel(
 	p.WriteInt64(s.UserId)
 	p.WriteInt64(s.AuthenticatorId)
 	p.WriteInt32(int32(s.AuthenticatorType))
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Timestamp.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -88,6 +89,9 @@ func (s *HardwareAuthToken) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Timestamp.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

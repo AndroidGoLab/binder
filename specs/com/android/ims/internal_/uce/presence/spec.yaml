@@ -286,8 +286,8 @@ parcelables:
           write_method: string16
         - name: Version
           write_method: int32
-        - name: FullState?1:0
-          write_method: int32
+        - name: FullState
+          write_method: bool
         - name: ListName
           write_method: string16
         - name: RequestId

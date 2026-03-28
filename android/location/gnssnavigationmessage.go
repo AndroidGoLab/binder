@@ -23,7 +23,7 @@ func (s *GnssNavigationMessage) MarshalParcel(
 	p.WriteInt32(s.Svid)
 	p.WriteInt32(s.MessageId)
 	p.WriteInt32(s.SubmessageId)
-	p.WriteInt32(0)  // null Data.length
+	p.WriteInt32(0)  // placeholder Data.length
 	p.WriteInt32(-1) // null Data
 	p.WriteInt32(s.Status)
 	return nil
@@ -49,24 +49,10 @@ func (s *GnssNavigationMessage) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Data.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip Data.length
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Data: cannot skip without known wire format
 	s.Status, _err = p.ReadInt32()
 	if _err != nil {
 		return _err

@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*ActivityChangedEvent)(nil)
 func (s *ActivityChangedEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0)  // null ActivityRecognitionEventArray.length
+	p.WriteInt32(0)  // placeholder ActivityRecognitionEventArray.length
 	p.WriteInt32(-1) // null ActivityRecognitionEventArray
 	return nil
 }
@@ -22,23 +22,10 @@ func (s *ActivityChangedEvent) MarshalParcel(
 func (s *ActivityChangedEvent) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null ActivityRecognitionEventArray.length: cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil { // skip ActivityRecognitionEventArray.length
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ActivityRecognitionEventArray: cannot skip without known wire format
 	return nil
 }

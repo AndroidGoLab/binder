@@ -21,7 +21,7 @@ func (s *ResultInfo) MarshalParcel(
 	p.WriteInt32(s.RequestCode)
 	p.WriteInt32(s.ResultCode)
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null Data
 	p.WriteInt32(-1) // null CallerToken
 	return nil
 }
@@ -45,23 +45,7 @@ func (s *ResultInfo) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Data: cannot skip without known wire format
+	return nil // opaque CallerToken: cannot skip without known wire format
 	return nil
 }

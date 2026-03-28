@@ -36,33 +36,9 @@ func (s *KeyChainSnapshot) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque KeyChainProtectionParams: cannot skip without known wire format
+	return nil // opaque EncryptedRecoveryKeyBlob: cannot skip without known wire format
+	return nil // opaque EntryRecoveryData: cannot skip without known wire format
 	s.MaxAttempts, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -71,15 +47,7 @@ func (s *KeyChainSnapshot) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ServerParams: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {

@@ -1,6 +1,7 @@
 package media
 
 import (
+	types "github.com/AndroidGoLab/binder/android/os/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -17,6 +18,7 @@ type RoutingSessionInfo struct {
 	IsSystemSession              bool
 	TransferReason               int32
 	TransferInitiatorPackageName string
+	UserHandle                   types.UserHandle
 }
 
 var _ parcel.Parcelable = (*RoutingSessionInfo)(nil)
@@ -39,7 +41,9 @@ func (s *RoutingSessionInfo) MarshalParcel(
 	p.WriteInt32(-1) // null ControlHints
 	p.WriteBool(s.IsSystemSession)
 	p.WriteInt32(s.TransferReason)
-	p.WriteInt32(-1) // null TransferInitiatorUserHandle
+	if _err := s.UserHandle.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteString16(s.TransferInitiatorPackageName)
 	return nil
 }
@@ -52,15 +56,7 @@ func (s *RoutingSessionInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Name: cannot skip without known wire format
 	s.OwnerPackageName, _err = p.ReadString16()
 	if _err != nil {
 		return _err
@@ -73,42 +69,10 @@ func (s *RoutingSessionInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque SelectedRoutes: cannot skip without known wire format
+	return nil // opaque SelectableRoutes: cannot skip without known wire format
+	return nil // opaque DeselectableRoutes: cannot skip without known wire format
+	return nil // opaque TransferableRoutes: cannot skip without known wire format
 	s.VolumeHandling, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -138,14 +102,8 @@ func (s *RoutingSessionInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.UserHandle.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	s.TransferInitiatorPackageName, _err = p.ReadString16()
 	if _err != nil {

@@ -1,6 +1,7 @@
 package time
 
 import (
+	os "github.com/AndroidGoLab/binder/android/os"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -9,6 +10,7 @@ import (
 type TimeCapabilities struct {
 	ConfigureAutoDetectionEnabledCapability int32
 	SetManualTimeCapability                 int32
+	UserHandle                              os.UserHandle
 }
 
 var _ parcel.Parcelable = (*TimeCapabilities)(nil)
@@ -16,7 +18,9 @@ var _ parcel.Parcelable = (*TimeCapabilities)(nil)
 func (s *TimeCapabilities) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null UserHandle
+	if _err := s.UserHandle.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.ConfigureAutoDetectionEnabledCapability)
 	p.WriteInt32(s.SetManualTimeCapability)
 	return nil
@@ -26,14 +30,8 @@ func (s *TimeCapabilities) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.UserHandle.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	s.ConfigureAutoDetectionEnabledCapability, _err = p.ReadInt32()
 	if _err != nil {

@@ -50,15 +50,7 @@ func (s *SharedLibraryInfo) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque CodePaths.toArray(newString[mCodePaths.size()]): cannot skip without known wire format
 	s.Name, _err = p.ReadString()
 	if _err != nil {
 		return _err
@@ -80,36 +72,12 @@ func (s *SharedLibraryInfo) UnmarshalParcel(
 			return nil // non-null DeclaringPackage: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque DependentPackages: cannot skip without known wire format
+	return nil // opaque Dependencies: cannot skip without known wire format
 	s.IsNative, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque OptionalDependentPackages: cannot skip without known wire format
 	return nil
 }

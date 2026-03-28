@@ -22,9 +22,11 @@ func (s *CaptureBundle) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Stage)
 	p.WriteInt32(s.SequenceId)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.CaptureResult.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.CaptureImage.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -66,6 +68,9 @@ func (s *CaptureBundle) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.CaptureResult.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -75,6 +80,9 @@ func (s *CaptureBundle) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.CaptureImage.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

@@ -14,31 +14,20 @@ var _ parcel.Parcelable = (*SystemUpdateInfo)(nil)
 func (s *SystemUpdateInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null GetReceivedTime()
-	p.WriteInt32(0) // null GetSecurityPatchState()
+	p.WriteInt64(0) // placeholder GetReceivedTime()
+	p.WriteInt32(0) // placeholder GetSecurityPatchState()
 	return nil
 }
 
 func (s *SystemUpdateInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetReceivedTime(): cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt64(); _err != nil { // skip GetReceivedTime()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetSecurityPatchState(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip GetSecurityPatchState()
+		return _err
 	}
 	return nil
 }

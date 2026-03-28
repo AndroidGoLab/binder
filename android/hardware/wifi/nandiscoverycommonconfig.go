@@ -50,6 +50,7 @@ func (s *NanDiscoveryCommonConfig) MarshalParcel(
 	p.WriteBool(s.DisableDiscoveryTerminationIndication)
 	p.WriteBool(s.DisableMatchExpirationIndication)
 	p.WriteBool(s.DisableFollowupReceivedIndication)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.SecurityConfig.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -220,6 +221,9 @@ func (s *NanDiscoveryCommonConfig) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.SecurityConfig.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

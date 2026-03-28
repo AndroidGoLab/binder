@@ -28,6 +28,7 @@ func (s *CreateEffectResponse) MarshalParcel(
 	} else {
 		p.WriteStrongBinder(s.Effect.AsBinder().Handle())
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Desc.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -81,6 +82,9 @@ func (s *CreateEffectResponse) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Desc.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

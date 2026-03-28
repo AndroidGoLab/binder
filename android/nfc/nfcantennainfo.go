@@ -18,7 +18,7 @@ func (s *NfcAntennaInfo) MarshalParcel(
 ) error {
 	p.WriteInt32(s.DeviceWidth)
 	p.WriteInt32(s.DeviceHeight)
-	p.WriteInt32(0)  // null (byte)(mDeviceFoldable?1:0)
+	p.WriteInt32(0)  // placeholder (byte)(mDeviceFoldable?1:0)
 	p.WriteInt32(-1) // null AvailableNfcAntennas
 	return nil
 }
@@ -35,23 +35,9 @@ func (s *NfcAntennaInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mDeviceFoldable?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mDeviceFoldable?1:0)
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque AvailableNfcAntennas: cannot skip without known wire format
 	return nil
 }

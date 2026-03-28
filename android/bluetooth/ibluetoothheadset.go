@@ -25,21 +25,18 @@ const (
 	TransactionIBluetoothHeadsetSetConnectionPolicy                = binder.FirstCallTransaction + 9
 	TransactionIBluetoothHeadsetGetConnectionPolicy                = binder.FirstCallTransaction + 10
 	TransactionIBluetoothHeadsetGetAudioState                      = binder.FirstCallTransaction + 11
-	TransactionIBluetoothHeadsetIsAudioOn                          = binder.FirstCallTransaction + 12
-	TransactionIBluetoothHeadsetConnectAudio                       = binder.FirstCallTransaction + 13
-	TransactionIBluetoothHeadsetDisconnectAudio                    = binder.FirstCallTransaction + 14
-	TransactionIBluetoothHeadsetSetAudioRouteAllowed               = binder.FirstCallTransaction + 15
-	TransactionIBluetoothHeadsetGetAudioRouteAllowed               = binder.FirstCallTransaction + 16
-	TransactionIBluetoothHeadsetSetForceScoAudio                   = binder.FirstCallTransaction + 17
-	TransactionIBluetoothHeadsetStartScoUsingVirtualVoiceCall      = binder.FirstCallTransaction + 18
-	TransactionIBluetoothHeadsetStopScoUsingVirtualVoiceCall       = binder.FirstCallTransaction + 19
-	TransactionIBluetoothHeadsetPhoneStateChanged                  = binder.FirstCallTransaction + 20
-	TransactionIBluetoothHeadsetClccResponse                       = binder.FirstCallTransaction + 21
-	TransactionIBluetoothHeadsetSetActiveDevice                    = binder.FirstCallTransaction + 22
-	TransactionIBluetoothHeadsetGetActiveDevice                    = binder.FirstCallTransaction + 23
-	TransactionIBluetoothHeadsetIsInbandRingingEnabled             = binder.FirstCallTransaction + 24
-	TransactionIBluetoothHeadsetIsNoiseReductionSupported          = binder.FirstCallTransaction + 25
-	TransactionIBluetoothHeadsetIsVoiceRecognitionSupported        = binder.FirstCallTransaction + 26
+	TransactionIBluetoothHeadsetConnectAudio                       = binder.FirstCallTransaction + 12
+	TransactionIBluetoothHeadsetDisconnectAudio                    = binder.FirstCallTransaction + 13
+	TransactionIBluetoothHeadsetSetAudioRouteAllowed               = binder.FirstCallTransaction + 14
+	TransactionIBluetoothHeadsetGetAudioRouteAllowed               = binder.FirstCallTransaction + 15
+	TransactionIBluetoothHeadsetSetForceScoAudio                   = binder.FirstCallTransaction + 16
+	TransactionIBluetoothHeadsetStartScoUsingVirtualVoiceCall      = binder.FirstCallTransaction + 17
+	TransactionIBluetoothHeadsetStopScoUsingVirtualVoiceCall       = binder.FirstCallTransaction + 18
+	TransactionIBluetoothHeadsetSetActiveDevice                    = binder.FirstCallTransaction + 19
+	TransactionIBluetoothHeadsetGetActiveDevice                    = binder.FirstCallTransaction + 20
+	TransactionIBluetoothHeadsetIsInbandRingingEnabled             = binder.FirstCallTransaction + 21
+	TransactionIBluetoothHeadsetIsNoiseReductionSupported          = binder.FirstCallTransaction + 22
+	TransactionIBluetoothHeadsetIsVoiceRecognitionSupported        = binder.FirstCallTransaction + 23
 )
 
 const (
@@ -55,7 +52,6 @@ const (
 	MethodIBluetoothHeadsetSetConnectionPolicy                = "setConnectionPolicy"
 	MethodIBluetoothHeadsetGetConnectionPolicy                = "getConnectionPolicy"
 	MethodIBluetoothHeadsetGetAudioState                      = "getAudioState"
-	MethodIBluetoothHeadsetIsAudioOn                          = "isAudioOn"
 	MethodIBluetoothHeadsetConnectAudio                       = "connectAudio"
 	MethodIBluetoothHeadsetDisconnectAudio                    = "disconnectAudio"
 	MethodIBluetoothHeadsetSetAudioRouteAllowed               = "setAudioRouteAllowed"
@@ -63,8 +59,6 @@ const (
 	MethodIBluetoothHeadsetSetForceScoAudio                   = "setForceScoAudio"
 	MethodIBluetoothHeadsetStartScoUsingVirtualVoiceCall      = "startScoUsingVirtualVoiceCall"
 	MethodIBluetoothHeadsetStopScoUsingVirtualVoiceCall       = "stopScoUsingVirtualVoiceCall"
-	MethodIBluetoothHeadsetPhoneStateChanged                  = "phoneStateChanged"
-	MethodIBluetoothHeadsetClccResponse                       = "clccResponse"
 	MethodIBluetoothHeadsetSetActiveDevice                    = "setActiveDevice"
 	MethodIBluetoothHeadsetGetActiveDevice                    = "getActiveDevice"
 	MethodIBluetoothHeadsetIsInbandRingingEnabled             = "isInbandRingingEnabled"
@@ -74,33 +68,30 @@ const (
 
 type IBluetoothHeadset interface {
 	AsBinder() binder.IBinder
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver any) error
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	StartVoiceRecognition(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	StopVoiceRecognition(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	IsAudioConnected(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	SendVendorSpecificResultCode(ctx context.Context, device BluetoothDevice, command string, arg string, attributionSource content.AttributionSource, receiver any) error
-	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver any) error
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	GetAudioState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	IsAudioOn(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	ConnectAudio(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	DisconnectAudio(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	SetAudioRouteAllowed(ctx context.Context, allowed bool, attributionSource content.AttributionSource, receiver any) error
-	GetAudioRouteAllowed(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	SetForceScoAudio(ctx context.Context, forced bool, attributionSource content.AttributionSource, receiver any) error
-	StartScoUsingVirtualVoiceCall(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	StopScoUsingVirtualVoiceCall(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	PhoneStateChanged(ctx context.Context, numActive int32, numHeld int32, callState int32, number string, type_ int32, name string, attributionSource content.AttributionSource) error
-	ClccResponse(ctx context.Context, index int32, direction int32, status int32, mode int32, mpty bool, number string, type_ int32, attributionSource content.AttributionSource, receiver any) error
-	SetActiveDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	GetActiveDevice(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	IsInbandRingingEnabled(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	IsNoiseReductionSupported(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	IsVoiceRecognitionSupported(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	StartVoiceRecognition(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	StopVoiceRecognition(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	IsAudioConnected(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	SendVendorSpecificResultCode(ctx context.Context, device BluetoothDevice, command string, arg string, attributionSource content.AttributionSource) (bool, error)
+	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource) (bool, error)
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	GetAudioState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	ConnectAudio(ctx context.Context, attributionSource content.AttributionSource) (int32, error)
+	DisconnectAudio(ctx context.Context, attributionSource content.AttributionSource) (int32, error)
+	SetAudioRouteAllowed(ctx context.Context, allowed bool, attributionSource content.AttributionSource) error
+	GetAudioRouteAllowed(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
+	SetForceScoAudio(ctx context.Context, forced bool, attributionSource content.AttributionSource) error
+	StartScoUsingVirtualVoiceCall(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
+	StopScoUsingVirtualVoiceCall(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
+	SetActiveDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	GetActiveDevice(ctx context.Context, attributionSource content.AttributionSource) (BluetoothDevice, error)
+	IsInbandRingingEnabled(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
+	IsNoiseReductionSupported(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	IsVoiceRecognitionSupported(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
 }
 
 type BluetoothHeadsetProxy struct {
@@ -122,32 +113,76 @@ var _ IBluetoothHeadset = (*BluetoothHeadsetProxy)(nil)
 func (p *BluetoothHeadsetProxy) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) ([]BluetoothDevice, error) {
+	var _result []BluetoothDevice
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetConnectedDevices)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetConnectedDevices, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetConnectedDevices, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_count, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
+
+	if _count >= 0 {
+		_result = make([]BluetoothDevice, _count)
+		for _i := int32(0); _i < _count; _i++ {
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
+			}
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
+		}
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) ([]BluetoothDevice, error) {
+	var _result []BluetoothDevice
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
@@ -161,129 +196,221 @@ func (p *BluetoothHeadsetProxy) GetDevicesMatchingConnectionStates(
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetDevicesMatchingConnectionStates)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetDevicesMatchingConnectionStates, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetDevicesMatchingConnectionStates, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_count, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
+
+	if _count >= 0 {
+		_result = make([]BluetoothDevice, _count)
+		for _i := int32(0); _i < _count; _i++ {
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
+			}
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
+		}
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (int32, error) {
+	var _result int32
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetConnectionState)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetConnectionState, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetConnectionState, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) StartVoiceRecognition(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetStartVoiceRecognition)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetStartVoiceRecognition, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetStartVoiceRecognition, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) StopVoiceRecognition(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetStopVoiceRecognition)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetStopVoiceRecognition, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetStopVoiceRecognition, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) IsAudioConnected(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetIsAudioConnected)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetIsAudioConnected, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetIsAudioConnected, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) SendVendorSpecificResultCode(
@@ -292,86 +419,122 @@ func (p *BluetoothHeadsetProxy) SendVendorSpecificResultCode(
 	command string,
 	arg string,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteString16(command)
 	_data.WriteString16(arg)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetSendVendorSpecificResultCode)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetSendVendorSpecificResultCode, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetSendVendorSpecificResultCode, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) Connect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetConnect)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetConnect, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetConnect, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) Disconnect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetDisconnect)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetDisconnect, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetDisconnect, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) SetConnectionPolicy(
@@ -379,161 +542,197 @@ func (p *BluetoothHeadsetProxy) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(connectionPolicy)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetSetConnectionPolicy)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetSetConnectionPolicy, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetSetConnectionPolicy, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (int32, error) {
+	var _result int32
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetConnectionPolicy)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetConnectionPolicy, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetConnectionPolicy, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) GetAudioState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (int32, error) {
+	var _result int32
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetAudioState)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetAudioState, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetAudioState, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *BluetoothHeadsetProxy) IsAudioOn(
-	ctx context.Context,
-	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	_data := parcel.New()
-	defer _data.Recycle()
-	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
-
-	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetIsAudioOn)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetIsAudioOn, _err)
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) ConnectAudio(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (int32, error) {
+	var _result int32
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetConnectAudio)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetConnectAudio, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetConnectAudio, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) DisconnectAudio(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (int32, error) {
+	var _result int32
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetDisconnectAudio)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetDisconnectAudio, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetDisconnectAudio, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) SetAudioRouteAllowed(
 	ctx context.Context,
 	allowed bool,
 	attributionSource content.AttributionSource,
-	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -543,45 +742,64 @@ func (p *BluetoothHeadsetProxy) SetAudioRouteAllowed(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetSetAudioRouteAllowed)
 	if _err != nil {
 		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetSetAudioRouteAllowed, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
 }
 
 func (p *BluetoothHeadsetProxy) GetAudioRouteAllowed(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetAudioRouteAllowed)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetAudioRouteAllowed, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetAudioRouteAllowed, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) SetForceScoAudio(
 	ctx context.Context,
 	forced bool,
 	attributionSource content.AttributionSource,
-	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -591,261 +809,288 @@ func (p *BluetoothHeadsetProxy) SetForceScoAudio(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetSetForceScoAudio)
 	if _err != nil {
 		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetSetForceScoAudio, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
 }
 
 func (p *BluetoothHeadsetProxy) StartScoUsingVirtualVoiceCall(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetStartScoUsingVirtualVoiceCall)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetStartScoUsingVirtualVoiceCall, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetStartScoUsingVirtualVoiceCall, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) StopScoUsingVirtualVoiceCall(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetStopScoUsingVirtualVoiceCall)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetStopScoUsingVirtualVoiceCall, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetStopScoUsingVirtualVoiceCall, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *BluetoothHeadsetProxy) PhoneStateChanged(
-	ctx context.Context,
-	numActive int32,
-	numHeld int32,
-	callState int32,
-	number string,
-	type_ int32,
-	name string,
-	attributionSource content.AttributionSource,
-) error {
-	_data := parcel.New()
-	defer _data.Recycle()
-	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
-	_data.WriteInt32(numActive)
-	_data.WriteInt32(numHeld)
-	_data.WriteInt32(callState)
-	_data.WriteString16(number)
-	_data.WriteInt32(type_)
-	_data.WriteString16(name)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetPhoneStateChanged)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetPhoneStateChanged, _err)
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *BluetoothHeadsetProxy) ClccResponse(
-	ctx context.Context,
-	index int32,
-	direction int32,
-	status int32,
-	mode int32,
-	mpty bool,
-	number string,
-	type_ int32,
-	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	_data := parcel.New()
-	defer _data.Recycle()
-	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
-	_data.WriteInt32(index)
-	_data.WriteInt32(direction)
-	_data.WriteInt32(status)
-	_data.WriteInt32(mode)
-	_data.WriteBool(mpty)
-	_data.WriteString16(number)
-	_data.WriteInt32(type_)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
-
-	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetClccResponse)
+	_result, _err = _reply.ReadBool()
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetClccResponse, _err)
+		return _result, _err
 	}
-
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) SetActiveDevice(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetSetActiveDevice)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetSetActiveDevice, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetSetActiveDevice, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) GetActiveDevice(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (BluetoothDevice, error) {
+	var _result BluetoothDevice
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetActiveDevice)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetActiveDevice, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetGetActiveDevice, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) IsInbandRingingEnabled(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetIsInbandRingingEnabled)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetIsInbandRingingEnabled, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetIsInbandRingingEnabled, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) IsNoiseReductionSupported(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetIsNoiseReductionSupported)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetIsNoiseReductionSupported, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetIsNoiseReductionSupported, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothHeadsetProxy) IsVoiceRecognitionSupported(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHeadset)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetIsVoiceRecognitionSupported)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetIsVoiceRecognitionSupported, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHeadset, MethodIBluetoothHeadsetIsVoiceRecognitionSupported, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 // BluetoothHeadsetStub dispatches incoming binder transactions
@@ -884,9 +1129,25 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		return _reply, nil
 	case TransactionIBluetoothHeadsetGetDevicesMatchingConnectionStates:
 		var _arg_states []int32
 		{
@@ -919,9 +1180,25 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		return _reply, nil
 	case TransactionIBluetoothHeadsetGetConnectionState:
 		var _arg_device BluetoothDevice
 		{
@@ -947,9 +1224,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetStartVoiceRecognition:
 		var _arg_device BluetoothDevice
 		{
@@ -975,9 +1258,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.StartVoiceRecognition(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.StartVoiceRecognition(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetStopVoiceRecognition:
 		var _arg_device BluetoothDevice
 		{
@@ -1003,9 +1292,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.StopVoiceRecognition(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.StopVoiceRecognition(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetIsAudioConnected:
 		var _arg_device BluetoothDevice
 		{
@@ -1031,9 +1326,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.IsAudioConnected(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.IsAudioConnected(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetSendVendorSpecificResultCode:
 		var _arg_device BluetoothDevice
 		{
@@ -1067,9 +1368,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err = s.Impl.SendVendorSpecificResultCode(ctx, _arg_device, _arg_command, _arg_arg, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.SendVendorSpecificResultCode(ctx, _arg_device, _arg_command, _arg_arg, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetConnect:
 		var _arg_device BluetoothDevice
 		{
@@ -1095,9 +1402,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.Connect(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.Connect(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetDisconnect:
 		var _arg_device BluetoothDevice
 		{
@@ -1123,9 +1436,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.Disconnect(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.Disconnect(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetSetConnectionPolicy:
 		var _arg_device BluetoothDevice
 		{
@@ -1155,9 +1474,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err = s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetGetConnectionPolicy:
 		var _arg_device BluetoothDevice
 		{
@@ -1183,9 +1508,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetGetAudioState:
 		var _arg_device BluetoothDevice
 		{
@@ -1211,25 +1542,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetAudioState(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
-	case TransactionIBluetoothHeadsetIsAudioOn:
-		var _arg_attributionSource content.AttributionSource
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
+		_result, _err := s.Impl.GetAudioState(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
 		}
-		var _arg_receiver any
-		_err := s.Impl.IsAudioOn(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetConnectAudio:
 		var _arg_attributionSource content.AttributionSource
 		{
@@ -1243,9 +1564,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.ConnectAudio(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.ConnectAudio(ctx, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetDisconnectAudio:
 		var _arg_attributionSource content.AttributionSource
 		{
@@ -1259,9 +1586,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.DisconnectAudio(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.DisconnectAudio(ctx, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetSetAudioRouteAllowed:
 		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
@@ -1279,9 +1612,14 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err = s.Impl.SetAudioRouteAllowed(ctx, _arg_allowed, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_err = s.Impl.SetAudioRouteAllowed(ctx, _arg_allowed, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetGetAudioRouteAllowed:
 		var _arg_attributionSource content.AttributionSource
 		{
@@ -1295,9 +1633,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetAudioRouteAllowed(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetAudioRouteAllowed(ctx, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetSetForceScoAudio:
 		_arg_forced, _err := _data.ReadBool()
 		if _err != nil {
@@ -1315,9 +1659,14 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err = s.Impl.SetForceScoAudio(ctx, _arg_forced, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_err = s.Impl.SetForceScoAudio(ctx, _arg_forced, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetStartScoUsingVirtualVoiceCall:
 		var _arg_attributionSource content.AttributionSource
 		{
@@ -1331,9 +1680,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.StartScoUsingVirtualVoiceCall(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.StartScoUsingVirtualVoiceCall(ctx, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetStopScoUsingVirtualVoiceCall:
 		var _arg_attributionSource content.AttributionSource
 		{
@@ -1347,92 +1702,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.StopScoUsingVirtualVoiceCall(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
-	case TransactionIBluetoothHeadsetPhoneStateChanged:
-		_arg_numActive, _err := _data.ReadInt32()
+		_result, _err := s.Impl.StopScoUsingVirtualVoiceCall(ctx, _arg_attributionSource)
+		_reply := parcel.New()
 		if _err != nil {
-			return nil, _err
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
 		}
-		_arg_numHeld, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_callState, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_number, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_type_, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_name, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_attributionSource content.AttributionSource
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.PhoneStateChanged(ctx, _arg_numActive, _arg_numHeld, _arg_callState, _arg_number, _arg_type_, _arg_name, _arg_attributionSource)
-		return nil, _err
-	case TransactionIBluetoothHeadsetClccResponse:
-		_arg_index, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_direction, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_status, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_mode, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_mpty, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_number, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_type_, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_attributionSource content.AttributionSource
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_receiver any
-		_err = s.Impl.ClccResponse(ctx, _arg_index, _arg_direction, _arg_status, _arg_mode, _arg_mpty, _arg_number, _arg_type_, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetSetActiveDevice:
 		var _arg_device BluetoothDevice
 		{
@@ -1458,9 +1736,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.SetActiveDevice(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.SetActiveDevice(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetGetActiveDevice:
 		var _arg_attributionSource content.AttributionSource
 		{
@@ -1474,9 +1758,18 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetActiveDevice(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetActiveDevice(ctx, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
 	case TransactionIBluetoothHeadsetIsInbandRingingEnabled:
 		var _arg_attributionSource content.AttributionSource
 		{
@@ -1490,9 +1783,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.IsInbandRingingEnabled(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.IsInbandRingingEnabled(ctx, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetIsNoiseReductionSupported:
 		var _arg_device BluetoothDevice
 		{
@@ -1518,9 +1817,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.IsNoiseReductionSupported(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.IsNoiseReductionSupported(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothHeadsetIsVoiceRecognitionSupported:
 		var _arg_device BluetoothDevice
 		{
@@ -1546,9 +1851,15 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.IsVoiceRecognitionSupported(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.IsVoiceRecognitionSupported(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1558,33 +1869,30 @@ func (s *BluetoothHeadsetStub) OnTransaction(
 // provide to NewBluetoothHeadsetStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothHeadsetServer interface {
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver any) error
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	StartVoiceRecognition(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	StopVoiceRecognition(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	IsAudioConnected(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	SendVendorSpecificResultCode(ctx context.Context, device BluetoothDevice, command string, arg string, attributionSource content.AttributionSource, receiver any) error
-	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver any) error
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	GetAudioState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	IsAudioOn(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	ConnectAudio(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	DisconnectAudio(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	SetAudioRouteAllowed(ctx context.Context, allowed bool, attributionSource content.AttributionSource, receiver any) error
-	GetAudioRouteAllowed(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	SetForceScoAudio(ctx context.Context, forced bool, attributionSource content.AttributionSource, receiver any) error
-	StartScoUsingVirtualVoiceCall(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	StopScoUsingVirtualVoiceCall(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	PhoneStateChanged(ctx context.Context, numActive int32, numHeld int32, callState int32, number string, type_ int32, name string, attributionSource content.AttributionSource) error
-	ClccResponse(ctx context.Context, index int32, direction int32, status int32, mode int32, mpty bool, number string, type_ int32, attributionSource content.AttributionSource, receiver any) error
-	SetActiveDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	GetActiveDevice(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	IsInbandRingingEnabled(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	IsNoiseReductionSupported(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	IsVoiceRecognitionSupported(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	StartVoiceRecognition(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	StopVoiceRecognition(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	IsAudioConnected(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	SendVendorSpecificResultCode(ctx context.Context, device BluetoothDevice, command string, arg string, attributionSource content.AttributionSource) (bool, error)
+	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource) (bool, error)
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	GetAudioState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	ConnectAudio(ctx context.Context, attributionSource content.AttributionSource) (int32, error)
+	DisconnectAudio(ctx context.Context, attributionSource content.AttributionSource) (int32, error)
+	SetAudioRouteAllowed(ctx context.Context, allowed bool, attributionSource content.AttributionSource) error
+	GetAudioRouteAllowed(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
+	SetForceScoAudio(ctx context.Context, forced bool, attributionSource content.AttributionSource) error
+	StartScoUsingVirtualVoiceCall(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
+	StopScoUsingVirtualVoiceCall(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
+	SetActiveDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	GetActiveDevice(ctx context.Context, attributionSource content.AttributionSource) (BluetoothDevice, error)
+	IsInbandRingingEnabled(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
+	IsNoiseReductionSupported(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	IsVoiceRecognitionSupported(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
 }
 
 type bluetoothHeadsetStubWrapper struct {
@@ -1599,54 +1907,48 @@ func (w *bluetoothHeadsetStubWrapper) AsBinder() binder.IBinder {
 func (w *bluetoothHeadsetStubWrapper) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetConnectedDevices(ctx, attributionSource, receiver)
+) ([]BluetoothDevice, error) {
+	return w.impl.GetConnectedDevices(ctx, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource, receiver)
+) ([]BluetoothDevice, error) {
+	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetConnectionState(ctx, device, attributionSource, receiver)
+) (int32, error) {
+	return w.impl.GetConnectionState(ctx, device, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) StartVoiceRecognition(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.StartVoiceRecognition(ctx, device, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.StartVoiceRecognition(ctx, device, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) StopVoiceRecognition(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.StopVoiceRecognition(ctx, device, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.StopVoiceRecognition(ctx, device, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) IsAudioConnected(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.IsAudioConnected(ctx, device, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.IsAudioConnected(ctx, device, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) SendVendorSpecificResultCode(
@@ -1655,27 +1957,24 @@ func (w *bluetoothHeadsetStubWrapper) SendVendorSpecificResultCode(
 	command string,
 	arg string,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.SendVendorSpecificResultCode(ctx, device, command, arg, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.SendVendorSpecificResultCode(ctx, device, command, arg, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) Connect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.Connect(ctx, device, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.Connect(ctx, device, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) Disconnect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.Disconnect(ctx, device, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.Disconnect(ctx, device, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) SetConnectionPolicy(
@@ -1683,164 +1982,113 @@ func (w *bluetoothHeadsetStubWrapper) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetConnectionPolicy(ctx, device, attributionSource, receiver)
+) (int32, error) {
+	return w.impl.GetConnectionPolicy(ctx, device, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) GetAudioState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetAudioState(ctx, device, attributionSource, receiver)
-}
-
-func (w *bluetoothHeadsetStubWrapper) IsAudioOn(
-	ctx context.Context,
-	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.IsAudioOn(ctx, attributionSource, receiver)
+) (int32, error) {
+	return w.impl.GetAudioState(ctx, device, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) ConnectAudio(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.ConnectAudio(ctx, attributionSource, receiver)
+) (int32, error) {
+	return w.impl.ConnectAudio(ctx, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) DisconnectAudio(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.DisconnectAudio(ctx, attributionSource, receiver)
+) (int32, error) {
+	return w.impl.DisconnectAudio(ctx, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) SetAudioRouteAllowed(
 	ctx context.Context,
 	allowed bool,
 	attributionSource content.AttributionSource,
-	receiver any,
 ) error {
-	return w.impl.SetAudioRouteAllowed(ctx, allowed, attributionSource, receiver)
+	return w.impl.SetAudioRouteAllowed(ctx, allowed, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) GetAudioRouteAllowed(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetAudioRouteAllowed(ctx, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.GetAudioRouteAllowed(ctx, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) SetForceScoAudio(
 	ctx context.Context,
 	forced bool,
 	attributionSource content.AttributionSource,
-	receiver any,
 ) error {
-	return w.impl.SetForceScoAudio(ctx, forced, attributionSource, receiver)
+	return w.impl.SetForceScoAudio(ctx, forced, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) StartScoUsingVirtualVoiceCall(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.StartScoUsingVirtualVoiceCall(ctx, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.StartScoUsingVirtualVoiceCall(ctx, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) StopScoUsingVirtualVoiceCall(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.StopScoUsingVirtualVoiceCall(ctx, attributionSource, receiver)
-}
-
-func (w *bluetoothHeadsetStubWrapper) PhoneStateChanged(
-	ctx context.Context,
-	numActive int32,
-	numHeld int32,
-	callState int32,
-	number string,
-	type_ int32,
-	name string,
-	attributionSource content.AttributionSource,
-) error {
-	return w.impl.PhoneStateChanged(ctx, numActive, numHeld, callState, number, type_, name, attributionSource)
-}
-
-func (w *bluetoothHeadsetStubWrapper) ClccResponse(
-	ctx context.Context,
-	index int32,
-	direction int32,
-	status int32,
-	mode int32,
-	mpty bool,
-	number string,
-	type_ int32,
-	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.ClccResponse(ctx, index, direction, status, mode, mpty, number, type_, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.StopScoUsingVirtualVoiceCall(ctx, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) SetActiveDevice(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.SetActiveDevice(ctx, device, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.SetActiveDevice(ctx, device, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) GetActiveDevice(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetActiveDevice(ctx, attributionSource, receiver)
+) (BluetoothDevice, error) {
+	return w.impl.GetActiveDevice(ctx, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) IsInbandRingingEnabled(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.IsInbandRingingEnabled(ctx, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.IsInbandRingingEnabled(ctx, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) IsNoiseReductionSupported(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.IsNoiseReductionSupported(ctx, device, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.IsNoiseReductionSupported(ctx, device, attributionSource)
 }
 
 func (w *bluetoothHeadsetStubWrapper) IsVoiceRecognitionSupported(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.IsVoiceRecognitionSupported(ctx, device, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.IsVoiceRecognitionSupported(ctx, device, attributionSource)
 }
 
 var _ IBluetoothHeadset = (*bluetoothHeadsetStubWrapper)(nil)

@@ -29,6 +29,7 @@ func (s *NanInitiateDataPathRequest) MarshalParcel(
 	p.WriteInt32(int32(s.ChannelRequestType))
 	p.WriteInt32(s.Channel)
 	p.WriteString16(s.IfaceName)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.SecurityConfig.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -104,6 +105,9 @@ func (s *NanInitiateDataPathRequest) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.SecurityConfig.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

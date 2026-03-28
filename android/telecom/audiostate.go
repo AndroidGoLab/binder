@@ -16,7 +16,7 @@ var _ parcel.Parcelable = (*AudioState)(nil)
 func (s *AudioState) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null (byte)(isMuted?1:0)
+	p.WriteInt32(0) // placeholder (byte)(isMuted?1:0)
 	p.WriteInt32(s.Route)
 	p.WriteInt32(s.SupportedRouteMask)
 	return nil
@@ -26,14 +26,8 @@ func (s *AudioState) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(isMuted?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(isMuted?1:0)
+		return _err
 	}
 	s.Route, _err = p.ReadInt32()
 	if _err != nil {

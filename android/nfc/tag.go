@@ -17,7 +17,7 @@ var _ parcel.Parcelable = (*Tag)(nil)
 func (s *Tag) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0)  // null TechList.length
+	p.WriteInt32(0)  // placeholder TechList.length
 	p.WriteInt32(-1) // null TechList
 	p.WriteInt32(-1) // null TechExtras
 	p.WriteInt32(s.ServiceHandle)
@@ -31,33 +31,19 @@ func (s *Tag) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null TechList.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip TechList.length
+		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
+	return nil // opaque TechExtras: cannot skip without known wire format
 	s.ServiceHandle, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -70,14 +56,6 @@ func (s *Tag) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TagService.asBinder(): cannot skip without known wire format
 	return nil
 }

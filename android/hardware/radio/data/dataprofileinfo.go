@@ -71,6 +71,7 @@ func (s *DataProfileInfo) MarshalParcel(
 	p.WriteBool(s.Preferred)
 	p.WriteBool(s.Persistent)
 	p.WriteBool(s.AlwaysOn)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.TrafficDescriptor.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -286,6 +287,9 @@ func (s *DataProfileInfo) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.TrafficDescriptor.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

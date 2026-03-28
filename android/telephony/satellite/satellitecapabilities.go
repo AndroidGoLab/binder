@@ -16,7 +16,7 @@ var _ parcel.Parcelable = (*SatelliteCapabilities)(nil)
 func (s *SatelliteCapabilities) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null SupportedRadioTechnologies.size()
+	p.WriteInt32(0) // placeholder SupportedRadioTechnologies.size()
 	p.WriteBool(s.IsPointingRequired)
 	p.WriteInt32(s.MaxBytesPerOutgoingDatagram)
 	p.WriteInt32(0) // null Size
@@ -27,14 +27,8 @@ func (s *SatelliteCapabilities) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null SupportedRadioTechnologies.size(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip SupportedRadioTechnologies.size()
+		return _err
 	}
 	s.IsPointingRequired, _err = p.ReadBool()
 	if _err != nil {

@@ -822,8 +822,8 @@ parcelables:
           write_method: float32
     - name: BrightnessCorrection
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Implementation
+          write_method: delegate
     - name: BrightnessInfo
       java_wire_format:
         - name: Brightness
@@ -896,12 +896,12 @@ parcelables:
           write_method: string16
         - name: DeviceAlias
           write_method: string16
-        - name: IsAvailable?1:0
-          write_method: int32
-        - name: CanConnect?1:0
-          write_method: int32
-        - name: IsRemembered?1:0
-          write_method: int32
+        - name: IsAvailable
+          write_method: bool
+        - name: CanConnect
+          write_method: bool
+        - name: IsRemembered
+          write_method: bool
     - name: WifiDisplayStatus
       java_wire_format:
         - name: FeatureState
@@ -913,10 +913,10 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: mActiveDisplay!=null
-        - name: Dest
-          write_method: opaque
+        - name: ActiveDisplay
+          write_method: delegate
           condition: mActiveDisplay!=null
         - name: Displays.length
           write_method: int32
-        - name: Dest
-          write_method: opaque
+        - name: SessionInfo
+          write_method: delegate

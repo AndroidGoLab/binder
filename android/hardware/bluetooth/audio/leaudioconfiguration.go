@@ -33,6 +33,7 @@ func (s *LeAudioConfiguration) MarshalParcel(
 		}
 	}
 	p.WriteInt32(s.PeerDelayUs)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.LeAudioCodecConfig.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -98,6 +99,9 @@ func (s *LeAudioConfiguration) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.LeAudioCodecConfig.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

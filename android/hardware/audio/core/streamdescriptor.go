@@ -25,14 +25,17 @@ func (s *StreamDescriptor) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Command.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Reply.MarshalParcel(p); _err != nil {
 		return _err
 	}
 	p.WriteInt32(s.FrameSizeBytes)
 	p.WriteInt64(s.BufferSizeFrames)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Audio.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -54,6 +57,9 @@ func (s *StreamDescriptor) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Command.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -63,6 +69,9 @@ func (s *StreamDescriptor) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Reply.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -92,6 +101,9 @@ func (s *StreamDescriptor) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Audio.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

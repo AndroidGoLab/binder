@@ -1,6 +1,7 @@
 package net
 
 import (
+	types "github.com/AndroidGoLab/binder/android/content/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -10,6 +11,8 @@ type NetworkScorerAppData struct {
 	PackageUid                            int32
 	RecommendationServiceLabel            string
 	NetworkAvailableNotificationChannelId string
+	ComponentName                         types.ComponentName
+	ComponentName2                        types.ComponentName
 }
 
 var _ parcel.Parcelable = (*NetworkScorerAppData)(nil)
@@ -18,9 +21,13 @@ func (s *NetworkScorerAppData) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.PackageUid)
-	p.WriteInt32(-1) // null RecommendationService
+	if _err := s.ComponentName.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteString16(s.RecommendationServiceLabel)
-	p.WriteInt32(-1) // null EnableUseOpenWifiActivity
+	if _err := s.ComponentName2.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteString16(s.NetworkAvailableNotificationChannelId)
 	return nil
 }
@@ -33,27 +40,15 @@ func (s *NetworkScorerAppData) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.ComponentName.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	s.RecommendationServiceLabel, _err = p.ReadString16()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.ComponentName2.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	s.NetworkAvailableNotificationChannelId, _err = p.ReadString16()
 	if _err != nil {

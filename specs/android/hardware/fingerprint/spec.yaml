@@ -978,8 +978,8 @@ parcelables:
           write_method: opaque
     - name: FingerprintSensorPropertiesInternal
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: SensorType
           write_method: int32
         - name: HalControlsIllumination

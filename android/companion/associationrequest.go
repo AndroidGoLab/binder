@@ -37,15 +37,7 @@ func (s *AssociationRequest) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque DeviceFilters: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -55,15 +47,7 @@ func (s *AssociationRequest) UnmarshalParcel(
 			return nil // non-null DeviceProfile: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque DisplayName: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {

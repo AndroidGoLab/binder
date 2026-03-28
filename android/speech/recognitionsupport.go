@@ -24,41 +24,9 @@ func (s *RecognitionSupport) MarshalParcel(
 func (s *RecognitionSupport) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque InstalledOnDeviceLanguages: cannot skip without known wire format
+	return nil // opaque PendingOnDeviceLanguages: cannot skip without known wire format
+	return nil // opaque SupportedOnDeviceLanguages: cannot skip without known wire format
+	return nil // opaque OnlineLanguages: cannot skip without known wire format
 	return nil
 }

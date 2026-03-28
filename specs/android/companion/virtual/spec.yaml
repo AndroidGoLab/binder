@@ -704,8 +704,8 @@ parcelables:
           write_method: opaque
         - name: VirtualSensorConfigs
           write_method: opaque
-        - name: VirtualSensorCallback!=null?mVirtualSensorCallback.asBinder():null
-          write_method: binder
+        - name: VirtualSensorCallback!=null
+          write_method: bool
         - name: AudioPlaybackSessionId
           write_method: int32
         - name: AudioRecordingSessionId

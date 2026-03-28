@@ -19,9 +19,11 @@ func (s *EffectConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.InputCfg.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.OutputCfg.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -44,6 +46,9 @@ func (s *EffectConfig) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.InputCfg.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -53,6 +58,9 @@ func (s *EffectConfig) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.OutputCfg.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

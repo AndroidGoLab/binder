@@ -22,6 +22,7 @@ func (s *QosPolicyScsData) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WritePaddedByte(s.PolicyId)
 	p.WritePaddedByte(s.UserPriority)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.ClassifierParams.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -72,6 +73,9 @@ func (s *QosPolicyScsData) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.ClassifierParams.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

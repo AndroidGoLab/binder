@@ -14,20 +14,25 @@ var _ parcel.Parcelable = (*BluetoothCodecStatus)(nil)
 func (s *BluetoothCodecStatus) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
+	p.WriteInt32(0)  // null CodecConfig
+	p.WriteInt32(-1) // null CodecsLocalCapabilities
+	p.WriteInt32(-1) // null CodecsSelectableCapabilities
 	return nil
 }
 
 func (s *BluetoothCodecStatus) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null CodecConfig: cannot skip unknown-size typed object
+		}
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
+	return nil // opaque CodecsLocalCapabilities: cannot skip without known wire format
+	return nil // opaque CodecsSelectableCapabilities: cannot skip without known wire format
 	return nil
 }

@@ -14,21 +14,16 @@ var _ parcel.Parcelable = (*ParcelableGranteeMap)(nil)
 func (s *ParcelableGranteeMap) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null PackagesByUid.size()
+	p.WriteInt32(0) // placeholder PackagesByUid.size()
 	return nil
 }
 
 func (s *ParcelableGranteeMap) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null PackagesByUid.size(): cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil { // skip PackagesByUid.size()
+		return _err
 	}
 	return nil
 }

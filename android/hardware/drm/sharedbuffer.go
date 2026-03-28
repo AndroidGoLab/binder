@@ -23,6 +23,7 @@ func (s *SharedBuffer) MarshalParcel(
 	p.WriteInt32(s.BufferId)
 	p.WriteInt64(s.Offset)
 	p.WriteInt64(s.Size)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Handle.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -74,6 +75,9 @@ func (s *SharedBuffer) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Handle.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

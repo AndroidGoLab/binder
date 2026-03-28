@@ -9,6 +9,7 @@ import (
 type PresRlmiInfo struct {
 	Uri                          string
 	Version                      int32
+	FullState                    bool
 	ListName                     string
 	RequestId                    int32
 	SubscriptionExpireTime       int32
@@ -23,7 +24,7 @@ func (s *PresRlmiInfo) MarshalParcel(
 ) error {
 	p.WriteString16(s.Uri)
 	p.WriteInt32(s.Version)
-	p.WriteInt32(0) // null FullState?1:0
+	p.WriteBool(s.FullState)
 	p.WriteString16(s.ListName)
 	p.WriteInt32(s.RequestId)
 	if s.PresSubscriptionState != nil {
@@ -51,14 +52,9 @@ func (s *PresRlmiInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null FullState?1:0: cannot skip unknown-size typed object
-		}
+	s.FullState, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.ListName, _err = p.ReadString16()
 	if _err != nil {

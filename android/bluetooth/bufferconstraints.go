@@ -14,20 +14,13 @@ var _ parcel.Parcelable = (*BufferConstraints)(nil)
 func (s *BufferConstraints) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
+	p.WriteInt32(-1) // null BufferConstraintList
 	return nil
 }
 
 func (s *BufferConstraints) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
+	return nil // opaque BufferConstraintList: cannot skip without known wire format
 	return nil
 }

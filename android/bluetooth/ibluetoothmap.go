@@ -38,15 +38,15 @@ const (
 
 type IBluetoothMap interface {
 	AsBinder() binder.IBinder
-	GetState(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	GetClient(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	IsConnected(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver any) error
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver any) error
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetState(ctx context.Context, attributionSource content.AttributionSource) (int32, error)
+	GetClient(ctx context.Context, attributionSource content.AttributionSource) (BluetoothDevice, error)
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	IsConnected(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource) (bool, error)
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
 }
 
 type BluetoothMapProxy struct {
@@ -68,134 +68,231 @@ var _ IBluetoothMap = (*BluetoothMapProxy)(nil)
 func (p *BluetoothMapProxy) GetState(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (int32, error) {
+	var _result int32
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMap)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMap, MethodIBluetoothMapGetState)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapGetState, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapGetState, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothMapProxy) GetClient(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (BluetoothDevice, error) {
+	var _result BluetoothDevice
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMap)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMap, MethodIBluetoothMapGetClient)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapGetClient, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapGetClient, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
+	return _result, nil
 }
 
 func (p *BluetoothMapProxy) Disconnect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMap)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMap, MethodIBluetoothMapDisconnect)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapDisconnect, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapDisconnect, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothMapProxy) IsConnected(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMap)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMap, MethodIBluetoothMapIsConnected)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapIsConnected, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapIsConnected, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothMapProxy) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) ([]BluetoothDevice, error) {
+	var _result []BluetoothDevice
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMap)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMap, MethodIBluetoothMapGetConnectedDevices)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapGetConnectedDevices, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapGetConnectedDevices, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_count, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
+
+	if _count >= 0 {
+		_result = make([]BluetoothDevice, _count)
+		for _i := int32(0); _i < _count; _i++ {
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
+			}
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
+		}
+	}
+	return _result, nil
 }
 
 func (p *BluetoothMapProxy) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) ([]BluetoothDevice, error) {
+	var _result []BluetoothDevice
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMap)
@@ -209,45 +306,101 @@ func (p *BluetoothMapProxy) GetDevicesMatchingConnectionStates(
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMap, MethodIBluetoothMapGetDevicesMatchingConnectionStates)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapGetDevicesMatchingConnectionStates, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapGetDevicesMatchingConnectionStates, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_count, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
+
+	if _count >= 0 {
+		_result = make([]BluetoothDevice, _count)
+		for _i := int32(0); _i < _count; _i++ {
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
+			}
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
+		}
+	}
+	return _result, nil
 }
 
 func (p *BluetoothMapProxy) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (int32, error) {
+	var _result int32
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMap)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMap, MethodIBluetoothMapGetConnectionState)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapGetConnectionState, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapGetConnectionState, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothMapProxy) SetConnectionPolicy(
@@ -255,57 +408,81 @@ func (p *BluetoothMapProxy) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMap)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(connectionPolicy)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMap, MethodIBluetoothMapSetConnectionPolicy)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapSetConnectionPolicy, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapSetConnectionPolicy, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothMapProxy) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (int32, error) {
+	var _result int32
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMap)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMap, MethodIBluetoothMapGetConnectionPolicy)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapGetConnectionPolicy, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMap, MethodIBluetoothMapGetConnectionPolicy, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 // BluetoothMapStub dispatches incoming binder transactions
@@ -344,9 +521,15 @@ func (s *BluetoothMapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetState(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetState(ctx, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
 	case TransactionIBluetoothMapGetClient:
 		var _arg_attributionSource content.AttributionSource
 		{
@@ -360,9 +543,18 @@ func (s *BluetoothMapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetClient(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetClient(ctx, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
 	case TransactionIBluetoothMapDisconnect:
 		var _arg_device BluetoothDevice
 		{
@@ -388,9 +580,15 @@ func (s *BluetoothMapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.Disconnect(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.Disconnect(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothMapIsConnected:
 		var _arg_device BluetoothDevice
 		{
@@ -416,9 +614,15 @@ func (s *BluetoothMapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.IsConnected(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.IsConnected(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothMapGetConnectedDevices:
 		var _arg_attributionSource content.AttributionSource
 		{
@@ -432,9 +636,25 @@ func (s *BluetoothMapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		return _reply, nil
 	case TransactionIBluetoothMapGetDevicesMatchingConnectionStates:
 		var _arg_states []int32
 		{
@@ -467,9 +687,25 @@ func (s *BluetoothMapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		return _reply, nil
 	case TransactionIBluetoothMapGetConnectionState:
 		var _arg_device BluetoothDevice
 		{
@@ -495,9 +731,15 @@ func (s *BluetoothMapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
 	case TransactionIBluetoothMapSetConnectionPolicy:
 		var _arg_device BluetoothDevice
 		{
@@ -527,9 +769,15 @@ func (s *BluetoothMapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err = s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothMapGetConnectionPolicy:
 		var _arg_device BluetoothDevice
 		{
@@ -555,9 +803,15 @@ func (s *BluetoothMapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -567,15 +821,15 @@ func (s *BluetoothMapStub) OnTransaction(
 // provide to NewBluetoothMapStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothMapServer interface {
-	GetState(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	GetClient(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	IsConnected(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver any) error
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver any) error
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetState(ctx context.Context, attributionSource content.AttributionSource) (int32, error)
+	GetClient(ctx context.Context, attributionSource content.AttributionSource) (BluetoothDevice, error)
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	IsConnected(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource) (bool, error)
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
 }
 
 type bluetoothMapStubWrapper struct {
@@ -590,61 +844,54 @@ func (w *bluetoothMapStubWrapper) AsBinder() binder.IBinder {
 func (w *bluetoothMapStubWrapper) GetState(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetState(ctx, attributionSource, receiver)
+) (int32, error) {
+	return w.impl.GetState(ctx, attributionSource)
 }
 
 func (w *bluetoothMapStubWrapper) GetClient(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetClient(ctx, attributionSource, receiver)
+) (BluetoothDevice, error) {
+	return w.impl.GetClient(ctx, attributionSource)
 }
 
 func (w *bluetoothMapStubWrapper) Disconnect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.Disconnect(ctx, device, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.Disconnect(ctx, device, attributionSource)
 }
 
 func (w *bluetoothMapStubWrapper) IsConnected(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.IsConnected(ctx, device, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.IsConnected(ctx, device, attributionSource)
 }
 
 func (w *bluetoothMapStubWrapper) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetConnectedDevices(ctx, attributionSource, receiver)
+) ([]BluetoothDevice, error) {
+	return w.impl.GetConnectedDevices(ctx, attributionSource)
 }
 
 func (w *bluetoothMapStubWrapper) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource, receiver)
+) ([]BluetoothDevice, error) {
+	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource)
 }
 
 func (w *bluetoothMapStubWrapper) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetConnectionState(ctx, device, attributionSource, receiver)
+) (int32, error) {
+	return w.impl.GetConnectionState(ctx, device, attributionSource)
 }
 
 func (w *bluetoothMapStubWrapper) SetConnectionPolicy(
@@ -652,18 +899,16 @@ func (w *bluetoothMapStubWrapper) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource)
 }
 
 func (w *bluetoothMapStubWrapper) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetConnectionPolicy(ctx, device, attributionSource, receiver)
+) (int32, error) {
+	return w.impl.GetConnectionPolicy(ctx, device, attributionSource)
 }
 
 var _ IBluetoothMap = (*bluetoothMapStubWrapper)(nil)

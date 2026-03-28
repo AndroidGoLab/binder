@@ -32,10 +32,10 @@ func (s *TvRecordingInfo) MarshalParcel(
 	p.WriteString16(s.Description)
 	p.WriteInt64(s.ScheduledStartTimeMillis)
 	p.WriteInt64(s.ScheduledDurationMillis)
-	p.WriteInt32(0)  // null ChannelUri==null?null:mChannelUri.toString()
-	p.WriteInt32(0)  // null ProgramUri==null?null:mProgramUri.toString()
-	p.WriteInt32(-1) // null ContentRatings
-	p.WriteInt32(0)  // null RecordingUri==null?null:mProgramUri.toString()
+	p.WriteBool(false) // placeholder ChannelUri==null
+	p.WriteBool(false) // placeholder ProgramUri==null
+	p.WriteInt32(-1)   // null ContentRatings
+	p.WriteBool(false) // placeholder RecordingUri==null
 	p.WriteInt64(s.RecordingDurationMillis)
 	p.WriteInt64(s.RecordingStartTimeMillis)
 	return nil
@@ -77,41 +77,15 @@ func (s *TvRecordingInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null ChannelUri==null?null:mChannelUri.toString(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip ChannelUri==null
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null ProgramUri==null?null:mProgramUri.toString(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip ProgramUri==null
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null RecordingUri==null?null:mProgramUri.toString(): cannot skip unknown-size typed object
-		}
+	return nil                               // opaque ContentRatings: cannot skip without known wire format
+	if _, _err = p.ReadBool(); _err != nil { // skip RecordingUri==null
+		return _err
 	}
 	s.RecordingDurationMillis, _err = p.ReadInt64()
 	if _err != nil {

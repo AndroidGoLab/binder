@@ -23,24 +23,8 @@ func (s *InlinePresentationSpec) MarshalParcel(
 func (s *InlinePresentationSpec) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque MinSize: cannot skip without known wire format
+	return nil // opaque MaxSize: cannot skip without known wire format
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {

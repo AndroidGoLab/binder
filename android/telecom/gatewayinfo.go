@@ -1,6 +1,7 @@
 package telecom
 
 import (
+	net "github.com/AndroidGoLab/binder/android/net"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -8,6 +9,8 @@ import (
 
 type GatewayInfo struct {
 	GatewayProviderPackageName string
+	Uri                        net.Uri
+	Uri2                       net.Uri
 }
 
 var _ parcel.Parcelable = (*GatewayInfo)(nil)
@@ -16,8 +19,12 @@ func (s *GatewayInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.GatewayProviderPackageName)
-	p.WriteInt32(-1) // null Destination
-	p.WriteInt32(-1) // null Destination
+	if _err := s.Uri.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.Uri2.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	return nil
 }
 
@@ -29,23 +36,11 @@ func (s *GatewayInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.Uri.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.Uri2.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	return nil
 }

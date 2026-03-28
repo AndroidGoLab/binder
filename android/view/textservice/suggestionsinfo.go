@@ -10,6 +10,7 @@ type SuggestionsInfo struct {
 	SuggestionsAttributes int32
 	Cookie                int32
 	Sequence              int32
+	SuggestionsAvailable  bool
 }
 
 var _ parcel.Parcelable = (*SuggestionsInfo)(nil)
@@ -21,7 +22,7 @@ func (s *SuggestionsInfo) MarshalParcel(
 	p.WriteInt32(-1) // null Suggestions
 	p.WriteInt32(s.Cookie)
 	p.WriteInt32(s.Sequence)
-	p.WriteInt32(0) // null SuggestionsAvailable?1:0
+	p.WriteBool(s.SuggestionsAvailable)
 	return nil
 }
 
@@ -34,12 +35,14 @@ func (s *SuggestionsInfo) UnmarshalParcel(
 		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		for _j := int32(0); _j < _arrLen; _j++ {
+			if _, _arrErr = p.ReadString16(); _arrErr != nil {
+				return _arrErr
+			}
 		}
 	}
 	s.Cookie, _err = p.ReadInt32()
@@ -50,14 +53,9 @@ func (s *SuggestionsInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null SuggestionsAvailable?1:0: cannot skip unknown-size typed object
-		}
+	s.SuggestionsAvailable, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	return nil
 }

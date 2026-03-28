@@ -301,6 +301,21 @@ func (l *parcelableListener) extractFieldFromExpression(
 	}
 
 	methodName := id.GetText()
+
+	// Delegation: mFoo.writeToParcel(dest, flags) means the field mFoo
+	// is itself a Parcelable whose wire format is written inline (no
+	// nullable wrapper). Unlike writeTypedObject which adds a non-null
+	// int32 marker, delegation writes the inner data directly.
+	if methodName == "writeToParcel" {
+		receiverText := memberRef.Expression().GetText()
+		fieldName := deriveFieldName(receiverText)
+		return &FieldSpec{
+			Name:      fieldName,
+			Type:      "delegate",
+			Condition: condition,
+		}
+	}
+
 	specType, known := javaWriteMethodToSpecType[methodName]
 	if !known {
 		// Unknown write method; treat as opaque if it starts with "write".
@@ -327,6 +342,17 @@ func (l *parcelableListener) extractFieldFromExpression(
 	}
 
 	argText := allExprs[0].GetText()
+
+	// Handle ternary: dest.writeInt(mFoo ? 1 : 0) → field name "Foo", type bool.
+	if ternary, ok := allExprs[0].(*javaparser.TernaryExpressionContext); ok {
+		condText := ternary.Expression(0).GetText()
+		return &FieldSpec{
+			Name:      deriveFieldName(condText),
+			Type:      "bool",
+			Condition: condition,
+		}
+	}
+
 	fieldName := deriveFieldName(argText)
 
 	return &FieldSpec{

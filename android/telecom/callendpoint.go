@@ -17,7 +17,7 @@ func (s *CallEndpoint) MarshalParcel(
 ) error {
 	p.WriteInt32(-1) // null Name
 	p.WriteInt32(s.Type)
-	p.WriteInt32(-1) // null Destination
+	p.WriteInt32(-1) // null Identifier
 	return nil
 }
 
@@ -25,27 +25,11 @@ func (s *CallEndpoint) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Name: cannot skip without known wire format
 	s.Type, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Identifier: cannot skip without known wire format
 	return nil
 }

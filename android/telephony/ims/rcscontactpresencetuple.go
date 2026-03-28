@@ -18,8 +18,8 @@ var _ parcel.Parcelable = (*RcsContactPresenceTuple)(nil)
 func (s *RcsContactPresenceTuple) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null ContactUri
-	p.WriteInt32(0) // null ConvertInstantToStringFormat(mTimestamp)
+	p.WriteInt32(0)     // null ContactUri
+	p.WriteString16("") // placeholder ConvertInstantToStringFormat(mTimestamp)
 	p.WriteString16(s.Status)
 	p.WriteString16(s.ServiceId)
 	p.WriteString16(s.ServiceVersion)
@@ -41,14 +41,8 @@ func (s *RcsContactPresenceTuple) UnmarshalParcel(
 			return nil // non-null ContactUri: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null ConvertInstantToStringFormat(mTimestamp): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString16(); _err != nil { // skip ConvertInstantToStringFormat(mTimestamp)
+		return _err
 	}
 	s.Status, _err = p.ReadString16()
 	if _err != nil {

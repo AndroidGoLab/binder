@@ -5,6 +5,7 @@ package e2e
 import (
 	"context"
 	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -17,7 +18,9 @@ import (
 	genInput "github.com/AndroidGoLab/binder/android/hardware/input"
 	genLocation "github.com/AndroidGoLab/binder/android/location"
 	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/binder/versionaware"
 	genTelephony "github.com/AndroidGoLab/binder/com/android/internal_/telephony"
+	"github.com/AndroidGoLab/binder/kernelbinder"
 	"github.com/AndroidGoLab/binder/parcel"
 	"github.com/AndroidGoLab/binder/servicemanager"
 )
@@ -407,12 +410,26 @@ func TestParcelableStress_NotificationManager_GetActiveNotifications(t *testing.
 // ---------------------------------------------------------------------------
 
 func TestParcelableStress_NotificationManager_GetZenModeConfig(t *testing.T) {
-	// ZenModeConfig is defined in android.service.notification but referenced
-	// from android.app.INotificationManager. These packages form an import
-	// cycle in the AIDL spec, so the codegen correctly uses interface{} to
-	// break the cycle (Go does not allow circular imports). The proxy call
-	// works but cannot deserialize the response into a typed struct.
-	t.Skip("known import cycle: android.app ↔ android.service.notification — returns interface{} by design")
+	ctx := context.Background()
+	driver := openBinder(t)
+	svc := getService(ctx, t, driver, "notification")
+
+	// The proxy returns serviceNotification.ZenModeConfig (a typed struct).
+	// There is no import cycle: android/app imports android/service/notification
+	// but not vice versa (android/service/notification only imports
+	// android/app/types, a leaf package).
+	proxy := genApp.NewNotificationManagerProxy(svc)
+	result, err := proxy.GetZenModeConfig(ctx)
+	// Server-side NPE on some ROMs (e.g. GrapheneOS) when the service
+	// tries to serialize a ZenModeConfig that contains a null Bundle
+	// internally (e.g. inside a ZenRule). This is an Android server bug,
+	// not a library bug — getZenModeConfig() takes no parameters.
+	if err != nil && strings.Contains(err.Error(), "exception NullPointer") {
+		t.Skipf("server-side NPE (not a library bug): %v", err)
+	}
+	requireOrSkip(t, err)
+
+	t.Logf("getZenModeConfig: %+v", result)
 }
 
 // ---------------------------------------------------------------------------
@@ -570,8 +587,17 @@ func TestParcelableStress_InputManager_GetLights(t *testing.T) {
 
 func TestParcelableStress_PackageManager_GetPackageInfoWithActivities(t *testing.T) {
 	ctx := context.Background()
-	driver := openBinder(t)
-	svc := getService(ctx, t, driver, "package")
+	// The reply for getPackageInfo with all component flags can exceed
+	// 128KB. Use 4MB mmap to hold the full response.
+	drv, err := kernelbinder.Open(ctx, binder.WithMapSize(4*1024*1024))
+	require.NoError(t, err, "failed to open /dev/binder")
+	transport, err := versionaware.NewTransport(ctx, drv, 0)
+	require.NoError(t, err, "failed to create transport")
+	t.Cleanup(func() {
+		_ = transport.Close(ctx)
+		_ = drv.Close(ctx)
+	})
+	svc := getService(ctx, t, transport, "package")
 
 	// GET_ACTIVITIES = 0x00000001, GET_SERVICES = 0x00000004,
 	// GET_RECEIVERS = 0x00000002, GET_PROVIDERS = 0x00000008

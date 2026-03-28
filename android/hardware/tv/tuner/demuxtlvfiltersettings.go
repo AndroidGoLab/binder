@@ -20,6 +20,7 @@ func (s *DemuxTlvFilterSettings) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.PacketType)
 	p.WriteBool(s.IsCompressedIpPacket)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.FilterSettings.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -61,6 +62,9 @@ func (s *DemuxTlvFilterSettings) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.FilterSettings.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

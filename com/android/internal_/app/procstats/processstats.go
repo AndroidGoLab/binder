@@ -30,6 +30,7 @@ type ProcessStats struct {
 	ExternalSlowPssCount    int64
 	ExternalSlowPssTime     int64
 	Runtime                 string
+	HasSwappedOutPss        bool
 	Flags                   int32
 	NumOfUids               int32
 	NPROC                   int32
@@ -48,7 +49,7 @@ func (s *ProcessStats) MarshalParcel(
 	p.WriteInt32(s.AdjCount)
 	p.WriteInt32(s.PssCount)
 	p.WriteInt32(s.SysMemUsageCount)
-	p.WriteInt32(0) // null SparseMappingTable.ARRAY_SIZE
+	p.WriteInt32(0) // placeholder SparseMappingTable.ARRAY_SIZE
 	p.WriteInt32(s.NumAggregated)
 	p.WriteInt64(s.TimePeriodStartClock)
 	p.WriteInt64(s.TimePeriodStartRealtime)
@@ -66,10 +67,10 @@ func (s *ProcessStats) MarshalParcel(
 	p.WriteInt64(s.ExternalSlowPssCount)
 	p.WriteInt64(s.ExternalSlowPssTime)
 	p.WriteString16(s.Runtime)
-	p.WriteInt32(0) // null HasSwappedOutPss?1:0
+	p.WriteBool(s.HasSwappedOutPss)
 	p.WriteInt32(s.Flags)
-	p.WriteInt32(-1) // null Out
-	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null TableData
+	p.WriteInt32(-1) // null SysMemUsage
 	p.WriteInt32(s.NumOfUids)
 	p.WriteInt32(s.NPROC)
 	p.WriteInt32(s.NPKG)
@@ -105,14 +106,8 @@ func (s *ProcessStats) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null SparseMappingTable.ARRAY_SIZE: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip SparseMappingTable.ARRAY_SIZE
+		return _err
 	}
 	s.NumAggregated, _err = p.ReadInt32()
 	if _err != nil {
@@ -182,37 +177,16 @@ func (s *ProcessStats) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null HasSwappedOutPss?1:0: cannot skip unknown-size typed object
-		}
+	s.HasSwappedOutPss, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.Flags, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TableData: cannot skip without known wire format
+	return nil // opaque SysMemUsage: cannot skip without known wire format
 	s.NumOfUids, _err = p.ReadInt32()
 	if _err != nil {
 		return _err

@@ -42,12 +42,15 @@ func (s *WifiDebugHostWakeReasonStats) MarshalParcel(
 		}
 	}
 	p.WriteInt32(s.TotalRxPacketWakeCnt)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.RxPktWakeDetails.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.RxMulticastPkWakeDetails.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.RxIcmpPkWakeDetails.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -139,6 +142,9 @@ func (s *WifiDebugHostWakeReasonStats) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.RxPktWakeDetails.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -148,6 +154,9 @@ func (s *WifiDebugHostWakeReasonStats) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.RxMulticastPkWakeDetails.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -157,6 +166,9 @@ func (s *WifiDebugHostWakeReasonStats) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.RxIcmpPkWakeDetails.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

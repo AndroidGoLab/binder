@@ -40,7 +40,7 @@ parcelables:
     - name: TimeCapabilities
       java_wire_format:
         - name: UserHandle
-          write_method: opaque
+          write_method: delegate
         - name: ConfigureAutoDetectionEnabledCapability
           write_method: int32
         - name: SetManualTimeCapability
@@ -64,7 +64,7 @@ parcelables:
     - name: TimeZoneCapabilities
       java_wire_format:
         - name: UserHandle
-          write_method: opaque
+          write_method: delegate
         - name: ConfigureAutoDetectionEnabledCapability
           write_method: int32
         - name: UseLocationEnabled

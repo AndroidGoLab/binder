@@ -21,15 +21,19 @@ func (s *Smpte2086) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.PrimaryRed.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.PrimaryGreen.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.PrimaryBlue.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.WhitePoint.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -53,6 +57,9 @@ func (s *Smpte2086) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.PrimaryRed.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -62,6 +69,9 @@ func (s *Smpte2086) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.PrimaryGreen.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -71,6 +81,9 @@ func (s *Smpte2086) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.PrimaryBlue.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -80,6 +93,9 @@ func (s *Smpte2086) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.WhitePoint.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

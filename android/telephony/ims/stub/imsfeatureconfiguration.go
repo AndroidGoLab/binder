@@ -14,21 +14,16 @@ var _ parcel.Parcelable = (*ImsFeatureConfiguration)(nil)
 func (s *ImsFeatureConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null FeatureSlotPairs.length
+	p.WriteInt32(0) // placeholder FeatureSlotPairs.length
 	return nil
 }
 
 func (s *ImsFeatureConfiguration) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null FeatureSlotPairs.length: cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil { // skip FeatureSlotPairs.length
+		return _err
 	}
 	return nil
 }

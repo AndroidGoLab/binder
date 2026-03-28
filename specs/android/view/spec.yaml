@@ -3612,8 +3612,8 @@ parcelables:
           write_method: float32
         - name: OffsetY
           write_method: float32
-        - name: DragResult?1:0
-          write_method: int32
+        - name: DragResult
+          write_method: bool
         - name: "0"
           write_method: int32
           condition: mClipData==null
@@ -3629,8 +3629,8 @@ parcelables:
     - name: InputChannel
     - name: InputDevice
       java_wire_format:
-        - name: Out
-          write_method: opaque
+        - name: KeyCharacterMap
+          write_method: delegate
         - name: Id
           write_method: int32
         - name: Generation
@@ -3647,8 +3647,8 @@ parcelables:
           write_method: int32
         - name: Descriptor
           write_method: string16
-        - name: IsExternal?1:0
-          write_method: int32
+        - name: IsExternal
+          write_method: bool
         - name: Sources
           write_method: int32
         - name: KeyboardType
@@ -3657,18 +3657,18 @@ parcelables:
           write_method: string8
         - name: KeyboardLayoutType
           write_method: string8
-        - name: HasVibrator?1:0
-          write_method: int32
-        - name: HasMicrophone?1:0
-          write_method: int32
-        - name: HasButtonUnderPad?1:0
-          write_method: int32
-        - name: HasSensor?1:0
-          write_method: int32
-        - name: HasBattery?1:0
-          write_method: int32
-        - name: Out
-          write_method: opaque
+        - name: HasVibrator
+          write_method: bool
+        - name: HasMicrophone
+          write_method: bool
+        - name: HasButtonUnderPad
+          write_method: bool
+        - name: HasSensor
+          write_method: bool
+        - name: HasBattery
+          write_method: bool
+        - name: HostUsiVersion
+          write_method: delegate
         - name: AssociatedDisplayId
           write_method: int32
         - name: NumRanges
@@ -3703,14 +3703,14 @@ parcelables:
     - name: InsetsSourceControl.Array
     - name: InsetsState
       java_wire_format:
-        - name: Dest
-          write_method: opaque
-        - name: Dest
-          write_method: opaque
+        - name: DisplayFrame
+          write_method: delegate
+        - name: DisplayCutout
+          write_method: delegate
         - name: RoundedCorners
           write_method: typed_object
-        - name: Dest
-          write_method: opaque
+        - name: RoundedCornerFrame
+          write_method: delegate
         - name: PrivacyIndicatorBounds
           write_method: typed_object
         - name: DisplayShape
@@ -3768,8 +3768,8 @@ parcelables:
       java_wire_format:
         - name: Type
           write_method: int32
-        - name: Out
-          write_method: opaque
+        - name: Bitmap
+          write_method: delegate
         - name: HotSpotX
           write_method: float32
         - name: HotSpotY
@@ -3904,8 +3904,8 @@ parcelables:
           write_method: int32
     - name: VerifiedKeyEvent
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: Action
           write_method: int32
         - name: DownTimeNanos
@@ -3922,8 +3922,8 @@ parcelables:
           write_method: int32
     - name: VerifiedMotionEvent
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: RawX
           write_method: float32
         - name: RawY
@@ -3970,18 +3970,18 @@ parcelables:
           write_method: binder
         - name: ActivityToken
           write_method: binder
-        - name: Focused?1:0
-          write_method: int32
-        - name: Parcel
-          write_method: opaque
+        - name: Focused
+          write_method: bool
+        - name: RegionInScreen
+          write_method: delegate
         - name: Title
           write_method: opaque
         - name: AccessibilityIdOfAnchor
           write_method: int64
-        - name: InPictureInPicture?1:0
-          write_method: int32
-        - name: HasFlagWatchOutsideTouch?1:0
-          write_method: int32
+        - name: InPictureInPicture
+          write_method: bool
+        - name: HasFlagWatchOutsideTouch
+          write_method: bool
         - name: TransformMatrix
           write_method: float_array
         - name: "1"
@@ -3990,8 +3990,8 @@ parcelables:
         - name: ChildTokens
           write_method: opaque
           condition: childTokens!=null&&!childTokens.isEmpty()
-        - name: Parcel
-          write_method: opaque
+        - name: MagnificationSpec
+          write_method: delegate
         - name: Locales
           write_method: typed_object
     - name: WindowManager.LayoutParams

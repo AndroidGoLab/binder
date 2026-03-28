@@ -164,24 +164,24 @@ parcelables:
         - name: Zone
           write_method: opaque
           condition: mZone!=null
-        - name: Dest
-          write_method: opaque
+        - name: AppIntent
+          write_method: delegate
         - name: (byte)1
           write_method: int32
           condition: mCustomIcon!=null
-        - name: Dest
-          write_method: opaque
+        - name: CustomIcon
+          write_method: delegate
           condition: mCustomIcon!=null
         - name: (byte)1
           write_method: int32
           condition: mCustomColor!=null
-        - name: Dest
-          write_method: opaque
+        - name: CustomColor
+          write_method: delegate
           condition: mCustomColor!=null
         - name: Status
           write_method: int32
-        - name: Dest
-          write_method: opaque
+        - name: NewControlTemplateWrapper(mControlTemplate)
+          write_method: delegate
         - name: StatusText
           write_method: opaque
         - name: AuthRequired

@@ -22,17 +22,17 @@ func (s *Control) MarshalParcel(
 	p.WriteInt32(s.DeviceType)
 	p.WriteInt32(-1) // null Title
 	p.WriteInt32(-1) // null Subtitle
-	p.WriteInt32(0)  // null (byte)1
+	p.WriteInt32(0)  // placeholder (byte)1
 	p.WriteInt32(-1) // null Structure
-	p.WriteInt32(0)  // null (byte)1
+	p.WriteInt32(0)  // placeholder (byte)1
 	p.WriteInt32(-1) // null Zone
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(0)  // null (byte)1
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(0)  // null (byte)1
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null AppIntent
+	p.WriteInt32(0)  // placeholder (byte)1
+	p.WriteInt32(-1) // null CustomIcon
+	p.WriteInt32(0)  // placeholder (byte)1
+	p.WriteInt32(-1) // null CustomColor
 	p.WriteInt32(s.Status)
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null NewControlTemplateWrapper(mControlTemplate)
 	p.WriteInt32(-1) // null StatusText
 	p.WriteBool(s.AuthRequired)
 	return nil
@@ -50,127 +50,31 @@ func (s *Control) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	return nil                                // opaque Title: cannot skip without known wire format
+	return nil                                // opaque Subtitle: cannot skip without known wire format
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	return nil                                // opaque Structure: cannot skip without known wire format
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
+	return nil                                // opaque Zone: cannot skip without known wire format
+	return nil                                // opaque AppIntent: cannot skip without known wire format
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	return nil                                // opaque CustomIcon: cannot skip without known wire format
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque CustomColor: cannot skip without known wire format
 	s.Status, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque NewControlTemplateWrapper(mControlTemplate): cannot skip without known wire format
+	return nil // opaque StatusText: cannot skip without known wire format
 	s.AuthRequired, _err = p.ReadBool()
 	if _err != nil {
 		return _err

@@ -27,6 +27,7 @@ func (s *DisplayMode) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Id)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Resolution.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -74,6 +75,9 @@ func (s *DisplayMode) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Resolution.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

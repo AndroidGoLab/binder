@@ -2377,11 +2377,28 @@ func (p *TelephonyProxy) GetNeighboringCellInfo(
 	if _count >= 0 {
 		_result = make([]androidTelephony.NeighboringCellInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
 			}
 		}
 	}
@@ -3684,11 +3701,28 @@ func (p *TelephonyProxy) GetAllCellInfo(
 	if _count >= 0 {
 		_result = make([]androidTelephony.CellInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
 			}
 		}
 	}
@@ -7095,11 +7129,28 @@ func (p *TelephonyProxy) GetTelephonyHistograms(
 	if _count >= 0 {
 		_result = make([]androidTelephony.TelephonyHistogram, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
 			}
 		}
 	}
@@ -7589,11 +7640,28 @@ func (p *TelephonyProxy) GetClientRequestStats(
 	if _count >= 0 {
 		_result = make([]androidTelephony.ClientRequestStats, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
 			}
 		}
 	}
@@ -7895,11 +7963,28 @@ func (p *TelephonyProxy) GetUiccCardsInfo(
 	if _count >= 0 {
 		_result = make([]androidTelephony.UiccCardInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
 			}
 		}
 	}
@@ -7942,11 +8027,28 @@ func (p *TelephonyProxy) GetUiccSlotsInfo(
 	if _count >= 0 {
 		_result = make([]androidTelephony.UiccSlotInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
 			}
 		}
 	}
@@ -10273,11 +10375,28 @@ func (p *TelephonyProxy) GetSlotsMapping(
 	if _count >= 0 {
 		_result = make([]androidTelephony.UiccSlotMapping, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
 			}
 		}
 	}
@@ -10583,11 +10702,28 @@ func (p *TelephonyProxy) GetSystemSelectionChannels(
 	if _count >= 0 {
 		_result = make([]androidTelephony.RadioAccessSpecifier, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
 			}
 		}
 	}
@@ -13182,11 +13318,28 @@ func (p *TelephonyProxy) GetCellBroadcastIdRanges(
 	if _count >= 0 {
 		_result = make([]androidTelephony.CellBroadcastIdRange, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
 			}
 		}
 	}

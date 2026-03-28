@@ -1675,8 +1675,8 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: channel!=null
-        - name: Dest
-          write_method: opaque
+        - name: Channel
+          write_method: delegate
           condition: channel!=null
         - name: Id
           write_method: string16

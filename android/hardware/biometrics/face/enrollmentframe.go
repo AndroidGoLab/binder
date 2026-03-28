@@ -27,6 +27,7 @@ func (s *EnrollmentFrame) MarshalParcel(
 		}
 	}
 	p.WritePaddedByte(byte(s.Stage))
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Data.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -78,6 +79,9 @@ func (s *EnrollmentFrame) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Data.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

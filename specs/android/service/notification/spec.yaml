@@ -444,10 +444,10 @@ parcelables:
           write_method: int32
         - name: This.initialPid
           write_method: int32
-        - name: Out
-          write_method: opaque
-        - name: Out
-          write_method: opaque
+        - name: This.notification
+          write_method: delegate
+        - name: User
+          write_method: delegate
         - name: This.postTime
           write_method: int64
         - name: "1"
@@ -459,21 +459,21 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: this.mInstanceId!=null
-        - name: Out
-          write_method: opaque
+        - name: InstanceId
+          write_method: delegate
           condition: this.mInstanceId!=null
     - name: ZenModeConfig
       java_wire_format:
-        - name: AllowCalls?1:0
-          write_method: int32
-        - name: AllowRepeatCallers?1:0
-          write_method: int32
-        - name: AllowMessages?1:0
-          write_method: int32
-        - name: AllowReminders?1:0
-          write_method: int32
-        - name: AllowEvents?1:0
-          write_method: int32
+        - name: AllowCalls
+          write_method: bool
+        - name: AllowRepeatCallers
+          write_method: bool
+        - name: AllowMessages
+          write_method: bool
+        - name: AllowReminders
+          write_method: bool
+        - name: AllowEvents
+          write_method: bool
         - name: AllowCallsFrom
           write_method: int32
         - name: AllowMessagesFrom
@@ -482,16 +482,16 @@ parcelables:
           write_method: int32
         - name: ManualRule
           write_method: typed_object
-        - name: AllowAlarms?1:0
-          write_method: int32
-        - name: AllowMedia?1:0
-          write_method: int32
-        - name: AllowSystem?1:0
-          write_method: int32
+        - name: AllowAlarms
+          write_method: bool
+        - name: AllowMedia
+          write_method: bool
+        - name: AllowSystem
+          write_method: bool
         - name: SuppressedVisualEffects
           write_method: int32
-        - name: AreChannelsBypassingDnd?1:0
-          write_method: int32
+        - name: AreChannelsBypassingDnd
+          write_method: bool
         - name: AllowConversations
           write_method: bool
         - name: AllowConversationsFrom

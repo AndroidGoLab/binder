@@ -69,12 +69,15 @@ func (s *QosFilter) MarshalParcel(
 		}
 	}
 	p.WritePaddedByte(s.Protocol)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Tos.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.FlowLabel.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Spi.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -186,6 +189,9 @@ func (s *QosFilter) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Tos.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -195,6 +201,9 @@ func (s *QosFilter) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.FlowLabel.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -204,6 +213,9 @@ func (s *QosFilter) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Spi.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

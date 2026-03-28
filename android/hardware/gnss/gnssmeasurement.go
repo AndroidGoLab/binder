@@ -81,6 +81,7 @@ func (s *GnssMeasurement) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Flags)
 	p.WriteInt32(s.Svid)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.SignalType.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -105,6 +106,7 @@ func (s *GnssMeasurement) MarshalParcel(
 	p.WriteFloat64(s.FullInterSignalBiasUncertaintyNs)
 	p.WriteFloat64(s.SatelliteInterSignalBiasNs)
 	p.WriteFloat64(s.SatelliteInterSignalBiasUncertaintyNs)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.SatellitePvt.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -157,6 +159,9 @@ func (s *GnssMeasurement) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.SignalType.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -377,6 +382,9 @@ func (s *GnssMeasurement) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.SatellitePvt.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

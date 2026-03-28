@@ -16,7 +16,7 @@ func (s *PhysicalCaptureResultInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.CameraId)
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null CameraMetadata
 	return nil
 }
 
@@ -28,14 +28,6 @@ func (s *PhysicalCaptureResultInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque CameraMetadata: cannot skip without known wire format
 	return nil
 }

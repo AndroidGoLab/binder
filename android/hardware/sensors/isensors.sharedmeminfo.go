@@ -23,6 +23,7 @@ func (s *ISensorsSharedMemInfo) MarshalParcel(
 	p.WriteInt32(int32(s.Type))
 	p.WriteInt32(int32(s.Format))
 	p.WriteInt32(s.Size)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.MemoryHandle.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -76,6 +77,9 @@ func (s *ISensorsSharedMemInfo) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.MemoryHandle.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

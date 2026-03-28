@@ -22,11 +22,13 @@ func (s *FrontendIptvSettings) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(int32(s.Protocol))
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Fec.MarshalParcel(p); _err != nil {
 		return _err
 	}
 	p.WriteInt32(int32(s.Igmp))
 	p.WriteInt64(s.Bitrate)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.IpAddr.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -60,6 +62,9 @@ func (s *FrontendIptvSettings) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Fec.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -90,6 +95,9 @@ func (s *FrontendIptvSettings) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.IpAddr.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

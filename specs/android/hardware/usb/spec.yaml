@@ -1032,16 +1032,16 @@ parcelables:
           write_method: binder
         - name: Configurations
           write_method: opaque
-        - name: HasAudioPlayback?1:0
-          write_method: int32
-        - name: HasAudioCapture?1:0
-          write_method: int32
-        - name: HasMidi?1:0
-          write_method: int32
-        - name: HasVideoPlayback?1:0
-          write_method: int32
-        - name: HasVideoCapture?1:0
-          write_method: int32
+        - name: HasAudioPlayback
+          write_method: bool
+        - name: HasAudioCapture
+          write_method: bool
+        - name: HasMidi
+          write_method: bool
+        - name: HasVideoPlayback
+          write_method: bool
+        - name: HasVideoCapture
+          write_method: bool
     - name: UsbEndpoint
       java_wire_format:
         - name: Address

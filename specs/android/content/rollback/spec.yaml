@@ -89,10 +89,10 @@ interfaces:
 parcelables:
     - name: PackageRollbackInfo
       java_wire_format:
-        - name: Out
-          write_method: opaque
-        - name: Out
-          write_method: opaque
+        - name: VersionRolledBackFrom
+          write_method: delegate
+        - name: VersionRolledBackTo
+          write_method: delegate
         - name: IsApex
           write_method: bool
         - name: IsApkInApex

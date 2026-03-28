@@ -8,6 +8,7 @@ import (
 
 type CellInfo struct {
 	Type                 int32
+	Registered           bool
 	TimeStamp            int64
 	CellConnectionStatus int32
 }
@@ -18,7 +19,7 @@ func (s *CellInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Type)
-	p.WriteInt32(0) // null Registered?1:0
+	p.WriteBool(s.Registered)
 	p.WriteInt64(s.TimeStamp)
 	p.WriteInt32(s.CellConnectionStatus)
 	return nil
@@ -32,14 +33,9 @@ func (s *CellInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Registered?1:0: cannot skip unknown-size typed object
-		}
+	s.Registered, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.TimeStamp, _err = p.ReadInt64()
 	if _err != nil {

@@ -46,12 +46,12 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: mIcon!=null
-        - name: Dest
-          write_method: opaque
+        - name: Icon
+          write_method: delegate
           condition: mIcon!=null
         - name: Score
           write_method: float32
         - name: ComponentName
-          write_method: opaque
+          write_method: delegate
         - name: IntentExtras
           write_method: bundle

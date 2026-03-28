@@ -16,8 +16,8 @@ var _ parcel.Parcelable = (*PackageRollbackInfo)(nil)
 func (s *PackageRollbackInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Out
-	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null VersionRolledBackFrom
+	p.WriteInt32(-1) // null VersionRolledBackTo
 	p.WriteBool(s.IsApex)
 	p.WriteBool(s.IsApkInApex)
 	return nil
@@ -27,24 +27,8 @@ func (s *PackageRollbackInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque VersionRolledBackFrom: cannot skip without known wire format
+	return nil // opaque VersionRolledBackTo: cannot skip without known wire format
 	s.IsApex, _err = p.ReadBool()
 	if _err != nil {
 		return _err

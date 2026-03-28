@@ -22,6 +22,7 @@ func (s *NanBootstrappingConfirmInd) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.BootstrappingInstanceId)
 	p.WriteInt32(int32(s.ResponseCode))
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.ReasonCode.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -66,6 +67,9 @@ func (s *NanBootstrappingConfirmInd) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.ReasonCode.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

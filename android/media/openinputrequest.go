@@ -24,9 +24,11 @@ func (s *OpenInputRequest) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Module)
 	p.WriteInt32(s.Input)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Config.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Device.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -70,6 +72,9 @@ func (s *OpenInputRequest) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Config.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -79,6 +84,9 @@ func (s *OpenInputRequest) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Device.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

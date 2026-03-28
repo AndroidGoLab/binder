@@ -38,6 +38,7 @@ func (s *StreamParameters) MarshalParcel(
 	p.WriteInt32(s.SampleRate)
 	p.WriteInt32(s.DeviceId)
 	p.WriteInt32(s.SharingMode)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.AudioFormat.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -53,6 +54,7 @@ func (s *StreamParameters) MarshalParcel(
 	p.WriteBool(s.IsPrivacySensitive)
 	p.WriteInt32(s.HardwareSamplesPerFrame)
 	p.WriteInt32(s.HardwareSampleRate)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.HardwareAudioFormat.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -114,6 +116,9 @@ func (s *StreamParameters) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.AudioFormat.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -243,6 +248,9 @@ func (s *StreamParameters) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.HardwareAudioFormat.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

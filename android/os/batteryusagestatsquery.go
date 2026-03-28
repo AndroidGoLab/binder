@@ -20,7 +20,7 @@ func (s *BatteryUsageStatsQuery) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Flags)
-	p.WriteInt32(0)  // null UserIds.length
+	p.WriteInt32(0)  // placeholder UserIds.length
 	p.WriteInt32(-1) // null UserIds
 	p.WriteInt64(s.MaxStatsAgeMs)
 	p.WriteFloat64(s.MinConsumedPowerThreshold)
@@ -38,22 +38,16 @@ func (s *BatteryUsageStatsQuery) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null UserIds.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip UserIds.length
+		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
 	s.MaxStatsAgeMs, _err = p.ReadInt64()
@@ -73,12 +67,12 @@ func (s *BatteryUsageStatsQuery) UnmarshalParcel(
 		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
 	return nil

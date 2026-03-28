@@ -16,8 +16,8 @@ func (s *ActivityWindowInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteBool(s.IsEmbedded)
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null TaskBounds
+	p.WriteInt32(-1) // null TaskFragmentBounds
 	return nil
 }
 
@@ -29,23 +29,7 @@ func (s *ActivityWindowInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TaskBounds: cannot skip without known wire format
+	return nil // opaque TaskFragmentBounds: cannot skip without known wire format
 	return nil
 }

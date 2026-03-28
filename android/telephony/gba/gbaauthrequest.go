@@ -22,7 +22,7 @@ func (s *GbaAuthRequest) MarshalParcel(
 	p.WriteInt32(s.SubId)
 	p.WriteInt32(s.AppType)
 	p.WriteInt32(0)  // null NafUrl
-	p.WriteInt32(0)  // null SecurityProtocol.length
+	p.WriteInt32(0)  // placeholder SecurityProtocol.length
 	p.WriteInt32(-1) // null SecurityProtocol
 	p.WriteBool(s.ForceBootStrapping)
 	p.WriteInt32(-1) // null Callback
@@ -54,36 +54,14 @@ func (s *GbaAuthRequest) UnmarshalParcel(
 			return nil // non-null NafUrl: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null SecurityProtocol.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip SecurityProtocol.length
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque SecurityProtocol: cannot skip without known wire format
 	s.ForceBootStrapping, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Callback: cannot skip without known wire format
 	return nil
 }

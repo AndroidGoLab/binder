@@ -21,6 +21,7 @@ func (s *A2dpStreamConfiguration) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.PeerMtu)
 	p.WriteFixedByteArray(s.CpHeaderScmst, 1)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.CodecId.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -63,6 +64,9 @@ func (s *A2dpStreamConfiguration) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.CodecId.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

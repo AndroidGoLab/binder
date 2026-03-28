@@ -25,8 +25,8 @@ func (s *Condition) MarshalParcel(
 	p.WriteString16(s.Line2)
 	p.WriteInt32(s.Icon)
 	p.WriteInt32(s.State)
-	p.WriteInt32(0) // null This.source
-	p.WriteInt32(0) // null This.flags
+	p.WriteInt32(0) // placeholder This.source
+	p.WriteInt32(0) // placeholder This.flags
 	return nil
 }
 
@@ -63,23 +63,11 @@ func (s *Condition) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.source: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.source
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.flags: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.flags
+		return _err
 	}
 	return nil
 }

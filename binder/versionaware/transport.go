@@ -24,9 +24,19 @@ const (
 	activityManagerDescriptor = "android.app.IActivityManager"
 )
 
-// frameworkJARDir is the directory containing framework JARs
+// frameworkJARDir is the primary directory containing framework JARs
 // with AIDL $Stub classes and TRANSACTION_* constants.
 const frameworkJARDir = "/system/framework"
+
+// apexMountPrefix is the mount point prefix for APEX modules.
+// Starting with Android 10, many framework interfaces (Bluetooth, WiFi,
+// Tethering, …) ship as updatable APEX modules whose JARs live outside
+// /system/framework/. Without scanning these, ResolveCode falls back
+// to compiled tables which may have stale transaction codes.
+//
+// SELinux blocks readdir on /apex/ for unprivileged callers, so we
+// discover modules by parsing /proc/mounts instead of globbing.
+const apexMountPrefix = "/apex/"
 
 // Transport wraps a binder.Transport and adds version-aware
 // transaction code resolution via ResolveCode.
@@ -95,9 +105,20 @@ func NewTransport(
 	// the revision is available for compiled-table lookups.
 	var revision Revision
 	revisions := filterRevisionsBySOMethodSet(Revisions[targetAPI])
-	if len(revisions) == 1 {
+	switch {
+	case len(revisions) == 1:
 		revision = revisions[0]
 		logger.Debugf(ctx, "versionaware: detected revision %s from libbinder.so symbols", revision)
+	case len(revisions) > 1:
+		// libbinder.so symbols couldn't narrow to one revision.
+		// Probe via binder transaction to distinguish candidates.
+		probed, err := probeRevision(ctx, inner, targetAPI)
+		if err != nil {
+			logger.Debugf(ctx, "versionaware: revision probing failed: %v", err)
+		} else {
+			revision = probed
+			logger.Debugf(ctx, "versionaware: detected revision %s from binder probing", revision)
+		}
 	}
 
 	// Try loading from cache if configured.
@@ -305,22 +326,28 @@ func (t *Transport) lazyExtractDescriptor(
 
 	modified := false
 
-	// Phase 1: scan all unscanned JARs in /system/framework/.
-	entries, readErr := os.ReadDir(frameworkJARDir)
-	if readErr == nil {
+	// Phase 1: scan all unscanned JARs in /system/framework/ and APEX
+	// javalib directories. APEX modules (Bluetooth, WiFi, Tethering, …)
+	// ship framework JARs outside /system/framework/ starting with Android 10.
+	for _, dir := range jarDirectories() {
+		entries, readErr := os.ReadDir(dir)
+		if readErr != nil {
+			continue
+		}
 		for _, entry := range entries {
 			if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".jar") {
 				continue
 			}
-			if t.ScannedJARs[entry.Name()] {
+
+			jarPath := dir + "/" + entry.Name()
+			if t.ScannedJARs[jarPath] {
 				continue
 			}
 
-			jarPath := frameworkJARDir + "/" + entry.Name()
 			allCodes, err := dex.ExtractFromJAR(jarPath)
 			if err != nil {
-				logger.Debugf(ctx, "versionaware: extracting from %s: %v", entry.Name(), err)
-				t.ScannedJARs[entry.Name()] = true
+				logger.Debugf(ctx, "versionaware: extracting from %s: %v", jarPath, err)
+				t.ScannedJARs[jarPath] = true
 				modified = true
 				continue
 			}
@@ -333,7 +360,7 @@ func (t *Transport) lazyExtractDescriptor(
 					t.table[iface][m] = binder.TransactionCode(c)
 				}
 			}
-			t.ScannedJARs[entry.Name()] = true
+			t.ScannedJARs[jarPath] = true
 			modified = true
 		}
 	}
@@ -451,17 +478,59 @@ func (t *Transport) lookupCompiledDescriptor(
 	return nil
 }
 
-// frameworkJARsAvailable returns true if /system/framework/ is readable
-// and contains at least one .jar file. This is a cheap check (readdir only,
+// jarDirectories returns all directories that may contain framework JARs:
+// /system/framework/ plus javalib/ inside each mounted APEX module.
+// APEX modules are discovered from /proc/mounts because SELinux blocks
+// readdir on /apex/ for unprivileged processes.
+func jarDirectories() []string {
+	dirs := []string{frameworkJARDir}
+
+	data, err := os.ReadFile("/proc/mounts")
+	if err != nil {
+		return dirs
+	}
+
+	seen := map[string]bool{}
+	for _, line := range strings.Split(string(data), "\n") {
+		fields := strings.Fields(line)
+		if len(fields) < 2 {
+			continue
+		}
+		mountPoint := fields[1]
+
+		// Skip versioned mounts (e.g. /apex/com.android.bt@361099999);
+		// prefer the unversioned symlink (/apex/com.android.bt).
+		if !strings.HasPrefix(mountPoint, apexMountPrefix) || strings.Contains(mountPoint, "@") {
+			continue
+		}
+
+		javalibDir := mountPoint + "/javalib"
+		if seen[javalibDir] {
+			continue
+		}
+		seen[javalibDir] = true
+
+		if info, err := os.Stat(javalibDir); err == nil && info.IsDir() {
+			dirs = append(dirs, javalibDir)
+		}
+	}
+
+	return dirs
+}
+
+// frameworkJARsAvailable returns true if at least one JAR directory is
+// readable and contains a .jar file. This is a cheap check (readdir only,
 // no ZIP parsing) to decide whether lazy DEX extraction is possible.
 func frameworkJARsAvailable() bool {
-	entries, err := os.ReadDir(frameworkJARDir)
-	if err != nil {
-		return false
-	}
-	for _, entry := range entries {
-		if !entry.IsDir() && strings.HasSuffix(entry.Name(), ".jar") {
-			return true
+	for _, dir := range jarDirectories() {
+		entries, err := os.ReadDir(dir)
+		if err != nil {
+			continue
+		}
+		for _, entry := range entries {
+			if !entry.IsDir() && strings.HasSuffix(entry.Name(), ".jar") {
+				return true
+			}
 		}
 	}
 	return false
@@ -470,23 +539,22 @@ func frameworkJARsAvailable() bool {
 // frameworkFingerprint returns a string identifying the current set of
 // framework JARs by their names and sizes. Changes when the OS is updated.
 func frameworkFingerprint() string {
-	entries, err := os.ReadDir(frameworkJARDir)
-	if err != nil {
-		// Return a distinct marker so off-device caches don't
-		// collide with on-device caches that have real JAR data.
-		return "no-jars"
-	}
-
 	var b strings.Builder
-	for _, entry := range entries {
-		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".jar") {
-			continue
-		}
-		info, err := entry.Info()
+	for _, dir := range jarDirectories() {
+		entries, err := os.ReadDir(dir)
 		if err != nil {
 			continue
 		}
-		fmt.Fprintf(&b, "%s:%d;", entry.Name(), info.Size())
+		for _, entry := range entries {
+			if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".jar") {
+				continue
+			}
+			info, err := entry.Info()
+			if err != nil {
+				continue
+			}
+			fmt.Fprintf(&b, "%s/%s:%d;", dir, entry.Name(), info.Size())
+		}
 	}
 	if b.Len() == 0 {
 		return "no-jars"

@@ -1095,8 +1095,8 @@ parcelables:
       annotations:
         - JavaOnlyStableParcelable
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: AttributionSourceState
+          write_method: delegate
     - name: AttributionSourceState
       fields:
         - name: pid
@@ -1155,20 +1155,20 @@ parcelables:
           write_method: int32
     - name: ClipData
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: ClipDescription
+          write_method: delegate
         - name: "1"
           write_method: int32
           condition: mIcon!=null
-        - name: Dest
-          write_method: opaque
+        - name: Icon
+          write_method: delegate
           condition: mIcon!=null
         - name: "N"
           write_method: int32
     - name: ClipDescription
       java_wire_format:
-        - name: Label
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: MimeTypes
           write_method: opaque
         - name: Extras
@@ -1183,8 +1183,8 @@ parcelables:
           write_method: bundle
     - name: ComponentName
       java_wire_format:
-        - name: Out
-          write_method: opaque
+        - name: c
+          write_method: delegate
           condition: c!=null
     - name: ContentCaptureOptions
       java_wire_format:
@@ -1204,8 +1204,8 @@ parcelables:
           write_method: bool
         - name: EnableReceiver
           write_method: bool
-        - name: Parcel
-          write_method: opaque
+        - name: ContentProtectionOptions
+          write_method: delegate
         - name: WhitelistedComponents
           write_method: opaque
     - name: ContentValues
@@ -1218,8 +1218,8 @@ parcelables:
       java_wire_format:
         - name: Action
           write_method: string8
-        - name: Out
-          write_method: opaque
+        - name: Uri
+          write_method: delegate
         - name: Type
           write_method: string8
         - name: Identifier
@@ -1230,13 +1230,13 @@ parcelables:
           write_method: int32
         - name: Package
           write_method: string8
-        - name: Component
-          write_method: opaque
+        - name: ComponentName
+          write_method: delegate
         - name: "1"
           write_method: int32
           condition: mSourceBounds!=null
-        - name: Out
-          write_method: opaque
+        - name: SourceBounds
+          write_method: delegate
           condition: mSourceBounds!=null
         - name: "N"
           write_method: int32
@@ -1244,14 +1244,14 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: mSelector!=null
-        - name: Out
-          write_method: opaque
+        - name: Selector
+          write_method: delegate
           condition: mSelector!=null
         - name: "1"
           write_method: int32
           condition: mClipData!=null
-        - name: Out
-          write_method: opaque
+        - name: ClipData
+          write_method: delegate
           condition: mClipData!=null
         - name: ContentUserHint
           write_method: int32
@@ -1260,8 +1260,8 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: mOriginalIntent!=null
-        - name: Out
-          write_method: opaque
+        - name: OriginalIntent
+          write_method: delegate
           condition: mOriginalIntent!=null
     - name: IntentFilter
       java_wire_format:
@@ -1308,12 +1308,12 @@ parcelables:
           condition: mDataPaths!=null
         - name: Priority
           write_method: int32
-        - name: HasStaticPartialTypes?1:0
-          write_method: int32
-        - name: HasDynamicPartialTypes?1:0
-          write_method: int32
-        - name: GetAutoVerify()?1:0
-          write_method: int32
+        - name: HasStaticPartialTypes
+          write_method: bool
+        - name: HasDynamicPartialTypes
+          write_method: bool
+        - name: GetAutoVerify()
+          write_method: bool
         - name: InstantAppVisibility
           write_method: int32
         - name: Order
@@ -1321,8 +1321,8 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: mExtras!=null
-        - name: Dest
-          write_method: opaque
+        - name: Extras
+          write_method: delegate
           condition: mExtras!=null
         - name: "N"
           write_method: int32
@@ -1373,14 +1373,14 @@ parcelables:
           write_method: string16
         - name: AccountType
           write_method: string16
-        - name: UserVisible?1:0
-          write_method: int32
-        - name: SupportsUploading?1:0
-          write_method: int32
-        - name: IsAlwaysSyncable?1:0
-          write_method: int32
-        - name: AllowParallelSyncs?1:0
-          write_method: int32
+        - name: UserVisible
+          write_method: bool
+        - name: SupportsUploading
+          write_method: bool
+        - name: IsAlwaysSyncable
+          write_method: bool
+        - name: AllowParallelSyncs
+          write_method: bool
         - name: SettingsActivity
           write_method: string16
         - name: PackageName
@@ -1411,32 +1411,32 @@ parcelables:
           write_method: int32
         - name: (mIsExpedited?1:0)
           write_method: int32
-        - name: IsScheduledAsExpeditedJob?1:0
-          write_method: int32
+        - name: IsScheduledAsExpeditedJob
+          write_method: bool
         - name: AccountToSync
           write_method: typed_object
         - name: Authority
           write_method: string16
     - name: SyncResult
       java_wire_format:
-        - name: SyncAlreadyInProgress?1:0
-          write_method: int32
-        - name: TooManyDeletions?1:0
-          write_method: int32
-        - name: TooManyRetries?1:0
-          write_method: int32
-        - name: DatabaseError?1:0
-          write_method: int32
-        - name: FullSyncRequested?1:0
-          write_method: int32
-        - name: PartialSyncUnavailable?1:0
-          write_method: int32
-        - name: MoreRecordsToGet?1:0
-          write_method: int32
+        - name: SyncAlreadyInProgress
+          write_method: bool
+        - name: TooManyDeletions
+          write_method: bool
+        - name: TooManyRetries
+          write_method: bool
+        - name: DatabaseError
+          write_method: bool
+        - name: FullSyncRequested
+          write_method: bool
+        - name: PartialSyncUnavailable
+          write_method: bool
+        - name: MoreRecordsToGet
+          write_method: bool
         - name: DelayUntil
           write_method: int64
-        - name: Parcel
-          write_method: opaque
+        - name: Stats
+          write_method: delegate
     - name: SyncStats
       java_wire_format:
         - name: NumAuthExceptions
@@ -1487,10 +1487,10 @@ parcelables:
           write_method: string16
         - name: InitialFailureTime
           write_method: int64
-        - name: Pending?1:0
-          write_method: int32
-        - name: Initialize?1:0
-          write_method: int32
+        - name: Pending
+          write_method: bool
+        - name: Initialize
+          write_method: bool
         - name: PeriodicSyncTimes.size()
           write_method: int32
           condition: periodicSyncTimes!=null
@@ -1506,10 +1506,10 @@ parcelables:
           write_method: int32
         - name: LastTodayResetTime
           write_method: int64
-        - name: Parcel
-          write_method: opaque
-        - name: Parcel
-          write_method: opaque
+        - name: TodayStats
+          write_method: delegate
+        - name: YesterdayStats
+          write_method: delegate
         - name: PerSourceLastSuccessTimes
           write_method: long_array
         - name: PerSourceLastFailureTimes

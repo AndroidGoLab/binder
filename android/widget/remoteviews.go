@@ -19,8 +19,8 @@ func (s *RemoteViews) MarshalParcel(
 ) error {
 	p.WriteInt32(0)  // null MODE_NORMAL
 	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null CollectionCache
+	p.WriteInt32(-1) // null Application
 	p.WriteInt32(0)
 	p.WriteInt32(0) // null LayoutId
 	p.WriteInt32(0) // null ViewId
@@ -44,33 +44,9 @@ func (s *RemoteViews) UnmarshalParcel(
 			return nil // non-null MODE_NORMAL: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Dest: cannot skip without known wire format
+	return nil // opaque CollectionCache: cannot skip without known wire format
+	return nil // opaque Application: cannot skip without known wire format
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}

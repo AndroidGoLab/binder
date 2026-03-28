@@ -58,9 +58,11 @@ func (s *RttResult) MarshalParcel(
 	p.WriteInt32(int32(s.Type))
 	p.WriteInt32(s.Rssi)
 	p.WriteInt32(s.RssiSpread)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.TxRate.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.RxRate.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -73,9 +75,11 @@ func (s *RttResult) MarshalParcel(
 	p.WriteInt64(s.TimeStampInUs)
 	p.WriteInt32(s.BurstDurationInMs)
 	p.WriteInt32(s.NegotiatedBurstNum)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Lci.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Lcr.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -218,6 +222,9 @@ func (s *RttResult) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.TxRate.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -227,6 +234,9 @@ func (s *RttResult) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.RxRate.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -326,6 +336,9 @@ func (s *RttResult) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Lci.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -335,6 +348,9 @@ func (s *RttResult) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Lcr.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

@@ -33,12 +33,15 @@ func (s *SatellitePvt) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Flags)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.SatPosEcef.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.SatVelEcef.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.SatClockInfo.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -77,6 +80,9 @@ func (s *SatellitePvt) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.SatPosEcef.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -86,6 +92,9 @@ func (s *SatellitePvt) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.SatVelEcef.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -95,6 +104,9 @@ func (s *SatellitePvt) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.SatClockInfo.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

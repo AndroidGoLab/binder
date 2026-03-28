@@ -26,6 +26,7 @@ func (s *NanSubscribeRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.BaseConfigs.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -45,6 +46,7 @@ func (s *NanSubscribeRequest) MarshalParcel(
 			}
 		}
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.PairingConfig.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -78,6 +80,9 @@ func (s *NanSubscribeRequest) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.BaseConfigs.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -161,6 +166,9 @@ func (s *NanSubscribeRequest) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.PairingConfig.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

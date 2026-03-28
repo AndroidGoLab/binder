@@ -29,6 +29,7 @@ func (s *FrameData) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Flags)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Ordinal.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -43,6 +44,7 @@ func (s *FrameData) MarshalParcel(
 			}
 		}
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.ConfigUpdate.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -85,6 +87,9 @@ func (s *FrameData) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Ordinal.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -116,6 +121,9 @@ func (s *FrameData) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.ConfigUpdate.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

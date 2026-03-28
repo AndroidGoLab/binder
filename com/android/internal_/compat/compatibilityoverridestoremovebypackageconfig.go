@@ -14,21 +14,16 @@ var _ parcel.Parcelable = (*CompatibilityOverridesToRemoveByPackageConfig)(nil)
 func (s *CompatibilityOverridesToRemoveByPackageConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null PackageNameToOverridesToRemove.size()
+	p.WriteInt32(0) // placeholder PackageNameToOverridesToRemove.size()
 	return nil
 }
 
 func (s *CompatibilityOverridesToRemoveByPackageConfig) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null PackageNameToOverridesToRemove.size(): cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil { // skip PackageNameToOverridesToRemove.size()
+		return _err
 	}
 	return nil
 }

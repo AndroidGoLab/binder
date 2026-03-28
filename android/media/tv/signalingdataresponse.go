@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*SignalingDataResponse)(nil)
 func (s *SignalingDataResponse) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Super
 	p.WriteInt32(-1) // null SignalingDataTypes
 	p.WriteInt32(-1) // null SignalingDataInfoList
 	return nil
@@ -23,32 +23,8 @@ func (s *SignalingDataResponse) MarshalParcel(
 func (s *SignalingDataResponse) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Super: cannot skip without known wire format
+	return nil // opaque SignalingDataTypes: cannot skip without known wire format
+	return nil // opaque SignalingDataInfoList: cannot skip without known wire format
 	return nil
 }

@@ -493,8 +493,8 @@ parcelables:
         - name: (byte)1
           write_method: int32
           condition: mCarrierIdentifier!=null
-        - name: Dest
-          write_method: opaque
+        - name: CarrierIdentifier
+          write_method: delegate
           condition: mCarrierIdentifier!=null
         - name: PolicyRules
           write_method: int32

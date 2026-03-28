@@ -1,6 +1,7 @@
 package window
 
 import (
+	types "github.com/AndroidGoLab/binder/android/content/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -16,6 +17,7 @@ type TaskSnapshot struct {
 	Appearance      int32
 	IsTranslucent   bool
 	HasImeSurface   bool
+	ComponentName   types.ComponentName
 }
 
 var _ parcel.Parcelable = (*TaskSnapshot)(nil)
@@ -24,9 +26,11 @@ func (s *TaskSnapshot) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt64(s.Id)
-	p.WriteInt32(-1) // null TopActivityComponent
-	p.WriteInt32(0)  // null Snapshot!=null&&!mSnapshot.isClosed()?mSnapshot:null
-	p.WriteInt32(0)  // null ColorSpace.getId()
+	if _err := s.ComponentName.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	p.WriteBool(false) // placeholder Snapshot!=null&&!mSnapshot.isClosed()
+	p.WriteInt32(0)    // placeholder ColorSpace.getId()
 	p.WriteInt32(s.Orientation)
 	p.WriteInt32(s.Rotation)
 	p.WriteInt32(0) // null TaskSize
@@ -49,32 +53,14 @@ func (s *TaskSnapshot) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.ComponentName.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Snapshot!=null&&!mSnapshot.isClosed()?mSnapshot:null: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip Snapshot!=null&&!mSnapshot.isClosed()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null ColorSpace.getId(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip ColorSpace.getId()
+		return _err
 	}
 	s.Orientation, _err = p.ReadInt32()
 	if _err != nil {

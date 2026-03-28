@@ -9,18 +9,18 @@ parcelables:
           write_method: int64
         - name: Position
           write_method: int32
-        - name: Text
-          write_method: opaque
-        - name: Label
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
+        - name: TextUtils
+          write_method: delegate
     - name: CorrectionInfo
       java_wire_format:
         - name: Offset
           write_method: int32
-        - name: OldText
-          write_method: opaque
-        - name: NewText
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
+        - name: TextUtils
+          write_method: delegate
     - name: CursorAnchorInfo
       java_wire_format:
         - name: HashCode
@@ -31,8 +31,8 @@ parcelables:
           write_method: int32
         - name: ComposingTextStart
           write_method: int32
-        - name: ComposingText
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: InsertionMarkerFlags
           write_method: int32
         - name: InsertionMarkerHorizontal
@@ -81,8 +81,8 @@ parcelables:
           write_method: string16
         - name: InternalImeOptions
           write_method: int32
-        - name: ActionLabel
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: ActionId
           write_method: int32
         - name: InitialSelStart
@@ -93,10 +93,10 @@ parcelables:
           write_method: int32
         - name: InitialToolType
           write_method: int32
-        - name: HintText
-          write_method: opaque
-        - name: Label
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
+        - name: TextUtils
+          write_method: delegate
         - name: PackageName
           write_method: string16
         - name: AutofillId
@@ -116,20 +116,20 @@ parcelables:
           condition: Flags.editorinfoHandwritingEnabled()
         - name: InitialSurroundingText!=null
           write_method: bool
-        - name: Dest
-          write_method: opaque
+        - name: InitialSurroundingText
+          write_method: delegate
           condition: mInitialSurroundingText!=null
-        - name: Dest
-          write_method: opaque
+        - name: HintLocales
+          write_method: delegate
           condition: hintLocales!=null
         - name: ContentMimeTypes
           write_method: string_array
-        - name: TargetInputMethodUser
-          write_method: opaque
+        - name: UserHandle
+          write_method: delegate
     - name: ExtractedText
       java_wire_format:
-        - name: Text
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: StartOffset
           write_method: int32
         - name: PartialStartOffset
@@ -142,8 +142,8 @@ parcelables:
           write_method: int32
         - name: This.flags
           write_method: int32
-        - name: Hint
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
     - name: ExtractedTextRequest
       java_wire_format:
         - name: Token
@@ -213,14 +213,14 @@ parcelables:
           write_method: int32
     - name: InputContentInfo
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Uri
+          write_method: delegate
         - name: ContentUriOwnerUserId
           write_method: int32
-        - name: Dest
-          write_method: opaque
-        - name: Dest
-          write_method: opaque
+        - name: Description
+          write_method: delegate
+        - name: Uri
+          write_method: delegate
         - name: "1"
           write_method: int32
           condition: mUriToken!=null
@@ -237,14 +237,14 @@ parcelables:
           write_method: string8
         - name: IsDefaultResId
           write_method: int32
-        - name: IsAuxIme?1:0
-          write_method: int32
-        - name: SupportsSwitchingToNextInputMethod?1:0
-          write_method: int32
-        - name: InlineSuggestionsEnabled?1:0
-          write_method: int32
-        - name: SupportsInlineSuggestionsWithTouchExploration?1:0
-          write_method: int32
+        - name: IsAuxIme
+          write_method: bool
+        - name: SupportsSwitchingToNextInputMethod
+          write_method: bool
+        - name: InlineSuggestionsEnabled
+          write_method: bool
+        - name: SupportsInlineSuggestionsWithTouchExploration
+          write_method: bool
         - name: SuppressesSpellChecker
           write_method: bool
         - name: ShowInInputMethodPicker
@@ -253,10 +253,10 @@ parcelables:
           write_method: bool
         - name: IsVirtualDeviceOnly
           write_method: bool
-        - name: Dest
-          write_method: opaque
-        - name: Dest
-          write_method: opaque
+        - name: Service
+          write_method: delegate
+        - name: Subtypes
+          write_method: delegate
         - name: HandledConfigChanges
           write_method: int32
         - name: SupportsStylusHandwriting
@@ -269,8 +269,8 @@ parcelables:
       java_wire_format:
         - name: SubtypeNameResId
           write_method: int32
-        - name: SubtypeNameOverride
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: PkLanguageTag
           write_method: string8
         - name: PkLayoutType
@@ -285,16 +285,16 @@ parcelables:
           write_method: string16
         - name: SubtypeExtraValue
           write_method: string16
-        - name: IsAuxiliary?1:0
-          write_method: int32
-        - name: OverridesImplicitlyEnabledSubtype?1:0
-          write_method: int32
+        - name: IsAuxiliary
+          write_method: bool
+        - name: OverridesImplicitlyEnabledSubtype
+          write_method: bool
         - name: SubtypeHashCode
           write_method: int32
         - name: SubtypeId
           write_method: int32
-        - name: IsAsciiCapable?1:0
-          write_method: int32
+        - name: IsAsciiCapable
+          write_method: bool
     - name: InsertGesture
       java_wire_format:
         - name: FallbackText
@@ -321,8 +321,8 @@ parcelables:
       java_wire_format:
         - name: Gesture.getGestureType()
           write_method: int32
-        - name: Dest
-          write_method: opaque
+        - name: GestureAsParcelable
+          write_method: delegate
     - name: RemoveSpaceGesture
       java_wire_format:
         - name: StartPoint
@@ -351,8 +351,8 @@ parcelables:
           write_method: typed_object
     - name: SurroundingText
       java_wire_format:
-        - name: Text
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: SelectionStart
           write_method: int32
         - name: SelectionEnd

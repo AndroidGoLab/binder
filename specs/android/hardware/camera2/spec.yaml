@@ -400,10 +400,10 @@ parcelables:
           write_method: int32
         - name: LogicalCameraId
           write_method: string16
-        - name: Dest
-          write_method: opaque
-        - name: IsReprocess?1:0
-          write_method: int32
+        - name: LogicalCameraSettings
+          write_method: delegate
+        - name: IsReprocess
+          write_method: bool
         - name: "1"
           write_method: int32
           condition: mUserTag!=null && userTagStr!=null&&userTagStr.startsWith(SET_TAG_STRING_PREFIX)

@@ -35,21 +35,25 @@ func (s *UserData) UnmarshalParcel(
 		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		for _j := int32(0); _j < _arrLen; _j++ {
+			if _, _arrErr = p.ReadString16(); _arrErr != nil {
+				return _arrErr
+			}
 		}
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		for _j := int32(0); _j < _arrLen; _j++ {
+			if _, _arrErr = p.ReadString16(); _arrErr != nil {
+				return _arrErr
+			}
 		}
 	}
 	s.DefaultAlgorithm, _err = p.ReadString16()
@@ -65,23 +69,7 @@ func (s *UserData) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque CategoryAlgorithms: cannot skip without known wire format
+	return nil // opaque CategoryArgs: cannot skip without known wire format
 	return nil
 }

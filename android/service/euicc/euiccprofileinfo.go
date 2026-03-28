@@ -1,6 +1,7 @@
 package euicc
 
 import (
+	carrier "github.com/AndroidGoLab/binder/android/service/carrier"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -14,6 +15,7 @@ type EuiccProfileInfo struct {
 	ProfileClass        int32
 	State               int32
 	PolicyRules         int32
+	CarrierIdentifier   carrier.CarrierIdentifier
 }
 
 var _ parcel.Parcelable = (*EuiccProfileInfo)(nil)
@@ -27,8 +29,10 @@ func (s *EuiccProfileInfo) MarshalParcel(
 	p.WriteString16(s.ProfileName)
 	p.WriteInt32(s.ProfileClass)
 	p.WriteInt32(s.State)
-	p.WriteInt32(0)  // null (byte)1
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(0) // placeholder (byte)1
+	if _err := s.CarrierIdentifier.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.PolicyRules)
 	p.WriteInt32(-1) // null AccessRules
 	return nil
@@ -62,36 +66,16 @@ func (s *EuiccProfileInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.CarrierIdentifier.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	s.PolicyRules, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque AccessRules: cannot skip without known wire format
 	return nil
 }

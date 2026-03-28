@@ -14,37 +14,38 @@ var _ parcel.Parcelable = (*AppWidgetProviderInfo)(nil)
 func (s *AppWidgetProviderInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null This.provider
-	p.WriteInt32(0) // null This.minWidth
-	p.WriteInt32(0) // null This.minHeight
-	p.WriteInt32(0) // null This.minResizeWidth
-	p.WriteInt32(0) // null This.minResizeHeight
-	p.WriteInt32(0) // null This.maxResizeWidth
-	p.WriteInt32(0) // null This.maxResizeHeight
-	p.WriteInt32(0) // null This.targetCellWidth
-	p.WriteInt32(0) // null This.targetCellHeight
-	p.WriteInt32(0) // null This.updatePeriodMillis
-	p.WriteInt32(0) // null This.initialLayout
-	p.WriteInt32(0) // null This.initialKeyguardLayout
-	p.WriteInt32(0) // null This.configure
-	p.WriteInt32(0) // null This.label
-	p.WriteInt32(0) // null This.icon
-	p.WriteInt32(0) // null This.previewImage
-	p.WriteInt32(0) // null This.previewLayout
-	p.WriteInt32(0) // null This.autoAdvanceViewId
-	p.WriteInt32(0) // null This.resizeMode
-	p.WriteInt32(0) // null This.widgetCategory
-	p.WriteInt32(0) // null This.providerInfo
-	p.WriteInt32(0) // null This.widgetFeatures
-	p.WriteInt32(0) // null This.descriptionRes
-	p.WriteInt32(0) // null This.isExtendedFromAppWidgetProvider
-	p.WriteInt32(0) // null This.generatedPreviewCategories
+	p.WriteInt32(0)     // null This.provider
+	p.WriteInt32(0)     // placeholder This.minWidth
+	p.WriteInt32(0)     // placeholder This.minHeight
+	p.WriteInt32(0)     // placeholder This.minResizeWidth
+	p.WriteInt32(0)     // placeholder This.minResizeHeight
+	p.WriteInt32(0)     // placeholder This.maxResizeWidth
+	p.WriteInt32(0)     // placeholder This.maxResizeHeight
+	p.WriteInt32(0)     // placeholder This.targetCellWidth
+	p.WriteInt32(0)     // placeholder This.targetCellHeight
+	p.WriteInt32(0)     // placeholder This.updatePeriodMillis
+	p.WriteInt32(0)     // placeholder This.initialLayout
+	p.WriteInt32(0)     // placeholder This.initialKeyguardLayout
+	p.WriteInt32(0)     // null This.configure
+	p.WriteString16("") // placeholder This.label
+	p.WriteInt32(0)     // placeholder This.icon
+	p.WriteInt32(0)     // placeholder This.previewImage
+	p.WriteInt32(0)     // placeholder This.previewLayout
+	p.WriteInt32(0)     // placeholder This.autoAdvanceViewId
+	p.WriteInt32(0)     // placeholder This.resizeMode
+	p.WriteInt32(0)     // placeholder This.widgetCategory
+	p.WriteInt32(0)     // null This.providerInfo
+	p.WriteInt32(0)     // placeholder This.widgetFeatures
+	p.WriteInt32(0)     // placeholder This.descriptionRes
+	p.WriteBool(false)  // placeholder This.isExtendedFromAppWidgetProvider
+	p.WriteInt32(0)     // placeholder This.generatedPreviewCategories
 	return nil
 }
 
 func (s *AppWidgetProviderInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	var _err error
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -54,104 +55,38 @@ func (s *AppWidgetProviderInfo) UnmarshalParcel(
 			return nil // non-null This.provider: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.minWidth: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.minWidth
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.minHeight: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.minHeight
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.minResizeWidth: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.minResizeWidth
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.minResizeHeight: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.minResizeHeight
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.maxResizeWidth: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.maxResizeWidth
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.maxResizeHeight: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.maxResizeHeight
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.targetCellWidth: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.targetCellWidth
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.targetCellHeight: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.targetCellHeight
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.updatePeriodMillis: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.updatePeriodMillis
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.initialLayout: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.initialLayout
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.initialKeyguardLayout: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.initialKeyguardLayout
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -162,68 +97,26 @@ func (s *AppWidgetProviderInfo) UnmarshalParcel(
 			return nil // non-null This.configure: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.label: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString16(); _err != nil { // skip This.label
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.icon: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.icon
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.previewImage: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.previewImage
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.previewLayout: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.previewLayout
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.autoAdvanceViewId: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.autoAdvanceViewId
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.resizeMode: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.resizeMode
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.widgetCategory: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.widgetCategory
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -234,41 +127,17 @@ func (s *AppWidgetProviderInfo) UnmarshalParcel(
 			return nil // non-null This.providerInfo: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.widgetFeatures: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.widgetFeatures
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.descriptionRes: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.descriptionRes
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.isExtendedFromAppWidgetProvider: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip This.isExtendedFromAppWidgetProvider
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.generatedPreviewCategories: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.generatedPreviewCategories
+		return _err
 	}
 	return nil
 }

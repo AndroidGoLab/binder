@@ -67,7 +67,6 @@ func (u *MetadataLtv) SetVendorSpecific(
 func (u *MetadataLtv) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(u.Tag)
 
 	switch u.Tag {
@@ -90,17 +89,13 @@ func (u *MetadataLtv) MarshalParcel(
 		return fmt.Errorf("unknown union tag %d for MetadataLtv", u.Tag)
 	}
 
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (u *MetadataLtv) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
+	var _err error
 
 	u.Tag, _err = p.ReadInt32()
 	if _err != nil {
@@ -133,6 +128,5 @@ func (u *MetadataLtv) UnmarshalParcel(
 		return fmt.Errorf("unknown union tag %d for MetadataLtv", u.Tag)
 	}
 
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

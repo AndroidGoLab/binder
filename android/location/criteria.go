@@ -12,6 +12,10 @@ type Criteria struct {
 	SpeedAccuracy      int32
 	BearingAccuracy    int32
 	PowerRequirement   int32
+	AltitudeRequired   bool
+	BearingRequired    bool
+	SpeedRequired      bool
+	CostAllowed        bool
 }
 
 var _ parcel.Parcelable = (*Criteria)(nil)
@@ -24,10 +28,10 @@ func (s *Criteria) MarshalParcel(
 	p.WriteInt32(s.SpeedAccuracy)
 	p.WriteInt32(s.BearingAccuracy)
 	p.WriteInt32(s.PowerRequirement)
-	p.WriteInt32(0) // null AltitudeRequired?1:0
-	p.WriteInt32(0) // null BearingRequired?1:0
-	p.WriteInt32(0) // null SpeedRequired?1:0
-	p.WriteInt32(0) // null CostAllowed?1:0
+	p.WriteBool(s.AltitudeRequired)
+	p.WriteBool(s.BearingRequired)
+	p.WriteBool(s.SpeedRequired)
+	p.WriteBool(s.CostAllowed)
 	return nil
 }
 
@@ -55,41 +59,21 @@ func (s *Criteria) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null AltitudeRequired?1:0: cannot skip unknown-size typed object
-		}
+	s.AltitudeRequired, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null BearingRequired?1:0: cannot skip unknown-size typed object
-		}
+	s.BearingRequired, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null SpeedRequired?1:0: cannot skip unknown-size typed object
-		}
+	s.SpeedRequired, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null CostAllowed?1:0: cannot skip unknown-size typed object
-		}
+	s.CostAllowed, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	return nil
 }

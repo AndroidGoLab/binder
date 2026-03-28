@@ -85,22 +85,22 @@ parcelables:
           write_method: typed_object
         - name: StartTime
           write_method: int64
-        - name: Legacy?1:0
-          write_method: int32
-        - name: Blocking?1:0
-          write_method: int32
-        - name: AllowBypass?1:0
-          write_method: int32
-        - name: AllowIPv4?1:0
-          write_method: int32
-        - name: AllowIPv6?1:0
-          write_method: int32
-        - name: IsMetered?1:0
-          write_method: int32
-        - name: RequiresInternetValidation?1:0
-          write_method: int32
-        - name: ExcludeLocalRoutes?1:0
-          write_method: int32
+        - name: Legacy
+          write_method: bool
+        - name: Blocking
+          write_method: bool
+        - name: AllowBypass
+          write_method: bool
+        - name: AllowIPv4
+          write_method: bool
+        - name: AllowIPv6
+          write_method: bool
+        - name: IsMetered
+          write_method: bool
+        - name: RequiresInternetValidation
+          write_method: bool
+        - name: ExcludeLocalRoutes
+          write_method: bool
         - name: UnderlyingNetworks
           write_method: opaque
         - name: ProxyInfo
@@ -125,8 +125,8 @@ parcelables:
           write_method: string16
         - name: Routes
           write_method: string16
-        - name: Mppe?1:0
-          write_method: int32
+        - name: Mppe
+          write_method: bool
         - name: L2tpSecret
           write_method: string16
         - name: IpsecIdentifier
@@ -139,8 +139,8 @@ parcelables:
           write_method: string16
         - name: IpsecServerCert
           write_method: string16
-        - name: SaveLogin?1:0
-          write_method: int32
+        - name: SaveLogin
+          write_method: bool
         - name: Proxy
           write_method: typed_object
         - name: AllowedAlgorithms
@@ -159,8 +159,8 @@ parcelables:
           write_method: bool
         - name: RequiresInternetValidation
           write_method: bool
-        - name: IkeTunConnParams==null?null:TunnelConnectionParamsUtils.toPersistableBundle(ikeTunConnParams)
-          write_method: typed_object
+        - name: IkeTunConnParams==null
+          write_method: bool
         - name: AutomaticNattKeepaliveTimerEnabled
           write_method: bool
         - name: AutomaticIpVersionSelectionEnabled

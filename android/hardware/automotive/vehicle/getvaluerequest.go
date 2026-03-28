@@ -18,6 +18,7 @@ func (s *GetValueRequest) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt64(s.RequestId)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Prop.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -49,6 +50,9 @@ func (s *GetValueRequest) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Prop.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

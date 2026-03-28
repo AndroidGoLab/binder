@@ -422,8 +422,8 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: clipData!=null
-        - name: Out
-          write_method: opaque
+        - name: ClipData
+          write_method: delegate
           condition: clipData!=null
         - name: ClipGrantFlags
           write_method: int32
@@ -441,8 +441,8 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: networkRequest!=null
-        - name: Out
-          write_method: opaque
+        - name: NetworkRequest
+          write_method: delegate
           condition: networkRequest!=null
         - name: NetworkDownloadBytes
           write_method: int64
@@ -454,10 +454,10 @@ parcelables:
           write_method: int64
         - name: MaxExecutionDelayMillis
           write_method: int64
-        - name: IsPeriodic?1:0
-          write_method: int32
-        - name: IsPersisted?1:0
-          write_method: int32
+        - name: IsPeriodic
+          write_method: bool
+        - name: IsPersisted
+          write_method: bool
         - name: IntervalMillis
           write_method: int64
         - name: FlexMillis
@@ -466,10 +466,10 @@ parcelables:
           write_method: int64
         - name: BackoffPolicy
           write_method: int32
-        - name: HasEarlyConstraint?1:0
-          write_method: int32
-        - name: HasLateConstraint?1:0
-          write_method: int32
+        - name: HasEarlyConstraint
+          write_method: bool
+        - name: HasLateConstraint
+          write_method: bool
         - name: Bias
           write_method: int32
         - name: Priority
@@ -493,16 +493,16 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: clipData!=null
-        - name: Dest
-          write_method: opaque
+        - name: ClipData
+          write_method: delegate
           condition: clipData!=null
         - name: ClipGrantFlags
           write_method: int32
           condition: clipData!=null
         - name: Callback
           write_method: binder
-        - name: OverrideDeadlineExpired?1:0
-          write_method: int32
+        - name: OverrideDeadlineExpired
+          write_method: bool
         - name: IsExpedited
           write_method: bool
         - name: IsUserInitiated
@@ -514,8 +514,8 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: mNetwork!=null
-        - name: Dest
-          write_method: opaque
+        - name: Network
+          write_method: delegate
           condition: mNetwork!=null
         - name: StopReason
           write_method: int32
@@ -525,8 +525,8 @@ parcelables:
           write_method: string16
     - name: JobSnapshot
       java_wire_format:
-        - name: Out
-          write_method: opaque
+        - name: Job
+          write_method: delegate
         - name: SatisfiedConstraints
           write_method: int32
         - name: IsRunnable
@@ -536,8 +536,8 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: mIntent!=null
-        - name: Out
-          write_method: opaque
+        - name: Intent
+          write_method: delegate
           condition: mIntent!=null
         - name: Extras
           write_method: opaque

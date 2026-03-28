@@ -1,6 +1,7 @@
 package inputmethod
 
 import (
+	osTypes "github.com/AndroidGoLab/binder/android/os/types"
 	types "github.com/AndroidGoLab/binder/android/view/autofill/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
@@ -23,6 +24,7 @@ type EditorInfo struct {
 	SupportedHandwritingGestureTypes        int32
 	SupportedHandwritingGesturePreviewTypes int32
 	AutofillId                              *types.AutofillId
+	UserHandle                              osTypes.UserHandle
 }
 
 var _ parcel.Parcelable = (*EditorInfo)(nil)
@@ -34,14 +36,14 @@ func (s *EditorInfo) MarshalParcel(
 	p.WriteInt32(s.ImeOptions)
 	p.WriteString16(s.PrivateImeOptions)
 	p.WriteInt32(s.InternalImeOptions)
-	p.WriteInt32(-1) // null ActionLabel
+	p.WriteInt32(-1) // null TextUtils
 	p.WriteInt32(s.ActionId)
 	p.WriteInt32(s.InitialSelStart)
 	p.WriteInt32(s.InitialSelEnd)
 	p.WriteInt32(s.InitialCapsMode)
 	p.WriteInt32(s.InitialToolType)
-	p.WriteInt32(-1) // null HintText
-	p.WriteInt32(-1) // null Label
+	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null TextUtils
 	p.WriteString16(s.PackageName)
 	if s.AutofillId != nil {
 		p.WriteInt32(1)
@@ -56,12 +58,14 @@ func (s *EditorInfo) MarshalParcel(
 	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(s.SupportedHandwritingGestureTypes)
 	p.WriteInt32(s.SupportedHandwritingGesturePreviewTypes)
-	p.WriteInt32(0)  // null IsStylusHandwritingEnabled
-	p.WriteInt32(0)  // null InitialSurroundingText!=null
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null ContentMimeTypes
-	p.WriteInt32(-1) // null TargetInputMethodUser
+	p.WriteInt32(0)    // null IsStylusHandwritingEnabled
+	p.WriteBool(false) // placeholder InitialSurroundingText!=null
+	p.WriteInt32(-1)   // null InitialSurroundingText
+	p.WriteInt32(-1)   // null HintLocales
+	p.WriteInt32(-1)   // null ContentMimeTypes
+	if _err := s.UserHandle.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	return nil
 }
 
@@ -85,15 +89,7 @@ func (s *EditorInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TextUtils: cannot skip without known wire format
 	s.ActionId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -114,24 +110,8 @@ func (s *EditorInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TextUtils: cannot skip without known wire format
+	return nil // opaque TextUtils: cannot skip without known wire format
 	s.PackageName, _err = p.ReadString16()
 	if _err != nil {
 		return _err
@@ -182,50 +162,24 @@ func (s *EditorInfo) UnmarshalParcel(
 			return nil // non-null IsStylusHandwritingEnabled: cannot skip unknown-size typed object
 		}
 	}
+	if _, _err = p.ReadBool(); _err != nil { // skip InitialSurroundingText!=null
+		return _err
+	}
+	return nil // opaque InitialSurroundingText: cannot skip without known wire format
+	return nil // opaque HintLocales: cannot skip without known wire format
 	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueFlag != 0 {
-			return nil // non-null InitialSurroundingText!=null: cannot skip unknown-size typed object
+		for _j := int32(0); _j < _arrLen; _j++ {
+			if _, _arrErr = p.ReadString16(); _arrErr != nil {
+				return _arrErr
+			}
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.UserHandle.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	return nil
 }

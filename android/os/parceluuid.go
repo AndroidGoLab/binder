@@ -14,31 +14,20 @@ var _ parcel.Parcelable = (*ParcelUuid)(nil)
 func (s *ParcelUuid) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Uuid.getMostSignificantBits()
-	p.WriteInt32(0) // null Uuid.getLeastSignificantBits()
+	p.WriteInt64(0) // placeholder Uuid.getMostSignificantBits()
+	p.WriteInt64(0) // placeholder Uuid.getLeastSignificantBits()
 	return nil
 }
 
 func (s *ParcelUuid) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Uuid.getMostSignificantBits(): cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt64(); _err != nil { // skip Uuid.getMostSignificantBits()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Uuid.getLeastSignificantBits(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt64(); _err != nil { // skip Uuid.getLeastSignificantBits()
+		return _err
 	}
 	return nil
 }

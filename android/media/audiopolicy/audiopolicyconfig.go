@@ -14,21 +14,16 @@ var _ parcel.Parcelable = (*AudioPolicyConfig)(nil)
 func (s *AudioPolicyConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Mixes.size()
+	p.WriteInt32(0) // placeholder Mixes.size()
 	return nil
 }
 
 func (s *AudioPolicyConfig) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Mixes.size(): cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil { // skip Mixes.size()
+		return _err
 	}
 	return nil
 }

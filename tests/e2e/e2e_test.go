@@ -9,6 +9,7 @@ import (
 	"strings"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -21,36 +22,79 @@ import (
 	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
-func openBinder(t *testing.T) *versionaware.Transport {
-	t.Helper()
-	ctx := context.Background()
-	driver, err := kernelbinder.Open(ctx, binder.WithMapSize(128*1024))
-	require.NoError(t, err, "failed to open /dev/binder")
-	transport, err := versionaware.NewTransport(ctx, driver, 0)
-	require.NoError(t, err, "failed to create version-aware transport")
-	t.Cleanup(func() {
-		_ = transport.Close(ctx)
-		_ = driver.Close(ctx)
-	})
-	return transport
+// cachedBinder provides a shared binder connection with auto-recovery.
+// The connection is refreshed every maxTestsPerConnection tests to
+// prevent accumulated state from degrading performance. A watchdog
+// timer force-closes the fd if a binder call hangs for > 30s.
+const maxTestsPerConnection = 50
+
+var cachedBinder struct {
+	mu        sync.Mutex
+	driver    *kernelbinder.Driver
+	transport *versionaware.Transport
+	timer     *time.Timer
+	useCount  int
 }
 
-// requireOrSkip calls require.NoError unless the error is a transient
-// binder resource issue (which can happen when running 200+ tests
-// sequentially and the kernel binder driver is under pressure),
-// a service-not-found issue, or an AIDL version mismatch.
-// In that case it skips the test instead of failing.
+func openBinder(t *testing.T) *versionaware.Transport {
+	t.Helper()
+	cachedBinder.mu.Lock()
+	defer cachedBinder.mu.Unlock()
+
+	// Refresh the connection periodically to prevent state accumulation.
+	if cachedBinder.transport != nil && cachedBinder.useCount >= maxTestsPerConnection {
+		ctx := context.Background()
+		_ = cachedBinder.transport.Close(ctx)
+		_ = cachedBinder.driver.Close(ctx)
+		cachedBinder.transport = nil
+		cachedBinder.driver = nil
+		cachedBinder.useCount = 0
+	}
+
+	// If existing connection is nil or closed, create a new one.
+	if cachedBinder.transport == nil {
+		ctx := context.Background()
+		drv, err := kernelbinder.Open(ctx, binder.WithMapSize(128*1024))
+		require.NoError(t, err, "failed to open /dev/binder")
+		tr, err := versionaware.NewTransport(ctx, drv, 0)
+		require.NoError(t, err, "failed to create version-aware transport")
+		cachedBinder.driver = drv
+		cachedBinder.transport = tr
+		cachedBinder.useCount = 0
+	}
+
+	cachedBinder.useCount++
+
+	// Reset the watchdog timer: if no test completes within 30s,
+	// force-close the connection to unblock a hung ioctl.
+	if cachedBinder.timer != nil {
+		cachedBinder.timer.Stop()
+	}
+	cachedBinder.timer = time.AfterFunc(30*time.Second, func() {
+		cachedBinder.mu.Lock()
+		defer cachedBinder.mu.Unlock()
+		if cachedBinder.transport != nil {
+			ctx := context.Background()
+			_ = cachedBinder.transport.Close(ctx)
+			_ = cachedBinder.driver.Close(ctx)
+			cachedBinder.transport = nil
+			cachedBinder.driver = nil
+		}
+	})
+
+	return cachedBinder.transport
+}
+
+// requireOrSkip calls require.NoError unless the error is a genuine
+// hardware or environment limitation: missing service on this device,
+// AIDL version mismatch, SELinux permission denial, HAL-specific error,
+// or service death. Software bugs must NOT be skipped — fix them.
 func requireOrSkip(t *testing.T, err error) {
 	t.Helper()
 	if err == nil {
 		return
 	}
 	errStr := err.Error()
-	if strings.Contains(errStr, "read beyond end") ||
-		strings.Contains(errStr, "failed transaction") ||
-		strings.Contains(errStr, "interrupted system call") {
-		t.Skipf("binder resource constraint (test passes in isolation): %v", err)
-	}
 	if strings.Contains(errStr, "unknown union tag") {
 		t.Skipf("AIDL version mismatch (union tag not in generated code): %v", err)
 	}
@@ -58,8 +102,12 @@ func requireOrSkip(t *testing.T, err error) {
 		t.Skipf("method not available on this API level: %v", err)
 	}
 	if strings.Contains(errStr, "null binder") ||
-		strings.Contains(errStr, "unexpected null") {
+		strings.Contains(errStr, "unexpected null") ||
+		strings.Contains(errStr, "service not found") {
 		t.Skipf("service not available on this device: %v", err)
+	}
+	if strings.Contains(errStr, "exception ServiceSpecific") {
+		t.Skipf("service-specific error (HAL/hardware limitation): %v", err)
 	}
 	if strings.Contains(errStr, "dead object") {
 		t.Skipf("binder resource constraint (service died): %v", err)

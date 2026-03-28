@@ -1,6 +1,7 @@
 package job
 
 import (
+	content "github.com/AndroidGoLab/binder/android/content"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -16,14 +17,19 @@ type JobInfo struct {
 	MinimumNetworkChunkBytes  int64
 	MinLatencyMillis          int64
 	MaxExecutionDelayMillis   int64
+	IsPeriodic                bool
+	IsPersisted               bool
 	IntervalMillis            int64
 	FlexMillis                int64
 	InitialBackoffMillis      int64
 	BackoffPolicy             int32
+	HasEarlyConstraint        bool
+	HasLateConstraint         bool
 	Bias                      int32
 	Priority                  int32
 	NumDebugTags              int32
 	TraceTag                  string
+	ClipData                  content.ClipData
 }
 
 var _ parcel.Parcelable = (*JobInfo)(nil)
@@ -35,31 +41,33 @@ func (s *JobInfo) MarshalParcel(
 	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(-1) // null TransientExtras
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Out
-	p.WriteInt32(0)  // null ClipGrantFlags
-	p.WriteInt32(0)  // null Service
+	if _err := s.ClipData.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	p.WriteInt32(0) // null ClipGrantFlags
+	p.WriteInt32(0) // null Service
 	p.WriteInt32(s.ConstraintFlags)
 	p.WriteInt32(-1) // null TriggerContentUris
 	p.WriteInt64(s.TriggerContentUpdateDelay)
 	p.WriteInt64(s.TriggerContentMaxDelay)
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null NetworkRequest
 	p.WriteInt64(s.NetworkDownloadBytes)
 	p.WriteInt64(s.NetworkUploadBytes)
 	p.WriteInt64(s.MinimumNetworkChunkBytes)
 	p.WriteInt64(s.MinLatencyMillis)
 	p.WriteInt64(s.MaxExecutionDelayMillis)
-	p.WriteInt32(0) // null IsPeriodic?1:0
-	p.WriteInt32(0) // null IsPersisted?1:0
+	p.WriteBool(s.IsPeriodic)
+	p.WriteBool(s.IsPersisted)
 	p.WriteInt64(s.IntervalMillis)
 	p.WriteInt64(s.FlexMillis)
 	p.WriteInt64(s.InitialBackoffMillis)
 	p.WriteInt32(s.BackoffPolicy)
-	p.WriteInt32(0) // null HasEarlyConstraint?1:0
-	p.WriteInt32(0) // null HasLateConstraint?1:0
+	p.WriteBool(s.HasEarlyConstraint)
+	p.WriteBool(s.HasLateConstraint)
 	p.WriteInt32(s.Bias)
 	p.WriteInt32(s.Priority)
-	p.WriteInt32(0) // null This.flags
+	p.WriteInt32(0) // placeholder This.flags
 	p.WriteInt32(s.NumDebugTags)
 	p.WriteString16(s.TraceTag)
 	return nil
@@ -73,15 +81,7 @@ func (s *JobInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Extras: cannot skip without known wire format
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -94,14 +94,8 @@ func (s *JobInfo) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.ClipData.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -125,15 +119,7 @@ func (s *JobInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TriggerContentUris: cannot skip without known wire format
 	s.TriggerContentUpdateDelay, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
@@ -145,15 +131,7 @@ func (s *JobInfo) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque NetworkRequest: cannot skip without known wire format
 	s.NetworkDownloadBytes, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
@@ -174,23 +152,13 @@ func (s *JobInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IsPeriodic?1:0: cannot skip unknown-size typed object
-		}
+	s.IsPeriodic, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IsPersisted?1:0: cannot skip unknown-size typed object
-		}
+	s.IsPersisted, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.IntervalMillis, _err = p.ReadInt64()
 	if _err != nil {
@@ -208,23 +176,13 @@ func (s *JobInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null HasEarlyConstraint?1:0: cannot skip unknown-size typed object
-		}
+	s.HasEarlyConstraint, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null HasLateConstraint?1:0: cannot skip unknown-size typed object
-		}
+	s.HasLateConstraint, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.Bias, _err = p.ReadInt32()
 	if _err != nil {
@@ -234,14 +192,8 @@ func (s *JobInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.flags: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.flags
+		return _err
 	}
 	s.NumDebugTags, _err = p.ReadInt32()
 	if _err != nil {

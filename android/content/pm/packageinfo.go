@@ -17,6 +17,9 @@ type PackageInfo struct {
 	FirstInstallTime          int64
 	LastUpdateTime            int64
 	InstallLocation           int32
+	IsStub                    bool
+	CoreApp                   bool
+	RequiredForAllUsers       bool
 	RestrictedAccountType     string
 	RequiredAccountType       string
 	OverlayTarget             string
@@ -28,6 +31,7 @@ type PackageInfo struct {
 	IsApex                    bool
 	IsActiveApex              bool
 	ArchiveTimeMillis         int64
+	ApplicationInfo           ApplicationInfo
 }
 
 var _ parcel.Parcelable = (*PackageInfo)(nil)
@@ -45,7 +49,9 @@ func (s *PackageInfo) MarshalParcel(
 	p.WriteString(s.SharedUserId)
 	p.WriteInt32(s.SharedUserLabel)
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Dest
+	if _err := s.ApplicationInfo.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt64(s.FirstInstallTime)
 	p.WriteInt64(s.LastUpdateTime)
 	p.WriteInt32(-1) // null Gids
@@ -63,9 +69,9 @@ func (s *PackageInfo) MarshalParcel(
 	p.WriteInt32(-1) // null FeatureGroups
 	p.WriteInt32(-1) // null Attributions
 	p.WriteInt32(s.InstallLocation)
-	p.WriteInt32(0) // null IsStub?1:0
-	p.WriteInt32(0) // null CoreApp?1:0
-	p.WriteInt32(0) // null RequiredForAllUsers?1:0
+	p.WriteBool(s.IsStub)
+	p.WriteBool(s.CoreApp)
+	p.WriteBool(s.RequiredForAllUsers)
 	p.WriteString(s.RestrictedAccountType)
 	p.WriteString(s.RequiredAccountType)
 	p.WriteString(s.OverlayTarget)
@@ -75,7 +81,7 @@ func (s *PackageInfo) MarshalParcel(
 	p.WriteInt32(s.CompileSdkVersion)
 	p.WriteString(s.CompileSdkVersionCodename)
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null SigningInfo
 	p.WriteBool(s.IsApex)
 	p.WriteBool(s.IsActiveApex)
 	p.WriteInt64(s.ArchiveTimeMillis)
@@ -92,15 +98,7 @@ func (s *PackageInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque SplitNames: cannot skip without known wire format
 	s.VersionCode, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -118,12 +116,12 @@ func (s *PackageInfo) UnmarshalParcel(
 		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
 	s.SharedUserId, _err = p.ReadString()
@@ -137,14 +135,8 @@ func (s *PackageInfo) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.ApplicationInfo.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	s.FirstInstallTime, _err = p.ReadInt64()
 	if _err != nil {
@@ -155,161 +147,50 @@ func (s *PackageInfo) UnmarshalParcel(
 		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
+	return nil // opaque Activities: cannot skip without known wire format
+	return nil // opaque Receivers: cannot skip without known wire format
+	return nil // opaque Services: cannot skip without known wire format
+	return nil // opaque Providers: cannot skip without known wire format
+	return nil // opaque Instrumentation: cannot skip without known wire format
+	return nil // opaque Permissions: cannot skip without known wire format
+	return nil // opaque RequestedPermissions: cannot skip without known wire format
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Signatures: cannot skip without known wire format
+	return nil // opaque ConfigPreferences: cannot skip without known wire format
+	return nil // opaque ReqFeatures: cannot skip without known wire format
+	return nil // opaque FeatureGroups: cannot skip without known wire format
+	return nil // opaque Attributions: cannot skip without known wire format
 	s.InstallLocation, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IsStub?1:0: cannot skip unknown-size typed object
-		}
+	s.IsStub, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null CoreApp?1:0: cannot skip unknown-size typed object
-		}
+	s.CoreApp, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null RequiredForAllUsers?1:0: cannot skip unknown-size typed object
-		}
+	s.RequiredForAllUsers, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.RestrictedAccountType, _err = p.ReadString()
 	if _err != nil {
@@ -346,15 +227,7 @@ func (s *PackageInfo) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque SigningInfo: cannot skip without known wire format
 	s.IsApex, _err = p.ReadBool()
 	if _err != nil {
 		return _err

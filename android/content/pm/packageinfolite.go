@@ -13,6 +13,8 @@ type PackageInfoLite struct {
 	BaseRevisionCode           int32
 	RecommendedInstallLocation int32
 	InstallLocation            int32
+	MultiArch                  bool
+	Debuggable                 bool
 }
 
 var _ parcel.Parcelable = (*PackageInfoLite)(nil)
@@ -28,8 +30,8 @@ func (s *PackageInfoLite) MarshalParcel(
 	p.WriteInt32(-1) // null SplitRevisionCodes
 	p.WriteInt32(s.RecommendedInstallLocation)
 	p.WriteInt32(s.InstallLocation)
-	p.WriteInt32(0) // null MultiArch?1:0
-	p.WriteInt32(0) // null Debuggable?1:0
+	p.WriteBool(s.MultiArch)
+	p.WriteBool(s.Debuggable)
 	p.WriteInt32(0)
 	return nil
 }
@@ -43,12 +45,14 @@ func (s *PackageInfoLite) UnmarshalParcel(
 		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		for _j := int32(0); _j < _arrLen; _j++ {
+			if _, _arrErr = p.ReadString16(); _arrErr != nil {
+				return _arrErr
+			}
 		}
 	}
 	s.VersionCode, _err = p.ReadInt32()
@@ -64,12 +68,12 @@ func (s *PackageInfoLite) UnmarshalParcel(
 		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
 	s.RecommendedInstallLocation, _err = p.ReadInt32()
@@ -80,23 +84,13 @@ func (s *PackageInfoLite) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null MultiArch?1:0: cannot skip unknown-size typed object
-		}
+	s.MultiArch, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Debuggable?1:0: cannot skip unknown-size typed object
-		}
+	s.Debuggable, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err

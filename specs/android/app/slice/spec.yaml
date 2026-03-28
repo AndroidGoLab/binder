@@ -186,8 +186,8 @@ parcelables:
           write_method: string_array
         - name: Items.length
           write_method: int32
-        - name: Dest
-          write_method: opaque
+        - name: Uri
+          write_method: delegate
         - name: Spec
           write_method: typed_object
     - name: SliceSpec

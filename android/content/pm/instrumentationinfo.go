@@ -25,7 +25,7 @@ var _ parcel.Parcelable = (*InstrumentationInfo)(nil)
 func (s *InstrumentationInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Super
 	p.WriteString(s.TargetPackage)
 	p.WriteString(s.TargetProcesses)
 	p.WriteString(s.SourceDir)
@@ -41,8 +41,8 @@ func (s *InstrumentationInfo) MarshalParcel(
 	p.WriteString(s.SecondaryCpuAbi)
 	p.WriteString(s.NativeLibraryDir)
 	p.WriteString(s.SecondaryNativeLibraryDir)
-	p.WriteInt32(0) // null (handleProfiling==false)?0:1
-	p.WriteInt32(0) // null (functionalTest==false)?0:1
+	p.WriteBool(false) // placeholder (handleProfiling==false)
+	p.WriteBool(false) // placeholder (functionalTest==false)
 	return nil
 }
 
@@ -50,15 +50,7 @@ func (s *InstrumentationInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Super: cannot skip without known wire format
 	s.TargetPackage, _err = p.ReadString()
 	if _err != nil {
 		return _err
@@ -75,42 +67,10 @@ func (s *InstrumentationInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque SplitNames: cannot skip without known wire format
+	return nil // opaque SplitSourceDirs: cannot skip without known wire format
+	return nil // opaque SplitPublicSourceDirs: cannot skip without known wire format
+	return nil // opaque (SparseArray)splitDependencies: cannot skip without known wire format
 	s.DataDir, _err = p.ReadString()
 	if _err != nil {
 		return _err
@@ -139,23 +99,11 @@ func (s *InstrumentationInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (handleProfiling==false)?0:1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip (handleProfiling==false)
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (functionalTest==false)?0:1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip (functionalTest==false)
+		return _err
 	}
 	return nil
 }

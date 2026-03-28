@@ -14,6 +14,9 @@ type SearchableInfo struct {
 	SearchButtonText       int32
 	SearchInputType        int32
 	SearchImeOptions       int32
+	IncludeInGlobalSearch  bool
+	QueryAfterZeroResults  bool
+	AutoUrlDetect          bool
 	SettingsDescriptionId  int32
 	SuggestAuthority       string
 	SuggestPath            string
@@ -35,16 +38,16 @@ func (s *SearchableInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.LabelId)
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null SearchActivity
 	p.WriteInt32(s.HintId)
 	p.WriteInt32(s.SearchMode)
 	p.WriteInt32(s.IconId)
 	p.WriteInt32(s.SearchButtonText)
 	p.WriteInt32(s.SearchInputType)
 	p.WriteInt32(s.SearchImeOptions)
-	p.WriteInt32(0) // null IncludeInGlobalSearch?1:0
-	p.WriteInt32(0) // null QueryAfterZeroResults?1:0
-	p.WriteInt32(0) // null AutoUrlDetect?1:0
+	p.WriteBool(s.IncludeInGlobalSearch)
+	p.WriteBool(s.QueryAfterZeroResults)
+	p.WriteBool(s.AutoUrlDetect)
 	p.WriteInt32(s.SettingsDescriptionId)
 	p.WriteString16(s.SuggestAuthority)
 	p.WriteString16(s.SuggestPath)
@@ -70,15 +73,7 @@ func (s *SearchableInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque SearchActivity: cannot skip without known wire format
 	s.HintId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -103,32 +98,17 @@ func (s *SearchableInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IncludeInGlobalSearch?1:0: cannot skip unknown-size typed object
-		}
+	s.IncludeInGlobalSearch, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null QueryAfterZeroResults?1:0: cannot skip unknown-size typed object
-		}
+	s.QueryAfterZeroResults, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null AutoUrlDetect?1:0: cannot skip unknown-size typed object
-		}
+	s.AutoUrlDetect, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.SettingsDescriptionId, _err = p.ReadInt32()
 	if _err != nil {

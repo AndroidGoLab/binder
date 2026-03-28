@@ -23,18 +23,18 @@ var _ parcel.Parcelable = (*AccessibilityEvent)(nil)
 func (s *AccessibilityEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null IsSealed()?1:0
+	p.WriteBool(false) // placeholder IsSealed()
 	p.WriteInt32(s.EventType)
 	p.WriteInt32(s.MovementGranularity)
 	p.WriteInt32(s.Action)
 	p.WriteInt32(s.ContentChangeTypes)
 	p.WriteInt32(s.WindowChangeTypes)
 	p.WriteInt32(s.SpeechStateChangeTypes)
-	p.WriteInt32(-1) // null PackageName
+	p.WriteInt32(-1) // null TextUtils
 	p.WriteInt64(s.EventTime)
 	p.WriteInt32(s.ConnectionId)
 	p.WriteInt32(s.RecordCount)
-	p.WriteInt32(0) // null OriginStackTrace.length
+	p.WriteInt32(0) // placeholder OriginStackTrace.length
 	return nil
 }
 
@@ -42,14 +42,8 @@ func (s *AccessibilityEvent) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IsSealed()?1:0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip IsSealed()
+		return _err
 	}
 	s.EventType, _err = p.ReadInt32()
 	if _err != nil {
@@ -75,15 +69,7 @@ func (s *AccessibilityEvent) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TextUtils: cannot skip without known wire format
 	s.EventTime, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
@@ -96,14 +82,8 @@ func (s *AccessibilityEvent) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null OriginStackTrace.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip OriginStackTrace.length
+		return _err
 	}
 	return nil
 }

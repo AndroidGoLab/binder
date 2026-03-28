@@ -1,7 +1,6 @@
 package types
 
 import (
-	appTypes "github.com/AndroidGoLab/binder/android/app/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -20,7 +19,6 @@ type RemoteAnimationTarget struct {
 	ShowBackdrop        bool
 	WillShowImeOnTarget bool
 	RotationChange      int32
-	WindowConfiguration *appTypes.WindowConfiguration
 }
 
 var _ parcel.Parcelable = (*RemoteAnimationTarget)(nil)
@@ -39,14 +37,7 @@ func (s *RemoteAnimationTarget) MarshalParcel(
 	p.WriteInt32(0) // null LocalBounds
 	p.WriteInt32(0) // null SourceContainerBounds
 	p.WriteInt32(0) // null ScreenSpaceBounds
-	if s.WindowConfiguration != nil {
-		p.WriteInt32(1)
-		if _err := s.WindowConfiguration.MarshalParcel(p); _err != nil {
-			return _err
-		}
-	} else {
-		p.WriteInt32(0)
-	}
+	p.WriteInt32(0) // opaque: cycle prevents typed marshal
 	p.WriteBool(s.IsNotInRecents)
 	p.WriteInt32(0) // null StartLeash
 	p.WriteInt32(0) // null StartBounds
@@ -149,12 +140,7 @@ func (s *RemoteAnimationTarget) UnmarshalParcel(
 		if _err != nil {
 			return _err
 		}
-		if _flag != 0 {
-			s.WindowConfiguration = &appTypes.WindowConfiguration{}
-			if _err = s.WindowConfiguration.UnmarshalParcel(p); _err != nil {
-				return _err
-			}
-		}
+		_ = _flag // opaque: cycle prevents typed unmarshal
 	}
 	s.IsNotInRecents, _err = p.ReadBool()
 	if _err != nil {

@@ -1,6 +1,7 @@
 package wallpapereffectsgeneration
 
 import (
+	graphics "github.com/AndroidGoLab/binder/android/graphics"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -8,6 +9,7 @@ import (
 
 type CinematicEffectRequest struct {
 	TaskId string
+	Bitmap graphics.Bitmap
 }
 
 var _ parcel.Parcelable = (*CinematicEffectRequest)(nil)
@@ -16,7 +18,9 @@ func (s *CinematicEffectRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.TaskId)
-	p.WriteInt32(-1) // null Out
+	if _err := s.Bitmap.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	return nil
 }
 
@@ -28,14 +32,8 @@ func (s *CinematicEffectRequest) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.Bitmap.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	return nil
 }

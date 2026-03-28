@@ -45,7 +45,7 @@ func (s *ContextHubInfo) MarshalParcel(
 	p.WriteInt32(s.ChreApiMajorVersion)
 	p.WriteInt32(s.ChreApiMinorVersion)
 	p.WriteInt32(s.ChrePatchVersion)
-	p.WriteInt32(0)  // null SupportedSensors.length
+	p.WriteInt32(0)  // placeholder SupportedSensors.length
 	p.WriteInt32(-1) // null SupportedSensors
 	p.WriteInt32(-1) // null MemoryRegions
 	p.WriteBool(s.SupportsReliableMessages)
@@ -116,33 +116,19 @@ func (s *ContextHubInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null SupportedSensors.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip SupportedSensors.length
+		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
+	return nil // opaque MemoryRegions: cannot skip without known wire format
 	s.SupportsReliableMessages, _err = p.ReadBool()
 	if _err != nil {
 		return _err

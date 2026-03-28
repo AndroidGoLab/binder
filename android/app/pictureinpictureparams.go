@@ -18,7 +18,7 @@ func (s *PictureInPictureParams) MarshalParcel(
 	p.WriteInt32(-1) // null UserActions
 	p.WriteInt32(0)  // null CloseAction
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null SourceRectHint
 	p.WriteInt32(1)
 	p.WriteInt32(0) // null AutoEnterEnabled
 	p.WriteInt32(1)
@@ -39,15 +39,7 @@ func (s *PictureInPictureParams) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque UserActions: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -60,15 +52,7 @@ func (s *PictureInPictureParams) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque SourceRectHint: cannot skip without known wire format
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
@@ -96,27 +80,11 @@ func (s *PictureInPictureParams) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Title: cannot skip without known wire format
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Subtitle: cannot skip without known wire format
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}

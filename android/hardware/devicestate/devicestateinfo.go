@@ -16,7 +16,7 @@ var _ parcel.Parcelable = (*DeviceStateInfo)(nil)
 func (s *DeviceStateInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null SupportedStates.length
+	p.WriteInt32(0) // placeholder SupportedStates.length
 	p.WriteInt32(s.BaseState)
 	p.WriteInt32(s.CurrentState)
 	return nil
@@ -26,14 +26,8 @@ func (s *DeviceStateInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null SupportedStates.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip SupportedStates.length
+		return _err
 	}
 	s.BaseState, _err = p.ReadInt32()
 	if _err != nil {

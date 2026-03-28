@@ -32,6 +32,7 @@ func (s *FrontendDvbsSettings) MarshalParcel(
 	p.WriteInt64(s.EndFrequency)
 	p.WriteInt32(int32(s.Inversion))
 	p.WriteInt32(int32(s.Modulation))
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Coderate.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -103,6 +104,9 @@ func (s *FrontendDvbsSettings) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Coderate.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

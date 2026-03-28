@@ -5431,8 +5431,8 @@ interfaces:
 parcelables:
     - name: ActivityInfo
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: Theme
           write_method: int32
         - name: LaunchMode
@@ -5470,8 +5470,8 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: windowLayout!=null
-        - name: Dest
-          write_method: opaque
+        - name: WindowLayout
+          write_method: delegate
           condition: windowLayout!=null
         - name: ResizeMode
           write_method: int32
@@ -5516,8 +5516,8 @@ parcelables:
           condition: mInstallerCertificate!=null
     - name: ApplicationInfo
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: TaskAffinity
           write_method: string8
         - name: Permission
@@ -5571,8 +5571,8 @@ parcelables:
           write_method: string8
         - name: NativeLibraryRootDir
           write_method: string8
-        - name: NativeLibraryRootRequiresIsa?1:0
-          write_method: int32
+        - name: NativeLibraryRootRequiresIsa
+          write_method: bool
         - name: PrimaryCpuAbi
           write_method: string8
         - name: SecondaryCpuAbi
@@ -5605,8 +5605,8 @@ parcelables:
           write_method: int32
         - name: LongVersionCode
           write_method: int64
-        - name: Enabled?1:0
-          write_method: int32
+        - name: Enabled
+          write_method: bool
         - name: EnabledSetting
           write_method: int32
         - name: InstallLocation
@@ -5647,8 +5647,8 @@ parcelables:
           write_method: int32
         - name: HiddenApiPolicy
           write_method: int32
-        - name: HiddenUntilInstalled?1:0
-          write_method: int32
+        - name: HiddenUntilInstalled
+          write_method: bool
         - name: ZygotePreloadName
           write_method: string8
         - name: GwpAsanMode
@@ -5664,8 +5664,8 @@ parcelables:
           condition: mAppClassNamesByProcess==null
         - name: LocaleConfigRes
           write_method: int32
-        - name: AllowCrossUidActivitySwitchFromBelow?1:0
-          write_method: int32
+        - name: AllowCrossUidActivitySwitchFromBelow
+          write_method: bool
     - name: ArchivedActivityParcel
       fields:
         - name: title
@@ -5873,8 +5873,8 @@ parcelables:
           write_method: string16
     - name: InstrumentationInfo
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: TargetPackage
           write_method: string8
         - name: TargetProcesses
@@ -5905,10 +5905,10 @@ parcelables:
           write_method: string8
         - name: SecondaryNativeLibraryDir
           write_method: string8
-        - name: (handleProfiling==false)?0:1
-          write_method: int32
-        - name: (functionalTest==false)?0:1
-          write_method: int32
+        - name: (handleProfiling==false)
+          write_method: bool
+        - name: (functionalTest==false)
+          write_method: bool
     - name: IntentFilterVerificationInfo
       java_wire_format:
         - name: PackageName
@@ -5923,14 +5923,14 @@ parcelables:
           write_method: binder
     - name: LabeledIntent
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: SourcePackage
           write_method: string16
         - name: LabelRes
           write_method: int32
-        - name: NonLocalizedLabel
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: Icon
           write_method: int32
     - name: LauncherActivityInfoInternal
@@ -5983,8 +5983,8 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: applicationInfo!=null
-        - name: Dest
-          write_method: opaque
+        - name: ApplicationInfo
+          write_method: delegate
           condition: applicationInfo!=null
         - name: FirstInstallTime
           write_method: int64
@@ -6020,12 +6020,12 @@ parcelables:
           write_method: opaque
         - name: InstallLocation
           write_method: int32
-        - name: IsStub?1:0
-          write_method: int32
-        - name: CoreApp?1:0
-          write_method: int32
-        - name: RequiredForAllUsers?1:0
-          write_method: int32
+        - name: IsStub
+          write_method: bool
+        - name: CoreApp
+          write_method: bool
+        - name: RequiredForAllUsers
+          write_method: bool
         - name: RestrictedAccountType
           write_method: string8
         - name: RequiredAccountType
@@ -6045,8 +6045,8 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: signingInfo!=null
-        - name: Dest
-          write_method: opaque
+        - name: SigningInfo
+          write_method: delegate
           condition: signingInfo!=null
         - name: IsApex
           write_method: bool
@@ -6078,10 +6078,10 @@ parcelables:
           write_method: int32
         - name: InstallLocation
           write_method: int32
-        - name: MultiArch?1:0
-          write_method: int32
-        - name: Debuggable?1:0
-          write_method: int32
+        - name: MultiArch
+          write_method: bool
+        - name: Debuggable
+          write_method: bool
         - name: "0"
           write_method: int32
           condition: verifiers==null||verifiers.length==0
@@ -6128,8 +6128,8 @@ parcelables:
     - name: ParceledListSlice
     - name: PermissionGroupInfo
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: DescriptionRes
           write_method: int32
         - name: RequestRes
@@ -6140,16 +6140,16 @@ parcelables:
           write_method: int32
         - name: BackgroundRequestDetailResourceId
           write_method: int32
-        - name: NonLocalizedDescription
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: Flags
           write_method: int32
         - name: Priority
           write_method: int32
     - name: PermissionInfo
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: ProtectionLevel
           write_method: int32
         - name: Flags
@@ -6162,34 +6162,34 @@ parcelables:
           write_method: int32
         - name: RequestRes
           write_method: int32
-        - name: NonLocalizedDescription
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
     - name: ProviderInfo
       java_wire_format:
-        - name: Out
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: Authority
           write_method: string8
         - name: ReadPermission
           write_method: string8
         - name: WritePermission
           write_method: string8
-        - name: GrantUriPermissions?1:0
-          write_method: int32
-        - name: ForceUriPermissions?1:0
-          write_method: int32
+        - name: GrantUriPermissions
+          write_method: bool
+        - name: ForceUriPermissions
+          write_method: bool
         - name: UriPermissionPatterns
           write_method: opaque
         - name: PathPermissions
           write_method: opaque
-        - name: Multiprocess?1:0
-          write_method: int32
+        - name: Multiprocess
+          write_method: bool
         - name: InitOrder
           write_method: int32
         - name: Flags
           write_method: int32
-        - name: IsSyncable?1:0
-          write_method: int32
+        - name: IsSyncable
+          write_method: bool
     - name: ProviderInfoList
       java_wire_format:
         - name: List
@@ -6199,14 +6199,14 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: activityInfo!=null
-        - name: Dest
-          write_method: opaque
+        - name: ActivityInfo
+          write_method: delegate
           condition: activityInfo!=null
         - name: "1"
           write_method: int32
           condition: filter!=null
-        - name: Dest
-          write_method: opaque
+        - name: Filter
+          write_method: delegate
           condition: filter!=null
         - name: Priority
           write_method: int32
@@ -6218,32 +6218,32 @@ parcelables:
           write_method: int32
         - name: LabelRes
           write_method: int32
-        - name: NonLocalizedLabel
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: Icon
           write_method: int32
         - name: ResolvePackageName
           write_method: string8
         - name: TargetUserId
           write_method: int32
-        - name: System?1:0
-          write_method: int32
-        - name: NoResourceId?1:0
-          write_method: int32
+        - name: System
+          write_method: bool
+        - name: NoResourceId
+          write_method: bool
         - name: IconResourceId
           write_method: int32
-        - name: HandleAllWebDataURI?1:0
-          write_method: int32
-        - name: AutoResolutionAllowed?1:0
-          write_method: int32
-        - name: IsInstantAppAvailable?1:0
-          write_method: int32
-        - name: UserHandle!=null?userHandle.getIdentifier():UserHandle.USER_CURRENT
-          write_method: int32
+        - name: HandleAllWebDataURI
+          write_method: bool
+        - name: AutoResolutionAllowed
+          write_method: bool
+        - name: IsInstantAppAvailable
+          write_method: bool
+        - name: UserHandle!=null
+          write_method: bool
     - name: ServiceInfo
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: Permission
           write_method: string8
         - name: Flags

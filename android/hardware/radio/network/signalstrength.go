@@ -22,24 +22,31 @@ func (s *SignalStrength) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Gsm.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Cdma.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Evdo.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Lte.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Tdscdma.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Wcdma.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Nr.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -61,6 +68,9 @@ func (s *SignalStrength) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Gsm.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -70,6 +80,9 @@ func (s *SignalStrength) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Cdma.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -79,6 +92,9 @@ func (s *SignalStrength) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Evdo.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -88,6 +104,9 @@ func (s *SignalStrength) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Lte.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -97,6 +116,9 @@ func (s *SignalStrength) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Tdscdma.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -106,6 +128,9 @@ func (s *SignalStrength) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Wcdma.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -115,6 +140,9 @@ func (s *SignalStrength) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Nr.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

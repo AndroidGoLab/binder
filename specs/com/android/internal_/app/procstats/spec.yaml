@@ -135,14 +135,14 @@ parcelables:
           write_method: int64
         - name: Runtime
           write_method: string16
-        - name: HasSwappedOutPss?1:0
-          write_method: int32
+        - name: HasSwappedOutPss
+          write_method: bool
         - name: Flags
           write_method: int32
-        - name: Out
-          write_method: opaque
-        - name: Out
-          write_method: opaque
+        - name: TableData
+          write_method: delegate
+        - name: SysMemUsage
+          write_method: delegate
         - name: NumOfUids
           write_method: int32
         - name: NPROC

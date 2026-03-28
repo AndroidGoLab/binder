@@ -18,7 +18,7 @@ func (s *IccOpenLogicalChannelResponse) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Channel)
 	p.WriteInt32(s.Status)
-	p.WriteInt32(0)  // null SelectResponse.length
+	p.WriteInt32(0)  // placeholder SelectResponse.length
 	p.WriteInt32(-1) // null SelectResponse
 	return nil
 }
@@ -35,23 +35,9 @@ func (s *IccOpenLogicalChannelResponse) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null SelectResponse.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip SelectResponse.length
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque SelectResponse: cannot skip without known wire format
 	return nil
 }

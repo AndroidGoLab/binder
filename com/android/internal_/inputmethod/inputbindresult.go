@@ -1,6 +1,7 @@
 package inputmethod
 
 import (
+	stats "github.com/AndroidGoLab/binder/android/hardware/power/stats"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -11,6 +12,7 @@ type InputBindResult struct {
 	Id                                   string
 	Sequence                             int32
 	IsInputMethodSuppressingSpellChecker bool
+	Channel                              stats.Channel
 }
 
 var _ parcel.Parcelable = (*InputBindResult)(nil)
@@ -22,7 +24,9 @@ func (s *InputBindResult) MarshalParcel(
 	p.WriteInt32(-1) // null Method
 	p.WriteInt32(-1)
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Dest
+	if _err := s.Channel.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.Sequence)
 	p.WriteBool(s.IsInputMethodSuppressingSpellChecker)
@@ -37,29 +41,15 @@ func (s *InputBindResult) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Method: cannot skip without known wire format
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.Channel.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	s.Id, _err = p.ReadString16()
 	if _err != nil {

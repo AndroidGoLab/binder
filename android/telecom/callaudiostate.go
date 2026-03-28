@@ -16,7 +16,7 @@ var _ parcel.Parcelable = (*CallAudioState)(nil)
 func (s *CallAudioState) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null (byte)(isMuted?1:0)
+	p.WriteInt32(0) // placeholder (byte)(isMuted?1:0)
 	p.WriteInt32(s.Route)
 	p.WriteInt32(s.SupportedRouteMask)
 	p.WriteInt32(0)  // null ActiveBluetoothDevice
@@ -28,14 +28,8 @@ func (s *CallAudioState) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(isMuted?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(isMuted?1:0)
+		return _err
 	}
 	s.Route, _err = p.ReadInt32()
 	if _err != nil {
@@ -54,14 +48,6 @@ func (s *CallAudioState) UnmarshalParcel(
 			return nil // non-null ActiveBluetoothDevice: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque NewArrayList<>(supportedBluetoothDevices): cannot skip without known wire format
 	return nil
 }

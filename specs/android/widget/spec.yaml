@@ -11,11 +11,11 @@ parcelables:
         - name: Dest
           write_method: opaque
           condition: '!hasMultipleLayouts() && mIsRoot'
-        - name: Dest
-          write_method: opaque
+        - name: CollectionCache
+          write_method: delegate
           condition: '!hasMultipleLayouts() && mIsRoot'
-        - name: Dest
-          write_method: opaque
+        - name: Application
+          write_method: delegate
           condition: '!hasMultipleLayouts()'
         - name: "0"
           write_method: int32

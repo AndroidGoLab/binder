@@ -24,41 +24,9 @@ func (s *WindowContainerTransaction) MarshalParcel(
 func (s *WindowContainerTransaction) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Changes: cannot skip without known wire format
+	return nil // opaque HierarchyOps: cannot skip without known wire format
+	return nil // opaque ErrorCallbackToken: cannot skip without known wire format
+	return nil // opaque TaskFragmentOrganizer: cannot skip without known wire format
 	return nil
 }

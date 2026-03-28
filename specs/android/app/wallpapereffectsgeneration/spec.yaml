@@ -47,8 +47,8 @@ parcelables:
       java_wire_format:
         - name: TaskId
           write_method: string16
-        - name: Out
-          write_method: opaque
+        - name: Bitmap
+          write_method: delegate
     - name: CinematicEffectResponse
       java_wire_format:
         - name: StatusCode

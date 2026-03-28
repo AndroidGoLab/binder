@@ -8,8 +8,14 @@ import (
 
 type NotificationChannel struct {
 	Importance                 int32
+	BypassDnd                  bool
 	LockscreenVisibility       int32
+	Lights                     bool
 	UserLockedFields           int32
+	UserVisibleTaskShown       bool
+	VibrationEnabled           bool
+	ShowBadge                  bool
+	Deleted                    bool
 	LightColor                 int32
 	BlockableSystem            bool
 	AllowBubbles               int32
@@ -27,30 +33,29 @@ var _ parcel.Parcelable = (*NotificationChannel)(nil)
 func (s *NotificationChannel) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null (byte)1
+	p.WriteInt32(0) // placeholder (byte)1
 	p.WriteInt32(0) // null Id
-	p.WriteInt32(0) // null (byte)1
+	p.WriteInt32(0) // placeholder (byte)1
 	p.WriteInt32(0) // null Name
-	p.WriteInt32(0) // null (byte)1
+	p.WriteInt32(0) // placeholder (byte)1
 	p.WriteInt32(0) // null Desc
 	p.WriteInt32(s.Importance)
-	p.WriteInt32(0) // null BypassDnd?(byte)1:(byte)0
+	p.WriteBool(s.BypassDnd)
 	p.WriteInt32(s.LockscreenVisibility)
-	p.WriteInt32(0)  // null (byte)1
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(0)  // null Lights?(byte)1:(byte)0
+	p.WriteInt32(0)  // placeholder (byte)1
+	p.WriteInt32(-1) // null Sound
+	p.WriteBool(s.Lights)
 	p.WriteInt32(-1) // null VibrationPattern
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(s.UserLockedFields)
-	p.WriteInt32(0) // null UserVisibleTaskShown?(byte)1:(byte)0
-	p.WriteInt32(0) // null VibrationEnabled?(byte)1:(byte)0
-	p.WriteInt32(0) // null ShowBadge?(byte)1:(byte)0
-	p.WriteInt32(0) // null Deleted?(byte)1:(byte)0
-	p.WriteInt32(0) // null (byte)1
+	p.WriteBool(s.UserVisibleTaskShown)
+	p.WriteBool(s.VibrationEnabled)
+	p.WriteBool(s.ShowBadge)
+	p.WriteBool(s.Deleted)
+	p.WriteInt32(0) // placeholder (byte)1
 	p.WriteInt32(0) // null Group
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null AudioAttributes
 	p.WriteInt32(s.LightColor)
 	p.WriteBool(s.BlockableSystem)
 	p.WriteInt32(s.AllowBubbles)
@@ -68,14 +73,8 @@ func (s *NotificationChannel) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -86,14 +85,8 @@ func (s *NotificationChannel) UnmarshalParcel(
 			return nil // non-null Id: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -104,14 +97,8 @@ func (s *NotificationChannel) UnmarshalParcel(
 			return nil // non-null Name: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -126,115 +113,48 @@ func (s *NotificationChannel) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null BypassDnd?(byte)1:(byte)0: cannot skip unknown-size typed object
-		}
+	s.BypassDnd, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.LockscreenVisibility, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Lights?(byte)1:(byte)0: cannot skip unknown-size typed object
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	if _, _err = p.ReadInt32(); _err != nil {
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	return nil // opaque Sound: cannot skip without known wire format
+	s.Lights, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	return nil // opaque VibrationPattern: cannot skip without known wire format
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	s.UserLockedFields, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null UserVisibleTaskShown?(byte)1:(byte)0: cannot skip unknown-size typed object
-		}
+	s.UserVisibleTaskShown, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null VibrationEnabled?(byte)1:(byte)0: cannot skip unknown-size typed object
-		}
+	s.VibrationEnabled, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null ShowBadge?(byte)1:(byte)0: cannot skip unknown-size typed object
-		}
+	s.ShowBadge, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Deleted?(byte)1:(byte)0: cannot skip unknown-size typed object
-		}
+	s.Deleted, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -248,15 +168,7 @@ func (s *NotificationChannel) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque AudioAttributes: cannot skip without known wire format
 	s.LightColor, _err = p.ReadInt32()
 	if _err != nil {
 		return _err

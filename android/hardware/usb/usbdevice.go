@@ -16,6 +16,11 @@ type UsbDevice struct {
 	ManufacturerName string
 	ProductName      string
 	Version          string
+	HasAudioPlayback bool
+	HasAudioCapture  bool
+	HasMidi          bool
+	HasVideoPlayback bool
+	HasVideoCapture  bool
 }
 
 var _ parcel.Parcelable = (*UsbDevice)(nil)
@@ -34,11 +39,11 @@ func (s *UsbDevice) MarshalParcel(
 	p.WriteString16(s.Version)
 	p.WriteInt32(-1) // null SerialNumberReader.asBinder()
 	p.WriteInt32(-1) // null Configurations
-	p.WriteInt32(0)  // null HasAudioPlayback?1:0
-	p.WriteInt32(0)  // null HasAudioCapture?1:0
-	p.WriteInt32(0)  // null HasMidi?1:0
-	p.WriteInt32(0)  // null HasVideoPlayback?1:0
-	p.WriteInt32(0)  // null HasVideoCapture?1:0
+	p.WriteBool(s.HasAudioPlayback)
+	p.WriteBool(s.HasAudioCapture)
+	p.WriteBool(s.HasMidi)
+	p.WriteBool(s.HasVideoPlayback)
+	p.WriteBool(s.HasVideoCapture)
 	return nil
 }
 
@@ -82,68 +87,27 @@ func (s *UsbDevice) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	return nil // opaque SerialNumberReader.asBinder(): cannot skip without known wire format
+	return nil // opaque Configurations: cannot skip without known wire format
+	s.HasAudioPlayback, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	s.HasAudioCapture, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null HasAudioPlayback?1:0: cannot skip unknown-size typed object
-		}
+	s.HasMidi, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null HasAudioCapture?1:0: cannot skip unknown-size typed object
-		}
+	s.HasVideoPlayback, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null HasMidi?1:0: cannot skip unknown-size typed object
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null HasVideoPlayback?1:0: cannot skip unknown-size typed object
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null HasVideoCapture?1:0: cannot skip unknown-size typed object
-		}
+	s.HasVideoCapture, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	return nil
 }

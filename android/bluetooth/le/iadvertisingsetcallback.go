@@ -39,7 +39,7 @@ const (
 
 type IAdvertisingSetCallback interface {
 	AsBinder() binder.IBinder
-	OnAdvertisingSetStarted(ctx context.Context, gattBinder binder.IBinder, advertiserId int32, tx_power int32, status int32) error
+	OnAdvertisingSetStarted(ctx context.Context, advertiseBinder binder.IBinder, advertiserId int32, tx_power int32, status int32) error
 	OnOwnAddressRead(ctx context.Context, advertiserId int32, addressType int32, address string) error
 	OnAdvertisingSetStopped(ctx context.Context, advertiserId int32) error
 	OnAdvertisingEnabled(ctx context.Context, advertiserId int32, enable bool, status int32) error
@@ -69,7 +69,7 @@ var _ IAdvertisingSetCallback = (*AdvertisingSetCallbackProxy)(nil)
 
 func (p *AdvertisingSetCallbackProxy) OnAdvertisingSetStarted(
 	ctx context.Context,
-	gattBinder binder.IBinder,
+	advertiseBinder binder.IBinder,
 	advertiserId int32,
 	tx_power int32,
 	status int32,
@@ -77,7 +77,7 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingSetStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
-	binder.WriteBinderToParcel(ctx, _data, gattBinder, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, advertiseBinder, p.Remote.Transport())
 	_data.WriteInt32(advertiserId)
 	_data.WriteInt32(tx_power)
 	_data.WriteInt32(status)
@@ -301,13 +301,13 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 
 	switch code {
 	case TransactionIAdvertisingSetCallbackOnAdvertisingSetStarted:
-		var _arg_gattBinder binder.IBinder
+		var _arg_advertiseBinder binder.IBinder
 		{
-			_gattBinderHandle, _err := _data.ReadStrongBinder()
+			_advertiseBinderHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_gattBinder = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _gattBinderHandle)
+			_arg_advertiseBinder = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _advertiseBinderHandle)
 		}
 		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
@@ -321,7 +321,7 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnAdvertisingSetStarted(ctx, _arg_gattBinder, _arg_advertiserId, _arg_tx_power, _arg_status)
+		_err = s.Impl.OnAdvertisingSetStarted(ctx, _arg_advertiseBinder, _arg_advertiserId, _arg_tx_power, _arg_status)
 		return nil, _err
 	case TransactionIAdvertisingSetCallbackOnOwnAddressRead:
 		_arg_advertiserId, _err := _data.ReadInt32()
@@ -443,7 +443,7 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 // provide to NewAdvertisingSetCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAdvertisingSetCallbackServer interface {
-	OnAdvertisingSetStarted(ctx context.Context, gattBinder binder.IBinder, advertiserId int32, tx_power int32, status int32) error
+	OnAdvertisingSetStarted(ctx context.Context, advertiseBinder binder.IBinder, advertiserId int32, tx_power int32, status int32) error
 	OnOwnAddressRead(ctx context.Context, advertiserId int32, addressType int32, address string) error
 	OnAdvertisingSetStopped(ctx context.Context, advertiserId int32) error
 	OnAdvertisingEnabled(ctx context.Context, advertiserId int32, enable bool, status int32) error
@@ -466,12 +466,12 @@ func (w *advertisingSetCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *advertisingSetCallbackStubWrapper) OnAdvertisingSetStarted(
 	ctx context.Context,
-	gattBinder binder.IBinder,
+	advertiseBinder binder.IBinder,
 	advertiserId int32,
 	tx_power int32,
 	status int32,
 ) error {
-	return w.impl.OnAdvertisingSetStarted(ctx, gattBinder, advertiserId, tx_power, status)
+	return w.impl.OnAdvertisingSetStarted(ctx, advertiseBinder, advertiserId, tx_power, status)
 }
 
 func (w *advertisingSetCallbackStubWrapper) OnOwnAddressRead(

@@ -14,6 +14,8 @@ type Intent struct {
 	ExtendedFlags   int32
 	Package         string
 	ContentUserHint int32
+	ComponentName   ComponentName
+	ClipData        ClipData
 }
 
 var _ parcel.Parcelable = (*Intent)(nil)
@@ -22,24 +24,27 @@ func (s *Intent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString(s.Action)
-	p.WriteInt32(-1) // null Out
 	p.WriteString(s.Type)
 	p.WriteString(s.Identifier)
 	p.WriteInt32(s.Flags)
 	p.WriteInt32(s.ExtendedFlags)
 	p.WriteString(s.Package)
-	p.WriteInt32(-1) // null Component
+	if _err := s.ComponentName.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null SourceBounds
 	p.WriteInt32(0)  // null N
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null Selector
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Out
+	if _err := s.ClipData.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.ContentUserHint)
 	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null OriginalIntent
 	return nil
 }
 
@@ -50,15 +55,6 @@ func (s *Intent) UnmarshalParcel(
 	s.Action, _err = p.ReadString()
 	if _err != nil {
 		return _err
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
 	}
 	s.Type, _err = p.ReadString()
 	if _err != nil {
@@ -80,27 +76,13 @@ func (s *Intent) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.ComponentName.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque SourceBounds: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -113,26 +95,12 @@ func (s *Intent) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Selector: cannot skip without known wire format
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.ClipData.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	s.ContentUserHint, _err = p.ReadInt32()
 	if _err != nil {
@@ -150,14 +118,6 @@ func (s *Intent) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque OriginalIntent: cannot skip without known wire format
 	return nil
 }

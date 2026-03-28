@@ -1,6 +1,7 @@
 package projection
 
 import (
+	types "github.com/AndroidGoLab/binder/android/os/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -8,6 +9,7 @@ import (
 
 type MediaProjectionInfo struct {
 	PackageName string
+	UserHandle  types.UserHandle
 }
 
 var _ parcel.Parcelable = (*MediaProjectionInfo)(nil)
@@ -16,7 +18,9 @@ func (s *MediaProjectionInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.PackageName)
-	p.WriteInt32(-1) // null UserHandle
+	if _err := s.UserHandle.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(-1) // null LaunchCookie
 	return nil
 }
@@ -29,23 +33,9 @@ func (s *MediaProjectionInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.UserHandle.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque LaunchCookie: cannot skip without known wire format
 	return nil
 }

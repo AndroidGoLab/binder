@@ -18,6 +18,7 @@ func (s *StreamBufferRet) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.StreamId)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Val.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -49,6 +50,9 @@ func (s *StreamBufferRet) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Val.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

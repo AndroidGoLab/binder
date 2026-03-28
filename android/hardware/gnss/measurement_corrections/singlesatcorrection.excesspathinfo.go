@@ -30,6 +30,7 @@ func (s *SingleSatCorrectionExcessPathInfo) MarshalParcel(
 	p.WriteInt32(s.ExcessPathInfoFlags)
 	p.WriteFloat32(s.ExcessPathLengthMeters)
 	p.WriteFloat32(s.ExcessPathLengthUncertaintyMeters)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.ReflectingPlane.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -82,6 +83,9 @@ func (s *SingleSatCorrectionExcessPathInfo) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.ReflectingPlane.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

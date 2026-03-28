@@ -14,41 +14,17 @@ var _ parcel.Parcelable = (*MergedConfiguration)(nil)
 func (s *MergedConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null GlobalConfig
+	p.WriteInt32(-1) // null OverrideConfig
+	p.WriteInt32(-1) // null MergedConfig
 	return nil
 }
 
 func (s *MergedConfiguration) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque GlobalConfig: cannot skip without known wire format
+	return nil // opaque OverrideConfig: cannot skip without known wire format
+	return nil // opaque MergedConfig: cannot skip without known wire format
 	return nil
 }

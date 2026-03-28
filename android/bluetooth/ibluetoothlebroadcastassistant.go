@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	le "github.com/AndroidGoLab/binder/android/bluetooth/le"
+	content "github.com/AndroidGoLab/binder/android/content"
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/parcel"
 )
@@ -28,6 +29,7 @@ const (
 	TransactionIBluetoothLeBroadcastAssistantRemoveSource                       = binder.FirstCallTransaction + 12
 	TransactionIBluetoothLeBroadcastAssistantGetAllSources                      = binder.FirstCallTransaction + 13
 	TransactionIBluetoothLeBroadcastAssistantGetMaximumSourceCapacity           = binder.FirstCallTransaction + 14
+	TransactionIBluetoothLeBroadcastAssistantGetSourceMetadata                  = binder.FirstCallTransaction + 15
 )
 
 const (
@@ -46,25 +48,27 @@ const (
 	MethodIBluetoothLeBroadcastAssistantRemoveSource                       = "removeSource"
 	MethodIBluetoothLeBroadcastAssistantGetAllSources                      = "getAllSources"
 	MethodIBluetoothLeBroadcastAssistantGetMaximumSourceCapacity           = "getMaximumSourceCapacity"
+	MethodIBluetoothLeBroadcastAssistantGetSourceMetadata                  = "getSourceMetadata"
 )
 
 type IBluetoothLeBroadcastAssistant interface {
 	AsBinder() binder.IBinder
-	GetConnectionState(ctx context.Context, sink BluetoothDevice) (int32, error)
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32) ([]BluetoothDevice, error)
-	GetConnectedDevices(ctx context.Context) ([]BluetoothDevice, error)
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32) (bool, error)
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice) (int32, error)
-	RegisterCallback(ctx context.Context, cb IBluetoothLeBroadcastAssistantCallback) error
-	UnregisterCallback(ctx context.Context, cb IBluetoothLeBroadcastAssistantCallback) error
-	StartSearchingForSources(ctx context.Context, filters []le.ScanFilter) error
-	StopSearchingForSources(ctx context.Context) error
-	IsSearchInProgress(ctx context.Context) (bool, error)
-	AddSource(ctx context.Context, sink BluetoothDevice, sourceMetadata BluetoothLeBroadcastMetadata, isGroupOp bool) error
-	ModifySource(ctx context.Context, sink BluetoothDevice, sourceId int32, updatedMetadata BluetoothLeBroadcastMetadata) error
-	RemoveSource(ctx context.Context, sink BluetoothDevice, sourceId int32) error
-	GetAllSources(ctx context.Context, sink BluetoothDevice) ([]BluetoothLeBroadcastReceiveState, error)
-	GetMaximumSourceCapacity(ctx context.Context, sink BluetoothDevice) (int32, error)
+	GetConnectionState(ctx context.Context, sink BluetoothDevice, source content.AttributionSource) (int32, error)
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, source content.AttributionSource) ([]BluetoothDevice, error)
+	GetConnectedDevices(ctx context.Context, source content.AttributionSource) ([]BluetoothDevice, error)
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, source content.AttributionSource) (bool, error)
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, source content.AttributionSource) (int32, error)
+	RegisterCallback(ctx context.Context, cb IBluetoothLeBroadcastAssistantCallback, source content.AttributionSource) error
+	UnregisterCallback(ctx context.Context, cb IBluetoothLeBroadcastAssistantCallback, source content.AttributionSource) error
+	StartSearchingForSources(ctx context.Context, filters []le.ScanFilter, source content.AttributionSource) error
+	StopSearchingForSources(ctx context.Context, source content.AttributionSource) error
+	IsSearchInProgress(ctx context.Context, source content.AttributionSource) (bool, error)
+	AddSource(ctx context.Context, sink BluetoothDevice, sourceMetadata BluetoothLeBroadcastMetadata, isGroupOp bool, source content.AttributionSource) error
+	ModifySource(ctx context.Context, sink BluetoothDevice, sourceId int32, updatedMetadata BluetoothLeBroadcastMetadata, source content.AttributionSource) error
+	RemoveSource(ctx context.Context, sink BluetoothDevice, sourceId int32, source content.AttributionSource) error
+	GetAllSources(ctx context.Context, sink BluetoothDevice, source content.AttributionSource) ([]BluetoothLeBroadcastReceiveState, error)
+	GetMaximumSourceCapacity(ctx context.Context, sink BluetoothDevice, source content.AttributionSource) (int32, error)
+	GetSourceMetadata(ctx context.Context, sink BluetoothDevice, sourceId int32, source content.AttributionSource) (BluetoothLeBroadcastMetadata, error)
 }
 
 type BluetoothLeBroadcastAssistantProxy struct {
@@ -86,6 +90,7 @@ var _ IBluetoothLeBroadcastAssistant = (*BluetoothLeBroadcastAssistantProxy)(nil
 func (p *BluetoothLeBroadcastAssistantProxy) GetConnectionState(
 	ctx context.Context,
 	sink BluetoothDevice,
+	source content.AttributionSource,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
@@ -93,6 +98,10 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetConnectionState(
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -121,6 +130,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetConnectionState(
 func (p *BluetoothLeBroadcastAssistantProxy) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
+	source content.AttributionSource,
 ) ([]BluetoothDevice, error) {
 	var _result []BluetoothDevice
 	_data := parcel.New()
@@ -133,6 +143,10 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetDevicesMatchingConnectionStates(
 		for _, _item := range states {
 			_data.WriteInt32(_item)
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
+		return _result, _err
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantGetDevicesMatchingConnectionStates)
@@ -161,11 +175,28 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetDevicesMatchingConnectionStates(
 	if _count >= 0 {
 		_result = make([]BluetoothDevice, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
 			}
 		}
 	}
@@ -174,11 +205,16 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetDevicesMatchingConnectionStates(
 
 func (p *BluetoothLeBroadcastAssistantProxy) GetConnectedDevices(
 	ctx context.Context,
+	source content.AttributionSource,
 ) ([]BluetoothDevice, error) {
 	var _result []BluetoothDevice
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantGetConnectedDevices)
 	if _err != nil {
@@ -206,11 +242,28 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetConnectedDevices(
 	if _count >= 0 {
 		_result = make([]BluetoothDevice, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
 			}
 		}
 	}
@@ -221,6 +274,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) SetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	connectionPolicy int32,
+	source content.AttributionSource,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -231,6 +285,10 @@ func (p *BluetoothLeBroadcastAssistantProxy) SetConnectionPolicy(
 		return _result, _err
 	}
 	_data.WriteInt32(connectionPolicy)
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantSetConnectionPolicy)
 	if _err != nil {
@@ -257,6 +315,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) SetConnectionPolicy(
 func (p *BluetoothLeBroadcastAssistantProxy) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
+	source content.AttributionSource,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
@@ -264,6 +323,10 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetConnectionPolicy(
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -292,11 +355,16 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetConnectionPolicy(
 func (p *BluetoothLeBroadcastAssistantProxy) RegisterCallback(
 	ctx context.Context,
 	cb IBluetoothLeBroadcastAssistantCallback,
+	source content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantRegisterCallback)
 	if _err != nil {
@@ -319,11 +387,16 @@ func (p *BluetoothLeBroadcastAssistantProxy) RegisterCallback(
 func (p *BluetoothLeBroadcastAssistantProxy) UnregisterCallback(
 	ctx context.Context,
 	cb IBluetoothLeBroadcastAssistantCallback,
+	source content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantUnregisterCallback)
 	if _err != nil {
@@ -346,6 +419,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) UnregisterCallback(
 func (p *BluetoothLeBroadcastAssistantProxy) StartSearchingForSources(
 	ctx context.Context,
 	filters []le.ScanFilter,
+	source content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -360,6 +434,10 @@ func (p *BluetoothLeBroadcastAssistantProxy) StartSearchingForSources(
 				return _err
 			}
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantStartSearchingForSources)
@@ -382,10 +460,15 @@ func (p *BluetoothLeBroadcastAssistantProxy) StartSearchingForSources(
 
 func (p *BluetoothLeBroadcastAssistantProxy) StopSearchingForSources(
 	ctx context.Context,
+	source content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantStopSearchingForSources)
 	if _err != nil {
@@ -407,11 +490,16 @@ func (p *BluetoothLeBroadcastAssistantProxy) StopSearchingForSources(
 
 func (p *BluetoothLeBroadcastAssistantProxy) IsSearchInProgress(
 	ctx context.Context,
+	source content.AttributionSource,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantIsSearchInProgress)
 	if _err != nil {
@@ -440,6 +528,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) AddSource(
 	sink BluetoothDevice,
 	sourceMetadata BluetoothLeBroadcastMetadata,
 	isGroupOp bool,
+	source content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -453,6 +542,10 @@ func (p *BluetoothLeBroadcastAssistantProxy) AddSource(
 		return _err
 	}
 	_data.WriteBool(isGroupOp)
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantAddSource)
 	if _err != nil {
@@ -477,6 +570,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) ModifySource(
 	sink BluetoothDevice,
 	sourceId int32,
 	updatedMetadata BluetoothLeBroadcastMetadata,
+	source content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -488,6 +582,10 @@ func (p *BluetoothLeBroadcastAssistantProxy) ModifySource(
 	_data.WriteInt32(sourceId)
 	_data.WriteInt32(1)
 	if _err := updatedMetadata.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -513,6 +611,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) RemoveSource(
 	ctx context.Context,
 	sink BluetoothDevice,
 	sourceId int32,
+	source content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -522,6 +621,10 @@ func (p *BluetoothLeBroadcastAssistantProxy) RemoveSource(
 		return _err
 	}
 	_data.WriteInt32(sourceId)
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantRemoveSource)
 	if _err != nil {
@@ -544,6 +647,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) RemoveSource(
 func (p *BluetoothLeBroadcastAssistantProxy) GetAllSources(
 	ctx context.Context,
 	sink BluetoothDevice,
+	source content.AttributionSource,
 ) ([]BluetoothLeBroadcastReceiveState, error) {
 	var _result []BluetoothLeBroadcastReceiveState
 	_data := parcel.New()
@@ -551,6 +655,10 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetAllSources(
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -580,11 +688,28 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetAllSources(
 	if _count >= 0 {
 		_result = make([]BluetoothLeBroadcastReceiveState, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
 			}
 		}
 	}
@@ -594,6 +719,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetAllSources(
 func (p *BluetoothLeBroadcastAssistantProxy) GetMaximumSourceCapacity(
 	ctx context.Context,
 	sink BluetoothDevice,
+	source content.AttributionSource,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
@@ -601,6 +727,10 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetMaximumSourceCapacity(
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -622,6 +752,53 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetMaximumSourceCapacity(
 	_result, _err = _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	return _result, nil
+}
+
+func (p *BluetoothLeBroadcastAssistantProxy) GetSourceMetadata(
+	ctx context.Context,
+	sink BluetoothDevice,
+	sourceId int32,
+	source content.AttributionSource,
+) (BluetoothLeBroadcastMetadata, error) {
+	var _result BluetoothLeBroadcastMetadata
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
+	_data.WriteInt32(1)
+	if _err := sink.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(sourceId)
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantGetSourceMetadata)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantGetSourceMetadata, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -662,7 +839,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetConnectionState(ctx, _arg_sink)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetConnectionState(ctx, _arg_sink, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -691,7 +880,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -711,7 +912,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantGetConnectedDevices:
-		_result, _err := s.Impl.GetConnectedDevices(ctx)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetConnectedDevices(ctx, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -747,7 +960,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -769,7 +994,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetConnectionPolicy(ctx, _arg_device)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -787,7 +1024,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 			}
 			_arg_cb = NewBluetoothLeBroadcastAssistantCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
 		}
-		_err := s.Impl.RegisterCallback(ctx, _arg_cb)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RegisterCallback(ctx, _arg_cb, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -804,7 +1053,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 			}
 			_arg_cb = NewBluetoothLeBroadcastAssistantCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
 		}
-		_err := s.Impl.UnregisterCallback(ctx, _arg_cb)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.UnregisterCallback(ctx, _arg_cb, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -834,7 +1095,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 				}
 			}
 		}
-		_err := s.Impl.StartSearchingForSources(ctx, _arg_filters)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.StartSearchingForSources(ctx, _arg_filters, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -843,7 +1116,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantStopSearchingForSources:
-		_err := s.Impl.StopSearchingForSources(ctx)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.StopSearchingForSources(ctx, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -852,7 +1137,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantIsSearchInProgress:
-		_result, _err := s.Impl.IsSearchInProgress(ctx)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.IsSearchInProgress(ctx, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -890,7 +1187,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.AddSource(ctx, _arg_sink, _arg_sourceMetadata, _arg_isGroupOp)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.AddSource(ctx, _arg_sink, _arg_sourceMetadata, _arg_isGroupOp, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -927,7 +1236,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ModifySource(ctx, _arg_sink, _arg_sourceId, _arg_updatedMetadata)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ModifySource(ctx, _arg_sink, _arg_sourceId, _arg_updatedMetadata, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -952,7 +1273,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.RemoveSource(ctx, _arg_sink, _arg_sourceId)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RemoveSource(ctx, _arg_sink, _arg_sourceId, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -973,7 +1306,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetAllSources(ctx, _arg_sink)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetAllSources(ctx, _arg_sink, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1005,7 +1350,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetMaximumSourceCapacity(ctx, _arg_sink)
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetMaximumSourceCapacity(ctx, _arg_sink, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1013,6 +1370,47 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIBluetoothLeBroadcastAssistantGetSourceMetadata:
+		var _arg_sink BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sink.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_sourceId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetSourceMetadata(ctx, _arg_sink, _arg_sourceId, _arg_source)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -1023,21 +1421,22 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 // provide to NewBluetoothLeBroadcastAssistantStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothLeBroadcastAssistantServer interface {
-	GetConnectionState(ctx context.Context, sink BluetoothDevice) (int32, error)
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32) ([]BluetoothDevice, error)
-	GetConnectedDevices(ctx context.Context) ([]BluetoothDevice, error)
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32) (bool, error)
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice) (int32, error)
-	RegisterCallback(ctx context.Context, cb IBluetoothLeBroadcastAssistantCallback) error
-	UnregisterCallback(ctx context.Context, cb IBluetoothLeBroadcastAssistantCallback) error
-	StartSearchingForSources(ctx context.Context, filters []le.ScanFilter) error
-	StopSearchingForSources(ctx context.Context) error
-	IsSearchInProgress(ctx context.Context) (bool, error)
-	AddSource(ctx context.Context, sink BluetoothDevice, sourceMetadata BluetoothLeBroadcastMetadata, isGroupOp bool) error
-	ModifySource(ctx context.Context, sink BluetoothDevice, sourceId int32, updatedMetadata BluetoothLeBroadcastMetadata) error
-	RemoveSource(ctx context.Context, sink BluetoothDevice, sourceId int32) error
-	GetAllSources(ctx context.Context, sink BluetoothDevice) ([]BluetoothLeBroadcastReceiveState, error)
-	GetMaximumSourceCapacity(ctx context.Context, sink BluetoothDevice) (int32, error)
+	GetConnectionState(ctx context.Context, sink BluetoothDevice, source content.AttributionSource) (int32, error)
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, source content.AttributionSource) ([]BluetoothDevice, error)
+	GetConnectedDevices(ctx context.Context, source content.AttributionSource) ([]BluetoothDevice, error)
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, source content.AttributionSource) (bool, error)
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, source content.AttributionSource) (int32, error)
+	RegisterCallback(ctx context.Context, cb IBluetoothLeBroadcastAssistantCallback, source content.AttributionSource) error
+	UnregisterCallback(ctx context.Context, cb IBluetoothLeBroadcastAssistantCallback, source content.AttributionSource) error
+	StartSearchingForSources(ctx context.Context, filters []le.ScanFilter, source content.AttributionSource) error
+	StopSearchingForSources(ctx context.Context, source content.AttributionSource) error
+	IsSearchInProgress(ctx context.Context, source content.AttributionSource) (bool, error)
+	AddSource(ctx context.Context, sink BluetoothDevice, sourceMetadata BluetoothLeBroadcastMetadata, isGroupOp bool, source content.AttributionSource) error
+	ModifySource(ctx context.Context, sink BluetoothDevice, sourceId int32, updatedMetadata BluetoothLeBroadcastMetadata, source content.AttributionSource) error
+	RemoveSource(ctx context.Context, sink BluetoothDevice, sourceId int32, source content.AttributionSource) error
+	GetAllSources(ctx context.Context, sink BluetoothDevice, source content.AttributionSource) ([]BluetoothLeBroadcastReceiveState, error)
+	GetMaximumSourceCapacity(ctx context.Context, sink BluetoothDevice, source content.AttributionSource) (int32, error)
+	GetSourceMetadata(ctx context.Context, sink BluetoothDevice, sourceId int32, source content.AttributionSource) (BluetoothLeBroadcastMetadata, error)
 }
 
 type bluetoothLeBroadcastAssistantStubWrapper struct {
@@ -1052,69 +1451,79 @@ func (w *bluetoothLeBroadcastAssistantStubWrapper) AsBinder() binder.IBinder {
 func (w *bluetoothLeBroadcastAssistantStubWrapper) GetConnectionState(
 	ctx context.Context,
 	sink BluetoothDevice,
+	source content.AttributionSource,
 ) (int32, error) {
-	return w.impl.GetConnectionState(ctx, sink)
+	return w.impl.GetConnectionState(ctx, sink, source)
 }
 
 func (w *bluetoothLeBroadcastAssistantStubWrapper) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
+	source content.AttributionSource,
 ) ([]BluetoothDevice, error) {
-	return w.impl.GetDevicesMatchingConnectionStates(ctx, states)
+	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, source)
 }
 
 func (w *bluetoothLeBroadcastAssistantStubWrapper) GetConnectedDevices(
 	ctx context.Context,
+	source content.AttributionSource,
 ) ([]BluetoothDevice, error) {
-	return w.impl.GetConnectedDevices(ctx)
+	return w.impl.GetConnectedDevices(ctx, source)
 }
 
 func (w *bluetoothLeBroadcastAssistantStubWrapper) SetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	connectionPolicy int32,
+	source content.AttributionSource,
 ) (bool, error) {
-	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy)
+	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, source)
 }
 
 func (w *bluetoothLeBroadcastAssistantStubWrapper) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
+	source content.AttributionSource,
 ) (int32, error) {
-	return w.impl.GetConnectionPolicy(ctx, device)
+	return w.impl.GetConnectionPolicy(ctx, device, source)
 }
 
 func (w *bluetoothLeBroadcastAssistantStubWrapper) RegisterCallback(
 	ctx context.Context,
 	cb IBluetoothLeBroadcastAssistantCallback,
+	source content.AttributionSource,
 ) error {
-	return w.impl.RegisterCallback(ctx, cb)
+	return w.impl.RegisterCallback(ctx, cb, source)
 }
 
 func (w *bluetoothLeBroadcastAssistantStubWrapper) UnregisterCallback(
 	ctx context.Context,
 	cb IBluetoothLeBroadcastAssistantCallback,
+	source content.AttributionSource,
 ) error {
-	return w.impl.UnregisterCallback(ctx, cb)
+	return w.impl.UnregisterCallback(ctx, cb, source)
 }
 
 func (w *bluetoothLeBroadcastAssistantStubWrapper) StartSearchingForSources(
 	ctx context.Context,
 	filters []le.ScanFilter,
+	source content.AttributionSource,
 ) error {
-	return w.impl.StartSearchingForSources(ctx, filters)
+	return w.impl.StartSearchingForSources(ctx, filters, source)
 }
 
 func (w *bluetoothLeBroadcastAssistantStubWrapper) StopSearchingForSources(
 	ctx context.Context,
+	source content.AttributionSource,
 ) error {
-	return w.impl.StopSearchingForSources(ctx)
+	return w.impl.StopSearchingForSources(ctx, source)
 }
 
 func (w *bluetoothLeBroadcastAssistantStubWrapper) IsSearchInProgress(
 	ctx context.Context,
+	source content.AttributionSource,
 ) (bool, error) {
-	return w.impl.IsSearchInProgress(ctx)
+	return w.impl.IsSearchInProgress(ctx, source)
 }
 
 func (w *bluetoothLeBroadcastAssistantStubWrapper) AddSource(
@@ -1122,8 +1531,9 @@ func (w *bluetoothLeBroadcastAssistantStubWrapper) AddSource(
 	sink BluetoothDevice,
 	sourceMetadata BluetoothLeBroadcastMetadata,
 	isGroupOp bool,
+	source content.AttributionSource,
 ) error {
-	return w.impl.AddSource(ctx, sink, sourceMetadata, isGroupOp)
+	return w.impl.AddSource(ctx, sink, sourceMetadata, isGroupOp, source)
 }
 
 func (w *bluetoothLeBroadcastAssistantStubWrapper) ModifySource(
@@ -1131,30 +1541,43 @@ func (w *bluetoothLeBroadcastAssistantStubWrapper) ModifySource(
 	sink BluetoothDevice,
 	sourceId int32,
 	updatedMetadata BluetoothLeBroadcastMetadata,
+	source content.AttributionSource,
 ) error {
-	return w.impl.ModifySource(ctx, sink, sourceId, updatedMetadata)
+	return w.impl.ModifySource(ctx, sink, sourceId, updatedMetadata, source)
 }
 
 func (w *bluetoothLeBroadcastAssistantStubWrapper) RemoveSource(
 	ctx context.Context,
 	sink BluetoothDevice,
 	sourceId int32,
+	source content.AttributionSource,
 ) error {
-	return w.impl.RemoveSource(ctx, sink, sourceId)
+	return w.impl.RemoveSource(ctx, sink, sourceId, source)
 }
 
 func (w *bluetoothLeBroadcastAssistantStubWrapper) GetAllSources(
 	ctx context.Context,
 	sink BluetoothDevice,
+	source content.AttributionSource,
 ) ([]BluetoothLeBroadcastReceiveState, error) {
-	return w.impl.GetAllSources(ctx, sink)
+	return w.impl.GetAllSources(ctx, sink, source)
 }
 
 func (w *bluetoothLeBroadcastAssistantStubWrapper) GetMaximumSourceCapacity(
 	ctx context.Context,
 	sink BluetoothDevice,
+	source content.AttributionSource,
 ) (int32, error) {
-	return w.impl.GetMaximumSourceCapacity(ctx, sink)
+	return w.impl.GetMaximumSourceCapacity(ctx, sink, source)
+}
+
+func (w *bluetoothLeBroadcastAssistantStubWrapper) GetSourceMetadata(
+	ctx context.Context,
+	sink BluetoothDevice,
+	sourceId int32,
+	source content.AttributionSource,
+) (BluetoothLeBroadcastMetadata, error) {
+	return w.impl.GetSourceMetadata(ctx, sink, sourceId, source)
 }
 
 var _ IBluetoothLeBroadcastAssistant = (*bluetoothLeBroadcastAssistantStubWrapper)(nil)

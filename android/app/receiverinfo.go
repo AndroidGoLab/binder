@@ -36,10 +36,12 @@ func (s *ReceiverInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Intent.MarshalParcel(p); _err != nil {
 		return _err
 	}
 	p.WriteString16(s.Data)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Extras.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -57,6 +59,7 @@ func (s *ReceiverInfo) MarshalParcel(
 	}
 	p.WriteBool(s.Ordered)
 	p.WriteBool(s.Sticky)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.CompatInfo.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -79,6 +82,9 @@ func (s *ReceiverInfo) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Intent.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -98,6 +104,9 @@ func (s *ReceiverInfo) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Extras.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -213,6 +222,9 @@ func (s *ReceiverInfo) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.CompatInfo.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

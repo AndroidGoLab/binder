@@ -51,22 +51,22 @@ const (
 
 type IBluetoothGattCallback interface {
 	AsBinder() binder.IBinder
-	OnClientRegistered(ctx context.Context, status int32, clientIf int32) error
-	OnClientConnectionState(ctx context.Context, status int32, clientIf int32, connected bool, address string) error
-	OnPhyUpdate(ctx context.Context, address string, txPhy int32, rxPhy int32, status int32) error
-	OnPhyRead(ctx context.Context, address string, txPhy int32, rxPhy int32, status int32) error
-	OnSearchComplete(ctx context.Context, address string, services []BluetoothGattService, status int32) error
-	OnCharacteristicRead(ctx context.Context, address string, status int32, handle int32, value []byte) error
-	OnCharacteristicWrite(ctx context.Context, address string, status int32, handle int32, value []byte) error
-	OnExecuteWrite(ctx context.Context, address string, status int32) error
-	OnDescriptorRead(ctx context.Context, address string, status int32, handle int32, value []byte) error
-	OnDescriptorWrite(ctx context.Context, address string, status int32, handle int32, value []byte) error
-	OnNotify(ctx context.Context, address string, handle int32, value []byte) error
-	OnReadRemoteRssi(ctx context.Context, address string, rssi int32, status int32) error
-	OnConfigureMTU(ctx context.Context, address string, mtu int32, status int32) error
-	OnConnectionUpdated(ctx context.Context, address string, interval int32, latency int32, timeout int32, status int32) error
-	OnServiceChanged(ctx context.Context, address string) error
-	OnSubrateChange(ctx context.Context, address string, subrateFactor int32, latency int32, contNum int32, timeout int32, status int32) error
+	OnClientRegistered(ctx context.Context, status int32) error
+	OnClientConnectionState(ctx context.Context, status int32, connected bool, device BluetoothDevice) error
+	OnPhyUpdate(ctx context.Context, device BluetoothDevice, txPhy int32, rxPhy int32, status int32) error
+	OnPhyRead(ctx context.Context, device BluetoothDevice, txPhy int32, rxPhy int32, status int32) error
+	OnSearchComplete(ctx context.Context, device BluetoothDevice, services []BluetoothGattService, status int32) error
+	OnCharacteristicRead(ctx context.Context, device BluetoothDevice, status int32, handle int32, value []byte) error
+	OnCharacteristicWrite(ctx context.Context, device BluetoothDevice, status int32, handle int32, value []byte) error
+	OnExecuteWrite(ctx context.Context, device BluetoothDevice, status int32) error
+	OnDescriptorRead(ctx context.Context, device BluetoothDevice, status int32, handle int32, value []byte) error
+	OnDescriptorWrite(ctx context.Context, device BluetoothDevice, status int32, handle int32, value []byte) error
+	OnNotify(ctx context.Context, device BluetoothDevice, handle int32, value []byte) error
+	OnReadRemoteRssi(ctx context.Context, device BluetoothDevice, rssi int32, status int32) error
+	OnConfigureMTU(ctx context.Context, device BluetoothDevice, mtu int32, status int32) error
+	OnConnectionUpdated(ctx context.Context, device BluetoothDevice, interval int32, latency int32, timeout int32, status int32) error
+	OnServiceChanged(ctx context.Context, device BluetoothDevice) error
+	OnSubrateChange(ctx context.Context, device BluetoothDevice, subrateMode int32, status int32) error
 }
 
 type BluetoothGattCallbackProxy struct {
@@ -88,13 +88,11 @@ var _ IBluetoothGattCallback = (*BluetoothGattCallbackProxy)(nil)
 func (p *BluetoothGattCallbackProxy) OnClientRegistered(
 	ctx context.Context,
 	status int32,
-	clientIf int32,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
 	_data.WriteInt32(status)
-	_data.WriteInt32(clientIf)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGattCallback, MethodIBluetoothGattCallbackOnClientRegistered)
 	if _err != nil {
@@ -108,17 +106,18 @@ func (p *BluetoothGattCallbackProxy) OnClientRegistered(
 func (p *BluetoothGattCallbackProxy) OnClientConnectionState(
 	ctx context.Context,
 	status int32,
-	clientIf int32,
 	connected bool,
-	address string,
+	device BluetoothDevice,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
 	_data.WriteInt32(status)
-	_data.WriteInt32(clientIf)
 	_data.WriteBool(connected)
-	_data.WriteString16(address)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGattCallback, MethodIBluetoothGattCallbackOnClientConnectionState)
 	if _err != nil {
@@ -131,7 +130,7 @@ func (p *BluetoothGattCallbackProxy) OnClientConnectionState(
 
 func (p *BluetoothGattCallbackProxy) OnPhyUpdate(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	txPhy int32,
 	rxPhy int32,
 	status int32,
@@ -139,7 +138,10 @@ func (p *BluetoothGattCallbackProxy) OnPhyUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
-	_data.WriteString16(address)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(txPhy)
 	_data.WriteInt32(rxPhy)
 	_data.WriteInt32(status)
@@ -155,7 +157,7 @@ func (p *BluetoothGattCallbackProxy) OnPhyUpdate(
 
 func (p *BluetoothGattCallbackProxy) OnPhyRead(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	txPhy int32,
 	rxPhy int32,
 	status int32,
@@ -163,7 +165,10 @@ func (p *BluetoothGattCallbackProxy) OnPhyRead(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
-	_data.WriteString16(address)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(txPhy)
 	_data.WriteInt32(rxPhy)
 	_data.WriteInt32(status)
@@ -179,14 +184,17 @@ func (p *BluetoothGattCallbackProxy) OnPhyRead(
 
 func (p *BluetoothGattCallbackProxy) OnSearchComplete(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	services []BluetoothGattService,
 	status int32,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
-	_data.WriteString16(address)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	if services == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -211,7 +219,7 @@ func (p *BluetoothGattCallbackProxy) OnSearchComplete(
 
 func (p *BluetoothGattCallbackProxy) OnCharacteristicRead(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	status int32,
 	handle int32,
 	value []byte,
@@ -219,7 +227,10 @@ func (p *BluetoothGattCallbackProxy) OnCharacteristicRead(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
-	_data.WriteString16(address)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(status)
 	_data.WriteInt32(handle)
 	_data.WriteByteArray(value)
@@ -235,7 +246,7 @@ func (p *BluetoothGattCallbackProxy) OnCharacteristicRead(
 
 func (p *BluetoothGattCallbackProxy) OnCharacteristicWrite(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	status int32,
 	handle int32,
 	value []byte,
@@ -243,7 +254,10 @@ func (p *BluetoothGattCallbackProxy) OnCharacteristicWrite(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
-	_data.WriteString16(address)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(status)
 	_data.WriteInt32(handle)
 	_data.WriteByteArray(value)
@@ -259,13 +273,16 @@ func (p *BluetoothGattCallbackProxy) OnCharacteristicWrite(
 
 func (p *BluetoothGattCallbackProxy) OnExecuteWrite(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	status int32,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
-	_data.WriteString16(address)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(status)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGattCallback, MethodIBluetoothGattCallbackOnExecuteWrite)
@@ -279,7 +296,7 @@ func (p *BluetoothGattCallbackProxy) OnExecuteWrite(
 
 func (p *BluetoothGattCallbackProxy) OnDescriptorRead(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	status int32,
 	handle int32,
 	value []byte,
@@ -287,7 +304,10 @@ func (p *BluetoothGattCallbackProxy) OnDescriptorRead(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
-	_data.WriteString16(address)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(status)
 	_data.WriteInt32(handle)
 	_data.WriteByteArray(value)
@@ -303,7 +323,7 @@ func (p *BluetoothGattCallbackProxy) OnDescriptorRead(
 
 func (p *BluetoothGattCallbackProxy) OnDescriptorWrite(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	status int32,
 	handle int32,
 	value []byte,
@@ -311,7 +331,10 @@ func (p *BluetoothGattCallbackProxy) OnDescriptorWrite(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
-	_data.WriteString16(address)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(status)
 	_data.WriteInt32(handle)
 	_data.WriteByteArray(value)
@@ -327,14 +350,17 @@ func (p *BluetoothGattCallbackProxy) OnDescriptorWrite(
 
 func (p *BluetoothGattCallbackProxy) OnNotify(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	handle int32,
 	value []byte,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
-	_data.WriteString16(address)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(handle)
 	_data.WriteByteArray(value)
 
@@ -349,14 +375,17 @@ func (p *BluetoothGattCallbackProxy) OnNotify(
 
 func (p *BluetoothGattCallbackProxy) OnReadRemoteRssi(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	rssi int32,
 	status int32,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
-	_data.WriteString16(address)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(rssi)
 	_data.WriteInt32(status)
 
@@ -371,14 +400,17 @@ func (p *BluetoothGattCallbackProxy) OnReadRemoteRssi(
 
 func (p *BluetoothGattCallbackProxy) OnConfigureMTU(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	mtu int32,
 	status int32,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
-	_data.WriteString16(address)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(mtu)
 	_data.WriteInt32(status)
 
@@ -393,7 +425,7 @@ func (p *BluetoothGattCallbackProxy) OnConfigureMTU(
 
 func (p *BluetoothGattCallbackProxy) OnConnectionUpdated(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	interval int32,
 	latency int32,
 	timeout int32,
@@ -402,7 +434,10 @@ func (p *BluetoothGattCallbackProxy) OnConnectionUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
-	_data.WriteString16(address)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(interval)
 	_data.WriteInt32(latency)
 	_data.WriteInt32(timeout)
@@ -419,12 +454,15 @@ func (p *BluetoothGattCallbackProxy) OnConnectionUpdated(
 
 func (p *BluetoothGattCallbackProxy) OnServiceChanged(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
-	_data.WriteString16(address)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGattCallback, MethodIBluetoothGattCallbackOnServiceChanged)
 	if _err != nil {
@@ -437,21 +475,18 @@ func (p *BluetoothGattCallbackProxy) OnServiceChanged(
 
 func (p *BluetoothGattCallbackProxy) OnSubrateChange(
 	ctx context.Context,
-	address string,
-	subrateFactor int32,
-	latency int32,
-	contNum int32,
-	timeout int32,
+	device BluetoothDevice,
+	subrateMode int32,
 	status int32,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattCallback)
-	_data.WriteString16(address)
-	_data.WriteInt32(subrateFactor)
-	_data.WriteInt32(latency)
-	_data.WriteInt32(contNum)
-	_data.WriteInt32(timeout)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(subrateMode)
 	_data.WriteInt32(status)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGattCallback, MethodIBluetoothGattCallbackOnSubrateChange)
@@ -491,18 +526,10 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnClientRegistered(ctx, _arg_status, _arg_clientIf)
+		_err = s.Impl.OnClientRegistered(ctx, _arg_status)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnClientConnectionState:
 		_arg_status, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -510,16 +537,32 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		_err = s.Impl.OnClientConnectionState(ctx, _arg_status, _arg_clientIf, _arg_connected, _arg_address)
+		_err = s.Impl.OnClientConnectionState(ctx, _arg_status, _arg_connected, _arg_device)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnPhyUpdate:
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		_arg_txPhy, _err := _data.ReadInt32()
 		if _err != nil {
@@ -533,12 +576,20 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnPhyUpdate(ctx, _arg_address, _arg_txPhy, _arg_rxPhy, _arg_status)
+		_err = s.Impl.OnPhyUpdate(ctx, _arg_device, _arg_txPhy, _arg_rxPhy, _arg_status)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnPhyRead:
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		_arg_txPhy, _err := _data.ReadInt32()
 		if _err != nil {
@@ -552,12 +603,20 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnPhyRead(ctx, _arg_address, _arg_txPhy, _arg_rxPhy, _arg_status)
+		_err = s.Impl.OnPhyRead(ctx, _arg_device, _arg_txPhy, _arg_rxPhy, _arg_status)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnSearchComplete:
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		var _arg_services []BluetoothGattService
 		{
@@ -584,12 +643,20 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnSearchComplete(ctx, _arg_address, _arg_services, _arg_status)
+		_err = s.Impl.OnSearchComplete(ctx, _arg_device, _arg_services, _arg_status)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnCharacteristicRead:
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
@@ -607,12 +674,20 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 			}
 			_arg_value = _bytes
 		}
-		_err = s.Impl.OnCharacteristicRead(ctx, _arg_address, _arg_status, _arg_handle, _arg_value)
+		_err = s.Impl.OnCharacteristicRead(ctx, _arg_device, _arg_status, _arg_handle, _arg_value)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnCharacteristicWrite:
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
@@ -630,23 +705,39 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 			}
 			_arg_value = _bytes
 		}
-		_err = s.Impl.OnCharacteristicWrite(ctx, _arg_address, _arg_status, _arg_handle, _arg_value)
+		_err = s.Impl.OnCharacteristicWrite(ctx, _arg_device, _arg_status, _arg_handle, _arg_value)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnExecuteWrite:
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnExecuteWrite(ctx, _arg_address, _arg_status)
+		_err = s.Impl.OnExecuteWrite(ctx, _arg_device, _arg_status)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnDescriptorRead:
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
@@ -664,12 +755,20 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 			}
 			_arg_value = _bytes
 		}
-		_err = s.Impl.OnDescriptorRead(ctx, _arg_address, _arg_status, _arg_handle, _arg_value)
+		_err = s.Impl.OnDescriptorRead(ctx, _arg_device, _arg_status, _arg_handle, _arg_value)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnDescriptorWrite:
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
@@ -687,12 +786,20 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 			}
 			_arg_value = _bytes
 		}
-		_err = s.Impl.OnDescriptorWrite(ctx, _arg_address, _arg_status, _arg_handle, _arg_value)
+		_err = s.Impl.OnDescriptorWrite(ctx, _arg_device, _arg_status, _arg_handle, _arg_value)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnNotify:
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
@@ -706,12 +813,20 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 			}
 			_arg_value = _bytes
 		}
-		_err = s.Impl.OnNotify(ctx, _arg_address, _arg_handle, _arg_value)
+		_err = s.Impl.OnNotify(ctx, _arg_device, _arg_handle, _arg_value)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnReadRemoteRssi:
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		_arg_rssi, _err := _data.ReadInt32()
 		if _err != nil {
@@ -721,12 +836,20 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnReadRemoteRssi(ctx, _arg_address, _arg_rssi, _arg_status)
+		_err = s.Impl.OnReadRemoteRssi(ctx, _arg_device, _arg_rssi, _arg_status)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnConfigureMTU:
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		_arg_mtu, _err := _data.ReadInt32()
 		if _err != nil {
@@ -736,12 +859,20 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnConfigureMTU(ctx, _arg_address, _arg_mtu, _arg_status)
+		_err = s.Impl.OnConfigureMTU(ctx, _arg_device, _arg_mtu, _arg_status)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnConnectionUpdated:
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		_arg_interval, _err := _data.ReadInt32()
 		if _err != nil {
@@ -759,33 +890,37 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnConnectionUpdated(ctx, _arg_address, _arg_interval, _arg_latency, _arg_timeout, _arg_status)
+		_err = s.Impl.OnConnectionUpdated(ctx, _arg_device, _arg_interval, _arg_latency, _arg_timeout, _arg_status)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnServiceChanged:
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		_err = s.Impl.OnServiceChanged(ctx, _arg_address)
+		_err := s.Impl.OnServiceChanged(ctx, _arg_device)
 		return nil, _err
 	case TransactionIBluetoothGattCallbackOnSubrateChange:
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		_arg_subrateFactor, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_latency, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_contNum, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_timeout, _err := _data.ReadInt32()
+		_arg_subrateMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -793,7 +928,7 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnSubrateChange(ctx, _arg_address, _arg_subrateFactor, _arg_latency, _arg_contNum, _arg_timeout, _arg_status)
+		_err = s.Impl.OnSubrateChange(ctx, _arg_device, _arg_subrateMode, _arg_status)
 		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -804,22 +939,22 @@ func (s *BluetoothGattCallbackStub) OnTransaction(
 // provide to NewBluetoothGattCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothGattCallbackServer interface {
-	OnClientRegistered(ctx context.Context, status int32, clientIf int32) error
-	OnClientConnectionState(ctx context.Context, status int32, clientIf int32, connected bool, address string) error
-	OnPhyUpdate(ctx context.Context, address string, txPhy int32, rxPhy int32, status int32) error
-	OnPhyRead(ctx context.Context, address string, txPhy int32, rxPhy int32, status int32) error
-	OnSearchComplete(ctx context.Context, address string, services []BluetoothGattService, status int32) error
-	OnCharacteristicRead(ctx context.Context, address string, status int32, handle int32, value []byte) error
-	OnCharacteristicWrite(ctx context.Context, address string, status int32, handle int32, value []byte) error
-	OnExecuteWrite(ctx context.Context, address string, status int32) error
-	OnDescriptorRead(ctx context.Context, address string, status int32, handle int32, value []byte) error
-	OnDescriptorWrite(ctx context.Context, address string, status int32, handle int32, value []byte) error
-	OnNotify(ctx context.Context, address string, handle int32, value []byte) error
-	OnReadRemoteRssi(ctx context.Context, address string, rssi int32, status int32) error
-	OnConfigureMTU(ctx context.Context, address string, mtu int32, status int32) error
-	OnConnectionUpdated(ctx context.Context, address string, interval int32, latency int32, timeout int32, status int32) error
-	OnServiceChanged(ctx context.Context, address string) error
-	OnSubrateChange(ctx context.Context, address string, subrateFactor int32, latency int32, contNum int32, timeout int32, status int32) error
+	OnClientRegistered(ctx context.Context, status int32) error
+	OnClientConnectionState(ctx context.Context, status int32, connected bool, device BluetoothDevice) error
+	OnPhyUpdate(ctx context.Context, device BluetoothDevice, txPhy int32, rxPhy int32, status int32) error
+	OnPhyRead(ctx context.Context, device BluetoothDevice, txPhy int32, rxPhy int32, status int32) error
+	OnSearchComplete(ctx context.Context, device BluetoothDevice, services []BluetoothGattService, status int32) error
+	OnCharacteristicRead(ctx context.Context, device BluetoothDevice, status int32, handle int32, value []byte) error
+	OnCharacteristicWrite(ctx context.Context, device BluetoothDevice, status int32, handle int32, value []byte) error
+	OnExecuteWrite(ctx context.Context, device BluetoothDevice, status int32) error
+	OnDescriptorRead(ctx context.Context, device BluetoothDevice, status int32, handle int32, value []byte) error
+	OnDescriptorWrite(ctx context.Context, device BluetoothDevice, status int32, handle int32, value []byte) error
+	OnNotify(ctx context.Context, device BluetoothDevice, handle int32, value []byte) error
+	OnReadRemoteRssi(ctx context.Context, device BluetoothDevice, rssi int32, status int32) error
+	OnConfigureMTU(ctx context.Context, device BluetoothDevice, mtu int32, status int32) error
+	OnConnectionUpdated(ctx context.Context, device BluetoothDevice, interval int32, latency int32, timeout int32, status int32) error
+	OnServiceChanged(ctx context.Context, device BluetoothDevice) error
+	OnSubrateChange(ctx context.Context, device BluetoothDevice, subrateMode int32, status int32) error
 }
 
 type bluetoothGattCallbackStubWrapper struct {
@@ -834,153 +969,148 @@ func (w *bluetoothGattCallbackStubWrapper) AsBinder() binder.IBinder {
 func (w *bluetoothGattCallbackStubWrapper) OnClientRegistered(
 	ctx context.Context,
 	status int32,
-	clientIf int32,
 ) error {
-	return w.impl.OnClientRegistered(ctx, status, clientIf)
+	return w.impl.OnClientRegistered(ctx, status)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnClientConnectionState(
 	ctx context.Context,
 	status int32,
-	clientIf int32,
 	connected bool,
-	address string,
+	device BluetoothDevice,
 ) error {
-	return w.impl.OnClientConnectionState(ctx, status, clientIf, connected, address)
+	return w.impl.OnClientConnectionState(ctx, status, connected, device)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnPhyUpdate(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	txPhy int32,
 	rxPhy int32,
 	status int32,
 ) error {
-	return w.impl.OnPhyUpdate(ctx, address, txPhy, rxPhy, status)
+	return w.impl.OnPhyUpdate(ctx, device, txPhy, rxPhy, status)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnPhyRead(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	txPhy int32,
 	rxPhy int32,
 	status int32,
 ) error {
-	return w.impl.OnPhyRead(ctx, address, txPhy, rxPhy, status)
+	return w.impl.OnPhyRead(ctx, device, txPhy, rxPhy, status)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnSearchComplete(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	services []BluetoothGattService,
 	status int32,
 ) error {
-	return w.impl.OnSearchComplete(ctx, address, services, status)
+	return w.impl.OnSearchComplete(ctx, device, services, status)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnCharacteristicRead(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	status int32,
 	handle int32,
 	value []byte,
 ) error {
-	return w.impl.OnCharacteristicRead(ctx, address, status, handle, value)
+	return w.impl.OnCharacteristicRead(ctx, device, status, handle, value)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnCharacteristicWrite(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	status int32,
 	handle int32,
 	value []byte,
 ) error {
-	return w.impl.OnCharacteristicWrite(ctx, address, status, handle, value)
+	return w.impl.OnCharacteristicWrite(ctx, device, status, handle, value)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnExecuteWrite(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	status int32,
 ) error {
-	return w.impl.OnExecuteWrite(ctx, address, status)
+	return w.impl.OnExecuteWrite(ctx, device, status)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnDescriptorRead(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	status int32,
 	handle int32,
 	value []byte,
 ) error {
-	return w.impl.OnDescriptorRead(ctx, address, status, handle, value)
+	return w.impl.OnDescriptorRead(ctx, device, status, handle, value)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnDescriptorWrite(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	status int32,
 	handle int32,
 	value []byte,
 ) error {
-	return w.impl.OnDescriptorWrite(ctx, address, status, handle, value)
+	return w.impl.OnDescriptorWrite(ctx, device, status, handle, value)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnNotify(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	handle int32,
 	value []byte,
 ) error {
-	return w.impl.OnNotify(ctx, address, handle, value)
+	return w.impl.OnNotify(ctx, device, handle, value)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnReadRemoteRssi(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	rssi int32,
 	status int32,
 ) error {
-	return w.impl.OnReadRemoteRssi(ctx, address, rssi, status)
+	return w.impl.OnReadRemoteRssi(ctx, device, rssi, status)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnConfigureMTU(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	mtu int32,
 	status int32,
 ) error {
-	return w.impl.OnConfigureMTU(ctx, address, mtu, status)
+	return w.impl.OnConfigureMTU(ctx, device, mtu, status)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnConnectionUpdated(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 	interval int32,
 	latency int32,
 	timeout int32,
 	status int32,
 ) error {
-	return w.impl.OnConnectionUpdated(ctx, address, interval, latency, timeout, status)
+	return w.impl.OnConnectionUpdated(ctx, device, interval, latency, timeout, status)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnServiceChanged(
 	ctx context.Context,
-	address string,
+	device BluetoothDevice,
 ) error {
-	return w.impl.OnServiceChanged(ctx, address)
+	return w.impl.OnServiceChanged(ctx, device)
 }
 
 func (w *bluetoothGattCallbackStubWrapper) OnSubrateChange(
 	ctx context.Context,
-	address string,
-	subrateFactor int32,
-	latency int32,
-	contNum int32,
-	timeout int32,
+	device BluetoothDevice,
+	subrateMode int32,
 	status int32,
 ) error {
-	return w.impl.OnSubrateChange(ctx, address, subrateFactor, latency, contNum, timeout, status)
+	return w.impl.OnSubrateChange(ctx, device, subrateMode, status)
 }
 
 var _ IBluetoothGattCallback = (*bluetoothGattCallbackStubWrapper)(nil)

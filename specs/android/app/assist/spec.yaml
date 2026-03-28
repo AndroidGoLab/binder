@@ -8,10 +8,10 @@ parcelables:
       java_wire_format:
         - name: TaskId
           write_method: int32
-        - name: ActivityComponent
-          write_method: opaque
-        - name: IsHomeActivity?1:0
-          write_method: int32
+        - name: ComponentName
+          write_method: delegate
+        - name: IsHomeActivity
+          write_method: bool
         - name: SendChannel
           write_method: binder
           condition: mHaveData

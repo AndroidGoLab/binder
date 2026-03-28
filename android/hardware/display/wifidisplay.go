@@ -10,6 +10,9 @@ type WifiDisplay struct {
 	DeviceAddress string
 	DeviceName    string
 	DeviceAlias   string
+	IsAvailable   bool
+	CanConnect    bool
+	IsRemembered  bool
 }
 
 var _ parcel.Parcelable = (*WifiDisplay)(nil)
@@ -20,9 +23,9 @@ func (s *WifiDisplay) MarshalParcel(
 	p.WriteString16(s.DeviceAddress)
 	p.WriteString16(s.DeviceName)
 	p.WriteString16(s.DeviceAlias)
-	p.WriteInt32(0) // null IsAvailable?1:0
-	p.WriteInt32(0) // null CanConnect?1:0
-	p.WriteInt32(0) // null IsRemembered?1:0
+	p.WriteBool(s.IsAvailable)
+	p.WriteBool(s.CanConnect)
+	p.WriteBool(s.IsRemembered)
 	return nil
 }
 
@@ -42,32 +45,17 @@ func (s *WifiDisplay) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IsAvailable?1:0: cannot skip unknown-size typed object
-		}
+	s.IsAvailable, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null CanConnect?1:0: cannot skip unknown-size typed object
-		}
+	s.CanConnect, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IsRemembered?1:0: cannot skip unknown-size typed object
-		}
+	s.IsRemembered, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	return nil
 }

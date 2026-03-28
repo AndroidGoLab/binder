@@ -64,28 +64,28 @@ const (
 
 type IBluetoothA2dp interface {
 	AsBinder() binder.IBinder
-	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver any) error
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	SetActiveDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	GetActiveDevice(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver any) error
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	SetActiveDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	GetActiveDevice(ctx context.Context, attributionSource content.AttributionSource) (BluetoothDevice, error)
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource) (bool, error)
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
 	SetAvrcpAbsoluteVolume(ctx context.Context, volume int32, attributionSource content.AttributionSource) error
-	IsA2dpPlaying(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	GetSupportedCodecTypes(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	GetCodecStatus(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	IsA2dpPlaying(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	GetSupportedCodecTypes(ctx context.Context) ([]BluetoothCodecType, error)
+	GetCodecStatus(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (BluetoothCodecStatus, error)
 	SetCodecConfigPreference(ctx context.Context, device BluetoothDevice, codecConfig BluetoothCodecConfig, attributionSource content.AttributionSource) error
 	EnableOptionalCodecs(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) error
 	DisableOptionalCodecs(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) error
-	IsOptionalCodecsSupported(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	IsOptionalCodecsEnabled(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	IsOptionalCodecsSupported(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	IsOptionalCodecsEnabled(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
 	SetOptionalCodecsEnabled(ctx context.Context, device BluetoothDevice, value int32, attributionSource content.AttributionSource) error
-	GetDynamicBufferSupport(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	GetBufferConstraints(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	SetBufferLengthMillis(ctx context.Context, codec int32, size int32, attributionSource content.AttributionSource, receiver any) error
+	GetDynamicBufferSupport(ctx context.Context, attributionSource content.AttributionSource) (int32, error)
+	GetBufferConstraints(ctx context.Context, attributionSource content.AttributionSource) (BufferConstraints, error)
+	SetBufferLengthMillis(ctx context.Context, codec int32, size int32, attributionSource content.AttributionSource) (bool, error)
 }
 
 type BluetoothA2dpProxy struct {
@@ -108,87 +108,155 @@ func (p *BluetoothA2dpProxy) Connect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpConnect)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpConnect, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpConnect, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) Disconnect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpDisconnect)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpDisconnect, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpDisconnect, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) ([]BluetoothDevice, error) {
+	var _result []BluetoothDevice
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetConnectedDevices)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetConnectedDevices, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetConnectedDevices, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_count, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
+
+	if _count >= 0 {
+		_result = make([]BluetoothDevice, _count)
+		for _i := int32(0); _i < _count; _i++ {
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
+			}
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
+		}
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) ([]BluetoothDevice, error) {
+	var _result []BluetoothDevice
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
@@ -202,96 +270,181 @@ func (p *BluetoothA2dpProxy) GetDevicesMatchingConnectionStates(
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetDevicesMatchingConnectionStates)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetDevicesMatchingConnectionStates, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetDevicesMatchingConnectionStates, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_count, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
+
+	if _count >= 0 {
+		_result = make([]BluetoothDevice, _count)
+		for _i := int32(0); _i < _count; _i++ {
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
+			}
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
+		}
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (int32, error) {
+	var _result int32
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetConnectionState)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetConnectionState, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetConnectionState, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) SetActiveDevice(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpSetActiveDevice)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpSetActiveDevice, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpSetActiveDevice, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) GetActiveDevice(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (BluetoothDevice, error) {
+	var _result BluetoothDevice
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetActiveDevice)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetActiveDevice, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetActiveDevice, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) SetConnectionPolicy(
@@ -299,57 +452,81 @@ func (p *BluetoothA2dpProxy) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(connectionPolicy)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpSetConnectionPolicy)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpSetConnectionPolicy, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpSetConnectionPolicy, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (int32, error) {
+	var _result int32
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetConnectionPolicy)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetConnectionPolicy, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetConnectionPolicy, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) SetAvrcpAbsoluteVolume(
@@ -379,79 +556,147 @@ func (p *BluetoothA2dpProxy) IsA2dpPlaying(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpIsA2dpPlaying)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpIsA2dpPlaying, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpIsA2dpPlaying, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) GetSupportedCodecTypes(
 	ctx context.Context,
-	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) ([]BluetoothCodecType, error) {
+	var _result []BluetoothCodecType
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetSupportedCodecTypes)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetSupportedCodecTypes, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetSupportedCodecTypes, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_count, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
+
+	if _count >= 0 {
+		_result = make([]BluetoothCodecType, _count)
+		for _i := int32(0); _i < _count; _i++ {
+			_nonNull, _err := _reply.ReadInt32()
+			if _err != nil {
+				break // end of inline elements (may be fewer than count)
+			}
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
+		}
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) GetCodecStatus(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (BluetoothCodecStatus, error) {
+	var _result BluetoothCodecStatus
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetCodecStatus)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetCodecStatus, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetCodecStatus, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) SetCodecConfigPreference(
@@ -541,56 +786,80 @@ func (p *BluetoothA2dpProxy) IsOptionalCodecsSupported(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (int32, error) {
+	var _result int32
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpIsOptionalCodecsSupported)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpIsOptionalCodecsSupported, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpIsOptionalCodecsSupported, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) IsOptionalCodecsEnabled(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (int32, error) {
+	var _result int32
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpIsOptionalCodecsEnabled)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpIsOptionalCodecsEnabled, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpIsOptionalCodecsEnabled, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) SetOptionalCodecsEnabled(
@@ -624,47 +893,76 @@ func (p *BluetoothA2dpProxy) SetOptionalCodecsEnabled(
 func (p *BluetoothA2dpProxy) GetDynamicBufferSupport(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (int32, error) {
+	var _result int32
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetDynamicBufferSupport)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetDynamicBufferSupport, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetDynamicBufferSupport, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) GetBufferConstraints(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (BufferConstraints, error) {
+	var _result BufferConstraints
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetBufferConstraints)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetBufferConstraints, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpGetBufferConstraints, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
+	return _result, nil
 }
 
 func (p *BluetoothA2dpProxy) SetBufferLengthMillis(
@@ -672,8 +970,8 @@ func (p *BluetoothA2dpProxy) SetBufferLengthMillis(
 	codec int32,
 	size int32,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
@@ -681,17 +979,29 @@ func (p *BluetoothA2dpProxy) SetBufferLengthMillis(
 	_data.WriteInt32(size)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
-	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpSetBufferLengthMillis)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpSetBufferLengthMillis, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpSetBufferLengthMillis, _err)
 	}
 
-	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 // BluetoothA2dpStub dispatches incoming binder transactions
@@ -742,9 +1052,15 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.Connect(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.Connect(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothA2dpDisconnect:
 		var _arg_device BluetoothDevice
 		{
@@ -770,9 +1086,15 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.Disconnect(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.Disconnect(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothA2dpGetConnectedDevices:
 		var _arg_attributionSource content.AttributionSource
 		{
@@ -786,9 +1108,25 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		return _reply, nil
 	case TransactionIBluetoothA2dpGetDevicesMatchingConnectionStates:
 		var _arg_states []int32
 		{
@@ -821,9 +1159,25 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		return _reply, nil
 	case TransactionIBluetoothA2dpGetConnectionState:
 		var _arg_device BluetoothDevice
 		{
@@ -849,9 +1203,15 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
 	case TransactionIBluetoothA2dpSetActiveDevice:
 		var _arg_device BluetoothDevice
 		{
@@ -877,9 +1237,15 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.SetActiveDevice(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.SetActiveDevice(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothA2dpGetActiveDevice:
 		var _arg_attributionSource content.AttributionSource
 		{
@@ -893,9 +1259,18 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetActiveDevice(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetActiveDevice(ctx, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
 	case TransactionIBluetoothA2dpSetConnectionPolicy:
 		var _arg_device BluetoothDevice
 		{
@@ -925,9 +1300,15 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err = s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothA2dpGetConnectionPolicy:
 		var _arg_device BluetoothDevice
 		{
@@ -953,9 +1334,15 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
 	case TransactionIBluetoothA2dpSetAvrcpAbsoluteVolume:
 		_arg_volume, _err := _data.ReadInt32()
 		if _err != nil {
@@ -1000,25 +1387,35 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.IsA2dpPlaying(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.IsA2dpPlaying(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	case TransactionIBluetoothA2dpGetSupportedCodecTypes:
-		var _arg_attributionSource content.AttributionSource
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+		_result, _err := s.Impl.GetSupportedCodecTypes(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetSupportedCodecTypes(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		return _reply, nil
 	case TransactionIBluetoothA2dpGetCodecStatus:
 		var _arg_device BluetoothDevice
 		{
@@ -1044,9 +1441,18 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetCodecStatus(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetCodecStatus(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
 	case TransactionIBluetoothA2dpSetCodecConfigPreference:
 		var _arg_device BluetoothDevice
 		{
@@ -1165,9 +1571,15 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.IsOptionalCodecsSupported(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.IsOptionalCodecsSupported(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
 	case TransactionIBluetoothA2dpIsOptionalCodecsEnabled:
 		var _arg_device BluetoothDevice
 		{
@@ -1193,9 +1605,15 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.IsOptionalCodecsEnabled(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.IsOptionalCodecsEnabled(ctx, _arg_device, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
 	case TransactionIBluetoothA2dpSetOptionalCodecsEnabled:
 		var _arg_device BluetoothDevice
 		{
@@ -1240,9 +1658,15 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetDynamicBufferSupport(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetDynamicBufferSupport(ctx, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
 	case TransactionIBluetoothA2dpGetBufferConstraints:
 		var _arg_attributionSource content.AttributionSource
 		{
@@ -1256,9 +1680,18 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err := s.Impl.GetBufferConstraints(ctx, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.GetBufferConstraints(ctx, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
 	case TransactionIBluetoothA2dpSetBufferLengthMillis:
 		_arg_codec, _err := _data.ReadInt32()
 		if _err != nil {
@@ -1280,9 +1713,15 @@ func (s *BluetoothA2dpStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver any
-		_err = s.Impl.SetBufferLengthMillis(ctx, _arg_codec, _arg_size, _arg_attributionSource, _arg_receiver)
-		return nil, _err
+		_result, _err := s.Impl.SetBufferLengthMillis(ctx, _arg_codec, _arg_size, _arg_attributionSource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1292,28 +1731,28 @@ func (s *BluetoothA2dpStub) OnTransaction(
 // provide to NewBluetoothA2dpStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothA2dpServer interface {
-	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver any) error
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	SetActiveDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	GetActiveDevice(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver any) error
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	SetActiveDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	GetActiveDevice(ctx context.Context, attributionSource content.AttributionSource) (BluetoothDevice, error)
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource) (bool, error)
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
 	SetAvrcpAbsoluteVolume(ctx context.Context, volume int32, attributionSource content.AttributionSource) error
-	IsA2dpPlaying(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	GetSupportedCodecTypes(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	GetCodecStatus(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	IsA2dpPlaying(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
+	GetSupportedCodecTypes(ctx context.Context) ([]BluetoothCodecType, error)
+	GetCodecStatus(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (BluetoothCodecStatus, error)
 	SetCodecConfigPreference(ctx context.Context, device BluetoothDevice, codecConfig BluetoothCodecConfig, attributionSource content.AttributionSource) error
 	EnableOptionalCodecs(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) error
 	DisableOptionalCodecs(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) error
-	IsOptionalCodecsSupported(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
-	IsOptionalCodecsEnabled(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	IsOptionalCodecsSupported(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	IsOptionalCodecsEnabled(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
 	SetOptionalCodecsEnabled(ctx context.Context, device BluetoothDevice, value int32, attributionSource content.AttributionSource) error
-	GetDynamicBufferSupport(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	GetBufferConstraints(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
-	SetBufferLengthMillis(ctx context.Context, codec int32, size int32, attributionSource content.AttributionSource, receiver any) error
+	GetDynamicBufferSupport(ctx context.Context, attributionSource content.AttributionSource) (int32, error)
+	GetBufferConstraints(ctx context.Context, attributionSource content.AttributionSource) (BufferConstraints, error)
+	SetBufferLengthMillis(ctx context.Context, codec int32, size int32, attributionSource content.AttributionSource) (bool, error)
 }
 
 type bluetoothA2dpStubWrapper struct {
@@ -1329,61 +1768,54 @@ func (w *bluetoothA2dpStubWrapper) Connect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.Connect(ctx, device, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.Connect(ctx, device, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) Disconnect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.Disconnect(ctx, device, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.Disconnect(ctx, device, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetConnectedDevices(ctx, attributionSource, receiver)
+) ([]BluetoothDevice, error) {
+	return w.impl.GetConnectedDevices(ctx, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource, receiver)
+) ([]BluetoothDevice, error) {
+	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetConnectionState(ctx, device, attributionSource, receiver)
+) (int32, error) {
+	return w.impl.GetConnectionState(ctx, device, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) SetActiveDevice(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.SetActiveDevice(ctx, device, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.SetActiveDevice(ctx, device, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) GetActiveDevice(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetActiveDevice(ctx, attributionSource, receiver)
+) (BluetoothDevice, error) {
+	return w.impl.GetActiveDevice(ctx, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) SetConnectionPolicy(
@@ -1391,18 +1823,16 @@ func (w *bluetoothA2dpStubWrapper) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetConnectionPolicy(ctx, device, attributionSource, receiver)
+) (int32, error) {
+	return w.impl.GetConnectionPolicy(ctx, device, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) SetAvrcpAbsoluteVolume(
@@ -1417,26 +1847,22 @@ func (w *bluetoothA2dpStubWrapper) IsA2dpPlaying(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.IsA2dpPlaying(ctx, device, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.IsA2dpPlaying(ctx, device, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) GetSupportedCodecTypes(
 	ctx context.Context,
-	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetSupportedCodecTypes(ctx, attributionSource, receiver)
+) ([]BluetoothCodecType, error) {
+	return w.impl.GetSupportedCodecTypes(ctx)
 }
 
 func (w *bluetoothA2dpStubWrapper) GetCodecStatus(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetCodecStatus(ctx, device, attributionSource, receiver)
+) (BluetoothCodecStatus, error) {
+	return w.impl.GetCodecStatus(ctx, device, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) SetCodecConfigPreference(
@@ -1468,18 +1894,16 @@ func (w *bluetoothA2dpStubWrapper) IsOptionalCodecsSupported(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.IsOptionalCodecsSupported(ctx, device, attributionSource, receiver)
+) (int32, error) {
+	return w.impl.IsOptionalCodecsSupported(ctx, device, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) IsOptionalCodecsEnabled(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.IsOptionalCodecsEnabled(ctx, device, attributionSource, receiver)
+) (int32, error) {
+	return w.impl.IsOptionalCodecsEnabled(ctx, device, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) SetOptionalCodecsEnabled(
@@ -1494,17 +1918,15 @@ func (w *bluetoothA2dpStubWrapper) SetOptionalCodecsEnabled(
 func (w *bluetoothA2dpStubWrapper) GetDynamicBufferSupport(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetDynamicBufferSupport(ctx, attributionSource, receiver)
+) (int32, error) {
+	return w.impl.GetDynamicBufferSupport(ctx, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) GetBufferConstraints(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.GetBufferConstraints(ctx, attributionSource, receiver)
+) (BufferConstraints, error) {
+	return w.impl.GetBufferConstraints(ctx, attributionSource)
 }
 
 func (w *bluetoothA2dpStubWrapper) SetBufferLengthMillis(
@@ -1512,9 +1934,8 @@ func (w *bluetoothA2dpStubWrapper) SetBufferLengthMillis(
 	codec int32,
 	size int32,
 	attributionSource content.AttributionSource,
-	receiver any,
-) error {
-	return w.impl.SetBufferLengthMillis(ctx, codec, size, attributionSource, receiver)
+) (bool, error) {
+	return w.impl.SetBufferLengthMillis(ctx, codec, size, attributionSource)
 }
 
 var _ IBluetoothA2dp = (*bluetoothA2dpStubWrapper)(nil)

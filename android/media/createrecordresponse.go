@@ -59,9 +59,11 @@ func (s *CreateRecordResponse) MarshalParcel(
 	} else {
 		p.WriteStrongBinder(s.AudioRecord.AsBinder().Handle())
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.ServerConfig.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.HalConfig.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -212,6 +214,9 @@ func (s *CreateRecordResponse) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.ServerConfig.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -221,6 +226,9 @@ func (s *CreateRecordResponse) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.HalConfig.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

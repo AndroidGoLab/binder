@@ -28,6 +28,7 @@ func (s *DecryptArgs) MarshalParcel(
 	p.WriteByteArray(s.KeyId)
 	p.WriteByteArray(s.Iv)
 	p.WriteInt32(int32(s.Mode))
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Pattern.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -42,10 +43,12 @@ func (s *DecryptArgs) MarshalParcel(
 			}
 		}
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Source.MarshalParcel(p); _err != nil {
 		return _err
 	}
 	p.WriteInt64(s.Offset)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Destination.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -108,6 +111,9 @@ func (s *DecryptArgs) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Pattern.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -139,6 +145,9 @@ func (s *DecryptArgs) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Source.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -158,6 +167,9 @@ func (s *DecryptArgs) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Destination.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

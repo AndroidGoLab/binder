@@ -811,8 +811,8 @@ interfaces:
 parcelables:
     - name: TvAdServiceInfo
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Service
+          write_method: delegate
         - name: Id
           write_method: string16
         - name: Types

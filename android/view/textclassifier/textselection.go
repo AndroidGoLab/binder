@@ -20,7 +20,7 @@ func (s *TextSelection) MarshalParcel(
 ) error {
 	p.WriteInt32(s.StartIndex)
 	p.WriteInt32(s.EndIndex)
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null EntityConfidence
 	p.WriteString16(s.Id)
 	p.WriteInt32(-1) // null Extras
 	if s.TextClassification != nil {
@@ -46,15 +46,7 @@ func (s *TextSelection) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque EntityConfidence: cannot skip without known wire format
 	s.Id, _err = p.ReadString16()
 	if _err != nil {
 		return _err

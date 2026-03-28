@@ -27,7 +27,7 @@ func (s *PhoneAccount) MarshalParcel(
 	p.WriteInt32(-1) // null ShortDescription
 	p.WriteInt32(-1) // null SupportedUriSchemes
 	p.WriteInt32(0)
-	p.WriteInt32(0)  // null (byte)(mIsEnabled?1:0)
+	p.WriteInt32(0)  // placeholder (byte)(mIsEnabled?1:0)
 	p.WriteInt32(-1) // null Extras
 	p.WriteString16(s.GroupId)
 	p.WriteInt32(s.SupportedAudioRoutes)
@@ -56,44 +56,14 @@ func (s *PhoneAccount) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Label: cannot skip without known wire format
+	return nil // opaque ShortDescription: cannot skip without known wire format
+	return nil // opaque SupportedUriSchemes: cannot skip without known wire format
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mIsEnabled?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mIsEnabled?1:0)
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()

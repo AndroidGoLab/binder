@@ -1,6 +1,7 @@
 package inputmethod
 
 import (
+	types "github.com/AndroidGoLab/binder/android/net/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -8,6 +9,8 @@ import (
 
 type InputContentInfo struct {
 	ContentUriOwnerUserId int32
+	Uri                   types.Uri
+	Uri2                  types.Uri
 }
 
 var _ parcel.Parcelable = (*InputContentInfo)(nil)
@@ -15,10 +18,14 @@ var _ parcel.Parcelable = (*InputContentInfo)(nil)
 func (s *InputContentInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
+	if _err := s.Uri.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.ContentUriOwnerUserId)
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Description
+	if _err := s.Uri2.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(1)
 	p.WriteInt32(-1) // null UriToken.asBinder()
 	return nil
@@ -28,48 +35,20 @@ func (s *InputContentInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.Uri.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	s.ContentUriOwnerUserId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	return nil // opaque Description: cannot skip without known wire format
+	if _err := s.Uri2.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque UriToken.asBinder(): cannot skip without known wire format
 	return nil
 }

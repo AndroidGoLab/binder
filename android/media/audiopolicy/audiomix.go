@@ -1,6 +1,7 @@
 package audiopolicy
 
 import (
+	types "github.com/AndroidGoLab/binder/android/content/integrity/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -11,6 +12,7 @@ type AudioMix struct {
 	CallbackFlags    int32
 	DeviceSystemType int32
 	DeviceAddress    string
+	Rule             types.Rule
 }
 
 var _ parcel.Parcelable = (*AudioMix)(nil)
@@ -22,8 +24,10 @@ func (s *AudioMix) MarshalParcel(
 	p.WriteInt32(s.CallbackFlags)
 	p.WriteInt32(s.DeviceSystemType)
 	p.WriteString(s.DeviceAddress)
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Format
+	if _err := s.Rule.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(-1) // null Token
 	return nil
 }
@@ -48,32 +52,10 @@ func (s *AudioMix) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	return nil // opaque Format: cannot skip without known wire format
+	if _err := s.Rule.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Token: cannot skip without known wire format
 	return nil
 }

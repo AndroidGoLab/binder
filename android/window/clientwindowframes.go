@@ -1,6 +1,7 @@
 package window
 
 import (
+	bufferstreams "github.com/AndroidGoLab/binder/android/graphics/bufferstreams"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -9,6 +10,7 @@ import (
 type ClientWindowFrames struct {
 	IsParentFrameClippedByDisplayCutout bool
 	CompatScale                         float32
+	Frame                               bufferstreams.Frame
 }
 
 var _ parcel.Parcelable = (*ClientWindowFrames)(nil)
@@ -16,9 +18,11 @@ var _ parcel.Parcelable = (*ClientWindowFrames)(nil)
 func (s *ClientWindowFrames) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null Dest
+	if _err := s.Frame.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	p.WriteInt32(-1) // null DisplayFrame
+	p.WriteInt32(-1) // null ParentFrame
 	p.WriteInt32(0)  // null AttachedFrame
 	p.WriteBool(s.IsParentFrameClippedByDisplayCutout)
 	p.WriteFloat32(s.CompatScale)
@@ -29,33 +33,11 @@ func (s *ClientWindowFrames) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.Frame.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque DisplayFrame: cannot skip without known wire format
+	return nil // opaque ParentFrame: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {

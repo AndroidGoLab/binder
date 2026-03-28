@@ -19,19 +19,19 @@ var _ parcel.Parcelable = (*TextClassifierEvent)(nil)
 func (s *TextClassifierEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null GetParcelToken()
+	p.WriteInt32(0) // placeholder GetParcelToken()
 	p.WriteInt32(s.EventCategory)
 	p.WriteInt32(s.EventType)
 	p.WriteInt32(-1) // null EntityTypes
 	p.WriteInt32(0)  // null EventContext
 	p.WriteString16(s.ResultId)
 	p.WriteInt32(s.EventIndex)
-	p.WriteInt32(0)  // null Scores.length
+	p.WriteInt32(0)  // placeholder Scores.length
 	p.WriteInt32(-1) // null Scores
 	p.WriteString16(s.ModelName)
-	p.WriteInt32(-1) // null ActionIndices
-	p.WriteInt32(0)  // null Locale==null?null:mLocale.toLanguageTag()
-	p.WriteInt32(-1) // null Extras
+	p.WriteInt32(-1)   // null ActionIndices
+	p.WriteBool(false) // placeholder Locale==null
+	p.WriteInt32(-1)   // null Extras
 	return nil
 }
 
@@ -39,14 +39,8 @@ func (s *TextClassifierEvent) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetParcelToken(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip GetParcelToken()
+		return _err
 	}
 	s.EventCategory, _err = p.ReadInt32()
 	if _err != nil {
@@ -57,12 +51,14 @@ func (s *TextClassifierEvent) UnmarshalParcel(
 		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		for _j := int32(0); _j < _arrLen; _j++ {
+			if _, _arrErr = p.ReadString16(); _arrErr != nil {
+				return _arrErr
+			}
 		}
 	}
 	{
@@ -82,45 +78,25 @@ func (s *TextClassifierEvent) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Scores.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip Scores.length
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Scores: cannot skip without known wire format
 	s.ModelName, _err = p.ReadString16()
 	if _err != nil {
 		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Locale==null?null:mLocale.toLanguageTag(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip Locale==null
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()

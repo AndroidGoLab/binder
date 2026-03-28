@@ -38,6 +38,7 @@ func (s *P2pGroupStartedEventParams) MarshalParcel(
 	p.WriteFixedByteArray(s.GoDeviceAddress, 6)
 	p.WriteFixedByteArray(s.GoInterfaceAddress, 6)
 	p.WriteBool(s.IsP2pClientEapolIpAddressInfoPresent)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.P2pClientIpInfo.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -170,6 +171,9 @@ func (s *P2pGroupStartedEventParams) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.P2pClientIpInfo.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

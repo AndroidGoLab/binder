@@ -320,8 +320,8 @@ parcelables:
           write_method: string_array
         - name: OutputPortNames
           write_method: string_array
-        - name: IsPrivate?1:0
-          write_method: int32
+        - name: IsPrivate
+          write_method: bool
         - name: DefaultProtocol
           write_method: int32
         - name: GetBasicProperties(newString[]{PROPERTY_NAME,PROPERTY_MANUFACTURER,PROPERTY_PRODUCT,PROPERTY_VERSION,PROPERTY_SERIAL_NUMBER,PROPERTY_ALSA_CARD,PROPERTY_ALSA_DEVICE})

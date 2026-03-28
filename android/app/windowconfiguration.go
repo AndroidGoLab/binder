@@ -20,9 +20,9 @@ var _ parcel.Parcelable = (*WindowConfiguration)(nil)
 func (s *WindowConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Bounds
 	p.WriteInt32(0)  // null AppBounds
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null MaxBounds
 	p.WriteInt32(s.WindowingMode)
 	p.WriteInt32(s.ActivityType)
 	p.WriteInt32(s.AlwaysOnTop)
@@ -36,15 +36,7 @@ func (s *WindowConfiguration) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Bounds: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -54,15 +46,7 @@ func (s *WindowConfiguration) UnmarshalParcel(
 			return nil // non-null AppBounds: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque MaxBounds: cannot skip without known wire format
 	s.WindowingMode, _err = p.ReadInt32()
 	if _err != nil {
 		return _err

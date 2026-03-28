@@ -53,6 +53,7 @@ func (s *CardStatus) MarshalParcel(
 	p.WriteString16(s.Atr)
 	p.WriteString16(s.Iccid)
 	p.WriteString16(s.Eid)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.SlotMap.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -178,6 +179,9 @@ func (s *CardStatus) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.SlotMap.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

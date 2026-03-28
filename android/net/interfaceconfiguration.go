@@ -16,9 +16,9 @@ func (s *InterfaceConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.HwAddr)
-	p.WriteInt32(0) // null (byte)1
+	p.WriteInt32(0) // placeholder (byte)1
 	p.WriteInt32(0) // null Addr
-	p.WriteInt32(0) // null Flags.size()
+	p.WriteInt32(0) // placeholder Flags.size()
 	return nil
 }
 
@@ -30,14 +30,8 @@ func (s *InterfaceConfiguration) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -48,14 +42,8 @@ func (s *InterfaceConfiguration) UnmarshalParcel(
 			return nil // non-null Addr: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Flags.size(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip Flags.size()
+		return _err
 	}
 	return nil
 }

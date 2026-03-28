@@ -16,6 +16,7 @@ type PrintJobInfo struct {
 	Copies       int32
 	Progress     float32
 	StatusRes    int32
+	Canceling    bool
 	PrinterId    *PrinterId
 }
 
@@ -47,7 +48,7 @@ func (s *PrintJobInfo) MarshalParcel(
 	p.WriteInt32(-1) // null Status
 	p.WriteInt32(s.StatusRes)
 	p.WriteInt32(-1) // null StatusResAppPackageName
-	p.WriteInt32(0)  // null Canceling?1:0
+	p.WriteBool(s.Canceling)
 	p.WriteInt32(-1) // null AdvancedOptions
 	return nil
 }
@@ -105,15 +106,7 @@ func (s *PrintJobInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque PageRanges: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -136,36 +129,15 @@ func (s *PrintJobInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Status: cannot skip without known wire format
 	s.StatusRes, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Canceling?1:0: cannot skip unknown-size typed object
-		}
+	return nil // opaque StatusResAppPackageName: cannot skip without known wire format
+	s.Canceling, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()

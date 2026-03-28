@@ -9,6 +9,8 @@ import (
 type ProfilerInfo struct {
 	ProfileFile           string
 	SamplingInterval      int32
+	AutoStopProfiler      bool
+	StreamingOutput       bool
 	Agent                 string
 	AttachAgentDuringBind bool
 	ClockType             int32
@@ -21,10 +23,10 @@ func (s *ProfilerInfo) MarshalParcel(
 ) error {
 	p.WriteString16(s.ProfileFile)
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null ProfileFd
 	p.WriteInt32(s.SamplingInterval)
-	p.WriteInt32(0) // null AutoStopProfiler?1:0
-	p.WriteInt32(0) // null StreamingOutput?1:0
+	p.WriteBool(s.AutoStopProfiler)
+	p.WriteBool(s.StreamingOutput)
 	p.WriteString16(s.Agent)
 	p.WriteBool(s.AttachAgentDuringBind)
 	p.WriteInt32(s.ClockType)
@@ -42,36 +44,18 @@ func (s *ProfilerInfo) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ProfileFd: cannot skip without known wire format
 	s.SamplingInterval, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null AutoStopProfiler?1:0: cannot skip unknown-size typed object
-		}
+	s.AutoStopProfiler, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null StreamingOutput?1:0: cannot skip unknown-size typed object
-		}
+	s.StreamingOutput, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.Agent, _err = p.ReadString16()
 	if _err != nil {

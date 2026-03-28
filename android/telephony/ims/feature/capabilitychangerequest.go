@@ -14,31 +14,20 @@ var _ parcel.Parcelable = (*CapabilityChangeRequest)(nil)
 func (s *CapabilityChangeRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null CapabilitiesToEnable.size()
-	p.WriteInt32(0) // null CapabilitiesToDisable.size()
+	p.WriteInt32(0) // placeholder CapabilitiesToEnable.size()
+	p.WriteInt32(0) // placeholder CapabilitiesToDisable.size()
 	return nil
 }
 
 func (s *CapabilityChangeRequest) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null CapabilitiesToEnable.size(): cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil { // skip CapabilitiesToEnable.size()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null CapabilitiesToDisable.size(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip CapabilitiesToDisable.size()
+		return _err
 	}
 	return nil
 }

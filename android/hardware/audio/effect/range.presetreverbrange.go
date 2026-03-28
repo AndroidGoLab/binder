@@ -17,9 +17,11 @@ func (s *RangePresetReverbRange) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Min.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Max.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -41,6 +43,9 @@ func (s *RangePresetReverbRange) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Min.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -50,6 +55,9 @@ func (s *RangePresetReverbRange) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Max.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

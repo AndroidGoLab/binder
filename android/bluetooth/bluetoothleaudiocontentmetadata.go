@@ -14,20 +14,17 @@ var _ parcel.Parcelable = (*BluetoothLeAudioContentMetadata)(nil)
 func (s *BluetoothLeAudioContentMetadata) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null Out
+	p.WriteInt32(-1) // null RawMetadata
 	return nil
 }
 
 func (s *BluetoothLeAudioContentMetadata) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
+	return nil // opaque Out: cannot skip without known wire format
+	return nil // opaque Out: cannot skip without known wire format
+	return nil // opaque RawMetadata: cannot skip without known wire format
 	return nil
 }

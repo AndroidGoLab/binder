@@ -15,16 +15,16 @@ parcelables:
           write_method: int32
         - name: ConfiguredSize.getHeight()
           write_method: int32
-        - name: IsDeferredConfig?1:0
-          write_method: int32
-        - name: IsShared?1:0
-          write_method: int32
+        - name: IsDeferredConfig
+          write_method: bool
+        - name: IsShared
+          write_method: bool
         - name: Surfaces
           write_method: opaque
         - name: PhysicalCameraId
           write_method: string16
-        - name: IsMultiResolution?1:0
-          write_method: int32
+        - name: IsMultiResolution
+          write_method: bool
         - name: ConvertIntegerToIntList(mSensorPixelModesUsed)
           write_method: int_array
         - name: DynamicRangeProfile
@@ -37,8 +37,8 @@ parcelables:
           write_method: int32
         - name: MirrorMode
           write_method: int32
-        - name: ReadoutTimestampEnabled?1:0
-          write_method: int32
+        - name: ReadoutTimestampEnabled
+          write_method: bool
     - name: SessionConfiguration
       java_wire_format:
         - name: SessionType
@@ -60,8 +60,8 @@ parcelables:
         - name: "True"
           write_method: bool
           condition: Flags.featureCombinationQuery() && mSessionParameters!=null
-        - name: Dest
-          write_method: opaque
+        - name: Metadata
+          write_method: delegate
           condition: Flags.featureCombinationQuery() && mSessionParameters!=null
     - name: VendorTagDescriptor
     - name: VendorTagDescriptorCache

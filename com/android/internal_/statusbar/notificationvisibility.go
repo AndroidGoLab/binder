@@ -14,61 +14,32 @@ var _ parcel.Parcelable = (*NotificationVisibility)(nil)
 func (s *NotificationVisibility) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null This.key
-	p.WriteInt32(0) // null This.rank
-	p.WriteInt32(0) // null This.count
-	p.WriteInt32(0) // null This.visible?1:0
-	p.WriteInt32(0) // null This.location.name()
+	p.WriteString16("") // placeholder This.key
+	p.WriteInt32(0)     // placeholder This.rank
+	p.WriteInt32(0)     // placeholder This.count
+	p.WriteBool(false)  // placeholder This.visible
+	p.WriteString16("") // placeholder This.location.name()
 	return nil
 }
 
 func (s *NotificationVisibility) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.key: cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadString16(); _err != nil { // skip This.key
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.rank: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.rank
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.count: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.count
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.visible?1:0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip This.visible
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.location.name(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString16(); _err != nil { // skip This.location.name()
+		return _err
 	}
 	return nil
 }

@@ -22,9 +22,11 @@ func (s *ParameterCommon) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Session)
 	p.WriteInt32(s.IoHandle)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Input.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Output.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -66,6 +68,9 @@ func (s *ParameterCommon) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Input.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -75,6 +80,9 @@ func (s *ParameterCommon) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Output.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

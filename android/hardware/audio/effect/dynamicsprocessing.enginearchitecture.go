@@ -23,12 +23,15 @@ func (s *DynamicsProcessingEngineArchitecture) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(int32(s.ResolutionPreference))
 	p.WriteFloat32(s.PreferredProcessingDurationMs)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.PreEqStage.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.PostEqStage.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.MbcStage.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -72,6 +75,9 @@ func (s *DynamicsProcessingEngineArchitecture) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.PreEqStage.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -81,6 +87,9 @@ func (s *DynamicsProcessingEngineArchitecture) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.PostEqStage.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -90,6 +99,9 @@ func (s *DynamicsProcessingEngineArchitecture) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.MbcStage.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

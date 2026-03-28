@@ -42,9 +42,11 @@ func (s *CreateTrackResponse) MarshalParcel(
 	p.WriteInt32(int32(s.StreamType))
 	p.WriteInt64(s.AfFrameCount)
 	p.WriteInt32(s.AfSampleRate)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.AfChannelMask.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.AfFormat.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -166,6 +168,9 @@ func (s *CreateTrackResponse) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.AfChannelMask.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -175,6 +180,9 @@ func (s *CreateTrackResponse) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.AfFormat.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

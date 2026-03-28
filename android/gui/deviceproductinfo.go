@@ -23,6 +23,7 @@ func (s *DeviceProductInfo) MarshalParcel(
 	p.WriteString16(s.Name)
 	p.WriteByteArray(s.ManufacturerPnpId)
 	p.WriteString16(s.ProductId)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.ManufactureOrModelDate.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -75,6 +76,9 @@ func (s *DeviceProductInfo) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.ManufactureOrModelDate.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

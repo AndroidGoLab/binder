@@ -39,6 +39,7 @@ func (s *IBluetoothAudioProviderLeAudioAseQosConfigurationRequirementAseQosDirec
 	p.WriteInt32(s.PresentationDelayMaxUs)
 	p.WriteInt32(s.PreferredPresentationDelayMinUs)
 	p.WriteInt32(s.PreferredPresentationDelayMaxUs)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.AseConfiguration.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -152,6 +153,9 @@ func (s *IBluetoothAudioProviderLeAudioAseQosConfigurationRequirementAseQosDirec
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.AseConfiguration.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

@@ -19,9 +19,11 @@ func (s *EpsQos) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Qci)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Downlink.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Uplink.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -53,6 +55,9 @@ func (s *EpsQos) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Downlink.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -62,6 +67,9 @@ func (s *EpsQos) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Uplink.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

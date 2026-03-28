@@ -3,6 +3,7 @@ package codegen
 import (
 	"fmt"
 	"strings"
+	"unicode"
 
 	"github.com/AndroidGoLab/binder/tools/pkg/parser"
 )
@@ -67,12 +68,29 @@ func GenerateParcelable(
 	// decl.Fields (to avoid perturbing the import graph), so the
 	// codegen generates them directly from the wire field metadata.
 	for _, wf := range decl.JavaWireFormat {
-		if wf.WriteMethod != "typed_object" || wf.GoType == "" {
-			continue
+		switch wf.WriteMethod {
+		case "typed_object":
+			if wf.GoType == "" {
+				continue
+			}
+			goType := resolveJavaWireGoType(typeRef, wf.GoType)
+			if goType == "" {
+				continue // cycle can't be broken — field stays opaque
+			}
+			goName := AIDLToGoName(wf.Name)
+			f.P("\t%s *%s", goName, goType)
+		case "delegate":
+			if wf.GoType == "" {
+				continue
+			}
+			goType := resolveJavaWireGoType(typeRef, wf.GoType)
+			if goType == "" {
+				continue
+			}
+			goName := AIDLToGoName(wf.Name)
+			// Delegation: not nullable — embedded directly.
+			f.P("\t%s %s", goName, goType)
 		}
-		goName := AIDLToGoName(wf.Name)
-		goType := resolveJavaWireGoType(typeRef, wf.GoType)
-		f.P("\t%s *%s", goName, goType)
 	}
 	f.P("}")
 	f.P("")
@@ -244,6 +262,9 @@ func writeMarshalParcel(
 				f.P("\t\t}")
 				f.P("\t}")
 			} else {
+				// NDK AIDL wire format: int32(1) non-null indicator before
+				// every non-nullable parcelable/union field.
+				f.P("\tp.WriteInt32(1) // non-null indicator")
 				writeExpr := fmt.Sprintf("%s.MarshalParcel(p)", fieldAccess)
 				f.P("\tif _err := %s; _err != nil {", writeExpr)
 				f.P("\t\treturn _err")
@@ -403,7 +424,12 @@ func writeUnmarshalParcel(
 				f.P("\t\t}")
 				f.P("\t}")
 			} else {
+				// NDK AIDL wire format: int32(1) non-null indicator before
+				// every non-nullable parcelable/union field.
 				f.P("")
+				f.P("\tif _, _err = p.ReadInt32(); _err != nil { // non-null indicator")
+				f.P("\t\treturn _err")
+				f.P("\t}")
 				f.P("\tif _err = s.%s.UnmarshalParcel(p); _err != nil {", goFieldName)
 				f.P("\t\treturn _err")
 				f.P("\t}")
@@ -781,22 +807,45 @@ func resolveFixedSizeExpr(
 type javaWireMethodInfo struct {
 	writeMethod string
 	readMethod  string
+	zeroValue   string // Go zero literal for placeholder writes.
 }
 
 var javaWireMethodMap = map[string]javaWireMethodInfo{
-	"bool":     {writeMethod: "WriteBool", readMethod: "ReadBool"},
-	"int32":    {writeMethod: "WriteInt32", readMethod: "ReadInt32"},
-	"int64":    {writeMethod: "WriteInt64", readMethod: "ReadInt64"},
-	"float32":  {writeMethod: "WriteFloat32", readMethod: "ReadFloat32"},
-	"float64":  {writeMethod: "WriteFloat64", readMethod: "ReadFloat64"},
-	"string8":  {writeMethod: "WriteString", readMethod: "ReadString"},
-	"string16": {writeMethod: "WriteString16", readMethod: "ReadString16"},
+	"bool":     {writeMethod: "WriteBool", readMethod: "ReadBool", zeroValue: "false"},
+	"int32":    {writeMethod: "WriteInt32", readMethod: "ReadInt32", zeroValue: "0"},
+	"int64":    {writeMethod: "WriteInt64", readMethod: "ReadInt64", zeroValue: "0"},
+	"float32":  {writeMethod: "WriteFloat32", readMethod: "ReadFloat32", zeroValue: "0"},
+	"float64":  {writeMethod: "WriteFloat64", readMethod: "ReadFloat64", zeroValue: "0"},
+	"string8":  {writeMethod: "WriteString", readMethod: "ReadString", zeroValue: `""`},
+	"string16": {writeMethod: "WriteString16", readMethod: "ReadString16", zeroValue: `""`},
 }
 
 // javaWireConditionToGo converts a spec condition like "FieldsMask & 256"
 // into a Go boolean expression like "s.FieldsMask & 256 != 0".
 // The field name in the condition is converted to PascalCase via AIDLToGoName.
 // isJavaWireNumericLiteral returns true if s is a decimal integer literal,
+// isValidGoFieldName reports whether s can be used as a Go struct field name.
+// Names containing characters like '?', ':', or spaces are not valid.
+// These appear in JavaWireFormat for boolean-as-int fields (e.g.,
+// "IsExternal?1:0") or dotted sub-field names (e.g.,
+// "ViewBehavior.mShouldSmoothScroll").
+func isValidGoFieldName(s string) bool {
+	if len(s) == 0 {
+		return false
+	}
+	for i, r := range s {
+		switch {
+		case r == '_' || unicode.IsLetter(r):
+			// valid
+		case i > 0 && unicode.IsDigit(r):
+			// valid
+		default:
+			return false
+		}
+	}
+	return true
+}
+
 // optionally negative (e.g., "0", "-1", "42"). These appear as field names
 // in JavaWireFormat when Java writes a literal value (e.g., writeInt(-1)).
 func isJavaWireNumericLiteral(s string) bool {
@@ -841,9 +890,28 @@ func writeJavaWireMarshalParcel(
 	f.P(") error {")
 
 	for _, wf := range wireFields {
+		// delegate field: inline marshal without nullable wrapper.
+		if wf.WriteMethod == "delegate" && wf.GoType != "" {
+			goType := resolveJavaWireGoType(typeRef, wf.GoType)
+			if goType == "" {
+				continue
+			}
+			goName := AIDLToGoName(wf.Name)
+			f.P("\tif _err := s.%s.MarshalParcel(p); _err != nil {", goName)
+			f.P("\t\treturn _err")
+			f.P("\t}")
+			continue
+		}
+
 		// typed_object field with a resolved parcelable type:
 		// generate nullable marshal (int32 flag + MarshalParcel).
 		if wf.WriteMethod == "typed_object" && wf.GoType != "" {
+			goType := resolveJavaWireGoType(typeRef, wf.GoType)
+			if goType == "" {
+				// Unbreakable cycle — write null marker.
+				f.P("\tp.WriteInt32(0) // opaque: cycle prevents typed marshal")
+				continue
+			}
 			goName := AIDLToGoName(wf.Name)
 			f.P("\tif s.%s != nil {", goName)
 			f.P("\t\tp.WriteInt32(1)")
@@ -876,6 +944,13 @@ func writeJavaWireMarshalParcel(
 		// emit the literal value directly instead of a struct field access.
 		if isJavaWireNumericLiteral(wf.Name) {
 			f.P("\tp.%s(%s)", info.writeMethod, wf.Name)
+			continue
+		}
+
+		// Non-identifier names (e.g., "IsExternal?1:0") have no struct
+		// field. Write a zero value to keep the wire format aligned.
+		if !isValidGoFieldName(wf.Name) {
+			f.P("\tp.%s(%s) // placeholder %s", info.writeMethod, info.zeroValue, wf.Name)
 			continue
 		}
 
@@ -924,14 +999,36 @@ func writeJavaWireUnmarshalParcel(
 	}
 
 	for _, wf := range wireFields {
+		// delegate field: inline unmarshal without nullable wrapper.
+		if wf.WriteMethod == "delegate" && wf.GoType != "" {
+			goType := resolveJavaWireGoType(typeRef, wf.GoType)
+			if goType == "" {
+				continue
+			}
+			goName := AIDLToGoName(wf.Name)
+			f.P("\tif _err := s.%s.UnmarshalParcel(p); _err != nil {", goName)
+			f.P("\t\treturn _err")
+			f.P("\t}")
+			continue
+		}
+
 		// typed_object field with a resolved parcelable type:
 		// generate nullable unmarshal (read int32 flag, allocate and
 		// UnmarshalParcel if non-null).
 		if wf.WriteMethod == "typed_object" && wf.GoType != "" {
-			goName := AIDLToGoName(wf.Name)
-			// Resolve the Go type through the TypeRefResolver to get
-			// the properly qualified name and add imports.
 			goType := resolveJavaWireGoType(typeRef, wf.GoType)
+			if goType == "" {
+				// Unbreakable cycle — skip as opaque (null marker already consumed).
+				f.P("\t{")
+				f.P("\t\t_flag, _err := p.ReadInt32()")
+				f.P("\t\tif _err != nil {")
+				f.P("\t\t\treturn _err")
+				f.P("\t\t}")
+				f.P("\t\t_ = _flag // opaque: cycle prevents typed unmarshal")
+				f.P("\t}")
+				continue
+			}
+			goName := AIDLToGoName(wf.Name)
 			f.P("\t{")
 			f.P("\t\t_flag, _err := p.ReadInt32()")
 			f.P("\t\tif _err != nil {")
@@ -951,6 +1048,45 @@ func writeJavaWireUnmarshalParcel(
 
 		if !ok {
 			switch wf.WriteMethod {
+			case "component_name":
+				// Java ComponentName.writeToParcel(c, dest): writes
+				// writeString(null) if null, or writeString(pkg) +
+				// writeString(cls) if non-null.
+				f.P("\t{")
+				f.P("\t\t_pkg, _pkgErr := p.ReadString16()")
+				f.P("\t\tif _pkgErr != nil {")
+				f.P("\t\t\treturn _pkgErr")
+				f.P("\t\t}")
+				f.P("\t\tif _pkg != \"\" {")
+				f.P("\t\t\tif _, _clsErr := p.ReadString16(); _clsErr != nil {")
+				f.P("\t\t\t\treturn _clsErr")
+				f.P("\t\t\t}")
+				f.P("\t\t}")
+				f.P("\t}")
+			case "string_array":
+				// Java writeStringArray: int32 count, then count string16s.
+				f.P("\t{")
+				f.P("\t\t_arrLen, _arrErr := p.ReadInt32()")
+				f.P("\t\tif _arrErr != nil {")
+				f.P("\t\t\treturn _arrErr")
+				f.P("\t\t}")
+				f.P("\t\tfor _j := int32(0); _j < _arrLen; _j++ {")
+				f.P("\t\t\tif _, _arrErr = p.ReadString16(); _arrErr != nil {")
+				f.P("\t\t\t\treturn _arrErr")
+				f.P("\t\t\t}")
+				f.P("\t\t}")
+				f.P("\t}")
+			case "int_array":
+				// Java writeIntArray: int32 count, then count int32s.
+				f.P("\t{")
+				f.P("\t\t_arrLen, _arrErr := p.ReadInt32()")
+				f.P("\t\tif _arrErr != nil {")
+				f.P("\t\t\treturn _arrErr")
+				f.P("\t\t}")
+				f.P("\t\tif _arrLen > 0 {")
+				f.P("\t\t\tp.SetPosition(p.Position() + int(_arrLen)*4)")
+				f.P("\t\t}")
+				f.P("\t}")
 			case "bundle":
 				f.P("\t{")
 				f.P("\t\t_opaqueLen, _opaqueErr := p.ReadInt32()")
@@ -972,15 +1108,14 @@ func writeJavaWireUnmarshalParcel(
 				f.P("\t\t}")
 				f.P("\t}")
 			default:
-				f.P("\t{")
-				f.P("\t\t_opaqueLen, _opaqueErr := p.ReadInt32()")
-				f.P("\t\tif _opaqueErr != nil {")
-				f.P("\t\t\treturn _opaqueErr")
-				f.P("\t\t}")
-				f.P("\t\tif _opaqueLen > 0 {")
-				f.P("\t\t\tp.SetPosition(p.Position() + int(_opaqueLen))")
-				f.P("\t\t}")
-				f.P("\t}")
+				// Opaque sub-parcelable (e.g., mKeyCharacterMap.writeToParcel):
+				// the caller writes a complex native object without a length
+				// prefix. We cannot skip it without knowing the wire format,
+				// so stop deserialization here. Fields after the opaque section
+				// won't be populated. For single-object calls this is fine
+				// (partial struct). For array reads, the caller must handle
+				// the position being mid-element.
+				f.P("\treturn nil // opaque %s: cannot skip without known wire format", wf.Name)
 			}
 			continue
 		}
@@ -988,6 +1123,15 @@ func writeJavaWireUnmarshalParcel(
 		// Numeric literal: read and discard (no struct field to store in).
 		if isJavaWireNumericLiteral(wf.Name) {
 			f.P("\tif _, _err = p.%s(); _err != nil {", info.readMethod)
+			f.P("\t\treturn _err")
+			f.P("\t}")
+			continue
+		}
+
+		// Non-identifier names (e.g., "IsExternal?1:0") have no struct
+		// field. Read and discard to keep the parcel position aligned.
+		if !isValidGoFieldName(wf.Name) {
+			f.P("\tif _, _err = p.%s(); _err != nil { // skip %s", info.readMethod, wf.Name)
 			f.P("\t\treturn _err")
 			f.P("\t}")
 			continue
@@ -1028,14 +1172,24 @@ func resolveJavaWireGoType(
 	aidlQualifiedName string,
 ) string {
 	if typeRef != nil {
-		// Typed_object field references are not in the import graph
-		// (to avoid destabilizing the DFS back-edge selection). Check
-		// whether importing the target package would create a cycle
-		// by testing for a path from target back to source. If so,
-		// redirect to a types sub-package.
+		// Check whether importing the target package would create a
+		// cycle by testing for a path from target back to source. If
+		// so, redirect to a types sub-package.
+		//
+		// When already generating a types sub-package (strict graph),
+		// the target would also be a types sub-package. If both
+		// packages are in the same SCC, the redirect can't break the
+		// cycle — return empty to keep the field opaque.
 		if typeRef.ImportGraph != nil {
 			typePkg := extractPackage(aidlQualifiedName)
 			if typePkg != typeRef.CurrentPkg && typeRef.ImportGraph.WouldCreateCycle(typeRef.CurrentPkg, typePkg) {
+				if typeRef.ImportGraph.SameSCC(typeRef.CurrentPkg, typePkg) &&
+					typeRef.ImportGraph.WouldCauseCycle(typeRef.CurrentPkg, typePkg) {
+					// Both packages are in the same SCC and the
+					// strict graph marks this edge as cycle-causing.
+					// No further redirect is possible — keep opaque.
+					return ""
+				}
 				typesPkg := typePkg + ".types"
 				goTypeName := AIDLToGoName(aidlQualifiedName[strings.LastIndex(aidlQualifiedName, ".")+1:])
 				alias := typeRef.ensureImport(typesPkg)

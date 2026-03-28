@@ -211,7 +211,6 @@ func (u *EnvironmentalReverb) SetBypass(
 func (u *EnvironmentalReverb) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(u.Tag)
 
 	switch u.Tag {
@@ -246,17 +245,13 @@ func (u *EnvironmentalReverb) MarshalParcel(
 		return fmt.Errorf("unknown union tag %d for EnvironmentalReverb", u.Tag)
 	}
 
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (u *EnvironmentalReverb) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
+	var _err error
 
 	u.Tag, _err = p.ReadInt32()
 	if _err != nil {
@@ -330,6 +325,5 @@ func (u *EnvironmentalReverb) UnmarshalParcel(
 		return fmt.Errorf("unknown union tag %d for EnvironmentalReverb", u.Tag)
 	}
 
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

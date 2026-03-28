@@ -12,12 +12,15 @@ type ServiceState struct {
 	OperatorAlphaLong             string
 	OperatorAlphaShort            string
 	OperatorNumeric               string
+	IsManualNetworkSelection      bool
+	CssIndicator                  bool
 	NetworkId                     int32
 	SystemId                      int32
 	CdmaRoamingIndicator          int32
 	CdmaDefaultRoamingIndicator   int32
 	CdmaEriIconIndex              int32
 	CdmaEriIconMode               int32
+	IsEmergencyOnly               bool
 	ArfcnRsrpBoost                int32
 	ChannelNumber                 int32
 	NrFrequencyRange              int32
@@ -37,15 +40,15 @@ func (s *ServiceState) MarshalParcel(
 	p.WriteString16(s.OperatorAlphaLong)
 	p.WriteString16(s.OperatorAlphaShort)
 	p.WriteString16(s.OperatorNumeric)
-	p.WriteInt32(0) // null IsManualNetworkSelection?1:0
-	p.WriteInt32(0) // null CssIndicator?1:0
+	p.WriteBool(s.IsManualNetworkSelection)
+	p.WriteBool(s.CssIndicator)
 	p.WriteInt32(s.NetworkId)
 	p.WriteInt32(s.SystemId)
 	p.WriteInt32(s.CdmaRoamingIndicator)
 	p.WriteInt32(s.CdmaDefaultRoamingIndicator)
 	p.WriteInt32(s.CdmaEriIconIndex)
 	p.WriteInt32(s.CdmaEriIconMode)
-	p.WriteInt32(0) // null IsEmergencyOnly?1:0
+	p.WriteBool(s.IsEmergencyOnly)
 	p.WriteInt32(s.ArfcnRsrpBoost)
 	p.WriteInt32(s.ChannelNumber)
 	p.WriteInt32(-1) // null CellBandwidths
@@ -81,23 +84,13 @@ func (s *ServiceState) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IsManualNetworkSelection?1:0: cannot skip unknown-size typed object
-		}
+	s.IsManualNetworkSelection, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null CssIndicator?1:0: cannot skip unknown-size typed object
-		}
+	s.CssIndicator, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.NetworkId, _err = p.ReadInt32()
 	if _err != nil {
@@ -123,14 +116,9 @@ func (s *ServiceState) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IsEmergencyOnly?1:0: cannot skip unknown-size typed object
-		}
+	s.IsEmergencyOnly, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.ArfcnRsrpBoost, _err = p.ReadInt32()
 	if _err != nil {
@@ -141,12 +129,12 @@ func (s *ServiceState) UnmarshalParcel(
 		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
 	s.NrFrequencyRange, _err = p.ReadInt32()

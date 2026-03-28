@@ -20,7 +20,7 @@ func (s *SpellCheckerInfo) MarshalParcel(
 	p.WriteInt32(s.Label)
 	p.WriteString16(s.Id)
 	p.WriteString16(s.SettingsActivityName)
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Service
 	p.WriteInt32(-1) // null Subtypes
 	return nil
 }
@@ -41,23 +41,7 @@ func (s *SpellCheckerInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Service: cannot skip without known wire format
+	return nil // opaque Subtypes: cannot skip without known wire format
 	return nil
 }

@@ -41,24 +41,8 @@ func (s *GnssMeasurementsEvent) UnmarshalParcel(
 			return nil // non-null Clock: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Measurements: cannot skip without known wire format
+	return nil // opaque GnssAgcs: cannot skip without known wire format
 	s.IsFullTracking, _err = p.ReadBool()
 	if _err != nil {
 		return _err

@@ -258,8 +258,8 @@ parcelables:
           write_method: string16
     - name: FileServiceInfo
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: Files
           write_method: opaque
     - name: ServiceInfo
@@ -278,8 +278,8 @@ parcelables:
           write_method: opaque
     - name: StreamingServiceInfo
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
     - name: UriPathPair
       java_wire_format:
         - name: FilePathUri

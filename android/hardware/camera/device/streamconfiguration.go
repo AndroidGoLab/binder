@@ -33,6 +33,7 @@ func (s *StreamConfiguration) MarshalParcel(
 		}
 	}
 	p.WriteInt32(int32(s.OperationMode))
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.SessionParams.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -90,6 +91,9 @@ func (s *StreamConfiguration) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.SessionParams.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

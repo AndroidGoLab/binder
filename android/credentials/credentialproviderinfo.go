@@ -22,9 +22,9 @@ func (s *CredentialProviderInfo) MarshalParcel(
 	p.WriteInt32(-1) // null Capabilities
 	p.WriteBool(s.IsEnabled)
 	p.WriteBool(s.IsPrimary)
-	p.WriteInt32(-1) // null OverrideLabel
-	p.WriteInt32(-1) // null SettingsSubtitle
-	p.WriteInt32(-1) // null SettingsActivity
+	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null TextUtils
 	return nil
 }
 
@@ -45,15 +45,7 @@ func (s *CredentialProviderInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Capabilities: cannot skip without known wire format
 	s.IsEnabled, _err = p.ReadBool()
 	if _err != nil {
 		return _err
@@ -62,32 +54,8 @@ func (s *CredentialProviderInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TextUtils: cannot skip without known wire format
+	return nil // opaque TextUtils: cannot skip without known wire format
+	return nil // opaque TextUtils: cannot skip without known wire format
 	return nil
 }

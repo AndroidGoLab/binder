@@ -1,6 +1,7 @@
 package job
 
 import (
+	content "github.com/AndroidGoLab/binder/android/content"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -12,6 +13,7 @@ type JobWorkItem struct {
 	MinimumChunkBytes    int64
 	DeliveryCount        int32
 	WorkId               int32
+	Intent               content.Intent
 }
 
 var _ parcel.Parcelable = (*JobWorkItem)(nil)
@@ -20,7 +22,9 @@ func (s *JobWorkItem) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Out
+	if _err := s.Intent.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(-1) // null Extras
 	p.WriteInt64(s.NetworkDownloadBytes)
 	p.WriteInt64(s.NetworkUploadBytes)
@@ -37,24 +41,10 @@ func (s *JobWorkItem) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.Intent.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Extras: cannot skip without known wire format
 	s.NetworkDownloadBytes, _err = p.ReadInt64()
 	if _err != nil {
 		return _err

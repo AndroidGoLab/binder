@@ -839,16 +839,16 @@ parcelables:
           write_method: string8
         - name: Description
           write_method: string8
-        - name: Primary?1:0
-          write_method: int32
-        - name: Removable?1:0
-          write_method: int32
-        - name: Emulated?1:0
-          write_method: int32
-        - name: ExternallyManaged?1:0
-          write_method: int32
-        - name: AllowMassStorage?1:0
-          write_method: int32
+        - name: Primary
+          write_method: bool
+        - name: Removable
+          write_method: bool
+        - name: Emulated
+          write_method: bool
+        - name: ExternallyManaged
+          write_method: bool
+        - name: AllowMassStorage
+          write_method: bool
         - name: MaxFileSize
           write_method: int64
         - name: Owner
@@ -872,8 +872,8 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: disk!=null
-        - name: Parcel
-          write_method: opaque
+        - name: Disk
+          write_method: delegate
           condition: disk!=null
         - name: PartGuid
           write_method: string8

@@ -14,21 +14,16 @@ var _ parcel.Parcelable = (*InputMethodSubtypeHandle)(nil)
 func (s *InputMethodSubtypeHandle) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null ToStringHandle()
+	p.WriteString("") // placeholder ToStringHandle()
 	return nil
 }
 
 func (s *InputMethodSubtypeHandle) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null ToStringHandle(): cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadString(); _err != nil { // skip ToStringHandle()
+		return _err
 	}
 	return nil
 }

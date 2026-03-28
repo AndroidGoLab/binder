@@ -30,6 +30,7 @@ func (s *CellIdentityNr) MarshalParcel(
 	p.WriteInt32(s.Pci)
 	p.WriteInt32(s.Tac)
 	p.WriteInt32(s.Nrarfcn)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.OperatorNames.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -127,6 +128,9 @@ func (s *CellIdentityNr) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.OperatorNames.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

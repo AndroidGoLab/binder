@@ -53,10 +53,10 @@ func (s *ParcelableConnection) MarshalParcel(
 	p.WriteInt32(s.AddressPresentation)
 	p.WriteString16(s.CallerDisplayName)
 	p.WriteInt32(s.CallerDisplayNamePresentation)
-	p.WriteInt32(-1) // null VideoProvider!=null?mVideoProvider.asBinder():null
+	p.WriteBool(false) // placeholder VideoProvider!=null
 	p.WriteInt32(s.VideoState)
-	p.WriteInt32(0) // null (byte)(mRingbackRequested?1:0)
-	p.WriteInt32(0) // null (byte)(mIsVoipAudioMode?1:0)
+	p.WriteInt32(0) // placeholder (byte)(mRingbackRequested?1:0)
+	p.WriteInt32(0) // placeholder (byte)(mIsVoipAudioMode?1:0)
 	p.WriteInt64(s.ConnectTimeMillis)
 	if s.StatusHints != nil {
 		p.WriteInt32(1)
@@ -133,36 +133,18 @@ func (s *ParcelableConnection) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip VideoProvider!=null
+		return _err
 	}
 	s.VideoState, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mRingbackRequested?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mRingbackRequested?1:0)
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mIsVoipAudioMode?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mIsVoipAudioMode?1:0)
+		return _err
 	}
 	s.ConnectTimeMillis, _err = p.ReadInt64()
 	if _err != nil {
@@ -192,15 +174,7 @@ func (s *ParcelableConnection) UnmarshalParcel(
 			}
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ConferenceableConnectionIds: cannot skip without known wire format
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {

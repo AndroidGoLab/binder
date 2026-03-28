@@ -30,6 +30,7 @@ func (s *QosPolicyClassifierParams) MarshalParcel(
 	p.WriteByteArray(s.SrcIp)
 	p.WriteByteArray(s.DstIp)
 	p.WriteInt32(s.SrcPort)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.DstPortRange.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -107,6 +108,9 @@ func (s *QosPolicyClassifierParams) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.DstPortRange.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

@@ -25,7 +25,7 @@ func (s *FullyManagedDeviceProvisioningParams) MarshalParcel(
 	p.WriteBool(s.LeaveAllSystemAppsEnabled)
 	p.WriteString16(s.TimeZone)
 	p.WriteInt64(s.LocalTime)
-	p.WriteInt32(0) // null Locale==null?null:mLocale.toLanguageTag()
+	p.WriteBool(false) // placeholder Locale==null
 	p.WriteBool(s.DeviceOwnerCanGrantSensorsPermissions)
 	p.WriteInt32(-1) // null AdminExtras
 	p.WriteBool(s.DemoDevice)
@@ -61,28 +61,14 @@ func (s *FullyManagedDeviceProvisioningParams) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Locale==null?null:mLocale.toLanguageTag(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip Locale==null
+		return _err
 	}
 	s.DeviceOwnerCanGrantSensorsPermissions, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque AdminExtras: cannot skip without known wire format
 	s.DemoDevice, _err = p.ReadBool()
 	if _err != nil {
 		return _err

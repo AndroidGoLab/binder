@@ -21,8 +21,8 @@ func (s *BrightnessConfiguration) MarshalParcel(
 ) error {
 	p.WriteInt32(-1) // null Lux
 	p.WriteInt32(-1) // null Nits
-	p.WriteInt32(0)  // null CorrectionsByPackageName.size()
-	p.WriteInt32(0)  // null CorrectionsByCategory.size()
+	p.WriteInt32(0)  // placeholder CorrectionsByPackageName.size()
+	p.WriteInt32(0)  // placeholder CorrectionsByCategory.size()
 	p.WriteString16(s.Description)
 	p.WriteBool(s.ShouldCollectColorSamples)
 	p.WriteInt64(s.ShortTermModelTimeout)
@@ -35,41 +35,13 @@ func (s *BrightnessConfiguration) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	return nil                                // opaque Lux: cannot skip without known wire format
+	return nil                                // opaque Nits: cannot skip without known wire format
+	if _, _err = p.ReadInt32(); _err != nil { // skip CorrectionsByPackageName.size()
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null CorrectionsByPackageName.size(): cannot skip unknown-size typed object
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null CorrectionsByCategory.size(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip CorrectionsByCategory.size()
+		return _err
 	}
 	s.Description, _err = p.ReadString16()
 	if _err != nil {

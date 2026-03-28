@@ -24,8 +24,8 @@ func (s *KeyboardLayout) MarshalParcel(
 	p.WriteString16(s.Label)
 	p.WriteString16(s.Collection)
 	p.WriteInt32(s.Priority)
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(0)  // null LayoutType.getValue()
+	p.WriteInt32(-1) // null Locales
+	p.WriteInt32(0)  // placeholder LayoutType.getValue()
 	p.WriteInt32(s.VendorId)
 	p.WriteInt32(s.ProductId)
 	return nil
@@ -51,23 +51,9 @@ func (s *KeyboardLayout) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null LayoutType.getValue(): cannot skip unknown-size typed object
-		}
+	return nil                                // opaque Locales: cannot skip without known wire format
+	if _, _err = p.ReadInt32(); _err != nil { // skip LayoutType.getValue()
+		return _err
 	}
 	s.VendorId, _err = p.ReadInt32()
 	if _err != nil {

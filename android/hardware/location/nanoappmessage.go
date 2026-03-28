@@ -8,7 +8,9 @@ import (
 
 type NanoAppMessage struct {
 	NanoAppId             int64
+	IsBroadcasted         bool
 	MessageType           int32
+	IsReliable            bool
 	MessageSequenceNumber int32
 }
 
@@ -18,11 +20,11 @@ func (s *NanoAppMessage) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt64(s.NanoAppId)
-	p.WriteInt32(0) // null IsBroadcasted?1:0
+	p.WriteBool(s.IsBroadcasted)
 	p.WriteInt32(s.MessageType)
-	p.WriteInt32(0)  // null MessageBody.length
+	p.WriteInt32(0)  // placeholder MessageBody.length
 	p.WriteInt32(-1) // null MessageBody
-	p.WriteInt32(0)  // null IsReliable?1:0
+	p.WriteBool(s.IsReliable)
 	p.WriteInt32(s.MessageSequenceNumber)
 	return nil
 }
@@ -35,45 +37,21 @@ func (s *NanoAppMessage) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IsBroadcasted?1:0: cannot skip unknown-size typed object
-		}
+	s.IsBroadcasted, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.MessageType, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null MessageBody.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip MessageBody.length
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IsReliable?1:0: cannot skip unknown-size typed object
-		}
+	return nil // opaque MessageBody: cannot skip without known wire format
+	s.IsReliable, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.MessageSequenceNumber, _err = p.ReadInt32()
 	if _err != nil {

@@ -86,33 +86,9 @@ func (s *CellularBatteryStats) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TimeInRatMs: cannot skip without known wire format
+	return nil // opaque TimeInRxSignalStrengthLevelMs: cannot skip without known wire format
+	return nil // opaque TxTimeMs: cannot skip without known wire format
 	s.MonitoredRailChargeConsumedMaMs, _err = p.ReadInt64()
 	if _err != nil {
 		return _err

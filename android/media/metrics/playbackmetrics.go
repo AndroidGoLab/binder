@@ -43,7 +43,7 @@ func (s *PlaybackMetrics) MarshalParcel(
 	p.WriteInt64(s.NetworkBytesRead)
 	p.WriteInt64(s.LocalBytesRead)
 	p.WriteInt64(s.NetworkTransferDurationMillis)
-	p.WriteInt32(0)  // null DrmSessionId.length
+	p.WriteInt32(0)  // placeholder DrmSessionId.length
 	p.WriteInt32(-1) // null DrmSessionId
 	p.WriteInt32(-1) // null MetricsBundle
 	return nil
@@ -99,15 +99,7 @@ func (s *PlaybackMetrics) UnmarshalParcel(
 			return nil // non-null PlayerVersion: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ExperimentIds: cannot skip without known wire format
 	s.VideoFramesPlayed, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -132,24 +124,10 @@ func (s *PlaybackMetrics) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null DrmSessionId.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip DrmSessionId.length
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque DrmSessionId: cannot skip without known wire format
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {

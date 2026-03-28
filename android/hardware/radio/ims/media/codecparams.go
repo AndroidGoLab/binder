@@ -26,6 +26,7 @@ func (s *CodecParams) MarshalParcel(
 	p.WritePaddedByte(s.TxPayloadTypeNumber)
 	p.WritePaddedByte(s.SamplingRateKHz)
 	p.WriteBool(s.DtxEnabled)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.CodecSpecificParams.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -98,6 +99,9 @@ func (s *CodecParams) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.CodecSpecificParams.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

@@ -24,16 +24,16 @@ func (s *AudioRecordingConfiguration) MarshalParcel(
 ) error {
 	p.WriteInt32(s.ClientSessionId)
 	p.WriteInt32(s.ClientSource)
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null ClientFormat
+	p.WriteInt32(-1) // null DeviceFormat
 	p.WriteInt32(s.PatchHandle)
 	p.WriteString16(s.ClientPackageName)
 	p.WriteInt32(s.ClientUid)
 	p.WriteInt32(s.ClientPortId)
 	p.WriteBool(s.ClientSilenced)
 	p.WriteInt32(s.DeviceSource)
-	p.WriteInt32(0) // null ClientEffects.length
-	p.WriteInt32(0) // null DeviceEffects.length
+	p.WriteInt32(0) // placeholder ClientEffects.length
+	p.WriteInt32(0) // placeholder DeviceEffects.length
 	return nil
 }
 
@@ -49,24 +49,8 @@ func (s *AudioRecordingConfiguration) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ClientFormat: cannot skip without known wire format
+	return nil // opaque DeviceFormat: cannot skip without known wire format
 	s.PatchHandle, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -91,23 +75,11 @@ func (s *AudioRecordingConfiguration) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null ClientEffects.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip ClientEffects.length
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null DeviceEffects.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip DeviceEffects.length
+		return _err
 	}
 	return nil
 }

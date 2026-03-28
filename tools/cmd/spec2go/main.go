@@ -90,6 +90,10 @@ func run(
 		}
 		joinedErrs := multi.Unwrap()
 		fmt.Fprintf(os.Stderr, "Codegen completed with %d definition errors (skipped)\n", len(joinedErrs))
+		for _, e := range joinedErrs {
+			fmt.Fprintf(os.Stderr, "  error: %v\n", e)
+		}
+		return fmt.Errorf("codegen produced %d definition errors", len(joinedErrs))
 	}
 
 	if smokeTests {
@@ -391,7 +395,7 @@ func convertParcelableToAST(
 			// generated directly by the codegen from JavaWireField.GoType.
 			// This avoids adding import graph edges that could destabilize
 			// the cycle-breaking back-edge computation for unrelated packages.
-			if jwf.WriteMethod == "typed_object" && validName {
+			if (jwf.WriteMethod == "typed_object" || jwf.WriteMethod == "delegate") && validName {
 				qualifiedName := parcIdx[jwf.Name]
 				if qualifiedName != "" {
 					goName := codegen.AIDLToGoName(jwf.Name)
@@ -403,7 +407,7 @@ func convertParcelableToAST(
 
 					wireFields = append(wireFields, parser.JavaWireField{
 						Name:        dedupName,
-						WriteMethod: "typed_object",
+						WriteMethod: jwf.WriteMethod, // preserve typed_object vs delegate
 						GoType:      qualifiedName,
 					})
 					continue
@@ -420,12 +424,23 @@ func convertParcelableToAST(
 			// method calls to Go, and the field has no corresponding struct field.
 			if !validName || !resolvableCond || !knownType {
 				wm := jwf.WriteMethod
-				// If the write method is a known primitive type (bool, int32, etc.)
-				// but the field can't become a struct field, check if the name
-				// is a numeric literal (e.g., "-1" from Java's writeInt(-1)).
-				// If so, keep the original write method + name (codegen will
-				// emit the literal). Otherwise, mark as opaque.
-				if knownType && !isNumericLiteral(jwf.Name) {
+				// Fields with unresolvable conditions or invalid names that
+				// are known primitive types need careful handling:
+				//
+				// - Invalid name + known type (e.g., "IsExternal?1:0" int32):
+				//   keep the original write_method so the codegen reads and
+				//   discards the correct number of bytes. Previously this
+				//   converted to "typed_object", causing bool-as-int fields
+				//   to be treated as null indicators, aborting deserialization
+				//   when the value is 1.
+				//
+				// - Valid name + unresolvable condition + known type: convert
+				//   to typed_object (these have struct fields that aren't
+				//   conditionally writable from Go).
+				//
+				// - Unknown type: preserve the write_method as-is (bundle,
+				//   typed_object, opaque).
+				if knownType && !isNumericLiteral(jwf.Name) && validName {
 					wm = "typed_object"
 				}
 				wireFields = append(wireFields, parser.JavaWireField{

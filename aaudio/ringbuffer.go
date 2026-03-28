@@ -22,12 +22,15 @@ func (s *RingBuffer) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.ReadCounterParcelable.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.WriteCounterParcelable.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.DataParcelable.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -53,6 +56,9 @@ func (s *RingBuffer) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.ReadCounterParcelable.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -62,6 +68,9 @@ func (s *RingBuffer) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.WriteCounterParcelable.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -71,6 +80,9 @@ func (s *RingBuffer) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.DataParcelable.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

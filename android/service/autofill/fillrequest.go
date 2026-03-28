@@ -1,7 +1,7 @@
 package autofill
 
 import (
-	inputmethod "github.com/AndroidGoLab/binder/android/view/inputmethod"
+	types "github.com/AndroidGoLab/binder/android/view/inputmethod/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -11,7 +11,7 @@ type FillRequest struct {
 	Flg                      int32
 	Id                       int32
 	Flags                    int32
-	InlineSuggestionsRequest *inputmethod.InlineSuggestionsRequest
+	InlineSuggestionsRequest *types.InlineSuggestionsRequest
 }
 
 var _ parcel.Parcelable = (*FillRequest)(nil)
@@ -49,24 +49,8 @@ func (s *FillRequest) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque FillContexts: cannot skip without known wire format
+	return nil // opaque Hints: cannot skip without known wire format
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -86,7 +70,7 @@ func (s *FillRequest) UnmarshalParcel(
 			return _err
 		}
 		if _flag != 0 {
-			s.InlineSuggestionsRequest = &inputmethod.InlineSuggestionsRequest{}
+			s.InlineSuggestionsRequest = &types.InlineSuggestionsRequest{}
 			if _err = s.InlineSuggestionsRequest.UnmarshalParcel(p); _err != nil {
 				return _err
 			}

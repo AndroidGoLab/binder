@@ -85,8 +85,8 @@ parcelables:
           write_method: int32
         - name: CompatSmallestScreenWidthDp
           write_method: int32
-        - name: Dest
-          write_method: opaque
+        - name: WindowConfiguration
+          write_method: delegate
         - name: AssetsSeq
           write_method: int32
         - name: Seq

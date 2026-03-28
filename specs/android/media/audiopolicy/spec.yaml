@@ -87,10 +87,10 @@ parcelables:
           write_method: int32
         - name: DeviceAddress
           write_method: string8
-        - name: Dest
-          write_method: opaque
-        - name: Dest
-          write_method: opaque
+        - name: Format
+          write_method: delegate
+        - name: Rule
+          write_method: delegate
         - name: Token
           write_method: binder
     - name: AudioMixingRule

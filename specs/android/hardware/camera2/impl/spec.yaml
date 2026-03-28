@@ -41,5 +41,5 @@ parcelables:
       java_wire_format:
         - name: CameraId
           write_method: string16
-        - name: Dest
-          write_method: opaque
+        - name: CameraMetadata
+          write_method: delegate

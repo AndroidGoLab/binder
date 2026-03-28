@@ -40,7 +40,7 @@ var _ parcel.Parcelable = (*ActivityInfo)(nil)
 func (s *ActivityInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Super
 	p.WriteInt32(s.Theme)
 	p.WriteInt32(s.LaunchMode)
 	p.WriteInt32(s.DocumentLaunchMode)
@@ -59,7 +59,7 @@ func (s *ActivityInfo) MarshalParcel(
 	p.WriteInt32(s.MaxRecents)
 	p.WriteInt32(s.LockTaskLaunchMode)
 	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null WindowLayout
 	p.WriteInt32(s.ResizeMode)
 	p.WriteString(s.RequestedVrComponent)
 	p.WriteInt32(s.RotationAnimation)
@@ -76,15 +76,7 @@ func (s *ActivityInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Super: cannot skip without known wire format
 	s.Theme, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -156,15 +148,7 @@ func (s *ActivityInfo) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque WindowLayout: cannot skip without known wire format
 	s.ResizeMode, _err = p.ReadInt32()
 	if _err != nil {
 		return _err

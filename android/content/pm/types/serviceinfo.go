@@ -17,7 +17,7 @@ var _ parcel.Parcelable = (*ServiceInfo)(nil)
 func (s *ServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Super
 	p.WriteString(s.Permission)
 	p.WriteInt32(s.Flags)
 	p.WriteInt32(s.ForegroundServiceType)
@@ -28,15 +28,7 @@ func (s *ServiceInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Super: cannot skip without known wire format
 	s.Permission, _err = p.ReadString()
 	if _err != nil {
 		return _err

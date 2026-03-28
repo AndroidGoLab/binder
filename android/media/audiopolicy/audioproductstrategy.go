@@ -18,7 +18,7 @@ func (s *AudioProductStrategy) MarshalParcel(
 ) error {
 	p.WriteString16(s.Name)
 	p.WriteInt32(s.Id)
-	p.WriteInt32(0) // null AudioAttributesGroups.length
+	p.WriteInt32(0) // placeholder AudioAttributesGroups.length
 	return nil
 }
 
@@ -34,14 +34,8 @@ func (s *AudioProductStrategy) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null AudioAttributesGroups.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip AudioAttributesGroups.length
+		return _err
 	}
 	return nil
 }

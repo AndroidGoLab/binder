@@ -60,15 +60,7 @@ func (s *Message) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_opaqueLen))
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ReplyTo: cannot skip without known wire format
 	s.SendingUid, _err = p.ReadInt32()
 	if _err != nil {
 		return _err

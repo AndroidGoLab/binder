@@ -67,7 +67,6 @@ func (u *FrontendGuardInterval) SetDtmb(
 func (u *FrontendGuardInterval) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(u.Tag)
 
 	switch u.Tag {
@@ -81,17 +80,13 @@ func (u *FrontendGuardInterval) MarshalParcel(
 		return fmt.Errorf("unknown union tag %d for FrontendGuardInterval", u.Tag)
 	}
 
-	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (u *FrontendGuardInterval) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
+	var _err error
 
 	u.Tag, _err = p.ReadInt32()
 	if _err != nil {
@@ -121,6 +116,5 @@ func (u *FrontendGuardInterval) UnmarshalParcel(
 		return fmt.Errorf("unknown union tag %d for FrontendGuardInterval", u.Tag)
 	}
 
-	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

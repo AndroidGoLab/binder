@@ -23,9 +23,9 @@ func (s *ReverseGeocodeRequest) MarshalParcel(
 	p.WriteFloat64(s.Latitude)
 	p.WriteFloat64(s.Longitude)
 	p.WriteInt32(s.MaxResults)
-	p.WriteInt32(0) // null Locale.getLanguage()
-	p.WriteInt32(0) // null Locale.getCountry()
-	p.WriteInt32(0) // null Locale.getVariant()
+	p.WriteString("") // placeholder Locale.getLanguage()
+	p.WriteString("") // placeholder Locale.getCountry()
+	p.WriteString("") // placeholder Locale.getVariant()
 	p.WriteInt32(s.CallingUid)
 	p.WriteString(s.CallingPackage)
 	p.WriteString(s.CallingAttributionTag)
@@ -48,32 +48,14 @@ func (s *ReverseGeocodeRequest) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Locale.getLanguage(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString(); _err != nil { // skip Locale.getLanguage()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Locale.getCountry(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString(); _err != nil { // skip Locale.getCountry()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Locale.getVariant(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString(); _err != nil { // skip Locale.getVariant()
+		return _err
 	}
 	s.CallingUid, _err = p.ReadInt32()
 	if _err != nil {

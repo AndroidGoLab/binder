@@ -1485,7 +1485,7 @@ parcelables:
           write_method: opaque
         - name: ActiveItemId
           write_method: int64
-        - name: ErrorMessage
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: Extras
           write_method: bundle

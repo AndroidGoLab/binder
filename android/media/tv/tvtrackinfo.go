@@ -11,8 +11,12 @@ type TvTrackInfo struct {
 	Id                           string
 	Language                     string
 	Encoding                     string
+	Encrypted                    bool
 	AudioChannelCount            int32
 	AudioSampleRate              int32
+	AudioDescription             bool
+	HardOfHearing                bool
+	SpokenSubtitle               bool
 	VideoWidth                   int32
 	VideoHeight                  int32
 	VideoFrameRate               float32
@@ -28,14 +32,14 @@ func (s *TvTrackInfo) MarshalParcel(
 	p.WriteInt32(s.Type)
 	p.WriteString16(s.Id)
 	p.WriteString16(s.Language)
-	p.WriteInt32(0) // null Description!=null?mDescription.toString():null
+	p.WriteBool(false) // placeholder Description!=null
 	p.WriteString16(s.Encoding)
-	p.WriteInt32(0) // null Encrypted?1:0
+	p.WriteBool(s.Encrypted)
 	p.WriteInt32(s.AudioChannelCount)
 	p.WriteInt32(s.AudioSampleRate)
-	p.WriteInt32(0) // null AudioDescription?1:0
-	p.WriteInt32(0) // null HardOfHearing?1:0
-	p.WriteInt32(0) // null SpokenSubtitle?1:0
+	p.WriteBool(s.AudioDescription)
+	p.WriteBool(s.HardOfHearing)
+	p.WriteBool(s.SpokenSubtitle)
 	p.WriteInt32(s.VideoWidth)
 	p.WriteInt32(s.VideoHeight)
 	p.WriteFloat32(s.VideoFrameRate)
@@ -61,27 +65,16 @@ func (s *TvTrackInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Description!=null?mDescription.toString():null: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip Description!=null
+		return _err
 	}
 	s.Encoding, _err = p.ReadString16()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Encrypted?1:0: cannot skip unknown-size typed object
-		}
+	s.Encrypted, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.AudioChannelCount, _err = p.ReadInt32()
 	if _err != nil {
@@ -91,32 +84,17 @@ func (s *TvTrackInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null AudioDescription?1:0: cannot skip unknown-size typed object
-		}
+	s.AudioDescription, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null HardOfHearing?1:0: cannot skip unknown-size typed object
-		}
+	s.HardOfHearing, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null SpokenSubtitle?1:0: cannot skip unknown-size typed object
-		}
+	s.SpokenSubtitle, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.VideoWidth, _err = p.ReadInt32()
 	if _err != nil {

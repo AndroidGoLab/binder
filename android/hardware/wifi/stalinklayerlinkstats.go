@@ -36,28 +36,36 @@ func (s *StaLinkLayerLinkStats) MarshalParcel(
 	p.WriteInt32(s.FrequencyMhz)
 	p.WriteInt32(s.BeaconRx)
 	p.WriteInt32(s.AvgRssiMgmt)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.WmeBePktStats.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.WmeBkPktStats.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.WmeViPktStats.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.WmeVoPktStats.MarshalParcel(p); _err != nil {
 		return _err
 	}
 	p.WritePaddedByte(s.TimeSliceDutyCycleInPercent)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.WmeBeContentionTimeStats.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.WmeBkContentionTimeStats.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.WmeViContentionTimeStats.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.WmeVoContentionTimeStats.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -141,6 +149,9 @@ func (s *StaLinkLayerLinkStats) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.WmeBePktStats.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -150,6 +161,9 @@ func (s *StaLinkLayerLinkStats) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.WmeBkPktStats.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -159,6 +173,9 @@ func (s *StaLinkLayerLinkStats) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.WmeViPktStats.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -168,6 +185,9 @@ func (s *StaLinkLayerLinkStats) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.WmeVoPktStats.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -187,6 +207,9 @@ func (s *StaLinkLayerLinkStats) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.WmeBeContentionTimeStats.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -196,6 +219,9 @@ func (s *StaLinkLayerLinkStats) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.WmeBkContentionTimeStats.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -205,6 +231,9 @@ func (s *StaLinkLayerLinkStats) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.WmeViContentionTimeStats.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -214,6 +243,9 @@ func (s *StaLinkLayerLinkStats) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.WmeVoContentionTimeStats.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

@@ -18,7 +18,7 @@ func (s *ContextHubMessage) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Type)
 	p.WriteInt32(s.Version)
-	p.WriteInt32(0)  // null Data.length
+	p.WriteInt32(0)  // placeholder Data.length
 	p.WriteInt32(-1) // null Data
 	return nil
 }
@@ -35,23 +35,9 @@ func (s *ContextHubMessage) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Data.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip Data.length
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Data: cannot skip without known wire format
 	return nil
 }

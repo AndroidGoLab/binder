@@ -14,20 +14,34 @@ var _ parcel.Parcelable = (*AdvertiseData)(nil)
 func (s *AdvertiseData) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
+	p.WriteInt32(-1) // null ServiceUuids.toArray(newParcelUuid[mServiceUuids.size()])
+	p.WriteInt32(-1) // null ServiceSolicitationUuids.toArray(newParcelUuid[mServiceSolicitationUuids.size()])
+	p.WriteInt32(-1) // null TransportDiscoveryData
+	p.WriteInt32(0)  // placeholder ManufacturerSpecificData.size()
+	p.WriteInt32(0)  // placeholder ServiceData.size()
+	p.WriteInt32(0)  // placeholder (byte)(getIncludeTxPowerLevel()?1:0)
+	p.WriteInt32(0)  // placeholder (byte)(getIncludeDeviceName()?1:0)
 	return nil
 }
 
 func (s *AdvertiseData) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
+	var _err error
+	return nil                                // opaque ServiceUuids.toArray(newParcelUuid[mServiceUuids.size()]): cannot skip without known wire format
+	return nil                                // opaque ServiceSolicitationUuids.toArray(newParcelUuid[mServiceSolicitationUuids.size()]): cannot skip without known wire format
+	return nil                                // opaque TransportDiscoveryData: cannot skip without known wire format
+	if _, _err = p.ReadInt32(); _err != nil { // skip ManufacturerSpecificData.size()
 		return _err
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
+	if _, _err = p.ReadInt32(); _err != nil { // skip ServiceData.size()
+		return _err
+	}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(getIncludeTxPowerLevel()?1:0)
+		return _err
+	}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(getIncludeDeviceName()?1:0)
+		return _err
+	}
 	return nil
 }

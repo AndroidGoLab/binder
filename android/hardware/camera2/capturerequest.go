@@ -9,6 +9,7 @@ import (
 type CaptureRequest struct {
 	PhysicalCameraCount int32
 	LogicalCameraId     string
+	IsReprocess         bool
 }
 
 var _ parcel.Parcelable = (*CaptureRequest)(nil)
@@ -18,10 +19,10 @@ func (s *CaptureRequest) MarshalParcel(
 ) error {
 	p.WriteInt32(s.PhysicalCameraCount)
 	p.WriteString16(s.LogicalCameraId)
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(0)  // null IsReprocess?1:0
+	p.WriteInt32(-1) // null LogicalCameraSettings
+	p.WriteBool(s.IsReprocess)
 	p.WriteInt32(1)
-	p.WriteInt32(0) // null UserTagStr.substring(SET_TAG_STRING_PREFIX.length())
+	p.WriteString16("") // placeholder UserTagStr.substring(SET_TAG_STRING_PREFIX.length())
 	return nil
 }
 
@@ -37,35 +38,16 @@ func (s *CaptureRequest) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IsReprocess?1:0: cannot skip unknown-size typed object
-		}
+	return nil // opaque LogicalCameraSettings: cannot skip without known wire format
+	s.IsReprocess, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null UserTagStr.substring(SET_TAG_STRING_PREFIX.length()): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString16(); _err != nil { // skip UserTagStr.substring(SET_TAG_STRING_PREFIX.length())
+		return _err
 	}
 	return nil
 }

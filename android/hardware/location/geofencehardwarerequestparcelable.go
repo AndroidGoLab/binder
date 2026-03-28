@@ -14,111 +14,52 @@ var _ parcel.Parcelable = (*GeofenceHardwareRequestParcelable)(nil)
 func (s *GeofenceHardwareRequestParcelable) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null GetType()
-	p.WriteInt32(0) // null GetLatitude()
-	p.WriteInt32(0) // null GetLongitude()
-	p.WriteInt32(0) // null GetRadius()
-	p.WriteInt32(0) // null GetLastTransition()
-	p.WriteInt32(0) // null GetMonitorTransitions()
-	p.WriteInt32(0) // null GetUnknownTimer()
-	p.WriteInt32(0) // null GetNotificationResponsiveness()
-	p.WriteInt32(0) // null GetSourceTechnologies()
-	p.WriteInt32(0) // null GetId()
+	p.WriteInt32(0)   // placeholder GetType()
+	p.WriteFloat64(0) // placeholder GetLatitude()
+	p.WriteFloat64(0) // placeholder GetLongitude()
+	p.WriteFloat64(0) // placeholder GetRadius()
+	p.WriteInt32(0)   // placeholder GetLastTransition()
+	p.WriteInt32(0)   // placeholder GetMonitorTransitions()
+	p.WriteInt32(0)   // placeholder GetUnknownTimer()
+	p.WriteInt32(0)   // placeholder GetNotificationResponsiveness()
+	p.WriteInt32(0)   // placeholder GetSourceTechnologies()
+	p.WriteInt32(0)   // placeholder GetId()
 	return nil
 }
 
 func (s *GeofenceHardwareRequestParcelable) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetType(): cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil { // skip GetType()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetLatitude(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadFloat64(); _err != nil { // skip GetLatitude()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetLongitude(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadFloat64(); _err != nil { // skip GetLongitude()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetRadius(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadFloat64(); _err != nil { // skip GetRadius()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetLastTransition(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip GetLastTransition()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetMonitorTransitions(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip GetMonitorTransitions()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetUnknownTimer(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip GetUnknownTimer()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetNotificationResponsiveness(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip GetNotificationResponsiveness()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetSourceTechnologies(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip GetSourceTechnologies()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetId(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip GetId()
+		return _err
 	}
 	return nil
 }

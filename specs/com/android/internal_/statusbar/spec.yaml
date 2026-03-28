@@ -1691,8 +1691,8 @@ parcelables:
           write_method: int32
         - name: This.count
           write_method: int32
-        - name: This.visible?1:0
-          write_method: int32
+        - name: This.visible
+          write_method: bool
         - name: This.location.name()
           write_method: string16
     - name: RegisterStatusBarResult
@@ -1737,8 +1737,8 @@ parcelables:
           write_method: typed_object
         - name: This.iconLevel
           write_method: int32
-        - name: This.visible?1:0
-          write_method: int32
+        - name: This.visible
+          write_method: bool
         - name: This.number
           write_method: int32
         - name: This.contentDescription

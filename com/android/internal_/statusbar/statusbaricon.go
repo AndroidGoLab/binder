@@ -14,19 +14,20 @@ var _ parcel.Parcelable = (*StatusBarIcon)(nil)
 func (s *StatusBarIcon) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0)  // null This.icon
-	p.WriteInt32(0)  // null This.pkg
-	p.WriteInt32(0)  // null This.user
-	p.WriteInt32(0)  // null This.iconLevel
-	p.WriteInt32(0)  // null This.visible?1:0
-	p.WriteInt32(0)  // null This.number
-	p.WriteInt32(-1) // null This.contentDescription
+	p.WriteInt32(0)     // null This.icon
+	p.WriteString16("") // placeholder This.pkg
+	p.WriteInt32(0)     // null This.user
+	p.WriteInt32(0)     // placeholder This.iconLevel
+	p.WriteBool(false)  // placeholder This.visible
+	p.WriteInt32(0)     // placeholder This.number
+	p.WriteInt32(-1)    // null This.contentDescription
 	return nil
 }
 
 func (s *StatusBarIcon) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	var _err error
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -36,14 +37,8 @@ func (s *StatusBarIcon) UnmarshalParcel(
 			return nil // non-null This.icon: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.pkg: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString16(); _err != nil { // skip This.pkg
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -54,41 +49,15 @@ func (s *StatusBarIcon) UnmarshalParcel(
 			return nil // non-null This.user: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.iconLevel: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.iconLevel
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.visible?1:0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip This.visible
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.number: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.number
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque This.contentDescription: cannot skip without known wire format
 	return nil
 }

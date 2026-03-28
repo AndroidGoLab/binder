@@ -69,10 +69,10 @@ parcelables:
           write_method: string16
         - name: Description
           write_method: string16
-        - name: AvailableByDefault?1:0
-          write_method: int32
-        - name: IsFallback?1:0
-          write_method: int32
+        - name: AvailableByDefault
+          write_method: bool
+        - name: IsFallback
+          write_method: bool
         - name: Signatures
           write_method: opaque
     - name: WebViewProviderResponse

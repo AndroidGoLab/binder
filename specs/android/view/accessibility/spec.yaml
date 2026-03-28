@@ -1125,8 +1125,8 @@ interfaces:
 parcelables:
     - name: AccessibilityEvent
       java_wire_format:
-        - name: IsSealed()?1:0
-          write_method: int32
+        - name: IsSealed()
+          write_method: bool
         - name: EventType
           write_method: int32
         - name: MovementGranularity
@@ -1139,8 +1139,8 @@ parcelables:
           write_method: int32
         - name: SpeechStateChangeTypes
           write_method: int32
-        - name: PackageName
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: EventTime
           write_method: int64
         - name: ConnectionId
@@ -1175,8 +1175,8 @@ parcelables:
           write_method: int32
         - name: TaskId
           write_method: int32
-        - name: Parcel
-          write_method: opaque
+        - name: RegionInScreen
+          write_method: delegate
         - name: Title
           write_method: opaque
         - name: AnchorId

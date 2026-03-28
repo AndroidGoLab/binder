@@ -46,6 +46,7 @@ func (s *GnssClock) MarshalParcel(
 	p.WriteFloat64(s.DriftNsps)
 	p.WriteFloat64(s.DriftUncertaintyNsps)
 	p.WriteInt32(s.HwClockDiscontinuityCount)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.ReferenceSignalTypeForIsb.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -167,6 +168,9 @@ func (s *GnssClock) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.ReferenceSignalTypeForIsb.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

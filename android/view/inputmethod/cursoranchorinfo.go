@@ -27,7 +27,7 @@ func (s *CursorAnchorInfo) MarshalParcel(
 	p.WriteInt32(s.SelectionStart)
 	p.WriteInt32(s.SelectionEnd)
 	p.WriteInt32(s.ComposingTextStart)
-	p.WriteInt32(-1) // null ComposingText
+	p.WriteInt32(-1) // null TextUtils
 	p.WriteInt32(s.InsertionMarkerFlags)
 	p.WriteFloat32(s.InsertionMarkerHorizontal)
 	p.WriteFloat32(s.InsertionMarkerTop)
@@ -61,15 +61,7 @@ func (s *CursorAnchorInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TextUtils: cannot skip without known wire format
 	s.InsertionMarkerFlags, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -108,24 +100,8 @@ func (s *CursorAnchorInfo) UnmarshalParcel(
 			return nil // non-null EditorBoundsInfo: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque MatrixValues: cannot skip without known wire format
+	return nil // opaque VisibleLineBounds: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {

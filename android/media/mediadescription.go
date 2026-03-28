@@ -18,9 +18,9 @@ func (s *MediaDescription) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.MediaId)
-	p.WriteInt32(-1) // null Title
-	p.WriteInt32(-1) // null Subtitle
-	p.WriteInt32(-1) // null Description
+	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null TextUtils
 	if s.Icon != nil {
 		p.WriteInt32(1)
 		if _err := s.Icon.MarshalParcel(p); _err != nil {
@@ -43,33 +43,9 @@ func (s *MediaDescription) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TextUtils: cannot skip without known wire format
+	return nil // opaque TextUtils: cannot skip without known wire format
+	return nil // opaque TextUtils: cannot skip without known wire format
 	{
 		_flag, _err := p.ReadInt32()
 		if _err != nil {

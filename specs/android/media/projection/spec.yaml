@@ -407,9 +407,9 @@ parcelables:
         - name: PackageName
           write_method: string16
         - name: UserHandle
-          write_method: opaque
+          write_method: delegate
         - name: LaunchCookie
-          write_method: opaque
+          write_method: delegate
 enums:
     - name: ReviewGrantedConsentResult
       backing_type: int

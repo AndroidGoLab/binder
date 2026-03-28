@@ -19,6 +19,7 @@ func (s *CameraIdAndStreamCombination) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.CameraId)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.StreamConfiguration.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -50,6 +51,9 @@ func (s *CameraIdAndStreamCombination) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.StreamConfiguration.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

@@ -65,7 +65,10 @@ func run(
 		return fmt.Errorf("service mappings: %w", err)
 	}
 
-	if err := mergeJavaWireFormats(frameworksBase, specs); err != nil {
+	// Walk the entire 3rdparty directory for Java Parcelables, not just
+	// frameworks-base. APEX modules (Bluetooth, WiFi, Tethering, …) ship
+	// their own Java Parcelables in separate directories.
+	if err := mergeJavaWireFormats(absThirdparty, specs); err != nil {
 		return fmt.Errorf("java wire formats: %w", err)
 	}
 
@@ -148,9 +151,9 @@ func mergeServiceMappings(
 	return nil
 }
 
-// mergeJavaWireFormats walks Java sources in frameworks-base, extracts
-// writeToParcel wire format specs, and merges them into matching parcelables
-// in the existing AIDL specs.
+// mergeJavaWireFormats walks Java sources in the 3rdparty directory tree,
+// extracts writeToParcel wire format specs, and merges them into matching
+// parcelables in the existing AIDL specs.
 func mergeJavaWireFormats(
 	frameworksBase string,
 	specs map[string]*spec.PackageSpec,

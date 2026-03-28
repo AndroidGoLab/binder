@@ -1166,33 +1166,33 @@ parcelables:
           write_method: int64
         - name: LastRapidSnooze
           write_method: int64
-        - name: Metered?1:0
-          write_method: int32
-        - name: Inferred?1:0
-          write_method: int32
+        - name: Metered
+          write_method: bool
+        - name: Inferred
+          write_method: bool
     - name: NetworkQuotaInfo
     - name: NetworkScorerAppData
       java_wire_format:
         - name: PackageUid
           write_method: int32
-        - name: RecommendationService
-          write_method: opaque
+        - name: ComponentName
+          write_method: delegate
         - name: RecommendationServiceLabel
           write_method: string16
-        - name: EnableUseOpenWifiActivity
-          write_method: opaque
+        - name: ComponentName
+          write_method: delegate
         - name: NetworkAvailableNotificationChannelId
           write_method: string16
     - name: NetworkState
     - name: ScoredNetwork
       java_wire_format:
-        - name: Out
-          write_method: opaque
+        - name: NetworkKey
+          write_method: delegate
         - name: (byte)1
           write_method: int32
           condition: rssiCurve!=null
-        - name: Out
-          write_method: opaque
+        - name: RssiCurve
+          write_method: delegate
           condition: rssiCurve!=null
         - name: (byte)(meteredHint?1:0)
           write_method: int32

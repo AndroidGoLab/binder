@@ -14,39 +14,34 @@ var _ parcel.Parcelable = (*SmartspaceTarget)(nil)
 func (s *SmartspaceTarget) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0)  // null This.mSmartspaceTargetId
-	p.WriteInt32(0)  // null This.mHeaderAction
-	p.WriteInt32(0)  // null This.mBaseAction
-	p.WriteInt32(0)  // null This.mCreationTimeMillis
-	p.WriteInt32(0)  // null This.mExpiryTimeMillis
-	p.WriteInt32(0)  // null This.mScore
-	p.WriteInt32(-1) // null This.mActionChips
-	p.WriteInt32(-1) // null This.mIconGrid
-	p.WriteInt32(0)  // null This.mFeatureType
-	p.WriteInt32(0)  // null This.mSensitive
-	p.WriteInt32(0)  // null This.mShouldShowExpanded
-	p.WriteInt32(0)  // null This.mSourceNotificationKey
-	p.WriteInt32(0)  // null This.mComponentName
-	p.WriteInt32(0)  // null This.mUserHandle
-	p.WriteInt32(0)  // null This.mAssociatedSmartspaceTargetId
-	p.WriteInt32(0)  // null This.mSliceUri
-	p.WriteInt32(0)  // null This.mWidget
-	p.WriteInt32(0)  // null This.mTemplateData
-	p.WriteInt32(0)  // null This.mRemoteViews
+	p.WriteString16("") // placeholder This.mSmartspaceTargetId
+	p.WriteInt32(0)     // null This.mHeaderAction
+	p.WriteInt32(0)     // null This.mBaseAction
+	p.WriteInt64(0)     // placeholder This.mCreationTimeMillis
+	p.WriteInt64(0)     // placeholder This.mExpiryTimeMillis
+	p.WriteFloat32(0)   // placeholder This.mScore
+	p.WriteInt32(-1)    // null This.mActionChips
+	p.WriteInt32(-1)    // null This.mIconGrid
+	p.WriteInt32(0)     // placeholder This.mFeatureType
+	p.WriteBool(false)  // placeholder This.mSensitive
+	p.WriteBool(false)  // placeholder This.mShouldShowExpanded
+	p.WriteString16("") // placeholder This.mSourceNotificationKey
+	p.WriteInt32(0)     // null This.mComponentName
+	p.WriteInt32(0)     // null This.mUserHandle
+	p.WriteString16("") // placeholder This.mAssociatedSmartspaceTargetId
+	p.WriteInt32(0)     // null This.mSliceUri
+	p.WriteInt32(0)     // null This.mWidget
+	p.WriteInt32(0)     // null This.mTemplateData
+	p.WriteInt32(0)     // null This.mRemoteViews
 	return nil
 }
 
 func (s *SmartspaceTarget) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.mSmartspaceTargetId: cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadString16(); _err != nil { // skip This.mSmartspaceTargetId
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -66,86 +61,28 @@ func (s *SmartspaceTarget) UnmarshalParcel(
 			return nil // non-null This.mBaseAction: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.mCreationTimeMillis: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt64(); _err != nil { // skip This.mCreationTimeMillis
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.mExpiryTimeMillis: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt64(); _err != nil { // skip This.mExpiryTimeMillis
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.mScore: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadFloat32(); _err != nil { // skip This.mScore
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	return nil                                // opaque This.mActionChips: cannot skip without known wire format
+	return nil                                // opaque This.mIconGrid: cannot skip without known wire format
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.mFeatureType
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip This.mSensitive
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.mFeatureType: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip This.mShouldShowExpanded
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.mSensitive: cannot skip unknown-size typed object
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.mShouldShowExpanded: cannot skip unknown-size typed object
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.mSourceNotificationKey: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString16(); _err != nil { // skip This.mSourceNotificationKey
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -165,14 +102,8 @@ func (s *SmartspaceTarget) UnmarshalParcel(
 			return nil // non-null This.mUserHandle: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.mAssociatedSmartspaceTargetId: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString16(); _err != nil { // skip This.mAssociatedSmartspaceTargetId
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()

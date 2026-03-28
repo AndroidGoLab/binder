@@ -13,10 +13,11 @@ const maxParcelableDepth = 32
 //
 // Parcel is not safe for concurrent use. Callers must synchronize access externally.
 type Parcel struct {
-	data           []byte
-	pos            int      // current read position
-	objects        []uint64 // offsets of flat_binder_objects
-	parcelableDepth int     // current nesting depth for parcelable unmarshal
+	data            []byte
+	pos             int      // current read position
+	objects         []uint64 // offsets of flat_binder_objects
+	parcelableDepth int      // current nesting depth for parcelable unmarshal
+	readLimit       int      // when > 0, Len() returns min(len(data), readLimit)
 }
 
 // New creates a new empty Parcel.
@@ -41,9 +42,26 @@ func (p *Parcel) Objects() []uint64 {
 	return p.objects
 }
 
-// Len returns the length of the data buffer.
+// Len returns the effective length of the data buffer. When a read
+// limit is set (via SetReadLimit), returns the limit instead of the
+// full buffer length, causing all read operations to stop at the limit.
 func (p *Parcel) Len() int {
+	if p.readLimit > 0 && p.readLimit < len(p.data) {
+		return p.readLimit
+	}
 	return len(p.data)
+}
+
+// SetReadLimit restricts reads to the first n bytes of the buffer.
+// Pass 0 to remove the limit. This is used by array deserialization
+// on API 36+ to enforce per-element size boundaries.
+func (p *Parcel) SetReadLimit(n int) {
+	p.readLimit = n
+}
+
+// ReadLimit returns the current read limit, or 0 if no limit is set.
+func (p *Parcel) ReadLimit() int {
+	return p.readLimit
 }
 
 // Position returns the current read position.

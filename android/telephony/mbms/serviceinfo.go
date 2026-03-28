@@ -17,7 +17,7 @@ var _ parcel.Parcelable = (*ServiceInfo)(nil)
 func (s *ServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null KeySet.size()
+	p.WriteInt32(0) // placeholder KeySet.size()
 	p.WriteString16(s.ClassName)
 	p.WriteInt32(s.LocalesCount)
 	p.WriteString16(s.ServiceId)
@@ -30,14 +30,8 @@ func (s *ServiceInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null KeySet.size(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip KeySet.size()
+		return _err
 	}
 	s.ClassName, _err = p.ReadString16()
 	if _err != nil {
@@ -51,23 +45,7 @@ func (s *ServiceInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque SessionStartTime: cannot skip without known wire format
+	return nil // opaque SessionEndTime: cannot skip without known wire format
 	return nil
 }

@@ -47,15 +47,7 @@ func (s *PictureInPictureSurfaceTransaction) UnmarshalParcel(
 			return nil // non-null Position: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Float9: cannot skip without known wire format
 	s.Rotation, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err

@@ -77,6 +77,40 @@ func BuildImportGraph(registry *resolver.TypeRegistry) *ImportGraph {
 	return g
 }
 
+// AddJavaWireFormatEdges adds edges from JavaWireFormat typed_object
+// references to the graph. These edges are added AFTER SCC/back-edge
+// computation to avoid destabilizing the cycle-breaking for standard
+// AIDL types. The edges are visible to WouldCreateCycle (BFS) but do
+// not affect the SCC membership or back-edge selection.
+func (g *ImportGraph) AddJavaWireFormatEdges(registry *resolver.TypeRegistry) {
+	for qualifiedName, def := range registry.All() {
+		parc, ok := def.(*parser.ParcelableDecl)
+		if !ok {
+			continue
+		}
+
+		srcPkg := packageFromDef(qualifiedName, parc.GetName())
+		if srcPkg == "" {
+			continue
+		}
+
+		for _, jwf := range parc.JavaWireFormat {
+			if (jwf.WriteMethod != "typed_object" && jwf.WriteMethod != "delegate") || jwf.GoType == "" {
+				continue
+			}
+
+			targetPkg := g.resolveTypePkg(jwf.GoType, srcPkg, registry)
+			if targetPkg == "" || targetPkg == srcPkg {
+				continue
+			}
+			if g.Edges[srcPkg] == nil {
+				g.Edges[srcPkg] = make(map[string]bool)
+			}
+			g.Edges[srcPkg][targetPkg] = true
+		}
+	}
+}
+
 // WouldCauseCycle returns true if adding an import from srcPkg to targetPkg
 // would create an import cycle. Only back-edges (identified by DFS within
 // each SCC) are considered cycle-causing; forward and cross edges within

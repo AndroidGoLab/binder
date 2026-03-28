@@ -14,20 +14,39 @@ var _ parcel.Parcelable = (*BluetoothLeAudioCodecStatus)(nil)
 func (s *BluetoothLeAudioCodecStatus) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
+	p.WriteInt32(0)  // null InputCodecConfig
+	p.WriteInt32(0)  // null OutputCodecConfig
+	p.WriteInt32(-1) // null InputCodecsLocalCapabilities
+	p.WriteInt32(-1) // null OutputCodecsLocalCapabilities
+	p.WriteInt32(-1) // null InputCodecsSelectableCapabilities
+	p.WriteInt32(-1) // null OutputCodecsSelectableCapabilities
 	return nil
 }
 
 func (s *BluetoothLeAudioCodecStatus) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null InputCodecConfig: cannot skip unknown-size typed object
+		}
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null OutputCodecConfig: cannot skip unknown-size typed object
+		}
+	}
+	return nil // opaque InputCodecsLocalCapabilities: cannot skip without known wire format
+	return nil // opaque OutputCodecsLocalCapabilities: cannot skip without known wire format
+	return nil // opaque InputCodecsSelectableCapabilities: cannot skip without known wire format
+	return nil // opaque OutputCodecsSelectableCapabilities: cannot skip without known wire format
 	return nil
 }

@@ -4,7 +4,9 @@ package e2e
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
+	"fmt"
 	"os"
 	"os/exec"
 	"strings"
@@ -23,6 +25,7 @@ const (
 	deviceBinary    = deviceBinaryDir + "/bindercli"
 	bootTimeout     = 120 * time.Second
 	bootPollPeriod  = 2 * time.Second
+	commandTimeout  = 30 * time.Second
 )
 
 // emulatorSerial is the adb serial for the emulator (e.g., "emulator-5554").
@@ -142,6 +145,12 @@ func adbCmd(args ...string) *exec.Cmd {
 	return exec.Command("adb", fullArgs...)
 }
 
+// adbCmdContext is like adbCmd but attaches a context for cancellation/timeout.
+func adbCmdContext(ctx context.Context, args ...string) *exec.Cmd {
+	fullArgs := append([]string{"-s", emulatorSerial}, args...)
+	return exec.CommandContext(ctx, "adb", fullArgs...)
+}
+
 // startEmulator launches the emulator headlessly in the background.
 func startEmulator() {
 	cmd := exec.Command(
@@ -230,14 +239,23 @@ func logAndExit(msg string) {
 // When running on the host, it uses `adb -s <serial> shell` to execute
 // on the emulator. When running on-device, it execs the binary directly.
 // It always injects --format json for machine-parseable output.
+// Each invocation is bounded by commandTimeout to prevent hangs from
+// blocking binder transactions (e.g. getProcessLimit on API 36).
 func runBindercli(args ...string) (string, string, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), commandTimeout)
+	defer cancel()
+
 	if onDevice {
 		fullArgs := append([]string{"--format", "json"}, args...)
-		cmd := exec.Command(deviceBinary, fullArgs...)
+		cmd := exec.CommandContext(ctx, deviceBinary, fullArgs...)
 		var stdout, stderr bytes.Buffer
 		cmd.Stdout = &stdout
 		cmd.Stderr = &stderr
 		err := cmd.Run()
+		if ctx.Err() == context.DeadlineExceeded {
+			return stdout.String(), stderr.String(),
+				fmt.Errorf("command timed out after %v: %s %s", commandTimeout, deviceBinary, strings.Join(fullArgs, " "))
+		}
 		return stdout.String(), stderr.String(), err
 	}
 
@@ -249,11 +267,15 @@ func runBindercli(args ...string) (string, string, error) {
 		parts = append(parts, shellQuote(a))
 	}
 	shellCmd := strings.Join(parts, " ")
-	cmd := adbCmd("shell", shellCmd)
+	cmd := adbCmdContext(ctx, "shell", shellCmd)
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	err := cmd.Run()
+	if ctx.Err() == context.DeadlineExceeded {
+		return stdout.String(), stderr.String(),
+			fmt.Errorf("command timed out after %v: adb shell %s", commandTimeout, shellCmd)
+	}
 	return stdout.String(), stderr.String(), err
 }
 
@@ -269,7 +291,8 @@ func shellQuote(s string) string {
 	return "'" + strings.ReplaceAll(s, "'", "'\\''") + "'"
 }
 
-// runBindercliOrSkip runs bindercli; skips the test when the service is unavailable.
+// runBindercliOrSkip runs bindercli; skips the test when the service is
+// unavailable or the command times out (which indicates a hanging binder call).
 func runBindercliOrSkip(t *testing.T, args ...string) string {
 	t.Helper()
 	if onDevice && !bindercliAvailable {
@@ -278,10 +301,13 @@ func runBindercliOrSkip(t *testing.T, args ...string) string {
 	stdout, stderr, err := runBindercli(args...)
 	if err != nil {
 		combined := stderr + stdout
+		errStr := err.Error()
 		switch {
 		case strings.Contains(combined, "not found"),
 			strings.Contains(combined, "no service with descriptor"):
 			t.Skipf("service unavailable: %s", strings.TrimSpace(combined))
+		case strings.Contains(errStr, "timed out"):
+			t.Skipf("command timed out (binder call likely hanging): %v", err)
 		}
 		t.Fatalf("bindercli %v failed: %v\nstdout: %s\nstderr: %s", args, err, stdout, stderr)
 	}

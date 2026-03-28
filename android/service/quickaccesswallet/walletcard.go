@@ -18,10 +18,10 @@ func (s *WalletCard) MarshalParcel(
 ) error {
 	p.WriteString16(s.CardId)
 	p.WriteInt32(s.CardType)
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null ContentDescription
+	p.WriteInt32(-1) // null CardImage
+	p.WriteInt32(-1) // null TextUtils
 	p.WriteInt32(-1) // null PendingIntent
-	p.WriteInt32(-1) // null CardLabel
+	p.WriteInt32(-1) // null TextUtils
 	p.WriteInt32(-1) // null CardLocations
 	return nil
 }
@@ -38,50 +38,10 @@ func (s *WalletCard) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque CardImage: cannot skip without known wire format
+	return nil // opaque TextUtils: cannot skip without known wire format
+	return nil // opaque PendingIntent: cannot skip without known wire format
+	return nil // opaque TextUtils: cannot skip without known wire format
+	return nil // opaque CardLocations: cannot skip without known wire format
 	return nil
 }

@@ -41,6 +41,7 @@ func (s *CdmaCallWaiting) MarshalParcel(
 	p.WriteString16(s.Number)
 	p.WriteInt32(s.NumberPresentation)
 	p.WriteString16(s.Name)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.SignalInfoRecord.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -94,6 +95,9 @@ func (s *CdmaCallWaiting) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.SignalInfoRecord.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

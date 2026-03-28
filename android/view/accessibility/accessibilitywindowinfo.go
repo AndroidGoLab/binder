@@ -31,7 +31,7 @@ func (s *AccessibilityWindowInfo) MarshalParcel(
 	p.WriteInt32(s.Id)
 	p.WriteInt32(s.ParentId)
 	p.WriteInt32(s.TaskId)
-	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null RegionInScreen
 	p.WriteInt32(-1) // null Title
 	p.WriteInt64(s.AnchorId)
 	p.WriteInt64(s.TransitionTime)
@@ -73,24 +73,8 @@ func (s *AccessibilityWindowInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque RegionInScreen: cannot skip without known wire format
+	return nil // opaque Title: cannot skip without known wire format
 	s.AnchorId, _err = p.ReadInt64()
 	if _err != nil {
 		return _err

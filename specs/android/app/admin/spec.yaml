@@ -4895,8 +4895,8 @@ parcelables:
           write_method: string16
         - name: LocalTime
           write_method: int64
-        - name: Locale==null?null:mLocale.toLanguageTag()
-          write_method: string16
+        - name: Locale==null
+          write_method: bool
         - name: DeviceOwnerCanGrantSensorsPermissions
           write_method: bool
         - name: AdminExtras

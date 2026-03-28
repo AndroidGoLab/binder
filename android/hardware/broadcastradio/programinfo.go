@@ -35,12 +35,15 @@ func (s *ProgramInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Selector.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.LogicallyTunedTo.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.PhysicallyTunedTo.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -97,6 +100,9 @@ func (s *ProgramInfo) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Selector.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -106,6 +112,9 @@ func (s *ProgramInfo) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.LogicallyTunedTo.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -115,6 +124,9 @@ func (s *ProgramInfo) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.PhysicallyTunedTo.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

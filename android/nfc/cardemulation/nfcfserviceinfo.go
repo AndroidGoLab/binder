@@ -19,14 +19,14 @@ var _ parcel.Parcelable = (*NfcFServiceInfo)(nil)
 func (s *NfcFServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Service
 	p.WriteString16(s.Description)
 	p.WriteString16(s.SystemCode)
-	p.WriteInt32(0) // null DynamicSystemCode!=null?1:0
-	p.WriteInt32(0) // null DynamicSystemCode
+	p.WriteBool(false) // placeholder DynamicSystemCode!=null
+	p.WriteInt32(0)    // null DynamicSystemCode
 	p.WriteString16(s.Nfcid2)
-	p.WriteInt32(0) // null DynamicNfcid2!=null?1:0
-	p.WriteInt32(0) // null DynamicNfcid2
+	p.WriteBool(false) // placeholder DynamicNfcid2!=null
+	p.WriteInt32(0)    // null DynamicNfcid2
 	p.WriteInt32(s.Uid)
 	p.WriteString16(s.T3tPmm)
 	return nil
@@ -36,15 +36,7 @@ func (s *NfcFServiceInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Service: cannot skip without known wire format
 	s.Description, _err = p.ReadString16()
 	if _err != nil {
 		return _err
@@ -53,14 +45,8 @@ func (s *NfcFServiceInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null DynamicSystemCode!=null?1:0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip DynamicSystemCode!=null
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -75,14 +61,8 @@ func (s *NfcFServiceInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null DynamicNfcid2!=null?1:0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip DynamicNfcid2!=null
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()

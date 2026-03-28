@@ -113,6 +113,11 @@ func (d *Driver) runReadLoop(
 		case <-ctx.Done():
 			d.sendExitLooper(ctx)
 			return
+		case <-d.readLoopStop:
+			// Close() requested clean shutdown — send BC_EXIT_LOOPER
+			// while the fd is still open, then exit.
+			d.sendExitLooper(ctx)
+			return
 		default:
 		}
 

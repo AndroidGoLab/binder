@@ -34,11 +34,13 @@ func (s *IInputMethodStartInputParams) MarshalParcel(
 	} else {
 		p.WriteStrongBinder(s.RemoteInputConnection.AsBinder().Handle())
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.EditorInfo.MarshalParcel(p); _err != nil {
 		return _err
 	}
 	p.WriteBool(s.Restarting)
 	p.WriteInt32(s.NavigationBarFlags)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.ImeDispatcher.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -84,6 +86,9 @@ func (s *IInputMethodStartInputParams) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.EditorInfo.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -113,6 +118,9 @@ func (s *IInputMethodStartInputParams) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.ImeDispatcher.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

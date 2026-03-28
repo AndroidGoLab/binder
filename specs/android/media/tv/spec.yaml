@@ -2466,8 +2466,8 @@ parcelables:
         - name: "1"
           write_method: int32
           condition: mFileDescriptor!=null
-        - name: Dest
-          write_method: opaque
+        - name: FileDescriptor
+          write_method: delegate
           condition: mFileDescriptor!=null
         - name: StartTime
           write_method: int64
@@ -2531,16 +2531,16 @@ parcelables:
           write_method: string16
     - name: SignalingDataRequest
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: Group
           write_method: int32
         - name: SignalingDataTypes
           write_method: opaque
     - name: SignalingDataResponse
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Super
+          write_method: delegate
         - name: SignalingDataTypes
           write_method: opaque
         - name: SignalingDataInfoList
@@ -2551,12 +2551,12 @@ parcelables:
           write_method: string16
         - name: UriString
           write_method: string16
-        - name: IsRecordingSession?1:0
-          write_method: int32
-        - name: IsVisible?1:0
-          write_method: int32
-        - name: IsMainSession?1:0
-          write_method: int32
+        - name: IsRecordingSession
+          write_method: bool
+        - name: IsVisible
+          write_method: bool
+        - name: IsMainSession
+          write_method: bool
         - name: AppType
           write_method: int32
         - name: AppTag
@@ -2584,16 +2584,16 @@ parcelables:
           write_method: int32
     - name: TvInputInfo
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Service
+          write_method: delegate
         - name: Id
           write_method: string16
         - name: Type
           write_method: int32
-        - name: IsHardwareInput?(byte)1:0
-          write_method: int32
-        - name: Label
-          write_method: opaque
+        - name: IsHardwareInput
+          write_method: bool
+        - name: TextUtils
+          write_method: delegate
         - name: IconUri
           write_method: typed_object
         - name: LabelResId
@@ -2606,16 +2606,16 @@ parcelables:
           write_method: typed_object
         - name: SetupActivity
           write_method: string16
-        - name: CanRecord?(byte)1:0
-          write_method: int32
-        - name: CanPauseRecording?(byte)1:0
-          write_method: int32
+        - name: CanRecord
+          write_method: bool
+        - name: CanPauseRecording
+          write_method: bool
         - name: TunerCount
           write_method: int32
         - name: HdmiDeviceInfo
           write_method: typed_object
-        - name: IsConnectedToHdmiSwitch?(byte)1:0
-          write_method: int32
+        - name: IsConnectedToHdmiSwitch
+          write_method: bool
         - name: HdmiConnectionRelativePosition
           write_method: int32
         - name: ParentId
@@ -2640,14 +2640,14 @@ parcelables:
           write_method: int64
         - name: ScheduledDurationMillis
           write_method: int64
-        - name: ChannelUri==null?null:mChannelUri.toString()
-          write_method: string16
-        - name: ProgramUri==null?null:mProgramUri.toString()
-          write_method: string16
+        - name: ChannelUri==null
+          write_method: bool
+        - name: ProgramUri==null
+          write_method: bool
         - name: ContentRatings
           write_method: opaque
-        - name: RecordingUri==null?null:mProgramUri.toString()
-          write_method: string16
+        - name: RecordingUri==null
+          write_method: bool
         - name: RecordingDurationMillis
           write_method: int64
         - name: RecordingStartTimeMillis
@@ -2672,22 +2672,22 @@ parcelables:
           write_method: string16
         - name: Language
           write_method: string16
-        - name: Description!=null?mDescription.toString():null
-          write_method: string16
+        - name: Description!=null
+          write_method: bool
         - name: Encoding
           write_method: string16
-        - name: Encrypted?1:0
-          write_method: int32
+        - name: Encrypted
+          write_method: bool
         - name: AudioChannelCount
           write_method: int32
         - name: AudioSampleRate
           write_method: int32
-        - name: AudioDescription?1:0
-          write_method: int32
-        - name: HardOfHearing?1:0
-          write_method: int32
-        - name: SpokenSubtitle?1:0
-          write_method: int32
+        - name: AudioDescription
+          write_method: bool
+        - name: HardOfHearing
+          write_method: bool
+        - name: SpokenSubtitle
+          write_method: bool
         - name: VideoWidth
           write_method: int32
         - name: VideoHeight

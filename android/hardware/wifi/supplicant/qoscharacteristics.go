@@ -38,6 +38,7 @@ func (s *QosCharacteristics) MarshalParcel(
 	p.WriteInt32(s.MeanDataRateKbps)
 	p.WriteInt32(s.BurstSizeOctets)
 	p.WriteInt32(int32(s.MsduLifetimeMs))
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.MsduDeliveryInfo.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -171,6 +172,9 @@ func (s *QosCharacteristics) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.MsduDeliveryInfo.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

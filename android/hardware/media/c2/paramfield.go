@@ -18,6 +18,7 @@ func (s *ParamField) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Index)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.FieldId.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -49,6 +50,9 @@ func (s *ParamField) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.FieldId.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

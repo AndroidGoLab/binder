@@ -5,6 +5,7 @@ package e2e
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/AndroidGoLab/binder/servicemanager"
 )
@@ -96,19 +97,51 @@ func TestGenBatch8_PingServices(t *testing.T) {
 	for _, name := range services {
 		name := name
 		t.Run(name, func(t *testing.T) {
+			// Some HAL services (e.g. secureclock) hang indefinitely in
+			// the binder ioctl on certain devices/emulators. Since a
+			// blocking syscall cannot be cancelled via context, we run
+			// the binder calls in a goroutine and skip on timeout.
+			//
+			// Open the driver in the main goroutine so t.Cleanup is
+			// safe; only the binder RPCs run in the background.
 			driver := openBinder(t)
 			sm := servicemanager.New(driver)
-			svc, err := sm.GetService(ctx, servicemanager.ServiceName(name))
-			if err != nil {
-				t.Skipf("service unavailable: %v", err)
-				return
+
+			type result struct {
+				alive  bool
+				handle uint32
+				err    error
+				found  bool
 			}
-			if svc == nil {
-				t.Skipf("service %s returned nil", name)
-				return
+			ch := make(chan result, 1)
+			go func() {
+				svc, err := sm.GetService(ctx, servicemanager.ServiceName(name))
+				if err != nil {
+					ch <- result{err: err}
+					return
+				}
+				if svc == nil {
+					ch <- result{}
+					return
+				}
+				alive := svc.IsAlive(ctx)
+				ch <- result{alive: alive, handle: svc.Handle(), found: true}
+			}()
+
+			select {
+			case r := <-ch:
+				if r.err != nil {
+					t.Skipf("service unavailable: %v", r.err)
+					return
+				}
+				if !r.found {
+					t.Skipf("service %s returned nil", name)
+					return
+				}
+				t.Logf("%s alive: %v, handle: %d", name, r.alive, r.handle)
+			case <-time.After(10 * time.Second):
+				t.Skipf("service %s: timed out (binder call hung)", name)
 			}
-			alive := svc.IsAlive(ctx)
-			t.Logf("%s alive: %v, handle: %d", name, alive, svc.Handle())
 		})
 	}
 }

@@ -16,7 +16,7 @@ var _ parcel.Parcelable = (*TvInteractiveAppServiceInfo)(nil)
 func (s *TvInteractiveAppServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Service
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.Types)
 	p.WriteInt32(-1) // null ExtraTypes
@@ -27,15 +27,7 @@ func (s *TvInteractiveAppServiceInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Service: cannot skip without known wire format
 	s.Id, _err = p.ReadString16()
 	if _err != nil {
 		return _err
@@ -44,14 +36,6 @@ func (s *TvInteractiveAppServiceInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ExtraTypes: cannot skip without known wire format
 	return nil
 }

@@ -30,6 +30,7 @@ func (s *SessionInfo) MarshalParcel(
 		}
 	}
 	p.WriteByteArray(s.SessionId)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Signature.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -83,6 +84,9 @@ func (s *SessionInfo) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Signature.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

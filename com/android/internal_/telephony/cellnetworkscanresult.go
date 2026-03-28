@@ -16,7 +16,7 @@ func (s *CellNetworkScanResult) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Status)
-	p.WriteInt32(0) // null Operators.size()
+	p.WriteInt32(0) // placeholder Operators.size()
 	return nil
 }
 
@@ -28,14 +28,8 @@ func (s *CellNetworkScanResult) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Operators.size(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip Operators.size()
+		return _err
 	}
 	return nil
 }

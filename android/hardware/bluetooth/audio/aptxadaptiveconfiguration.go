@@ -28,9 +28,11 @@ func (s *AptxAdaptiveConfiguration) MarshalParcel(
 	p.WriteInt32(int32(s.ChannelMode))
 	p.WritePaddedByte(s.BitsPerSample)
 	p.WriteInt32(int32(s.AptxMode))
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.SinkBufferingMs.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Ttp.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -97,6 +99,9 @@ func (s *AptxAdaptiveConfiguration) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.SinkBufferingMs.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -106,6 +111,9 @@ func (s *AptxAdaptiveConfiguration) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Ttp.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

@@ -20,7 +20,7 @@ func (s *SipMessage) MarshalParcel(
 ) error {
 	p.WriteString16(s.StartLine)
 	p.WriteString16(s.HeaderSection)
-	p.WriteInt32(0)  // null Content.length
+	p.WriteInt32(0)  // placeholder Content.length
 	p.WriteInt32(-1) // null Content
 	p.WriteString16(s.ViaBranchParam)
 	p.WriteString16(s.CallIdParam)
@@ -39,24 +39,10 @@ func (s *SipMessage) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Content.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip Content.length
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Content: cannot skip without known wire format
 	s.ViaBranchParam, _err = p.ReadString16()
 	if _err != nil {
 		return _err

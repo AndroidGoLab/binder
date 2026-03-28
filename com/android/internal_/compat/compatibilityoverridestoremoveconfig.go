@@ -14,21 +14,16 @@ var _ parcel.Parcelable = (*CompatibilityOverridesToRemoveConfig)(nil)
 func (s *CompatibilityOverridesToRemoveConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null ChangeIds.size()
+	p.WriteInt32(0) // placeholder ChangeIds.size()
 	return nil
 }
 
 func (s *CompatibilityOverridesToRemoveConfig) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null ChangeIds.size(): cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil { // skip ChangeIds.size()
+		return _err
 	}
 	return nil
 }

@@ -229,8 +229,8 @@ parcelables:
           write_method: int32
     - name: ContentCaptureContext
       java_wire_format:
-        - name: HasClientContext?1:0
-          write_method: int32
+        - name: HasClientContext
+          write_method: bool
         - name: Id
           write_method: typed_object
           condition: mHasClientContext
@@ -248,8 +248,8 @@ parcelables:
         - name: Flags
           write_method: int32
           condition: fromServer()
-        - name: Parcel
-          write_method: opaque
+        - name: ActivityId
+          write_method: delegate
           condition: fromServer()
     - name: ContentCaptureEvent
       java_wire_format:
@@ -263,8 +263,8 @@ parcelables:
           write_method: typed_object
         - name: Ids
           write_method: opaque
-        - name: Parcel
-          write_method: opaque
+        - name: ViewNode
+          write_method: delegate
         - name: Text
           write_method: opaque
         - name: ParentSessionId

@@ -30,6 +30,7 @@ func (s *NanPairingRequestInd) MarshalParcel(
 	p.WriteInt32(s.PairingInstanceId)
 	p.WriteInt32(int32(s.RequestType))
 	p.WriteBool(s.EnablePairingCache)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.PeerNira.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -123,6 +124,9 @@ func (s *NanPairingRequestInd) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.PeerNira.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

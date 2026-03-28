@@ -34,8 +34,8 @@ func (s *SelectionEvent) MarshalParcel(
 	p.WriteInt32(s.AbsoluteEnd)
 	p.WriteInt32(s.EventType)
 	p.WriteString16(s.EntityType)
-	p.WriteInt32(0) // null WidgetVersion!=null?1:0
-	p.WriteInt32(0) // null WidgetVersion
+	p.WriteBool(false) // placeholder WidgetVersion!=null
+	p.WriteInt32(0)    // null WidgetVersion
 	p.WriteString16(s.PackageName)
 	p.WriteString16(s.WidgetType)
 	p.WriteInt32(s.InvocationMethod)
@@ -44,8 +44,8 @@ func (s *SelectionEvent) MarshalParcel(
 	p.WriteInt64(s.DurationSinceSessionStart)
 	p.WriteInt64(s.DurationSincePreviousEvent)
 	p.WriteInt32(s.EventIndex)
-	p.WriteInt32(0)  // null SessionId!=null?1:0
-	p.WriteInt32(-1) // null Dest
+	p.WriteBool(false) // placeholder SessionId!=null
+	p.WriteInt32(-1)   // null SessionId
 	p.WriteInt32(s.Start)
 	p.WriteInt32(s.End)
 	p.WriteInt32(s.SmartStart)
@@ -74,14 +74,8 @@ func (s *SelectionEvent) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null WidgetVersion!=null?1:0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip WidgetVersion!=null
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -124,24 +118,10 @@ func (s *SelectionEvent) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null SessionId!=null?1:0: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip SessionId!=null
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque SessionId: cannot skip without known wire format
 	s.Start, _err = p.ReadInt32()
 	if _err != nil {
 		return _err

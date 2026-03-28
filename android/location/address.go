@@ -18,6 +18,8 @@ type Address struct {
 	PostalCode      string
 	CountryCode     string
 	CountryName     string
+	HasLatitude     bool
+	HasLongitude    bool
 	Phone           string
 	Url             string
 }
@@ -27,8 +29,8 @@ var _ parcel.Parcelable = (*Address)(nil)
 func (s *Address) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Locale.getLanguage()
-	p.WriteInt32(0) // null Locale.getCountry()
+	p.WriteString16("") // placeholder Locale.getLanguage()
+	p.WriteString16("") // placeholder Locale.getCountry()
 	p.WriteInt32(0)
 	p.WriteString16(s.FeatureName)
 	p.WriteString16(s.AdminArea)
@@ -41,9 +43,9 @@ func (s *Address) MarshalParcel(
 	p.WriteString16(s.PostalCode)
 	p.WriteString16(s.CountryCode)
 	p.WriteString16(s.CountryName)
-	p.WriteInt32(0) // null HasLatitude?1:0
+	p.WriteBool(s.HasLatitude)
 	p.WriteInt32(0) // null Latitude
-	p.WriteInt32(0) // null HasLongitude?1:0
+	p.WriteBool(s.HasLongitude)
 	p.WriteInt32(0) // null Longitude
 	p.WriteString16(s.Phone)
 	p.WriteString16(s.Url)
@@ -55,23 +57,11 @@ func (s *Address) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Locale.getLanguage(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString16(); _err != nil { // skip Locale.getLanguage()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Locale.getCountry(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString16(); _err != nil { // skip Locale.getCountry()
+		return _err
 	}
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
@@ -120,14 +110,9 @@ func (s *Address) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null HasLatitude?1:0: cannot skip unknown-size typed object
-		}
+	s.HasLatitude, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -138,14 +123,9 @@ func (s *Address) UnmarshalParcel(
 			return nil // non-null Latitude: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null HasLongitude?1:0: cannot skip unknown-size typed object
-		}
+	s.HasLongitude, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()

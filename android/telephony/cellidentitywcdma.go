@@ -18,7 +18,7 @@ var _ parcel.Parcelable = (*CellIdentityWcdma)(nil)
 func (s *CellIdentityWcdma) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Super
 	p.WriteInt32(s.Lac)
 	p.WriteInt32(s.Cid)
 	p.WriteInt32(s.Psc)
@@ -32,15 +32,7 @@ func (s *CellIdentityWcdma) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Super: cannot skip without known wire format
 	s.Lac, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -57,15 +49,7 @@ func (s *CellIdentityWcdma) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque AdditionalPlmns: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {

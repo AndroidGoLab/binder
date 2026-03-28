@@ -1,6 +1,7 @@
 package media
 
 import (
+	types "github.com/AndroidGoLab/binder/android/content/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -8,6 +9,7 @@ import (
 
 type RouteListingPreference struct {
 	UseSystemOrdering bool
+	ComponentName     types.ComponentName
 }
 
 var _ parcel.Parcelable = (*RouteListingPreference)(nil)
@@ -17,7 +19,9 @@ func (s *RouteListingPreference) MarshalParcel(
 ) error {
 	p.WriteInt32(-1) // null Items
 	p.WriteBool(s.UseSystemOrdering)
-	p.WriteInt32(-1) // null LinkedItemComponentName
+	if _err := s.ComponentName.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	return nil
 }
 
@@ -25,27 +29,13 @@ func (s *RouteListingPreference) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Items: cannot skip without known wire format
 	s.UseSystemOrdering, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.ComponentName.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	return nil
 }

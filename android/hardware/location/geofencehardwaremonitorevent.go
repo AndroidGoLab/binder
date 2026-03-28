@@ -1,7 +1,6 @@
 package location
 
 import (
-	types "github.com/AndroidGoLab/binder/android/location/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -11,7 +10,6 @@ type GeofenceHardwareMonitorEvent struct {
 	MonitoringType     int32
 	MonitoringStatus   int32
 	SourceTechnologies int32
-	Location           *types.Location
 }
 
 var _ parcel.Parcelable = (*GeofenceHardwareMonitorEvent)(nil)
@@ -22,14 +20,7 @@ func (s *GeofenceHardwareMonitorEvent) MarshalParcel(
 	p.WriteInt32(s.MonitoringType)
 	p.WriteInt32(s.MonitoringStatus)
 	p.WriteInt32(s.SourceTechnologies)
-	if s.Location != nil {
-		p.WriteInt32(1)
-		if _err := s.Location.MarshalParcel(p); _err != nil {
-			return _err
-		}
-	} else {
-		p.WriteInt32(0)
-	}
+	p.WriteInt32(0) // opaque: cycle prevents typed marshal
 	return nil
 }
 
@@ -54,12 +45,7 @@ func (s *GeofenceHardwareMonitorEvent) UnmarshalParcel(
 		if _err != nil {
 			return _err
 		}
-		if _flag != 0 {
-			s.Location = &types.Location{}
-			if _err = s.Location.UnmarshalParcel(p); _err != nil {
-				return _err
-			}
-		}
+		_ = _flag // opaque: cycle prevents typed unmarshal
 	}
 	return nil
 }

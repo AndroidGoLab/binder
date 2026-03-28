@@ -16,13 +16,13 @@ var _ parcel.Parcelable = (*NotificationStats)(nil)
 func (s *NotificationStats) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null (byte)(mSeen?1:0)
-	p.WriteInt32(0) // null (byte)(mExpanded?1:0)
-	p.WriteInt32(0) // null (byte)(mDirectReplied?1:0)
-	p.WriteInt32(0) // null (byte)(mSmartReplied?1:0)
-	p.WriteInt32(0) // null (byte)(mSnoozed?1:0)
-	p.WriteInt32(0) // null (byte)(mViewedSettings?1:0)
-	p.WriteInt32(0) // null (byte)(mInteracted?1:0)
+	p.WriteInt32(0) // placeholder (byte)(mSeen?1:0)
+	p.WriteInt32(0) // placeholder (byte)(mExpanded?1:0)
+	p.WriteInt32(0) // placeholder (byte)(mDirectReplied?1:0)
+	p.WriteInt32(0) // placeholder (byte)(mSmartReplied?1:0)
+	p.WriteInt32(0) // placeholder (byte)(mSnoozed?1:0)
+	p.WriteInt32(0) // placeholder (byte)(mViewedSettings?1:0)
+	p.WriteInt32(0) // placeholder (byte)(mInteracted?1:0)
 	p.WriteInt32(s.DismissalSurface)
 	p.WriteInt32(s.DismissalSentiment)
 	return nil
@@ -32,68 +32,26 @@ func (s *NotificationStats) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mSeen?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mSeen?1:0)
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mExpanded?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mExpanded?1:0)
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mDirectReplied?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mDirectReplied?1:0)
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mSmartReplied?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mSmartReplied?1:0)
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mSnoozed?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mSnoozed?1:0)
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mViewedSettings?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mViewedSettings?1:0)
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)(mInteracted?1:0): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mInteracted?1:0)
+		return _err
 	}
 	s.DismissalSurface, _err = p.ReadInt32()
 	if _err != nil {

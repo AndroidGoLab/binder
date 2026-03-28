@@ -9,6 +9,7 @@ import (
 type NanoAppState struct {
 	NanoAppId      int64
 	NanoAppVersion int32
+	IsEnabled      bool
 }
 
 var _ parcel.Parcelable = (*NanoAppState)(nil)
@@ -18,7 +19,7 @@ func (s *NanoAppState) MarshalParcel(
 ) error {
 	p.WriteInt64(s.NanoAppId)
 	p.WriteInt32(s.NanoAppVersion)
-	p.WriteInt32(0)  // null IsEnabled?1:0
+	p.WriteBool(s.IsEnabled)
 	p.WriteInt32(-1) // null NanoAppPermissions
 	p.WriteInt32(-1) // null NanoAppRpcServiceList.toArray(newNanoAppRpcService[0])
 	return nil
@@ -36,32 +37,11 @@ func (s *NanoAppState) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IsEnabled?1:0: cannot skip unknown-size typed object
-		}
+	s.IsEnabled, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque NanoAppPermissions: cannot skip without known wire format
+	return nil // opaque NanoAppRpcServiceList.toArray(newNanoAppRpcService[0]): cannot skip without known wire format
 	return nil
 }

@@ -16,7 +16,7 @@ func (s *TrafficDescriptor) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Dnn)
-	p.WriteInt32(-1) // null OsAppId!=null?mOsAppId.getBytes():null
+	p.WriteBool(false) // placeholder OsAppId!=null
 	return nil
 }
 
@@ -28,14 +28,8 @@ func (s *TrafficDescriptor) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip OsAppId!=null
+		return _err
 	}
 	return nil
 }

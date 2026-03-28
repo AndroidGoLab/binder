@@ -59,7 +59,7 @@ func (s *DisplayInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.LayerStack)
-	p.WriteInt32(0) // null This.flags
+	p.WriteInt32(0) // placeholder This.flags
 	p.WriteInt32(s.Type)
 	p.WriteInt32(s.DisplayId)
 	p.WriteInt32(s.DisplayGroupId)
@@ -94,9 +94,9 @@ func (s *DisplayInfo) MarshalParcel(
 	p.WriteFloat32(s.RenderFrameRate)
 	p.WriteInt32(s.DefaultModeId)
 	p.WriteInt32(s.UserPreferredModeId)
-	p.WriteInt32(0) // null SupportedModes.length
+	p.WriteInt32(0) // placeholder SupportedModes.length
 	p.WriteInt32(s.ColorMode)
-	p.WriteInt32(0) // null SupportedColorModes.length
+	p.WriteInt32(0) // placeholder SupportedColorModes.length
 	p.WriteInt32(0) // null HdrCapabilities
 	p.WriteBool(s.MinimalPostProcessingSupported)
 	p.WriteInt32(s.LogicalDensityDpi)
@@ -122,7 +122,7 @@ func (s *DisplayInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null UserDisabledHdrTypes.length
+	p.WriteInt32(0) // placeholder UserDisabledHdrTypes.length
 	p.WriteInt32(s.InstallOrientation)
 	if s.DisplayShape != nil {
 		p.WriteInt32(1)
@@ -147,14 +147,8 @@ func (s *DisplayInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null This.flags: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip This.flags
+		return _err
 	}
 	s.Type, _err = p.ReadInt32()
 	if _err != nil {
@@ -228,15 +222,7 @@ func (s *DisplayInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque DisplayCutout: cannot skip without known wire format
 	s.Rotation, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -257,27 +243,15 @@ func (s *DisplayInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null SupportedModes.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip SupportedModes.length
+		return _err
 	}
 	s.ColorMode, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null SupportedColorModes.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip SupportedColorModes.length
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -364,14 +338,8 @@ func (s *DisplayInfo) UnmarshalParcel(
 			}
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null UserDisabledHdrTypes.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip UserDisabledHdrTypes.length
+		return _err
 	}
 	s.InstallOrientation, _err = p.ReadInt32()
 	if _err != nil {
@@ -402,15 +370,7 @@ func (s *DisplayInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ThermalRefreshRateThrottling: cannot skip without known wire format
 	s.ThermalBrightnessThrottlingDataId, _err = p.ReadString()
 	if _err != nil {
 		return _err

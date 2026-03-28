@@ -14,31 +14,20 @@ var _ parcel.Parcelable = (*ParcelableException)(nil)
 func (s *ParcelableException) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null T.getClass().getName()
-	p.WriteInt32(0) // null T.getMessage()
+	p.WriteString16("") // placeholder T.getClass().getName()
+	p.WriteString16("") // placeholder T.getMessage()
 	return nil
 }
 
 func (s *ParcelableException) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null T.getClass().getName(): cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadString16(); _err != nil { // skip T.getClass().getName()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null T.getMessage(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString16(); _err != nil { // skip T.getMessage()
+		return _err
 	}
 	return nil
 }

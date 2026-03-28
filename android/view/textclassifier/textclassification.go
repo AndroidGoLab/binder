@@ -18,7 +18,7 @@ func (s *TextClassification) MarshalParcel(
 ) error {
 	p.WriteString16(s.Text)
 	p.WriteInt32(-1) // null Actions
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null EntityConfidence
 	p.WriteString16(s.Id)
 	p.WriteInt32(-1) // null Extras
 	return nil
@@ -32,24 +32,8 @@ func (s *TextClassification) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Actions: cannot skip without known wire format
+	return nil // opaque EntityConfidence: cannot skip without known wire format
 	s.Id, _err = p.ReadString16()
 	if _err != nil {
 		return _err

@@ -66,9 +66,9 @@ parcelables:
     - name: MemoryIntArray
     - name: MergedConfiguration
       java_wire_format:
-        - name: Dest
-          write_method: opaque
-        - name: Dest
-          write_method: opaque
-        - name: Dest
-          write_method: opaque
+        - name: GlobalConfig
+          write_method: delegate
+        - name: OverrideConfig
+          write_method: delegate
+        - name: MergedConfig
+          write_method: delegate

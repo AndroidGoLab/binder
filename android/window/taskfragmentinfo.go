@@ -1,6 +1,7 @@
 package window
 
 import (
+	types "github.com/AndroidGoLab/binder/android/content/res/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -12,6 +13,7 @@ type TaskFragmentInfo struct {
 	IsTaskClearedForReuse              bool
 	IsTaskFragmentClearedForPip        bool
 	IsClearedForReorderActivityToFront bool
+	Configuration                      types.Configuration
 }
 
 var _ parcel.Parcelable = (*TaskFragmentInfo)(nil)
@@ -21,16 +23,18 @@ func (s *TaskFragmentInfo) MarshalParcel(
 ) error {
 	p.WriteInt32(-1) // null FragmentToken
 	p.WriteInt32(0)  // null Token
-	p.WriteInt32(-1) // null Dest
+	if _err := s.Configuration.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.RunningActivityCount)
 	p.WriteBool(s.IsVisible)
 	p.WriteInt32(-1) // null Activities
 	p.WriteInt32(-1) // null InRequestedTaskFragmentActivities
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null PositionInParent
 	p.WriteBool(s.IsTaskClearedForReuse)
 	p.WriteBool(s.IsTaskFragmentClearedForPip)
 	p.WriteBool(s.IsClearedForReorderActivityToFront)
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null MinimumDimensions
 	return nil
 }
 
@@ -38,15 +42,7 @@ func (s *TaskFragmentInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque FragmentToken: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -56,14 +52,8 @@ func (s *TaskFragmentInfo) UnmarshalParcel(
 			return nil // non-null Token: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.Configuration.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	s.RunningActivityCount, _err = p.ReadInt32()
 	if _err != nil {
@@ -73,33 +63,9 @@ func (s *TaskFragmentInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Activities: cannot skip without known wire format
+	return nil // opaque InRequestedTaskFragmentActivities: cannot skip without known wire format
+	return nil // opaque PositionInParent: cannot skip without known wire format
 	s.IsTaskClearedForReuse, _err = p.ReadBool()
 	if _err != nil {
 		return _err
@@ -112,14 +78,6 @@ func (s *TaskFragmentInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque MinimumDimensions: cannot skip without known wire format
 	return nil
 }

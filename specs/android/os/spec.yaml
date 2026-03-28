@@ -5823,8 +5823,8 @@ parcelables:
           write_method: bool
         - name: IncludesProcessStateData
           write_method: bool
-        - name: Dest
-          write_method: opaque
+        - name: BatteryConsumersCursorWindow
+          write_method: delegate
         - name: "True"
           write_method: bool
           condition: mBatteryStatsHistory!=null
@@ -6089,8 +6089,8 @@ parcelables:
     - name: IncidentManager.IncidentReport
     - name: IncidentReportArgs
       java_wire_format:
-        - name: All?1:0
-          write_method: int32
+        - name: All
+          write_method: bool
         - name: "N"
           write_method: int32
         - name: "N"
@@ -6280,8 +6280,8 @@ parcelables:
           write_method: int32
     - name: UserHandle
       java_wire_format:
-        - name: Out
-          write_method: opaque
+        - name: h
+          write_method: delegate
           condition: h!=null
     - name: UserManager.EnforcingUser
     - name: VibrationAttributes
@@ -6317,8 +6317,8 @@ parcelables:
           write_method: int32
         - name: QFactor
           write_method: float32
-        - name: Dest
-          write_method: opaque
+        - name: FrequencyProfile
+          write_method: delegate
     - name: WakeLockStats
       java_wire_format:
         - name: WakelockSize

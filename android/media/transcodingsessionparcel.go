@@ -20,6 +20,7 @@ func (s *TranscodingSessionParcel) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.SessionId)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Request.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -60,6 +61,9 @@ func (s *TranscodingSessionParcel) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Request.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

@@ -1,6 +1,7 @@
 package view
 
 import (
+	graphics "github.com/AndroidGoLab/binder/android/graphics"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -11,6 +12,7 @@ type PointerIcon struct {
 	HotSpotX             float32
 	HotSpotY             float32
 	DrawNativeDropShadow bool
+	Bitmap               graphics.Bitmap
 }
 
 var _ parcel.Parcelable = (*PointerIcon)(nil)
@@ -19,7 +21,9 @@ func (s *PointerIcon) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Type)
-	p.WriteInt32(-1) // null Out
+	if _err := s.Bitmap.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteFloat32(s.HotSpotX)
 	p.WriteFloat32(s.HotSpotY)
 	p.WriteBool(s.DrawNativeDropShadow)
@@ -34,14 +38,8 @@ func (s *PointerIcon) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _err := s.Bitmap.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 	s.HotSpotX, _err = p.ReadFloat32()
 	if _err != nil {

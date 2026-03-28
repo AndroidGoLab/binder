@@ -16,7 +16,7 @@ func (s *TextLanguage) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Id)
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null EntityConfidence
 	p.WriteInt32(-1) // null Bundle
 	return nil
 }
@@ -29,15 +29,7 @@ func (s *TextLanguage) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque EntityConfidence: cannot skip without known wire format
 	{
 		_opaqueLen, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {

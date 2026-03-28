@@ -17,6 +17,7 @@ type ParcelableConference struct {
 	AddressPresentation           int32
 	CallerDisplayName             string
 	CallerDisplayNamePresentation int32
+	RingbackRequested             bool
 	CallDirection                 int32
 	PhoneAccount                  *PhoneAccount
 	StatusHints                   *StatusHints
@@ -41,7 +42,7 @@ func (s *ParcelableConference) MarshalParcel(
 	p.WriteInt32(s.ConnectionCapabilities)
 	p.WriteInt32(-1) // null ConnectionIds
 	p.WriteInt64(s.ConnectTimeMillis)
-	p.WriteInt32(-1) // null VideoProvider!=null?mVideoProvider.asBinder():null
+	p.WriteBool(false) // placeholder VideoProvider!=null
 	p.WriteInt32(s.VideoState)
 	if s.StatusHints != nil {
 		p.WriteInt32(1)
@@ -73,7 +74,7 @@ func (s *ParcelableConference) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null RingbackRequested?1:0
+	p.WriteBool(s.RingbackRequested)
 	p.WriteInt32(s.CallDirection)
 	return nil
 }
@@ -102,27 +103,13 @@ func (s *ParcelableConference) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ConnectionIds: cannot skip without known wire format
 	s.ConnectTimeMillis, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip VideoProvider!=null
+		return _err
 	}
 	s.VideoState, _err = p.ReadInt32()
 	if _err != nil {
@@ -193,14 +180,9 @@ func (s *ParcelableConference) UnmarshalParcel(
 			}
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null RingbackRequested?1:0: cannot skip unknown-size typed object
-		}
+	s.RingbackRequested, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.CallDirection, _err = p.ReadInt32()
 	if _err != nil {

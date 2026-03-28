@@ -71,15 +71,7 @@ func (s *ImsCallProfile) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque EmergencyUrns: cannot skip without known wire format
 	s.EmergencyCallRouting, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -100,14 +92,6 @@ func (s *ImsCallProfile) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque AcceptedRtpHeaderExtensionTypes.toArray(): cannot skip without known wire format
 	return nil
 }

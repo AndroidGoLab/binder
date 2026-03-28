@@ -39,7 +39,7 @@ func (s *BatteryUsageStats) MarshalParcel(
 	p.WriteInt32(-1) // null CustomPowerComponentNames
 	p.WriteBool(s.IncludesPowerModels)
 	p.WriteBool(s.IncludesProcessStateData)
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null BatteryConsumersCursorWindow
 	p.WriteInt32(0)  // null True
 	p.WriteInt32(-1) // null Dest
 	return nil
@@ -90,12 +90,14 @@ func (s *BatteryUsageStats) UnmarshalParcel(
 		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		for _j := int32(0); _j < _arrLen; _j++ {
+			if _, _arrErr = p.ReadString16(); _arrErr != nil {
+				return _arrErr
+			}
 		}
 	}
 	s.IncludesPowerModels, _err = p.ReadBool()
@@ -106,15 +108,7 @@ func (s *BatteryUsageStats) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque BatteryConsumersCursorWindow: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -124,14 +118,6 @@ func (s *BatteryUsageStats) UnmarshalParcel(
 			return nil // non-null True: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Dest: cannot skip without known wire format
 	return nil
 }

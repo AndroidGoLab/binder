@@ -27,9 +27,9 @@ func (s *VirtualDeviceParams) MarshalParcel(
 	p.WriteInt32(s.DefaultActivityPolicy)
 	p.WriteInt32(-1) // null ActivityPolicyExemptions
 	p.WriteString(s.Name)
-	p.WriteInt32(-1) // null DevicePolicies
-	p.WriteInt32(-1) // null VirtualSensorConfigs
-	p.WriteInt32(-1) // null VirtualSensorCallback!=null?mVirtualSensorCallback.asBinder():null
+	p.WriteInt32(-1)   // null DevicePolicies
+	p.WriteInt32(-1)   // null VirtualSensorConfigs
+	p.WriteBool(false) // placeholder VirtualSensorCallback!=null
 	p.WriteInt32(s.AudioPlaybackSessionId)
 	p.WriteInt32(s.AudioRecordingSessionId)
 	p.WriteInt32(0) // null HomeComponent
@@ -45,71 +45,25 @@ func (s *VirtualDeviceParams) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque UsersWithMatchingAccounts: cannot skip without known wire format
 	s.DefaultNavigationPolicy, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque CrossTaskNavigationExemptions: cannot skip without known wire format
 	s.DefaultActivityPolicy, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ActivityPolicyExemptions: cannot skip without known wire format
 	s.Name, _err = p.ReadString()
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	return nil                               // opaque DevicePolicies: cannot skip without known wire format
+	return nil                               // opaque VirtualSensorConfigs: cannot skip without known wire format
+	if _, _err = p.ReadBool(); _err != nil { // skip VirtualSensorCallback!=null
+		return _err
 	}
 	s.AudioPlaybackSessionId, _err = p.ReadInt32()
 	if _err != nil {

@@ -20,6 +20,7 @@ func (s *PhysicalCameraMetadata) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt64(s.FmqMetadataSize)
 	p.WriteString16(s.PhysicalCameraId)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Metadata.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -61,6 +62,9 @@ func (s *PhysicalCameraMetadata) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Metadata.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

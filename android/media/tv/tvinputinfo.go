@@ -11,9 +11,13 @@ import (
 type TvInputInfo struct {
 	Id                             string
 	Type                           int32
+	IsHardwareInput                bool
 	LabelResId                     int32
 	SetupActivity                  string
+	CanRecord                      bool
+	CanPauseRecording              bool
 	TunerCount                     int32
+	IsConnectedToHdmiSwitch        bool
 	HdmiConnectionRelativePosition int32
 	ParentId                       string
 	Icon                           *drawable.Icon
@@ -25,11 +29,11 @@ var _ parcel.Parcelable = (*TvInputInfo)(nil)
 func (s *TvInputInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Service
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.Type)
-	p.WriteInt32(0)  // null IsHardwareInput?(byte)1:0
-	p.WriteInt32(-1) // null Label
+	p.WriteBool(s.IsHardwareInput)
+	p.WriteInt32(-1) // null TextUtils
 	p.WriteInt32(0)  // null IconUri
 	p.WriteInt32(s.LabelResId)
 	if s.Icon != nil {
@@ -43,8 +47,8 @@ func (s *TvInputInfo) MarshalParcel(
 	p.WriteInt32(0) // null IconStandby
 	p.WriteInt32(0) // null IconDisconnected
 	p.WriteString16(s.SetupActivity)
-	p.WriteInt32(0) // null CanRecord?(byte)1:0
-	p.WriteInt32(0) // null CanPauseRecording?(byte)1:0
+	p.WriteBool(s.CanRecord)
+	p.WriteBool(s.CanPauseRecording)
 	p.WriteInt32(s.TunerCount)
 	if s.HdmiDeviceInfo != nil {
 		p.WriteInt32(1)
@@ -54,7 +58,7 @@ func (s *TvInputInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0) // null IsConnectedToHdmiSwitch?(byte)1:0
+	p.WriteBool(s.IsConnectedToHdmiSwitch)
 	p.WriteInt32(s.HdmiConnectionRelativePosition)
 	p.WriteString16(s.ParentId)
 	p.WriteInt32(-1) // null Extras
@@ -65,15 +69,7 @@ func (s *TvInputInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Service: cannot skip without known wire format
 	s.Id, _err = p.ReadString16()
 	if _err != nil {
 		return _err
@@ -82,24 +78,11 @@ func (s *TvInputInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IsHardwareInput?(byte)1:0: cannot skip unknown-size typed object
-		}
+	s.IsHardwareInput, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque TextUtils: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -147,23 +130,13 @@ func (s *TvInputInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null CanRecord?(byte)1:0: cannot skip unknown-size typed object
-		}
+	s.CanRecord, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null CanPauseRecording?(byte)1:0: cannot skip unknown-size typed object
-		}
+	s.CanPauseRecording, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.TunerCount, _err = p.ReadInt32()
 	if _err != nil {
@@ -181,14 +154,9 @@ func (s *TvInputInfo) UnmarshalParcel(
 			}
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IsConnectedToHdmiSwitch?(byte)1:0: cannot skip unknown-size typed object
-		}
+	s.IsConnectedToHdmiSwitch, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	s.HdmiConnectionRelativePosition, _err = p.ReadInt32()
 	if _err != nil {

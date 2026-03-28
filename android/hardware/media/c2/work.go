@@ -21,6 +21,7 @@ func (s *Work) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteByteArray(s.ChainInfo)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Input.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -36,6 +37,7 @@ func (s *Work) MarshalParcel(
 		}
 	}
 	p.WriteInt32(s.WorkletsProcessed)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Result.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -67,6 +69,9 @@ func (s *Work) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Input.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -108,6 +113,9 @@ func (s *Work) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Result.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

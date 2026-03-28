@@ -20,6 +20,7 @@ func (s *ClientTargetPropertyWithBrightness) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt64(s.Display)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.ClientTargetProperty.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -53,6 +54,9 @@ func (s *ClientTargetPropertyWithBrightness) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.ClientTargetProperty.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

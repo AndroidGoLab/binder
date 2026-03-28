@@ -118,8 +118,8 @@ parcelables:
         - name: (byte)0
           write_method: int32
           condition: mIcon==null
-        - name: Message
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
     - name: GetWalletCardsRequest
       java_wire_format:
         - name: CardWidthPx
@@ -148,14 +148,14 @@ parcelables:
           write_method: string16
         - name: CardType
           write_method: int32
-        - name: Dest
-          write_method: opaque
-        - name: ContentDescription
-          write_method: opaque
+        - name: CardImage
+          write_method: delegate
+        - name: TextUtils
+          write_method: delegate
         - name: PendingIntent
           write_method: opaque
-        - name: CardLabel
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: CardLocations
           write_method: opaque
     - name: WalletServiceEvent

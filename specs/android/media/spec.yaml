@@ -7745,8 +7745,8 @@ parcelables:
           write_method: opaque
     - name: AudioFocusInfo
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Attributes
+          write_method: delegate
         - name: ClientUid
           write_method: int32
         - name: ClientId
@@ -8050,10 +8050,10 @@ parcelables:
           write_method: int32
         - name: ClientSource
           write_method: int32
-        - name: Dest
-          write_method: opaque
-        - name: Dest
-          write_method: opaque
+        - name: ClientFormat
+          write_method: delegate
+        - name: DeviceFormat
+          write_method: delegate
         - name: PatchHandle
           write_method: int32
         - name: ClientPackageName
@@ -8084,8 +8084,8 @@ parcelables:
             name: boolean
     - name: AudioRoutesInfo
       java_wire_format:
-        - name: BluetoothName
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: MainType
           write_method: int32
     - name: AudioTimestamp
@@ -8589,12 +8589,12 @@ parcelables:
       java_wire_format:
         - name: MediaId
           write_method: string16
-        - name: Title
-          write_method: opaque
-        - name: Subtitle
-          write_method: opaque
-        - name: Description
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
+        - name: TextUtils
+          write_method: delegate
+        - name: TextUtils
+          write_method: delegate
         - name: Icon
           write_method: typed_object
         - name: IconUri
@@ -8662,8 +8662,8 @@ parcelables:
       java_wire_format:
         - name: Id
           write_method: string16
-        - name: Name
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: Features
           write_method: opaque
         - name: Type
@@ -8672,8 +8672,8 @@ parcelables:
           write_method: bool
         - name: IconUri
           write_method: typed_object
-        - name: Description
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
         - name: ConnectionState
           write_method: int32
         - name: ClientPackageName
@@ -8858,8 +8858,8 @@ parcelables:
           write_method: opaque
         - name: UseSystemOrdering
           write_method: bool
-        - name: LinkedItemComponentName
-          write_method: opaque
+        - name: ComponentName
+          write_method: delegate
     - name: RoutingSessionInfo
       java_wire_format:
         - name: Id
@@ -8892,8 +8892,8 @@ parcelables:
           write_method: bool
         - name: TransferReason
           write_method: int32
-        - name: TransferInitiatorUserHandle
-          write_method: opaque
+        - name: UserHandle
+          write_method: delegate
         - name: TransferInitiatorPackageName
           write_method: string16
     - name: SharedFileRegion
@@ -9132,17 +9132,17 @@ parcelables:
           write_method: int32
         - name: MaxVolIndex
           write_method: int32
-        - name: Dest
-          write_method: opaque
+        - name: VolGroup
+          write_method: delegate
           condition: '!mUsesStreamType'
     - name: VolumePolicy
       java_wire_format:
-        - name: VolumeDownToEnterSilent?1:0
-          write_method: int32
-        - name: VolumeUpToExitSilent?1:0
-          write_method: int32
-        - name: DoNotDisturbWhenSilent?1:0
-          write_method: int32
+        - name: VolumeDownToEnterSilent
+          write_method: bool
+        - name: VolumeUpToExitSilent
+          write_method: bool
+        - name: DoNotDisturbWhenSilent
+          write_method: bool
         - name: VibrateToSilentDebounce
           write_method: int32
     - name: VolumeShaper

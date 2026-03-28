@@ -14,41 +14,20 @@ var _ parcel.Parcelable = (*AmbientBrightnessDayStats)(nil)
 func (s *AmbientBrightnessDayStats) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0)  // null LocalDate.toString()
-	p.WriteInt32(-1) // null BucketBoundaries
-	p.WriteInt32(-1) // null Stats
+	p.WriteString16("") // placeholder LocalDate.toString()
+	p.WriteInt32(-1)    // null BucketBoundaries
+	p.WriteInt32(-1)    // null Stats
 	return nil
 }
 
 func (s *AmbientBrightnessDayStats) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null LocalDate.toString(): cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadString16(); _err != nil { // skip LocalDate.toString()
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque BucketBoundaries: cannot skip without known wire format
+	return nil // opaque Stats: cannot skip without known wire format
 	return nil
 }

@@ -22,7 +22,7 @@ func (s *AudioAttributes) MarshalParcel(
 	p.WriteInt32(s.ContentType)
 	p.WriteInt32(s.Source)
 	p.WriteInt32(s.Flags)
-	p.WriteInt32(0)  // null Flags&ALL_PARCEL_FLAGS
+	p.WriteInt32(0)  // placeholder Flags&ALL_PARCEL_FLAGS
 	p.WriteInt32(-1) // null TagsArray
 	p.WriteInt32(0)  // null ATTR_PARCEL_IS_NULL_BUNDLE
 	return nil
@@ -48,22 +48,18 @@ func (s *AudioAttributes) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Flags&ALL_PARCEL_FLAGS: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip Flags&ALL_PARCEL_FLAGS
+		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		for _j := int32(0); _j < _arrLen; _j++ {
+			if _, _arrErr = p.ReadString16(); _arrErr != nil {
+				return _arrErr
+			}
 		}
 	}
 	{

@@ -160,7 +160,8 @@ func writeUnionMarshalParcel(
 	f.P("func (u *%s) MarshalParcel(", structName)
 	f.P("\tp *parcel.Parcel,")
 	f.P(") error {")
-	f.P("\t_headerPos := parcel.WriteParcelableHeader(p)")
+	// C++ AIDL unions do NOT write a parcelable size prefix.
+	// They write only: [tag: int32][variant data].
 	if hasTagEnum {
 		f.P("\tp.WriteInt32(int32(u.Tag))")
 	} else {
@@ -229,7 +230,6 @@ func writeUnionMarshalParcel(
 	f.P("\t\treturn fmt.Errorf(\"unknown union tag %%d for %s\", u.Tag)", structName)
 	f.P("\t}")
 	f.P("")
-	f.P("\tparcel.WriteParcelableFooter(p, _headerPos)")
 	f.P("\treturn nil")
 	f.P("}")
 	f.P("")
@@ -249,10 +249,9 @@ func writeUnionUnmarshalParcel(
 	f.P("func (u *%s) UnmarshalParcel(", structName)
 	f.P("\tp *parcel.Parcel,")
 	f.P(") error {")
-	f.P("\t_endPos, _err := parcel.ReadParcelableHeader(p)")
-	f.P("\tif _err != nil {")
-	f.P("\t\treturn _err")
-	f.P("\t}")
+	// C++ AIDL unions do NOT have a parcelable size prefix.
+	// They read only: [tag: int32][variant data].
+	f.P("\tvar _err error")
 	f.P("")
 	if hasTagEnum {
 		// Read int32 from the wire and convert to the named Tag type.
@@ -367,7 +366,6 @@ func writeUnionUnmarshalParcel(
 	f.P("\t\treturn fmt.Errorf(\"unknown union tag %%d for %s\", u.Tag)", structName)
 	f.P("\t}")
 	f.P("")
-	f.P("\tparcel.SkipToParcelableEnd(p, _endPos)")
 	f.P("\treturn nil")
 	f.P("}")
 	f.P("")

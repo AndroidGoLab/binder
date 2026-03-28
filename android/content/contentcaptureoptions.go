@@ -30,7 +30,7 @@ func (s *ContentCaptureOptions) MarshalParcel(
 	p.WriteInt32(s.LogHistorySize)
 	p.WriteBool(s.DisableFlushForViewTreeAppearing)
 	p.WriteBool(s.EnableReceiver)
-	p.WriteInt32(-1) // null Parcel
+	p.WriteInt32(-1) // null ContentProtectionOptions
 	p.WriteInt32(-1) // null WhitelistedComponents
 	return nil
 }
@@ -71,23 +71,7 @@ func (s *ContentCaptureOptions) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque ContentProtectionOptions: cannot skip without known wire format
+	return nil // opaque WhitelistedComponents: cannot skip without known wire format
 	return nil
 }

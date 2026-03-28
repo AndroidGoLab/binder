@@ -19,13 +19,13 @@ var _ parcel.Parcelable = (*ImsiEncryptionInfo)(nil)
 func (s *ImsiEncryptionInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0)  // null B.length
+	p.WriteInt32(0)  // placeholder B.length
 	p.WriteInt32(-1) // null b
 	p.WriteString16(s.Mcc)
 	p.WriteString16(s.Mnc)
 	p.WriteString16(s.KeyIdentifier)
 	p.WriteInt32(s.KeyType)
-	p.WriteInt32(0) // null ExpirationTime.getTime()
+	p.WriteInt64(0) // placeholder ExpirationTime.getTime()
 	p.WriteInt32(s.CarrierId)
 	return nil
 }
@@ -34,24 +34,10 @@ func (s *ImsiEncryptionInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null B.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip B.length
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque b: cannot skip without known wire format
 	s.Mcc, _err = p.ReadString16()
 	if _err != nil {
 		return _err
@@ -68,14 +54,8 @@ func (s *ImsiEncryptionInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null ExpirationTime.getTime(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt64(); _err != nil { // skip ExpirationTime.getTime()
+		return _err
 	}
 	s.CarrierId, _err = p.ReadInt32()
 	if _err != nil {

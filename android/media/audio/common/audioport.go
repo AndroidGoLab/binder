@@ -35,6 +35,7 @@ func (s *AudioPort) MarshalParcel(
 			}
 		}
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Flags.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -60,6 +61,7 @@ func (s *AudioPort) MarshalParcel(
 			}
 		}
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Ext.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -123,6 +125,9 @@ func (s *AudioPort) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Flags.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -176,6 +181,9 @@ func (s *AudioPort) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Ext.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

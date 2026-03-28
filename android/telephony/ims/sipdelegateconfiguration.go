@@ -53,8 +53,8 @@ func (s *SipDelegateConfiguration) MarshalParcel(
 	p.WriteString16(s.PlaniHeader)
 	p.WriteString16(s.CniHeader)
 	p.WriteString16(s.AssociatedUriHeader)
-	p.WriteInt32(0) // null IpSecConfiguration!=null
-	p.WriteInt32(0) // null NatAddress!=null
+	p.WriteBool(false) // placeholder IpSecConfiguration!=null
+	p.WriteBool(false) // placeholder NatAddress!=null
 	return nil
 }
 
@@ -147,23 +147,11 @@ func (s *SipDelegateConfiguration) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null IpSecConfiguration!=null: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip IpSecConfiguration!=null
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null NatAddress!=null: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip NatAddress!=null
+		return _err
 	}
 	return nil
 }

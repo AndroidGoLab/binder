@@ -904,10 +904,10 @@ parcelables:
       java_wire_format:
         - name: IsEmbedded
           write_method: bool
-        - name: Dest
-          write_method: opaque
-        - name: Dest
-          write_method: opaque
+        - name: TaskBounds
+          write_method: delegate
+        - name: TaskFragmentBounds
+          write_method: delegate
     - name: AddToSurfaceSyncGroupResult
       fields:
         - name: mParentSyncGroup
@@ -954,12 +954,12 @@ parcelables:
           write_method: typed_object
     - name: ClientWindowFrames
       java_wire_format:
-        - name: Dest
-          write_method: opaque
-        - name: Dest
-          write_method: opaque
-        - name: Dest
-          write_method: opaque
+        - name: Frame
+          write_method: delegate
+        - name: DisplayFrame
+          write_method: delegate
+        - name: ParentFrame
+          write_method: delegate
         - name: AttachedFrame
           write_method: typed_object
         - name: IsParentFrameClippedByDisplayCutout
@@ -974,10 +974,10 @@ parcelables:
           write_method: typed_object
     - name: DisplayAreaInfo
       java_wire_format:
-        - name: Dest
-          write_method: opaque
-        - name: Dest
-          write_method: opaque
+        - name: Token
+          write_method: delegate
+        - name: Configuration
+          write_method: delegate
         - name: DisplayId
           write_method: int32
         - name: FeatureId
@@ -1108,14 +1108,14 @@ parcelables:
           write_method: int32
     - name: TaskFragmentCreationParams
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Organizer
+          write_method: delegate
         - name: FragmentToken
           write_method: binder
         - name: OwnerToken
           write_method: binder
-        - name: Dest
-          write_method: opaque
+        - name: InitialRelativeBounds
+          write_method: delegate
         - name: WindowingMode
           write_method: int32
         - name: PairedPrimaryFragmentToken
@@ -1130,8 +1130,8 @@ parcelables:
           write_method: binder
         - name: Token
           write_method: typed_object
-        - name: Dest
-          write_method: opaque
+        - name: Configuration
+          write_method: delegate
         - name: RunningActivityCount
           write_method: int32
         - name: IsVisible
@@ -1140,16 +1140,16 @@ parcelables:
           write_method: opaque
         - name: InRequestedTaskFragmentActivities
           write_method: opaque
-        - name: Dest
-          write_method: opaque
+        - name: PositionInParent
+          write_method: delegate
         - name: IsTaskClearedForReuse
           write_method: bool
         - name: IsTaskFragmentClearedForPip
           write_method: bool
         - name: IsClearedForReorderActivityToFront
           write_method: bool
-        - name: Dest
-          write_method: opaque
+        - name: MinimumDimensions
+          write_method: delegate
     - name: TaskFragmentOperation
       java_wire_format:
         - name: OpType
@@ -1174,8 +1174,8 @@ parcelables:
           write_method: bool
     - name: TaskFragmentParentInfo
       java_wire_format:
-        - name: Dest
-          write_method: opaque
+        - name: Configuration
+          write_method: delegate
         - name: DisplayId
           write_method: int32
         - name: Visible
@@ -1195,10 +1195,10 @@ parcelables:
       java_wire_format:
         - name: Id
           write_method: int64
-        - name: TopActivityComponent
-          write_method: opaque
-        - name: Snapshot!=null&&!mSnapshot.isClosed()?mSnapshot:null
-          write_method: typed_object
+        - name: ComponentName
+          write_method: delegate
+        - name: Snapshot!=null&&!mSnapshot.isClosed()
+          write_method: bool
         - name: ColorSpace.getId()
           write_method: int32
         - name: Orientation

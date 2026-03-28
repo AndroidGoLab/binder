@@ -14,31 +14,20 @@ var _ parcel.Parcelable = (*CameraInfo)(nil)
 func (s *CameraInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null Info.facing
-	p.WriteInt32(0) // null Info.orientation
+	p.WriteInt32(0) // placeholder Info.facing
+	p.WriteInt32(0) // placeholder Info.orientation
 	return nil
 }
 
 func (s *CameraInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Info.facing: cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil { // skip Info.facing
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Info.orientation: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip Info.orientation
+		return _err
 	}
 	return nil
 }

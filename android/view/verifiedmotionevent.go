@@ -21,7 +21,7 @@ var _ parcel.Parcelable = (*VerifiedMotionEvent)(nil)
 func (s *VerifiedMotionEvent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null Super
 	p.WriteFloat32(s.RawX)
 	p.WriteFloat32(s.RawY)
 	p.WriteInt32(s.ActionMasked)
@@ -36,15 +36,7 @@ func (s *VerifiedMotionEvent) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Super: cannot skip without known wire format
 	s.RawX, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err

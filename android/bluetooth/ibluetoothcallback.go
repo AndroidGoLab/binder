@@ -12,16 +12,31 @@ import (
 const DescriptorIBluetoothCallback = "android.bluetooth.IBluetoothCallback"
 
 const (
-	TransactionIBluetoothCallbackOnBluetoothStateChange = binder.FirstCallTransaction + 0
+	TransactionIBluetoothCallbackOnBluetoothStateChange         = binder.FirstCallTransaction + 0
+	TransactionIBluetoothCallbackOnAdapterNameChange            = binder.FirstCallTransaction + 1
+	TransactionIBluetoothCallbackOnAdapterAddressChange         = binder.FirstCallTransaction + 2
+	TransactionIBluetoothCallbackSetAdapterServiceBinder        = binder.FirstCallTransaction + 3
+	TransactionIBluetoothCallbackOnMediaProfileConnectionChange = binder.FirstCallTransaction + 4
+	TransactionIBluetoothCallbackOnWatchConnectionChange        = binder.FirstCallTransaction + 5
 )
 
 const (
-	MethodIBluetoothCallbackOnBluetoothStateChange = "onBluetoothStateChange"
+	MethodIBluetoothCallbackOnBluetoothStateChange         = "onBluetoothStateChange"
+	MethodIBluetoothCallbackOnAdapterNameChange            = "onAdapterNameChange"
+	MethodIBluetoothCallbackOnAdapterAddressChange         = "onAdapterAddressChange"
+	MethodIBluetoothCallbackSetAdapterServiceBinder        = "setAdapterServiceBinder"
+	MethodIBluetoothCallbackOnMediaProfileConnectionChange = "onMediaProfileConnectionChange"
+	MethodIBluetoothCallbackOnWatchConnectionChange        = "onWatchConnectionChange"
 )
 
 type IBluetoothCallback interface {
 	AsBinder() binder.IBinder
 	OnBluetoothStateChange(ctx context.Context, prevState int32, newState int32) error
+	OnAdapterNameChange(ctx context.Context, name string) error
+	OnAdapterAddressChange(ctx context.Context, address string) error
+	SetAdapterServiceBinder(ctx context.Context, adapterServiceBinder binder.IBinder) error
+	OnMediaProfileConnectionChange(ctx context.Context, connected bool) error
+	OnWatchConnectionChange(ctx context.Context, connected bool) error
 }
 
 type BluetoothCallbackProxy struct {
@@ -56,17 +71,98 @@ func (p *BluetoothCallbackProxy) OnBluetoothStateChange(
 		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnBluetoothStateChange, _err)
 	}
 
-	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothCallbackProxy) OnAdapterNameChange(
+	ctx context.Context,
+	name string,
+) error {
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorIBluetoothCallback)
+	_data.WriteString16(name)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnAdapterNameChange)
 	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnAdapterNameChange, _err)
 	}
 
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothCallbackProxy) OnAdapterAddressChange(
+	ctx context.Context,
+	address string,
+) error {
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorIBluetoothCallback)
+	_data.WriteString16(address)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnAdapterAddressChange)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnAdapterAddressChange, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothCallbackProxy) SetAdapterServiceBinder(
+	ctx context.Context,
+	adapterServiceBinder binder.IBinder,
+) error {
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorIBluetoothCallback)
+	binder.WriteBinderToParcel(ctx, _data, adapterServiceBinder, p.Remote.Transport())
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackSetAdapterServiceBinder)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCallback, MethodIBluetoothCallbackSetAdapterServiceBinder, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothCallbackProxy) OnMediaProfileConnectionChange(
+	ctx context.Context,
+	connected bool,
+) error {
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorIBluetoothCallback)
+	_data.WriteBool(connected)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnMediaProfileConnectionChange)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnMediaProfileConnectionChange, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothCallbackProxy) OnWatchConnectionChange(
+	ctx context.Context,
+	connected bool,
+) error {
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorIBluetoothCallback)
+	_data.WriteBool(connected)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnWatchConnectionChange)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnWatchConnectionChange, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 // BluetoothCallbackStub dispatches incoming binder transactions
@@ -102,13 +198,46 @@ func (s *BluetoothCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnBluetoothStateChange(ctx, _arg_prevState, _arg_newState)
-		_reply := parcel.New()
+		return nil, _err
+	case TransactionIBluetoothCallbackOnAdapterNameChange:
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
+			return nil, _err
 		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		_err = s.Impl.OnAdapterNameChange(ctx, _arg_name)
+		return nil, _err
+	case TransactionIBluetoothCallbackOnAdapterAddressChange:
+		_arg_address, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAdapterAddressChange(ctx, _arg_address)
+		return nil, _err
+	case TransactionIBluetoothCallbackSetAdapterServiceBinder:
+		var _arg_adapterServiceBinder binder.IBinder
+		{
+			_adapterServiceBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_adapterServiceBinder = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _adapterServiceBinderHandle)
+		}
+		_err := s.Impl.SetAdapterServiceBinder(ctx, _arg_adapterServiceBinder)
+		return nil, _err
+	case TransactionIBluetoothCallbackOnMediaProfileConnectionChange:
+		_arg_connected, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnMediaProfileConnectionChange(ctx, _arg_connected)
+		return nil, _err
+	case TransactionIBluetoothCallbackOnWatchConnectionChange:
+		_arg_connected, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnWatchConnectionChange(ctx, _arg_connected)
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -119,6 +248,11 @@ func (s *BluetoothCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothCallbackServer interface {
 	OnBluetoothStateChange(ctx context.Context, prevState int32, newState int32) error
+	OnAdapterNameChange(ctx context.Context, name string) error
+	OnAdapterAddressChange(ctx context.Context, address string) error
+	SetAdapterServiceBinder(ctx context.Context, adapterServiceBinder binder.IBinder) error
+	OnMediaProfileConnectionChange(ctx context.Context, connected bool) error
+	OnWatchConnectionChange(ctx context.Context, connected bool) error
 }
 
 type bluetoothCallbackStubWrapper struct {
@@ -136,6 +270,41 @@ func (w *bluetoothCallbackStubWrapper) OnBluetoothStateChange(
 	newState int32,
 ) error {
 	return w.impl.OnBluetoothStateChange(ctx, prevState, newState)
+}
+
+func (w *bluetoothCallbackStubWrapper) OnAdapterNameChange(
+	ctx context.Context,
+	name string,
+) error {
+	return w.impl.OnAdapterNameChange(ctx, name)
+}
+
+func (w *bluetoothCallbackStubWrapper) OnAdapterAddressChange(
+	ctx context.Context,
+	address string,
+) error {
+	return w.impl.OnAdapterAddressChange(ctx, address)
+}
+
+func (w *bluetoothCallbackStubWrapper) SetAdapterServiceBinder(
+	ctx context.Context,
+	adapterServiceBinder binder.IBinder,
+) error {
+	return w.impl.SetAdapterServiceBinder(ctx, adapterServiceBinder)
+}
+
+func (w *bluetoothCallbackStubWrapper) OnMediaProfileConnectionChange(
+	ctx context.Context,
+	connected bool,
+) error {
+	return w.impl.OnMediaProfileConnectionChange(ctx, connected)
+}
+
+func (w *bluetoothCallbackStubWrapper) OnWatchConnectionChange(
+	ctx context.Context,
+	connected bool,
+) error {
+	return w.impl.OnWatchConnectionChange(ctx, connected)
 }
 
 var _ IBluetoothCallback = (*bluetoothCallbackStubWrapper)(nil)

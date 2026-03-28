@@ -60,8 +60,8 @@ parcelables:
           write_method: opaque
         - name: Type
           write_method: int32
-        - name: Destination
-          write_method: opaque
+        - name: Identifier
+          write_method: delegate
     - name: CallEndpointException
       java_wire_format:
         - name: Message
@@ -89,24 +89,24 @@ parcelables:
           write_method: int32
         - name: TelecomCallId
           write_method: string16
-        - name: ShouldShowIncomingCallUi?1:0
-          write_method: int32
+        - name: ShouldShowIncomingCallUi
+          write_method: bool
         - name: RttPipeFromInCall
           write_method: typed_object
         - name: RttPipeToInCall
           write_method: typed_object
         - name: Participants
           write_method: opaque
-        - name: IsAdhocConference?1:0
-          write_method: int32
+        - name: IsAdhocConference
+          write_method: bool
     - name: DisconnectCause
       java_wire_format:
         - name: DisconnectCode
           write_method: int32
-        - name: DisconnectLabel
-          write_method: opaque
-        - name: DisconnectDescription
-          write_method: opaque
+        - name: TextUtils
+          write_method: delegate
+        - name: TextUtils
+          write_method: delegate
         - name: DisconnectReason
           write_method: string16
         - name: ToneToPlay
@@ -121,10 +121,10 @@ parcelables:
       java_wire_format:
         - name: GatewayProviderPackageName
           write_method: string16
-        - name: Destination
-          write_method: opaque
-        - name: Destination
-          write_method: opaque
+        - name: Uri
+          write_method: delegate
+        - name: Uri
+          write_method: delegate
     - name: Logging.Session.Info
     - name: ParcelableCall
       java_wire_format:
@@ -142,8 +142,8 @@ parcelables:
           write_method: int32
         - name: ConnectTimeMillis
           write_method: int64
-        - name: Destination
-          write_method: opaque
+        - name: Uri
+          write_method: delegate
         - name: HandlePresentation
           write_method: int32
         - name: CallerDisplayName
@@ -156,8 +156,8 @@ parcelables:
           write_method: typed_object
         - name: (byte)(mIsVideoCallProviderChanged?1:0)
           write_method: int32
-        - name: VideoCallProvider!=null?mVideoCallProvider.asBinder():null
-          write_method: binder
+        - name: VideoCallProvider!=null
+          write_method: bool
         - name: ParentCallId
           write_method: string16
         - name: ChildCallIds
@@ -202,8 +202,8 @@ parcelables:
           write_method: opaque
         - name: ConnectTimeMillis
           write_method: int64
-        - name: VideoProvider!=null?mVideoProvider.asBinder():null
-          write_method: binder
+        - name: VideoProvider!=null
+          write_method: bool
         - name: VideoState
           write_method: int32
         - name: StatusHints
@@ -224,8 +224,8 @@ parcelables:
           write_method: int32
         - name: DisconnectCause
           write_method: typed_object
-        - name: RingbackRequested?1:0
-          write_method: int32
+        - name: RingbackRequested
+          write_method: bool
         - name: CallDirection
           write_method: int32
     - name: ParcelableConnection
@@ -244,8 +244,8 @@ parcelables:
           write_method: string16
         - name: CallerDisplayNamePresentation
           write_method: int32
-        - name: VideoProvider!=null?mVideoProvider.asBinder():null
-          write_method: binder
+        - name: VideoProvider!=null
+          write_method: bool
         - name: VideoState
           write_method: int32
         - name: (byte)(mRingbackRequested?1:0)
@@ -319,12 +319,12 @@ parcelables:
           condition: mSimultaneousCallingRestriction==null
     - name: PhoneAccountHandle
       java_wire_format:
-        - name: Out
-          write_method: opaque
+        - name: ComponentName
+          write_method: delegate
         - name: Id
           write_method: string16
-        - name: Out
-          write_method: opaque
+        - name: UserHandle
+          write_method: delegate
     - name: PhoneAccountSuggestion
       java_wire_format:
         - name: Handle

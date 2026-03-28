@@ -17,8 +17,8 @@ var _ parcel.Parcelable = (*InsetsState)(nil)
 func (s *InsetsState) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Dest
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null DisplayFrame
+	p.WriteInt32(-1) // null DisplayCutout
 	if s.RoundedCorners != nil {
 		p.WriteInt32(1)
 		if _err := s.RoundedCorners.MarshalParcel(p); _err != nil {
@@ -27,7 +27,7 @@ func (s *InsetsState) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(-1) // null RoundedCornerFrame
 	p.WriteInt32(0)  // null PrivacyIndicatorBounds
 	if s.DisplayShape != nil {
 		p.WriteInt32(1)
@@ -45,24 +45,8 @@ func (s *InsetsState) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque DisplayFrame: cannot skip without known wire format
+	return nil // opaque DisplayCutout: cannot skip without known wire format
 	{
 		_flag, _err := p.ReadInt32()
 		if _err != nil {
@@ -75,15 +59,7 @@ func (s *InsetsState) UnmarshalParcel(
 			}
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque RoundedCornerFrame: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {

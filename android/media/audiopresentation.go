@@ -14,91 +14,40 @@ var _ parcel.Parcelable = (*AudioPresentation)(nil)
 func (s *AudioPresentation) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0)  // null GetPresentationId()
-	p.WriteInt32(0)  // null GetProgramId()
-	p.WriteInt32(-1) // null GetULocale()
-	p.WriteInt32(0)  // null GetMasteringIndication()
-	p.WriteInt32(0)  // null HasAudioDescription()
-	p.WriteInt32(0)  // null HasSpokenSubtitles()
-	p.WriteInt32(0)  // null HasDialogueEnhancement()
-	p.WriteInt32(-1) // null Labels
+	p.WriteInt32(0)    // placeholder GetPresentationId()
+	p.WriteInt32(0)    // placeholder GetProgramId()
+	p.WriteInt32(-1)   // null GetULocale()
+	p.WriteInt32(0)    // placeholder GetMasteringIndication()
+	p.WriteBool(false) // placeholder HasAudioDescription()
+	p.WriteBool(false) // placeholder HasSpokenSubtitles()
+	p.WriteBool(false) // placeholder HasDialogueEnhancement()
+	p.WriteInt32(-1)   // null Labels
 	return nil
 }
 
 func (s *AudioPresentation) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetPresentationId(): cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil { // skip GetPresentationId()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetProgramId(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip GetProgramId()
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
+	return nil                                // opaque GetULocale(): cannot skip without known wire format
+	if _, _err = p.ReadInt32(); _err != nil { // skip GetMasteringIndication()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null GetMasteringIndication(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip HasAudioDescription()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null HasAudioDescription(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip HasSpokenSubtitles()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null HasSpokenSubtitles(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip HasDialogueEnhancement()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null HasDialogueEnhancement(): cannot skip unknown-size typed object
-		}
-	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Labels: cannot skip without known wire format
 	return nil
 }

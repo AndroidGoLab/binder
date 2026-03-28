@@ -32,7 +32,7 @@ func getService(
 	t.Helper()
 	sm := servicemanager.New(driver)
 
-	const maxAttempts = 3
+	const maxAttempts = 5
 	for attempt := 1; attempt <= maxAttempts; attempt++ {
 		svc, err := sm.GetService(ctx, servicemanager.ServiceName(name))
 		if err == nil {
@@ -40,17 +40,21 @@ func getService(
 			return svc
 		}
 
-		// Retry only on "null binder" errors — these indicate transient
-		// resource exhaustion, not a genuinely missing service.
-		isNullBinder := strings.Contains(err.Error(), "null binder") ||
-			strings.Contains(err.Error(), "unexpected null")
-		if !isNullBinder || attempt == maxAttempts {
+		// Retry on transient binder errors:
+		// - "null binder": resource exhaustion
+		// - "service not found": service manager temporarily overloaded
+		//   after heavy binder activity (e.g., smoke test with 5000+ calls)
+		errStr := err.Error()
+		isTransient := strings.Contains(errStr, "null binder") ||
+			strings.Contains(errStr, "unexpected null") ||
+			strings.Contains(errStr, "service not found")
+		if !isTransient || attempt == maxAttempts {
 			requireOrSkip(t, err)
 			return nil // unreachable: requireOrSkip either skips or fails
 		}
 
-		t.Logf("getService(%q): attempt %d/%d got null binder, retrying after sleep", name, attempt, maxAttempts)
-		time.Sleep(500 * time.Millisecond)
+		t.Logf("getService(%q): attempt %d/%d transient error, retrying: %v", name, attempt, maxAttempts, err)
+		time.Sleep(time.Duration(attempt) * 500 * time.Millisecond)
 	}
 
 	return nil // unreachable

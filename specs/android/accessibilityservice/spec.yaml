@@ -948,8 +948,8 @@ parcelables:
           write_method: int32
         - name: Flags
           write_method: int32
-        - name: Crashed?1:0
-          write_method: int32
+        - name: Crashed
+          write_method: bool
         - name: ComponentName
           write_method: typed_object
         - name: ResolveInfo

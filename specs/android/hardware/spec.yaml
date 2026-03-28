@@ -988,8 +988,8 @@ parcelables:
           write_method: bool
         - name: SessionIndex
           write_method: int32
-        - name: Dest
-          write_method: opaque
+        - name: CameraExtensionSessionStats
+          write_method: delegate
     - name: CameraStatus
       java_wire_format:
         - name: CameraId

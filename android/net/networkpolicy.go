@@ -12,6 +12,8 @@ type NetworkPolicy struct {
 	LastWarningSnooze int64
 	LastLimitSnooze   int64
 	LastRapidSnooze   int64
+	Metered           bool
+	Inferred          bool
 }
 
 var _ parcel.Parcelable = (*NetworkPolicy)(nil)
@@ -26,8 +28,8 @@ func (s *NetworkPolicy) MarshalParcel(
 	p.WriteInt64(s.LastWarningSnooze)
 	p.WriteInt64(s.LastLimitSnooze)
 	p.WriteInt64(s.LastRapidSnooze)
-	p.WriteInt32(0) // null Metered?1:0
-	p.WriteInt32(0) // null Inferred?1:0
+	p.WriteBool(s.Metered)
+	p.WriteBool(s.Inferred)
 	return nil
 }
 
@@ -73,23 +75,13 @@ func (s *NetworkPolicy) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Metered?1:0: cannot skip unknown-size typed object
-		}
+	s.Metered, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Inferred?1:0: cannot skip unknown-size typed object
-		}
+	s.Inferred, _err = p.ReadBool()
+	if _err != nil {
+		return _err
 	}
 	return nil
 }

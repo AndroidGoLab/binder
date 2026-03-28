@@ -38,10 +38,12 @@ func (s *GetOutputForAttrResponse) MarshalParcel(
 		}
 	}
 	p.WriteBool(s.IsSpatialized)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.ConfigBase.MarshalParcel(p); _err != nil {
 		return _err
 	}
 	p.WriteBool(s.IsBitPerfect)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Attr.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -134,6 +136,9 @@ func (s *GetOutputForAttrResponse) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.ConfigBase.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -153,6 +158,9 @@ func (s *GetOutputForAttrResponse) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Attr.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

@@ -97,10 +97,13 @@ func (g *Generator) GenerateAll() (_err error) {
 	registry := g.Resolver.Registry
 	allDefs := registry.All()
 
-	// Build the import graph for cycle detection. Augment with edges
-	// from existing Go files so that edges added by previous codegen
-	// runs are visible to the cycle detector.
+	// Build the import graph for cycle detection. SCC and back-edge
+	// computation uses AIDL field edges only (for stability).
+	// JavaWireFormat typed_object edges are added after SCC computation
+	// so they're visible to WouldCreateCycle (BFS) without destabilizing
+	// the back-edge selection for unrelated packages.
 	importGraph := BuildImportGraph(registry)
+	importGraph.AddJavaWireFormatEdges(registry)
 
 	// Detect Go type name collisions within the same package. When a
 	// nested type like "VolumeShaper.Configuration" flattens to

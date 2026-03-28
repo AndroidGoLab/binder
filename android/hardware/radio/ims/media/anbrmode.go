@@ -17,9 +17,11 @@ func (s *AnbrMode) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.AnbrUplinkMode.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.AnbrDownlinkMode.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -41,6 +43,9 @@ func (s *AnbrMode) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.AnbrUplinkMode.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -50,6 +55,9 @@ func (s *AnbrMode) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.AnbrDownlinkMode.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*NanoAppBinary)(nil)
 func (s *NanoAppBinary) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0)  // null NanoAppBinary.length
+	p.WriteInt32(0)  // placeholder NanoAppBinary.length
 	p.WriteInt32(-1) // null NanoAppBinary
 	return nil
 }
@@ -22,23 +22,10 @@ func (s *NanoAppBinary) MarshalParcel(
 func (s *NanoAppBinary) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null NanoAppBinary.length: cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil { // skip NanoAppBinary.length
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque NanoAppBinary: cannot skip without known wire format
 	return nil
 }

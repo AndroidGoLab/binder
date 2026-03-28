@@ -25,6 +25,7 @@ func (s *ArchivedPackageParcel) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.PackageName)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.SigningDetails.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -73,6 +74,9 @@ func (s *ArchivedPackageParcel) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.SigningDetails.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

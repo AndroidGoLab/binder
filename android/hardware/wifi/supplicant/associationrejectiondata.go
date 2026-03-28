@@ -30,6 +30,7 @@ func (s *AssociationRejectionData) MarshalParcel(
 	p.WriteBool(s.IsMboAssocDisallowedReasonCodePresent)
 	p.WritePaddedByte(byte(s.MboAssocDisallowedReason))
 	p.WriteBool(s.IsOceRssiBasedAssocRejectAttrPresent)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.OceRssiBasedAssocRejectData.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -123,6 +124,9 @@ func (s *AssociationRejectionData) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.OceRssiBasedAssocRejectData.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

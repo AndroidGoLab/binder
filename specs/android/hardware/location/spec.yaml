@@ -915,16 +915,16 @@ parcelables:
       java_wire_format:
         - name: NanoAppId
           write_method: int64
-        - name: IsBroadcasted?1:0
-          write_method: int32
+        - name: IsBroadcasted
+          write_method: bool
         - name: MessageType
           write_method: int32
         - name: MessageBody.length
           write_method: int32
         - name: MessageBody
           write_method: byte_array
-        - name: IsReliable?1:0
-          write_method: int32
+        - name: IsReliable
+          write_method: bool
         - name: MessageSequenceNumber
           write_method: int32
     - name: NanoAppRpcService
@@ -939,8 +939,8 @@ parcelables:
           write_method: int64
         - name: NanoAppVersion
           write_method: int32
-        - name: IsEnabled?1:0
-          write_method: int32
+        - name: IsEnabled
+          write_method: bool
         - name: NanoAppPermissions
           write_method: opaque
         - name: NanoAppRpcServiceList.toArray(newNanoAppRpcService[0])

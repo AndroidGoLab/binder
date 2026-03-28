@@ -19,6 +19,7 @@ func (s *QosSession) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.QosSessionId)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.Qos.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -61,6 +62,9 @@ func (s *QosSession) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.Qos.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

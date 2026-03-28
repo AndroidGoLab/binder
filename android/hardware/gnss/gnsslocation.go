@@ -49,6 +49,7 @@ func (s *GnssLocation) MarshalParcel(
 	p.WriteFloat64(s.SpeedAccuracyMetersPerSecond)
 	p.WriteFloat64(s.BearingAccuracyDegrees)
 	p.WriteInt64(s.TimestampMillis)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.ElapsedRealtime.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -180,6 +181,9 @@ func (s *GnssLocation) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.ElapsedRealtime.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

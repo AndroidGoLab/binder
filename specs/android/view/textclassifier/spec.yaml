@@ -20,8 +20,8 @@ parcelables:
           write_method: int32
         - name: EntityType
           write_method: string16
-        - name: WidgetVersion!=null?1:0
-          write_method: int32
+        - name: WidgetVersion!=null
+          write_method: bool
         - name: WidgetVersion
           write_method: string16
           condition: mWidgetVersion!=null
@@ -41,10 +41,10 @@ parcelables:
           write_method: int64
         - name: EventIndex
           write_method: int32
-        - name: SessionId!=null?1:0
-          write_method: int32
-        - name: Dest
-          write_method: opaque
+        - name: SessionId!=null
+          write_method: bool
+        - name: SessionId
+          write_method: delegate
           condition: mSessionId!=null
         - name: Start
           write_method: int32
@@ -70,8 +70,8 @@ parcelables:
           write_method: string16
         - name: Actions
           write_method: opaque
-        - name: Dest
-          write_method: opaque
+        - name: EntityConfidence
+          write_method: delegate
         - name: Id
           write_method: string16
         - name: Extras
@@ -117,16 +117,16 @@ parcelables:
           write_method: string16
         - name: ActionIndices
           write_method: int_array
-        - name: Locale==null?null:mLocale.toLanguageTag()
-          write_method: string16
+        - name: Locale==null
+          write_method: bool
         - name: Extras
           write_method: bundle
     - name: TextLanguage
       java_wire_format:
         - name: Id
           write_method: string16
-        - name: Dest
-          write_method: opaque
+        - name: EntityConfidence
+          write_method: delegate
         - name: Bundle
           write_method: bundle
     - name: TextLanguage.Request
@@ -145,8 +145,8 @@ parcelables:
           write_method: int32
         - name: EndIndex
           write_method: int32
-        - name: Dest
-          write_method: opaque
+        - name: EntityConfidence
+          write_method: delegate
         - name: Id
           write_method: string16
         - name: Extras

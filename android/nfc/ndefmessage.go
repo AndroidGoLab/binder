@@ -14,7 +14,7 @@ var _ parcel.Parcelable = (*NdefMessage)(nil)
 func (s *NdefMessage) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0)  // null Records.length
+	p.WriteInt32(0)  // placeholder Records.length
 	p.WriteInt32(-1) // null Records
 	return nil
 }
@@ -22,23 +22,10 @@ func (s *NdefMessage) MarshalParcel(
 func (s *NdefMessage) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Records.length: cannot skip unknown-size typed object
-		}
+	var _err error
+	if _, _err = p.ReadInt32(); _err != nil { // skip Records.length
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Records: cannot skip without known wire format
 	return nil
 }

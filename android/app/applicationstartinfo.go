@@ -33,7 +33,7 @@ func (s *ApplicationStartInfo) MarshalParcel(
 	p.WriteString16(s.PackageName)
 	p.WriteString16(s.ProcessName)
 	p.WriteInt32(s.Reason)
-	p.WriteInt32(0) // null StartupTimestampsNs==null?0:mStartupTimestampsNs.size()
+	p.WriteBool(false) // placeholder StartupTimestampsNs==null
 	p.WriteInt32(s.StartType)
 	p.WriteInt32(0) // null StartIntent
 	p.WriteInt32(s.LaunchMode)
@@ -77,14 +77,8 @@ func (s *ApplicationStartInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null StartupTimestampsNs==null?0:mStartupTimestampsNs.size(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip StartupTimestampsNs==null
+		return _err
 	}
 	s.StartType, _err = p.ReadInt32()
 	if _err != nil {

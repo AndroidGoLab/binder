@@ -32,9 +32,9 @@ func (s *NanoAppInstanceInfo) MarshalParcel(
 	p.WriteInt32(s.NeededReadMemBytes)
 	p.WriteInt32(s.NeededWriteMemBytes)
 	p.WriteInt32(s.NeededExecMemBytes)
-	p.WriteInt32(0)  // null NeededSensors.length
+	p.WriteInt32(0)  // placeholder NeededSensors.length
 	p.WriteInt32(-1) // null NeededSensors
-	p.WriteInt32(0)  // null OutputEvents.length
+	p.WriteInt32(0)  // placeholder OutputEvents.length
 	p.WriteInt32(-1) // null OutputEvents
 	return nil
 }
@@ -79,40 +79,28 @@ func (s *NanoAppInstanceInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null NeededSensors.length: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip NeededSensors.length
+		return _err
 	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null OutputEvents.length: cannot skip unknown-size typed object
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
+	if _, _err = p.ReadInt32(); _err != nil { // skip OutputEvents.length
+		return _err
+	}
 	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
 		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
 	return nil

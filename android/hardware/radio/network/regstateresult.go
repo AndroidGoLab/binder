@@ -25,10 +25,12 @@ func (s *RegStateResult) MarshalParcel(
 	p.WriteInt32(int32(s.RegState))
 	p.WriteInt32(int32(s.Rat))
 	p.WriteInt32(int32(s.ReasonForDenial))
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.CellIdentity.MarshalParcel(p); _err != nil {
 		return _err
 	}
 	p.WriteString16(s.RegisteredPlmn)
+	p.WriteInt32(1) // non-null indicator
 	if _err := s.AccessTechnologySpecificInfo.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -83,6 +85,9 @@ func (s *RegStateResult) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.CellIdentity.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -102,6 +107,9 @@ func (s *RegStateResult) UnmarshalParcel(
 		return nil
 	}
 
+	if _, _err = p.ReadInt32(); _err != nil { // non-null indicator
+		return _err
+	}
 	if _err = s.AccessTechnologySpecificInfo.UnmarshalParcel(p); _err != nil {
 		return _err
 	}

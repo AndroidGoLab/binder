@@ -85,14 +85,14 @@ parcelables:
           write_method: typed_object
         - name: LocalAddress
           write_method: typed_object
-        - name: IsPullable?1:0
-          write_method: int32
+        - name: IsPullable
+          write_method: bool
         - name: CallState
           write_method: int32
         - name: CallType
           write_method: int32
-        - name: IsHeld?1:0
-          write_method: int32
+        - name: IsHeld
+          write_method: bool
     - name: ImsReasonInfo
       java_wire_format:
         - name: Code

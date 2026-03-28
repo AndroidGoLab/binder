@@ -16,14 +16,14 @@ var _ parcel.Parcelable = (*NotificationChannelGroup)(nil)
 func (s *NotificationChannelGroup) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null (byte)1
-	p.WriteInt32(0) // null Id
-	p.WriteInt32(0) // null (byte)1
-	p.WriteInt32(0) // null Name.toString()
-	p.WriteInt32(0) // null (byte)1
-	p.WriteInt32(0) // null Description
-	p.WriteInt32(0) // null (byte)1
-	p.WriteInt32(0) // null NewParceledListSlice<>(mChannels)
+	p.WriteInt32(0)     // placeholder (byte)1
+	p.WriteInt32(0)     // null Id
+	p.WriteInt32(0)     // placeholder (byte)1
+	p.WriteString16("") // placeholder Name.toString()
+	p.WriteInt32(0)     // placeholder (byte)1
+	p.WriteInt32(0)     // null Description
+	p.WriteInt32(0)     // placeholder (byte)1
+	p.WriteInt32(0)     // null NewParceledListSlice<>(mChannels)
 	p.WriteBool(s.Blocked)
 	p.WriteInt32(s.UserLockedFields)
 	return nil
@@ -33,14 +33,8 @@ func (s *NotificationChannelGroup) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -51,32 +45,14 @@ func (s *NotificationChannelGroup) UnmarshalParcel(
 			return nil // non-null Id: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Name.toString(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadString16(); _err != nil { // skip Name.toString()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
@@ -87,14 +63,8 @@ func (s *NotificationChannelGroup) UnmarshalParcel(
 			return nil // non-null Description: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null (byte)1: cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
 	}
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()

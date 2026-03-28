@@ -16,13 +16,13 @@ func (s *SessionConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.SessionType)
-	p.WriteInt32(0)  // null InputConfig.getWidth()
-	p.WriteInt32(0)  // null InputConfig.getHeight()
-	p.WriteInt32(0)  // null InputConfig.getFormat()
-	p.WriteInt32(0)  // null InputConfig.isMultiResolution()
-	p.WriteInt32(-1) // null OutputConfigurations
-	p.WriteInt32(0)  // null True
-	p.WriteInt32(-1) // null Dest
+	p.WriteInt32(0)    // placeholder InputConfig.getWidth()
+	p.WriteInt32(0)    // placeholder InputConfig.getHeight()
+	p.WriteInt32(0)    // placeholder InputConfig.getFormat()
+	p.WriteBool(false) // placeholder InputConfig.isMultiResolution()
+	p.WriteInt32(-1)   // null OutputConfigurations
+	p.WriteInt32(0)    // null True
+	p.WriteInt32(-1)   // null Metadata
 	return nil
 }
 
@@ -34,51 +34,19 @@ func (s *SessionConfiguration) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null InputConfig.getWidth(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip InputConfig.getWidth()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null InputConfig.getHeight(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip InputConfig.getHeight()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null InputConfig.getFormat(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadInt32(); _err != nil { // skip InputConfig.getFormat()
+		return _err
 	}
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null InputConfig.isMultiResolution(): cannot skip unknown-size typed object
-		}
+	if _, _err = p.ReadBool(); _err != nil { // skip InputConfig.isMultiResolution()
+		return _err
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque OutputConfigurations: cannot skip without known wire format
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -88,14 +56,6 @@ func (s *SessionConfiguration) UnmarshalParcel(
 			return nil // non-null True: cannot skip unknown-size typed object
 		}
 	}
-	{
-		_opaqueLen, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueLen > 0 {
-			p.SetPosition(p.Position() + int(_opaqueLen))
-		}
-	}
+	return nil // opaque Metadata: cannot skip without known wire format
 	return nil
 }
