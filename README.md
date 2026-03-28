@@ -546,9 +546,9 @@ More examples: [`examples/`](examples/)
 | [`activity_manager`](examples/activity_manager/) | Process limits, monkey test flag, permission checks |
 | [`audio_status`](examples/audio_status/) | Audio device info, volume state |
 | [`battery_health`](examples/battery_health/) | Capacity, charge status, current draw |
+| [`bluetooth_status`](examples/bluetooth_status/) | Query Bluetooth adapter status and scan for BLE devices via binder. |
 | [`camera_capture`](examples/camera_capture/) | Camera frame capture using gralloc-allocated buffers. |
 | [`camera_connect`](examples/camera_connect/) | Camera device connection with callback stub |
-| [`camera_fwk`](examples/camera_fwk/) |  |
 | [`device_info`](examples/device_info/) | Device properties, build info |
 | [`display_info`](examples/display_info/) | Display IDs, brightness, night mode |
 | [`error_handling`](examples/error_handling/) | Graceful error handling: service checks, typed errors, permissions |
@@ -562,6 +562,7 @@ More examples: [`examples/`](examples/)
 | [`power_status`](examples/power_status/) | Power supply state, charging info |
 | [`security_test_apk`](examples/security_test_apk/) | Binary security_test_apk probes whether an app-sandboxed process can |
 | [`server_service`](examples/server_service/) | Register a Go service and call it back via binder |
+| [`server_service_aidl`](examples/server_service_aidl/) | Register a Go binder service using a generated AIDL stub. |
 | [`softap_manage`](examples/softap_manage/) | WiFi hotspot enable/disable, config |
 | [`softap_tether_offload`](examples/softap_tether_offload/) | Tethering offload config, stats |
 | [`softap_wifi_hal`](examples/softap_wifi_hal/) | WiFi chip info, AP interface state |
@@ -620,7 +621,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 <!-- BEGIN GENERATED PACKAGES -->
 
-380 packages: 1507 interfaces, 2337 parcelables, 952 enums, 133 unions.
+385 packages: 1513 interfaces, 2370 parcelables, 957 enums, 133 unions.
 
 <details>
 <summary><strong>aaudio</strong> (1 packages)</summary>
@@ -722,7 +723,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 | Package | Interfaces | Parcelables | Enums | Unions | Import Path |
 |---|---|---|---|---|---|
-| [`android/bluetooth`](https://pkg.go.dev/github.com/AndroidGoLab/binder/android/bluetooth) | 48 | 28 | 0 | 0 | `github.com/AndroidGoLab/binder/android/bluetooth` |
+| [`android/bluetooth`](https://pkg.go.dev/github.com/AndroidGoLab/binder/android/bluetooth) | 50 | 32 | 1 | 0 | `github.com/AndroidGoLab/binder/android/bluetooth` |
 | [`android/bluetooth/le`](https://pkg.go.dev/github.com/AndroidGoLab/binder/android/bluetooth/le) | 4 | 12 | 0 | 0 | `github.com/AndroidGoLab/binder/android/bluetooth/le` |
 
 </details>
@@ -846,7 +847,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 </details>
 
 <details>
-<summary><strong>android/hardware</strong> (117 packages)</summary>
+<summary><strong>android/hardware</strong> (118 packages)</summary>
 
 | Package | Interfaces | Parcelables | Enums | Unions | Import Path |
 |---|---|---|---|---|---|
@@ -872,6 +873,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`android/hardware/bluetooth/audio`](https://pkg.go.dev/github.com/AndroidGoLab/binder/android/hardware/bluetooth/audio) | 3 | 83 | 26 | 12 | `github.com/AndroidGoLab/binder/android/hardware/bluetooth/audio` |
 | [`android/hardware/bluetooth/finder`](https://pkg.go.dev/github.com/AndroidGoLab/binder/android/hardware/bluetooth/finder) | 1 | 1 | 0 | 0 | `github.com/AndroidGoLab/binder/android/hardware/bluetooth/finder` |
 | [`android/hardware/bluetooth/lmp_event`](https://pkg.go.dev/github.com/AndroidGoLab/binder/android/hardware/bluetooth/lmp_event) | 2 | 1 | 3 | 0 | `github.com/AndroidGoLab/binder/android/hardware/bluetooth/lmp_event` |
+| [`android/hardware/bluetooth/offload/leaudio`](https://pkg.go.dev/github.com/AndroidGoLab/binder/android/hardware/bluetooth/offload/leaudio) | 2 | 1 | 0 | 0 | `github.com/AndroidGoLab/binder/android/hardware/bluetooth/offload/leaudio` |
 | [`android/hardware/bluetooth/ranging`](https://pkg.go.dev/github.com/AndroidGoLab/binder/android/hardware/bluetooth/ranging) | 3 | 9 | 12 | 0 | `github.com/AndroidGoLab/binder/android/hardware/bluetooth/ranging` |
 | [`android/hardware/boot`](https://pkg.go.dev/github.com/AndroidGoLab/binder/android/hardware/boot) | 1 | 0 | 1 | 0 | `github.com/AndroidGoLab/binder/android/hardware/boot` |
 | [`android/hardware/broadcastradio`](https://pkg.go.dev/github.com/AndroidGoLab/binder/android/hardware/broadcastradio) | 4 | 11 | 5 | 1 | `github.com/AndroidGoLab/binder/android/hardware/broadcastradio` |
@@ -1283,7 +1285,17 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 </details>
 
 <details>
-<summary><strong>com/android</strong> (60 packages)</summary>
+<summary><strong>bluetooth/constants</strong> (2 packages)</summary>
+
+| Package | Interfaces | Parcelables | Enums | Unions | Import Path |
+|---|---|---|---|---|---|
+| [`bluetooth/constants`](https://pkg.go.dev/github.com/AndroidGoLab/binder/bluetooth/constants) | 0 | 0 | 1 | 0 | `github.com/AndroidGoLab/binder/bluetooth/constants` |
+| [`bluetooth/constants/aics`](https://pkg.go.dev/github.com/AndroidGoLab/binder/bluetooth/constants/aics) | 0 | 0 | 3 | 0 | `github.com/AndroidGoLab/binder/bluetooth/constants/aics` |
+
+</details>
+
+<details>
+<summary><strong>com/android</strong> (61 packages)</summary>
 
 | Package | Interfaces | Parcelables | Enums | Unions | Import Path |
 |---|---|---|---|---|---|
@@ -1322,6 +1334,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`com/android/onemedia`](https://pkg.go.dev/github.com/AndroidGoLab/binder/com/android/onemedia) | 2 | 0 | 0 | 0 | `github.com/AndroidGoLab/binder/com/android/onemedia` |
 | [`com/android/onemedia/playback`](https://pkg.go.dev/github.com/AndroidGoLab/binder/com/android/onemedia/playback) | 1 | 0 | 0 | 0 | `github.com/AndroidGoLab/binder/com/android/onemedia/playback` |
 | [`com/android/printspooler/renderer`](https://pkg.go.dev/github.com/AndroidGoLab/binder/com/android/printspooler/renderer) | 2 | 0 | 0 | 0 | `github.com/AndroidGoLab/binder/com/android/printspooler/renderer` |
+| [`com/android/server/bluetooth`](https://pkg.go.dev/github.com/AndroidGoLab/binder/com/android/server/bluetooth) | 1 | 28 | 0 | 0 | `github.com/AndroidGoLab/binder/com/android/server/bluetooth` |
 | [`com/android/server/inputflinger`](https://pkg.go.dev/github.com/AndroidGoLab/binder/com/android/server/inputflinger) | 6 | 3 | 1 | 0 | `github.com/AndroidGoLab/binder/com/android/server/inputflinger` |
 | [`com/android/server/power/stats`](https://pkg.go.dev/github.com/AndroidGoLab/binder/com/android/server/power/stats) | 0 | 1 | 0 | 0 | `github.com/AndroidGoLab/binder/com/android/server/power/stats` |
 | [`com/android/smspush/unitTests`](https://pkg.go.dev/github.com/AndroidGoLab/binder/com/android/smspush/unitTests) | 1 | 0 | 0 | 0 | `github.com/AndroidGoLab/binder/com/android/smspush/unitTests` |
@@ -1347,6 +1360,15 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`com/android/wm/shell/startingsurface`](https://pkg.go.dev/github.com/AndroidGoLab/binder/com/android/wm/shell/startingsurface) | 2 | 0 | 0 | 0 | `github.com/AndroidGoLab/binder/com/android/wm/shell/startingsurface` |
 | [`com/android/wm/shell/transition`](https://pkg.go.dev/github.com/AndroidGoLab/binder/com/android/wm/shell/transition) | 2 | 0 | 0 | 0 | `github.com/AndroidGoLab/binder/com/android/wm/shell/transition` |
 | [`com/android/wm/shell/util`](https://pkg.go.dev/github.com/AndroidGoLab/binder/com/android/wm/shell/util) | 0 | 1 | 0 | 0 | `github.com/AndroidGoLab/binder/com/android/wm/shell/util` |
+
+</details>
+
+<details>
+<summary><strong>com/example</strong> (1 packages)</summary>
+
+| Package | Interfaces | Parcelables | Enums | Unions | Import Path |
+|---|---|---|---|---|---|
+| [`com/example`](https://pkg.go.dev/github.com/AndroidGoLab/binder/com/example) | 1 | 0 | 0 | 0 | `github.com/AndroidGoLab/binder/com/example` |
 
 </details>
 
@@ -1960,7 +1982,7 @@ git submodule update --init --depth 1
 go run ./tools/cmd/aospgen -3rdparty tools/pkg/3rdparty -output . -smoke-tests
 ```
 
-This discovers all AIDL files across `frameworks-base`, `frameworks-native`, `hardware-interfaces`, and `system-hardware-interfaces`, infers search roots from package declarations, and generates Go proxies for all AOSP services. The current AOSP snapshot produces **5,097 Go files** across **399 packages**.
+This discovers all AIDL files across `frameworks-base`, `frameworks-native`, `hardware-interfaces`, and `system-hardware-interfaces`, infers search roots from package declarations, and generates Go proxies for all AOSP services. The current AOSP snapshot produces **5,174 Go files** across **406 packages**.
 
 ### Transaction Code Resolution
 
@@ -2252,12 +2274,12 @@ See the example app at [`examples/gomobile/`](examples/gomobile/).
 │   └── driver.go             Open, mmap, ioctl BINDER_WRITE_READ
 ├── servicemanager/           ServiceManager client
 ├── errors/                   AIDL exception types (ExceptionCode, StatusError)
-├── android/                  Pre-generated AOSP service proxies (5,097 files)
+├── android/                  Pre-generated AOSP service proxies (5,174 files)
 │   ├── app/                  ActivityManager, AlarmManager, ...
 │   ├── os/                   ServiceManager, PowerManager, ...
 │   ├── hardware/             HAL interfaces
-│   └── ...                   399 packages total
+│   └── ...                   406 packages total
 ├── com/                      AOSP com.android.* service proxies
-├── examples/                 23 runnable examples
+├── examples/                 24 runnable examples
 └── .github/workflows/        CI configuration
 ```
