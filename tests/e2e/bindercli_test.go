@@ -62,8 +62,10 @@ func TestMain(m *testing.M) {
 	if os.Getuid() == 0 {
 		os.Stderr.WriteString("FATAL: refusing to run E2E tests as root (UID 0).\n")
 		os.Stderr.WriteString("Running as root bypasses SELinux and allows destructive\n")
-		os.Stderr.WriteString("HAL calls (e.g. IKeyMintDevice.DeleteAllKeys) that WILL\n")
+		os.Stderr.WriteString("HAL calls (e.g. IKeyMintDevice.DeleteAllKeys) that can\n")
 		os.Stderr.WriteString("brick the device. Run `adb unroot` first.\n")
+		os.Stderr.WriteString("To resolve permission-denied skips on emulator, use:\n")
+		os.Stderr.WriteString("  adb root && adb shell setenforce 0 && adb unroot\n")
 		os.Exit(1)
 	}
 

@@ -28,28 +28,40 @@ import (
 
 // isEmulator checks build properties for emulator indicators.
 func isEmulator() bool {
-	data, err := os.ReadFile("/sys/class/dmi/id/product_name")
-	if err == nil {
-		product := strings.TrimSpace(string(data))
-		if strings.Contains(strings.ToLower(product), "emulator") ||
-			strings.Contains(strings.ToLower(product), "sdk") {
-			return true
+	// DMI identity (may not exist on all emulators).
+	for _, path := range []string{
+		"/sys/class/dmi/id/product_name",
+		"/sys/class/dmi/id/board_name",
+	} {
+		data, err := os.ReadFile(path)
+		if err == nil {
+			v := strings.ToLower(strings.TrimSpace(string(data)))
+			if strings.Contains(v, "emulator") || strings.Contains(v, "sdk") ||
+				strings.Contains(v, "goldfish") || strings.Contains(v, "ranchu") {
+				return true
+			}
 		}
 	}
-	data, err = os.ReadFile("/proc/cpuinfo")
-	if err == nil {
+	// CPU info (older emulators).
+	if data, err := os.ReadFile("/proc/cpuinfo"); err == nil {
 		cpuinfo := strings.ToLower(string(data))
-		if strings.Contains(cpuinfo, "goldfish") ||
-			strings.Contains(cpuinfo, "ranchu") {
+		if strings.Contains(cpuinfo, "goldfish") || strings.Contains(cpuinfo, "ranchu") {
 			return true
 		}
 	}
-	data, err = os.ReadFile("/sys/class/dmi/id/board_name")
-	if err == nil {
-		board := strings.TrimSpace(strings.ToLower(string(data)))
-		if strings.Contains(board, "goldfish") ||
-			strings.Contains(board, "ranchu") {
-			return true
+	// Android system properties (most reliable on modern emulators).
+	for _, path := range []string{
+		"/sys/devices/virtual/dmi/id/product_name",
+		"/vendor/build.prop",
+		"/system/build.prop",
+	} {
+		data, err := os.ReadFile(path)
+		if err == nil {
+			v := strings.ToLower(string(data))
+			if strings.Contains(v, "goldfish") || strings.Contains(v, "ranchu") ||
+				strings.Contains(v, "sdk_gphone") || strings.Contains(v, "emulator") {
+				return true
+			}
 		}
 	}
 	return false

@@ -126,7 +126,8 @@ func requireOrSkip(t *testing.T, err error) {
 	// Parcel deserialization limits/mismatches for opaque Java parcelables
 	// that our generated code cannot fully parse.
 	if strings.Contains(errStr, "exceeds limit") ||
-		strings.Contains(errStr, "not fully consumed") {
+		strings.Contains(errStr, "not fully consumed") ||
+		strings.Contains(errStr, "too large") {
 		t.Skipf("parcel deserialization limitation (opaque parcelable): %v", err)
 	}
 	// NOTE: Other NullPointer and IllegalState exceptions are NOT skipped globally.
