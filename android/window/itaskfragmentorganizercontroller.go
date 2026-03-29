@@ -124,7 +124,10 @@ func (p *TaskFragmentOrganizerControllerProxy) RegisterRemoteAnimations(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
-	// WARNING: param definition (type types.RemoteAnimationDefinition) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := definition.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerRegisterRemoteAnimations)
 	if _err != nil {
@@ -349,6 +352,17 @@ func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 			_arg_organizer = NewTaskFragmentOrganizerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _organizerHandle))
 		}
 		var _arg_definition types.RemoteAnimationDefinition
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_definition.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.RegisterRemoteAnimations(ctx, _arg_organizer, _arg_definition)
 		_reply := parcel.New()
 		if _err != nil {

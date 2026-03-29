@@ -50,7 +50,10 @@ func (p *WindowContainerTransactionCallbackProxy) OnTransactionReady(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowContainerTransactionCallback)
 	_data.WriteInt32(id)
-	// WARNING: param t (type types.SurfaceControlTransaction) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := t.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowContainerTransactionCallback, MethodIWindowContainerTransactionCallbackOnTransactionReady)
 	if _err != nil {
@@ -90,6 +93,17 @@ func (s *WindowContainerTransactionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_t types.SurfaceControlTransaction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnTransactionReady(ctx, _arg_id, _arg_t)
 		return nil, _err
 	default:

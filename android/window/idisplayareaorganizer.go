@@ -59,7 +59,10 @@ func (p *DisplayAreaOrganizerProxy) OnDisplayAreaAppeared(
 	if _err := displayAreaInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	// WARNING: param leash (type types.SurfaceControl) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := leash.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizer, MethodIDisplayAreaOrganizerOnDisplayAreaAppeared)
 	if _err != nil {
@@ -149,6 +152,17 @@ func (s *DisplayAreaOrganizerStub) OnTransaction(
 			}
 		}
 		var _arg_leash types.SurfaceControl
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_leash.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnDisplayAreaAppeared(ctx, _arg_displayAreaInfo, _arg_leash)
 		return nil, _err
 	case TransactionIDisplayAreaOrganizerOnDisplayAreaVanished:

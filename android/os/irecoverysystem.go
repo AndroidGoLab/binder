@@ -233,7 +233,10 @@ func (p *RecoverySystemProxy) RequestLskf(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(packageName)
-	// WARNING: param sender (type types.IntentSender) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := sender.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecoverySystem, MethodIRecoverySystemRequestLskf)
 	if _err != nil {
@@ -493,6 +496,17 @@ func (s *RecoverySystemStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_sender types.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sender.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.RequestLskf(ctx, _arg_packageName, _arg_sender)
 		_reply := parcel.New()
 		if _err != nil {

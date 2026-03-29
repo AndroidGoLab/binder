@@ -53,7 +53,10 @@ func (p *ResourcesManagerProxy) DumpResources(
 	_data.WriteInterfaceToken(DescriptorIResourcesManager)
 	_data.WriteString16(process)
 	_data.WriteParcelFileDescriptor(fd)
-	// WARNING: param finishCallback (type types.RemoteCallback) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := finishCallback.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourcesManager, MethodIResourcesManagerDumpResources)
 	if _err != nil {
@@ -110,6 +113,17 @@ func (s *ResourcesManagerStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_finishCallback types.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_finishCallback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.DumpResources(ctx, _arg_process, _arg_fd, _arg_finishCallback)
 		_reply := parcel.New()
 		if _err != nil {

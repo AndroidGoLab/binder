@@ -51,7 +51,10 @@ func (p *ContentCaptureDirectManagerProxy) SendEvents(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureDirectManager)
-	// WARNING: param events (type types.ParceledListSlice) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := events.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(reason)
 	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
@@ -92,6 +95,17 @@ func (s *ContentCaptureDirectManagerStub) OnTransaction(
 	switch code {
 	case TransactionIContentCaptureDirectManagerSendEvents:
 		var _arg_events types.ParceledListSlice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_events.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

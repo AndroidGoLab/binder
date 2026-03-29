@@ -257,7 +257,10 @@ func (p *ApplicationThreadProxy) ScheduleReceiver(
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	// WARNING: param info (type types.ActivityInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := info.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := compatInfo.MarshalParcel(_data); _err != nil {
 		return _err
@@ -323,7 +326,10 @@ func (p *ApplicationThreadProxy) ScheduleCreateService(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	// WARNING: param info (type types.ServiceInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := info.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := compatInfo.MarshalParcel(_data); _err != nil {
 		return _err
@@ -391,11 +397,17 @@ func (p *ApplicationThreadProxy) BindApplication(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteString16(packageName)
-	// WARNING: param info (type types.ApplicationInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := info.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(sdkSandboxClientAppVolumeUuid)
 	_data.WriteString16(sdkSandboxClientAppPackage)
 	_data.WriteBool(isSdkInSandbox)
-	// WARNING: param providerList (type types.ProviderInfoList) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := providerList.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := testName.MarshalParcel(_data); _err != nil {
 		return _err
@@ -521,7 +533,10 @@ func (p *ApplicationThreadProxy) ScheduleServiceArgs(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	// WARNING: param args (type types.ParceledListSlice) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleServiceArgs)
 	if _err != nil {
@@ -760,7 +775,10 @@ func (p *ApplicationThreadProxy) ScheduleCreateBackupAgent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	// WARNING: param app (type types.ApplicationInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := app.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(backupMode)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(operationType)
@@ -782,7 +800,10 @@ func (p *ApplicationThreadProxy) ScheduleDestroyBackupAgent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	// WARNING: param app (type types.ApplicationInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := app.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleDestroyBackupAgent)
@@ -1347,7 +1368,10 @@ func (p *ApplicationThreadProxy) ScheduleInstallProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	// WARNING: param provider (type types.ProviderInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := provider.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleInstallProvider)
 	if _err != nil {
@@ -1525,7 +1549,10 @@ func (p *ApplicationThreadProxy) ScheduleApplicationInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	// WARNING: param ai (type types.ApplicationInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := ai.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleApplicationInfoChanged)
 	if _err != nil {
@@ -1711,7 +1738,10 @@ func (p *ApplicationThreadProxy) InstrumentWithoutRestart(
 	}
 	binder.WriteBinderToParcel(ctx, _data, instrumentationWatcher.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, instrumentationUiConnection.AsBinder(), p.Remote.Transport())
-	// WARNING: param targetInfo (type types.ApplicationInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := targetInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadInstrumentWithoutRestart)
 	if _err != nil {
@@ -1869,6 +1899,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 			}
 		}
 		var _arg_info types.ActivityInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_compatInfo res.CompatibilityInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1961,6 +2002,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
 		}
 		var _arg_info types.ServiceInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_compatInfo res.CompatibilityInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1996,6 +2048,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_info types.ApplicationInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_sdkSandboxClientAppVolumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2009,6 +2072,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_providerList types.ProviderInfoList
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_providerList.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_testName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2246,6 +2320,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
 		}
 		var _arg_args types.ParceledListSlice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.ScheduleServiceArgs(ctx, _arg_token, _arg_args)
 		return nil, _err
 	case TransactionIApplicationThreadUpdateTimeZone:
@@ -2452,6 +2537,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 		return nil, _err
 	case TransactionIApplicationThreadScheduleCreateBackupAgent:
 		var _arg_app types.ApplicationInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_app.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_backupMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2467,6 +2563,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 		return nil, _err
 	case TransactionIApplicationThreadScheduleDestroyBackupAgent:
 		var _arg_app types.ApplicationInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_app.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2980,6 +3087,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 		return nil, _err
 	case TransactionIApplicationThreadScheduleInstallProvider:
 		var _arg_provider types.ProviderInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_provider.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.ScheduleInstallProvider(ctx, _arg_provider)
 		return nil, _err
 	case TransactionIApplicationThreadUpdateTimePrefs:
@@ -3059,6 +3177,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 		return nil, _err
 	case TransactionIApplicationThreadScheduleApplicationInfoChanged:
 		var _arg_ai types.ApplicationInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ai.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.ScheduleApplicationInfoChanged(ctx, _arg_ai)
 		return nil, _err
 	case TransactionIApplicationThreadSetNetworkBlockSeq:
@@ -3268,6 +3397,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 			_arg_instrumentationUiConnection = NewUiAutomationConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _instrumentationUiConnectionHandle))
 		}
 		var _arg_targetInfo types.ApplicationInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_targetInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.InstrumentWithoutRestart(ctx, _arg_instrumentationName, _arg_instrumentationArgs, _arg_instrumentationWatcher, _arg_instrumentationUiConnection, _arg_targetInfo)
 		return nil, _err
 	case TransactionIApplicationThreadUpdateUiTranslationState:

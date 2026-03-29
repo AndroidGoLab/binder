@@ -66,7 +66,10 @@ func (p *GeofenceHardwareCallbackProxy) OnGeofenceTransition(
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardwareCallback)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(transition)
-	// WARNING: param location (type types.Location) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := location.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt64(timestamp)
 	_data.WriteInt32(monitoringType)
 
@@ -192,6 +195,17 @@ func (s *GeofenceHardwareCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_location types.Location
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_location.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err

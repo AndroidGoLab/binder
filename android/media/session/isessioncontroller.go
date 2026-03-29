@@ -404,16 +404,14 @@ func (p *SessionControllerProxy) GetLaunchPendingIntent(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -1042,7 +1040,10 @@ func (p *SessionControllerProxy) Rate(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
-	// WARNING: param rating (type mediaTypes.Rating) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := rating.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerRate)
 	if _err != nil {
@@ -1148,16 +1149,14 @@ func (p *SessionControllerProxy) GetMetadata(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -1220,16 +1219,14 @@ func (p *SessionControllerProxy) GetQueue(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -1498,7 +1495,10 @@ func (s *SessionControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionISessionControllerGetFlags:
 		_result, _err := s.Impl.GetFlags(ctx)
@@ -1905,6 +1905,17 @@ func (s *SessionControllerStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_rating mediaTypes.Rating
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_rating.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.Rate(ctx, _arg_packageName, _arg_rating)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1967,7 +1978,10 @@ func (s *SessionControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionISessionControllerGetPlaybackState:
 		_result, _err := s.Impl.GetPlaybackState(ctx)
@@ -1990,7 +2004,10 @@ func (s *SessionControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionISessionControllerGetQueueTitle:
 		_result, _err := s.Impl.GetQueueTitle(ctx)

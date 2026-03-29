@@ -67,7 +67,10 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusGrant(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
-	// WARNING: param afi (type types.AudioFocusInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := afi.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(requestResult)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusGrant)
@@ -87,7 +90,10 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusLoss(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
-	// WARNING: param afi (type types.AudioFocusInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := afi.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(wasNotified)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusLoss)
@@ -107,7 +113,10 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
-	// WARNING: param afi (type types.AudioFocusInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := afi.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(requestResult)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusRequest)
@@ -126,7 +135,10 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusAbandon(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
-	// WARNING: param afi (type types.AudioFocusInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := afi.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusAbandon)
 	if _err != nil {
@@ -216,6 +228,17 @@ func (s *AudioPolicyCallbackStub) OnTransaction(
 	switch code {
 	case TransactionIAudioPolicyCallbackNotifyAudioFocusGrant:
 		var _arg_afi types.AudioFocusInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_afi.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_requestResult, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -224,6 +247,17 @@ func (s *AudioPolicyCallbackStub) OnTransaction(
 		return nil, _err
 	case TransactionIAudioPolicyCallbackNotifyAudioFocusLoss:
 		var _arg_afi types.AudioFocusInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_afi.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_wasNotified, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -232,6 +266,17 @@ func (s *AudioPolicyCallbackStub) OnTransaction(
 		return nil, _err
 	case TransactionIAudioPolicyCallbackNotifyAudioFocusRequest:
 		var _arg_afi types.AudioFocusInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_afi.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_requestResult, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -240,6 +285,17 @@ func (s *AudioPolicyCallbackStub) OnTransaction(
 		return nil, _err
 	case TransactionIAudioPolicyCallbackNotifyAudioFocusAbandon:
 		var _arg_afi types.AudioFocusInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_afi.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.NotifyAudioFocusAbandon(ctx, _arg_afi)
 		return nil, _err
 	case TransactionIAudioPolicyCallbackNotifyMixStateUpdate:

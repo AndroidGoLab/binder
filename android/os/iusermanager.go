@@ -246,7 +246,7 @@ type IUserManager interface {
 	GetMainUserId(ctx context.Context) (int32, error)
 	GetCommunalProfileId(ctx context.Context) (int32, error)
 	GetPreviousFullUserToEnterForeground(ctx context.Context) (int32, error)
-	GetUsers(ctx context.Context, excludeDying bool) ([]types.UserInfo, error)
+	GetUsers(ctx context.Context, excludePartial bool, excludeDying bool, excludePreCreated bool) ([]types.UserInfo, error)
 	GetProfiles(ctx context.Context, enabledOnly bool) ([]types.UserInfo, error)
 	GetProfileIds(ctx context.Context, enabledOnly bool) ([]int32, error)
 	IsUserTypeEnabled(ctx context.Context, userType string) (bool, error)
@@ -439,16 +439,14 @@ func (p *UserManagerProxy) CreateUserWithThrow(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -478,16 +476,14 @@ func (p *UserManagerProxy) PreCreateUserWithThrow(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -532,16 +528,14 @@ func (p *UserManagerProxy) CreateProfileForUserWithThrow(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -573,16 +567,14 @@ func (p *UserManagerProxy) CreateRestrictedProfileWithThrow(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -920,16 +912,14 @@ func (p *UserManagerProxy) GetPrimaryUser(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -1026,13 +1016,17 @@ func (p *UserManagerProxy) GetPreviousFullUserToEnterForeground(
 
 func (p *UserManagerProxy) GetUsers(
 	ctx context.Context,
+	excludePartial bool,
 	excludeDying bool,
+	excludePreCreated bool,
 ) ([]types.UserInfo, error) {
 	var _result []types.UserInfo
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
+	_data.WriteBool(excludePartial)
 	_data.WriteBool(excludeDying)
+	_data.WriteBool(excludePreCreated)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUsers)
 	if _err != nil {
@@ -1062,13 +1056,26 @@ func (p *UserManagerProxy) GetUsers(
 		for _i := int32(0); _i < _count; _i++ {
 			_nonNull, _err := _reply.ReadInt32()
 			if _err != nil {
-				return _result, _err
+				break // end of inline elements (may be fewer than count)
 			}
-			if _nonNull == 0 {
-				continue
-			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, fmt.Errorf("unmarshalling UserInfo[%d]: %w", _i, _err)
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
 			}
 		}
 	}
@@ -1113,14 +1120,29 @@ func (p *UserManagerProxy) GetProfiles(
 	if _count >= 0 {
 		_result = make([]types.UserInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
-			}
-			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			_nonNull, _err := _reply.ReadInt32()
 			if _err != nil {
-				return _result, _err
+				break // end of inline elements (may be fewer than count)
 			}
-			parcel.SkipToParcelableEnd(_reply, _endPos)
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
 		}
 	}
 	return _result, nil
@@ -1398,16 +1420,14 @@ func (p *UserManagerProxy) GetProfileParent(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -1535,16 +1555,14 @@ func (p *UserManagerProxy) GetUserInfo(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -1574,16 +1592,14 @@ func (p *UserManagerProxy) GetUserPropertiesCopy(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -2482,14 +2498,29 @@ func (p *UserManagerProxy) GetGuestUsers(
 	if _count >= 0 {
 		_result = make([]types.UserInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
-			}
-			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			_nonNull, _err := _reply.ReadInt32()
 			if _err != nil {
-				return _result, _err
+				break // end of inline elements (may be fewer than count)
 			}
-			parcel.SkipToParcelableEnd(_reply, _endPos)
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
 		}
 	}
 	return _result, nil
@@ -2984,16 +3015,14 @@ func (p *UserManagerProxy) CreateProfileForUserEvenWhenDisallowedWithThrow(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -3627,7 +3656,10 @@ func (p *UserManagerProxy) RequestQuietModeEnabled(
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteBool(enableQuietMode)
 	_data.WriteInt32(_identity.UserID)
-	// WARNING: param target (type contentTypes.IntentSender) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := target.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(flags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerRequestQuietModeEnabled)
@@ -3949,7 +3981,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerPreCreateUserWithThrow:
 		_arg_userType, _err := _data.ReadString16()
@@ -3963,7 +3998,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerCreateProfileForUserWithThrow:
 		_arg_name, _err := _data.ReadString16()
@@ -4007,7 +4045,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerCreateRestrictedProfileWithThrow:
 		_arg_name, _err := _data.ReadString16()
@@ -4025,7 +4066,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerGetPreInstallableSystemPackages:
 		_arg_userType, _err := _data.ReadString16()
@@ -4183,7 +4227,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerGetMainUserId:
 		_result, _err := s.Impl.GetMainUserId(ctx)
@@ -4216,11 +4263,19 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUsers:
+		_arg_excludePartial, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
 		_arg_excludeDying, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GetUsers(ctx, _arg_excludeDying)
+		_arg_excludePreCreated, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetUsers(ctx, _arg_excludePartial, _arg_excludeDying, _arg_excludePreCreated)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -4231,6 +4286,12 @@ func (s *UserManagerStub) OnTransaction(
 			_reply.WriteInt32(-1)
 		} else {
 			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		return _reply, nil
 	case TransactionIUserManagerGetProfiles:
@@ -4252,6 +4313,12 @@ func (s *UserManagerStub) OnTransaction(
 			_reply.WriteInt32(-1)
 		} else {
 			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		return _reply, nil
 	case TransactionIUserManagerGetProfileIds:
@@ -4386,7 +4453,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerIsSameProfileGroup:
 		if _, _err := _data.ReadInt32(); _err != nil {
@@ -4443,7 +4513,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerGetUserPropertiesCopy:
 		if _, _err := _data.ReadInt32(); _err != nil {
@@ -4456,7 +4529,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerGetUserAccount:
 		if _, _err := _data.ReadInt32(); _err != nil {
@@ -4894,6 +4970,12 @@ func (s *UserManagerStub) OnTransaction(
 			_reply.WriteInt32(-1)
 		} else {
 			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		return _reply, nil
 	case TransactionIUserManagerIsQuietModeEnabled:
@@ -5186,7 +5268,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerIsUserUnlockingOrUnlocked:
 		if _, _err := _data.ReadInt32(); _err != nil {
@@ -5445,6 +5530,17 @@ func (s *UserManagerStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_target contentTypes.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_target.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5580,7 +5676,7 @@ type IUserManagerServer interface {
 	GetMainUserId(ctx context.Context) (int32, error)
 	GetCommunalProfileId(ctx context.Context) (int32, error)
 	GetPreviousFullUserToEnterForeground(ctx context.Context) (int32, error)
-	GetUsers(ctx context.Context, excludeDying bool) ([]types.UserInfo, error)
+	GetUsers(ctx context.Context, excludePartial bool, excludeDying bool, excludePreCreated bool) ([]types.UserInfo, error)
 	GetProfiles(ctx context.Context, enabledOnly bool) ([]types.UserInfo, error)
 	GetProfileIds(ctx context.Context, enabledOnly bool) ([]int32, error)
 	IsUserTypeEnabled(ctx context.Context, userType string) (bool, error)
@@ -5808,9 +5904,11 @@ func (w *userManagerStubWrapper) GetPreviousFullUserToEnterForeground(
 
 func (w *userManagerStubWrapper) GetUsers(
 	ctx context.Context,
+	excludePartial bool,
 	excludeDying bool,
+	excludePreCreated bool,
 ) ([]types.UserInfo, error) {
-	return w.impl.GetUsers(ctx, excludeDying)
+	return w.impl.GetUsers(ctx, excludePartial, excludeDying, excludePreCreated)
 }
 
 func (w *userManagerStubWrapper) GetProfiles(

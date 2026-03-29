@@ -154,7 +154,10 @@ func (p *LocationProviderManagerProxy) OnReportLocation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
-	// WARNING: param location (type types.Location) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := location.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnReportLocation)
 	if _err != nil {
@@ -185,6 +188,12 @@ func (p *LocationProviderManagerProxy) OnReportLocations(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(locations)))
+		for _, _item := range locations {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnReportLocations)
@@ -317,6 +326,17 @@ func (s *LocationProviderManagerStub) OnTransaction(
 		return _reply, nil
 	case TransactionILocationProviderManagerOnReportLocation:
 		var _arg_location types.Location
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_location.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnReportLocation(ctx, _arg_location)
 		_reply := parcel.New()
 		if _err != nil {
@@ -337,6 +357,14 @@ func (s *LocationProviderManagerStub) OnTransaction(
 			}
 			if _count >= 0 {
 				_arg_locations = make([]types.Location, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_locations[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
 			}
 		}
 		_err := s.Impl.OnReportLocations(ctx, _arg_locations)

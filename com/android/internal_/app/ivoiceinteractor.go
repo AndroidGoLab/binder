@@ -76,7 +76,10 @@ func (p *VoiceInteractorProxy) StartConfirmation(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractor)
 	_data.WriteString16(_identity.PackageName)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	// WARNING: param prompt (type types.VoiceInteractorPrompt) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := prompt.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -119,11 +122,20 @@ func (p *VoiceInteractorProxy) StartPickOption(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractor)
 	_data.WriteString16(_identity.PackageName)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	// WARNING: param prompt (type types.VoiceInteractorPrompt) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := prompt.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	if options == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(options)))
+		for _, _item := range options {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
@@ -166,7 +178,10 @@ func (p *VoiceInteractorProxy) StartCompleteVoice(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractor)
 	_data.WriteString16(_identity.PackageName)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	// WARNING: param prompt (type types.VoiceInteractorPrompt) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := prompt.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -208,7 +223,10 @@ func (p *VoiceInteractorProxy) StartAbortVoice(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractor)
 	_data.WriteString16(_identity.PackageName)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	// WARNING: param prompt (type types.VoiceInteractorPrompt) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := prompt.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -425,6 +443,17 @@ func (s *VoiceInteractorStub) OnTransaction(
 			_arg_callback = NewVoiceInteractorCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
 		var _arg_prompt types.VoiceInteractorPrompt
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_prompt.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_extras os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -459,6 +488,17 @@ func (s *VoiceInteractorStub) OnTransaction(
 			_arg_callback = NewVoiceInteractorCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
 		var _arg_prompt types.VoiceInteractorPrompt
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_prompt.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_options []types.VoiceInteractorPickOptionRequestOption
 		{
 			_count, _err := _data.ReadInt32()
@@ -470,6 +510,14 @@ func (s *VoiceInteractorStub) OnTransaction(
 			}
 			if _count >= 0 {
 				_arg_options = make([]types.VoiceInteractorPickOptionRequestOption, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_options[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
 			}
 		}
 		var _arg_extras os.Bundle
@@ -506,6 +554,17 @@ func (s *VoiceInteractorStub) OnTransaction(
 			_arg_callback = NewVoiceInteractorCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
 		var _arg_prompt types.VoiceInteractorPrompt
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_prompt.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_extras os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -540,6 +599,17 @@ func (s *VoiceInteractorStub) OnTransaction(
 			_arg_callback = NewVoiceInteractorCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
 		var _arg_prompt types.VoiceInteractorPrompt
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_prompt.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_extras os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()

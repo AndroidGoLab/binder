@@ -33,6 +33,7 @@ func (s *SingleSatCorrection) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.SingleSatCorrectionFlags)
+	p.WriteInt32(int32(s.Constellation))
 	p.WriteInt32(s.Svid)
 	p.WriteInt64(s.CarrierFrequencyHz)
 	p.WriteFloat32(s.ProbSatIsLos)
@@ -77,6 +78,12 @@ func (s *SingleSatCorrection) UnmarshalParcel(
 		parcel.SkipToParcelableEnd(p, _endPos)
 		return nil
 	}
+
+	_constellationRaw, _err := p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.Constellation = types.GnssConstellationType(_constellationRaw)
 
 	if p.Position() >= _endPos {
 		parcel.SkipToParcelableEnd(p, _endPos)

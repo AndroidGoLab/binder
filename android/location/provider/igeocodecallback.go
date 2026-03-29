@@ -73,6 +73,12 @@ func (p *GeocodeCallbackProxy) OnResults(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(results)))
+		for _, _item := range results {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeocodeCallback, MethodIGeocodeCallbackOnResults)
@@ -126,6 +132,14 @@ func (s *GeocodeCallbackStub) OnTransaction(
 			}
 			if _count >= 0 {
 				_arg_results = make([]types.Address, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_results[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
 			}
 		}
 		_err := s.Impl.OnResults(ctx, _arg_results)

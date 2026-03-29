@@ -290,16 +290,14 @@ func (p *AppOpsServiceProxy) NoteOperation(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -349,16 +347,14 @@ func (p *AppOpsServiceProxy) StartOperation(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -656,16 +652,14 @@ func (p *AppOpsServiceProxy) NoteProxyOperation(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -718,16 +712,14 @@ func (p *AppOpsServiceProxy) StartProxyOperation(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -825,16 +817,14 @@ func (p *AppOpsServiceProxy) CollectRuntimeAppOpAccessMessage(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -850,7 +840,10 @@ func (p *AppOpsServiceProxy) ReportRuntimeAppOpAccessMessageAndGetConfig(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteString16(packageName)
-	// WARNING: param appOp (type types.SyncNotedAppOp) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := appOp.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceReportRuntimeAppOpAccessMessageAndGetConfig)
@@ -923,14 +916,29 @@ func (p *AppOpsServiceProxy) GetPackagesForOps(
 	if _count >= 0 {
 		_result = make([]types.AppOpsManagerPackageOps, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
-			}
-			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			_nonNull, _err := _reply.ReadInt32()
 			if _err != nil {
-				return _result, _err
+				break // end of inline elements (may be fewer than count)
 			}
-			parcel.SkipToParcelableEnd(_reply, _endPos)
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
 		}
 	}
 	return _result, nil
@@ -983,14 +991,29 @@ func (p *AppOpsServiceProxy) GetOpsForPackage(
 	if _count >= 0 {
 		_result = make([]types.AppOpsManagerPackageOps, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
-			}
-			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			_nonNull, _err := _reply.ReadInt32()
 			if _err != nil {
-				return _result, _err
+				break // end of inline elements (may be fewer than count)
 			}
-			parcel.SkipToParcelableEnd(_reply, _endPos)
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
 		}
 	}
 	return _result, nil
@@ -1171,7 +1194,10 @@ func (p *AppOpsServiceProxy) AddHistoricalOps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	// WARNING: param ops (type types.AppOpsManagerHistoricalOps) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := ops.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceAddHistoricalOps)
 	if _err != nil {
@@ -1340,14 +1366,29 @@ func (p *AppOpsServiceProxy) GetUidOps(
 	if _count >= 0 {
 		_result = make([]types.AppOpsManagerPackageOps, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
-			}
-			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			_nonNull, _err := _reply.ReadInt32()
 			if _err != nil {
-				return _result, _err
+				break // end of inline elements (may be fewer than count)
 			}
-			parcel.SkipToParcelableEnd(_reply, _endPos)
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
 		}
 	}
 	return _result, nil
@@ -1946,14 +1987,29 @@ func (p *AppOpsServiceProxy) ExtractAsyncOps(
 	if _count >= 0 {
 		_result = make([]types.AsyncNotedAppOp, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
-			}
-			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			_nonNull, _err := _reply.ReadInt32()
 			if _err != nil {
-				return _result, _err
+				break // end of inline elements (may be fewer than count)
 			}
-			parcel.SkipToParcelableEnd(_reply, _endPos)
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
 		}
 	}
 	return _result, nil
@@ -2093,16 +2149,14 @@ func (p *AppOpsServiceProxy) NoteProxyOperationWithState(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -2155,16 +2209,14 @@ func (p *AppOpsServiceProxy) StartProxyOperationWithState(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -2322,16 +2374,14 @@ func (p *AppOpsServiceProxy) NoteOperationForDevice(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -2383,16 +2433,14 @@ func (p *AppOpsServiceProxy) StartOperationForDevice(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -2479,14 +2527,29 @@ func (p *AppOpsServiceProxy) GetPackagesForOpsForDevice(
 	if _count >= 0 {
 		_result = make([]types.AppOpsManagerPackageOps, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
-			}
-			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			_nonNull, _err := _reply.ReadInt32()
 			if _err != nil {
-				return _result, _err
+				break // end of inline elements (may be fewer than count)
 			}
-			parcel.SkipToParcelableEnd(_reply, _endPos)
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
 		}
 	}
 	return _result, nil
@@ -2572,7 +2635,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIAppOpsServiceStartOperation:
 		var _arg_clientId binder.IBinder
@@ -2629,7 +2695,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishOperation:
 		var _arg_clientId binder.IBinder
@@ -2841,7 +2910,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIAppOpsServiceStartProxyOperation:
 		var _arg_clientId binder.IBinder
@@ -2907,7 +2979,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishProxyOperation:
 		var _arg_clientId binder.IBinder
@@ -2972,7 +3047,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIAppOpsServiceReportRuntimeAppOpAccessMessageAndGetConfig:
 		_arg_packageName, _err := _data.ReadString16()
@@ -2980,6 +3058,17 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_appOp types.SyncNotedAppOp
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_appOp.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3027,6 +3116,12 @@ func (s *AppOpsServiceStub) OnTransaction(
 			_reply.WriteInt32(-1)
 		} else {
 			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		return _reply, nil
 	case TransactionIAppOpsServiceGetOpsForPackage:
@@ -3068,6 +3163,12 @@ func (s *AppOpsServiceStub) OnTransaction(
 			_reply.WriteInt32(-1)
 		} else {
 			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		return _reply, nil
 	case TransactionIAppOpsServiceGetHistoricalOps:
@@ -3248,6 +3349,17 @@ func (s *AppOpsServiceStub) OnTransaction(
 		return _reply, nil
 	case TransactionIAppOpsServiceAddHistoricalOps:
 		var _arg_ops types.AppOpsManagerHistoricalOps
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ops.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.AddHistoricalOps(ctx, _arg_ops)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3335,6 +3447,12 @@ func (s *AppOpsServiceStub) OnTransaction(
 			_reply.WriteInt32(-1)
 		} else {
 			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		return _reply, nil
 	case TransactionIAppOpsServiceSetUidMode:
@@ -3797,6 +3915,12 @@ func (s *AppOpsServiceStub) OnTransaction(
 			_reply.WriteInt32(-1)
 		} else {
 			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		return _reply, nil
 	case TransactionIAppOpsServiceCheckOperationRaw:
@@ -3898,7 +4022,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIAppOpsServiceStartProxyOperationWithState:
 		var _arg_clientId binder.IBinder
@@ -3964,7 +4091,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishProxyOperationWithState:
 		var _arg_clientId binder.IBinder
@@ -4097,7 +4227,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIAppOpsServiceStartOperationForDevice:
 		var _arg_clientId binder.IBinder
@@ -4158,7 +4291,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishOperationForDevice:
 		var _arg_clientId binder.IBinder
@@ -4231,6 +4367,12 @@ func (s *AppOpsServiceStub) OnTransaction(
 			_reply.WriteInt32(-1)
 		} else {
 			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		return _reply, nil
 	default:

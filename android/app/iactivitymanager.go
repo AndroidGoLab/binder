@@ -3147,16 +3147,14 @@ func (p *ActivityManagerProxy) GetRecentTasks(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -4422,7 +4420,10 @@ func (p *ActivityManagerProxy) UnbindBackupAgent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityManager)
-	// WARNING: param appInfo (type types.ApplicationInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := appInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityManager, MethodIActivityManagerUnbindBackupAgent)
 	if _err != nil {
@@ -4809,14 +4810,29 @@ func (p *ActivityManagerProxy) GetRunningExternalApplications(
 	if _count >= 0 {
 		_result = make([]types.ApplicationInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
-			}
-			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			_nonNull, _err := _reply.ReadInt32()
 			if _err != nil {
-				return _result, _err
+				break // end of inline elements (may be fewer than count)
 			}
-			parcel.SkipToParcelableEnd(_reply, _endPos)
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
 		}
 	}
 	return _result, nil
@@ -5763,16 +5779,14 @@ func (p *ActivityManagerProxy) GetCurrentUser(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -8533,16 +8547,14 @@ func (p *ActivityManagerProxy) GetHistoricalProcessStartReasons(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -8667,16 +8679,14 @@ func (p *ActivityManagerProxy) GetHistoricalProcessExitReasons(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -9081,16 +9091,14 @@ func (p *ActivityManagerProxy) QueryIntentComponentsForIntentSender(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -11827,7 +11835,10 @@ func (s *ActivityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIActivityManagerServiceDoneExecuting:
 		var _arg_token binder.IBinder
@@ -12753,6 +12764,17 @@ func (s *ActivityManagerStub) OnTransaction(
 		return _reply, nil
 	case TransactionIActivityManagerUnbindBackupAgent:
 		var _arg_appInfo types.ApplicationInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_appInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.UnbindBackupAgent(ctx, _arg_appInfo)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12986,6 +13008,12 @@ func (s *ActivityManagerStub) OnTransaction(
 			_reply.WriteInt32(-1)
 		} else {
 			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		return _reply, nil
 	case TransactionIActivityManagerFinishHeavyWeightApp:
@@ -13593,7 +13621,10 @@ func (s *ActivityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIActivityManagerGetCurrentUserId:
 		_result, _err := s.Impl.GetCurrentUserId(ctx)
@@ -15288,7 +15319,10 @@ func (s *ActivityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIActivityManagerAddApplicationStartInfoCompleteListener:
 		var _arg_listener IApplicationStartInfoCompleteListener
@@ -15373,7 +15407,10 @@ func (s *ActivityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIActivityManagerKillProcessesWhenImperceptible:
 		var _arg_pids []int32
@@ -15609,7 +15646,10 @@ func (s *ActivityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIActivityManagerGetUidProcessCapabilities:
 		_arg_uid, _err := _data.ReadInt32()

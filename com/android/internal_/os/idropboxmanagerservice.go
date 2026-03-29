@@ -176,16 +176,14 @@ func (p *DropBoxManagerServiceProxy) GetNextEntry(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -221,16 +219,14 @@ func (p *DropBoxManagerServiceProxy) GetNextEntryWithAttribution(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -338,7 +334,10 @@ func (s *DropBoxManagerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIDropBoxManagerServiceGetNextEntryWithAttribution:
 		_arg_tag, _err := _data.ReadString16()
@@ -363,7 +362,10 @@ func (s *DropBoxManagerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

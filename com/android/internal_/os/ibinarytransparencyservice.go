@@ -180,7 +180,10 @@ func (p *BinaryTransparencyServiceProxy) CollectAllUpdatedPreloadInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
-	// WARNING: param packagesToSkip (type types.Bundle) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := packagesToSkip.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllUpdatedPreloadInfo)
 	if _err != nil {
@@ -244,7 +247,10 @@ func (p *BinaryTransparencyServiceProxy) CollectAllSilentInstalledMbaInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
-	// WARNING: param packagesToSkip (type types.Bundle) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := packagesToSkip.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllSilentInstalledMbaInfo)
 	if _err != nil {
@@ -368,6 +374,17 @@ func (s *BinaryTransparencyServiceStub) OnTransaction(
 		return _reply, nil
 	case TransactionIBinaryTransparencyServiceCollectAllUpdatedPreloadInfo:
 		var _arg_packagesToSkip types.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_packagesToSkip.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.CollectAllUpdatedPreloadInfo(ctx, _arg_packagesToSkip)
 		_reply := parcel.New()
 		if _err != nil {
@@ -389,6 +406,17 @@ func (s *BinaryTransparencyServiceStub) OnTransaction(
 		return _reply, nil
 	case TransactionIBinaryTransparencyServiceCollectAllSilentInstalledMbaInfo:
 		var _arg_packagesToSkip types.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_packagesToSkip.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.CollectAllSilentInstalledMbaInfo(ctx, _arg_packagesToSkip)
 		_reply := parcel.New()
 		if _err != nil {

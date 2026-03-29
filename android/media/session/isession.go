@@ -219,7 +219,10 @@ func (p *SessionProxy) SetMediaButtonReceiver(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
-	// WARNING: param mbr (type types.PendingIntent) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := mbr.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionSetMediaButtonReceiver)
 	if _err != nil {
@@ -276,7 +279,10 @@ func (p *SessionProxy) SetLaunchPendingIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
-	// WARNING: param pi (type types.PendingIntent) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := pi.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionSetLaunchPendingIntent)
 	if _err != nil {
@@ -330,7 +336,10 @@ func (p *SessionProxy) SetMetadata(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
-	// WARNING: param metadata (type mediaTypes.MediaMetadata) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := metadata.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt64(duration)
 	_data.WriteString16(metadataDescription)
 
@@ -696,6 +705,17 @@ func (s *SessionStub) OnTransaction(
 		return _reply, nil
 	case TransactionISessionSetMediaButtonReceiver:
 		var _arg_mbr types.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_mbr.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SetMediaButtonReceiver(ctx, _arg_mbr)
 		_reply := parcel.New()
 		if _err != nil {
@@ -727,6 +747,17 @@ func (s *SessionStub) OnTransaction(
 		return _reply, nil
 	case TransactionISessionSetLaunchPendingIntent:
 		var _arg_pi types.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pi.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SetLaunchPendingIntent(ctx, _arg_pi)
 		_reply := parcel.New()
 		if _err != nil {
@@ -746,6 +777,17 @@ func (s *SessionStub) OnTransaction(
 		return _reply, nil
 	case TransactionISessionSetMetadata:
 		var _arg_metadata mediaTypes.MediaMetadata
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_metadata.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_duration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err

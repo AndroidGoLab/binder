@@ -95,7 +95,10 @@ func (p *TranslationServiceProxy) OnCreateTranslationSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranslationService)
-	// WARNING: param translationContext (type types.TranslationContext) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := translationContext.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(sessionId)
 	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 
@@ -172,6 +175,17 @@ func (s *TranslationServiceStub) OnTransaction(
 		return nil, _err
 	case TransactionITranslationServiceOnCreateTranslationSession:
 		var _arg_translationContext types.TranslationContext
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_translationContext.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

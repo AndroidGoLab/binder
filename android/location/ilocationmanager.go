@@ -401,7 +401,10 @@ func (p *LocationManagerProxy) RegisterLocationPendingIntent(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	// WARNING: param pendingIntent (type types.PendingIntent) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(packageName)
 	_data.WriteString16(_identity.AttributionTag)
 
@@ -430,7 +433,10 @@ func (p *LocationManagerProxy) UnregisterLocationPendingIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
-	// WARNING: param pendingIntent (type types.PendingIntent) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerUnregisterLocationPendingIntent)
 	if _err != nil {
@@ -521,7 +527,10 @@ func (p *LocationManagerProxy) RequestPendingIntentFlush(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
-	// WARNING: param pendingIntent (type types.PendingIntent) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(requestCode)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerRequestPendingIntentFlush)
@@ -556,7 +565,10 @@ func (p *LocationManagerProxy) RequestGeofence(
 	if _err := geofence.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	// WARNING: param intent (type types.PendingIntent) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(packageName)
 	_data.WriteString16(_identity.AttributionTag)
 
@@ -585,7 +597,10 @@ func (p *LocationManagerProxy) RemoveGeofence(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
-	// WARNING: param intent (type types.PendingIntent) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerRemoveGeofence)
 	if _err != nil {
@@ -2488,6 +2503,17 @@ func (s *LocationManagerStub) OnTransaction(
 			}
 		}
 		var _arg_pendingIntent types.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2505,6 +2531,17 @@ func (s *LocationManagerStub) OnTransaction(
 		return _reply, nil
 	case TransactionILocationManagerUnregisterLocationPendingIntent:
 		var _arg_pendingIntent types.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.UnregisterLocationPendingIntent(ctx, _arg_pendingIntent)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2565,6 +2602,17 @@ func (s *LocationManagerStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_pendingIntent types.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2591,6 +2639,17 @@ func (s *LocationManagerStub) OnTransaction(
 			}
 		}
 		var _arg_intent types.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2608,6 +2667,17 @@ func (s *LocationManagerStub) OnTransaction(
 		return _reply, nil
 	case TransactionILocationManagerRemoveGeofence:
 		var _arg_intent types.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.RemoveGeofence(ctx, _arg_intent)
 		_reply := parcel.New()
 		if _err != nil {

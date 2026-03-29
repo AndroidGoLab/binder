@@ -48,7 +48,10 @@ func (p *TranslationCallbackProxy) OnTranslationResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranslationCallback)
-	// WARNING: param translationResponse (type types.TranslationResponse) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := translationResponse.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationCallback, MethodITranslationCallbackOnTranslationResponse)
 	if _err != nil {
@@ -84,6 +87,17 @@ func (s *TranslationCallbackStub) OnTransaction(
 	switch code {
 	case TransactionITranslationCallbackOnTranslationResponse:
 		var _arg_translationResponse types.TranslationResponse
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_translationResponse.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnTranslationResponse(ctx, _arg_translationResponse)
 		return nil, _err
 	default:

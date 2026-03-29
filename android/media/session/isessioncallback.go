@@ -625,7 +625,10 @@ func (p *SessionCallbackProxy) OnRate(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
-	// WARNING: param rating (type types.Rating) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := rating.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnRate)
 	if _err != nil {
@@ -1247,6 +1250,17 @@ func (s *SessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_rating types.Rating
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_rating.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnRate(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_rating)
 		return nil, _err
 	case TransactionISessionCallbackOnSetPlaybackSpeed:

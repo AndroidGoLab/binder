@@ -107,14 +107,29 @@ func (p *PrintServiceClientProxy) GetPrintJobInfos(
 	if _count >= 0 {
 		_result = make([]types.PrintJobInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
-			}
-			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			_nonNull, _err := _reply.ReadInt32()
 			if _err != nil {
-				return _result, _err
+				break // end of inline elements (may be fewer than count)
 			}
-			parcel.SkipToParcelableEnd(_reply, _endPos)
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
 		}
 	}
 	return _result, nil
@@ -128,7 +143,10 @@ func (p *PrintServiceClientProxy) GetPrintJobInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
-	// WARNING: param printJobId (type types.PrintJobId) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := printJobId.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientGetPrintJobInfo)
 	if _err != nil {
@@ -145,16 +163,14 @@ func (p *PrintServiceClientProxy) GetPrintJobInfo(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -169,7 +185,10 @@ func (p *PrintServiceClientProxy) SetPrintJobState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
-	// WARNING: param printJobId (type types.PrintJobId) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := printJobId.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(state)
 	_data.WriteString16(error_)
 
@@ -204,7 +223,10 @@ func (p *PrintServiceClientProxy) SetPrintJobTag(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
-	// WARNING: param printJobId (type types.PrintJobId) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := printJobId.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(tag)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientSetPrintJobTag)
@@ -238,7 +260,10 @@ func (p *PrintServiceClientProxy) WritePrintJobData(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
 	_data.WriteParcelFileDescriptor(fd)
-	// WARNING: param printJobId (type types.PrintJobId) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := printJobId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientWritePrintJobData)
 	if _err != nil {
@@ -257,7 +282,10 @@ func (p *PrintServiceClientProxy) SetProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
-	// WARNING: param printJobId (type types.PrintJobId) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := printJobId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteFloat32(progress)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientSetProgress)
@@ -286,7 +314,10 @@ func (p *PrintServiceClientProxy) SetStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
-	// WARNING: param printJobId (type types.PrintJobId) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := printJobId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(status)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientSetStatus)
@@ -316,7 +347,10 @@ func (p *PrintServiceClientProxy) SetStatusRes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
-	// WARNING: param printJobId (type types.PrintJobId) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := printJobId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(status)
 	_data.WriteString16(appPackageName)
 
@@ -406,7 +440,10 @@ func (p *PrintServiceClientProxy) OnCustomPrinterIconLoaded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
-	// WARNING: param printerId (type types.PrinterId) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := printerId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
@@ -465,10 +502,27 @@ func (s *PrintServiceClientStub) OnTransaction(
 			_reply.WriteInt32(-1)
 		} else {
 			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		return _reply, nil
 	case TransactionIPrintServiceClientGetPrintJobInfo:
 		var _arg_printJobId types.PrintJobId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetPrintJobInfo(ctx, _arg_printJobId)
 		_reply := parcel.New()
 		if _err != nil {
@@ -476,10 +530,24 @@ func (s *PrintServiceClientStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIPrintServiceClientSetPrintJobState:
 		var _arg_printJobId types.PrintJobId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -499,6 +567,17 @@ func (s *PrintServiceClientStub) OnTransaction(
 		return _reply, nil
 	case TransactionIPrintServiceClientSetPrintJobTag:
 		var _arg_printJobId types.PrintJobId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -518,10 +597,32 @@ func (s *PrintServiceClientStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_printJobId types.PrintJobId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.WritePrintJobData(ctx, _arg_fd, _arg_printJobId)
 		return nil, _err
 	case TransactionIPrintServiceClientSetProgress:
 		var _arg_printJobId types.PrintJobId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_progress, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -536,6 +637,17 @@ func (s *PrintServiceClientStub) OnTransaction(
 		return _reply, nil
 	case TransactionIPrintServiceClientSetStatus:
 		var _arg_printJobId types.PrintJobId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_status, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -550,6 +662,17 @@ func (s *PrintServiceClientStub) OnTransaction(
 		return _reply, nil
 	case TransactionIPrintServiceClientSetStatusRes:
 		var _arg_printJobId types.PrintJobId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -610,6 +733,17 @@ func (s *PrintServiceClientStub) OnTransaction(
 		return _reply, nil
 	case TransactionIPrintServiceClientOnCustomPrinterIconLoaded:
 		var _arg_printerId types.PrinterId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printerId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_icon drawable.Icon
 		{
 			_nullInd, _err := _data.ReadInt32()

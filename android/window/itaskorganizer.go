@@ -152,8 +152,14 @@ func (p *TaskOrganizerProxy) OnTaskAppeared(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
-	// WARNING: param taskInfo (type types.ActivityManagerRunningTaskInfo) cannot be serialized — type not resolved
-	// WARNING: param leash (type viewTypes.SurfaceControl) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := taskInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := leash.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizer, MethodITaskOrganizerOnTaskAppeared)
 	if _err != nil {
@@ -171,7 +177,10 @@ func (p *TaskOrganizerProxy) OnTaskVanished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
-	// WARNING: param taskInfo (type types.ActivityManagerRunningTaskInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := taskInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizer, MethodITaskOrganizerOnTaskVanished)
 	if _err != nil {
@@ -189,7 +198,10 @@ func (p *TaskOrganizerProxy) OnTaskInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
-	// WARNING: param taskInfo (type types.ActivityManagerRunningTaskInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := taskInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizer, MethodITaskOrganizerOnTaskInfoChanged)
 	if _err != nil {
@@ -207,7 +219,10 @@ func (p *TaskOrganizerProxy) OnBackPressedOnTaskRoot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
-	// WARNING: param taskInfo (type types.ActivityManagerRunningTaskInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := taskInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizer, MethodITaskOrganizerOnBackPressedOnTaskRoot)
 	if _err != nil {
@@ -305,19 +320,74 @@ func (s *TaskOrganizerStub) OnTransaction(
 		return nil, _err
 	case TransactionITaskOrganizerOnTaskAppeared:
 		var _arg_taskInfo types.ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_leash viewTypes.SurfaceControl
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_leash.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnTaskAppeared(ctx, _arg_taskInfo, _arg_leash)
 		return nil, _err
 	case TransactionITaskOrganizerOnTaskVanished:
 		var _arg_taskInfo types.ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnTaskVanished(ctx, _arg_taskInfo)
 		return nil, _err
 	case TransactionITaskOrganizerOnTaskInfoChanged:
 		var _arg_taskInfo types.ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnTaskInfoChanged(ctx, _arg_taskInfo)
 		return nil, _err
 	case TransactionITaskOrganizerOnBackPressedOnTaskRoot:
 		var _arg_taskInfo types.ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnBackPressedOnTaskRoot(ctx, _arg_taskInfo)
 		return nil, _err
 	case TransactionITaskOrganizerOnImeDrawnOnTask:

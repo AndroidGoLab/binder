@@ -355,14 +355,29 @@ func (p *AccessibilityManagerProxy) GetEnabledAccessibilityServiceList(
 	if _count >= 0 {
 		_result = make([]types.AccessibilityServiceInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
-			}
-			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			_nonNull, _err := _reply.ReadInt32()
 			if _err != nil {
-				return _result, _err
+				break // end of inline elements (may be fewer than count)
 			}
-			parcel.SkipToParcelableEnd(_reply, _endPos)
+			if _nonNull != 0 {
+				if _reply.Position() >= _reply.Len() {
+					break // truncated list (element non-null but no data remaining)
+				}
+				_elemEnd, _hasElemHeader := parcel.ReadTypedListElementHeader(_reply)
+				if _hasElemHeader {
+					// Enforce element boundary so UnmarshalParcel
+					// stops at the size-prefix envelope edge.
+					_savedLimit := _reply.ReadLimit()
+					_reply.SetReadLimit(_elemEnd)
+					_ = _result[_i].UnmarshalParcel(_reply)
+					_reply.SetReadLimit(_savedLimit)
+					parcel.SkipToParcelableEnd(_reply, _elemEnd)
+				} else {
+					if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+						return _result, _err
+					}
+				}
+			}
 		}
 	}
 	return _result, nil
@@ -475,7 +490,10 @@ func (p *AccessibilityManagerProxy) RegisterUiTestAutomationService(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	binder.WriteBinderToParcel(ctx, _data, owner, p.Remote.Transport())
 	// WARNING: param client (type types.IAccessibilityServiceClient) cannot be serialized — type not resolved
-	// WARNING: param info (type types.AccessibilityServiceInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := info.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(flags)
 
@@ -1383,7 +1401,10 @@ func (p *AccessibilityManagerProxy) IsAccessibilityServiceWarningRequired(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
-	// WARNING: param info (type types.AccessibilityServiceInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := info.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManager, MethodIAccessibilityManagerIsAccessibilityServiceWarningRequired)
 	if _err != nil {
@@ -1630,6 +1651,12 @@ func (s *AccessibilityManagerStub) OnTransaction(
 			_reply.WriteInt32(-1)
 		} else {
 			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		return _reply, nil
 	case TransactionIAccessibilityManagerAddAccessibilityInteractionConnection:
@@ -1718,6 +1745,17 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		}
 		var _arg_client types.IAccessibilityServiceClient
 		var _arg_info types.AccessibilityServiceInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2202,6 +2240,17 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		return _reply, nil
 	case TransactionIAccessibilityManagerIsAccessibilityServiceWarningRequired:
 		var _arg_info types.AccessibilityServiceInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.IsAccessibilityServiceWarningRequired(ctx, _arg_info)
 		_reply := parcel.New()
 		if _err != nil {

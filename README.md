@@ -543,30 +543,111 @@ More examples: [`examples/`](examples/)
 
 | Example                                                    | Queries                                             |
 | ---------------------------------------------------------- | --------------------------------------------------- |
+| [`account_manager`](examples/account_manager/) | List accounts on the device via AccountManager. |
 | [`activity_manager`](examples/activity_manager/) | Process limits, monkey test flag, permission checks |
+| [`aidl_bridge`](examples/aidl_bridge/) | Expose a bridge service that forwards calls to another binder service. |
+| [`aidl_explorer`](examples/aidl_explorer/) | Introspect methods on binder services. |
+| [`alarm_auditor`](examples/alarm_auditor/) | Audit pending alarms via AlarmManager. |
+| [`app_hibernation`](examples/app_hibernation/) | Query app hibernation status via the AppHibernationService. |
+| [`attention_monitor`](examples/attention_monitor/) | Monitor user presence via PowerManager and display state. |
+| [`attestation_verify`](examples/attestation_verify/) | Query attestation verification and related security services. |
+| [`audio_focus`](examples/audio_focus/) | Query current audio focus state via AudioService. |
+| [`audio_recording_monitor`](examples/audio_recording_monitor/) | Detect which apps are currently recording audio. |
 | [`audio_status`](examples/audio_status/) | Audio device info, volume state |
 | [`battery_health`](examples/battery_health/) | Capacity, charge status, current draw |
+| [`binder_fuzzer`](examples/binder_fuzzer/) | Send randomized parcel data to services to test robustness. |
+| [`binder_latency`](examples/binder_latency/) | Measure round-trip binder transaction times. |
+| [`ble_sensor_collector`](examples/ble_sensor_collector/) | BLE sensor collector: scan for BLE devices and register a GATT client. |
+| [`bluetooth_audio_routing`](examples/bluetooth_audio_routing/) | Manage Bluetooth A2DP audio connections via binder. |
+| [`bluetooth_inventory`](examples/bluetooth_inventory/) | Enumerate paired/bonded Bluetooth devices and query adapter info. |
 | [`bluetooth_status`](examples/bluetooth_status/) | Query Bluetooth adapter status and scan for BLE devices via binder. |
 | [`camera_capture`](examples/camera_capture/) | Camera frame capture using gralloc-allocated buffers. |
 | [`camera_connect`](examples/camera_connect/) | Camera device connection with callback stub |
+| [`carrier_config`](examples/carrier_config/) | Query carrier configuration: default carrier service package, |
+| [`charge_monitor`](examples/charge_monitor/) | Monitor charging status and battery health via the Health HAL. |
+| [`clipboard_monitor`](examples/clipboard_monitor/) | Access the clipboard service to check clipboard state. |
+| [`compliance_checker`](examples/compliance_checker/) | Verify device compliance: encryption, security state, OTA update status. |
+| [`credential_manager`](examples/credential_manager/) | Query the CredentialManager service for availability. |
 | [`device_info`](examples/device_info/) | Device properties, build info |
+| [`device_policy`](examples/device_policy/) | Query DevicePolicyManager for device administration state. |
 | [`display_info`](examples/display_info/) | Display IDs, brightness, night mode |
+| [`dnd_controller`](examples/dnd_controller/) | Query and display Do Not Disturb (Zen) mode via NotificationManager. |
+| [`dns_config`](examples/dns_config/) | Query network configuration via the netd system service. |
+| [`dream_manager`](examples/dream_manager/) | Query screensaver/daydream state via DreamManager. |
+| [`dual_sim`](examples/dual_sim/) | Monitor SIM slots: query active subscription count, slot info, |
 | [`error_handling`](examples/error_handling/) | Graceful error handling: service checks, typed errors, permissions |
+| [`esim_manager`](examples/esim_manager/) | Query eSIM/eUICC profile management: OTA status, supported countries, |
+| [`factory_reset`](examples/factory_reset/) | Factory reset demonstration via DevicePolicyManager. |
 | [`flashlight_torch`](examples/flashlight_torch/) | Toggle flashlight/torch via ICameraService |
+| [`geofence`](examples/geofence/) | Query location provider availability for geofencing use cases. |
 | [`getservice_vs_checkservice`](examples/getservice_vs_checkservice/) | Binary getservice_vs_checkservice compares GetService vs CheckService |
+| [`gnss_diagnostics`](examples/gnss_diagnostics/) | Query GNSS hardware model name, year, and capabilities via LocationManager. |
 | [`gps_location`](examples/gps_location/) | Live GPS fix via ILocationListener callback |
+| [`headless_controller`](examples/headless_controller/) | Headless device orchestration: query power, display, and process state. |
+| [`ims_monitor`](examples/ims_monitor/) | Monitor IMS registration state via ITelephony proxy. |
+| [`input_injector`](examples/input_injector/) | Query input devices from InputManager. |
+| [`job_scheduler_monitor`](examples/job_scheduler_monitor/) | Query JobScheduler state from the "jobscheduler" service. |
 | [`keymint_delete_test`](examples/keymint_delete_test/) | Binary keymint_delete_test calls DeleteAllKeys on the KeyMint HAL |
+| [`keystore_ops`](examples/keystore_ops/) | Query Keystore2 service for key entries and counts (read-only). |
+| [`kiosk_lockdown`](examples/kiosk_lockdown/) | Query activity/window manager for kiosk lockdown information. |
+| [`last_location`](examples/last_location/) | Retrieve the last known fused location without registering a listener. |
 | [`list_packages`](examples/list_packages/) | List all installed packages via GetAllPackages |
 | [`list_services`](examples/list_services/) | Enumerate all binder services, ping each |
+| [`location_benchmark`](examples/location_benchmark/) | Compare location providers by querying all providers and their properties. |
+| [`mdm_agent`](examples/mdm_agent/) | Lightweight MDM agent querying device policies via DevicePolicyManager. |
+| [`media_session_control`](examples/media_session_control/) | Enumerate active media sessions and query global priority. |
+| [`media_transcoding`](examples/media_transcoding/) | Query media transcoding service status and media metrics session IDs. |
+| [`memory_pressure`](examples/memory_pressure/) | Read memory pressure info from ActivityManager. |
+| [`mock_service`](examples/mock_service/) | Create a mock binder service for testing. |
+| [`network_monitor`](examples/network_monitor/) | Check network connectivity status via NetworkManagementService. |
+| [`network_policy`](examples/network_policy/) | Query network policy settings via the INetworkPolicyManager system service. |
+| [`notification_listener`](examples/notification_listener/) | Query notification state via NotificationManager: zen mode, active notifications. |
+| [`oem_lock_status`](examples/oem_lock_status/) | Query OemLockService for bootloader lock state and OEM unlock status. |
+| [`ota_status`](examples/ota_status/) | Query update engine for OTA update status. |
+| [`package_monitor`](examples/package_monitor/) | Monitor installed packages by polling the PackageManager. |
 | [`package_query`](examples/package_query/) | Package list, installation info |
+| [`permission_audit`](examples/permission_audit/) | Audit permissions for installed apps via the ActivityManager. |
+| [`permission_boundary`](examples/permission_boundary/) | Test which binder calls succeed or fail from the current security context. |
+| [`permission_checker`](examples/permission_checker/) | Check permissions for UIDs/PIDs via ActivityManager. |
+| [`power_profiling`](examples/power_profiling/) | Measure battery current draw over time via the Health HAL. |
+| [`power_save_auto`](examples/power_save_auto/) | Query power save mode status and related settings via PowerManager. |
 | [`power_status`](examples/power_status/) | Power supply state, charging info |
+| [`process_watchdog`](examples/process_watchdog/) | List running processes via ActivityManager and check resource usage. |
+| [`qr_scanner_daemon`](examples/qr_scanner_daemon/) | QR/barcode scanner daemon that captures camera frames for processing. |
+| [`remote_diagnostics`](examples/remote_diagnostics/) | Collect comprehensive device state for remote diagnostics. |
+| [`rkp_monitor`](examples/rkp_monitor/) | Monitor remote key provisioning (RKP) and device security state. |
+| [`rotation_resolver`](examples/rotation_resolver/) | Query device rotation and display state via WindowManager and DisplayManager. |
+| [`satellite_check`](examples/satellite_check/) | Check satellite telephony readiness by querying the telephony service. |
+| [`screen_control`](examples/screen_control/) | Check screen on/off state and display interactivity via PowerManager. |
+| [`secure_element`](examples/secure_element/) | Query OMAPI SecureElementService for available readers. |
 | [`security_test_apk`](examples/security_test_apk/) | Binary security_test_apk probes whether an app-sandboxed process can |
+| [`sensor_gateway`](examples/sensor_gateway/) | Sensor data collection relay: list available sensors and query defaults. |
+| [`sensor_reader`](examples/sensor_reader/) | Read sensor data from the SensorManager HAL. |
 | [`server_service`](examples/server_service/) | Register a Go service and call it back via binder |
 | [`server_service_aidl`](examples/server_service_aidl/) | Register a Go binder service using a generated AIDL stub. |
+| [`signage_controller`](examples/signage_controller/) | Display brightness and power control for digital signage. |
+| [`sim_status`](examples/sim_status/) | Query telephony service for SIM state: radio, ICC card, data state. |
+| [`sms_monitor`](examples/sms_monitor/) | Query SMS service: preferred subscription, IMS SMS support. |
 | [`softap_manage`](examples/softap_manage/) | WiFi hotspot enable/disable, config |
 | [`softap_tether_offload`](examples/softap_tether_offload/) | Tethering offload config, stats |
 | [`softap_wifi_hal`](examples/softap_wifi_hal/) | WiFi chip info, AP interface state |
+| [`sound_trigger`](examples/sound_trigger/) | List sound trigger modules via SoundTriggerMiddlewareService. |
+| [`statusbar_control`](examples/statusbar_control/) | Query status bar state: navigation bar mode, tracing, last system key. |
 | [`storage_info`](examples/storage_info/) | Storage device stats, mount points |
+| [`suspend_logger`](examples/suspend_logger/) | Acquire and release a system suspend wake lock to demonstrate SystemSuspend interaction. |
+| [`system_app_classifier`](examples/system_app_classifier/) | Classify installed packages as system or user apps. |
+| [`thermal_monitor`](examples/thermal_monitor/) | Poll thermal service for CPU/GPU temperatures, throttling status, and cooling devices. |
+| [`timelapse_capture`](examples/timelapse_capture/) | Periodic timelapse camera capture via binder. |
+| [`transaction_resolver`](examples/transaction_resolver/) | Resolve AIDL method names to transaction codes for binder services. |
+| [`usage_stats`](examples/usage_stats/) | Query app usage statistics via the UsageStatsManager. |
+| [`usb_tracker`](examples/usb_tracker/) | Query USB device state: ports, functions, speed, and HAL versions. |
+| [`user_manager`](examples/user_manager/) | Query user profiles from the UserManager service. |
+| [`vehicle_telematics`](examples/vehicle_telematics/) | Collect GPS, battery, and device diagnostics for vehicle telematics. |
+| [`version_compat`](examples/version_compat/) | Validate proxy compatibility across API levels. |
+| [`volume_control`](examples/volume_control/) | Get and set stream volumes via AudioService. |
+| [`vpn_monitor`](examples/vpn_monitor/) | Check VPN status via the IVpnManager system service. |
+| [`wakelock_audit`](examples/wakelock_audit/) | Enumerate supported wake lock levels via PowerManager. |
+| [`wifi_scanner`](examples/wifi_scanner/) | Scan available WiFi networks via the wificond system service. |
 
 <!-- END GENERATED EXAMPLES_TABLE -->
 
@@ -2280,6 +2361,6 @@ See the example app at [`examples/gomobile/`](examples/gomobile/).
 │   ├── hardware/             HAL interfaces
 │   └── ...                   405 packages total
 ├── com/                      AOSP com.android.* service proxies
-├── examples/                 24 runnable examples
+├── examples/                 105 runnable examples
 └── .github/workflows/        CI configuration
 ```

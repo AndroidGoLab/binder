@@ -438,8 +438,14 @@ func (p *BluetoothMapClientProxy) SendMessage(
 		}
 	}
 	_data.WriteString16(message)
-	// WARNING: param sentIntent (type types.PendingIntent) cannot be serialized — type not resolved
-	// WARNING: param deliveryIntent (type types.PendingIntent) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := sentIntent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -786,7 +792,29 @@ func (s *BluetoothMapClientStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_sentIntent types.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sentIntent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_deliveryIntent types.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_deliveryIntent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_attributionSource content.AttributionSource
 		{
 			_nullInd, _err := _data.ReadInt32()

@@ -64,6 +64,12 @@ func (p *AutofillFieldClassificationServiceProxy) CalculateScores(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(actualValues)))
+		for _, _item := range actualValues {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 	if userDataValues == nil {
 		_data.WriteInt32(-1)
@@ -161,6 +167,14 @@ func (s *AutofillFieldClassificationServiceStub) OnTransaction(
 			}
 			if _count >= 0 {
 				_arg_actualValues = make([]types.AutofillValue, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_actualValues[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
 			}
 		}
 		var _arg_userDataValues []string

@@ -96,7 +96,10 @@ func (p *PrintServiceProxy) RequestCancelPrintJob(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
-	// WARNING: param printJobInfo (type types.PrintJobInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := printJobInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceRequestCancelPrintJob)
 	if _err != nil {
@@ -114,7 +117,10 @@ func (p *PrintServiceProxy) OnPrintJobQueued(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
-	// WARNING: param printJobInfo (type types.PrintJobInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := printJobInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceOnPrintJobQueued)
 	if _err != nil {
@@ -152,6 +158,12 @@ func (p *PrintServiceProxy) StartPrinterDiscovery(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(priorityList)))
+		for _, _item := range priorityList {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceStartPrinterDiscovery)
@@ -190,6 +202,12 @@ func (p *PrintServiceProxy) ValidatePrinters(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(printerIds)))
+		for _, _item := range printerIds {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceValidatePrinters)
@@ -208,7 +226,10 @@ func (p *PrintServiceProxy) StartPrinterStateTracking(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
-	// WARNING: param printerId (type types.PrinterId) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := printerId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceStartPrinterStateTracking)
 	if _err != nil {
@@ -226,7 +247,10 @@ func (p *PrintServiceProxy) RequestCustomPrinterIcon(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
-	// WARNING: param printerId (type types.PrinterId) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := printerId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceRequestCustomPrinterIcon)
 	if _err != nil {
@@ -244,7 +268,10 @@ func (p *PrintServiceProxy) StopPrinterStateTracking(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
-	// WARNING: param printerId (type types.PrinterId) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := printerId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceStopPrinterStateTracking)
 	if _err != nil {
@@ -307,10 +334,32 @@ func (s *PrintServiceStub) OnTransaction(
 		return nil, _err
 	case TransactionIPrintServiceRequestCancelPrintJob:
 		var _arg_printJobInfo types.PrintJobInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJobInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.RequestCancelPrintJob(ctx, _arg_printJobInfo)
 		return nil, _err
 	case TransactionIPrintServiceOnPrintJobQueued:
 		var _arg_printJobInfo types.PrintJobInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJobInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnPrintJobQueued(ctx, _arg_printJobInfo)
 		return nil, _err
 	case TransactionIPrintServiceCreatePrinterDiscoverySession:
@@ -328,6 +377,14 @@ func (s *PrintServiceStub) OnTransaction(
 			}
 			if _count >= 0 {
 				_arg_priorityList = make([]types.PrinterId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_priorityList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
 			}
 		}
 		_err := s.Impl.StartPrinterDiscovery(ctx, _arg_priorityList)
@@ -347,20 +404,61 @@ func (s *PrintServiceStub) OnTransaction(
 			}
 			if _count >= 0 {
 				_arg_printerIds = make([]types.PrinterId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_printerIds[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
 			}
 		}
 		_err := s.Impl.ValidatePrinters(ctx, _arg_printerIds)
 		return nil, _err
 	case TransactionIPrintServiceStartPrinterStateTracking:
 		var _arg_printerId types.PrinterId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printerId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.StartPrinterStateTracking(ctx, _arg_printerId)
 		return nil, _err
 	case TransactionIPrintServiceRequestCustomPrinterIcon:
 		var _arg_printerId types.PrinterId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printerId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.RequestCustomPrinterIcon(ctx, _arg_printerId)
 		return nil, _err
 	case TransactionIPrintServiceStopPrinterStateTracking:
 		var _arg_printerId types.PrinterId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printerId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.StopPrinterStateTracking(ctx, _arg_printerId)
 		return nil, _err
 	case TransactionIPrintServiceDestroyPrinterDiscoverySession:

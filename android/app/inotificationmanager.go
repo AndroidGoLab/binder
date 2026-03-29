@@ -1478,7 +1478,10 @@ func (p *NotificationManagerProxy) CreateNotificationChannelGroups(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
-	// WARNING: param channelGroupList (type types.ParceledListSlice) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := channelGroupList.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCreateNotificationChannelGroups)
 	if _err != nil {
@@ -1507,7 +1510,10 @@ func (p *NotificationManagerProxy) CreateNotificationChannels(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
-	// WARNING: param channelsList (type types.ParceledListSlice) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := channelsList.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCreateNotificationChannels)
 	if _err != nil {
@@ -1538,7 +1544,10 @@ func (p *NotificationManagerProxy) CreateNotificationChannelsForPackage(
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
-	// WARNING: param channelsList (type types.ParceledListSlice) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := channelsList.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCreateNotificationChannelsForPackage)
 	if _err != nil {
@@ -1583,16 +1592,14 @@ func (p *NotificationManagerProxy) GetConversations(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -1624,16 +1631,14 @@ func (p *NotificationManagerProxy) GetConversationsForPackage(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -1667,16 +1672,14 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroupsForPackage(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -1792,16 +1795,14 @@ func (p *NotificationManagerProxy) GetRecentBlockedNotificationChannelGroupsForP
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -2159,16 +2160,14 @@ func (p *NotificationManagerProxy) GetNotificationChannels(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -2202,16 +2201,14 @@ func (p *NotificationManagerProxy) GetNotificationChannelsForPackage(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -2413,16 +2410,14 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroups(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -2518,16 +2513,14 @@ func (p *NotificationManagerProxy) GetNotificationChannelsBypassingDnd(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -3371,16 +3364,14 @@ func (p *NotificationManagerProxy) GetActiveNotificationsFromListener(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -3412,16 +3403,14 @@ func (p *NotificationManagerProxy) GetSnoozedNotificationsFromListener(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -3775,16 +3764,14 @@ func (p *NotificationManagerProxy) GetNotificationChannelsFromPrivilegedListener
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -3821,16 +3808,14 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroupsFromPrivilegedLis
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -5515,16 +5500,14 @@ func (p *NotificationManagerProxy) GetAppActiveNotifications(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -6624,6 +6607,17 @@ func (s *NotificationManagerStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_channelGroupList types.ParceledListSlice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_channelGroupList.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.CreateNotificationChannelGroups(ctx, _arg_pkg, _arg_channelGroupList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6638,6 +6632,17 @@ func (s *NotificationManagerStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_channelsList types.ParceledListSlice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_channelsList.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.CreateNotificationChannels(ctx, _arg_pkg, _arg_channelsList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6656,6 +6661,17 @@ func (s *NotificationManagerStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_channelsList types.ParceledListSlice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_channelsList.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.CreateNotificationChannelsForPackage(ctx, _arg_pkg, _arg_uid, _arg_channelsList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6676,7 +6692,10 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINotificationManagerGetConversationsForPackage:
 		_arg_pkg, _err := _data.ReadString16()
@@ -6694,7 +6713,10 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannelGroupsForPackage:
 		_arg_pkg, _err := _data.ReadString16()
@@ -6716,7 +6738,10 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannelGroupForPackage:
 		_arg_groupId, _err := _data.ReadString16()
@@ -6788,7 +6813,10 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINotificationManagerUpdateNotificationChannelGroupForPackage:
 		_arg_pkg, _err := _data.ReadString16()
@@ -7044,7 +7072,10 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannelsForPackage:
 		_arg_pkg, _err := _data.ReadString16()
@@ -7066,7 +7097,10 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINotificationManagerGetNumNotificationChannelsForPackage:
 		_arg_pkg, _err := _data.ReadString16()
@@ -7176,7 +7210,10 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINotificationManagerOnlyHasDefaultChannel:
 		_arg_pkg, _err := _data.ReadString16()
@@ -7222,7 +7259,10 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINotificationManagerIsPackagePaused:
 		_arg_pkg, _err := _data.ReadString16()
@@ -7767,7 +7807,10 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINotificationManagerGetSnoozedNotificationsFromListener:
 		var _arg_token serviceNotification.INotificationListener
@@ -7789,7 +7832,10 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINotificationManagerClearRequestedListenerHints:
 		var _arg_token serviceNotification.INotificationListener
@@ -8060,7 +8106,10 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannelGroupsFromPrivilegedListener:
 		var _arg_token serviceNotification.INotificationListener
@@ -8094,7 +8143,10 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINotificationManagerApplyEnqueuedAdjustmentFromAssistant:
 		var _arg_token serviceNotification.INotificationListener
@@ -9082,7 +9134,10 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINotificationManagerSetNotificationDelegate:
 		_arg_callingPkg, _err := _data.ReadString16()

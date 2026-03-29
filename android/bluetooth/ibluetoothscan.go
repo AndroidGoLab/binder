@@ -205,7 +205,10 @@ func (p *BluetoothScanProxy) RegisterPiAndStartScan(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
-	// WARNING: param intent (type types.PendingIntent) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
 		return _err
@@ -284,7 +287,10 @@ func (p *BluetoothScanProxy) StopScanForIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
-	// WARNING: param intent (type types.PendingIntent) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
@@ -677,6 +683,17 @@ func (s *BluetoothScanStub) OnTransaction(
 		return _reply, nil
 	case TransactionIBluetoothScanRegisterPiAndStartScan:
 		var _arg_intent types.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_settings le.ScanSettings
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -757,6 +774,17 @@ func (s *BluetoothScanStub) OnTransaction(
 		return _reply, nil
 	case TransactionIBluetoothScanStopScanForIntent:
 		var _arg_intent types.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_attributionSource content.AttributionSource
 		{
 			_nullInd, _err := _data.ReadInt32()

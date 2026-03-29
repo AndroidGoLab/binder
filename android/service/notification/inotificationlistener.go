@@ -269,7 +269,10 @@ func (p *NotificationListenerProxy) OnNotificationChannelModification(
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	// WARNING: param channel (type types.NotificationChannel) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := channel.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(modificationType)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationChannelModification)
@@ -296,7 +299,10 @@ func (p *NotificationListenerProxy) OnNotificationChannelGroupModification(
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	// WARNING: param group (type types.NotificationChannelGroup) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := group.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(modificationType)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationChannelGroupModification)
@@ -318,7 +324,10 @@ func (p *NotificationListenerProxy) OnNotificationEnqueuedWithChannel(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	binder.WriteBinderToParcel(ctx, _data, notificationHolder.AsBinder(), p.Remote.Transport())
-	// WARNING: param channel (type types.NotificationChannel) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := channel.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
@@ -504,7 +513,10 @@ func (p *NotificationListenerProxy) OnActionClicked(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(key)
-	// WARNING: param action (type types.NotificationAction) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := action.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(source)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnActionClicked)
@@ -732,6 +744,17 @@ func (s *NotificationListenerStub) OnTransaction(
 			}
 		}
 		var _arg_channel types.NotificationChannel
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_channel.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_modificationType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -756,6 +779,17 @@ func (s *NotificationListenerStub) OnTransaction(
 			}
 		}
 		var _arg_group types.NotificationChannelGroup
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_group.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_modificationType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -772,6 +806,17 @@ func (s *NotificationListenerStub) OnTransaction(
 			_arg_notificationHolder = NewStatusBarNotificationHolderProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _notificationHolderHandle))
 		}
 		var _arg_channel types.NotificationChannel
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_channel.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_update NotificationRankingUpdate
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -887,6 +932,17 @@ func (s *NotificationListenerStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_action types.NotificationAction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_action.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

@@ -54,7 +54,10 @@ func (p *InstantAppResolverProxy) GetInstantAppResolveInfoList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstantAppResolver)
-	// WARNING: param request (type types.InstantAppRequestInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := request.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(sequence)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -75,7 +78,10 @@ func (p *InstantAppResolverProxy) GetInstantAppIntentFilterList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstantAppResolver)
-	// WARNING: param request (type types.InstantAppRequestInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := request.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstantAppResolver, MethodIInstantAppResolverGetInstantAppIntentFilterList)
@@ -112,6 +118,17 @@ func (s *InstantAppResolverStub) OnTransaction(
 	switch code {
 	case TransactionIInstantAppResolverGetInstantAppResolveInfoList:
 		var _arg_request types.InstantAppRequestInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -128,6 +145,17 @@ func (s *InstantAppResolverStub) OnTransaction(
 		return nil, _err
 	case TransactionIInstantAppResolverGetInstantAppIntentFilterList:
 		var _arg_request types.InstantAppRequestInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_callback os.IRemoteCallback
 		{
 			_callbackHandle, _err := _data.ReadStrongBinder()

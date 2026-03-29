@@ -48,7 +48,10 @@ func (p *AppOpsAsyncNotedCallbackProxy) OpNoted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsAsyncNotedCallback)
-	// WARNING: param op (type types.AsyncNotedAppOp) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := op.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsAsyncNotedCallback, MethodIAppOpsAsyncNotedCallbackOpNoted)
 	if _err != nil {
@@ -84,6 +87,17 @@ func (s *AppOpsAsyncNotedCallbackStub) OnTransaction(
 	switch code {
 	case TransactionIAppOpsAsyncNotedCallbackOpNoted:
 		var _arg_op types.AsyncNotedAppOp
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_op.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OpNoted(ctx, _arg_op)
 		return nil, _err
 	default:

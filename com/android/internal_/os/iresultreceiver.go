@@ -50,7 +50,10 @@ func (p *ResultReceiverProxy) Send(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResultReceiver)
 	_data.WriteInt32(resultCode)
-	// WARNING: param resultData (type types.Bundle) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := resultData.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResultReceiver, MethodIResultReceiverSend)
 	if _err != nil {
@@ -90,6 +93,17 @@ func (s *ResultReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_resultData types.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultData.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.Send(ctx, _arg_resultCode, _arg_resultData)
 		return nil, _err
 	default:

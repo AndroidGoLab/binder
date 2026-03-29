@@ -48,7 +48,10 @@ func (p *WindowlessStartingSurfaceCallbackProxy) OnSurfaceAdded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowlessStartingSurfaceCallback)
-	// WARNING: param addedSurface (type types.SurfaceControl) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := addedSurface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowlessStartingSurfaceCallback, MethodIWindowlessStartingSurfaceCallbackOnSurfaceAdded)
 	if _err != nil {
@@ -93,6 +96,17 @@ func (s *WindowlessStartingSurfaceCallbackStub) OnTransaction(
 	switch code {
 	case TransactionIWindowlessStartingSurfaceCallbackOnSurfaceAdded:
 		var _arg_addedSurface types.SurfaceControl
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_addedSurface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnSurfaceAdded(ctx, _arg_addedSurface)
 		_reply := parcel.New()
 		if _err != nil {

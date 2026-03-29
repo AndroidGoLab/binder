@@ -74,16 +74,34 @@ func (p *BackAnimationRunnerProxy) OnAnimationStart(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(apps)))
+		for _, _item := range apps {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 	if wallpapers == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(wallpapers)))
+		for _, _item := range wallpapers {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 	if nonApps == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(nonApps)))
+		for _, _item := range nonApps {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 	binder.WriteBinderToParcel(ctx, _data, finishedCallback.AsBinder(), p.Remote.Transport())
 
@@ -134,6 +152,14 @@ func (s *BackAnimationRunnerStub) OnTransaction(
 			}
 			if _count >= 0 {
 				_arg_apps = make([]types.RemoteAnimationTarget, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_apps[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
 			}
 		}
 		var _arg_wallpapers []types.RemoteAnimationTarget
@@ -147,6 +173,14 @@ func (s *BackAnimationRunnerStub) OnTransaction(
 			}
 			if _count >= 0 {
 				_arg_wallpapers = make([]types.RemoteAnimationTarget, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_wallpapers[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
 			}
 		}
 		var _arg_nonApps []types.RemoteAnimationTarget
@@ -160,6 +194,14 @@ func (s *BackAnimationRunnerStub) OnTransaction(
 			}
 			if _count >= 0 {
 				_arg_nonApps = make([]types.RemoteAnimationTarget, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_nonApps[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
 			}
 		}
 		var _arg_finishedCallback IBackAnimationFinishedCallback

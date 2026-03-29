@@ -131,7 +131,10 @@ func (p *SessionControllerCallbackProxy) OnMetadataChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
-	// WARNING: param metadata (type types.MediaMetadata) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := metadata.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnMetadataChanged)
 	if _err != nil {
@@ -149,7 +152,10 @@ func (p *SessionControllerCallbackProxy) OnQueueChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
-	// WARNING: param queue (type pmTypes.ParceledListSlice) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := queue.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnQueueChanged)
 	if _err != nil {
@@ -282,10 +288,32 @@ func (s *SessionControllerCallbackStub) OnTransaction(
 		return nil, _err
 	case TransactionISessionControllerCallbackOnMetadataChanged:
 		var _arg_metadata types.MediaMetadata
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_metadata.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnMetadataChanged(ctx, _arg_metadata)
 		return nil, _err
 	case TransactionISessionControllerCallbackOnQueueChanged:
 		var _arg_queue pmTypes.ParceledListSlice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_queue.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnQueueChanged(ctx, _arg_queue)
 		return nil, _err
 	case TransactionISessionControllerCallbackOnQueueTitleChanged:

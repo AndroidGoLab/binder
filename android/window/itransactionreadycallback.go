@@ -48,7 +48,14 @@ func (p *TransactionReadyCallbackProxy) OnTransactionReady(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransactionReadyCallback)
-	// WARNING: param t (type *types.SurfaceControlTransaction) cannot be serialized — type not resolved
+	if t != nil {
+		_data.WriteInt32(1)
+		if _err := (*t).MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransactionReadyCallback, MethodITransactionReadyCallbackOnTransactionReady)
 	if _err != nil {
@@ -93,6 +100,18 @@ func (s *TransactionReadyCallbackStub) OnTransaction(
 	switch code {
 	case TransactionITransactionReadyCallbackOnTransactionReady:
 		var _arg_t *types.SurfaceControlTransaction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				_arg_t = new(types.SurfaceControlTransaction)
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnTransactionReady(ctx, _arg_t)
 		_reply := parcel.New()
 		if _err != nil {

@@ -3671,7 +3671,10 @@ func (p *BluetoothProxy) StartRfcommListener(
 	if _err := uuid.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	// WARNING: param intent (type types.PendingIntent) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -7324,6 +7327,17 @@ func (s *BluetoothStub) OnTransaction(
 			}
 		}
 		var _arg_intent types.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_attributionSource content.AttributionSource
 		{
 			_nullInd, _err := _data.ReadInt32()

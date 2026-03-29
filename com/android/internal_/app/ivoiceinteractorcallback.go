@@ -101,6 +101,12 @@ func (p *VoiceInteractorCallbackProxy) DeliverPickOptionResult(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(selections)))
+		for _, _item := range selections {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -295,6 +301,14 @@ func (s *VoiceInteractorCallbackStub) OnTransaction(
 			}
 			if _count >= 0 {
 				_arg_selections = make([]types.VoiceInteractorPickOptionRequestOption, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_selections[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
 			}
 		}
 		var _arg_result os.Bundle

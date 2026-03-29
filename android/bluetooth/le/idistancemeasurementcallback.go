@@ -57,7 +57,10 @@ func (p *DistanceMeasurementCallbackProxy) OnStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDistanceMeasurementCallback)
-	// WARNING: param device (type types.BluetoothDevice) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurementCallback, MethodIDistanceMeasurementCallbackOnStarted)
 	if _err != nil {
@@ -76,7 +79,10 @@ func (p *DistanceMeasurementCallbackProxy) OnStartFail(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDistanceMeasurementCallback)
-	// WARNING: param device (type types.BluetoothDevice) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(reason)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurementCallback, MethodIDistanceMeasurementCallbackOnStartFail)
@@ -96,7 +102,10 @@ func (p *DistanceMeasurementCallbackProxy) OnStopped(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDistanceMeasurementCallback)
-	// WARNING: param device (type types.BluetoothDevice) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(reason)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurementCallback, MethodIDistanceMeasurementCallbackOnStopped)
@@ -116,7 +125,10 @@ func (p *DistanceMeasurementCallbackProxy) OnResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDistanceMeasurementCallback)
-	// WARNING: param device (type types.BluetoothDevice) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
@@ -156,10 +168,32 @@ func (s *DistanceMeasurementCallbackStub) OnTransaction(
 	switch code {
 	case TransactionIDistanceMeasurementCallbackOnStarted:
 		var _arg_device types.BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnStarted(ctx, _arg_device)
 		return nil, _err
 	case TransactionIDistanceMeasurementCallbackOnStartFail:
 		var _arg_device types.BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -168,6 +202,17 @@ func (s *DistanceMeasurementCallbackStub) OnTransaction(
 		return nil, _err
 	case TransactionIDistanceMeasurementCallbackOnStopped:
 		var _arg_device types.BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -176,6 +221,17 @@ func (s *DistanceMeasurementCallbackStub) OnTransaction(
 		return nil, _err
 	case TransactionIDistanceMeasurementCallbackOnResult:
 		var _arg_device types.BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_result DistanceMeasurementResult
 		{
 			_nullInd, _err := _data.ReadInt32()

@@ -62,7 +62,10 @@ func (p *RemoteTransitionProxy) StartAnimation(
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	// WARNING: param t (type types.SurfaceControlTransaction) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := t.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, finishCallback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteTransition, MethodIRemoteTransitionStartAnimation)
@@ -90,7 +93,10 @@ func (p *RemoteTransitionProxy) MergeAnimation(
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	// WARNING: param t (type types.SurfaceControlTransaction) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := t.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, mergeTarget, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, finishCallback.AsBinder(), p.Remote.Transport())
 
@@ -168,6 +174,17 @@ func (s *RemoteTransitionStub) OnTransaction(
 			}
 		}
 		var _arg_t types.SurfaceControlTransaction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_finishCallback IRemoteTransitionFinishedCallback
 		{
 			_finishCallbackHandle, _err := _data.ReadStrongBinder()
@@ -200,6 +217,17 @@ func (s *RemoteTransitionStub) OnTransaction(
 			}
 		}
 		var _arg_t types.SurfaceControlTransaction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_mergeTarget binder.IBinder
 		{
 			_mergeTargetHandle, _err := _data.ReadStrongBinder()

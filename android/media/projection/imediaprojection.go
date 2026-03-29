@@ -325,16 +325,14 @@ func (p *MediaProjectionProxy) GetLaunchCookie(
 		return _result, _err
 	}
 
-	_nullInd, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullInd != 0 {
-		_endPos, _err := parcel.ReadParcelableHeader(_reply)
-		if _err != nil {
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
 			return _result, _err
 		}
-		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -346,7 +344,10 @@ func (p *MediaProjectionProxy) SetLaunchCookie(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
-	// WARNING: param launchCookie (type types.ActivityOptionsLaunchCookie) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := launchCookie.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionSetLaunchCookie)
 	if _err != nil {
@@ -558,10 +559,24 @@ func (s *MediaProjectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIMediaProjectionSetLaunchCookie:
 		var _arg_launchCookie types.ActivityOptionsLaunchCookie
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_launchCookie.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SetLaunchCookie(ctx, _arg_launchCookie)
 		_reply := parcel.New()
 		if _err != nil {

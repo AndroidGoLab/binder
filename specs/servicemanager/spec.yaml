@@ -168,9 +168,9 @@ services:
     - service_name: download
       constant_name: DOWNLOAD_SERVICE
       descriptor: ""
-    - service_name: dreams
+    - service_name: dream
       constant_name: DREAM_SERVICE
-      descriptor: android.service.dreams.IDreamManager
+      descriptor: ""
     - service_name: dropbox
       constant_name: DROPBOX_SERVICE
       descriptor: com.android.internal.os.IDropBoxManagerService
@@ -183,9 +183,9 @@ services:
     - service_name: ethernet
       constant_name: ETHERNET_SERVICE
       descriptor: ""
-    - service_name: econtroller
+    - service_name: euicc
       constant_name: EUICC_SERVICE
-      descriptor: com.android.internal.telephony.euicc.IEuiccController
+      descriptor: ""
     - service_name: euicc_card
       constant_name: EUICC_CARD_SERVICE
       descriptor: ""

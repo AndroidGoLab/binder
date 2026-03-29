@@ -333,7 +333,10 @@ func (p *ContentCaptureManagerProxy) OnLoginDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	// WARNING: param events (type types.ParceledListSlice) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := events.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerOnLoginDetected)
 	if _err != nil {
@@ -554,6 +557,17 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		return nil, _err
 	case TransactionIContentCaptureManagerOnLoginDetected:
 		var _arg_events types.ParceledListSlice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_events.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnLoginDetected(ctx, _arg_events)
 		return nil, _err
 	default:

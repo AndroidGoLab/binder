@@ -51,7 +51,10 @@ func (p *VisualQueryDetectionAttentionListenerProxy) OnAttentionGained(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionAttentionListener)
-	// WARNING: param attentionResult (type types.VisualQueryAttentionResult) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := attentionResult.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVisualQueryDetectionAttentionListener, MethodIVisualQueryDetectionAttentionListenerOnAttentionGained)
 	if _err != nil {
@@ -105,6 +108,17 @@ func (s *VisualQueryDetectionAttentionListenerStub) OnTransaction(
 	switch code {
 	case TransactionIVisualQueryDetectionAttentionListenerOnAttentionGained:
 		var _arg_attentionResult types.VisualQueryAttentionResult
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attentionResult.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnAttentionGained(ctx, _arg_attentionResult)
 		return nil, _err
 	case TransactionIVisualQueryDetectionAttentionListenerOnAttentionLost:

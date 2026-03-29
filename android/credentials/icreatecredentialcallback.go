@@ -54,7 +54,10 @@ func (p *CreateCredentialCallbackProxy) OnPendingIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICreateCredentialCallback)
-	// WARNING: param pendingIntent (type types.PendingIntent) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICreateCredentialCallback, MethodICreateCredentialCallbackOnPendingIntent)
 	if _err != nil {
@@ -131,6 +134,17 @@ func (s *CreateCredentialCallbackStub) OnTransaction(
 	switch code {
 	case TransactionICreateCredentialCallbackOnPendingIntent:
 		var _arg_pendingIntent types.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnPendingIntent(ctx, _arg_pendingIntent)
 		return nil, _err
 	case TransactionICreateCredentialCallbackOnResponse:

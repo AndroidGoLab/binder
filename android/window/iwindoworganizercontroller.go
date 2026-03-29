@@ -231,7 +231,10 @@ func (p *WindowOrganizerControllerProxy) StartLegacyTransition(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 	_data.WriteInt32(type_)
-	// WARNING: param adapter (type types.RemoteAnimationAdapter) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := adapter.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, syncCallback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := t.MarshalParcel(_data); _err != nil {
@@ -615,6 +618,17 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_adapter types.RemoteAnimationAdapter
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_adapter.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_syncCallback IWindowContainerTransactionCallback
 		{
 			_syncCallbackHandle, _err := _data.ReadStrongBinder()

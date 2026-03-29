@@ -450,7 +450,10 @@ func (p *ContextHubServiceProxy) CreatePendingIntentClient(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
-	// WARNING: param pendingIntent (type types.PendingIntent) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt64(nanoAppId)
 	_data.WriteString16(_identity.AttributionTag)
 
@@ -1005,6 +1008,17 @@ func (s *ContextHubServiceStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_pendingIntent types.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err

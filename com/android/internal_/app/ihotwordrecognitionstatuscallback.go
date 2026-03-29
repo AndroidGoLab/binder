@@ -91,7 +91,10 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnKeyphraseDetected(
 	if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	// WARNING: param result (type types.HotwordDetectedResult) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnKeyphraseDetected)
 	if _err != nil {
@@ -109,7 +112,10 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnKeyphraseDetectedFromExternalS
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	// WARNING: param result (type types.HotwordDetectedResult) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnKeyphraseDetectedFromExternalSource)
 	if _err != nil {
@@ -148,7 +154,10 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnRejected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	// WARNING: param result (type types.HotwordRejectedResult) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnRejected)
 	if _err != nil {
@@ -166,7 +175,10 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnHotwordDetectionServiceFailure
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	// WARNING: param hotwordDetectionServiceFailure (type types.HotwordDetectionServiceFailure) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := hotwordDetectionServiceFailure.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnHotwordDetectionServiceFailure)
 	if _err != nil {
@@ -184,7 +196,10 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnVisualQueryDetectionServiceFai
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	// WARNING: param visualQueryDetectionServiceFailure (type types.VisualQueryDetectionServiceFailure) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := visualQueryDetectionServiceFailure.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnVisualQueryDetectionServiceFailure)
 	if _err != nil {
@@ -202,7 +217,10 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnSoundTriggerFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	// WARNING: param soundTriggerFailure (type types.SoundTriggerFailure) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := soundTriggerFailure.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnSoundTriggerFailure)
 	if _err != nil {
@@ -357,10 +375,32 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 			}
 		}
 		var _arg_result types.HotwordDetectedResult
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnKeyphraseDetected(ctx, _arg_recognitionEvent, _arg_result)
 		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnKeyphraseDetectedFromExternalSource:
 		var _arg_result types.HotwordDetectedResult
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnKeyphraseDetectedFromExternalSource(ctx, _arg_result)
 		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnGenericSoundTriggerDetected:
@@ -380,18 +420,62 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnRejected:
 		var _arg_result types.HotwordRejectedResult
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnRejected(ctx, _arg_result)
 		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnHotwordDetectionServiceFailure:
 		var _arg_hotwordDetectionServiceFailure types.HotwordDetectionServiceFailure
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_hotwordDetectionServiceFailure.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnHotwordDetectionServiceFailure(ctx, _arg_hotwordDetectionServiceFailure)
 		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnVisualQueryDetectionServiceFailure:
 		var _arg_visualQueryDetectionServiceFailure types.VisualQueryDetectionServiceFailure
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_visualQueryDetectionServiceFailure.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnVisualQueryDetectionServiceFailure(ctx, _arg_visualQueryDetectionServiceFailure)
 		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnSoundTriggerFailure:
 		var _arg_soundTriggerFailure types.SoundTriggerFailure
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundTriggerFailure.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnSoundTriggerFailure(ctx, _arg_soundTriggerFailure)
 		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnUnknownFailure:

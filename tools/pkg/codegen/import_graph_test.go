@@ -218,10 +218,10 @@ func TestImportGraph_MarshalInfoForCycleBrokenType(t *testing.T) {
 
 	opts := GenOptions{Registry: registry, ImportGraph: importGraph}
 
-	// marshalForTypeWithCycleCheck should return empty marshal info
-	// for cycle-broken types (the back-edge direction).
+	// Cycle-broken parcelables are redirected to a types sub-package
+	// but retain full marshal/unmarshal capabilities.
 	ts := &parser.TypeSpecifier{Name: targetTypeName}
 	info := marshalForTypeWithCycleCheck(ts, opts, typeRef)
-	require.Empty(t, info.WriteExpr, "cycle-broken type should have empty WriteExpr")
-	require.Empty(t, info.ReadExpr, "cycle-broken type should have empty ReadExpr")
+	require.NotEmpty(t, info.WriteExpr, "cycle-broken parcelable should have WriteExpr (redirected to types sub-package)")
+	require.NotEmpty(t, info.ReadExpr, "cycle-broken parcelable should have ReadExpr (redirected to types sub-package)")
 }

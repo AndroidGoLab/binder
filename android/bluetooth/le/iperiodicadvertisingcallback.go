@@ -66,7 +66,10 @@ func (p *PeriodicAdvertisingCallbackProxy) OnSyncEstablished(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeriodicAdvertisingCallback)
 	_data.WriteInt32(syncHandle)
-	// WARNING: param device (type types.BluetoothDevice) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(advertisingSid)
 	_data.WriteInt32(skip)
 	_data.WriteInt32(timeout)
@@ -128,7 +131,10 @@ func (p *PeriodicAdvertisingCallbackProxy) OnSyncTransferred(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeriodicAdvertisingCallback)
-	// WARNING: param device (type types.BluetoothDevice) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(status)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnSyncTransferred)
@@ -189,6 +195,17 @@ func (s *PeriodicAdvertisingCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_device types.BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_advertisingSid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -231,6 +248,17 @@ func (s *PeriodicAdvertisingCallbackStub) OnTransaction(
 		return nil, _err
 	case TransactionIPeriodicAdvertisingCallbackOnSyncTransferred:
 		var _arg_device types.BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

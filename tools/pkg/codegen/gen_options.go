@@ -27,8 +27,14 @@ func marshalForType(
 }
 
 // marshalForTypeWithCycleCheck returns the MarshalInfo for a type,
-// checking if the type was cycle-broken or resolved to any.
+// checking if the type is unresolvable or resolved to any.
 // Such types cannot be marshaled/unmarshaled, so the expressions are empty.
+//
+// Cycle-broken parcelables that were redirected to a "types" sub-package
+// are NOT treated as opaque — they have full marshal/unmarshal
+// capabilities via the sub-package. Cycle-broken interfaces remain
+// opaque because their proxy constructors only exist in the original
+// package, not the types sub-package.
 func marshalForTypeWithCycleCheck(
 	ts *parser.TypeSpecifier,
 	opts GenOptions,
@@ -36,16 +42,23 @@ func marshalForTypeWithCycleCheck(
 ) MarshalInfo {
 	if typeRef != nil {
 		if typeRef.IsCycleBroken(ts.Name) {
-			return opaqueTypeMarshalInfo
+			// Cycle-broken interfaces must stay opaque: their proxy
+			// constructor (NewXxxProxy) lives in the original package,
+			// not the types sub-package. Cycle-broken parcelables are
+			// fine — MarshalParcel/UnmarshalParcel exist in the types
+			// sub-package.
+			if typeRef.isInterfaceType(ts.Name) {
+				return opaqueTypeMarshalInfo
+			}
 		}
 		// If the type would resolve to any (unknown, forward-declared,
-		// or cycle-broken), it cannot be marshaled/unmarshaled.
+		// or cycle-broken without a types sub-package), it cannot be
+		// marshaled/unmarshaled.
 		if typeRef.isUnresolvableType(ts.Name) {
 			return opaqueTypeMarshalInfo
 		}
-		// Additional check: see what the type actually resolves to in Go.
-		// If it resolves to any, skip marshaling regardless of
-		// why it was resolved that way.
+		// Check what the type actually resolves to in Go.
+		// If it resolves to any, skip marshaling regardless of why.
 		resolved := typeRef.GoTypeRef(ts)
 		if isOpaqueGoType(resolved) {
 			return opaqueTypeMarshalInfo

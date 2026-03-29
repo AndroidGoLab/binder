@@ -346,7 +346,7 @@ func TestUsecase79_UserManager_GetUsers(t *testing.T) {
 	um, err := genOs.GetUserManager(ctx, sm)
 	requireOrSkip(t, err)
 
-	users, err := um.GetUsers(ctx, true)
+	users, err := um.GetUsers(ctx, false, true, false)
 	requireOrSkip(t, err)
 	require.NotEmpty(t, users, "expected at least one user")
 

@@ -116,7 +116,10 @@ func (p *CellBroadcastServiceProxy) HandleCdmaScpMessage(
 		}
 	}
 	_data.WriteString16(originatingAddress)
-	// WARNING: param callback (type types.RemoteCallback) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := callback.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleCdmaScpMessage)
 	if _err != nil {
@@ -247,6 +250,17 @@ func (s *CellBroadcastServiceStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_callback types.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.HandleCdmaScpMessage(ctx, _arg_slotId, _arg_programData, _arg_originatingAddress, _arg_callback)
 		return nil, _err
 	case TransactionICellBroadcastServiceGetCellBroadcastAreaInfo:

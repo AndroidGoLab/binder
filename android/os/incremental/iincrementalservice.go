@@ -178,7 +178,10 @@ func (p *IncrementalServiceProxy) CreateStorage(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteString16(path)
-	// WARNING: param params (type types.DataLoaderParamsParcel) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := params.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(createMode)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceCreateStorage)
@@ -253,7 +256,10 @@ func (p *IncrementalServiceProxy) StartLoading(
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
-	// WARNING: param params (type types.DataLoaderParamsParcel) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := params.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	// WARNING: param statusListener (type types.IDataLoaderStatusListener) cannot be serialized — type not resolved
 	_data.WriteInt32(1)
 	if _err := healthCheckParams.MarshalParcel(_data); _err != nil {
@@ -1054,6 +1060,17 @@ func (s *IncrementalServiceStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_params types.DataLoaderParamsParcel
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_createMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1095,6 +1112,17 @@ func (s *IncrementalServiceStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_params types.DataLoaderParamsParcel
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_statusListener types.IDataLoaderStatusListener
 		var _arg_healthCheckParams StorageHealthCheckParams
 		{

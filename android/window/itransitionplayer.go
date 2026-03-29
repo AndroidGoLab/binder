@@ -59,8 +59,14 @@ func (p *TransitionPlayerProxy) OnTransitionReady(
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	// WARNING: param t (type types.SurfaceControlTransaction) cannot be serialized — type not resolved
-	// WARNING: param finishT (type types.SurfaceControlTransaction) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := t.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := finishT.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransitionPlayer, MethodITransitionPlayerOnTransitionReady)
 	if _err != nil {
@@ -139,7 +145,29 @@ func (s *TransitionPlayerStub) OnTransaction(
 			}
 		}
 		var _arg_t types.SurfaceControlTransaction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_finishT types.SurfaceControlTransaction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_finishT.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnTransitionReady(ctx, _arg_transitionToken, _arg_info, _arg_t, _arg_finishT)
 		return nil, _err
 	case TransactionITransitionPlayerRequestStartTransition:
