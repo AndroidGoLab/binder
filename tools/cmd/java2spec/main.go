@@ -264,7 +264,12 @@ func mergeJavaWireFormats(
 					}
 
 					mu.Lock()
-					target.JavaWireFormat = wireFields
+					// Prefer the wire format with more fields — avoids
+					// overwriting an instance writeToParcel result with
+					// a shorter helper method's result.
+					if len(wireFields) > len(target.JavaWireFormat) {
+						target.JavaWireFormat = wireFields
+					}
 					mu.Unlock()
 
 					merged.Add(1)

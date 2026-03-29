@@ -14,20 +14,20 @@ var _ parcel.Parcelable = (*ParcelableException)(nil)
 func (s *ParcelableException) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteString16("") // placeholder T.getClass().getName()
-	p.WriteString16("") // placeholder T.getMessage()
+	_headerPos := parcel.WriteParcelableHeader(p)
+
+	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *ParcelableException) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	var _err error
-	if _, _err = p.ReadString16(); _err != nil { // skip T.getClass().getName()
+	_endPos, _err := parcel.ReadParcelableHeader(p)
+	if _err != nil {
 		return _err
 	}
-	if _, _err = p.ReadString16(); _err != nil { // skip T.getMessage()
-		return _err
-	}
+
+	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

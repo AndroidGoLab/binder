@@ -114,7 +114,7 @@ func (l *parcelableListener) EnterMethodDeclaration(ctx *javaparser.MethodDeclar
 	switch {
 	case strings.HasPrefix(methodName, "has") && methodName != "hashCode":
 		l.collectHasMethod(methodName, ctx)
-	case methodName == "writeToParcel":
+	case methodName == "writeToParcel" && !isStaticMethod(ctx):
 		l.processWriteToParcel(ctx)
 	}
 }
@@ -360,6 +360,33 @@ func (l *parcelableListener) extractFieldFromExpression(
 		Type:      specType,
 		Condition: condition,
 	}
+}
+
+// isStaticMethod checks whether a method declaration has the static modifier.
+// Static writeToParcel overloads (e.g., ComponentName.writeToParcel(ComponentName c, Parcel out))
+// are helper methods, not the instance serialization method we need.
+func isStaticMethod(ctx *javaparser.MethodDeclarationContext) bool {
+	// MethodDeclaration -> MemberDeclaration -> ClassBodyDeclaration
+	memberCtx := ctx.GetParent()
+	if memberCtx == nil {
+		return false
+	}
+
+	classBodyDecl, ok := memberCtx.GetParent().(*javaparser.ClassBodyDeclarationContext)
+	if !ok {
+		return false
+	}
+
+	for _, mod := range classBodyDecl.AllModifier() {
+		coiMod := mod.ClassOrInterfaceModifier()
+		if coiMod == nil {
+			continue
+		}
+		if coiMod.STATIC() != nil {
+			return true
+		}
+	}
+	return false
 }
 
 // isStaticFinal checks whether a field declaration has static and final modifiers.

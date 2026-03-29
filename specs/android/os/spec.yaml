@@ -6157,11 +6157,6 @@ parcelables:
         - name: Uuid.getLeastSignificantBits()
           write_method: int64
     - name: ParcelableException
-      java_wire_format:
-        - name: T.getClass().getName()
-          write_method: string16
-        - name: T.getMessage()
-          write_method: string16
     - name: ParcelableParcel
       java_wire_format:
         - name: Parcel.dataSize()
@@ -6280,9 +6275,8 @@ parcelables:
           write_method: int32
     - name: UserHandle
       java_wire_format:
-        - name: h
-          write_method: delegate
-          condition: h!=null
+        - name: Handle
+          write_method: int32
     - name: UserManager.EnforcingUser
     - name: VibrationAttributes
       java_wire_format:

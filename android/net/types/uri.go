@@ -14,21 +14,20 @@ var _ parcel.Parcelable = (*Uri)(nil)
 func (s *Uri) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0) // null NULL_TYPE_ID
+	_headerPos := parcel.WriteParcelableHeader(p)
+
+	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
 }
 
 func (s *Uri) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
-		}
-		if _opaqueFlag != 0 {
-			return nil // non-null NULL_TYPE_ID: cannot skip unknown-size typed object
-		}
+	_endPos, _err := parcel.ReadParcelableHeader(p)
+	if _err != nil {
+		return _err
 	}
+
+	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil
 }

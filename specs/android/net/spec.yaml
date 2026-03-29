@@ -1204,10 +1204,6 @@ parcelables:
     - name: Uri
       annotations:
         - JavaOnlyStableParcelable
-      java_wire_format:
-        - name: NULL_TYPE_ID
-          write_method: int32
-          condition: uri==null
     - name: VpnProfileState
       java_wire_format:
         - name: State
