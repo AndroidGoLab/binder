@@ -6,4 +6,5 @@ type ParamSpec struct {
 	Type        TypeRef   `yaml:"type"`
 	Direction   Direction `yaml:"direction,omitempty"`
 	Annotations []string  `yaml:"annotations,omitempty"`
+	MinAPILevel int       `yaml:"min_api_level,omitempty"`
 }
