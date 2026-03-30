@@ -2897,9 +2897,11 @@ func (p *BluetoothProxy) UnregisterMetadataListener(
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if binder.APILevelFromBinder(p.Remote) == 0 || binder.APILevelFromBinder(p.Remote) >= 36 {
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetooth, MethodIBluetoothUnregisterMetadataListener)
@@ -3427,9 +3429,11 @@ func (p *BluetoothProxy) GetPackageNameOfBondingApplication(
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if binder.APILevelFromBinder(p.Remote) == 0 || binder.APILevelFromBinder(p.Remote) >= 36 {
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetooth, MethodIBluetoothGetPackageNameOfBondingApplication)

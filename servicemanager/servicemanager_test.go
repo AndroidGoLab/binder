@@ -74,6 +74,10 @@ func (m *mockTransport) ResolveCode(_ context.Context, _ string, _ string) (bind
 	return binder.FirstCallTransaction, nil
 }
 
+func (m *mockTransport) APILevel() int {
+	return 0
+}
+
 func buildSuccessReply(
 	writePayload func(p *parcel.Parcel),
 ) func() *parcel.Parcel {
