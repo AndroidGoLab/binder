@@ -15,48 +15,72 @@ import (
 	"github.com/facebookincubator/go-belt/tool/logger"
 	"github.com/facebookincubator/go-belt/tool/logger/implementation/logrus"
 
+	genApp "github.com/AndroidGoLab/binder/android/app"
+	genBoot "github.com/AndroidGoLab/binder/android/hardware/boot"
+	genKeymint "github.com/AndroidGoLab/binder/android/hardware/security/keymint"
+	genUsb "github.com/AndroidGoLab/binder/android/hardware/usb"
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/binder/versionaware"
 	"github.com/AndroidGoLab/binder/kernelbinder"
-	"github.com/AndroidGoLab/binder/parcel"
 	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 type serviceTest struct {
-	Name       string
-	Descriptor string
-	Method     string // read-only method to call if handle obtained
-	BuildData  func(p *parcel.Parcel)
+	Name string
+	// CallMethod is called with the binder handle to invoke a read-only
+	// method via the generated proxy. Returns a summary string.
+	CallMethod func(ctx context.Context, svc binder.IBinder) string
 }
 
 var services = []serviceTest{
 	{
-		Name:       "android.hardware.security.keymint.IKeyMintDevice/default",
-		Descriptor: "android.hardware.security.keymint.IKeyMintDevice",
-		Method:     "getHardwareInfo",
-	},
-	{
-		Name:       "android.hardware.usb.IUsb/default",
-		Descriptor: "android.hardware.usb.IUsb",
-		Method:     "queryPortStatus",
-		BuildData: func(p *parcel.Parcel) {
-			p.WriteInt64(0) // transactionId
+		Name: "android.hardware.security.keymint.IKeyMintDevice/default",
+		CallMethod: func(ctx context.Context, svc binder.IBinder) string {
+			proxy := genKeymint.NewKeyMintDeviceProxy(svc)
+			info, err := proxy.GetHardwareInfo(ctx)
+			if err != nil {
+				return fmt.Sprintf("ERROR: %v", err)
+			}
+			return fmt.Sprintf("version=%d secLevel=%d name=%q author=%q",
+				info.VersionNumber, info.SecurityLevel, info.KeyMintName, info.KeyMintAuthorName)
 		},
 	},
 	{
-		Name:       "android.hardware.boot.IBootControl/default",
-		Descriptor: "android.hardware.boot.IBootControl",
-		Method:     "getCurrentSlot",
+		Name: "android.hardware.usb.IUsb/default",
+		CallMethod: func(ctx context.Context, svc binder.IBinder) string {
+			proxy := genUsb.NewUsbProxy(svc)
+			err := proxy.QueryPortStatus(ctx, 0)
+			if err != nil {
+				return fmt.Sprintf("ERROR: %v", err)
+			}
+			return "SUCCESS"
+		},
+	},
+	{
+		Name: "android.hardware.boot.IBootControl/default",
+		CallMethod: func(ctx context.Context, svc binder.IBinder) string {
+			proxy := genBoot.NewBootControlProxy(svc)
+			slot, err := proxy.GetCurrentSlot(ctx)
+			if err != nil {
+				return fmt.Sprintf("ERROR: %v", err)
+			}
+			return fmt.Sprintf("currentSlot=%d", slot)
+		},
 	},
 	{
 		Name:       "SurfaceFlinger",
-		Descriptor: "android.ui.ISurfaceComposer",
-		Method:     "", // skip method call for legacy interface
+		CallMethod: nil, // legacy interface, skip method call
 	},
 	{
-		Name:       "activity",
-		Descriptor: "android.app.IActivityManager",
-		Method:     "isUserAMonkey",
+		Name: "activity",
+		CallMethod: func(ctx context.Context, svc binder.IBinder) string {
+			proxy := genApp.NewActivityManagerProxy(svc)
+			isMonkey, err := proxy.IsUserAMonkey(ctx)
+			if err != nil {
+				return fmt.Sprintf("ERROR: %v", err)
+			}
+			return fmt.Sprintf("isUserAMonkey=%v", isMonkey)
+		},
 	},
 }
 
@@ -166,7 +190,7 @@ func main() {
 			fmt.Printf("  GetService:   SUCCESS (handle=%d)\n", getBinder.Handle())
 		}
 
-		// 3) If either succeeded, try the read-only method
+		// 3) If either succeeded, try the read-only method via generated proxy
 		var activeBinder binder.IBinder
 		var source string
 		if getBinder != nil {
@@ -177,9 +201,12 @@ func main() {
 			source = "CheckService"
 		}
 
-		if activeBinder != nil && st.Method != "" {
-			fmt.Printf("  Calling %s (via %s handle=%d)...\n", st.Method, source, activeBinder.Handle())
-			callReadOnlyMethod(ctx, transport, activeBinder, st)
+		if activeBinder != nil && st.CallMethod != nil {
+			fmt.Printf("  Calling method (via %s handle=%d)...\n", source, activeBinder.Handle())
+			callCtx, callCancel := context.WithTimeout(ctx, 5*time.Second)
+			result := st.CallMethod(callCtx, activeBinder)
+			callCancel()
+			fmt.Printf("    %s\n", result)
 		}
 
 		// 4) Compare
@@ -198,74 +225,4 @@ func main() {
 	fmt.Println()
 	fmt.Println("========================================")
 	fmt.Println("Done.")
-}
-
-func callReadOnlyMethod(
-	ctx context.Context,
-	transport *versionaware.Transport,
-	svc binder.IBinder,
-	st serviceTest,
-) {
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
-
-	code, err := transport.ResolveCode(ctx, st.Descriptor, st.Method)
-	if err != nil {
-		fmt.Printf("    ResolveCode(%s): FAILED (%v)\n", st.Method, err)
-		return
-	}
-
-	data := parcel.New()
-	data.WriteInterfaceToken(st.Descriptor)
-	if st.BuildData != nil {
-		st.BuildData(data)
-	}
-
-	reply, err := svc.Transact(ctx, code, 0, data)
-	if err != nil {
-		fmt.Printf("    %s: TRANSACT FAILED (%v)\n", st.Method, err)
-		return
-	}
-
-	if err := binder.ReadStatus(reply); err != nil {
-		fmt.Printf("    %s: STATUS ERROR (%v)\n", st.Method, err)
-		return
-	}
-
-	fmt.Printf("    %s: SUCCESS (reply %d bytes)\n", st.Method, reply.Len())
-
-	// For KeyMint, parse hardware info
-	if st.Descriptor == "android.hardware.security.keymint.IKeyMintDevice" {
-		parseKeyMintInfo(reply)
-	}
-}
-
-func parseKeyMintInfo(reply *parcel.Parcel) {
-	// Parcelable header: int32 dataSize
-	startPos := reply.Position()
-	headerSize, err := reply.ReadInt32()
-	if err != nil {
-		fmt.Printf("    (could not parse HardwareInfo header: %v)\n", err)
-		return
-	}
-	_ = startPos + int(headerSize)
-
-	version, err := reply.ReadInt32()
-	if err != nil {
-		return
-	}
-	secLevel, err := reply.ReadInt32()
-	if err != nil {
-		return
-	}
-	name, err := reply.ReadString16()
-	if err != nil {
-		return
-	}
-	author, err := reply.ReadString16()
-	if err != nil {
-		return
-	}
-	fmt.Printf("    HardwareInfo: version=%d secLevel=%d name=%q author=%q\n",
-		version, secLevel, name, author)
 }

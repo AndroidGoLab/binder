@@ -14,10 +14,14 @@ import (
 	"github.com/facebookincubator/go-belt/tool/logger"
 	"github.com/facebookincubator/go-belt/tool/logger/implementation/logrus"
 
+	genApp "github.com/AndroidGoLab/binder/android/app"
+	genBoot "github.com/AndroidGoLab/binder/android/hardware/boot"
+	genKeymint "github.com/AndroidGoLab/binder/android/hardware/security/keymint"
+	genInstalld "github.com/AndroidGoLab/binder/android/os"
+	genUsb "github.com/AndroidGoLab/binder/android/hardware/usb"
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/binder/versionaware"
 	"github.com/AndroidGoLab/binder/kernelbinder"
-	"github.com/AndroidGoLab/binder/parcel"
 	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
@@ -25,42 +29,53 @@ import (
 type serviceProbe struct {
 	// ServiceName is the name passed to ServiceManager.CheckService.
 	ServiceName string
-	// Descriptor is the AIDL interface descriptor for the service.
-	Descriptor string
-	// Method is the AIDL method name to call (read-only).
-	Method string
-	// BuildData builds the parcel for the method call. If nil, an
-	// empty parcel (with just the interface token) is sent.
-	BuildData func(p *parcel.Parcel)
+	// CallMethod calls a read-only proxy method. Returns a result string
+	// and error. If nil, only lookup is tested.
+	CallMethod func(ctx context.Context, svc binder.IBinder) (string, error)
 }
 
 var probes = []serviceProbe{
 	{
 		ServiceName: "android.hardware.security.keymint.IKeyMintDevice/default",
-		Descriptor:  "android.hardware.security.keymint.IKeyMintDevice",
-		Method:      "getHardwareInfo",
+		CallMethod: func(ctx context.Context, svc binder.IBinder) (string, error) {
+			proxy := genKeymint.NewKeyMintDeviceProxy(svc)
+			info, err := proxy.GetHardwareInfo(ctx)
+			if err != nil {
+				return "", err
+			}
+			return fmt.Sprintf("version=%d secLevel=%d name=%q author=%q",
+				info.VersionNumber, info.SecurityLevel, info.KeyMintName, info.KeyMintAuthorName), nil
+		},
 	},
 	{
 		ServiceName: "android.hardware.usb.IUsb/default",
-		Descriptor:  "android.hardware.usb.IUsb",
-		Method:      "queryPortStatus",
-		BuildData: func(p *parcel.Parcel) {
-			// queryPortStatus(long transactionId) — use 0.
-			p.WriteInt64(0)
+		CallMethod: func(ctx context.Context, svc binder.IBinder) (string, error) {
+			proxy := genUsb.NewUsbProxy(svc)
+			return "queryPortStatus sent", proxy.QueryPortStatus(ctx, 0)
 		},
 	},
 	{
 		ServiceName: "android.hardware.boot.IBootControl/default",
-		Descriptor:  "android.hardware.boot.IBootControl",
-		Method:      "getCurrentSlot",
+		CallMethod: func(ctx context.Context, svc binder.IBinder) (string, error) {
+			proxy := genBoot.NewBootControlProxy(svc)
+			slot, err := proxy.GetCurrentSlot(ctx)
+			return fmt.Sprintf("currentSlot=%d", slot), err
+		},
 	},
 	{
 		ServiceName: "installd",
-		Descriptor:  "android.os.IInstalld",
-		Method:      "isQuotaSupported",
-		BuildData: func(p *parcel.Parcel) {
-			// isQuotaSupported(String volumeUuid) — use empty string.
-			p.WriteString16("")
+		CallMethod: func(ctx context.Context, svc binder.IBinder) (string, error) {
+			proxy := genInstalld.NewInstalldProxy(svc)
+			supported, err := proxy.IsQuotaSupported(ctx, "")
+			return fmt.Sprintf("isQuotaSupported=%v", supported), err
+		},
+	},
+	{
+		ServiceName: "activity",
+		CallMethod: func(ctx context.Context, svc binder.IBinder) (string, error) {
+			proxy := genApp.NewActivityManagerProxy(svc)
+			isMonkey, err := proxy.IsUserAMonkey(ctx)
+			return fmt.Sprintf("isUserAMonkey=%v", isMonkey), err
 		},
 	},
 }
@@ -118,7 +133,7 @@ func runProbes(ctx context.Context) []string {
 
 	// Probe each target service.
 	for _, probe := range probes {
-		r := probeService(ctx, sm, transport, probe)
+		r := probeServiceEntry(ctx, sm, probe)
 		results = append(results, r...)
 		fmt.Println()
 	}
@@ -160,10 +175,9 @@ func probeListServices(ctx context.Context, sm *servicemanager.ServiceManager) [
 	return results
 }
 
-func probeService(
+func probeServiceEntry(
 	ctx context.Context,
 	sm *servicemanager.ServiceManager,
-	transport *versionaware.Transport,
 	probe serviceProbe,
 ) []string {
 	var results []string
@@ -171,10 +185,10 @@ func probeService(
 	fmt.Println(header)
 
 	// Step 1: CheckService lookup.
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	checkCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	svcBinder, err := sm.CheckService(ctx, servicemanager.ServiceName(probe.ServiceName))
+	svcBinder, err := sm.CheckService(checkCtx, servicemanager.ServiceName(probe.ServiceName))
 	if err != nil {
 		msg := fmt.Sprintf("%s CheckService: FAILED (%v)", header, err)
 		fmt.Println(msg)
@@ -189,23 +203,17 @@ func probeService(
 	fmt.Println(msg)
 	results = append(results, msg)
 
-	// Step 2: Call the read-only method.
-	code, err := transport.ResolveCode(ctx, probe.Descriptor, probe.Method)
-	if err != nil {
-		msg := fmt.Sprintf("%s ResolveCode(%s): FAILED (%v)", header, probe.Method, err)
-		fmt.Println(msg)
-		return append(results, msg)
+	// Step 2: Call the read-only method via generated proxy.
+	if probe.CallMethod == nil {
+		return results
 	}
 
-	data := parcel.New()
-	data.WriteInterfaceToken(probe.Descriptor)
-	if probe.BuildData != nil {
-		probe.BuildData(data)
-	}
+	callCtx, callCancel := context.WithTimeout(ctx, 5*time.Second)
+	defer callCancel()
 
-	reply, err := svcBinder.Transact(ctx, code, 0, data)
+	detail, err := probe.CallMethod(callCtx, svcBinder)
 	if err != nil {
-		msg := fmt.Sprintf("%s %s: FAILED (%v)", header, probe.Method, err)
+		msg := fmt.Sprintf("%s method call: FAILED (%v)", header, err)
 		fmt.Println(msg)
 		results = append(results, msg)
 
@@ -224,68 +232,9 @@ func probeService(
 		return results
 	}
 
-	// Try to read the AIDL status from the reply.
-	if err := binder.ReadStatus(reply); err != nil {
-		msg := fmt.Sprintf("%s %s: STATUS ERROR (%v)", header, probe.Method, err)
-		fmt.Println(msg)
-		results = append(results, msg)
-		return results
-	}
-
-	msg = fmt.Sprintf("%s %s: SUCCESS (reply %d bytes)", header, probe.Method, reply.Len())
+	msg = fmt.Sprintf("%s method call: SUCCESS (%s)", header, detail)
 	fmt.Println(msg)
 	results = append(results, msg)
 
-	// For KeyMint, try to parse the hardware info for extra detail.
-	if probe.Descriptor == "android.hardware.security.keymint.IKeyMintDevice" {
-		results = append(results, parseKeyMintHardwareInfo(header, reply)...)
-	}
-
 	return results
-}
-
-func parseKeyMintHardwareInfo(header string, reply *parcel.Parcel) []string {
-	var results []string
-
-	// Read parcelable header.
-	endPos, err := readParcelableHeader(reply)
-	if err != nil {
-		return results
-	}
-
-	versionNumber, err := reply.ReadInt32()
-	if err != nil {
-		return results
-	}
-
-	secLevel, err := reply.ReadInt32()
-	if err != nil {
-		return results
-	}
-
-	name, err := reply.ReadString16()
-	if err != nil {
-		return results
-	}
-
-	author, err := reply.ReadString16()
-	if err != nil {
-		return results
-	}
-
-	_ = endPos
-	msg := fmt.Sprintf("%s  HardwareInfo: version=%d secLevel=%d name=%q author=%q",
-		header, versionNumber, secLevel, name, author)
-	fmt.Println(msg)
-	results = append(results, msg)
-	return results
-}
-
-func readParcelableHeader(p *parcel.Parcel) (int, error) {
-	startPos := p.Position()
-	headerSize, err := p.ReadInt32()
-	if err != nil {
-		return 0, err
-	}
-	return startPos + int(headerSize), nil
 }
