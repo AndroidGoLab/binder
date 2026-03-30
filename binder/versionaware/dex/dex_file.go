@@ -17,8 +17,12 @@ const (
 	offStringIDsOff  = 0x3C
 	offTypeIDsSize   = 0x40
 	offTypeIDsOff    = 0x44
+	offProtoIDsSize  = 0x48
+	offProtoIDsOff   = 0x4C
 	offFieldIDsSize  = 0x50
 	offFieldIDsOff   = 0x54
+	offMethodIDsSize = 0x58
+	offMethodIDsOff  = 0x5C
 	offClassDefsSize = 0x60
 	offClassDefsOff  = 0x64
 )
@@ -27,7 +31,9 @@ const (
 const (
 	stringIDItemSize = 4
 	typeIDItemSize   = 4
+	protoIDItemSize  = 12
 	fieldIDItemSize  = 8
+	methodIDItemSize = 8
 	classDefItemSize = 32
 )
 
@@ -40,8 +46,12 @@ type dexFile struct {
 	stringIDsOff  uint32
 	typeIDsSize   uint32
 	typeIDsOff    uint32
+	protoIDsSize  uint32
+	protoIDsOff   uint32
 	fieldIDsSize  uint32
 	fieldIDsOff   uint32
+	methodIDsSize uint32
+	methodIDsOff  uint32
 	classDefsSize uint32
 	classDefsOff  uint32
 }
@@ -62,8 +72,12 @@ func parseDEXFile(data []byte) (*dexFile, error) {
 		stringIDsOff:  binary.LittleEndian.Uint32(data[offStringIDsOff:]),
 		typeIDsSize:   binary.LittleEndian.Uint32(data[offTypeIDsSize:]),
 		typeIDsOff:    binary.LittleEndian.Uint32(data[offTypeIDsOff:]),
+		protoIDsSize:  binary.LittleEndian.Uint32(data[offProtoIDsSize:]),
+		protoIDsOff:   binary.LittleEndian.Uint32(data[offProtoIDsOff:]),
 		fieldIDsSize:  binary.LittleEndian.Uint32(data[offFieldIDsSize:]),
 		fieldIDsOff:   binary.LittleEndian.Uint32(data[offFieldIDsOff:]),
+		methodIDsSize: binary.LittleEndian.Uint32(data[offMethodIDsSize:]),
+		methodIDsOff:  binary.LittleEndian.Uint32(data[offMethodIDsOff:]),
 		classDefsSize: binary.LittleEndian.Uint32(data[offClassDefsSize:]),
 		classDefsOff:  binary.LittleEndian.Uint32(data[offClassDefsOff:]),
 	}
@@ -79,7 +93,9 @@ func parseDEXFile(data []byte) (*dexFile, error) {
 	}{
 		{"string_ids", f.stringIDsOff, f.stringIDsSize, stringIDItemSize},
 		{"type_ids", f.typeIDsOff, f.typeIDsSize, typeIDItemSize},
+		{"proto_ids", f.protoIDsOff, f.protoIDsSize, protoIDItemSize},
 		{"field_ids", f.fieldIDsOff, f.fieldIDsSize, fieldIDItemSize},
+		{"method_ids", f.methodIDsOff, f.methodIDsSize, methodIDItemSize},
 		{"class_defs", f.classDefsOff, f.classDefsSize, classDefItemSize},
 	}
 	for _, s := range sections {
@@ -165,6 +181,76 @@ func (f *dexFile) readTypeDescriptorBytes(idx uint32) ([]byte, error) {
 
 	descriptorIdx := binary.LittleEndian.Uint32(f.data[off:])
 	return f.readStringBytes(descriptorIdx)
+}
+
+// readTypeDescriptor returns the type descriptor at the given type_ids
+// index as an allocated string. The returned string is safe to retain
+// after f.data is reused or freed.
+func (f *dexFile) readTypeDescriptor(idx uint32) (string, error) {
+	b, err := f.readTypeDescriptorBytes(idx)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
+// readMethodID parses the method_id_item at the given method_ids index.
+// Returns the class type index, proto index, and name string index.
+func (f *dexFile) readMethodID(
+	idx uint32,
+) (classIdx uint16, protoIdx uint16, nameIdx uint32, err error) {
+	if idx >= f.methodIDsSize {
+		return 0, 0, 0, fmt.Errorf("method index %d out of range (size=%d)", idx, f.methodIDsSize)
+	}
+
+	off := uint64(f.methodIDsOff) + uint64(idx)*methodIDItemSize
+	if off+methodIDItemSize > uint64(len(f.data)) {
+		return 0, 0, 0, fmt.Errorf("method_id_item at offset 0x%x out of bounds", off)
+	}
+
+	classIdx = binary.LittleEndian.Uint16(f.data[off:])
+	protoIdx = binary.LittleEndian.Uint16(f.data[off+2:])
+	nameIdx = binary.LittleEndian.Uint32(f.data[off+4:])
+	return classIdx, protoIdx, nameIdx, nil
+}
+
+// readProtoParams returns the parameter type indices for the proto_id
+// at the given proto_ids index. Returns nil for zero-parameter protos.
+func (f *dexFile) readProtoParams(protoIdx uint32) ([]uint32, error) {
+	if protoIdx >= f.protoIDsSize {
+		return nil, fmt.Errorf("proto index %d out of range (size=%d)", protoIdx, f.protoIDsSize)
+	}
+
+	off := uint64(f.protoIDsOff) + uint64(protoIdx)*protoIDItemSize
+	if off+protoIDItemSize > uint64(len(f.data)) {
+		return nil, fmt.Errorf("proto_id_item at offset 0x%x out of bounds", off)
+	}
+
+	// proto_id_item: shorty_idx(u32), return_type_idx(u32), parameters_off(u32)
+	paramsOff := binary.LittleEndian.Uint32(f.data[off+8:])
+	if paramsOff == 0 {
+		return nil, nil
+	}
+
+	dataLen := uint32(len(f.data))
+	if paramsOff+4 > dataLen {
+		return nil, fmt.Errorf("type_list at offset 0x%x out of bounds", paramsOff)
+	}
+
+	// type_list: uint32 size, then size * uint16 type_idx entries.
+	size := binary.LittleEndian.Uint32(f.data[paramsOff:])
+	listEnd := uint64(paramsOff) + 4 + uint64(size)*2
+	if listEnd > uint64(dataLen) {
+		return nil, fmt.Errorf("type_list entries at offset 0x%x extend past file end", paramsOff)
+	}
+
+	typeIndices := make([]uint32, size)
+	pos := paramsOff + 4
+	for i := uint32(0); i < size; i++ {
+		typeIndices[i] = uint32(binary.LittleEndian.Uint16(f.data[pos:]))
+		pos += 2
+	}
+	return typeIndices, nil
 }
 
 // stubDescriptorToInterface converts a $Stub class descriptor to the

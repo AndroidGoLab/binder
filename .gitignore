@@ -42,3 +42,4 @@
 # Lean 4
 /.lake
 proofs/.lake
+*.out
