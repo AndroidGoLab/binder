@@ -48,8 +48,25 @@ func (p *TransitionMetricsReporterProxy) ReportAnimationStart(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransitionMetricsReporter)
-	binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
-	_data.WriteInt64(startTime)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITransitionMetricsReporter, MethodITransitionMetricsReporterReportAnimationStart)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
+		_data.WriteInt64(startTime)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
+			case 1:
+				_data.WriteInt64(startTime)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransitionMetricsReporter, MethodITransitionMetricsReporterReportAnimationStart)
 	if _err != nil {

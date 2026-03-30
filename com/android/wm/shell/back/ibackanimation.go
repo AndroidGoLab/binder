@@ -57,8 +57,25 @@ func (p *BackAnimationProxy) SetBackToLauncherCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackAnimation)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, runner.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackAnimation, MethodIBackAnimationSetBackToLauncherCallback)
+	_compiledDescs := []string{
+		"Landroid/window/IOnBackInvokedCallback;",
+		"Landroid/view/IRemoteAnimationRunner;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, runner.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, runner.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackAnimation, MethodIBackAnimationSetBackToLauncherCallback)
 	if _err != nil {
@@ -110,9 +127,26 @@ func (p *BackAnimationProxy) CustomizeStatusBarAppearance(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackAnimation)
-	_data.WriteInt32(1)
-	if _err := appearance.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackAnimation, MethodIBackAnimationCustomizeStatusBarAppearance)
+	_compiledDescs := []string{
+		"Lcom/android/internal/view/AppearanceRegion;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := appearance.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := appearance.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackAnimation, MethodIBackAnimationCustomizeStatusBarAppearance)

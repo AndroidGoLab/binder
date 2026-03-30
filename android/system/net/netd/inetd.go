@@ -77,8 +77,25 @@ func (p *NetdProxy) AddInterfaceToOemNetwork(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
-	_data.WriteInt64(networkHandle)
-	_data.WriteString16(ifname)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetd, MethodINetdAddInterfaceToOemNetwork)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(networkHandle)
+		_data.WriteString16(ifname)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(networkHandle)
+			case 1:
+				_data.WriteString16(ifname)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdAddInterfaceToOemNetwork)
 	if _err != nil {
@@ -108,10 +125,33 @@ func (p *NetdProxy) AddRouteToOemNetwork(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
-	_data.WriteInt64(networkHandle)
-	_data.WriteString16(ifname)
-	_data.WriteString16(destination)
-	_data.WriteString16(nexthop)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetd, MethodINetdAddRouteToOemNetwork)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(networkHandle)
+		_data.WriteString16(ifname)
+		_data.WriteString16(destination)
+		_data.WriteString16(nexthop)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(networkHandle)
+			case 1:
+				_data.WriteString16(ifname)
+			case 2:
+				_data.WriteString16(destination)
+			case 3:
+				_data.WriteString16(nexthop)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdAddRouteToOemNetwork)
 	if _err != nil {
@@ -173,7 +213,21 @@ func (p *NetdProxy) DestroyOemNetwork(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
-	_data.WriteInt64(networkHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetd, MethodINetdDestroyOemNetwork)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(networkHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(networkHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdDestroyOemNetwork)
 	if _err != nil {
@@ -201,8 +255,25 @@ func (p *NetdProxy) RemoveInterfaceFromOemNetwork(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
-	_data.WriteInt64(networkHandle)
-	_data.WriteString16(ifname)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetd, MethodINetdRemoveInterfaceFromOemNetwork)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(networkHandle)
+		_data.WriteString16(ifname)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(networkHandle)
+			case 1:
+				_data.WriteString16(ifname)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdRemoveInterfaceFromOemNetwork)
 	if _err != nil {
@@ -232,10 +303,33 @@ func (p *NetdProxy) RemoveRouteFromOemNetwork(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
-	_data.WriteInt64(networkHandle)
-	_data.WriteString16(ifname)
-	_data.WriteString16(destination)
-	_data.WriteString16(nexthop)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetd, MethodINetdRemoveRouteFromOemNetwork)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(networkHandle)
+		_data.WriteString16(ifname)
+		_data.WriteString16(destination)
+		_data.WriteString16(nexthop)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(networkHandle)
+			case 1:
+				_data.WriteString16(ifname)
+			case 2:
+				_data.WriteString16(destination)
+			case 3:
+				_data.WriteString16(nexthop)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdRemoveRouteFromOemNetwork)
 	if _err != nil {
@@ -264,9 +358,29 @@ func (p *NetdProxy) SetForwardingBetweenInterfaces(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
-	_data.WriteString16(inputIfName)
-	_data.WriteString16(outputIfName)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetd, MethodINetdSetForwardingBetweenInterfaces)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(inputIfName)
+		_data.WriteString16(outputIfName)
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(inputIfName)
+			case 1:
+				_data.WriteString16(outputIfName)
+			case 2:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdSetForwardingBetweenInterfaces)
 	if _err != nil {
@@ -293,7 +407,21 @@ func (p *NetdProxy) SetIpForwardEnable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetd, MethodINetdSetIpForwardEnable)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdSetIpForwardEnable)
 	if _err != nil {

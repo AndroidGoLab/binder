@@ -60,11 +60,37 @@ func (p *ProcessObserverProxy) OnProcessStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessObserver)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(processUid)
-	_data.WriteInt32(packageUid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(processName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProcessObserver, MethodIProcessObserverOnProcessStarted)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(pid)
+		_data.WriteInt32(processUid)
+		_data.WriteInt32(packageUid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(processName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(pid)
+			case 1:
+				_data.WriteInt32(processUid)
+			case 2:
+				_data.WriteInt32(packageUid)
+			case 3:
+				_data.WriteString16(packageName)
+			case 4:
+				_data.WriteString16(processName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessObserver, MethodIProcessObserverOnProcessStarted)
 	if _err != nil {
@@ -84,9 +110,29 @@ func (p *ProcessObserverProxy) OnForegroundActivitiesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessObserver)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteBool(foregroundActivities)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProcessObserver, MethodIProcessObserverOnForegroundActivitiesChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteBool(foregroundActivities)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(pid)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteBool(foregroundActivities)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessObserver, MethodIProcessObserverOnForegroundActivitiesChanged)
 	if _err != nil {
@@ -106,9 +152,29 @@ func (p *ProcessObserverProxy) OnForegroundServicesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessObserver)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(serviceTypes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProcessObserver, MethodIProcessObserverOnForegroundServicesChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(serviceTypes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(pid)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteInt32(serviceTypes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessObserver, MethodIProcessObserverOnForegroundServicesChanged)
 	if _err != nil {
@@ -127,8 +193,25 @@ func (p *ProcessObserverProxy) OnProcessDied(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessObserver)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProcessObserver, MethodIProcessObserverOnProcessDied)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(pid)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessObserver, MethodIProcessObserverOnProcessDied)
 	if _err != nil {

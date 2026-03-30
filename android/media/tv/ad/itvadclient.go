@@ -76,13 +76,39 @@ func (p *TvAdClientProxy) OnSessionCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
-	_data.WriteString16(serviceId)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := channel.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvAdClient, MethodITvAdClientOnSessionCreated)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
+		"Landroid/view/InputChannel;",
+		"I",
 	}
-	_data.WriteInt32(seq)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(serviceId)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := channel.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(seq)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(serviceId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(1)
+				if _err := channel.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(seq)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdClient, MethodITvAdClientOnSessionCreated)
 	if _err != nil {
@@ -100,7 +126,21 @@ func (p *TvAdClientProxy) OnSessionReleased(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
-	_data.WriteInt32(seq)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvAdClient, MethodITvAdClientOnSessionReleased)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(seq)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(seq)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdClient, MethodITvAdClientOnSessionReleased)
 	if _err != nil {
@@ -122,11 +162,37 @@ func (p *TvAdClientProxy) OnLayoutSurface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
-	_data.WriteInt32(left)
-	_data.WriteInt32(top)
-	_data.WriteInt32(right)
-	_data.WriteInt32(bottom)
-	_data.WriteInt32(seq)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvAdClient, MethodITvAdClientOnLayoutSurface)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(left)
+		_data.WriteInt32(top)
+		_data.WriteInt32(right)
+		_data.WriteInt32(bottom)
+		_data.WriteInt32(seq)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(left)
+			case 1:
+				_data.WriteInt32(top)
+			case 2:
+				_data.WriteInt32(right)
+			case 3:
+				_data.WriteInt32(bottom)
+			case 4:
+				_data.WriteInt32(seq)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdClient, MethodITvAdClientOnLayoutSurface)
 	if _err != nil {
@@ -144,7 +210,21 @@ func (p *TvAdClientProxy) OnRequestCurrentVideoBounds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
-	_data.WriteInt32(seq)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvAdClient, MethodITvAdClientOnRequestCurrentVideoBounds)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(seq)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(seq)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdClient, MethodITvAdClientOnRequestCurrentVideoBounds)
 	if _err != nil {
@@ -162,7 +242,21 @@ func (p *TvAdClientProxy) OnRequestCurrentChannelUri(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
-	_data.WriteInt32(seq)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvAdClient, MethodITvAdClientOnRequestCurrentChannelUri)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(seq)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(seq)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdClient, MethodITvAdClientOnRequestCurrentChannelUri)
 	if _err != nil {
@@ -180,7 +274,21 @@ func (p *TvAdClientProxy) OnRequestTrackInfoList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
-	_data.WriteInt32(seq)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvAdClient, MethodITvAdClientOnRequestTrackInfoList)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(seq)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(seq)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdClient, MethodITvAdClientOnRequestTrackInfoList)
 	if _err != nil {
@@ -198,7 +306,21 @@ func (p *TvAdClientProxy) OnRequestCurrentTvInputId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
-	_data.WriteInt32(seq)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvAdClient, MethodITvAdClientOnRequestCurrentTvInputId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(seq)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(seq)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdClient, MethodITvAdClientOnRequestCurrentTvInputId)
 	if _err != nil {
@@ -220,11 +342,37 @@ func (p *TvAdClientProxy) OnRequestSigning(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
-	_data.WriteString16(id)
-	_data.WriteString16(algorithm)
-	_data.WriteString16(alias)
-	_data.WriteByteArray(data)
-	_data.WriteInt32(seq)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvAdClient, MethodITvAdClientOnRequestSigning)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(id)
+		_data.WriteString16(algorithm)
+		_data.WriteString16(alias)
+		_data.WriteByteArray(data)
+		_data.WriteInt32(seq)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(id)
+			case 1:
+				_data.WriteString16(algorithm)
+			case 2:
+				_data.WriteString16(alias)
+			case 3:
+				_data.WriteByteArray(data)
+			case 4:
+				_data.WriteInt32(seq)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdClient, MethodITvAdClientOnRequestSigning)
 	if _err != nil {
@@ -244,12 +392,35 @@ func (p *TvAdClientProxy) OnTvAdSessionData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
-	_data.WriteString16(type_)
-	_data.WriteInt32(1)
-	if _err := data.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvAdClient, MethodITvAdClientOnTvAdSessionData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"I",
 	}
-	_data.WriteInt32(seq)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(type_)
+		_data.WriteInt32(1)
+		if _err := data.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(seq)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(type_)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := data.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(seq)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdClient, MethodITvAdClientOnTvAdSessionData)
 	if _err != nil {

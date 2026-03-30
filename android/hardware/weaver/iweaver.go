@@ -96,8 +96,25 @@ func (p *WeaverProxy) Read(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWeaver)
-	_data.WriteInt32(slotId)
-	_data.WriteByteArray(key)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWeaver, MethodIWeaverRead)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteByteArray(key)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteByteArray(key)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWeaver, MethodIWeaverRead)
 	if _err != nil {
@@ -135,9 +152,29 @@ func (p *WeaverProxy) Write(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWeaver)
-	_data.WriteInt32(slotId)
-	_data.WriteByteArray(key)
-	_data.WriteByteArray(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWeaver, MethodIWeaverWrite)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteByteArray(key)
+		_data.WriteByteArray(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteByteArray(key)
+			case 2:
+				_data.WriteByteArray(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWeaver, MethodIWeaverWrite)
 	if _err != nil {

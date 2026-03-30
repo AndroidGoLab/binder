@@ -1019,7 +1019,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: boolean
           annotations:
@@ -1236,7 +1235,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: String
           annotations:
@@ -2886,7 +2884,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: void
           annotations:
@@ -3421,7 +3418,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: void
           annotations:
@@ -7084,7 +7080,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: int
           annotations:
@@ -7101,7 +7096,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: List
             type_args:
@@ -7115,7 +7109,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: List
             type_args:
@@ -7136,7 +7129,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: boolean
           annotations:
@@ -7152,7 +7144,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: int
           annotations:
@@ -7168,7 +7159,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: void
           annotations:
@@ -7184,7 +7174,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: void
           annotations:
@@ -7202,7 +7191,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: void
           annotations:
@@ -7214,7 +7202,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: void
           annotations:
@@ -7226,7 +7213,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: boolean
           annotations:
@@ -7250,7 +7236,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: void
           annotations:
@@ -7274,7 +7259,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: void
           annotations:
@@ -7294,7 +7278,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: void
           annotations:
@@ -7310,7 +7293,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: List
             type_args:
@@ -7328,7 +7310,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: int
           annotations:
@@ -9047,7 +9028,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: ParcelFileDescriptor
           annotations:
@@ -9125,7 +9105,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: ParcelFileDescriptor
           annotations:
@@ -9189,7 +9168,6 @@ interfaces:
               type:
                 name: AttributionSource
               direction: in
-              min_api_level: 36
           return_type:
             name: void
           annotations:

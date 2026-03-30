@@ -54,9 +54,26 @@ func (p *AccountAuthenticatorResponseProxy) OnResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticatorResponse)
-	_data.WriteInt32(1)
-	if _err := value.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticatorResponse, MethodIAccountAuthenticatorResponseOnResult)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := value.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := value.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticatorResponse, MethodIAccountAuthenticatorResponseOnResult)
@@ -92,8 +109,25 @@ func (p *AccountAuthenticatorResponseProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticatorResponse)
-	_data.WriteInt32(errorCode)
-	_data.WriteString16(errorMessage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticatorResponse, MethodIAccountAuthenticatorResponseOnError)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+		_data.WriteString16(errorMessage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			case 1:
+				_data.WriteString16(errorMessage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticatorResponse, MethodIAccountAuthenticatorResponseOnError)
 	if _err != nil {

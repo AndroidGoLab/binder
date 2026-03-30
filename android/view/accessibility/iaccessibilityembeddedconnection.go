@@ -55,8 +55,25 @@ func (p *AccessibilityEmbeddedConnectionProxy) AssociateEmbeddedHierarchy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityEmbeddedConnection)
-	binder.WriteBinderToParcel(ctx, _data, hostToken, p.Remote.Transport())
-	_data.WriteInt32(sourceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityEmbeddedConnection, MethodIAccessibilityEmbeddedConnectionAssociateEmbeddedHierarchy)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, hostToken, p.Remote.Transport())
+		_data.WriteInt32(sourceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, hostToken, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(sourceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityEmbeddedConnection, MethodIAccessibilityEmbeddedConnectionAssociateEmbeddedHierarchy)
 	if _err != nil {
@@ -113,12 +130,33 @@ func (p *AccessibilityEmbeddedConnectionProxy) SetWindowMatrix(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityEmbeddedConnection)
-	if matrixValues == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityEmbeddedConnection, MethodIAccessibilityEmbeddedConnectionSetWindowMatrix)
+	_compiledDescs := []string{
+		"[F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if matrixValues == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(matrixValues)))
+			for _, _item := range matrixValues {
+				_data.WriteFloat32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(matrixValues)))
-		for _, _item := range matrixValues {
-			_data.WriteFloat32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if matrixValues == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(matrixValues)))
+					for _, _item := range matrixValues {
+						_data.WriteFloat32(_item)
+					}
+				}
+			}
 		}
 	}
 

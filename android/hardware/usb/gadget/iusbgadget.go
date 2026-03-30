@@ -59,10 +59,33 @@ func (p *UsbGadgetProxy) SetCurrentUsbFunctions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbGadget)
-	_data.WriteInt64(functions)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt64(timeoutMs)
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbGadget, MethodIUsbGadgetSetCurrentUsbFunctions)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/hardware/usb/gadget/IUsbGadgetCallback;",
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(functions)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt64(timeoutMs)
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(functions)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteInt64(timeoutMs)
+			case 3:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadget, MethodIUsbGadgetSetCurrentUsbFunctions)
 	if _err != nil {
@@ -81,8 +104,25 @@ func (p *UsbGadgetProxy) GetCurrentUsbFunctions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbGadget)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbGadget, MethodIUsbGadgetGetCurrentUsbFunctions)
+	_compiledDescs := []string{
+		"Landroid/hardware/usb/gadget/IUsbGadgetCallback;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadget, MethodIUsbGadgetGetCurrentUsbFunctions)
 	if _err != nil {
@@ -101,8 +141,25 @@ func (p *UsbGadgetProxy) GetUsbSpeed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbGadget)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbGadget, MethodIUsbGadgetGetUsbSpeed)
+	_compiledDescs := []string{
+		"Landroid/hardware/usb/gadget/IUsbGadgetCallback;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadget, MethodIUsbGadgetGetUsbSpeed)
 	if _err != nil {
@@ -121,8 +178,25 @@ func (p *UsbGadgetProxy) Reset(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbGadget)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbGadget, MethodIUsbGadgetReset)
+	_compiledDescs := []string{
+		"Landroid/hardware/usb/gadget/IUsbGadgetCallback;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadget, MethodIUsbGadgetReset)
 	if _err != nil {

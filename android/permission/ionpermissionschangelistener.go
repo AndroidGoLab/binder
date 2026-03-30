@@ -48,8 +48,25 @@ func (p *OnPermissionsChangeListenerProxy) OnPermissionsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnPermissionsChangeListener)
-	_data.WriteInt32(uid)
-	_data.WriteString16(persistentDeviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnPermissionsChangeListener, MethodIOnPermissionsChangeListenerOnPermissionsChanged)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteString16(persistentDeviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteString16(persistentDeviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnPermissionsChangeListener, MethodIOnPermissionsChangeListenerOnPermissionsChanged)
 	if _err != nil {

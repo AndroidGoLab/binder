@@ -55,10 +55,30 @@ func (p *VirtualCameraServiceProxy) RegisterCamera(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := configuration.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualCameraService, MethodIVirtualCameraServiceRegisterCamera)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/companion/virtualcamera/VirtualCameraConfiguration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := configuration.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := configuration.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualCameraService, MethodIVirtualCameraServiceRegisterCamera)
@@ -90,7 +110,21 @@ func (p *VirtualCameraServiceProxy) UnregisterCamera(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualCameraService, MethodIVirtualCameraServiceUnregisterCamera)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualCameraService, MethodIVirtualCameraServiceUnregisterCamera)
 	if _err != nil {
@@ -118,7 +152,21 @@ func (p *VirtualCameraServiceProxy) GetCameraId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualCameraService, MethodIVirtualCameraServiceGetCameraId)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualCameraService, MethodIVirtualCameraServiceGetCameraId)
 	if _err != nil {

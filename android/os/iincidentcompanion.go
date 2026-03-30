@@ -78,12 +78,41 @@ func (p *IncidentCompanionProxy) AuthorizeReport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentCompanion)
-	_data.WriteInt32(_identity.UID)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(receiverClass)
-	_data.WriteString16(reportId)
-	_data.WriteInt32(flags)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionAuthorizeReport)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/os/IIncidentAuthListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UID)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(receiverClass)
+		_data.WriteString16(reportId)
+		_data.WriteInt32(flags)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UID)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(receiverClass)
+			case 3:
+				_data.WriteString16(reportId)
+			case 4:
+				_data.WriteInt32(flags)
+			case 5:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionAuthorizeReport)
 	if _err != nil {
@@ -101,7 +130,21 @@ func (p *IncidentCompanionProxy) CancelAuthorization(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentCompanion)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionCancelAuthorization)
+	_compiledDescs := []string{
+		"Landroid/os/IIncidentAuthListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionCancelAuthorization)
 	if _err != nil {
@@ -120,8 +163,25 @@ func (p *IncidentCompanionProxy) SendReportReadyBroadcast(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentCompanion)
-	_data.WriteString16(pkg)
-	_data.WriteString16(cls)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionSendReportReadyBroadcast)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(cls)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(cls)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionSendReportReadyBroadcast)
 	if _err != nil {
@@ -182,7 +242,21 @@ func (p *IncidentCompanionProxy) ApproveReport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentCompanion)
-	_data.WriteString16(uri)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionApproveReport)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uri)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uri)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionApproveReport)
 	if _err != nil {
@@ -209,7 +283,21 @@ func (p *IncidentCompanionProxy) DenyReport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentCompanion)
-	_data.WriteString16(uri)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionDenyReport)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uri)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uri)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionDenyReport)
 	if _err != nil {
@@ -238,8 +326,25 @@ func (p *IncidentCompanionProxy) GetIncidentReportList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentCompanion)
-	_data.WriteString16(pkg)
-	_data.WriteString16(cls)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionGetIncidentReportList)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(cls)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(cls)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionGetIncidentReportList)
 	if _err != nil {
@@ -286,9 +391,29 @@ func (p *IncidentCompanionProxy) GetIncidentReport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentCompanion)
-	_data.WriteString16(pkg)
-	_data.WriteString16(cls)
-	_data.WriteString16(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionGetIncidentReport)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(cls)
+		_data.WriteString16(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(cls)
+			case 2:
+				_data.WriteString16(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionGetIncidentReport)
 	if _err != nil {
@@ -326,9 +451,29 @@ func (p *IncidentCompanionProxy) DeleteIncidentReports(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentCompanion)
-	_data.WriteString16(pkg)
-	_data.WriteString16(cls)
-	_data.WriteString16(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionDeleteIncidentReports)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(cls)
+		_data.WriteString16(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(cls)
+			case 2:
+				_data.WriteString16(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionDeleteIncidentReports)
 	if _err != nil {
@@ -355,7 +500,21 @@ func (p *IncidentCompanionProxy) DeleteAllIncidentReports(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentCompanion)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionDeleteAllIncidentReports)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentCompanion, MethodIIncidentCompanionDeleteAllIncidentReports)
 	if _err != nil {

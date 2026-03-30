@@ -51,8 +51,25 @@ func (p *AudioFocusDispatcherProxy) DispatchAudioFocusChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFocusDispatcher)
-	_data.WriteInt32(focusChange)
-	_data.WriteString16(clientId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioFocusDispatcher, MethodIAudioFocusDispatcherDispatchAudioFocusChange)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(focusChange)
+		_data.WriteString16(clientId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(focusChange)
+			case 1:
+				_data.WriteString16(clientId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFocusDispatcher, MethodIAudioFocusDispatcherDispatchAudioFocusChange)
 	if _err != nil {
@@ -71,8 +88,25 @@ func (p *AudioFocusDispatcherProxy) DispatchFocusResultFromExtPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFocusDispatcher)
-	_data.WriteInt32(requestResult)
-	_data.WriteString16(clientId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioFocusDispatcher, MethodIAudioFocusDispatcherDispatchFocusResultFromExtPolicy)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(requestResult)
+		_data.WriteString16(clientId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(requestResult)
+			case 1:
+				_data.WriteString16(clientId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFocusDispatcher, MethodIAudioFocusDispatcherDispatchFocusResultFromExtPolicy)
 	if _err != nil {

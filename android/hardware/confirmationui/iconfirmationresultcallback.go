@@ -49,9 +49,29 @@ func (p *ConfirmationResultCallbackProxy) Result(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfirmationResultCallback)
-	_data.WriteInt32(error_)
-	_data.WriteByteArray(formattedMessage)
-	_data.WriteByteArray(confirmationToken)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConfirmationResultCallback, MethodIConfirmationResultCallbackResult)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(error_)
+		_data.WriteByteArray(formattedMessage)
+		_data.WriteByteArray(confirmationToken)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(error_)
+			case 1:
+				_data.WriteByteArray(formattedMessage)
+			case 2:
+				_data.WriteByteArray(confirmationToken)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfirmationResultCallback, MethodIConfirmationResultCallbackResult)
 	if _err != nil {

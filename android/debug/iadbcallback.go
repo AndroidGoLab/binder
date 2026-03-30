@@ -48,8 +48,25 @@ func (p *AdbCallbackProxy) OnDebuggingChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbCallback)
-	_data.WriteBool(enabled)
-	_data.WritePaddedByte(byte(type_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdbCallback, MethodIAdbCallbackOnDebuggingChanged)
+	_compiledDescs := []string{
+		"Z",
+		"Landroid/debug/AdbTransportType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+		_data.WritePaddedByte(byte(type_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			case 1:
+				_data.WritePaddedByte(byte(type_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbCallback, MethodIAdbCallbackOnDebuggingChanged)
 	if _err != nil {

@@ -74,9 +74,26 @@ func (p *IncidentManagerProxy) ReportIncident(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentManager, MethodIIncidentManagerReportIncident)
+	_compiledDescs := []string{
+		"Landroid/os/IncidentReportArgs;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := args.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := args.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentManager, MethodIIncidentManagerReportIncident)
@@ -97,12 +114,35 @@ func (p *IncidentManagerProxy) ReportIncidentToStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentManager, MethodIIncidentManagerReportIncidentToStream)
+	_compiledDescs := []string{
+		"Landroid/os/IncidentReportArgs;",
+		"Landroid/os/IIncidentReportStatusListener;",
+		"Ljava/io/FileDescriptor;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteFileDescriptor(stream)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := args.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteFileDescriptor(stream)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := args.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteFileDescriptor(stream)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentManager, MethodIIncidentManagerReportIncidentToStream)
 	if _err != nil {
@@ -121,8 +161,25 @@ func (p *IncidentManagerProxy) ReportIncidentToDumpstate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
-	_data.WriteFileDescriptor(stream)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentManager, MethodIIncidentManagerReportIncidentToDumpstate)
+	_compiledDescs := []string{
+		"Ljava/io/FileDescriptor;",
+		"Landroid/os/IIncidentReportStatusListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFileDescriptor(stream)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFileDescriptor(stream)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentManager, MethodIIncidentManagerReportIncidentToDumpstate)
 	if _err != nil {
@@ -142,9 +199,29 @@ func (p *IncidentManagerProxy) RegisterSection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
-	_data.WriteInt32(id)
-	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentManager, MethodIIncidentManagerRegisterSection)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/IIncidentDumpCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+		_data.WriteString16(name)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			case 1:
+				_data.WriteString16(name)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentManager, MethodIIncidentManagerRegisterSection)
 	if _err != nil {
@@ -162,7 +239,21 @@ func (p *IncidentManagerProxy) UnregisterSection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentManager, MethodIIncidentManagerUnregisterSection)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentManager, MethodIIncidentManagerUnregisterSection)
 	if _err != nil {
@@ -198,8 +289,25 @@ func (p *IncidentManagerProxy) GetIncidentReportList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
-	_data.WriteString16(pkg)
-	_data.WriteString16(cls)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentManager, MethodIIncidentManagerGetIncidentReportList)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(cls)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(cls)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentManager, MethodIIncidentManagerGetIncidentReportList)
 	if _err != nil {
@@ -246,9 +354,29 @@ func (p *IncidentManagerProxy) GetIncidentReport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
-	_data.WriteString16(pkg)
-	_data.WriteString16(cls)
-	_data.WriteString16(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentManager, MethodIIncidentManagerGetIncidentReport)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(cls)
+		_data.WriteString16(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(cls)
+			case 2:
+				_data.WriteString16(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentManager, MethodIIncidentManagerGetIncidentReport)
 	if _err != nil {
@@ -286,9 +414,29 @@ func (p *IncidentManagerProxy) DeleteIncidentReports(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
-	_data.WriteString16(pkg)
-	_data.WriteString16(cls)
-	_data.WriteString16(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentManager, MethodIIncidentManagerDeleteIncidentReports)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(cls)
+		_data.WriteString16(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(cls)
+			case 2:
+				_data.WriteString16(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentManager, MethodIIncidentManagerDeleteIncidentReports)
 	if _err != nil {
@@ -315,7 +463,21 @@ func (p *IncidentManagerProxy) DeleteAllIncidentReports(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentManager, MethodIIncidentManagerDeleteAllIncidentReports)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentManager, MethodIIncidentManagerDeleteAllIncidentReports)
 	if _err != nil {

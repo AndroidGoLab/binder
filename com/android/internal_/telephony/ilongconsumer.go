@@ -47,7 +47,21 @@ func (p *LongConsumerProxy) Accept(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILongConsumer)
-	_data.WriteInt64(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILongConsumer, MethodILongConsumerAccept)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILongConsumer, MethodILongConsumerAccept)
 	if _err != nil {

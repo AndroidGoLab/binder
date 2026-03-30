@@ -94,23 +94,67 @@ func (p *MmsProxy) SendMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt32(1)
-	if _err := contentUri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMms, MethodIMmsSendMessage)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"Landroid/app/PendingIntent;",
+		"J",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(locationUrl)
-	_data.WriteInt32(1)
-	if _err := configOverrides.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+		_data.WriteInt32(1)
+		if _err := contentUri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(locationUrl)
+		_data.WriteInt32(1)
+		if _err := configOverrides.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := sentIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt64(messageId)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := contentUri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteString16(locationUrl)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := configOverrides.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := sentIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				_data.WriteInt64(messageId)
+			case 7:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := sentIntent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt64(messageId)
-	_data.WriteString16(_identity.AttributionTag)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsSendMessage)
 	if _err != nil {
@@ -144,23 +188,67 @@ func (p *MmsProxy) DownloadMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(locationUrl)
-	_data.WriteInt32(1)
-	if _err := contentUri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMms, MethodIMmsDownloadMessage)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"Landroid/os/Bundle;",
+		"Landroid/app/PendingIntent;",
+		"J",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(1)
-	if _err := configOverrides.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(locationUrl)
+		_data.WriteInt32(1)
+		if _err := contentUri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := configOverrides.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := downloadedIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt64(messageId)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteString16(locationUrl)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := contentUri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := configOverrides.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := downloadedIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				_data.WriteInt64(messageId)
+			case 7:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := downloadedIntent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt64(messageId)
-	_data.WriteString16(_identity.AttributionTag)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsDownloadMessage)
 	if _err != nil {
@@ -194,13 +282,45 @@ func (p *MmsProxy) ImportTextMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(address)
-	_data.WriteInt32(type_)
-	_data.WriteString16(text)
-	_data.WriteInt64(timestampMillis)
-	_data.WriteBool(seen)
-	_data.WriteBool(read)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMms, MethodIMmsImportTextMessage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"J",
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(address)
+		_data.WriteInt32(type_)
+		_data.WriteString16(text)
+		_data.WriteInt64(timestampMillis)
+		_data.WriteBool(seen)
+		_data.WriteBool(read)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteString16(address)
+			case 2:
+				_data.WriteInt32(type_)
+			case 3:
+				_data.WriteString16(text)
+			case 4:
+				_data.WriteInt64(timestampMillis)
+			case 5:
+				_data.WriteBool(seen)
+			case 6:
+				_data.WriteBool(read)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsImportTextMessage)
 	if _err != nil {
@@ -242,15 +362,47 @@ func (p *MmsProxy) ImportMultimediaMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt32(1)
-	if _err := contentUri.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMms, MethodIMmsImportMultimediaMessage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"Ljava/lang/String;",
+		"J",
+		"Z",
+		"Z",
 	}
-	_data.WriteString16(messageId)
-	_data.WriteInt64(timestampSecs)
-	_data.WriteBool(seen)
-	_data.WriteBool(read)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteInt32(1)
+		if _err := contentUri.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(messageId)
+		_data.WriteInt64(timestampSecs)
+		_data.WriteBool(seen)
+		_data.WriteBool(read)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := contentUri.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(messageId)
+			case 3:
+				_data.WriteInt64(timestampSecs)
+			case 4:
+				_data.WriteBool(seen)
+			case 5:
+				_data.WriteBool(read)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsImportMultimediaMessage)
 	if _err != nil {
@@ -288,10 +440,30 @@ func (p *MmsProxy) DeleteStoredMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt32(1)
-	if _err := messageUri.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMms, MethodIMmsDeleteStoredMessage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteInt32(1)
+		if _err := messageUri.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := messageUri.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsDeleteStoredMessage)
@@ -325,8 +497,25 @@ func (p *MmsProxy) DeleteStoredConversation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt64(conversationId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMms, MethodIMmsDeleteStoredConversation)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteInt64(conversationId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteInt64(conversationId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsDeleteStoredConversation)
 	if _err != nil {
@@ -360,14 +549,40 @@ func (p *MmsProxy) UpdateStoredMessageStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt32(1)
-	if _err := messageUri.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMms, MethodIMmsUpdateStoredMessageStatus)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"Landroid/content/ContentValues;",
 	}
-	_data.WriteInt32(1)
-	if _err := statusValues.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteInt32(1)
+		if _err := messageUri.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := statusValues.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := messageUri.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := statusValues.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsUpdateStoredMessageStatus)
@@ -402,9 +617,29 @@ func (p *MmsProxy) ArchiveStoredConversation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt64(conversationId)
-	_data.WriteBool(archived)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMms, MethodIMmsArchiveStoredConversation)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteInt64(conversationId)
+		_data.WriteBool(archived)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteInt64(conversationId)
+			case 2:
+				_data.WriteBool(archived)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsArchiveStoredConversation)
 	if _err != nil {
@@ -438,9 +673,29 @@ func (p *MmsProxy) AddTextMessageDraft(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(address)
-	_data.WriteString16(text)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMms, MethodIMmsAddTextMessageDraft)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(address)
+		_data.WriteString16(text)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteString16(address)
+			case 2:
+				_data.WriteString16(text)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsAddTextMessageDraft)
 	if _err != nil {
@@ -478,10 +733,30 @@ func (p *MmsProxy) AddMultimediaMessageDraft(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt32(1)
-	if _err := contentUri.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMms, MethodIMmsAddMultimediaMessageDraft)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteInt32(1)
+		if _err := contentUri.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := contentUri.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsAddMultimediaMessageDraft)
@@ -522,19 +797,54 @@ func (p *MmsProxy) SendStoredMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt32(1)
-	if _err := messageUri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMms, MethodIMmsSendStoredMessage)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"Landroid/os/Bundle;",
+		"Landroid/app/PendingIntent;",
 	}
-	_data.WriteInt32(1)
-	if _err := configOverrides.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := sentIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+		_data.WriteInt32(1)
+		if _err := messageUri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := configOverrides.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := sentIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := messageUri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := configOverrides.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := sentIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsSendStoredMessage)
@@ -563,8 +873,25 @@ func (p *MmsProxy) SetAutoPersisting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
-	_data.WriteString16(callingPkg)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMms, MethodIMmsSetAutoPersisting)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsSetAutoPersisting)
 	if _err != nil {

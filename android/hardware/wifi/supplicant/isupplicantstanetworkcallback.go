@@ -78,9 +78,26 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapSimGsmAuthRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnNetworkEapSimGsmAuthRequest)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/NetworkRequestEapSimGsmAuthParams;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnNetworkEapSimGsmAuthRequest)
@@ -99,9 +116,26 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapSimUmtsAuthRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnNetworkEapSimUmtsAuthRequest)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/NetworkRequestEapSimUmtsAuthParams;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnNetworkEapSimUmtsAuthRequest)
@@ -120,7 +154,21 @@ func (p *SupplicantStaNetworkCallbackProxy) OnTransitionDisable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
-	_data.WriteInt32(int32(ind))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnTransitionDisable)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/TransitionDisableIndication;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(ind))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(ind))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnTransitionDisable)
 	if _err != nil {
@@ -141,10 +189,33 @@ func (p *SupplicantStaNetworkCallbackProxy) OnServerCertificateAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
-	_data.WriteInt32(depth)
-	_data.WriteByteArray(subject)
-	_data.WriteByteArray(certHash)
-	_data.WriteByteArray(certBlob)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnServerCertificateAvailable)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(depth)
+		_data.WriteByteArray(subject)
+		_data.WriteByteArray(certHash)
+		_data.WriteByteArray(certBlob)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(depth)
+			case 1:
+				_data.WriteByteArray(subject)
+			case 2:
+				_data.WriteByteArray(certHash)
+			case 3:
+				_data.WriteByteArray(certBlob)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnServerCertificateAvailable)
 	if _err != nil {

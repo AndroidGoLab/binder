@@ -65,10 +65,33 @@ func (p *UdfpsOverlayControllerProxy) ShowUdfpsOverlay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
-	_data.WriteInt64(requestId)
-	_data.WriteInt32(sensorId)
-	_data.WriteInt32(reason)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerShowUdfpsOverlay)
+	_compiledDescs := []string{
+		"J",
+		"I",
+		"I",
+		"Landroid/hardware/fingerprint/IUdfpsOverlayControllerCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(requestId)
+		_data.WriteInt32(sensorId)
+		_data.WriteInt32(reason)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(requestId)
+			case 1:
+				_data.WriteInt32(sensorId)
+			case 2:
+				_data.WriteInt32(reason)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerShowUdfpsOverlay)
 	if _err != nil {
@@ -86,7 +109,21 @@ func (p *UdfpsOverlayControllerProxy) HideUdfpsOverlay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
-	_data.WriteInt32(sensorId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerHideUdfpsOverlay)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerHideUdfpsOverlay)
 	if _err != nil {
@@ -105,8 +142,25 @@ func (p *UdfpsOverlayControllerProxy) OnAcquired(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
-	_data.WriteInt32(sensorId)
-	_data.WriteInt32(acquiredInfo)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerOnAcquired)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+		_data.WriteInt32(acquiredInfo)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			case 1:
+				_data.WriteInt32(acquiredInfo)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerOnAcquired)
 	if _err != nil {
@@ -125,8 +179,25 @@ func (p *UdfpsOverlayControllerProxy) OnEnrollmentProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
-	_data.WriteInt32(sensorId)
-	_data.WriteInt32(remaining)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerOnEnrollmentProgress)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+		_data.WriteInt32(remaining)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			case 1:
+				_data.WriteInt32(remaining)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerOnEnrollmentProgress)
 	if _err != nil {
@@ -144,7 +215,21 @@ func (p *UdfpsOverlayControllerProxy) OnEnrollmentHelp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
-	_data.WriteInt32(sensorId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerOnEnrollmentHelp)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerOnEnrollmentHelp)
 	if _err != nil {
@@ -163,8 +248,25 @@ func (p *UdfpsOverlayControllerProxy) SetDebugMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
-	_data.WriteInt32(sensorId)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerSetDebugMessage)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			case 1:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerSetDebugMessage)
 	if _err != nil {

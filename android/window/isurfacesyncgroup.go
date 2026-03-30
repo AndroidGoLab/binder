@@ -52,8 +52,25 @@ func (p *SurfaceSyncGroupProxy) OnAddedToSyncGroup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceSyncGroup)
-	binder.WriteBinderToParcel(ctx, _data, parentSyncGroupToken, p.Remote.Transport())
-	_data.WriteBool(parentSyncGroupMerge)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISurfaceSyncGroup, MethodISurfaceSyncGroupOnAddedToSyncGroup)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, parentSyncGroupToken, p.Remote.Transport())
+		_data.WriteBool(parentSyncGroupMerge)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, parentSyncGroupToken, p.Remote.Transport())
+			case 1:
+				_data.WriteBool(parentSyncGroupMerge)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceSyncGroup, MethodISurfaceSyncGroupOnAddedToSyncGroup)
 	if _err != nil {
@@ -86,8 +103,25 @@ func (p *SurfaceSyncGroupProxy) AddToSync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceSyncGroup)
-	binder.WriteBinderToParcel(ctx, _data, surfaceSyncGroup.AsBinder(), p.Remote.Transport())
-	_data.WriteBool(parentSyncGroupMerge)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISurfaceSyncGroup, MethodISurfaceSyncGroupAddToSync)
+	_compiledDescs := []string{
+		"Landroid/window/ISurfaceSyncGroup;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, surfaceSyncGroup.AsBinder(), p.Remote.Transport())
+		_data.WriteBool(parentSyncGroupMerge)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, surfaceSyncGroup.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteBool(parentSyncGroupMerge)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceSyncGroup, MethodISurfaceSyncGroupAddToSync)
 	if _err != nil {

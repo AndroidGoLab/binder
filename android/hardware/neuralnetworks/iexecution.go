@@ -51,7 +51,21 @@ func (p *ExecutionProxy) ExecuteSynchronously(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExecution)
-	_data.WriteInt64(deadlineNs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIExecution, MethodIExecutionExecuteSynchronously)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(deadlineNs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(deadlineNs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExecution, MethodIExecutionExecuteSynchronously)
 	if _err != nil {
@@ -90,16 +104,43 @@ func (p *ExecutionProxy) ExecuteFenced(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExecution)
-	if waitFor == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIExecution, MethodIExecutionExecuteFenced)
+	_compiledDescs := []string{
+		"[Landroid/os/ParcelFileDescriptor;",
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if waitFor == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(waitFor)))
+			for _, _item := range waitFor {
+				_data.WriteParcelFileDescriptor(_item)
+			}
+		}
+		_data.WriteInt64(deadlineNs)
+		_data.WriteInt64(durationNs)
 	} else {
-		_data.WriteInt32(int32(len(waitFor)))
-		for _, _item := range waitFor {
-			_data.WriteParcelFileDescriptor(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if waitFor == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(waitFor)))
+					for _, _item := range waitFor {
+						_data.WriteParcelFileDescriptor(_item)
+					}
+				}
+			case 1:
+				_data.WriteInt64(deadlineNs)
+			case 2:
+				_data.WriteInt64(durationNs)
+			}
 		}
 	}
-	_data.WriteInt64(deadlineNs)
-	_data.WriteInt64(durationNs)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExecution, MethodIExecutionExecuteFenced)
 	if _err != nil {

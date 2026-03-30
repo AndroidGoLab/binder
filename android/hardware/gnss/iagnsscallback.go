@@ -48,8 +48,25 @@ func (p *AGnssCallbackProxy) AgnssStatusCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnssCallback)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(int32(status))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAGnssCallback, MethodIAGnssCallbackAgnssStatusCb)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/IAGnssCallback/AGnssType;",
+		"Landroid/hardware/gnss/IAGnssCallback/AGnssStatusValue;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(int32(status))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(int32(status))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssCallback, MethodIAGnssCallbackAgnssStatusCb)
 	if _err != nil {

@@ -73,9 +73,26 @@ func (p *BluetoothSapProxy) GetState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSap)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetState)
+	_compiledDescs := []string{
+		"Landroid/content/AttributionSource;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetState)
@@ -108,9 +125,26 @@ func (p *BluetoothSapProxy) GetClient(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSap)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetClient)
+	_compiledDescs := []string{
+		"Landroid/content/AttributionSource;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetClient)
@@ -149,13 +183,36 @@ func (p *BluetoothSapProxy) Disconnect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSap)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSap, MethodIBluetoothSapDisconnect)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapDisconnect)
@@ -189,13 +246,36 @@ func (p *BluetoothSapProxy) IsConnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSap)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSap, MethodIBluetoothSapIsConnected)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapIsConnected)
@@ -228,9 +308,26 @@ func (p *BluetoothSapProxy) GetConnectedDevices(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSap)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetConnectedDevices)
+	_compiledDescs := []string{
+		"Landroid/content/AttributionSource;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetConnectedDevices)
@@ -296,17 +393,44 @@ func (p *BluetoothSapProxy) GetDevicesMatchingConnectionStates(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSap)
-	if states == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(states)))
-		for _, _item := range states {
-			_data.WriteInt32(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetDevicesMatchingConnectionStates)
+	_compiledDescs := []string{
+		"[I",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if states == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(states)))
+			for _, _item := range states {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if states == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(states)))
+					for _, _item := range states {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetDevicesMatchingConnectionStates)
@@ -372,13 +496,36 @@ func (p *BluetoothSapProxy) GetConnectionState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSap)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetConnectionState)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetConnectionState)
@@ -413,14 +560,40 @@ func (p *BluetoothSapProxy) SetConnectionPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSap)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSap, MethodIBluetoothSapSetConnectionPolicy)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"I",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(connectionPolicy)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(connectionPolicy)
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(connectionPolicy)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapSetConnectionPolicy)
@@ -454,13 +627,36 @@ func (p *BluetoothSapProxy) GetConnectionPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSap)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetConnectionPolicy)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetConnectionPolicy)

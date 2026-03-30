@@ -227,9 +227,29 @@ func (p *AppOpsServiceProxy) CheckOperation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(code)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCheckOperation)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCheckOperation)
 	if _err != nil {
@@ -267,13 +287,45 @@ func (p *AppOpsServiceProxy) NoteOperation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(code)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteBool(shouldCollectAsyncNotedOp)
-	_data.WriteString16(message)
-	_data.WriteBool(shouldCollectMessage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceNoteOperation)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteBool(shouldCollectAsyncNotedOp)
+		_data.WriteString16(message)
+		_data.WriteBool(shouldCollectMessage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteString16(_identity.AttributionTag)
+			case 4:
+				_data.WriteBool(shouldCollectAsyncNotedOp)
+			case 5:
+				_data.WriteString16(message)
+			case 6:
+				_data.WriteBool(shouldCollectMessage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceNoteOperation)
 	if _err != nil {
@@ -320,17 +372,61 @@ func (p *AppOpsServiceProxy) StartOperation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
-	_data.WriteInt32(code)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteBool(startIfModeDefault)
-	_data.WriteBool(shouldCollectAsyncNotedOp)
-	_data.WriteString16(message)
-	_data.WriteBool(shouldCollectMessage)
-	_data.WriteInt32(attributionFlags)
-	_data.WriteInt32(attributionChainId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartOperation)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
+		"Ljava/lang/String;",
+		"Z",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+		_data.WriteInt32(code)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteBool(startIfModeDefault)
+		_data.WriteBool(shouldCollectAsyncNotedOp)
+		_data.WriteString16(message)
+		_data.WriteBool(shouldCollectMessage)
+		_data.WriteInt32(attributionFlags)
+		_data.WriteInt32(attributionChainId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(code)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteString16(packageName)
+			case 4:
+				_data.WriteString16(_identity.AttributionTag)
+			case 5:
+				_data.WriteBool(startIfModeDefault)
+			case 6:
+				_data.WriteBool(shouldCollectAsyncNotedOp)
+			case 7:
+				_data.WriteString16(message)
+			case 8:
+				_data.WriteBool(shouldCollectMessage)
+			case 9:
+				_data.WriteInt32(attributionFlags)
+			case 10:
+				_data.WriteInt32(attributionChainId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartOperation)
 	if _err != nil {
@@ -370,11 +466,37 @@ func (p *AppOpsServiceProxy) FinishOperation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
-	_data.WriteInt32(code)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceFinishOperation)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+		_data.WriteInt32(code)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(code)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteString16(packageName)
+			case 4:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceFinishOperation)
 	if _err != nil {
@@ -403,9 +525,29 @@ func (p *AppOpsServiceProxy) StartWatchingMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(op)
-	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartWatchingMode)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/app/IAppOpsCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(op)
+		_data.WriteString16(packageName)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(op)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartWatchingMode)
 	if _err != nil {
@@ -432,7 +574,21 @@ func (p *AppOpsServiceProxy) StopWatchingMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStopWatchingMode)
+	_compiledDescs := []string{
+		"Lcom/android/internal/app/IAppOpsCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStopWatchingMode)
 	if _err != nil {
@@ -460,7 +616,21 @@ func (p *AppOpsServiceProxy) PermissionToOpCode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteString16(permission)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServicePermissionToOpCode)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(permission)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(permission)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServicePermissionToOpCode)
 	if _err != nil {
@@ -495,10 +665,33 @@ func (p *AppOpsServiceProxy) CheckAudioOperation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(code)
-	_data.WriteInt32(usage)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCheckAudioOperation)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteInt32(usage)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteInt32(usage)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCheckAudioOperation)
 	if _err != nil {
@@ -530,7 +723,21 @@ func (p *AppOpsServiceProxy) ShouldCollectNotes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(opCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceShouldCollectNotes)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(opCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(opCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceShouldCollectNotes)
 	if _err != nil {
@@ -561,7 +768,21 @@ func (p *AppOpsServiceProxy) SetCameraAudioRestriction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceSetCameraAudioRestriction)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceSetCameraAudioRestriction)
 	if _err != nil {
@@ -591,10 +812,33 @@ func (p *AppOpsServiceProxy) StartWatchingModeWithFlags(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(op)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(flags)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartWatchingModeWithFlags)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"Lcom/android/internal/app/IAppOpsCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(op)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(flags)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(op)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartWatchingModeWithFlags)
 	if _err != nil {
@@ -627,15 +871,47 @@ func (p *AppOpsServiceProxy) NoteProxyOperation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(code)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceNoteProxyOperation)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/AttributionSource;",
+		"Z",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
 	}
-	_data.WriteBool(shouldCollectAsyncNotedOp)
-	_data.WriteString16(message)
-	_data.WriteBool(shouldCollectMessage)
-	_data.WriteBool(skipProxyOperation)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(shouldCollectAsyncNotedOp)
+		_data.WriteString16(message)
+		_data.WriteBool(shouldCollectMessage)
+		_data.WriteBool(skipProxyOperation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteBool(shouldCollectAsyncNotedOp)
+			case 3:
+				_data.WriteString16(message)
+			case 4:
+				_data.WriteBool(shouldCollectMessage)
+			case 5:
+				_data.WriteBool(skipProxyOperation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceNoteProxyOperation)
 	if _err != nil {
@@ -682,20 +958,67 @@ func (p *AppOpsServiceProxy) StartProxyOperation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
-	_data.WriteInt32(code)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartProxyOperation)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"Landroid/content/AttributionSource;",
+		"Z",
+		"Z",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteBool(startIfModeDefault)
-	_data.WriteBool(shouldCollectAsyncNotedOp)
-	_data.WriteString16(message)
-	_data.WriteBool(shouldCollectMessage)
-	_data.WriteBool(skipProxyOperation)
-	_data.WriteInt32(proxyAttributionFlags)
-	_data.WriteInt32(proxiedAttributionFlags)
-	_data.WriteInt32(attributionChainId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+		_data.WriteInt32(code)
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(startIfModeDefault)
+		_data.WriteBool(shouldCollectAsyncNotedOp)
+		_data.WriteString16(message)
+		_data.WriteBool(shouldCollectMessage)
+		_data.WriteBool(skipProxyOperation)
+		_data.WriteInt32(proxyAttributionFlags)
+		_data.WriteInt32(proxiedAttributionFlags)
+		_data.WriteInt32(attributionChainId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(code)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteBool(startIfModeDefault)
+			case 4:
+				_data.WriteBool(shouldCollectAsyncNotedOp)
+			case 5:
+				_data.WriteString16(message)
+			case 6:
+				_data.WriteBool(shouldCollectMessage)
+			case 7:
+				_data.WriteBool(skipProxyOperation)
+			case 8:
+				_data.WriteInt32(proxyAttributionFlags)
+			case 9:
+				_data.WriteInt32(proxiedAttributionFlags)
+			case 10:
+				_data.WriteInt32(attributionChainId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartProxyOperation)
 	if _err != nil {
@@ -734,13 +1057,39 @@ func (p *AppOpsServiceProxy) FinishProxyOperation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
-	_data.WriteInt32(code)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceFinishProxyOperation)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"Landroid/content/AttributionSource;",
+		"Z",
 	}
-	_data.WriteBool(skipProxyOperation)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+		_data.WriteInt32(code)
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(skipProxyOperation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(code)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteBool(skipProxyOperation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceFinishProxyOperation)
 	if _err != nil {
@@ -769,8 +1118,25 @@ func (p *AppOpsServiceProxy) CheckPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCheckPackage)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCheckPackage)
 	if _err != nil {
@@ -839,12 +1205,35 @@ func (p *AppOpsServiceProxy) ReportRuntimeAppOpAccessMessageAndGetConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := appOp.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceReportRuntimeAppOpAccessMessageAndGetConfig)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/app/SyncNotedAppOp;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(message)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := appOp.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := appOp.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceReportRuntimeAppOpAccessMessageAndGetConfig)
 	if _err != nil {
@@ -881,12 +1270,33 @@ func (p *AppOpsServiceProxy) GetPackagesForOps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	if ops == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceGetPackagesForOps)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if ops == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ops)))
+			for _, _item := range ops {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(ops)))
-		for _, _item := range ops {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if ops == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ops)))
+					for _, _item := range ops {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -954,14 +1364,41 @@ func (p *AppOpsServiceProxy) GetOpsForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	if ops == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceGetOpsForPackage)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		if ops == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ops)))
+			for _, _item := range ops {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(ops)))
-		for _, _item := range ops {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				if ops == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ops)))
+					for _, _item := range ops {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -1035,25 +1472,76 @@ func (p *AppOpsServiceProxy) GetHistoricalOps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.AttributionTag)
-	if ops == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(ops)))
-		for _, _item := range ops {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceGetHistoricalOps)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"I",
+		"I",
+		"J",
+		"J",
+		"I",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteInt32(historyFlags)
-	_data.WriteInt32(filter)
-	_data.WriteInt64(beginTimeMillis)
-	_data.WriteInt64(endTimeMillis)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.AttributionTag)
+		if ops == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ops)))
+			for _, _item := range ops {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(historyFlags)
+		_data.WriteInt32(filter)
+		_data.WriteInt64(beginTimeMillis)
+		_data.WriteInt64(endTimeMillis)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				if ops == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ops)))
+					for _, _item := range ops {
+						_data.WriteString16(_item)
+					}
+				}
+			case 4:
+				_data.WriteInt32(historyFlags)
+			case 5:
+				_data.WriteInt32(filter)
+			case 6:
+				_data.WriteInt64(beginTimeMillis)
+			case 7:
+				_data.WriteInt64(endTimeMillis)
+			case 8:
+				_data.WriteInt32(flags)
+			case 9:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceGetHistoricalOps)
@@ -1090,25 +1578,76 @@ func (p *AppOpsServiceProxy) GetHistoricalOpsFromDiskRaw(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.AttributionTag)
-	if ops == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(ops)))
-		for _, _item := range ops {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceGetHistoricalOpsFromDiskRaw)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"I",
+		"I",
+		"J",
+		"J",
+		"I",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteInt32(historyFlags)
-	_data.WriteInt32(filter)
-	_data.WriteInt64(beginTimeMillis)
-	_data.WriteInt64(endTimeMillis)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.AttributionTag)
+		if ops == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ops)))
+			for _, _item := range ops {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(historyFlags)
+		_data.WriteInt32(filter)
+		_data.WriteInt64(beginTimeMillis)
+		_data.WriteInt64(endTimeMillis)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				if ops == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ops)))
+					for _, _item := range ops {
+						_data.WriteString16(_item)
+					}
+				}
+			case 4:
+				_data.WriteInt32(historyFlags)
+			case 5:
+				_data.WriteInt32(filter)
+			case 6:
+				_data.WriteInt64(beginTimeMillis)
+			case 7:
+				_data.WriteInt64(endTimeMillis)
+			case 8:
+				_data.WriteInt32(flags)
+			case 9:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceGetHistoricalOpsFromDiskRaw)
@@ -1136,7 +1675,21 @@ func (p *AppOpsServiceProxy) OffsetHistory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt64(duration)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceOffsetHistory)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(duration)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(duration)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceOffsetHistory)
 	if _err != nil {
@@ -1165,9 +1718,29 @@ func (p *AppOpsServiceProxy) SetHistoryParameters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(mode)
-	_data.WriteInt64(baseSnapshotInterval)
-	_data.WriteInt32(compressionStep)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceSetHistoryParameters)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mode)
+		_data.WriteInt64(baseSnapshotInterval)
+		_data.WriteInt32(compressionStep)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mode)
+			case 1:
+				_data.WriteInt64(baseSnapshotInterval)
+			case 2:
+				_data.WriteInt32(compressionStep)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceSetHistoryParameters)
 	if _err != nil {
@@ -1194,9 +1767,26 @@ func (p *AppOpsServiceProxy) AddHistoricalOps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(1)
-	if _err := ops.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceAddHistoricalOps)
+	_compiledDescs := []string{
+		"LAppOpsManager/HistoricalOps;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := ops.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := ops.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceAddHistoricalOps)
@@ -1249,7 +1839,21 @@ func (p *AppOpsServiceProxy) ResetPackageOpsNoHistory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceResetPackageOpsNoHistory)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceResetPackageOpsNoHistory)
 	if _err != nil {
@@ -1301,7 +1905,21 @@ func (p *AppOpsServiceProxy) RebootHistory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt64(offlineDurationMillis)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceRebootHistory)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(offlineDurationMillis)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(offlineDurationMillis)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceRebootHistory)
 	if _err != nil {
@@ -1330,13 +1948,37 @@ func (p *AppOpsServiceProxy) GetUidOps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(uid)
-	if ops == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceGetUidOps)
+	_compiledDescs := []string{
+		"I",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		if ops == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ops)))
+			for _, _item := range ops {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(ops)))
-		for _, _item := range ops {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				if ops == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ops)))
+					for _, _item := range ops {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -1403,9 +2045,29 @@ func (p *AppOpsServiceProxy) SetUidMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(code)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceSetUidMode)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceSetUidMode)
 	if _err != nil {
@@ -1435,10 +2097,33 @@ func (p *AppOpsServiceProxy) SetMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(code)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceSetMode)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceSetMode)
 	if _err != nil {
@@ -1466,8 +2151,25 @@ func (p *AppOpsServiceProxy) ResetAllModes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(reqUserId)
-	_data.WriteString16(reqPackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceResetAllModes)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reqUserId)
+		_data.WriteString16(reqPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reqUserId)
+			case 1:
+				_data.WriteString16(reqPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceResetAllModes)
 	if _err != nil {
@@ -1498,16 +2200,49 @@ func (p *AppOpsServiceProxy) SetAudioRestriction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(code)
-	_data.WriteInt32(usage)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(mode)
-	if exceptionPackages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceSetAudioRestriction)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteInt32(usage)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(mode)
+		if exceptionPackages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(exceptionPackages)))
+			for _, _item := range exceptionPackages {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(exceptionPackages)))
-		for _, _item := range exceptionPackages {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteInt32(usage)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteInt32(mode)
+			case 4:
+				if exceptionPackages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(exceptionPackages)))
+					for _, _item := range exceptionPackages {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -1538,12 +2273,35 @@ func (p *AppOpsServiceProxy) SetUserRestrictions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(1)
-	if _err := restrictions.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceSetUserRestrictions)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+		"Landroid/os/IBinder;",
+		"I",
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := restrictions.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := restrictions.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceSetUserRestrictions)
 	if _err != nil {
@@ -1574,13 +2332,42 @@ func (p *AppOpsServiceProxy) SetUserRestriction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(code)
-	_data.WriteBool(restricted)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := excludedPackageTags.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceSetUserRestriction)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Landroid/os/IBinder;",
+		"I",
+		"Landroid/os/PackageTagsList;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteBool(restricted)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := excludedPackageTags.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteBool(restricted)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := excludedPackageTags.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceSetUserRestriction)
@@ -1608,7 +2395,21 @@ func (p *AppOpsServiceProxy) RemoveUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceRemoveUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceRemoveUser)
 	if _err != nil {
@@ -1636,15 +2437,39 @@ func (p *AppOpsServiceProxy) StartWatchingActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	if ops == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartWatchingActive)
+	_compiledDescs := []string{
+		"[I",
+		"Lcom/android/internal/app/IAppOpsActiveCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if ops == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ops)))
+			for _, _item := range ops {
+				_data.WriteInt32(_item)
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(ops)))
-		for _, _item := range ops {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if ops == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ops)))
+					for _, _item := range ops {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartWatchingActive)
 	if _err != nil {
@@ -1671,7 +2496,21 @@ func (p *AppOpsServiceProxy) StopWatchingActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStopWatchingActive)
+	_compiledDescs := []string{
+		"Lcom/android/internal/app/IAppOpsActiveCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStopWatchingActive)
 	if _err != nil {
@@ -1701,9 +2540,29 @@ func (p *AppOpsServiceProxy) IsOperationActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(code)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceIsOperationActive)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceIsOperationActive)
 	if _err != nil {
@@ -1739,11 +2598,37 @@ func (p *AppOpsServiceProxy) IsProxying(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(op)
-	_data.WriteString16(proxyPackageName)
-	_data.WriteString16(proxyAttributionTag)
-	_data.WriteInt32(proxiedUid)
-	_data.WriteString16(proxiedPackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceIsProxying)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(op)
+		_data.WriteString16(proxyPackageName)
+		_data.WriteString16(proxyAttributionTag)
+		_data.WriteInt32(proxiedUid)
+		_data.WriteString16(proxiedPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(op)
+			case 1:
+				_data.WriteString16(proxyPackageName)
+			case 2:
+				_data.WriteString16(proxyAttributionTag)
+			case 3:
+				_data.WriteInt32(proxiedUid)
+			case 4:
+				_data.WriteString16(proxiedPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceIsProxying)
 	if _err != nil {
@@ -1775,15 +2660,39 @@ func (p *AppOpsServiceProxy) StartWatchingStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	if ops == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartWatchingStarted)
+	_compiledDescs := []string{
+		"[I",
+		"Lcom/android/internal/app/IAppOpsStartedCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if ops == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ops)))
+			for _, _item := range ops {
+				_data.WriteInt32(_item)
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(ops)))
-		for _, _item := range ops {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if ops == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ops)))
+					for _, _item := range ops {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartWatchingStarted)
 	if _err != nil {
@@ -1810,7 +2719,21 @@ func (p *AppOpsServiceProxy) StopWatchingStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStopWatchingStarted)
+	_compiledDescs := []string{
+		"Lcom/android/internal/app/IAppOpsStartedCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStopWatchingStarted)
 	if _err != nil {
@@ -1838,15 +2761,39 @@ func (p *AppOpsServiceProxy) StartWatchingNoted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	if ops == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartWatchingNoted)
+	_compiledDescs := []string{
+		"[I",
+		"Lcom/android/internal/app/IAppOpsNotedCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if ops == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ops)))
+			for _, _item := range ops {
+				_data.WriteInt32(_item)
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(ops)))
-		for _, _item := range ops {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if ops == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ops)))
+					for _, _item := range ops {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartWatchingNoted)
 	if _err != nil {
@@ -1873,7 +2820,21 @@ func (p *AppOpsServiceProxy) StopWatchingNoted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStopWatchingNoted)
+	_compiledDescs := []string{
+		"Lcom/android/internal/app/IAppOpsNotedCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStopWatchingNoted)
 	if _err != nil {
@@ -1901,8 +2862,25 @@ func (p *AppOpsServiceProxy) StartWatchingAsyncNoted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartWatchingAsyncNoted)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/app/IAppOpsAsyncNotedCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartWatchingAsyncNoted)
 	if _err != nil {
@@ -1930,8 +2908,25 @@ func (p *AppOpsServiceProxy) StopWatchingAsyncNoted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStopWatchingAsyncNoted)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/app/IAppOpsAsyncNotedCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStopWatchingAsyncNoted)
 	if _err != nil {
@@ -1959,7 +2954,21 @@ func (p *AppOpsServiceProxy) ExtractAsyncOps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceExtractAsyncOps)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceExtractAsyncOps)
 	if _err != nil {
@@ -2026,10 +3035,33 @@ func (p *AppOpsServiceProxy) CheckOperationRaw(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(code)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCheckOperationRaw)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCheckOperationRaw)
 	if _err != nil {
@@ -2088,10 +3120,33 @@ func (p *AppOpsServiceProxy) CollectNoteOpCallsForValidation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteString16(stackTrace)
-	_data.WriteInt32(op)
-	_data.WriteString16(packageName)
-	_data.WriteInt64(version)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCollectNoteOpCallsForValidation)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(stackTrace)
+		_data.WriteInt32(op)
+		_data.WriteString16(packageName)
+		_data.WriteInt64(version)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(stackTrace)
+			case 1:
+				_data.WriteInt32(op)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteInt64(version)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCollectNoteOpCallsForValidation)
 	if _err != nil {
@@ -2124,15 +3179,47 @@ func (p *AppOpsServiceProxy) NoteProxyOperationWithState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(code)
-	_data.WriteInt32(1)
-	if _err := attributionSourceStateState.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceNoteProxyOperationWithState)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/AttributionSourceState;",
+		"Z",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
 	}
-	_data.WriteBool(shouldCollectAsyncNotedOp)
-	_data.WriteString16(message)
-	_data.WriteBool(shouldCollectMessage)
-	_data.WriteBool(skipProxyOperation)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteInt32(1)
+		if _err := attributionSourceStateState.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(shouldCollectAsyncNotedOp)
+		_data.WriteString16(message)
+		_data.WriteBool(shouldCollectMessage)
+		_data.WriteBool(skipProxyOperation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSourceStateState.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteBool(shouldCollectAsyncNotedOp)
+			case 3:
+				_data.WriteString16(message)
+			case 4:
+				_data.WriteBool(shouldCollectMessage)
+			case 5:
+				_data.WriteBool(skipProxyOperation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceNoteProxyOperationWithState)
 	if _err != nil {
@@ -2179,20 +3266,67 @@ func (p *AppOpsServiceProxy) StartProxyOperationWithState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
-	_data.WriteInt32(code)
-	_data.WriteInt32(1)
-	if _err := attributionSourceStateState.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartProxyOperationWithState)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"Landroid/content/AttributionSourceState;",
+		"Z",
+		"Z",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteBool(startIfModeDefault)
-	_data.WriteBool(shouldCollectAsyncNotedOp)
-	_data.WriteString16(message)
-	_data.WriteBool(shouldCollectMessage)
-	_data.WriteBool(skipProxyOperation)
-	_data.WriteInt32(proxyAttributionFlags)
-	_data.WriteInt32(proxiedAttributionFlags)
-	_data.WriteInt32(attributionChainId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+		_data.WriteInt32(code)
+		_data.WriteInt32(1)
+		if _err := attributionSourceStateState.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(startIfModeDefault)
+		_data.WriteBool(shouldCollectAsyncNotedOp)
+		_data.WriteString16(message)
+		_data.WriteBool(shouldCollectMessage)
+		_data.WriteBool(skipProxyOperation)
+		_data.WriteInt32(proxyAttributionFlags)
+		_data.WriteInt32(proxiedAttributionFlags)
+		_data.WriteInt32(attributionChainId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(code)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := attributionSourceStateState.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteBool(startIfModeDefault)
+			case 4:
+				_data.WriteBool(shouldCollectAsyncNotedOp)
+			case 5:
+				_data.WriteString16(message)
+			case 6:
+				_data.WriteBool(shouldCollectMessage)
+			case 7:
+				_data.WriteBool(skipProxyOperation)
+			case 8:
+				_data.WriteInt32(proxyAttributionFlags)
+			case 9:
+				_data.WriteInt32(proxiedAttributionFlags)
+			case 10:
+				_data.WriteInt32(attributionChainId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartProxyOperationWithState)
 	if _err != nil {
@@ -2231,13 +3365,39 @@ func (p *AppOpsServiceProxy) FinishProxyOperationWithState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
-	_data.WriteInt32(code)
-	_data.WriteInt32(1)
-	if _err := attributionSourceStateState.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceFinishProxyOperationWithState)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"Landroid/content/AttributionSourceState;",
+		"Z",
 	}
-	_data.WriteBool(skipProxyOperation)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+		_data.WriteInt32(code)
+		_data.WriteInt32(1)
+		if _err := attributionSourceStateState.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(skipProxyOperation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(code)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := attributionSourceStateState.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteBool(skipProxyOperation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceFinishProxyOperationWithState)
 	if _err != nil {
@@ -2269,11 +3429,37 @@ func (p *AppOpsServiceProxy) CheckOperationRawForDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(code)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(virtualDeviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCheckOperationRawForDevice)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(virtualDeviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteString16(_identity.AttributionTag)
+			case 4:
+				_data.WriteInt32(virtualDeviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCheckOperationRawForDevice)
 	if _err != nil {
@@ -2308,10 +3494,33 @@ func (p *AppOpsServiceProxy) CheckOperationForDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(code)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(virtualDeviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCheckOperationForDevice)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(virtualDeviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteInt32(virtualDeviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCheckOperationForDevice)
 	if _err != nil {
@@ -2350,14 +3559,49 @@ func (p *AppOpsServiceProxy) NoteOperationForDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(code)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(virtualDeviceId)
-	_data.WriteBool(shouldCollectAsyncNotedOp)
-	_data.WriteString16(message)
-	_data.WriteBool(shouldCollectMessage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceNoteOperationForDevice)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(virtualDeviceId)
+		_data.WriteBool(shouldCollectAsyncNotedOp)
+		_data.WriteString16(message)
+		_data.WriteBool(shouldCollectMessage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteString16(_identity.AttributionTag)
+			case 4:
+				_data.WriteInt32(virtualDeviceId)
+			case 5:
+				_data.WriteBool(shouldCollectAsyncNotedOp)
+			case 6:
+				_data.WriteString16(message)
+			case 7:
+				_data.WriteBool(shouldCollectMessage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceNoteOperationForDevice)
 	if _err != nil {
@@ -2405,18 +3649,65 @@ func (p *AppOpsServiceProxy) StartOperationForDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
-	_data.WriteInt32(code)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(virtualDeviceId)
-	_data.WriteBool(startIfModeDefault)
-	_data.WriteBool(shouldCollectAsyncNotedOp)
-	_data.WriteString16(message)
-	_data.WriteBool(shouldCollectMessage)
-	_data.WriteInt32(attributionFlags)
-	_data.WriteInt32(attributionChainId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartOperationForDevice)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+		"Z",
+		"Ljava/lang/String;",
+		"Z",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+		_data.WriteInt32(code)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(virtualDeviceId)
+		_data.WriteBool(startIfModeDefault)
+		_data.WriteBool(shouldCollectAsyncNotedOp)
+		_data.WriteString16(message)
+		_data.WriteBool(shouldCollectMessage)
+		_data.WriteInt32(attributionFlags)
+		_data.WriteInt32(attributionChainId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(code)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteString16(packageName)
+			case 4:
+				_data.WriteString16(_identity.AttributionTag)
+			case 5:
+				_data.WriteInt32(virtualDeviceId)
+			case 6:
+				_data.WriteBool(startIfModeDefault)
+			case 7:
+				_data.WriteBool(shouldCollectAsyncNotedOp)
+			case 8:
+				_data.WriteString16(message)
+			case 9:
+				_data.WriteBool(shouldCollectMessage)
+			case 10:
+				_data.WriteInt32(attributionFlags)
+			case 11:
+				_data.WriteInt32(attributionChainId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceStartOperationForDevice)
 	if _err != nil {
@@ -2457,12 +3748,41 @@ func (p *AppOpsServiceProxy) FinishOperationForDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
-	_data.WriteInt32(code)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(virtualDeviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceFinishOperationForDevice)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+		_data.WriteInt32(code)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(virtualDeviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(code)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteString16(packageName)
+			case 4:
+				_data.WriteString16(_identity.AttributionTag)
+			case 5:
+				_data.WriteInt32(virtualDeviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceFinishOperationForDevice)
 	if _err != nil {
@@ -2491,15 +3811,39 @@ func (p *AppOpsServiceProxy) GetPackagesForOpsForDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	if ops == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsService, MethodIAppOpsServiceGetPackagesForOpsForDevice)
+	_compiledDescs := []string{
+		"[I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if ops == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ops)))
+			for _, _item := range ops {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteString16(persistentDeviceId)
 	} else {
-		_data.WriteInt32(int32(len(ops)))
-		for _, _item := range ops {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if ops == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ops)))
+					for _, _item := range ops {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				_data.WriteString16(persistentDeviceId)
+			}
 		}
 	}
-	_data.WriteString16(persistentDeviceId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceGetPackagesForOpsForDevice)
 	if _err != nil {

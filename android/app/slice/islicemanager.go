@@ -81,23 +81,59 @@ func (p *SliceManagerProxy) PinSlice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISliceManager, MethodISliceManagerPinSlice)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"[Landroid/app/slice/SliceSpec;",
+		"Landroid/os/IBinder;",
 	}
-	if specs == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if specs == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(specs)))
+			for _, _item := range specs {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(specs)))
-		for _, _item := range specs {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				if specs == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(specs)))
+					for _, _item := range specs {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISliceManager, MethodISliceManagerPinSlice)
 	if _err != nil {
@@ -126,12 +162,35 @@ func (p *SliceManagerProxy) UnpinSlice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISliceManager, MethodISliceManagerUnpinSlice)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"Landroid/os/IBinder;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISliceManager, MethodISliceManagerUnpinSlice)
 	if _err != nil {
@@ -159,7 +218,21 @@ func (p *SliceManagerProxy) HasSliceAccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISliceManager, MethodISliceManagerHasSliceAccess)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISliceManager, MethodISliceManagerHasSliceAccess)
 	if _err != nil {
@@ -192,11 +265,31 @@ func (p *SliceManagerProxy) GetPinnedSpecs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISliceManager, MethodISliceManagerGetPinnedSpecs)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(pkg)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISliceManager, MethodISliceManagerGetPinnedSpecs)
 	if _err != nil {
@@ -260,7 +353,21 @@ func (p *SliceManagerProxy) GetPinnedSlices(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISliceManager, MethodISliceManagerGetPinnedSlices)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISliceManager, MethodISliceManagerGetPinnedSlices)
 	if _err != nil {
@@ -324,7 +431,21 @@ func (p *SliceManagerProxy) GetBackupPayload(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
-	_data.WriteInt32(user)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISliceManager, MethodISliceManagerGetBackupPayload)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(user)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(user)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISliceManager, MethodISliceManagerGetBackupPayload)
 	if _err != nil {
@@ -356,8 +477,25 @@ func (p *SliceManagerProxy) ApplyRestore(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
-	_data.WriteByteArray(payload)
-	_data.WriteInt32(user)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISliceManager, MethodISliceManagerApplyRestore)
+	_compiledDescs := []string{
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(payload)
+		_data.WriteInt32(user)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(payload)
+			case 1:
+				_data.WriteInt32(user)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISliceManager, MethodISliceManagerApplyRestore)
 	if _err != nil {
@@ -386,11 +524,34 @@ func (p *SliceManagerProxy) GrantSlicePermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(toPkg)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISliceManager, MethodISliceManagerGrantSlicePermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(toPkg)
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteString16(toPkg)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISliceManager, MethodISliceManagerGrantSlicePermission)
@@ -420,11 +581,34 @@ func (p *SliceManagerProxy) RevokeSlicePermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(toPkg)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISliceManager, MethodISliceManagerRevokeSlicePermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(toPkg)
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteString16(toPkg)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISliceManager, MethodISliceManagerRevokeSlicePermission)
@@ -457,19 +641,55 @@ func (p *SliceManagerProxy) CheckSlicePermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISliceManager, MethodISliceManagerCheckSlicePermission)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"[Ljava/lang/String;",
 	}
-	_data.WriteString16(callingPkg)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	if autoGrantPermissions == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callingPkg)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		if autoGrantPermissions == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(autoGrantPermissions)))
+			for _, _item := range autoGrantPermissions {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(autoGrantPermissions)))
-		for _, _item := range autoGrantPermissions {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteInt32(pid)
+			case 3:
+				_data.WriteInt32(uid)
+			case 4:
+				if autoGrantPermissions == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(autoGrantPermissions)))
+					for _, _item := range autoGrantPermissions {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -505,13 +725,39 @@ func (p *SliceManagerProxy) GrantPermissionFromUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISliceManager, MethodISliceManagerGrantPermissionFromUser)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(pkg)
-	_data.WriteString16(callingPkg)
-	_data.WriteBool(allSlices)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(pkg)
+		_data.WriteString16(callingPkg)
+		_data.WriteBool(allSlices)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(pkg)
+			case 2:
+				_data.WriteString16(callingPkg)
+			case 3:
+				_data.WriteBool(allSlices)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISliceManager, MethodISliceManagerGrantPermissionFromUser)
 	if _err != nil {

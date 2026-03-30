@@ -63,8 +63,25 @@ func (p *AudioRecordProxy) Start(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioRecord)
-	_data.WriteInt32(event)
-	_data.WriteInt32(triggerSession)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioRecord, MethodIAudioRecordStart)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(event)
+		_data.WriteInt32(triggerSession)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(event)
+			case 1:
+				_data.WriteInt32(triggerSession)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioRecord, MethodIAudioRecordStart)
 	if _err != nil {
@@ -160,7 +177,21 @@ func (p *AudioRecordProxy) SetPreferredMicrophoneDirection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioRecord)
-	_data.WriteInt32(direction)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioRecord, MethodIAudioRecordSetPreferredMicrophoneDirection)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(direction)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(direction)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioRecord, MethodIAudioRecordSetPreferredMicrophoneDirection)
 	if _err != nil {
@@ -187,7 +218,21 @@ func (p *AudioRecordProxy) SetPreferredMicrophoneFieldDimension(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioRecord)
-	_data.WriteFloat32(zoom)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioRecord, MethodIAudioRecordSetPreferredMicrophoneFieldDimension)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(zoom)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(zoom)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioRecord, MethodIAudioRecordSetPreferredMicrophoneFieldDimension)
 	if _err != nil {
@@ -215,8 +260,25 @@ func (p *AudioRecordProxy) ShareAudioHistory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioRecord)
-	_data.WriteString16(sharedAudioPackageName)
-	_data.WriteInt64(sharedAudioStartMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioRecord, MethodIAudioRecordShareAudioHistory)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sharedAudioPackageName)
+		_data.WriteInt64(sharedAudioStartMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sharedAudioPackageName)
+			case 1:
+				_data.WriteInt64(sharedAudioStartMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioRecord, MethodIAudioRecordShareAudioHistory)
 	if _err != nil {

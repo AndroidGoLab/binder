@@ -59,8 +59,25 @@ func (p *CellBroadcastServiceProxy) HandleGsmCellBroadcastSms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICellBroadcastService)
-	_data.WriteInt32(slotId)
-	_data.WriteByteArray(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleGsmCellBroadcastSms)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteByteArray(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteByteArray(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleGsmCellBroadcastSms)
 	if _err != nil {
@@ -80,9 +97,29 @@ func (p *CellBroadcastServiceProxy) HandleCdmaCellBroadcastSms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICellBroadcastService)
-	_data.WriteInt32(slotId)
-	_data.WriteByteArray(bearerData)
-	_data.WriteInt32(serviceCategory)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleCdmaCellBroadcastSms)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteByteArray(bearerData)
+		_data.WriteInt32(serviceCategory)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteByteArray(bearerData)
+			case 2:
+				_data.WriteInt32(serviceCategory)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleCdmaCellBroadcastSms)
 	if _err != nil {
@@ -103,22 +140,58 @@ func (p *CellBroadcastServiceProxy) HandleCdmaScpMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICellBroadcastService)
-	_data.WriteInt32(slotId)
-	if programData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(programData)))
-		for _, _item := range programData {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleCdmaScpMessage)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+		"Ljava/lang/String;",
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		if programData == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(programData)))
+			for _, _item := range programData {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
 			}
 		}
-	}
-	_data.WriteString16(originatingAddress)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+		_data.WriteString16(originatingAddress)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				if programData == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(programData)))
+					for _, _item := range programData {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				_data.WriteString16(originatingAddress)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleCdmaScpMessage)
@@ -138,7 +211,21 @@ func (p *CellBroadcastServiceProxy) GetCellBroadcastAreaInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICellBroadcastService)
-	_data.WriteInt32(slotIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceGetCellBroadcastAreaInfo)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceGetCellBroadcastAreaInfo)
 	if _err != nil {

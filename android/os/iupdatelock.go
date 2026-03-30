@@ -51,8 +51,25 @@ func (p *UpdateLockProxy) AcquireUpdateLock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUpdateLock)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteString16(tag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUpdateLock, MethodIUpdateLockAcquireUpdateLock)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteString16(tag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(tag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUpdateLock, MethodIUpdateLockAcquireUpdateLock)
 	if _err != nil {
@@ -79,7 +96,21 @@ func (p *UpdateLockProxy) ReleaseUpdateLock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUpdateLock)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUpdateLock, MethodIUpdateLockReleaseUpdateLock)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUpdateLock, MethodIUpdateLockReleaseUpdateLock)
 	if _err != nil {

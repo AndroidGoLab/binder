@@ -115,9 +115,29 @@ func (p *FingerprintProxy) CreateSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprint)
-	_data.WriteInt32(sensorId)
-	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFingerprint, MethodIFingerprintCreateSession)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/hardware/biometrics/fingerprint/ISessionCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+		_data.WriteInt32(_identity.UserID)
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprint, MethodIFingerprintCreateSession)
 	if _err != nil {

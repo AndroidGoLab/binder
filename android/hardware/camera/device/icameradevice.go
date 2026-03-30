@@ -117,7 +117,21 @@ func (p *CameraDeviceProxy) GetPhysicalCameraCharacteristics(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
-	_data.WriteString16(physicalCameraId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDevice, MethodICameraDeviceGetPhysicalCameraCharacteristics)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(physicalCameraId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(physicalCameraId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDevice, MethodICameraDeviceGetPhysicalCameraCharacteristics)
 	if _err != nil {
@@ -189,9 +203,26 @@ func (p *CameraDeviceProxy) IsStreamCombinationSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
-	_data.WriteInt32(1)
-	if _err := streams.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDevice, MethodICameraDeviceIsStreamCombinationSupported)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera/device/StreamConfiguration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := streams.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := streams.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDevice, MethodICameraDeviceIsStreamCombinationSupported)
@@ -224,7 +255,21 @@ func (p *CameraDeviceProxy) Open(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDevice, MethodICameraDeviceOpen)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera/device/ICameraDeviceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDevice, MethodICameraDeviceOpen)
 	if _err != nil {
@@ -257,7 +302,21 @@ func (p *CameraDeviceProxy) OpenInjectionSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDevice, MethodICameraDeviceOpenInjectionSession)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera/device/ICameraDeviceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDevice, MethodICameraDeviceOpenInjectionSession)
 	if _err != nil {
@@ -289,7 +348,21 @@ func (p *CameraDeviceProxy) SetTorchMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
-	_data.WriteBool(on)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDevice, MethodICameraDeviceSetTorchMode)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(on)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(on)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDevice, MethodICameraDeviceSetTorchMode)
 	if _err != nil {
@@ -316,7 +389,21 @@ func (p *CameraDeviceProxy) TurnOnTorchWithStrengthLevel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
-	_data.WriteInt32(torchStrength)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDevice, MethodICameraDeviceTurnOnTorchWithStrengthLevel)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(torchStrength)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(torchStrength)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDevice, MethodICameraDeviceTurnOnTorchWithStrengthLevel)
 	if _err != nil {
@@ -374,7 +461,21 @@ func (p *CameraDeviceProxy) ConstructDefaultRequestSettings(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
-	_data.WriteInt32(int32(type_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDevice, MethodICameraDeviceConstructDefaultRequestSettings)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera/device/RequestTemplate;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDevice, MethodICameraDeviceConstructDefaultRequestSettings)
 	if _err != nil {
@@ -411,9 +512,26 @@ func (p *CameraDeviceProxy) IsStreamCombinationWithSettingsSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
-	_data.WriteInt32(1)
-	if _err := streams.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDevice, MethodICameraDeviceIsStreamCombinationWithSettingsSupported)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera/device/StreamConfiguration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := streams.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := streams.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDevice, MethodICameraDeviceIsStreamCombinationWithSettingsSupported)
@@ -446,9 +564,26 @@ func (p *CameraDeviceProxy) GetSessionCharacteristics(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
-	_data.WriteInt32(1)
-	if _err := sessionConfig.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDevice, MethodICameraDeviceGetSessionCharacteristics)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera/device/StreamConfiguration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionConfig.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionConfig.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDevice, MethodICameraDeviceGetSessionCharacteristics)

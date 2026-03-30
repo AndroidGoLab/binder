@@ -48,8 +48,25 @@ func (p *TextToSpeechManagerProxy) CreateSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechManager)
-	_data.WriteString16(engine)
-	binder.WriteBinderToParcel(ctx, _data, managerCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechManager, MethodITextToSpeechManagerCreateSession)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/speech/tts/ITextToSpeechSessionCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(engine)
+		binder.WriteBinderToParcel(ctx, _data, managerCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(engine)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, managerCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechManager, MethodITextToSpeechManagerCreateSession)
 	if _err != nil {

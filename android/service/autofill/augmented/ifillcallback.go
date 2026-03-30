@@ -58,7 +58,21 @@ func (p *FillCallbackProxy) OnCancellable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
-	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFillCallback, MethodIFillCallbackOnCancellable)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/common/ICancellationSignal;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFillCallback, MethodIFillCallbackOnCancellable)
 	if _err != nil {
@@ -87,26 +101,63 @@ func (p *FillCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
-	if inlineSuggestionsData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(inlineSuggestionsData)))
-		for _, _item := range inlineSuggestionsData {
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFillCallback, MethodIFillCallbackOnSuccess)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Landroid/os/Bundle;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if inlineSuggestionsData == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(inlineSuggestionsData)))
+			for _, _item := range inlineSuggestionsData {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		if clientState != nil {
 			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
+			if _err := (*clientState).MarshalParcel(_data); _err != nil {
 				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		_data.WriteBool(showingFillWindow)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if inlineSuggestionsData == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(inlineSuggestionsData)))
+					for _, _item := range inlineSuggestionsData {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				if clientState != nil {
+					_data.WriteInt32(1)
+					if _err := (*clientState).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 2:
+				_data.WriteBool(showingFillWindow)
 			}
 		}
 	}
-	if clientState != nil {
-		_data.WriteInt32(1)
-		if _err := (*clientState).MarshalParcel(_data); _err != nil {
-			return _err
-		}
-	} else {
-		_data.WriteInt32(-1)
-	}
-	_data.WriteBool(showingFillWindow)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFillCallback, MethodIFillCallbackOnSuccess)
 	if _err != nil {

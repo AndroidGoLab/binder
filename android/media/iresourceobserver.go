@@ -50,17 +50,50 @@ func (p *ResourceObserverProxy) OnStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceObserver)
-	_data.WriteInt64(int64(event))
-	_data.WriteInt32(uid)
-	_data.WriteInt32(pid)
-	if observables == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourceObserver, MethodIResourceObserverOnStatusChanged)
+	_compiledDescs := []string{
+		"Landroid/media/MediaObservableEvent;",
+		"I",
+		"I",
+		"[Landroid/media/MediaObservableParcel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(int64(event))
+		_data.WriteInt32(uid)
+		_data.WriteInt32(pid)
+		if observables == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(observables)))
+			for _, _item := range observables {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(observables)))
-		for _, _item := range observables {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(int64(event))
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteInt32(pid)
+			case 3:
+				if observables == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(observables)))
+					for _, _item := range observables {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

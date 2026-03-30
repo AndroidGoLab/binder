@@ -50,7 +50,21 @@ func (p *RebootEscrowProxy) StoreKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRebootEscrow)
-	_data.WriteByteArray(kek)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRebootEscrow, MethodIRebootEscrowStoreKey)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(kek)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(kek)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRebootEscrow, MethodIRebootEscrowStoreKey)
 	if _err != nil {

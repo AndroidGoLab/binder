@@ -47,7 +47,21 @@ func (p *RecoverySystemProgressListenerProxy) OnProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystemProgressListener)
-	_data.WriteInt32(progress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecoverySystemProgressListener, MethodIRecoverySystemProgressListenerOnProgress)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(progress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(progress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecoverySystemProgressListener, MethodIRecoverySystemProgressListenerOnProgress)
 	if _err != nil {

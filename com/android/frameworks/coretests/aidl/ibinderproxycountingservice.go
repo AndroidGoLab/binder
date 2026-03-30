@@ -50,7 +50,21 @@ func (p *BinderProxyCountingServiceProxy) RegisterCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinderProxyCountingService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBinderProxyCountingService, MethodIBinderProxyCountingServiceRegisterCallback)
+	_compiledDescs := []string{
+		"Lcom/android/frameworks/coretests/aidl/ITestRemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderProxyCountingService, MethodIBinderProxyCountingServiceRegisterCallback)
 	if _err != nil {
@@ -77,7 +91,21 @@ func (p *BinderProxyCountingServiceProxy) UnregisterCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinderProxyCountingService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBinderProxyCountingService, MethodIBinderProxyCountingServiceUnregisterCallback)
+	_compiledDescs := []string{
+		"Lcom/android/frameworks/coretests/aidl/ITestRemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderProxyCountingService, MethodIBinderProxyCountingServiceUnregisterCallback)
 	if _err != nil {

@@ -70,7 +70,21 @@ func (p *PresenceServiceProxy) GetVersion(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
-	_data.WriteInt32(presenceServiceHdl)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceService, MethodIPresenceServiceGetVersion)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(presenceServiceHdl)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(presenceServiceHdl)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServiceGetVersion)
 	if _err != nil {
@@ -109,11 +123,34 @@ func (p *PresenceServiceProxy) AddListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
-	_data.WriteInt32(presenceServiceHdl)
-	binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceService, MethodIPresenceServiceAddListener)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/ims/internal/uce/presence/IPresenceListener;",
+		"Lcom/android/ims/internal/uce/common/UceLong;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(presenceServiceHdl)
+		binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(presenceServiceHdl)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(1)
+				if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServiceAddListener)
@@ -163,10 +200,30 @@ func (p *PresenceServiceProxy) RemoveListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
-	_data.WriteInt32(presenceServiceHdl)
-	_data.WriteInt32(1)
-	if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceService, MethodIPresenceServiceRemoveListener)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/ims/internal/uce/common/UceLong;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(presenceServiceHdl)
+		_data.WriteInt32(1)
+		if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(presenceServiceHdl)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServiceRemoveListener)
@@ -205,8 +262,25 @@ func (p *PresenceServiceProxy) ReenableService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
-	_data.WriteInt32(presenceServiceHdl)
-	_data.WriteInt32(userData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceService, MethodIPresenceServiceReenableService)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(presenceServiceHdl)
+		_data.WriteInt32(userData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(presenceServiceHdl)
+			case 1:
+				_data.WriteInt32(userData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServiceReenableService)
 	if _err != nil {
@@ -245,12 +319,35 @@ func (p *PresenceServiceProxy) PublishMyCap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
-	_data.WriteInt32(presenceServiceHdl)
-	_data.WriteInt32(1)
-	if _err := myCapInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceService, MethodIPresenceServicePublishMyCap)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/ims/internal/uce/presence/PresCapInfo;",
+		"I",
 	}
-	_data.WriteInt32(userData)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(presenceServiceHdl)
+		_data.WriteInt32(1)
+		if _err := myCapInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(userData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(presenceServiceHdl)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := myCapInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(userData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServicePublishMyCap)
 	if _err != nil {
@@ -289,9 +386,29 @@ func (p *PresenceServiceProxy) GetContactCap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
-	_data.WriteInt32(presenceServiceHdl)
-	_data.WriteString16(remoteUri)
-	_data.WriteInt32(userData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceService, MethodIPresenceServiceGetContactCap)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(presenceServiceHdl)
+		_data.WriteString16(remoteUri)
+		_data.WriteInt32(userData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(presenceServiceHdl)
+			case 1:
+				_data.WriteString16(remoteUri)
+			case 2:
+				_data.WriteInt32(userData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServiceGetContactCap)
 	if _err != nil {
@@ -330,16 +447,43 @@ func (p *PresenceServiceProxy) GetContactListCap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
-	_data.WriteInt32(presenceServiceHdl)
-	if remoteUriList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceService, MethodIPresenceServiceGetContactListCap)
+	_compiledDescs := []string{
+		"I",
+		"[Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(presenceServiceHdl)
+		if remoteUriList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(remoteUriList)))
+			for _, _item := range remoteUriList {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(userData)
 	} else {
-		_data.WriteInt32(int32(len(remoteUriList)))
-		for _, _item := range remoteUriList {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(presenceServiceHdl)
+			case 1:
+				if remoteUriList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(remoteUriList)))
+					for _, _item := range remoteUriList {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt32(userData)
+			}
 		}
 	}
-	_data.WriteInt32(userData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServiceGetContactListCap)
 	if _err != nil {
@@ -379,13 +523,39 @@ func (p *PresenceServiceProxy) SetNewFeatureTag(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
-	_data.WriteInt32(presenceServiceHdl)
-	_data.WriteString16(featureTag)
-	_data.WriteInt32(1)
-	if _err := serviceInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceService, MethodIPresenceServiceSetNewFeatureTag)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Lcom/android/ims/internal/uce/presence/PresServiceInfo;",
+		"I",
 	}
-	_data.WriteInt32(userData)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(presenceServiceHdl)
+		_data.WriteString16(featureTag)
+		_data.WriteInt32(1)
+		if _err := serviceInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(userData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(presenceServiceHdl)
+			case 1:
+				_data.WriteString16(featureTag)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := serviceInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteInt32(userData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServiceSetNewFeatureTag)
 	if _err != nil {

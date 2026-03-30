@@ -67,7 +67,21 @@ func (p *FastbootProxy) DoOemCommand(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFastboot)
-	_data.WriteString16(oemCmd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFastboot, MethodIFastbootDoOemCommand)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(oemCmd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(oemCmd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFastboot, MethodIFastbootDoOemCommand)
 	if _err != nil {
@@ -184,7 +198,21 @@ func (p *FastbootProxy) GetPartitionType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFastboot)
-	_data.WriteString16(partitionName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFastboot, MethodIFastbootGetPartitionType)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(partitionName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(partitionName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFastboot, MethodIFastbootGetPartitionType)
 	if _err != nil {

@@ -62,13 +62,36 @@ func (p *ShellTransitionsProxy) RegisterRemote(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
-	_data.WriteInt32(1)
-	if _err := filter.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShellTransitions, MethodIShellTransitionsRegisterRemote)
+	_compiledDescs := []string{
+		"Landroid/window/TransitionFilter;",
+		"Landroid/window/RemoteTransition;",
 	}
-	_data.WriteInt32(1)
-	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := filter.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := filter.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShellTransitions, MethodIShellTransitionsRegisterRemote)
@@ -87,9 +110,26 @@ func (p *ShellTransitionsProxy) UnregisterRemote(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
-	_data.WriteInt32(1)
-	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShellTransitions, MethodIShellTransitionsUnregisterRemote)
+	_compiledDescs := []string{
+		"Landroid/window/RemoteTransition;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShellTransitions, MethodIShellTransitionsUnregisterRemote)
@@ -139,7 +179,21 @@ func (p *ShellTransitionsProxy) SetHomeTransitionListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShellTransitions, MethodIShellTransitionsSetHomeTransitionListener)
+	_compiledDescs := []string{
+		"Lcom/android/wm/shell/transition/IHomeTransitionListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShellTransitions, MethodIShellTransitionsSetHomeTransitionListener)
 	if _err != nil {

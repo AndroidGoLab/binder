@@ -53,9 +53,26 @@ func (p *HostapdCallbackProxy) OnApInstanceInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapdCallback)
-	_data.WriteInt32(1)
-	if _err := apInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHostapdCallback, MethodIHostapdCallbackOnApInstanceInfoChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/hostapd/ApInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := apInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := apInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapdCallback, MethodIHostapdCallbackOnApInstanceInfoChanged)
@@ -74,9 +91,26 @@ func (p *HostapdCallbackProxy) OnConnectedClientsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapdCallback)
-	_data.WriteInt32(1)
-	if _err := clientInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHostapdCallback, MethodIHostapdCallbackOnConnectedClientsChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/hostapd/ClientInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := clientInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := clientInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapdCallback, MethodIHostapdCallbackOnConnectedClientsChanged)
@@ -96,8 +130,25 @@ func (p *HostapdCallbackProxy) OnFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapdCallback)
-	_data.WriteString16(ifaceName)
-	_data.WriteString16(instanceName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHostapdCallback, MethodIHostapdCallbackOnFailure)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(ifaceName)
+		_data.WriteString16(instanceName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(ifaceName)
+			case 1:
+				_data.WriteString16(instanceName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapdCallback, MethodIHostapdCallbackOnFailure)
 	if _err != nil {

@@ -60,7 +60,21 @@ func (p *UserSwitchObserverProxy) OnBeforeUserSwitching(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
-	_data.WriteInt32(newUserId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserSwitchObserver, MethodIUserSwitchObserverOnBeforeUserSwitching)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(newUserId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(newUserId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserSwitchObserver, MethodIUserSwitchObserverOnBeforeUserSwitching)
 	if _err != nil {
@@ -79,8 +93,25 @@ func (p *UserSwitchObserverProxy) OnUserSwitching(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
-	_data.WriteInt32(newUserId)
-	binder.WriteBinderToParcel(ctx, _data, reply.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserSwitchObserver, MethodIUserSwitchObserverOnUserSwitching)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IRemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(newUserId)
+		binder.WriteBinderToParcel(ctx, _data, reply.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(newUserId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, reply.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserSwitchObserver, MethodIUserSwitchObserverOnUserSwitching)
 	if _err != nil {
@@ -98,7 +129,21 @@ func (p *UserSwitchObserverProxy) OnUserSwitchComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
-	_data.WriteInt32(newUserId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserSwitchObserver, MethodIUserSwitchObserverOnUserSwitchComplete)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(newUserId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(newUserId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserSwitchObserver, MethodIUserSwitchObserverOnUserSwitchComplete)
 	if _err != nil {
@@ -116,7 +161,21 @@ func (p *UserSwitchObserverProxy) OnForegroundProfileSwitch(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
-	_data.WriteInt32(newProfileId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserSwitchObserver, MethodIUserSwitchObserverOnForegroundProfileSwitch)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(newProfileId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(newProfileId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserSwitchObserver, MethodIUserSwitchObserverOnForegroundProfileSwitch)
 	if _err != nil {
@@ -134,7 +193,21 @@ func (p *UserSwitchObserverProxy) OnLockedBootComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
-	_data.WriteInt32(newUserId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserSwitchObserver, MethodIUserSwitchObserverOnLockedBootComplete)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(newUserId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(newUserId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserSwitchObserver, MethodIUserSwitchObserverOnLockedBootComplete)
 	if _err != nil {

@@ -50,7 +50,21 @@ func (p *ControlsSubscriptionProxy) Request(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIControlsSubscription)
-	_data.WriteInt64(n)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIControlsSubscription, MethodIControlsSubscriptionRequest)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(n)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(n)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsSubscription, MethodIControlsSubscriptionRequest)
 	if _err != nil {

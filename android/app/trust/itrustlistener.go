@@ -59,7 +59,21 @@ func (p *TrustListenerProxy) OnEnabledTrustAgentsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustListener, MethodITrustListenerOnEnabledTrustAgentsChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustListener, MethodITrustListenerOnEnabledTrustAgentsChanged)
 	if _err != nil {
@@ -81,16 +95,49 @@ func (p *TrustListenerProxy) OnTrustChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
-	_data.WriteBool(enabled)
-	_data.WriteBool(newlyUnlocked)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(flags)
-	if trustGrantedMessages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustListener, MethodITrustListenerOnTrustChanged)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+		"I",
+		"I",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+		_data.WriteBool(newlyUnlocked)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(flags)
+		if trustGrantedMessages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(trustGrantedMessages)))
+			for _, _item := range trustGrantedMessages {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(trustGrantedMessages)))
-		for _, _item := range trustGrantedMessages {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			case 1:
+				_data.WriteBool(newlyUnlocked)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(flags)
+			case 4:
+				if trustGrantedMessages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(trustGrantedMessages)))
+					for _, _item := range trustGrantedMessages {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -111,8 +158,25 @@ func (p *TrustListenerProxy) OnTrustManagedChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
-	_data.WriteBool(managed)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustListener, MethodITrustListenerOnTrustManagedChanged)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(managed)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(managed)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustListener, MethodITrustListenerOnTrustManagedChanged)
 	if _err != nil {
@@ -130,7 +194,21 @@ func (p *TrustListenerProxy) OnTrustError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustListener, MethodITrustListenerOnTrustError)
+	_compiledDescs := []string{
+		"Ljava/lang/CharSequence;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustListener, MethodITrustListenerOnTrustError)
 	if _err != nil {
@@ -149,8 +227,25 @@ func (p *TrustListenerProxy) OnIsActiveUnlockRunningChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
-	_data.WriteBool(isRunning)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustListener, MethodITrustListenerOnIsActiveUnlockRunningChanged)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isRunning)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isRunning)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustListener, MethodITrustListenerOnIsActiveUnlockRunningChanged)
 	if _err != nil {

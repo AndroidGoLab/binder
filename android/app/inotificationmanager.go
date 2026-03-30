@@ -512,8 +512,25 @@ func (p *NotificationManagerProxy) CancelAllNotifications(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerCancelAllNotifications)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCancelAllNotifications)
 	if _err != nil {
@@ -542,9 +559,29 @@ func (p *NotificationManagerProxy) ClearData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteBool(fromApp)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerClearData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteBool(fromApp)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteBool(fromApp)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerClearData)
 	if _err != nil {
@@ -577,13 +614,45 @@ func (p *NotificationManagerProxy) EnqueueTextToast(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteString16(text)
-	_data.WriteInt32(duration)
-	_data.WriteBool(isUiContext)
-	_data.WriteInt32(displayId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerEnqueueTextToast)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
+		"Ljava/lang/CharSequence;",
+		"I",
+		"Z",
+		"I",
+		"Landroid/app/ITransientNotificationCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteString16(text)
+		_data.WriteInt32(duration)
+		_data.WriteBool(isUiContext)
+		_data.WriteInt32(displayId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 2:
+				_data.WriteString16(text)
+			case 3:
+				_data.WriteInt32(duration)
+			case 4:
+				_data.WriteBool(isUiContext)
+			case 5:
+				_data.WriteInt32(displayId)
+			case 6:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerEnqueueTextToast)
 	if _err != nil {
@@ -615,12 +684,41 @@ func (p *NotificationManagerProxy) EnqueueToast(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(duration)
-	_data.WriteBool(isUiContext)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerEnqueueToast)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
+		"Landroid/app/ITransientNotification;",
+		"I",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(duration)
+		_data.WriteBool(isUiContext)
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(duration)
+			case 4:
+				_data.WriteBool(isUiContext)
+			case 5:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerEnqueueToast)
 	if _err != nil {
@@ -648,8 +746,25 @@ func (p *NotificationManagerProxy) CancelToast(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerCancelToast)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCancelToast)
 	if _err != nil {
@@ -677,8 +792,25 @@ func (p *NotificationManagerProxy) FinishToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerFinishToken)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerFinishToken)
 	if _err != nil {
@@ -710,15 +842,47 @@ func (p *NotificationManagerProxy) EnqueueNotificationWithTag(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteString16(opPkg)
-	_data.WriteString16(tag)
-	_data.WriteInt32(id)
-	_data.WriteInt32(1)
-	if _err := notification.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerEnqueueNotificationWithTag)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/app/Notification;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(opPkg)
+		_data.WriteString16(tag)
+		_data.WriteInt32(id)
+		_data.WriteInt32(1)
+		if _err := notification.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(opPkg)
+			case 2:
+				_data.WriteString16(tag)
+			case 3:
+				_data.WriteInt32(id)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := notification.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerEnqueueNotificationWithTag)
 	if _err != nil {
@@ -749,11 +913,37 @@ func (p *NotificationManagerProxy) CancelNotificationWithTag(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteString16(opPkg)
-	_data.WriteString16(tag)
-	_data.WriteInt32(id)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerCancelNotificationWithTag)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(opPkg)
+		_data.WriteString16(tag)
+		_data.WriteInt32(id)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(opPkg)
+			case 2:
+				_data.WriteString16(tag)
+			case 3:
+				_data.WriteInt32(id)
+			case 4:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCancelNotificationWithTag)
 	if _err != nil {
@@ -782,8 +972,25 @@ func (p *NotificationManagerProxy) IsInCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerIsInCall)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerIsInCall)
 	if _err != nil {
@@ -816,9 +1023,29 @@ func (p *NotificationManagerProxy) SetShowBadge(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteBool(showBadge)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetShowBadge)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteBool(showBadge)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteBool(showBadge)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetShowBadge)
 	if _err != nil {
@@ -847,8 +1074,25 @@ func (p *NotificationManagerProxy) CanShowBadge(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerCanShowBadge)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCanShowBadge)
 	if _err != nil {
@@ -881,8 +1125,25 @@ func (p *NotificationManagerProxy) HasSentValidMsg(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerHasSentValidMsg)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerHasSentValidMsg)
 	if _err != nil {
@@ -915,8 +1176,25 @@ func (p *NotificationManagerProxy) IsInInvalidMsgState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerIsInInvalidMsgState)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerIsInInvalidMsgState)
 	if _err != nil {
@@ -949,8 +1227,25 @@ func (p *NotificationManagerProxy) HasUserDemotedInvalidMsgApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerHasUserDemotedInvalidMsgApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerHasUserDemotedInvalidMsgApp)
 	if _err != nil {
@@ -983,9 +1278,29 @@ func (p *NotificationManagerProxy) SetInvalidMsgAppDemoted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteBool(isDemoted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetInvalidMsgAppDemoted)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteBool(isDemoted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteBool(isDemoted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetInvalidMsgAppDemoted)
 	if _err != nil {
@@ -1014,8 +1329,25 @@ func (p *NotificationManagerProxy) HasSentValidBubble(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerHasSentValidBubble)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerHasSentValidBubble)
 	if _err != nil {
@@ -1048,9 +1380,29 @@ func (p *NotificationManagerProxy) SetNotificationsEnabledForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationsEnabledForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationsEnabledForPackage)
 	if _err != nil {
@@ -1079,9 +1431,29 @@ func (p *NotificationManagerProxy) SetNotificationsEnabledWithImportanceLockForP
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationsEnabledWithImportanceLockForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationsEnabledWithImportanceLockForPackage)
 	if _err != nil {
@@ -1110,8 +1482,25 @@ func (p *NotificationManagerProxy) AreNotificationsEnabledForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerAreNotificationsEnabledForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerAreNotificationsEnabledForPackage)
 	if _err != nil {
@@ -1143,7 +1532,21 @@ func (p *NotificationManagerProxy) AreNotificationsEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerAreNotificationsEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerAreNotificationsEnabled)
 	if _err != nil {
@@ -1175,7 +1578,21 @@ func (p *NotificationManagerProxy) GetPackageImportance(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetPackageImportance)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetPackageImportance)
 	if _err != nil {
@@ -1208,8 +1625,25 @@ func (p *NotificationManagerProxy) IsImportanceLocked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerIsImportanceLocked)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerIsImportanceLocked)
 	if _err != nil {
@@ -1241,7 +1675,21 @@ func (p *NotificationManagerProxy) GetAllowedAssistantAdjustments(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetAllowedAssistantAdjustments)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetAllowedAssistantAdjustments)
 	if _err != nil {
@@ -1286,7 +1734,21 @@ func (p *NotificationManagerProxy) ShouldHideSilentStatusIcons(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(callingPkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerShouldHideSilentStatusIcons)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerShouldHideSilentStatusIcons)
 	if _err != nil {
@@ -1317,7 +1779,21 @@ func (p *NotificationManagerProxy) SetHideSilentStatusIcons(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteBool(hide)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetHideSilentStatusIcons)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(hide)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(hide)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetHideSilentStatusIcons)
 	if _err != nil {
@@ -1346,9 +1822,29 @@ func (p *NotificationManagerProxy) SetBubblesAllowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(bubblePreference)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetBubblesAllowed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(bubblePreference)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteInt32(bubblePreference)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetBubblesAllowed)
 	if _err != nil {
@@ -1376,7 +1872,21 @@ func (p *NotificationManagerProxy) AreBubblesAllowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerAreBubblesAllowed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerAreBubblesAllowed)
 	if _err != nil {
@@ -1408,9 +1918,26 @@ func (p *NotificationManagerProxy) AreBubblesEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerAreBubblesEnabled)
+	_compiledDescs := []string{
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerAreBubblesEnabled)
@@ -1444,8 +1971,25 @@ func (p *NotificationManagerProxy) GetBubblePreferenceForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetBubblePreferenceForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetBubblePreferenceForPackage)
 	if _err != nil {
@@ -1477,10 +2021,30 @@ func (p *NotificationManagerProxy) CreateNotificationChannelGroups(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(1)
-	if _err := channelGroupList.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerCreateNotificationChannelGroups)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/ParceledListSlice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(1)
+		if _err := channelGroupList.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := channelGroupList.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCreateNotificationChannelGroups)
@@ -1509,10 +2073,30 @@ func (p *NotificationManagerProxy) CreateNotificationChannels(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(1)
-	if _err := channelsList.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerCreateNotificationChannels)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/ParceledListSlice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(1)
+		if _err := channelsList.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := channelsList.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCreateNotificationChannels)
@@ -1542,11 +2126,34 @@ func (p *NotificationManagerProxy) CreateNotificationChannelsForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(1)
-	if _err := channelsList.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerCreateNotificationChannelsForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/content/pm/ParceledListSlice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(1)
+		if _err := channelsList.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := channelsList.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCreateNotificationChannelsForPackage)
@@ -1575,7 +2182,21 @@ func (p *NotificationManagerProxy) GetConversations(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteBool(onlyImportant)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetConversations)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(onlyImportant)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(onlyImportant)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetConversations)
 	if _err != nil {
@@ -1613,8 +2234,25 @@ func (p *NotificationManagerProxy) GetConversationsForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetConversationsForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetConversationsForPackage)
 	if _err != nil {
@@ -1653,9 +2291,29 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroupsForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteBool(includeDeleted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelGroupsForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteBool(includeDeleted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteBool(includeDeleted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelGroupsForPackage)
 	if _err != nil {
@@ -1694,9 +2352,29 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroupForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(groupId)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelGroupForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(groupId)
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(groupId)
+			case 1:
+				_data.WriteString16(pkg)
+			case 2:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelGroupForPackage)
 	if _err != nil {
@@ -1736,10 +2414,33 @@ func (p *NotificationManagerProxy) GetPopulatedNotificationChannelGroupForPackag
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteString16(groupId)
-	_data.WriteBool(includeDeleted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetPopulatedNotificationChannelGroupForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteString16(groupId)
+		_data.WriteBool(includeDeleted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(groupId)
+			case 3:
+				_data.WriteBool(includeDeleted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetPopulatedNotificationChannelGroupForPackage)
 	if _err != nil {
@@ -1777,8 +2478,25 @@ func (p *NotificationManagerProxy) GetRecentBlockedNotificationChannelGroupsForP
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetRecentBlockedNotificationChannelGroupsForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetRecentBlockedNotificationChannelGroupsForPackage)
 	if _err != nil {
@@ -1816,11 +2534,34 @@ func (p *NotificationManagerProxy) UpdateNotificationChannelGroupForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(1)
-	if _err := group.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerUpdateNotificationChannelGroupForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/app/NotificationChannelGroup;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(1)
+		if _err := group.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := group.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerUpdateNotificationChannelGroupForPackage)
@@ -1850,11 +2591,34 @@ func (p *NotificationManagerProxy) UpdateNotificationChannelForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(1)
-	if _err := channel.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerUpdateNotificationChannelForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/app/NotificationChannel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(1)
+		if _err := channel.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := channel.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerUpdateNotificationChannelForPackage)
@@ -1884,9 +2648,29 @@ func (p *NotificationManagerProxy) UnlockNotificationChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteString16(channelId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerUnlockNotificationChannel)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteString16(channelId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(channelId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerUnlockNotificationChannel)
 	if _err != nil {
@@ -1942,10 +2726,33 @@ func (p *NotificationManagerProxy) GetNotificationChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(pkg)
-	_data.WriteString16(channelId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannel)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(pkg)
+		_data.WriteString16(channelId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteString16(pkg)
+			case 3:
+				_data.WriteString16(channelId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannel)
 	if _err != nil {
@@ -1987,12 +2794,41 @@ func (p *NotificationManagerProxy) GetConversationNotificationChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(pkg)
-	_data.WriteString16(channelId)
-	_data.WriteBool(returnParentIfNoConversationChannel)
-	_data.WriteString16(conversationId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetConversationNotificationChannel)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(pkg)
+		_data.WriteString16(channelId)
+		_data.WriteBool(returnParentIfNoConversationChannel)
+		_data.WriteString16(conversationId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteString16(pkg)
+			case 3:
+				_data.WriteString16(channelId)
+			case 4:
+				_data.WriteBool(returnParentIfNoConversationChannel)
+			case 5:
+				_data.WriteString16(conversationId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetConversationNotificationChannel)
 	if _err != nil {
@@ -2031,13 +2867,39 @@ func (p *NotificationManagerProxy) CreateConversationNotificationChannelForPacka
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(1)
-	if _err := parentChannel.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerCreateConversationNotificationChannelForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/app/NotificationChannel;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(conversationId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(1)
+		if _err := parentChannel.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(conversationId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := parentChannel.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteString16(conversationId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCreateConversationNotificationChannelForPackage)
 	if _err != nil {
@@ -2069,11 +2931,37 @@ func (p *NotificationManagerProxy) GetNotificationChannelForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteString16(channelId)
-	_data.WriteString16(conversationId)
-	_data.WriteBool(includeDeleted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteString16(channelId)
+		_data.WriteString16(conversationId)
+		_data.WriteBool(includeDeleted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(channelId)
+			case 3:
+				_data.WriteString16(conversationId)
+			case 4:
+				_data.WriteBool(includeDeleted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelForPackage)
 	if _err != nil {
@@ -2110,8 +2998,25 @@ func (p *NotificationManagerProxy) DeleteNotificationChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteString16(channelId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerDeleteNotificationChannel)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(channelId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(channelId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerDeleteNotificationChannel)
 	if _err != nil {
@@ -2141,9 +3046,29 @@ func (p *NotificationManagerProxy) GetNotificationChannels(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(targetPkg)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannels)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(targetPkg)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteString16(targetPkg)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannels)
 	if _err != nil {
@@ -2182,9 +3107,29 @@ func (p *NotificationManagerProxy) GetNotificationChannelsForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteBool(includeDeleted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelsForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteBool(includeDeleted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteBool(includeDeleted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelsForPackage)
 	if _err != nil {
@@ -2223,9 +3168,29 @@ func (p *NotificationManagerProxy) GetNumNotificationChannelsForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteBool(includeDeleted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNumNotificationChannelsForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteBool(includeDeleted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteBool(includeDeleted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNumNotificationChannelsForPackage)
 	if _err != nil {
@@ -2258,8 +3223,25 @@ func (p *NotificationManagerProxy) GetDeletedChannelCount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetDeletedChannelCount)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetDeletedChannelCount)
 	if _err != nil {
@@ -2292,8 +3274,25 @@ func (p *NotificationManagerProxy) GetBlockedChannelCount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetBlockedChannelCount)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetBlockedChannelCount)
 	if _err != nil {
@@ -2325,8 +3324,25 @@ func (p *NotificationManagerProxy) DeleteNotificationChannelGroup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteString16(channelGroupId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerDeleteNotificationChannelGroup)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(channelGroupId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(channelGroupId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerDeleteNotificationChannelGroup)
 	if _err != nil {
@@ -2355,8 +3371,25 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteString16(channelGroupId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelGroup)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(channelGroupId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(channelGroupId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelGroup)
 	if _err != nil {
@@ -2393,7 +3426,21 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroups(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelGroups)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelGroups)
 	if _err != nil {
@@ -2431,8 +3478,25 @@ func (p *NotificationManagerProxy) OnlyHasDefaultChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerOnlyHasDefaultChannel)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerOnlyHasDefaultChannel)
 	if _err != nil {
@@ -2495,8 +3559,25 @@ func (p *NotificationManagerProxy) GetNotificationChannelsBypassingDnd(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelsBypassingDnd)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelsBypassingDnd)
 	if _err != nil {
@@ -2533,7 +3614,21 @@ func (p *NotificationManagerProxy) IsPackagePaused(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerIsPackagePaused)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerIsPackagePaused)
 	if _err != nil {
@@ -2566,9 +3661,29 @@ func (p *NotificationManagerProxy) DeleteNotificationHistoryItem(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(uid)
-	_data.WriteInt64(postedTime)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerDeleteNotificationHistoryItem)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(uid)
+		_data.WriteInt64(postedTime)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteInt64(postedTime)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerDeleteNotificationHistoryItem)
 	if _err != nil {
@@ -2597,8 +3712,25 @@ func (p *NotificationManagerProxy) IsPermissionFixed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerIsPermissionFixed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerIsPermissionFixed)
 	if _err != nil {
@@ -2655,7 +3787,21 @@ func (p *NotificationManagerProxy) GetActiveNotifications(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(callingPkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetActiveNotifications)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetActiveNotifications)
 	if _err != nil {
@@ -2720,8 +3866,25 @@ func (p *NotificationManagerProxy) GetActiveNotificationsWithAttribution(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(callingAttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetActiveNotificationsWithAttribution)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(callingAttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteString16(callingAttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetActiveNotificationsWithAttribution)
 	if _err != nil {
@@ -2787,9 +3950,29 @@ func (p *NotificationManagerProxy) GetHistoricalNotifications(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt32(count)
-	_data.WriteBool(includeSnoozed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetHistoricalNotifications)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteInt32(count)
+		_data.WriteBool(includeSnoozed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteInt32(count)
+			case 2:
+				_data.WriteBool(includeSnoozed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetHistoricalNotifications)
 	if _err != nil {
@@ -2856,10 +4039,33 @@ func (p *NotificationManagerProxy) GetHistoricalNotificationsWithAttribution(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(callingAttributionTag)
-	_data.WriteInt32(count)
-	_data.WriteBool(includeSnoozed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetHistoricalNotificationsWithAttribution)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(callingAttributionTag)
+		_data.WriteInt32(count)
+		_data.WriteBool(includeSnoozed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteString16(callingAttributionTag)
+			case 2:
+				_data.WriteInt32(count)
+			case 3:
+				_data.WriteBool(includeSnoozed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetHistoricalNotificationsWithAttribution)
 	if _err != nil {
@@ -2924,8 +4130,25 @@ func (p *NotificationManagerProxy) GetNotificationHistory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(callingAttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationHistory)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(callingAttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteString16(callingAttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationHistory)
 	if _err != nil {
@@ -2963,12 +4186,35 @@ func (p *NotificationManagerProxy) RegisterListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := component.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerRegisterListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(userid)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := component.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(userid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := component.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(userid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerRegisterListener)
 	if _err != nil {
@@ -2996,8 +4242,25 @@ func (p *NotificationManagerProxy) UnregisterListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(userid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerUnregisterListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(userid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(userid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerUnregisterListener)
 	if _err != nil {
@@ -3027,10 +4290,33 @@ func (p *NotificationManagerProxy) CancelNotificationFromListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(pkg)
-	_data.WriteString16(tag)
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerCancelNotificationFromListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(pkg)
+		_data.WriteString16(tag)
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(pkg)
+			case 2:
+				_data.WriteString16(tag)
+			case 3:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCancelNotificationFromListener)
 	if _err != nil {
@@ -3058,13 +4344,37 @@ func (p *NotificationManagerProxy) CancelNotificationsFromListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	if keys == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerCancelNotificationsFromListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		if keys == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(keys)))
+			for _, _item := range keys {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(keys)))
-		for _, _item := range keys {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				if keys == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(keys)))
+					for _, _item := range keys {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -3095,9 +4405,29 @@ func (p *NotificationManagerProxy) SnoozeNotificationUntilContextFromListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(key)
-	_data.WriteString16(snoozeCriterionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSnoozeNotificationUntilContextFromListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(key)
+		_data.WriteString16(snoozeCriterionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(key)
+			case 2:
+				_data.WriteString16(snoozeCriterionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSnoozeNotificationUntilContextFromListener)
 	if _err != nil {
@@ -3126,9 +4456,29 @@ func (p *NotificationManagerProxy) SnoozeNotificationUntilFromListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(key)
-	_data.WriteInt64(until)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSnoozeNotificationUntilFromListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"Ljava/lang/String;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(key)
+		_data.WriteInt64(until)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(key)
+			case 2:
+				_data.WriteInt64(until)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSnoozeNotificationUntilFromListener)
 	if _err != nil {
@@ -3155,9 +4505,26 @@ func (p *NotificationManagerProxy) RequestBindListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := component.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerRequestBindListener)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := component.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := component.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerRequestBindListener)
@@ -3185,7 +4552,21 @@ func (p *NotificationManagerProxy) RequestUnbindListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerRequestUnbindListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerRequestUnbindListener)
 	if _err != nil {
@@ -3212,9 +4593,26 @@ func (p *NotificationManagerProxy) RequestUnbindListenerComponent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := component.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerRequestUnbindListenerComponent)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := component.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := component.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerRequestUnbindListenerComponent)
@@ -3242,9 +4640,26 @@ func (p *NotificationManagerProxy) RequestBindProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := component.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerRequestBindProvider)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := component.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := component.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerRequestBindProvider)
@@ -3272,7 +4687,21 @@ func (p *NotificationManagerProxy) RequestUnbindProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerRequestUnbindProvider)
+	_compiledDescs := []string{
+		"Landroid/service/notification/IConditionProvider;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerRequestUnbindProvider)
 	if _err != nil {
@@ -3300,13 +4729,37 @@ func (p *NotificationManagerProxy) SetNotificationsShownFromListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	if keys == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationsShownFromListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		if keys == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(keys)))
+			for _, _item := range keys {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(keys)))
-		for _, _item := range keys {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				if keys == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(keys)))
+					for _, _item := range keys {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -3338,16 +4791,43 @@ func (p *NotificationManagerProxy) GetActiveNotificationsFromListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	if keys == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetActiveNotificationsFromListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"[Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		if keys == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(keys)))
+			for _, _item := range keys {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(trim)
 	} else {
-		_data.WriteInt32(int32(len(keys)))
-		for _, _item := range keys {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				if keys == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(keys)))
+					for _, _item := range keys {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt32(trim)
+			}
 		}
 	}
-	_data.WriteInt32(trim)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetActiveNotificationsFromListener)
 	if _err != nil {
@@ -3385,8 +4865,25 @@ func (p *NotificationManagerProxy) GetSnoozedNotificationsFromListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(trim)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetSnoozedNotificationsFromListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(trim)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(trim)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetSnoozedNotificationsFromListener)
 	if _err != nil {
@@ -3422,7 +4919,21 @@ func (p *NotificationManagerProxy) ClearRequestedListenerHints(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerClearRequestedListenerHints)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerClearRequestedListenerHints)
 	if _err != nil {
@@ -3450,8 +4961,25 @@ func (p *NotificationManagerProxy) RequestHintsFromListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(hints)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerRequestHintsFromListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(hints)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(hints)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerRequestHintsFromListener)
 	if _err != nil {
@@ -3479,7 +5007,21 @@ func (p *NotificationManagerProxy) GetHintsFromListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetHintsFromListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetHintsFromListener)
 	if _err != nil {
@@ -3541,8 +5083,25 @@ func (p *NotificationManagerProxy) RequestInterruptionFilterFromListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(interruptionFilter)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerRequestInterruptionFilterFromListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(interruptionFilter)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(interruptionFilter)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerRequestInterruptionFilterFromListener)
 	if _err != nil {
@@ -3570,7 +5129,21 @@ func (p *NotificationManagerProxy) GetInterruptionFilterFromListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetInterruptionFilterFromListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetInterruptionFilterFromListener)
 	if _err != nil {
@@ -3602,8 +5175,25 @@ func (p *NotificationManagerProxy) SetOnNotificationPostedTrimFromListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(trim)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetOnNotificationPostedTrimFromListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(trim)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(trim)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetOnNotificationPostedTrimFromListener)
 	if _err != nil {
@@ -3632,9 +5222,29 @@ func (p *NotificationManagerProxy) SetInterruptionFilter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(interruptionFilter)
-	_data.WriteBool(fromUser)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetInterruptionFilter)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(interruptionFilter)
+		_data.WriteBool(fromUser)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(interruptionFilter)
+			case 2:
+				_data.WriteBool(fromUser)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetInterruptionFilter)
 	if _err != nil {
@@ -3664,15 +5274,44 @@ func (p *NotificationManagerProxy) UpdateNotificationChannelGroupFromPrivilegedL
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(pkg)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerUpdateNotificationChannelGroupFromPrivilegedListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+		"Landroid/app/NotificationChannelGroup;",
 	}
-	_data.WriteInt32(1)
-	if _err := group.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(pkg)
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := group.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(pkg)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := group.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerUpdateNotificationChannelGroupFromPrivilegedListener)
@@ -3703,15 +5342,44 @@ func (p *NotificationManagerProxy) UpdateNotificationChannelFromPrivilegedListen
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(pkg)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerUpdateNotificationChannelFromPrivilegedListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+		"Landroid/app/NotificationChannel;",
 	}
-	_data.WriteInt32(1)
-	if _err := channel.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(pkg)
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := channel.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(pkg)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := channel.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerUpdateNotificationChannelFromPrivilegedListener)
@@ -3742,11 +5410,34 @@ func (p *NotificationManagerProxy) GetNotificationChannelsFromPrivilegedListener
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(pkg)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelsFromPrivilegedListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(pkg)
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(pkg)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelsFromPrivilegedListener)
@@ -3786,11 +5477,34 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroupsFromPrivilegedLis
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(pkg)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelGroupsFromPrivilegedListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(pkg)
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(pkg)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelGroupsFromPrivilegedListener)
@@ -3828,10 +5542,30 @@ func (p *NotificationManagerProxy) ApplyEnqueuedAdjustmentFromAssistant(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := adjustment.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerApplyEnqueuedAdjustmentFromAssistant)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"Landroid/service/notification/Adjustment;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := adjustment.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := adjustment.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerApplyEnqueuedAdjustmentFromAssistant)
@@ -3860,10 +5594,30 @@ func (p *NotificationManagerProxy) ApplyAdjustmentFromAssistant(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := adjustment.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerApplyAdjustmentFromAssistant)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"Landroid/service/notification/Adjustment;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := adjustment.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := adjustment.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerApplyAdjustmentFromAssistant)
@@ -3892,15 +5646,42 @@ func (p *NotificationManagerProxy) ApplyAdjustmentsFromAssistant(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	if adjustments == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerApplyAdjustmentsFromAssistant)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		if adjustments == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(adjustments)))
+			for _, _item := range adjustments {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(adjustments)))
-		for _, _item := range adjustments {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				if adjustments == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(adjustments)))
+					for _, _item := range adjustments {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -3931,8 +5712,25 @@ func (p *NotificationManagerProxy) UnsnoozeNotificationFromAssistant(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(key)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerUnsnoozeNotificationFromAssistant)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(key)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(key)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerUnsnoozeNotificationFromAssistant)
 	if _err != nil {
@@ -3960,8 +5758,25 @@ func (p *NotificationManagerProxy) UnsnoozeNotificationFromSystemListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(key)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerUnsnoozeNotificationFromSystemListener)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(key)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(key)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerUnsnoozeNotificationFromSystemListener)
 	if _err != nil {
@@ -4024,9 +5839,26 @@ func (p *NotificationManagerProxy) MatchesCallFilter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerMatchesCallFilter)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerMatchesCallFilter)
@@ -4058,7 +5890,21 @@ func (p *NotificationManagerProxy) CleanUpCallersAfter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt64(timeThreshold)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerCleanUpCallersAfter)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(timeThreshold)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(timeThreshold)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCleanUpCallersAfter)
 	if _err != nil {
@@ -4086,7 +5932,21 @@ func (p *NotificationManagerProxy) IsSystemConditionProviderEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(path)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerIsSystemConditionProviderEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(path)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(path)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerIsSystemConditionProviderEnabled)
 	if _err != nil {
@@ -4118,9 +5978,26 @@ func (p *NotificationManagerProxy) IsNotificationListenerAccessGranted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := listener.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerIsNotificationListenerAccessGranted)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := listener.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := listener.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerIsNotificationListenerAccessGranted)
@@ -4154,11 +6031,31 @@ func (p *NotificationManagerProxy) IsNotificationListenerAccessGrantedForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := listener.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerIsNotificationListenerAccessGrantedForUser)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := listener.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := listener.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerIsNotificationListenerAccessGrantedForUser)
 	if _err != nil {
@@ -4190,9 +6087,26 @@ func (p *NotificationManagerProxy) IsNotificationAssistantAccessGranted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := assistant.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerIsNotificationAssistantAccessGranted)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := assistant.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := assistant.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerIsNotificationAssistantAccessGranted)
@@ -4226,12 +6140,35 @@ func (p *NotificationManagerProxy) SetNotificationListenerAccessGranted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := listener.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationListenerAccessGranted)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
+		"Z",
 	}
-	_data.WriteBool(enabled)
-	_data.WriteBool(userSet)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := listener.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(enabled)
+		_data.WriteBool(userSet)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := listener.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(enabled)
+			case 2:
+				_data.WriteBool(userSet)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationListenerAccessGranted)
 	if _err != nil {
@@ -4259,11 +6196,31 @@ func (p *NotificationManagerProxy) SetNotificationAssistantAccessGranted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := assistant.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationAssistantAccessGranted)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(enabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := assistant.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := assistant.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationAssistantAccessGranted)
 	if _err != nil {
@@ -4293,13 +6250,39 @@ func (p *NotificationManagerProxy) SetNotificationListenerAccessGrantedForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := listener.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationListenerAccessGrantedForUser)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(enabled)
-	_data.WriteBool(userSet)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := listener.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(enabled)
+		_data.WriteBool(userSet)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := listener.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(enabled)
+			case 3:
+				_data.WriteBool(userSet)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationListenerAccessGrantedForUser)
 	if _err != nil {
@@ -4328,12 +6311,35 @@ func (p *NotificationManagerProxy) SetNotificationAssistantAccessGrantedForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := assistant.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationAssistantAccessGrantedForUser)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(enabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := assistant.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := assistant.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationAssistantAccessGrantedForUser)
 	if _err != nil {
@@ -4404,7 +6410,21 @@ func (p *NotificationManagerProxy) GetEnabledNotificationListeners(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetEnabledNotificationListeners)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetEnabledNotificationListeners)
 	if _err != nil {
@@ -4468,7 +6488,21 @@ func (p *NotificationManagerProxy) GetAllowedNotificationAssistantForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetAllowedNotificationAssistantForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetAllowedNotificationAssistantForUser)
 	if _err != nil {
@@ -4575,8 +6609,25 @@ func (p *NotificationManagerProxy) SetNASMigrationDoneAndResetDefault(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(loadFromConfig)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetNASMigrationDoneAndResetDefault)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(loadFromConfig)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(loadFromConfig)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetNASMigrationDoneAndResetDefault)
 	if _err != nil {
@@ -4605,8 +6656,25 @@ func (p *NotificationManagerProxy) HasEnabledNotificationListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerHasEnabledNotificationListener)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerHasEnabledNotificationListener)
 	if _err != nil {
@@ -4740,13 +6808,39 @@ func (p *NotificationManagerProxy) SetZenMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(mode)
-	_data.WriteInt32(1)
-	if _err := conditionId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetZenMode)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/net/Uri;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(reason)
-	_data.WriteBool(fromUser)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mode)
+		_data.WriteInt32(1)
+		if _err := conditionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(reason)
+		_data.WriteBool(fromUser)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mode)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := conditionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(reason)
+			case 3:
+				_data.WriteBool(fromUser)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetZenMode)
 	if _err != nil {
@@ -4766,16 +6860,46 @@ func (p *NotificationManagerProxy) NotifyConditions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	binder.WriteBinderToParcel(ctx, _data, provider.AsBinder(), p.Remote.Transport())
-	if conditions == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerNotifyConditions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/service/notification/IConditionProvider;",
+		"[Landroid/service/notification/Condition;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		binder.WriteBinderToParcel(ctx, _data, provider.AsBinder(), p.Remote.Transport())
+		if conditions == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(conditions)))
+			for _, _item := range conditions {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(conditions)))
-		for _, _item := range conditions {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, provider.AsBinder(), p.Remote.Transport())
+			case 2:
+				if conditions == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(conditions)))
+					for _, _item := range conditions {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -4797,7 +6921,21 @@ func (p *NotificationManagerProxy) IsNotificationPolicyAccessGranted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerIsNotificationPolicyAccessGranted)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerIsNotificationPolicyAccessGranted)
 	if _err != nil {
@@ -4829,7 +6967,21 @@ func (p *NotificationManagerProxy) GetNotificationPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationPolicy)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationPolicy)
 	if _err != nil {
@@ -4867,12 +7019,35 @@ func (p *NotificationManagerProxy) SetNotificationPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(1)
-	if _err := policy.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationPolicy)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LNotificationManager/Policy;",
+		"Z",
 	}
-	_data.WriteBool(fromUser)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(1)
+		if _err := policy.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(fromUser)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := policy.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteBool(fromUser)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationPolicy)
 	if _err != nil {
@@ -4900,7 +7075,21 @@ func (p *NotificationManagerProxy) IsNotificationPolicyAccessGrantedForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerIsNotificationPolicyAccessGrantedForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerIsNotificationPolicyAccessGrantedForPackage)
 	if _err != nil {
@@ -4932,8 +7121,25 @@ func (p *NotificationManagerProxy) SetNotificationPolicyAccessGranted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteBool(granted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationPolicyAccessGranted)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteBool(granted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteBool(granted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationPolicyAccessGranted)
 	if _err != nil {
@@ -4962,9 +7168,29 @@ func (p *NotificationManagerProxy) SetNotificationPolicyAccessGrantedForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(granted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationPolicyAccessGrantedForUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(granted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(granted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationPolicyAccessGrantedForUser)
 	if _err != nil {
@@ -5027,7 +7253,21 @@ func (p *NotificationManagerProxy) GetAutomaticZenRule(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetAutomaticZenRule)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetAutomaticZenRule)
 	if _err != nil {
@@ -5177,12 +7417,35 @@ func (p *NotificationManagerProxy) AddAutomaticZenRule(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := automaticZenRule.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerAddAutomaticZenRule)
+	_compiledDescs := []string{
+		"Landroid/app/AutomaticZenRule;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(pkg)
-	_data.WriteBool(fromUser)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := automaticZenRule.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(pkg)
+		_data.WriteBool(fromUser)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := automaticZenRule.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(pkg)
+			case 2:
+				_data.WriteBool(fromUser)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerAddAutomaticZenRule)
 	if _err != nil {
@@ -5216,12 +7479,35 @@ func (p *NotificationManagerProxy) UpdateAutomaticZenRule(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(id)
-	_data.WriteInt32(1)
-	if _err := automaticZenRule.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerUpdateAutomaticZenRule)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/app/AutomaticZenRule;",
+		"Z",
 	}
-	_data.WriteBool(fromUser)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(id)
+		_data.WriteInt32(1)
+		if _err := automaticZenRule.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(fromUser)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(id)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := automaticZenRule.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteBool(fromUser)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerUpdateAutomaticZenRule)
 	if _err != nil {
@@ -5254,8 +7540,25 @@ func (p *NotificationManagerProxy) RemoveAutomaticZenRule(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(id)
-	_data.WriteBool(fromUser)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerRemoveAutomaticZenRule)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(id)
+		_data.WriteBool(fromUser)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(id)
+			case 1:
+				_data.WriteBool(fromUser)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerRemoveAutomaticZenRule)
 	if _err != nil {
@@ -5288,8 +7591,25 @@ func (p *NotificationManagerProxy) RemoveAutomaticZenRules(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(packageName)
-	_data.WriteBool(fromUser)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerRemoveAutomaticZenRules)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteBool(fromUser)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteBool(fromUser)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerRemoveAutomaticZenRules)
 	if _err != nil {
@@ -5321,9 +7641,26 @@ func (p *NotificationManagerProxy) GetRuleInstanceCount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := owner.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetRuleInstanceCount)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := owner.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := owner.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetRuleInstanceCount)
@@ -5356,7 +7693,21 @@ func (p *NotificationManagerProxy) GetAutomaticZenRuleState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetAutomaticZenRuleState)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetAutomaticZenRuleState)
 	if _err != nil {
@@ -5388,10 +7739,30 @@ func (p *NotificationManagerProxy) SetAutomaticZenRuleState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(id)
-	_data.WriteInt32(1)
-	if _err := condition.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetAutomaticZenRuleState)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/service/notification/Condition;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(id)
+		_data.WriteInt32(1)
+		if _err := condition.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(id)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := condition.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetAutomaticZenRuleState)
@@ -5420,7 +7791,21 @@ func (p *NotificationManagerProxy) GetBackupPayload(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(user)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetBackupPayload)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(user)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(user)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetBackupPayload)
 	if _err != nil {
@@ -5452,8 +7837,25 @@ func (p *NotificationManagerProxy) ApplyRestore(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteByteArray(payload)
-	_data.WriteInt32(user)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerApplyRestore)
+	_compiledDescs := []string{
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(payload)
+		_data.WriteInt32(user)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(payload)
+			case 1:
+				_data.WriteInt32(user)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerApplyRestore)
 	if _err != nil {
@@ -5482,8 +7884,25 @@ func (p *NotificationManagerProxy) GetAppActiveNotifications(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetAppActiveNotifications)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetAppActiveNotifications)
 	if _err != nil {
@@ -5520,8 +7939,25 @@ func (p *NotificationManagerProxy) SetNotificationDelegate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(delegate)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationDelegate)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(delegate)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteString16(delegate)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationDelegate)
 	if _err != nil {
@@ -5549,7 +7985,21 @@ func (p *NotificationManagerProxy) GetNotificationDelegate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(callingPkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationDelegate)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationDelegate)
 	if _err != nil {
@@ -5583,9 +8033,29 @@ func (p *NotificationManagerProxy) CanNotifyAsPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(targetPkg)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerCanNotifyAsPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(targetPkg)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteString16(targetPkg)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCanNotifyAsPackage)
 	if _err != nil {
@@ -5617,9 +8087,26 @@ func (p *NotificationManagerProxy) CanUseFullScreenIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerCanUseFullScreenIntent)
+	_compiledDescs := []string{
+		"Landroid/content/AttributionSource;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCanUseFullScreenIntent)
@@ -5651,7 +8138,21 @@ func (p *NotificationManagerProxy) SetPrivateNotificationsAllowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteBool(allow)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetPrivateNotificationsAllowed)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(allow)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(allow)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetPrivateNotificationsAllowed)
 	if _err != nil {
@@ -5712,9 +8213,29 @@ func (p *NotificationManagerProxy) PullStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt64(startNs)
-	_data.WriteInt32(report)
-	_data.WriteBool(doAgg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerPullStats)
+	_compiledDescs := []string{
+		"J",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(startNs)
+		_data.WriteInt32(report)
+		_data.WriteBool(doAgg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(startNs)
+			case 1:
+				_data.WriteInt32(report)
+			case 2:
+				_data.WriteBool(doAgg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerPullStats)
 	if _err != nil {
@@ -5763,11 +8284,31 @@ func (p *NotificationManagerProxy) GetListenerFilter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := cn.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerGetListenerFilter)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := cn.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := cn.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetListenerFilter)
 	if _err != nil {
@@ -5805,14 +8346,40 @@ func (p *NotificationManagerProxy) SetListenerFilter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteInt32(1)
-	if _err := cn.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetListenerFilter)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Landroid/service/notification/NotificationListenerFilter;",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := nlf.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := cn.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := nlf.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := cn.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := nlf.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetListenerFilter)
@@ -5842,14 +8409,41 @@ func (p *NotificationManagerProxy) MigrateNotificationFilter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(defaultTypes)
-	if disallowedPkgs == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerMigrateNotificationFilter)
+	_compiledDescs := []string{
+		"Landroid/service/notification/INotificationListener;",
+		"I",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(defaultTypes)
+		if disallowedPkgs == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(disallowedPkgs)))
+			for _, _item := range disallowedPkgs {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(disallowedPkgs)))
-		for _, _item := range disallowedPkgs {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(defaultTypes)
+			case 2:
+				if disallowedPkgs == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(disallowedPkgs)))
+					for _, _item := range disallowedPkgs {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -5878,7 +8472,21 @@ func (p *NotificationManagerProxy) SetToastRateLimitingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerSetToastRateLimitingEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetToastRateLimitingEnabled)
 	if _err != nil {
@@ -5907,12 +8515,35 @@ func (p *NotificationManagerProxy) RegisterCallNotificationEventListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerRegisterCallNotificationEventListener)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+		"Landroid/app/ICallNotificationEventCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := userHandle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := userHandle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerRegisterCallNotificationEventListener)
 	if _err != nil {
@@ -5941,12 +8572,35 @@ func (p *NotificationManagerProxy) UnregisterCallNotificationEventListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINotificationManager, MethodINotificationManagerUnregisterCallNotificationEventListener)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+		"Landroid/app/ICallNotificationEventCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := userHandle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := userHandle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerUnregisterCallNotificationEventListener)
 	if _err != nil {

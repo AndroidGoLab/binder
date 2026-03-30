@@ -52,11 +52,31 @@ func (p *RemoteSessionCallbackProxy) OnVolumeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteSessionCallback)
-	_data.WriteInt32(1)
-	if _err := sessionToken.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteSessionCallback, MethodIRemoteSessionCallbackOnVolumeChanged)
+	_compiledDescs := []string{
+		"LMediaSession/Token;",
+		"I",
 	}
-	_data.WriteInt32(flags)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteSessionCallback, MethodIRemoteSessionCallbackOnVolumeChanged)
 	if _err != nil {
@@ -74,9 +94,26 @@ func (p *RemoteSessionCallbackProxy) OnSessionChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteSessionCallback)
-	_data.WriteInt32(1)
-	if _err := sessionToken.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteSessionCallback, MethodIRemoteSessionCallbackOnSessionChanged)
+	_compiledDescs := []string{
+		"LMediaSession/Token;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteSessionCallback, MethodIRemoteSessionCallbackOnSessionChanged)

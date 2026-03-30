@@ -87,12 +87,41 @@ func (p *BackupAgentProxy) DoBackup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
-	_data.WriteParcelFileDescriptor(oldState)
-	_data.WriteParcelFileDescriptor(data)
-	_data.WriteParcelFileDescriptor(newState)
-	_data.WriteInt64(quotaBytes)
-	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(transportFlags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupAgent, MethodIBackupAgentDoBackup)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"J",
+		"Landroid/app/backup/IBackupCallback;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(oldState)
+		_data.WriteParcelFileDescriptor(data)
+		_data.WriteParcelFileDescriptor(newState)
+		_data.WriteInt64(quotaBytes)
+		binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(transportFlags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(oldState)
+			case 1:
+				_data.WriteParcelFileDescriptor(data)
+			case 2:
+				_data.WriteParcelFileDescriptor(newState)
+			case 3:
+				_data.WriteInt64(quotaBytes)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+			case 5:
+				_data.WriteInt32(transportFlags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupAgent, MethodIBackupAgentDoBackup)
 	if _err != nil {
@@ -114,11 +143,37 @@ func (p *BackupAgentProxy) DoRestore(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
-	_data.WriteParcelFileDescriptor(data)
-	_data.WriteInt64(appVersionCode)
-	_data.WriteParcelFileDescriptor(newState)
-	_data.WriteInt32(token)
-	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupAgent, MethodIBackupAgentDoRestore)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"J",
+		"Landroid/os/ParcelFileDescriptor;",
+		"I",
+		"Landroid/app/backup/IBackupManager;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(data)
+		_data.WriteInt64(appVersionCode)
+		_data.WriteParcelFileDescriptor(newState)
+		_data.WriteInt32(token)
+		binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(data)
+			case 1:
+				_data.WriteInt64(appVersionCode)
+			case 2:
+				_data.WriteParcelFileDescriptor(newState)
+			case 3:
+				_data.WriteInt32(token)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupAgent, MethodIBackupAgentDoRestore)
 	if _err != nil {
@@ -141,17 +196,53 @@ func (p *BackupAgentProxy) DoRestoreWithExcludedKeys(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
-	_data.WriteParcelFileDescriptor(data)
-	_data.WriteInt64(appVersionCode)
-	_data.WriteParcelFileDescriptor(newState)
-	_data.WriteInt32(token)
-	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
-	if excludedKeys == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupAgent, MethodIBackupAgentDoRestoreWithExcludedKeys)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"J",
+		"Landroid/os/ParcelFileDescriptor;",
+		"I",
+		"Landroid/app/backup/IBackupManager;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(data)
+		_data.WriteInt64(appVersionCode)
+		_data.WriteParcelFileDescriptor(newState)
+		_data.WriteInt32(token)
+		binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+		if excludedKeys == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(excludedKeys)))
+			for _, _item := range excludedKeys {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(excludedKeys)))
-		for _, _item := range excludedKeys {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(data)
+			case 1:
+				_data.WriteInt64(appVersionCode)
+			case 2:
+				_data.WriteParcelFileDescriptor(newState)
+			case 3:
+				_data.WriteInt32(token)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+			case 5:
+				if excludedKeys == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(excludedKeys)))
+					for _, _item := range excludedKeys {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -175,11 +266,37 @@ func (p *BackupAgentProxy) DoFullBackup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
-	_data.WriteParcelFileDescriptor(data)
-	_data.WriteInt64(quotaBytes)
-	_data.WriteInt32(token)
-	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(transportFlags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupAgent, MethodIBackupAgentDoFullBackup)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"J",
+		"I",
+		"Landroid/app/backup/IBackupManager;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(data)
+		_data.WriteInt64(quotaBytes)
+		_data.WriteInt32(token)
+		binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(transportFlags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(data)
+			case 1:
+				_data.WriteInt64(quotaBytes)
+			case 2:
+				_data.WriteInt32(token)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+			case 4:
+				_data.WriteInt32(transportFlags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupAgent, MethodIBackupAgentDoFullBackup)
 	if _err != nil {
@@ -200,10 +317,33 @@ func (p *BackupAgentProxy) DoMeasureFullBackup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
-	_data.WriteInt64(quotaBytes)
-	_data.WriteInt32(token)
-	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(transportFlags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupAgent, MethodIBackupAgentDoMeasureFullBackup)
+	_compiledDescs := []string{
+		"J",
+		"I",
+		"Landroid/app/backup/IBackupManager;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(quotaBytes)
+		_data.WriteInt32(token)
+		binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(transportFlags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(quotaBytes)
+			case 1:
+				_data.WriteInt32(token)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(transportFlags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupAgent, MethodIBackupAgentDoMeasureFullBackup)
 	if _err != nil {
@@ -223,9 +363,29 @@ func (p *BackupAgentProxy) DoQuotaExceeded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
-	_data.WriteInt64(backupDataBytes)
-	_data.WriteInt64(quotaBytes)
-	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupAgent, MethodIBackupAgentDoQuotaExceeded)
+	_compiledDescs := []string{
+		"J",
+		"J",
+		"Landroid/app/backup/IBackupCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(backupDataBytes)
+		_data.WriteInt64(quotaBytes)
+		binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(backupDataBytes)
+			case 1:
+				_data.WriteInt64(quotaBytes)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupAgent, MethodIBackupAgentDoQuotaExceeded)
 	if _err != nil {
@@ -251,15 +411,53 @@ func (p *BackupAgentProxy) DoRestoreFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
-	_data.WriteParcelFileDescriptor(data)
-	_data.WriteInt64(size)
-	_data.WriteInt32(type_)
-	_data.WriteString16(domain)
-	_data.WriteString16(path)
-	_data.WriteInt64(mode)
-	_data.WriteInt64(mtime)
-	_data.WriteInt32(token)
-	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupAgent, MethodIBackupAgentDoRestoreFile)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"J",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"J",
+		"J",
+		"I",
+		"Landroid/app/backup/IBackupManager;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(data)
+		_data.WriteInt64(size)
+		_data.WriteInt32(type_)
+		_data.WriteString16(domain)
+		_data.WriteString16(path)
+		_data.WriteInt64(mode)
+		_data.WriteInt64(mtime)
+		_data.WriteInt32(token)
+		binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(data)
+			case 1:
+				_data.WriteInt64(size)
+			case 2:
+				_data.WriteInt32(type_)
+			case 3:
+				_data.WriteString16(domain)
+			case 4:
+				_data.WriteString16(path)
+			case 5:
+				_data.WriteInt64(mode)
+			case 6:
+				_data.WriteInt64(mtime)
+			case 7:
+				_data.WriteInt32(token)
+			case 8:
+				binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupAgent, MethodIBackupAgentDoRestoreFile)
 	if _err != nil {
@@ -278,8 +476,25 @@ func (p *BackupAgentProxy) DoRestoreFinished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
-	_data.WriteInt32(token)
-	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupAgent, MethodIBackupAgentDoRestoreFinished)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/app/backup/IBackupManager;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(token)
+		binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(token)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupAgent, MethodIBackupAgentDoRestoreFinished)
 	if _err != nil {
@@ -297,7 +512,21 @@ func (p *BackupAgentProxy) Fail(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupAgent, MethodIBackupAgentFail)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupAgent, MethodIBackupAgentFail)
 	if _err != nil {
@@ -315,9 +544,26 @@ func (p *BackupAgentProxy) GetLoggerResults(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
-	_data.WriteInt32(1)
-	if _err := resultsFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupAgent, MethodIBackupAgentGetLoggerResults)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultsFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultsFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupAgent, MethodIBackupAgentGetLoggerResults)
@@ -336,9 +582,26 @@ func (p *BackupAgentProxy) GetOperationType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
-	_data.WriteInt32(1)
-	if _err := operationTypeFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupAgent, MethodIBackupAgentGetOperationType)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := operationTypeFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := operationTypeFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupAgent, MethodIBackupAgentGetOperationType)

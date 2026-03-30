@@ -48,7 +48,21 @@ func (p *TelecomLoaderProxy) CreateTelecomService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomLoader)
-	binder.WriteBinderToParcel(ctx, _data, retriever.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomLoader, MethodITelecomLoaderCreateTelecomService)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telecom/IInternalServiceRetriever;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, retriever.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, retriever.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomLoader, MethodITelecomLoaderCreateTelecomService)
 	if _err != nil {

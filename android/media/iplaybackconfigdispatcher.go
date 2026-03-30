@@ -48,18 +48,45 @@ func (p *PlaybackConfigDispatcherProxy) DispatchPlaybackConfigChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlaybackConfigDispatcher)
-	if configs == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlaybackConfigDispatcher, MethodIPlaybackConfigDispatcherDispatchPlaybackConfigChange)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if configs == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(configs)))
+			for _, _item := range configs {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteBool(flush)
 	} else {
-		_data.WriteInt32(int32(len(configs)))
-		for _, _item := range configs {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if configs == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(configs)))
+					for _, _item := range configs {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteBool(flush)
 			}
 		}
 	}
-	_data.WriteBool(flush)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlaybackConfigDispatcher, MethodIPlaybackConfigDispatcherDispatchPlaybackConfigChange)
 	if _err != nil {

@@ -67,8 +67,25 @@ func (p *TaskFragmentOrganizerControllerProxy) RegisterOrganizer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
-	_data.WriteBool(isSystemOrganizer)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerRegisterOrganizer)
+	_compiledDescs := []string{
+		"Landroid/window/ITaskFragmentOrganizer;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+		_data.WriteBool(isSystemOrganizer)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteBool(isSystemOrganizer)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerRegisterOrganizer)
 	if _err != nil {
@@ -95,7 +112,21 @@ func (p *TaskFragmentOrganizerControllerProxy) UnregisterOrganizer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerUnregisterOrganizer)
+	_compiledDescs := []string{
+		"Landroid/window/ITaskFragmentOrganizer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerUnregisterOrganizer)
 	if _err != nil {
@@ -123,10 +154,30 @@ func (p *TaskFragmentOrganizerControllerProxy) RegisterRemoteAnimations(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := definition.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerRegisterRemoteAnimations)
+	_compiledDescs := []string{
+		"Landroid/window/ITaskFragmentOrganizer;",
+		"Landroid/view/RemoteAnimationDefinition;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := definition.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := definition.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerRegisterRemoteAnimations)
@@ -154,7 +205,21 @@ func (p *TaskFragmentOrganizerControllerProxy) UnregisterRemoteAnimations(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerUnregisterRemoteAnimations)
+	_compiledDescs := []string{
+		"Landroid/window/ITaskFragmentOrganizer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerUnregisterRemoteAnimations)
 	if _err != nil {
@@ -182,7 +247,21 @@ func (p *TaskFragmentOrganizerControllerProxy) IsActivityEmbedded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerIsActivityEmbedded)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerIsActivityEmbedded)
 	if _err != nil {
@@ -216,13 +295,39 @@ func (p *TaskFragmentOrganizerControllerProxy) OnTransactionHandled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, transactionToken, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := wct.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerOnTransactionHandled)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/window/WindowContainerTransaction;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(transitionType)
-	_data.WriteBool(shouldApplyIndependently)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, transactionToken, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := wct.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(transitionType)
+		_data.WriteBool(shouldApplyIndependently)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, transactionToken, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := wct.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(transitionType)
+			case 3:
+				_data.WriteBool(shouldApplyIndependently)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerOnTransactionHandled)
 	if _err != nil {
@@ -252,15 +357,44 @@ func (p *TaskFragmentOrganizerControllerProxy) ApplyTransaction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
-	_data.WriteInt32(1)
-	if _err := wct.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerApplyTransaction)
+	_compiledDescs := []string{
+		"Landroid/window/WindowContainerTransaction;",
+		"I",
+		"Z",
+		"Landroid/window/RemoteTransition;",
 	}
-	_data.WriteInt32(transitionType)
-	_data.WriteBool(shouldApplyIndependently)
-	_data.WriteInt32(1)
-	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := wct.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(transitionType)
+		_data.WriteBool(shouldApplyIndependently)
+		_data.WriteInt32(1)
+		if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := wct.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(transitionType)
+			case 2:
+				_data.WriteBool(shouldApplyIndependently)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerApplyTransaction)

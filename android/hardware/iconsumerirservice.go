@@ -85,14 +85,41 @@ func (p *ConsumerIrServiceProxy) Transmit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConsumerIrService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(carrierFrequency)
-	if pattern == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConsumerIrService, MethodIConsumerIrServiceTransmit)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(carrierFrequency)
+		if pattern == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(pattern)))
+			for _, _item := range pattern {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(pattern)))
-		for _, _item := range pattern {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(carrierFrequency)
+			case 2:
+				if pattern == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(pattern)))
+					for _, _item := range pattern {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 

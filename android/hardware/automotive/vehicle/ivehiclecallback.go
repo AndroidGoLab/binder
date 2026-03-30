@@ -56,9 +56,26 @@ func (p *VehicleCallbackProxy) OnGetValues(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicleCallback)
-	_data.WriteInt32(1)
-	if _err := responses.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVehicleCallback, MethodIVehicleCallbackOnGetValues)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/vehicle/GetValueResults;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := responses.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := responses.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicleCallback, MethodIVehicleCallbackOnGetValues)
@@ -77,9 +94,26 @@ func (p *VehicleCallbackProxy) OnSetValues(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicleCallback)
-	_data.WriteInt32(1)
-	if _err := responses.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVehicleCallback, MethodIVehicleCallbackOnSetValues)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/vehicle/SetValueResults;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := responses.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := responses.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicleCallback, MethodIVehicleCallbackOnSetValues)
@@ -99,11 +133,31 @@ func (p *VehicleCallbackProxy) OnPropertyEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicleCallback)
-	_data.WriteInt32(1)
-	if _err := propValues.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVehicleCallback, MethodIVehicleCallbackOnPropertyEvent)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/vehicle/VehiclePropValues;",
+		"I",
 	}
-	_data.WriteInt32(sharedMemoryFileCount)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := propValues.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(sharedMemoryFileCount)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := propValues.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(sharedMemoryFileCount)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicleCallback, MethodIVehicleCallbackOnPropertyEvent)
 	if _err != nil {
@@ -121,9 +175,26 @@ func (p *VehicleCallbackProxy) OnPropertySetError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicleCallback)
-	_data.WriteInt32(1)
-	if _err := errors.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVehicleCallback, MethodIVehicleCallbackOnPropertySetError)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/vehicle/VehiclePropErrors;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := errors.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := errors.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicleCallback, MethodIVehicleCallbackOnPropertySetError)

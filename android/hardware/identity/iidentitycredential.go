@@ -150,7 +150,21 @@ func (p *IdentityCredentialProxy) SetReaderEphemeralPublicKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
-	_data.WriteByteArray(publicKey)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialSetReaderEphemeralPublicKey)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(publicKey)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(publicKey)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialSetReaderEphemeralPublicKey)
 	if _err != nil {
@@ -213,31 +227,83 @@ func (p *IdentityCredentialProxy) StartRetrieval(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
-	if accessControlProfiles == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(accessControlProfiles)))
-		for _, _item := range accessControlProfiles {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialStartRetrieval)
+	_compiledDescs := []string{
+		"[Landroid/hardware/identity/SecureAccessControlProfile;",
+		"Landroid/hardware/keymaster/HardwareAuthToken;",
+		"[B",
+		"[B",
+		"[B",
+		"[B",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if accessControlProfiles == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(accessControlProfiles)))
+			for _, _item := range accessControlProfiles {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
 			}
 		}
-	}
-	_data.WriteInt32(1)
-	if _err := authToken.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteByteArray(itemsRequest)
-	_data.WriteByteArray(signingKeyBlob)
-	_data.WriteByteArray(sessionTranscript)
-	_data.WriteByteArray(readerSignature)
-	if requestCounts == nil {
-		_data.WriteInt32(-1)
+		_data.WriteInt32(1)
+		if _err := authToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteByteArray(itemsRequest)
+		_data.WriteByteArray(signingKeyBlob)
+		_data.WriteByteArray(sessionTranscript)
+		_data.WriteByteArray(readerSignature)
+		if requestCounts == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(requestCounts)))
+			for _, _item := range requestCounts {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(requestCounts)))
-		for _, _item := range requestCounts {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if accessControlProfiles == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(accessControlProfiles)))
+					for _, _item := range accessControlProfiles {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := authToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteByteArray(itemsRequest)
+			case 3:
+				_data.WriteByteArray(signingKeyBlob)
+			case 4:
+				_data.WriteByteArray(sessionTranscript)
+			case 5:
+				_data.WriteByteArray(readerSignature)
+			case 6:
+				if requestCounts == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(requestCounts)))
+					for _, _item := range requestCounts {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -269,15 +335,45 @@ func (p *IdentityCredentialProxy) StartRetrieveEntryValue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
-	_data.WriteString16(nameSpace)
-	_data.WriteString16(name)
-	_data.WriteInt32(entrySize)
-	if accessControlProfileIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialStartRetrieveEntryValue)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(nameSpace)
+		_data.WriteString16(name)
+		_data.WriteInt32(entrySize)
+		if accessControlProfileIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(accessControlProfileIds)))
+			for _, _item := range accessControlProfileIds {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(accessControlProfileIds)))
-		for _, _item := range accessControlProfileIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(nameSpace)
+			case 1:
+				_data.WriteString16(name)
+			case 2:
+				_data.WriteInt32(entrySize)
+			case 3:
+				if accessControlProfileIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(accessControlProfileIds)))
+					for _, _item := range accessControlProfileIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -307,7 +403,21 @@ func (p *IdentityCredentialProxy) RetrieveEntryValue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
-	_data.WriteByteArray(encryptedContent)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialRetrieveEntryValue)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(encryptedContent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(encryptedContent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialRetrieveEntryValue)
 	if _err != nil {
@@ -413,14 +523,38 @@ func (p *IdentityCredentialProxy) SetRequestedNamespaces(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
-	if requestNamespaces == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialSetRequestedNamespaces)
+	_compiledDescs := []string{
+		"[Landroid/hardware/identity/RequestNamespace;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if requestNamespaces == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(requestNamespaces)))
+			for _, _item := range requestNamespaces {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(requestNamespaces)))
-		for _, _item := range requestNamespaces {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if requestNamespaces == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(requestNamespaces)))
+					for _, _item := range requestNamespaces {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -450,9 +584,26 @@ func (p *IdentityCredentialProxy) SetVerificationToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
-	_data.WriteInt32(1)
-	if _err := verificationToken.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialSetVerificationToken)
+	_compiledDescs := []string{
+		"Landroid/hardware/keymaster/VerificationToken;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := verificationToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := verificationToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialSetVerificationToken)
@@ -481,7 +632,21 @@ func (p *IdentityCredentialProxy) DeleteCredentialWithChallenge(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
-	_data.WriteByteArray(challenge)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialDeleteCredentialWithChallenge)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(challenge)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(challenge)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialDeleteCredentialWithChallenge)
 	if _err != nil {
@@ -513,7 +678,21 @@ func (p *IdentityCredentialProxy) ProveOwnership(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
-	_data.WriteByteArray(challenge)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialProveOwnership)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(challenge)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(challenge)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialProveOwnership)
 	if _err != nil {

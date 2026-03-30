@@ -116,7 +116,21 @@ func (p *BinaryTransparencyServiceProxy) CollectAllApexInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
-	_data.WriteBool(includeTestOnly)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllApexInfo)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(includeTestOnly)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(includeTestOnly)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllApexInfo)
 	if _err != nil {
@@ -180,9 +194,26 @@ func (p *BinaryTransparencyServiceProxy) CollectAllUpdatedPreloadInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
-	_data.WriteInt32(1)
-	if _err := packagesToSkip.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllUpdatedPreloadInfo)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := packagesToSkip.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := packagesToSkip.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllUpdatedPreloadInfo)
@@ -247,9 +278,26 @@ func (p *BinaryTransparencyServiceProxy) CollectAllSilentInstalledMbaInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
-	_data.WriteInt32(1)
-	if _err := packagesToSkip.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllSilentInstalledMbaInfo)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := packagesToSkip.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := packagesToSkip.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllSilentInstalledMbaInfo)

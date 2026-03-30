@@ -72,8 +72,25 @@ func (p *PowerProxy) SetMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
-	_data.WriteInt32(int32(type_))
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPower, MethodIPowerSetMode)
+	_compiledDescs := []string{
+		"Landroid/hardware/power/Mode;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerSetMode)
 	if _err != nil {
@@ -92,7 +109,21 @@ func (p *PowerProxy) IsModeSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
-	_data.WriteInt32(int32(type_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPower, MethodIPowerIsModeSupported)
+	_compiledDescs := []string{
+		"Landroid/hardware/power/Mode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerIsModeSupported)
 	if _err != nil {
@@ -124,8 +155,25 @@ func (p *PowerProxy) SetBoost(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(durationMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPower, MethodIPowerSetBoost)
+	_compiledDescs := []string{
+		"Landroid/hardware/power/Boost;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(durationMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(durationMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerSetBoost)
 	if _err != nil {
@@ -144,7 +192,21 @@ func (p *PowerProxy) IsBoostSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
-	_data.WriteInt32(int32(type_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPower, MethodIPowerIsBoostSupported)
+	_compiledDescs := []string{
+		"Landroid/hardware/power/Boost;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerIsBoostSupported)
 	if _err != nil {
@@ -179,17 +241,47 @@ func (p *PowerProxy) CreateHintSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
-	_data.WriteInt32(tgid)
-	_data.WriteInt32(uid)
-	if threadIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPower, MethodIPowerCreateHintSession)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(tgid)
+		_data.WriteInt32(uid)
+		if threadIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(threadIds)))
+			for _, _item := range threadIds {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteInt64(durationNanos)
 	} else {
-		_data.WriteInt32(int32(len(threadIds)))
-		for _, _item := range threadIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(tgid)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				if threadIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(threadIds)))
+					for _, _item := range threadIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 3:
+				_data.WriteInt64(durationNanos)
+			}
 		}
 	}
-	_data.WriteInt64(durationNanos)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerCreateHintSession)
 	if _err != nil {
@@ -257,18 +349,51 @@ func (p *PowerProxy) CreateHintSessionWithConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
-	_data.WriteInt32(tgid)
-	_data.WriteInt32(uid)
-	if threadIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPower, MethodIPowerCreateHintSessionWithConfig)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[I",
+		"J",
+		"Landroid/hardware/power/SessionTag;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(tgid)
+		_data.WriteInt32(uid)
+		if threadIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(threadIds)))
+			for _, _item := range threadIds {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteInt64(durationNanos)
+		_data.WriteInt32(int32(tag))
 	} else {
-		_data.WriteInt32(int32(len(threadIds)))
-		for _, _item := range threadIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(tgid)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				if threadIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(threadIds)))
+					for _, _item := range threadIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 3:
+				_data.WriteInt64(durationNanos)
+			case 4:
+				_data.WriteInt32(int32(tag))
+			}
 		}
 	}
-	_data.WriteInt64(durationNanos)
-	_data.WriteInt32(int32(tag))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerCreateHintSessionWithConfig)
 	if _err != nil {
@@ -313,8 +438,25 @@ func (p *PowerProxy) GetSessionChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
-	_data.WriteInt32(tgid)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPower, MethodIPowerGetSessionChannel)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(tgid)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(tgid)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerGetSessionChannel)
 	if _err != nil {
@@ -351,8 +493,25 @@ func (p *PowerProxy) CloseSessionChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
-	_data.WriteInt32(tgid)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPower, MethodIPowerCloseSessionChannel)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(tgid)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(tgid)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerCloseSessionChannel)
 	if _err != nil {

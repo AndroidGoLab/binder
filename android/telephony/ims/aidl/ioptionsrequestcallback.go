@@ -52,11 +52,31 @@ func (p *OptionsRequestCallbackProxy) RespondToCapabilityRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsRequestCallback)
-	_data.WriteInt32(1)
-	if _err := ownCapabilities.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOptionsRequestCallback, MethodIOptionsRequestCallbackRespondToCapabilityRequest)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/RcsContactUceCapability;",
+		"Z",
 	}
-	_data.WriteBool(isBlocked)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := ownCapabilities.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(isBlocked)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := ownCapabilities.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(isBlocked)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsRequestCallback, MethodIOptionsRequestCallbackRespondToCapabilityRequest)
 	if _err != nil {
@@ -75,8 +95,25 @@ func (p *OptionsRequestCallbackProxy) RespondToCapabilityRequestWithError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsRequestCallback)
-	_data.WriteInt32(code)
-	_data.WriteString16(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOptionsRequestCallback, MethodIOptionsRequestCallbackRespondToCapabilityRequestWithError)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteString16(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteString16(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsRequestCallback, MethodIOptionsRequestCallbackRespondToCapabilityRequestWithError)
 	if _err != nil {

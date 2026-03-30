@@ -60,16 +60,43 @@ func (p *DumpstateDeviceProxy) DumpstateBoard(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstateDevice)
-	if fd == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDumpstateDevice, MethodIDumpstateDeviceDumpstateBoard)
+	_compiledDescs := []string{
+		"[Landroid/os/ParcelFileDescriptor;",
+		"Landroid/hardware/dumpstate/IDumpstateDevice/DumpstateMode;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if fd == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(fd)))
+			for _, _item := range fd {
+				_data.WriteParcelFileDescriptor(_item)
+			}
+		}
+		_data.WriteInt32(int32(mode))
+		_data.WriteInt64(timeoutMillis)
 	} else {
-		_data.WriteInt32(int32(len(fd)))
-		for _, _item := range fd {
-			_data.WriteParcelFileDescriptor(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if fd == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(fd)))
+					for _, _item := range fd {
+						_data.WriteParcelFileDescriptor(_item)
+					}
+				}
+			case 1:
+				_data.WriteInt32(int32(mode))
+			case 2:
+				_data.WriteInt64(timeoutMillis)
+			}
 		}
 	}
-	_data.WriteInt32(int32(mode))
-	_data.WriteInt64(timeoutMillis)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateDevice, MethodIDumpstateDeviceDumpstateBoard)
 	if _err != nil {
@@ -126,7 +153,21 @@ func (p *DumpstateDeviceProxy) SetVerboseLoggingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstateDevice)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDumpstateDevice, MethodIDumpstateDeviceSetVerboseLoggingEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateDevice, MethodIDumpstateDeviceSetVerboseLoggingEnabled)
 	if _err != nil {

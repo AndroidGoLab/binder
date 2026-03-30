@@ -67,8 +67,25 @@ func (p *NetworkPolicyListenerProxy) OnUidRulesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(uidRules)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnUidRulesChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(uidRules)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(uidRules)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnUidRulesChanged)
 	if _err != nil {
@@ -86,12 +103,33 @@ func (p *NetworkPolicyListenerProxy) OnMeteredIfacesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
-	if meteredIfaces == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnMeteredIfacesChanged)
+	_compiledDescs := []string{
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if meteredIfaces == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(meteredIfaces)))
+			for _, _item := range meteredIfaces {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(meteredIfaces)))
-		for _, _item := range meteredIfaces {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if meteredIfaces == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(meteredIfaces)))
+					for _, _item := range meteredIfaces {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -111,7 +149,21 @@ func (p *NetworkPolicyListenerProxy) OnRestrictBackgroundChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
-	_data.WriteBool(restrictBackground)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnRestrictBackgroundChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(restrictBackground)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(restrictBackground)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnRestrictBackgroundChanged)
 	if _err != nil {
@@ -130,8 +182,25 @@ func (p *NetworkPolicyListenerProxy) OnUidPoliciesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(uidPolicies)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnUidPoliciesChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(uidPolicies)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(uidPolicies)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnUidPoliciesChanged)
 	if _err != nil {
@@ -152,15 +221,45 @@ func (p *NetworkPolicyListenerProxy) OnSubscriptionOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(overrideMask)
-	_data.WriteInt32(overrideValue)
-	if networkTypes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnSubscriptionOverride)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(overrideMask)
+		_data.WriteInt32(overrideValue)
+		if networkTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(networkTypes)))
+			for _, _item := range networkTypes {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(networkTypes)))
-		for _, _item := range networkTypes {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(overrideMask)
+			case 2:
+				_data.WriteInt32(overrideValue)
+			case 3:
+				if networkTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(networkTypes)))
+					for _, _item := range networkTypes {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -181,15 +280,42 @@ func (p *NetworkPolicyListenerProxy) OnSubscriptionPlansChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
-	_data.WriteInt32(subId)
-	if plans == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnSubscriptionPlansChanged)
+	_compiledDescs := []string{
+		"I",
+		"[Landroid/telephony/SubscriptionPlan;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		if plans == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(plans)))
+			for _, _item := range plans {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(plans)))
-		for _, _item := range plans {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				if plans == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(plans)))
+					for _, _item := range plans {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -212,9 +338,29 @@ func (p *NetworkPolicyListenerProxy) OnBlockedReasonChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(oldBlockedReason)
-	_data.WriteInt32(newBlockedReason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnBlockedReasonChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(oldBlockedReason)
+		_data.WriteInt32(newBlockedReason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(oldBlockedReason)
+			case 2:
+				_data.WriteInt32(newBlockedReason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnBlockedReasonChanged)
 	if _err != nil {

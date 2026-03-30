@@ -86,10 +86,30 @@ func (p *WearableSensingServiceProxy) ProvideSecureConnection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
-	_data.WriteParcelFileDescriptor(parcelFileDescriptor)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceProvideSecureConnection)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(parcelFileDescriptor)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(parcelFileDescriptor)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceProvideSecureConnection)
@@ -109,10 +129,30 @@ func (p *WearableSensingServiceProxy) ProvideDataStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
-	_data.WriteParcelFileDescriptor(parcelFileDescriptor)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceProvideDataStream)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(parcelFileDescriptor)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(parcelFileDescriptor)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceProvideDataStream)
@@ -133,17 +173,46 @@ func (p *WearableSensingServiceProxy) ProvideData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
-	_data.WriteInt32(1)
-	if _err := data.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceProvideData)
+	_compiledDescs := []string{
+		"Landroid/os/PersistableBundle;",
+		"Landroid/os/SharedMemory;",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := sharedMemory.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := data.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := sharedMemory.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := data.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := sharedMemory.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceProvideData)
@@ -166,16 +235,48 @@ func (p *WearableSensingServiceProxy) RegisterDataRequestObserver(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
-	_data.WriteInt32(dataType)
-	_data.WriteInt32(1)
-	if _err := dataRequestCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceRegisterDataRequestObserver)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/RemoteCallback;",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteInt32(dataRequestObserverId)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := statusCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(dataType)
+		_data.WriteInt32(1)
+		if _err := dataRequestCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(dataRequestObserverId)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := statusCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(dataType)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := dataRequestCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(dataRequestObserverId)
+			case 3:
+				_data.WriteString16(packageName)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := statusCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceRegisterDataRequestObserver)
@@ -197,12 +298,38 @@ func (p *WearableSensingServiceProxy) UnregisterDataRequestObserver(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
-	_data.WriteInt32(dataType)
-	_data.WriteInt32(dataRequestObserverId)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := statusCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceUnregisterDataRequestObserver)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(dataType)
+		_data.WriteInt32(dataRequestObserverId)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := statusCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(dataType)
+			case 1:
+				_data.WriteInt32(dataRequestObserverId)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := statusCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceUnregisterDataRequestObserver)
@@ -222,13 +349,36 @@ func (p *WearableSensingServiceProxy) StartHotwordRecognition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
-	_data.WriteInt32(1)
-	if _err := wearableHotwordCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceStartHotwordRecognition)
+	_compiledDescs := []string{
+		"Landroid/os/RemoteCallback;",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := statusCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := wearableHotwordCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := statusCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := wearableHotwordCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := statusCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceStartHotwordRecognition)
@@ -247,9 +397,26 @@ func (p *WearableSensingServiceProxy) StopHotwordRecognition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
-	_data.WriteInt32(1)
-	if _err := statusCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceStopHotwordRecognition)
+	_compiledDescs := []string{
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := statusCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := statusCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceStopHotwordRecognition)
@@ -303,18 +470,50 @@ func (p *WearableSensingServiceProxy) StartDetection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceStartDetection)
+	_compiledDescs := []string{
+		"Landroid/app/ambientcontext/AmbientContextEventRequest;",
+		"Ljava/lang/String;",
+		"Landroid/os/RemoteCallback;",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := detectionResultCallback.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := statusCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := detectionResultCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := statusCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := detectionResultCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := statusCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceStartDetection)
@@ -333,7 +532,21 @@ func (p *WearableSensingServiceProxy) StopDetection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceStopDetection)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceStopDetection)
 	if _err != nil {
@@ -353,18 +566,48 @@ func (p *WearableSensingServiceProxy) QueryServiceStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
-	if eventTypes == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(eventTypes)))
-		for _, _item := range eventTypes {
-			_data.WriteInt32(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceQueryServiceStatus)
+	_compiledDescs := []string{
+		"[I",
+		"Ljava/lang/String;",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if eventTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(eventTypes)))
+			for _, _item := range eventTypes {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if eventTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(eventTypes)))
+					for _, _item := range eventTypes {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceQueryServiceStatus)

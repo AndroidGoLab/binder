@@ -75,7 +75,21 @@ func (p *TunerDemuxProxy) SetFrontendDataSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
-	binder.WriteBinderToParcel(ctx, _data, frontend.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerDemux, MethodITunerDemuxSetFrontendDataSource)
+	_compiledDescs := []string{
+		"Landroid/media/tv/tuner/ITunerFrontend;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, frontend.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, frontend.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxSetFrontendDataSource)
 	if _err != nil {
@@ -102,7 +116,21 @@ func (p *TunerDemuxProxy) SetFrontendDataSourceById(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
-	_data.WriteInt32(frontendId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerDemux, MethodITunerDemuxSetFrontendDataSourceById)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(frontendId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(frontendId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxSetFrontendDataSourceById)
 	if _err != nil {
@@ -132,12 +160,35 @@ func (p *TunerDemuxProxy) OpenFilter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
-	_data.WriteInt32(1)
-	if _err := type_.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerDemux, MethodITunerDemuxOpenFilter)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/DemuxFilterType;",
+		"I",
+		"Landroid/media/tv/tuner/ITunerFilterCallback;",
 	}
-	_data.WriteInt32(bufferSize)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := type_.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(bufferSize)
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := type_.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(bufferSize)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxOpenFilter)
 	if _err != nil {
@@ -201,7 +252,21 @@ func (p *TunerDemuxProxy) GetAvSyncHwId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
-	binder.WriteBinderToParcel(ctx, _data, tunerFilter.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerDemux, MethodITunerDemuxGetAvSyncHwId)
+	_compiledDescs := []string{
+		"Landroid/media/tv/tuner/ITunerFilter;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, tunerFilter.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, tunerFilter.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxGetAvSyncHwId)
 	if _err != nil {
@@ -233,7 +298,21 @@ func (p *TunerDemuxProxy) GetAvSyncTime(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
-	_data.WriteInt32(avSyncHwId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerDemux, MethodITunerDemuxGetAvSyncTime)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(avSyncHwId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(avSyncHwId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxGetAvSyncTime)
 	if _err != nil {
@@ -267,9 +346,29 @@ func (p *TunerDemuxProxy) OpenDvr(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
-	_data.WritePaddedByte(byte(dvbType))
-	_data.WriteInt32(bufferSize)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerDemux, MethodITunerDemuxOpenDvr)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/DvrType;",
+		"I",
+		"Landroid/media/tv/tuner/ITunerDvrCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(dvbType))
+		_data.WriteInt32(bufferSize)
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(dvbType))
+			case 1:
+				_data.WriteInt32(bufferSize)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxOpenDvr)
 	if _err != nil {
@@ -301,7 +400,21 @@ func (p *TunerDemuxProxy) ConnectCiCam(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
-	_data.WriteInt32(ciCamId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerDemux, MethodITunerDemuxConnectCiCam)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(ciCamId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(ciCamId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxConnectCiCam)
 	if _err != nil {

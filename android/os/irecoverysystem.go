@@ -76,7 +76,21 @@ func (p *RecoverySystemProxy) AllocateSpaceForUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
-	_data.WriteString16(packageFilePath)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecoverySystem, MethodIRecoverySystemAllocateSpaceForUpdate)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageFilePath)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageFilePath)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecoverySystem, MethodIRecoverySystemAllocateSpaceForUpdate)
 	if _err != nil {
@@ -109,8 +123,25 @@ func (p *RecoverySystemProxy) Uncrypt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
-	_data.WriteString16(packageFile)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecoverySystem, MethodIRecoverySystemUncrypt)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IRecoverySystemProgressListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageFile)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageFile)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecoverySystem, MethodIRecoverySystemUncrypt)
 	if _err != nil {
@@ -142,7 +173,21 @@ func (p *RecoverySystemProxy) SetupBcb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
-	_data.WriteString16(command)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecoverySystem, MethodIRecoverySystemSetupBcb)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(command)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(command)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecoverySystem, MethodIRecoverySystemSetupBcb)
 	if _err != nil {
@@ -203,7 +248,21 @@ func (p *RecoverySystemProxy) RebootRecoveryWithCommand(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
-	_data.WriteString16(command)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecoverySystem, MethodIRecoverySystemRebootRecoveryWithCommand)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(command)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(command)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecoverySystem, MethodIRecoverySystemRebootRecoveryWithCommand)
 	if _err != nil {
@@ -232,10 +291,30 @@ func (p *RecoverySystemProxy) RequestLskf(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := sender.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecoverySystem, MethodIRecoverySystemRequestLskf)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/IntentSender;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := sender.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := sender.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecoverySystem, MethodIRecoverySystemRequestLskf)
@@ -268,7 +347,21 @@ func (p *RecoverySystemProxy) ClearLskf(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecoverySystem, MethodIRecoverySystemClearLskf)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecoverySystem, MethodIRecoverySystemClearLskf)
 	if _err != nil {
@@ -300,7 +393,21 @@ func (p *RecoverySystemProxy) IsLskfCaptured(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecoverySystem, MethodIRecoverySystemIsLskfCaptured)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecoverySystem, MethodIRecoverySystemIsLskfCaptured)
 	if _err != nil {
@@ -333,8 +440,25 @@ func (p *RecoverySystemProxy) RebootWithLskfAssumeSlotSwitch(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
-	_data.WriteString16(packageName)
-	_data.WriteString16(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecoverySystem, MethodIRecoverySystemRebootWithLskfAssumeSlotSwitch)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecoverySystem, MethodIRecoverySystemRebootWithLskfAssumeSlotSwitch)
 	if _err != nil {
@@ -368,9 +492,29 @@ func (p *RecoverySystemProxy) RebootWithLskf(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
-	_data.WriteString16(packageName)
-	_data.WriteString16(reason)
-	_data.WriteBool(slotSwitch)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecoverySystem, MethodIRecoverySystemRebootWithLskf)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(reason)
+		_data.WriteBool(slotSwitch)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(reason)
+			case 2:
+				_data.WriteBool(slotSwitch)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecoverySystem, MethodIRecoverySystemRebootWithLskf)
 	if _err != nil {

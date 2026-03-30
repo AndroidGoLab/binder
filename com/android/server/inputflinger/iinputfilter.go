@@ -86,9 +86,26 @@ func (p *InputFilterProxy) NotifyKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputFilter, MethodIInputFilterNotifyKey)
+	_compiledDescs := []string{
+		"Lcom/android/server/inputflinger/KeyEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilter, MethodIInputFilterNotifyKey)
@@ -116,14 +133,38 @@ func (p *InputFilterProxy) NotifyInputDevicesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
-	if deviceInfos == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputFilter, MethodIInputFilterNotifyInputDevicesChanged)
+	_compiledDescs := []string{
+		"[Lcom/android/server/inputflinger/DeviceInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if deviceInfos == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(deviceInfos)))
+			for _, _item := range deviceInfos {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(deviceInfos)))
-		for _, _item := range deviceInfos {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if deviceInfos == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(deviceInfos)))
+					for _, _item := range deviceInfos {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -153,9 +194,26 @@ func (p *InputFilterProxy) NotifyConfigurationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputFilter, MethodIInputFilterNotifyConfigurationChanged)
+	_compiledDescs := []string{
+		"Lcom/android/server/inputflinger/InputFilterConfiguration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilter, MethodIInputFilterNotifyConfigurationChanged)

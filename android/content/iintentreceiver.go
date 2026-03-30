@@ -54,19 +54,57 @@ func (p *IntentReceiverProxy) PerformReceive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIntentReceiver)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIntentReceiver, MethodIIntentReceiverPerformReceive)
+	_compiledDescs := []string{
+		"Landroid/content/Intent;",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"Z",
+		"Z",
+		"I",
 	}
-	_data.WriteInt32(resultCode)
-	_data.WriteString16(data)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(resultCode)
+		_data.WriteString16(data)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(ordered)
+		_data.WriteBool(sticky)
+		_data.WriteInt32(sendingUser)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(resultCode)
+			case 2:
+				_data.WriteString16(data)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteBool(ordered)
+			case 5:
+				_data.WriteBool(sticky)
+			case 6:
+				_data.WriteInt32(sendingUser)
+			}
+		}
 	}
-	_data.WriteBool(ordered)
-	_data.WriteBool(sticky)
-	_data.WriteInt32(sendingUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIntentReceiver, MethodIIntentReceiverPerformReceive)
 	if _err != nil {

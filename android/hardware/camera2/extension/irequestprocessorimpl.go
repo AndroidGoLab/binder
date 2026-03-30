@@ -63,11 +63,31 @@ func (p *RequestProcessorImplProxy) SetImageProcessor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
-	_data.WriteInt32(1)
-	if _err := outputConfigId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSetImageProcessor)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera2/extension/OutputConfigId;",
+		"Landroid/hardware/camera2/extension/IImageProcessorImpl;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, imageProcessor.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := outputConfigId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, imageProcessor.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := outputConfigId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, imageProcessor.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSetImageProcessor)
 	if _err != nil {
@@ -96,11 +116,31 @@ func (p *RequestProcessorImplProxy) Submit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSubmit)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera2/extension/Request;",
+		"Landroid/hardware/camera2/extension/IRequestCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSubmit)
 	if _err != nil {
@@ -133,18 +173,45 @@ func (p *RequestProcessorImplProxy) SubmitBurst(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
-	if requests == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSubmitBurst)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Landroid/hardware/camera2/extension/IRequestCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if requests == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(requests)))
+			for _, _item := range requests {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(requests)))
-		for _, _item := range requests {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if requests == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(requests)))
+					for _, _item := range requests {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSubmitBurst)
 	if _err != nil {
@@ -177,11 +244,31 @@ func (p *RequestProcessorImplProxy) SetRepeating(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSetRepeating)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera2/extension/Request;",
+		"Landroid/hardware/camera2/extension/IRequestCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSetRepeating)
 	if _err != nil {

@@ -47,7 +47,21 @@ func (p *FingerprintClientActiveCallbackProxy) OnClientActiveChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintClientActiveCallback)
-	_data.WriteBool(isActive)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFingerprintClientActiveCallback, MethodIFingerprintClientActiveCallbackOnClientActiveChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isActive)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isActive)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintClientActiveCallback, MethodIFingerprintClientActiveCallbackOnClientActiveChanged)
 	if _err != nil {

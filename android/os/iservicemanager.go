@@ -96,7 +96,21 @@ func (p *ServiceManagerProxy) GetService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceManager, MethodIServiceManagerGetService)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerGetService)
 	if _err != nil {
@@ -129,7 +143,21 @@ func (p *ServiceManagerProxy) CheckService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceManager, MethodIServiceManagerCheckService)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerCheckService)
 	if _err != nil {
@@ -164,10 +192,33 @@ func (p *ServiceManagerProxy) AddService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
-	_data.WriteBool(allowIsolated)
-	_data.WriteInt32(dumpPriority)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceManager, MethodIServiceManagerAddService)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
+		_data.WriteBool(allowIsolated)
+		_data.WriteInt32(dumpPriority)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
+			case 2:
+				_data.WriteBool(allowIsolated)
+			case 3:
+				_data.WriteInt32(dumpPriority)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerAddService)
 	if _err != nil {
@@ -195,7 +246,21 @@ func (p *ServiceManagerProxy) ListServices(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteInt32(dumpPriority)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceManager, MethodIServiceManagerListServices)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(dumpPriority)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(dumpPriority)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerListServices)
 	if _err != nil {
@@ -240,8 +305,25 @@ func (p *ServiceManagerProxy) RegisterForNotifications(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceManager, MethodIServiceManagerRegisterForNotifications)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerRegisterForNotifications)
 	if _err != nil {
@@ -269,8 +351,25 @@ func (p *ServiceManagerProxy) UnregisterForNotifications(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceManager, MethodIServiceManagerUnregisterForNotifications)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerUnregisterForNotifications)
 	if _err != nil {
@@ -298,7 +397,21 @@ func (p *ServiceManagerProxy) IsDeclared(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceManager, MethodIServiceManagerIsDeclared)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerIsDeclared)
 	if _err != nil {
@@ -330,7 +443,21 @@ func (p *ServiceManagerProxy) GetDeclaredInstances(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteString16(iface)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceManager, MethodIServiceManagerGetDeclaredInstances)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iface)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iface)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerGetDeclaredInstances)
 	if _err != nil {
@@ -375,7 +502,21 @@ func (p *ServiceManagerProxy) UpdatableViaApex(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceManager, MethodIServiceManagerUpdatableViaApex)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerUpdatableViaApex)
 	if _err != nil {
@@ -407,7 +548,21 @@ func (p *ServiceManagerProxy) GetUpdatableNames(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteString16(apexName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceManager, MethodIServiceManagerGetUpdatableNames)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(apexName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(apexName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerGetUpdatableNames)
 	if _err != nil {
@@ -452,7 +607,21 @@ func (p *ServiceManagerProxy) GetConnectionInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceManager, MethodIServiceManagerGetConnectionInfo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerGetConnectionInfo)
 	if _err != nil {
@@ -490,9 +659,29 @@ func (p *ServiceManagerProxy) RegisterClientCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceManager, MethodIServiceManagerRegisterClientCallback)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
+		"Landroid/os/IClientCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerRegisterClientCallback)
 	if _err != nil {
@@ -520,8 +709,25 @@ func (p *ServiceManagerProxy) TryUnregisterService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceManager, MethodIServiceManagerTryUnregisterService)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerTryUnregisterService)
 	if _err != nil {

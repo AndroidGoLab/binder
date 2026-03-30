@@ -89,8 +89,25 @@ func (p *CarPowerPolicySystemNotificationProxy) NotifyPowerPolicyChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicySystemNotification)
-	_data.WriteString16(policyId)
-	_data.WriteBool(force)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarPowerPolicySystemNotification, MethodICarPowerPolicySystemNotificationNotifyPowerPolicyChange)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(policyId)
+		_data.WriteBool(force)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(policyId)
+			case 1:
+				_data.WriteBool(force)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicySystemNotification, MethodICarPowerPolicySystemNotificationNotifyPowerPolicyChange)
 	if _err != nil {
@@ -119,21 +136,55 @@ func (p *CarPowerPolicySystemNotificationProxy) NotifyPowerPolicyDefinition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicySystemNotification)
-	_data.WriteString16(policyId)
-	if enabledComponents == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(enabledComponents)))
-		for _, _item := range enabledComponents {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarPowerPolicySystemNotification, MethodICarPowerPolicySystemNotificationNotifyPowerPolicyDefinition)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"[Ljava/lang/String;",
 	}
-	if disabledComponents == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(policyId)
+		if enabledComponents == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(enabledComponents)))
+			for _, _item := range enabledComponents {
+				_data.WriteString16(_item)
+			}
+		}
+		if disabledComponents == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(disabledComponents)))
+			for _, _item := range disabledComponents {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(disabledComponents)))
-		for _, _item := range disabledComponents {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(policyId)
+			case 1:
+				if enabledComponents == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(enabledComponents)))
+					for _, _item := range enabledComponents {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				if disabledComponents == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(disabledComponents)))
+					for _, _item := range disabledComponents {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 

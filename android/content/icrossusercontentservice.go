@@ -53,12 +53,35 @@ func (p *CrossUserContentServiceProxy) UpdateContent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICrossUserContentService)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICrossUserContentService, MethodICrossUserContentServiceUpdateContent)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteString16(key)
-	_data.WriteInt32(value)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(key)
+		_data.WriteInt32(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(key)
+			case 2:
+				_data.WriteInt32(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICrossUserContentService, MethodICrossUserContentServiceUpdateContent)
 	if _err != nil {
@@ -86,11 +109,31 @@ func (p *CrossUserContentServiceProxy) NotifyForUriAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICrossUserContentService)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICrossUserContentService, MethodICrossUserContentServiceNotifyForUriAsUser)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICrossUserContentService, MethodICrossUserContentServiceNotifyForUriAsUser)
 	if _err != nil {

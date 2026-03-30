@@ -54,10 +54,30 @@ func (p *ProgressListenerProxy) OnStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProgressListener)
-	_data.WriteInt32(id)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProgressListener, MethodIProgressListenerOnStarted)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProgressListener, MethodIProgressListenerOnStarted)
@@ -78,11 +98,34 @@ func (p *ProgressListenerProxy) OnProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProgressListener)
-	_data.WriteInt32(id)
-	_data.WriteInt32(progress)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProgressListener, MethodIProgressListenerOnProgress)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+		_data.WriteInt32(progress)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			case 1:
+				_data.WriteInt32(progress)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProgressListener, MethodIProgressListenerOnProgress)
@@ -102,10 +145,30 @@ func (p *ProgressListenerProxy) OnFinished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProgressListener)
-	_data.WriteInt32(id)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProgressListener, MethodIProgressListenerOnFinished)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProgressListener, MethodIProgressListenerOnFinished)

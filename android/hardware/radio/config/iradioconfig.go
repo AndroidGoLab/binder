@@ -71,7 +71,21 @@ func (p *RadioConfigProxy) GetHalDeviceCapabilities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioConfig, MethodIRadioConfigGetHalDeviceCapabilities)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfig, MethodIRadioConfigGetHalDeviceCapabilities)
 	if _err != nil {
@@ -89,7 +103,21 @@ func (p *RadioConfigProxy) GetNumOfLiveModems(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioConfig, MethodIRadioConfigGetNumOfLiveModems)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfig, MethodIRadioConfigGetNumOfLiveModems)
 	if _err != nil {
@@ -107,7 +135,21 @@ func (p *RadioConfigProxy) GetPhoneCapability(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioConfig, MethodIRadioConfigGetPhoneCapability)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfig, MethodIRadioConfigGetPhoneCapability)
 	if _err != nil {
@@ -125,7 +167,21 @@ func (p *RadioConfigProxy) GetSimSlotsStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioConfig, MethodIRadioConfigGetSimSlotsStatus)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfig, MethodIRadioConfigGetSimSlotsStatus)
 	if _err != nil {
@@ -144,8 +200,25 @@ func (p *RadioConfigProxy) SetNumOfLiveModems(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
-	_data.WriteInt32(serial)
-	_data.WritePaddedByte(numOfLiveModems)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioConfig, MethodIRadioConfigSetNumOfLiveModems)
+	_compiledDescs := []string{
+		"I",
+		"B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WritePaddedByte(numOfLiveModems)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WritePaddedByte(numOfLiveModems)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfig, MethodIRadioConfigSetNumOfLiveModems)
 	if _err != nil {
@@ -164,8 +237,25 @@ func (p *RadioConfigProxy) SetPreferredDataModem(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
-	_data.WriteInt32(serial)
-	_data.WritePaddedByte(modemId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioConfig, MethodIRadioConfigSetPreferredDataModem)
+	_compiledDescs := []string{
+		"I",
+		"B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WritePaddedByte(modemId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WritePaddedByte(modemId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfig, MethodIRadioConfigSetPreferredDataModem)
 	if _err != nil {
@@ -184,8 +274,25 @@ func (p *RadioConfigProxy) SetResponseFunctions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
-	binder.WriteBinderToParcel(ctx, _data, radioConfigResponse.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, radioConfigIndication.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioConfig, MethodIRadioConfigSetResponseFunctions)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/config/IRadioConfigResponse;",
+		"Landroid/hardware/radio/config/IRadioConfigIndication;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, radioConfigResponse.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, radioConfigIndication.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, radioConfigResponse.AsBinder(), p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, radioConfigIndication.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfig, MethodIRadioConfigSetResponseFunctions)
 	if _err != nil {
@@ -204,15 +311,42 @@ func (p *RadioConfigProxy) SetSimSlotsMapping(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
-	_data.WriteInt32(serial)
-	if slotMap == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioConfig, MethodIRadioConfigSetSimSlotsMapping)
+	_compiledDescs := []string{
+		"I",
+		"[Landroid/hardware/radio/config/SlotPortMapping;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		if slotMap == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(slotMap)))
+			for _, _item := range slotMap {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(slotMap)))
-		for _, _item := range slotMap {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				if slotMap == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(slotMap)))
+					for _, _item := range slotMap {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -233,7 +367,21 @@ func (p *RadioConfigProxy) GetSimultaneousCallingSupport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioConfig, MethodIRadioConfigGetSimultaneousCallingSupport)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfig, MethodIRadioConfigGetSimultaneousCallingSupport)
 	if _err != nil {

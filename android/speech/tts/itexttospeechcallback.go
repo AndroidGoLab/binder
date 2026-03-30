@@ -65,7 +65,21 @@ func (p *TextToSpeechCallbackProxy) OnStart(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
-	_data.WriteString16(utteranceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnStart)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(utteranceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(utteranceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnStart)
 	if _err != nil {
@@ -83,7 +97,21 @@ func (p *TextToSpeechCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
-	_data.WriteString16(utteranceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnSuccess)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(utteranceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(utteranceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnSuccess)
 	if _err != nil {
@@ -102,8 +130,25 @@ func (p *TextToSpeechCallbackProxy) OnStop(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
-	_data.WriteString16(utteranceId)
-	_data.WriteBool(isStarted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnStop)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(utteranceId)
+		_data.WriteBool(isStarted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(utteranceId)
+			case 1:
+				_data.WriteBool(isStarted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnStop)
 	if _err != nil {
@@ -122,8 +167,25 @@ func (p *TextToSpeechCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
-	_data.WriteString16(utteranceId)
-	_data.WriteInt32(errorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnError)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(utteranceId)
+		_data.WriteInt32(errorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(utteranceId)
+			case 1:
+				_data.WriteInt32(errorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnError)
 	if _err != nil {
@@ -144,10 +206,33 @@ func (p *TextToSpeechCallbackProxy) OnBeginSynthesis(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
-	_data.WriteString16(utteranceId)
-	_data.WriteInt32(sampleRateInHz)
-	_data.WriteInt32(audioFormat)
-	_data.WriteInt32(channelCount)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnBeginSynthesis)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(utteranceId)
+		_data.WriteInt32(sampleRateInHz)
+		_data.WriteInt32(audioFormat)
+		_data.WriteInt32(channelCount)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(utteranceId)
+			case 1:
+				_data.WriteInt32(sampleRateInHz)
+			case 2:
+				_data.WriteInt32(audioFormat)
+			case 3:
+				_data.WriteInt32(channelCount)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnBeginSynthesis)
 	if _err != nil {
@@ -166,8 +251,25 @@ func (p *TextToSpeechCallbackProxy) OnAudioAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
-	_data.WriteString16(utteranceId)
-	_data.WriteByteArray(audio)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnAudioAvailable)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(utteranceId)
+		_data.WriteByteArray(audio)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(utteranceId)
+			case 1:
+				_data.WriteByteArray(audio)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnAudioAvailable)
 	if _err != nil {
@@ -188,10 +290,33 @@ func (p *TextToSpeechCallbackProxy) OnRangeStart(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
-	_data.WriteString16(utteranceId)
-	_data.WriteInt32(start)
-	_data.WriteInt32(end)
-	_data.WriteInt32(frame)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnRangeStart)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(utteranceId)
+		_data.WriteInt32(start)
+		_data.WriteInt32(end)
+		_data.WriteInt32(frame)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(utteranceId)
+			case 1:
+				_data.WriteInt32(start)
+			case 2:
+				_data.WriteInt32(end)
+			case 3:
+				_data.WriteInt32(frame)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnRangeStart)
 	if _err != nil {

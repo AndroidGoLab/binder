@@ -63,14 +63,40 @@ func (p *AppIntegrityManagerProxy) UpdateRuleSet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
-	_data.WriteString16(version)
-	_data.WriteInt32(1)
-	if _err := rules.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerUpdateRuleSet)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/ParceledListSlice;",
+		"Landroid/content/IntentSender;",
 	}
-	_data.WriteInt32(1)
-	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(version)
+		_data.WriteInt32(1)
+		if _err := rules.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(version)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := rules.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerUpdateRuleSet)

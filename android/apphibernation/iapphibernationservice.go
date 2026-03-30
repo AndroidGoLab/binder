@@ -67,8 +67,25 @@ func (p *AppHibernationServiceProxy) IsHibernatingForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppHibernationService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppHibernationService, MethodIAppHibernationServiceIsHibernatingForUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppHibernationService, MethodIAppHibernationServiceIsHibernatingForUser)
 	if _err != nil {
@@ -101,9 +118,29 @@ func (p *AppHibernationServiceProxy) SetHibernatingForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppHibernationService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(isHibernating)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppHibernationService, MethodIAppHibernationServiceSetHibernatingForUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(isHibernating)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(isHibernating)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppHibernationService, MethodIAppHibernationServiceSetHibernatingForUser)
 	if _err != nil {
@@ -131,7 +168,21 @@ func (p *AppHibernationServiceProxy) IsHibernatingGlobally(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppHibernationService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppHibernationService, MethodIAppHibernationServiceIsHibernatingGlobally)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppHibernationService, MethodIAppHibernationServiceIsHibernatingGlobally)
 	if _err != nil {
@@ -163,8 +214,25 @@ func (p *AppHibernationServiceProxy) SetHibernatingGlobally(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppHibernationService)
-	_data.WriteString16(packageName)
-	_data.WriteBool(isHibernating)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppHibernationService, MethodIAppHibernationServiceSetHibernatingGlobally)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteBool(isHibernating)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteBool(isHibernating)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppHibernationService, MethodIAppHibernationServiceSetHibernatingGlobally)
 	if _err != nil {
@@ -192,7 +260,21 @@ func (p *AppHibernationServiceProxy) GetHibernatingPackagesForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppHibernationService)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppHibernationService, MethodIAppHibernationServiceGetHibernatingPackagesForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppHibernationService, MethodIAppHibernationServiceGetHibernatingPackagesForUser)
 	if _err != nil {
@@ -238,15 +320,39 @@ func (p *AppHibernationServiceProxy) GetHibernationStatsForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppHibernationService)
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppHibernationService, MethodIAppHibernationServiceGetHibernationStatsForUser)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppHibernationService, MethodIAppHibernationServiceGetHibernationStatsForUser)
 	if _err != nil {

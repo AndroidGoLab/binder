@@ -91,14 +91,38 @@ func (p *SharedSecretProxy) ComputeSharedSecret(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedSecret)
-	if params == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISharedSecret, MethodISharedSecretComputeSharedSecret)
+	_compiledDescs := []string{
+		"[Landroid/hardware/security/sharedsecret/SharedSecretParameters;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if params == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(params)))
+			for _, _item := range params {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(params)))
-		for _, _item := range params {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if params == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(params)))
+					for _, _item := range params {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}

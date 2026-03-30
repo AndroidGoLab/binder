@@ -72,7 +72,21 @@ func (p *PresenceListenerProxy) GetVersionCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
-	_data.WriteString16(version)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceListener, MethodIPresenceListenerGetVersionCb)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(version)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(version)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceListener, MethodIPresenceListenerGetVersionCb)
 	if _err != nil {
@@ -99,9 +113,26 @@ func (p *PresenceListenerProxy) ServiceAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
-	_data.WriteInt32(1)
-	if _err := statusCode.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceListener, MethodIPresenceListenerServiceAvailable)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/uce/common/StatusCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := statusCode.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := statusCode.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceListener, MethodIPresenceListenerServiceAvailable)
@@ -129,9 +160,26 @@ func (p *PresenceListenerProxy) ServiceUnAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
-	_data.WriteInt32(1)
-	if _err := statusCode.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceListener, MethodIPresenceListenerServiceUnAvailable)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/uce/common/StatusCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := statusCode.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := statusCode.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceListener, MethodIPresenceListenerServiceUnAvailable)
@@ -159,9 +207,26 @@ func (p *PresenceListenerProxy) PublishTriggering(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
-	_data.WriteInt32(1)
-	if _err := publishTrigger.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceListener, MethodIPresenceListenerPublishTriggering)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/uce/presence/PresPublishTriggerType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := publishTrigger.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := publishTrigger.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceListener, MethodIPresenceListenerPublishTriggering)
@@ -189,9 +254,26 @@ func (p *PresenceListenerProxy) CmdStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
-	_data.WriteInt32(1)
-	if _err := cmdStatus.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceListener, MethodIPresenceListenerCmdStatus)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/uce/presence/PresCmdStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := cmdStatus.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := cmdStatus.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceListener, MethodIPresenceListenerCmdStatus)
@@ -219,9 +301,26 @@ func (p *PresenceListenerProxy) SipResponseReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
-	_data.WriteInt32(1)
-	if _err := sipResponse.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceListener, MethodIPresenceListenerSipResponseReceived)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/uce/presence/PresSipResponse;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sipResponse.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sipResponse.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceListener, MethodIPresenceListenerSipResponseReceived)
@@ -250,15 +349,42 @@ func (p *PresenceListenerProxy) CapInfoReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
-	_data.WriteString16(presentityURI)
-	if tupleInfo == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceListener, MethodIPresenceListenerCapInfoReceived)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[Lcom/android/ims/internal/uce/presence/PresTupleInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(presentityURI)
+		if tupleInfo == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(tupleInfo)))
+			for _, _item := range tupleInfo {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(tupleInfo)))
-		for _, _item := range tupleInfo {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(presentityURI)
+			case 1:
+				if tupleInfo == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(tupleInfo)))
+					for _, _item := range tupleInfo {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -289,18 +415,48 @@ func (p *PresenceListenerProxy) ListCapInfoReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
-	_data.WriteInt32(1)
-	if _err := rlmiInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresenceListener, MethodIPresenceListenerListCapInfoReceived)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/uce/presence/PresRlmiInfo;",
+		"[Lcom/android/ims/internal/uce/presence/PresResInfo;",
 	}
-	if resInfo == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := rlmiInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if resInfo == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(resInfo)))
+			for _, _item := range resInfo {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(resInfo)))
-		for _, _item := range resInfo {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := rlmiInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if resInfo == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(resInfo)))
+					for _, _item := range resInfo {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

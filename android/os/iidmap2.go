@@ -76,8 +76,25 @@ func (p *Idmap2Proxy) GetIdmapPath(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
-	_data.WriteString16(overlayApkPath)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdmap2, MethodIIdmap2GetIdmapPath)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(overlayApkPath)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(overlayApkPath)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdmap2, MethodIIdmap2GetIdmapPath)
 	if _err != nil {
@@ -110,8 +127,25 @@ func (p *Idmap2Proxy) RemoveIdmap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
-	_data.WriteString16(overlayApkPath)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdmap2, MethodIIdmap2RemoveIdmap)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(overlayApkPath)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(overlayApkPath)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdmap2, MethodIIdmap2RemoveIdmap)
 	if _err != nil {
@@ -148,12 +182,41 @@ func (p *Idmap2Proxy) VerifyIdmap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
-	_data.WriteString16(targetApkPath)
-	_data.WriteString16(overlayApkPath)
-	_data.WriteString16(overlayName)
-	_data.WriteInt32(fulfilledPolicies)
-	_data.WriteBool(enforceOverlayable)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdmap2, MethodIIdmap2VerifyIdmap)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(targetApkPath)
+		_data.WriteString16(overlayApkPath)
+		_data.WriteString16(overlayName)
+		_data.WriteInt32(fulfilledPolicies)
+		_data.WriteBool(enforceOverlayable)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(targetApkPath)
+			case 1:
+				_data.WriteString16(overlayApkPath)
+			case 2:
+				_data.WriteString16(overlayName)
+			case 3:
+				_data.WriteInt32(fulfilledPolicies)
+			case 4:
+				_data.WriteBool(enforceOverlayable)
+			case 5:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdmap2, MethodIIdmap2VerifyIdmap)
 	if _err != nil {
@@ -190,12 +253,41 @@ func (p *Idmap2Proxy) CreateIdmap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
-	_data.WriteString16(targetApkPath)
-	_data.WriteString16(overlayApkPath)
-	_data.WriteString16(overlayName)
-	_data.WriteInt32(fulfilledPolicies)
-	_data.WriteBool(enforceOverlayable)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdmap2, MethodIIdmap2CreateIdmap)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(targetApkPath)
+		_data.WriteString16(overlayApkPath)
+		_data.WriteString16(overlayName)
+		_data.WriteInt32(fulfilledPolicies)
+		_data.WriteBool(enforceOverlayable)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(targetApkPath)
+			case 1:
+				_data.WriteString16(overlayApkPath)
+			case 2:
+				_data.WriteString16(overlayName)
+			case 3:
+				_data.WriteInt32(fulfilledPolicies)
+			case 4:
+				_data.WriteBool(enforceOverlayable)
+			case 5:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdmap2, MethodIIdmap2CreateIdmap)
 	if _err != nil {
@@ -227,9 +319,26 @@ func (p *Idmap2Proxy) CreateFabricatedOverlay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
-	_data.WriteInt32(1)
-	if _err := overlay.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdmap2, MethodIIdmap2CreateFabricatedOverlay)
+	_compiledDescs := []string{
+		"Landroid/os/FabricatedOverlayInternal;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := overlay.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := overlay.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdmap2, MethodIIdmap2CreateFabricatedOverlay)
@@ -267,7 +376,21 @@ func (p *Idmap2Proxy) DeleteFabricatedOverlay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
-	_data.WriteString16(path)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdmap2, MethodIIdmap2DeleteFabricatedOverlay)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(path)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(path)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdmap2, MethodIIdmap2DeleteFabricatedOverlay)
 	if _err != nil {
@@ -328,7 +451,21 @@ func (p *Idmap2Proxy) ReleaseFabricatedOverlayIterator(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
-	_data.WriteInt32(iteratorId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdmap2, MethodIIdmap2ReleaseFabricatedOverlayIterator)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(iteratorId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(iteratorId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdmap2, MethodIIdmap2ReleaseFabricatedOverlayIterator)
 	if _err != nil {
@@ -356,7 +493,21 @@ func (p *Idmap2Proxy) NextFabricatedOverlayInfos(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
-	_data.WriteInt32(iteratorId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdmap2, MethodIIdmap2NextFabricatedOverlayInfos)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(iteratorId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(iteratorId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdmap2, MethodIIdmap2NextFabricatedOverlayInfos)
 	if _err != nil {
@@ -420,7 +571,21 @@ func (p *Idmap2Proxy) DumpIdmap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
-	_data.WriteString16(overlayApkPath)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdmap2, MethodIIdmap2DumpIdmap)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(overlayApkPath)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(overlayApkPath)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdmap2, MethodIIdmap2DumpIdmap)
 	if _err != nil {

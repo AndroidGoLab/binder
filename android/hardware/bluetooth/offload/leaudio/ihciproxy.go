@@ -50,7 +50,21 @@ func (p *HciProxyProxy) RegisterCallbacks(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHciProxy)
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHciProxy, MethodIHciProxyRegisterCallbacks)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/offload/leaudio/IHciProxyCallbacks;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHciProxy, MethodIHciProxyRegisterCallbacks)
 	if _err != nil {
@@ -79,9 +93,29 @@ func (p *HciProxyProxy) SendPacket(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHciProxy)
-	_data.WriteInt32(handle)
-	_data.WriteInt32(sequence_number)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHciProxy, MethodIHciProxySendPacket)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(handle)
+		_data.WriteInt32(sequence_number)
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(handle)
+			case 1:
+				_data.WriteInt32(sequence_number)
+			case 2:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHciProxy, MethodIHciProxySendPacket)
 	if _err != nil {

@@ -47,7 +47,21 @@ func (p *PackageLoadingProgressCallbackProxy) OnPackageLoadingProgressChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageLoadingProgressCallback)
-	_data.WriteFloat32(progress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageLoadingProgressCallback, MethodIPackageLoadingProgressCallbackOnPackageLoadingProgressChanged)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(progress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(progress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageLoadingProgressCallback, MethodIPackageLoadingProgressCallbackOnPackageLoadingProgressChanged)
 	if _err != nil {

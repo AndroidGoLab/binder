@@ -48,20 +48,51 @@ func (p *UidFrozenStateChangedCallbackProxy) OnUidFrozenStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUidFrozenStateChangedCallback)
-	if uids == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(uids)))
-		for _, _item := range uids {
-			_data.WriteInt32(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUidFrozenStateChangedCallback, MethodIUidFrozenStateChangedCallbackOnUidFrozenStateChanged)
+	_compiledDescs := []string{
+		"[I",
+		"[I",
 	}
-	if frozenStates == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if uids == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(uids)))
+			for _, _item := range uids {
+				_data.WriteInt32(_item)
+			}
+		}
+		if frozenStates == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(frozenStates)))
+			for _, _item := range frozenStates {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(frozenStates)))
-		for _, _item := range frozenStates {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if uids == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(uids)))
+					for _, _item := range uids {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				if frozenStates == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(frozenStates)))
+					for _, _item := range frozenStates {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 

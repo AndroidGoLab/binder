@@ -82,8 +82,25 @@ func (p *BlobStoreSessionProxy) OpenWrite(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
-	_data.WriteInt64(offsetBytes)
-	_data.WriteInt64(lengthBytes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionOpenWrite)
+	_compiledDescs := []string{
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(offsetBytes)
+		_data.WriteInt64(lengthBytes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(offsetBytes)
+			case 1:
+				_data.WriteInt64(lengthBytes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionOpenWrite)
 	if _err != nil {
@@ -145,8 +162,25 @@ func (p *BlobStoreSessionProxy) AllowPackageAccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
-	_data.WriteString16(packageName)
-	_data.WriteByteArray(certificate)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionAllowPackageAccess)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteByteArray(certificate)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteByteArray(certificate)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionAllowPackageAccess)
 	if _err != nil {
@@ -225,8 +259,25 @@ func (p *BlobStoreSessionProxy) IsPackageAccessAllowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
-	_data.WriteString16(packageName)
-	_data.WriteByteArray(certificate)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionIsPackageAccessAllowed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteByteArray(certificate)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteByteArray(certificate)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionIsPackageAccessAllowed)
 	if _err != nil {
@@ -397,7 +448,21 @@ func (p *BlobStoreSessionProxy) Commit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionCommit)
+	_compiledDescs := []string{
+		"Landroid/app/blob/IBlobCommitCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionCommit)
 	if _err != nil {

@@ -56,14 +56,38 @@ func (p *RestoreObserverProxy) RestoreSetsAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreObserver)
-	if result == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRestoreObserver, MethodIRestoreObserverRestoreSetsAvailable)
+	_compiledDescs := []string{
+		"[Landroid/app/backup/RestoreSet;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if result == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(result)))
+			for _, _item := range result {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(result)))
-		for _, _item := range result {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if result == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(result)))
+					for _, _item := range result {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -84,7 +108,21 @@ func (p *RestoreObserverProxy) RestoreStarting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreObserver)
-	_data.WriteInt32(numPackages)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRestoreObserver, MethodIRestoreObserverRestoreStarting)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(numPackages)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(numPackages)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreObserver, MethodIRestoreObserverRestoreStarting)
 	if _err != nil {
@@ -103,8 +141,25 @@ func (p *RestoreObserverProxy) OnUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreObserver)
-	_data.WriteInt32(nowBeingRestored)
-	_data.WriteString16(curentPackage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRestoreObserver, MethodIRestoreObserverOnUpdate)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nowBeingRestored)
+		_data.WriteString16(curentPackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nowBeingRestored)
+			case 1:
+				_data.WriteString16(curentPackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreObserver, MethodIRestoreObserverOnUpdate)
 	if _err != nil {
@@ -122,7 +177,21 @@ func (p *RestoreObserverProxy) RestoreFinished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreObserver)
-	_data.WriteInt32(error_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRestoreObserver, MethodIRestoreObserverRestoreFinished)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(error_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(error_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreObserver, MethodIRestoreObserverRestoreFinished)
 	if _err != nil {

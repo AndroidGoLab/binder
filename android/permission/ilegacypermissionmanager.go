@@ -76,11 +76,37 @@ func (p *LegacyPermissionManagerProxy) CheckDeviceIdentifierAccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(message)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerCheckDeviceIdentifierAccess)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(message)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(message)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				_data.WriteInt32(pid)
+			case 4:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerCheckDeviceIdentifierAccess)
 	if _err != nil {
@@ -116,11 +142,37 @@ func (p *LegacyPermissionManagerProxy) CheckPhoneNumberAccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(message)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerCheckPhoneNumberAccess)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(message)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(message)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				_data.WriteInt32(pid)
+			case 4:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerCheckPhoneNumberAccess)
 	if _err != nil {
@@ -152,15 +204,39 @@ func (p *LegacyPermissionManagerProxy) GrantDefaultPermissionsToEnabledCarrierAp
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerGrantDefaultPermissionsToEnabledCarrierApps)
+	_compiledDescs := []string{
+		"[Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerGrantDefaultPermissionsToEnabledCarrierApps)
 	if _err != nil {
@@ -188,15 +264,39 @@ func (p *LegacyPermissionManagerProxy) GrantDefaultPermissionsToEnabledImsServic
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerGrantDefaultPermissionsToEnabledImsServices)
+	_compiledDescs := []string{
+		"[Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerGrantDefaultPermissionsToEnabledImsServices)
 	if _err != nil {
@@ -224,15 +324,39 @@ func (p *LegacyPermissionManagerProxy) GrantDefaultPermissionsToEnabledTelephony
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerGrantDefaultPermissionsToEnabledTelephonyDataServices)
+	_compiledDescs := []string{
+		"[Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerGrantDefaultPermissionsToEnabledTelephonyDataServices)
 	if _err != nil {
@@ -260,15 +384,39 @@ func (p *LegacyPermissionManagerProxy) RevokeDefaultPermissionsFromDisabledTelep
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerRevokeDefaultPermissionsFromDisabledTelephonyDataServices)
+	_compiledDescs := []string{
+		"[Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerRevokeDefaultPermissionsFromDisabledTelephonyDataServices)
 	if _err != nil {
@@ -296,8 +444,25 @@ func (p *LegacyPermissionManagerProxy) GrantDefaultPermissionsToActiveLuiApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerGrantDefaultPermissionsToActiveLuiApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerGrantDefaultPermissionsToActiveLuiApp)
 	if _err != nil {
@@ -325,15 +490,39 @@ func (p *LegacyPermissionManagerProxy) RevokeDefaultPermissionsFromLuiApps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerRevokeDefaultPermissionsFromLuiApps)
+	_compiledDescs := []string{
+		"[Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerRevokeDefaultPermissionsFromLuiApps)
 	if _err != nil {
@@ -361,8 +550,25 @@ func (p *LegacyPermissionManagerProxy) GrantDefaultPermissionsToCarrierServiceAp
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerGrantDefaultPermissionsToCarrierServiceApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILegacyPermissionManager, MethodILegacyPermissionManagerGrantDefaultPermissionsToCarrierServiceApp)
 	if _err != nil {

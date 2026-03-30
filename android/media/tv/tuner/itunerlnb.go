@@ -63,7 +63,21 @@ func (p *TunerLnbProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
-	binder.WriteBinderToParcel(ctx, _data, tunerLnbCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerLnb, MethodITunerLnbSetCallback)
+	_compiledDescs := []string{
+		"Landroid/media/tv/tuner/ITunerLnbCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, tunerLnbCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, tunerLnbCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnb, MethodITunerLnbSetCallback)
 	if _err != nil {
@@ -90,7 +104,21 @@ func (p *TunerLnbProxy) SetVoltage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
-	_data.WriteInt32(int32(voltage))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerLnb, MethodITunerLnbSetVoltage)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/LnbVoltage;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(voltage))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(voltage))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnb, MethodITunerLnbSetVoltage)
 	if _err != nil {
@@ -117,7 +145,21 @@ func (p *TunerLnbProxy) SetTone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
-	_data.WriteInt32(int32(tone))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerLnb, MethodITunerLnbSetTone)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/LnbTone;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(tone))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(tone))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnb, MethodITunerLnbSetTone)
 	if _err != nil {
@@ -144,7 +186,21 @@ func (p *TunerLnbProxy) SetSatellitePosition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
-	_data.WriteInt32(int32(position))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerLnb, MethodITunerLnbSetSatellitePosition)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/LnbPosition;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(position))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(position))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnb, MethodITunerLnbSetSatellitePosition)
 	if _err != nil {
@@ -171,7 +227,21 @@ func (p *TunerLnbProxy) SendDiseqcMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
-	_data.WriteByteArray(diseqcMessage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerLnb, MethodITunerLnbSendDiseqcMessage)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(diseqcMessage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(diseqcMessage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnb, MethodITunerLnbSendDiseqcMessage)
 	if _err != nil {

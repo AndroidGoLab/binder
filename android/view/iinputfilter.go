@@ -53,7 +53,21 @@ func (p *InputFilterProxy) Install(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
-	binder.WriteBinderToParcel(ctx, _data, host.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputFilter, MethodIInputFilterInstall)
+	_compiledDescs := []string{
+		"Landroid/view/IInputFilterHost;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, host.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, host.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilter, MethodIInputFilterInstall)
 	if _err != nil {
@@ -88,11 +102,31 @@ func (p *InputFilterProxy) FilterInputEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputFilter, MethodIInputFilterFilterInputEvent)
+	_compiledDescs := []string{
+		"Landroid/view/InputEvent;",
+		"I",
 	}
-	_data.WriteInt32(policyFlags)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(policyFlags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(policyFlags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilter, MethodIInputFilterFilterInputEvent)
 	if _err != nil {

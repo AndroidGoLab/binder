@@ -56,14 +56,38 @@ func (p *CameraDeviceCallbackProxy) Notify(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceCallback)
-	if msgs == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackNotify)
+	_compiledDescs := []string{
+		"[Landroid/hardware/camera/device/NotifyMsg;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if msgs == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(msgs)))
+			for _, _item := range msgs {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(msgs)))
-		for _, _item := range msgs {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if msgs == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(msgs)))
+					for _, _item := range msgs {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -93,14 +117,38 @@ func (p *CameraDeviceCallbackProxy) ProcessCaptureResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceCallback)
-	if results == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackProcessCaptureResult)
+	_compiledDescs := []string{
+		"[Landroid/hardware/camera/device/CaptureResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if results == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(results)))
+			for _, _item := range results {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(results)))
-		for _, _item := range results {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if results == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(results)))
+					for _, _item := range results {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -132,14 +180,38 @@ func (p *CameraDeviceCallbackProxy) RequestStreamBuffers(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceCallback)
-	if bufReqs == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackRequestStreamBuffers)
+	_compiledDescs := []string{
+		"[Landroid/hardware/camera/device/BufferRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if bufReqs == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(bufReqs)))
+			for _, _item := range bufReqs {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(bufReqs)))
-		for _, _item := range bufReqs {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if bufReqs == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(bufReqs)))
+					for _, _item := range bufReqs {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -192,14 +264,38 @@ func (p *CameraDeviceCallbackProxy) ReturnStreamBuffers(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceCallback)
-	if buffers == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackReturnStreamBuffers)
+	_compiledDescs := []string{
+		"[Landroid/hardware/camera/device/StreamBuffer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if buffers == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(buffers)))
+			for _, _item := range buffers {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(buffers)))
-		for _, _item := range buffers {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if buffers == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(buffers)))
+					for _, _item := range buffers {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

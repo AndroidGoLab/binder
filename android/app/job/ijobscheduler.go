@@ -98,10 +98,30 @@ func (p *JobSchedulerProxy) Schedule(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobScheduler)
-	_data.WriteString16(namespace)
-	_data.WriteInt32(1)
-	if _err := job.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobScheduler, MethodIJobSchedulerSchedule)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/app/job/JobInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(namespace)
+		_data.WriteInt32(1)
+		if _err := job.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(namespace)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := job.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobScheduler, MethodIJobSchedulerSchedule)
@@ -136,14 +156,40 @@ func (p *JobSchedulerProxy) Enqueue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobScheduler)
-	_data.WriteString16(namespace)
-	_data.WriteInt32(1)
-	if _err := job.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobScheduler, MethodIJobSchedulerEnqueue)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/app/job/JobInfo;",
+		"Landroid/app/job/JobWorkItem;",
 	}
-	_data.WriteInt32(1)
-	if _err := work.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(namespace)
+		_data.WriteInt32(1)
+		if _err := job.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := work.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(namespace)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := job.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := work.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobScheduler, MethodIJobSchedulerEnqueue)
@@ -180,14 +226,43 @@ func (p *JobSchedulerProxy) ScheduleAsPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobScheduler)
-	_data.WriteString16(namespace)
-	_data.WriteInt32(1)
-	if _err := job.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobScheduler, MethodIJobSchedulerScheduleAsPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/app/job/JobInfo;",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(tag)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(namespace)
+		_data.WriteInt32(1)
+		if _err := job.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(tag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(namespace)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := job.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				_data.WriteString16(tag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobScheduler, MethodIJobSchedulerScheduleAsPackage)
 	if _err != nil {
@@ -219,8 +294,25 @@ func (p *JobSchedulerProxy) Cancel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobScheduler)
-	_data.WriteString16(namespace)
-	_data.WriteInt32(jobId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobScheduler, MethodIJobSchedulerCancel)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(namespace)
+		_data.WriteInt32(jobId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(namespace)
+			case 1:
+				_data.WriteInt32(jobId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobScheduler, MethodIJobSchedulerCancel)
 	if _err != nil {
@@ -272,7 +364,21 @@ func (p *JobSchedulerProxy) CancelAllInNamespace(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobScheduler)
-	_data.WriteString16(namespace)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobScheduler, MethodIJobSchedulerCancelAllInNamespace)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(namespace)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(namespace)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobScheduler, MethodIJobSchedulerCancelAllInNamespace)
 	if _err != nil {
@@ -349,7 +455,21 @@ func (p *JobSchedulerProxy) GetAllPendingJobsInNamespace(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobScheduler)
-	_data.WriteString16(namespace)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobScheduler, MethodIJobSchedulerGetAllPendingJobsInNamespace)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(namespace)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(namespace)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobScheduler, MethodIJobSchedulerGetAllPendingJobsInNamespace)
 	if _err != nil {
@@ -387,8 +507,25 @@ func (p *JobSchedulerProxy) GetPendingJob(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobScheduler)
-	_data.WriteString16(namespace)
-	_data.WriteInt32(jobId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobScheduler, MethodIJobSchedulerGetPendingJob)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(namespace)
+		_data.WriteInt32(jobId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(namespace)
+			case 1:
+				_data.WriteInt32(jobId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobScheduler, MethodIJobSchedulerGetPendingJob)
 	if _err != nil {
@@ -426,8 +563,25 @@ func (p *JobSchedulerProxy) GetPendingJobReason(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobScheduler)
-	_data.WriteString16(namespace)
-	_data.WriteInt32(jobId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobScheduler, MethodIJobSchedulerGetPendingJobReason)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(namespace)
+		_data.WriteInt32(jobId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(namespace)
+			case 1:
+				_data.WriteInt32(jobId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobScheduler, MethodIJobSchedulerGetPendingJobReason)
 	if _err != nil {
@@ -459,7 +613,21 @@ func (p *JobSchedulerProxy) CanRunUserInitiatedJobs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobScheduler)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobScheduler, MethodIJobSchedulerCanRunUserInitiatedJobs)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobScheduler, MethodIJobSchedulerCanRunUserInitiatedJobs)
 	if _err != nil {
@@ -492,8 +660,25 @@ func (p *JobSchedulerProxy) HasRunUserInitiatedJobsPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobScheduler)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobScheduler, MethodIJobSchedulerHasRunUserInitiatedJobsPermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobScheduler, MethodIJobSchedulerHasRunUserInitiatedJobsPermission)
 	if _err != nil {
@@ -621,7 +806,21 @@ func (p *JobSchedulerProxy) RegisterUserVisibleJobObserver(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobScheduler)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobScheduler, MethodIJobSchedulerRegisterUserVisibleJobObserver)
+	_compiledDescs := []string{
+		"Landroid/app/job/IUserVisibleJobObserver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobScheduler, MethodIJobSchedulerRegisterUserVisibleJobObserver)
 	if _err != nil {
@@ -648,7 +847,21 @@ func (p *JobSchedulerProxy) UnregisterUserVisibleJobObserver(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobScheduler)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobScheduler, MethodIJobSchedulerUnregisterUserVisibleJobObserver)
+	_compiledDescs := []string{
+		"Landroid/app/job/IUserVisibleJobObserver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobScheduler, MethodIJobSchedulerUnregisterUserVisibleJobObserver)
 	if _err != nil {
@@ -677,9 +890,29 @@ func (p *JobSchedulerProxy) NotePendingUserRequestedAppStop(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobScheduler)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(debugReason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobScheduler, MethodIJobSchedulerNotePendingUserRequestedAppStop)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(debugReason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteString16(debugReason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobScheduler, MethodIJobSchedulerNotePendingUserRequestedAppStop)
 	if _err != nil {

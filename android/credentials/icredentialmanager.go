@@ -85,12 +85,35 @@ func (p *CredentialManagerProxy) ExecuteGetCredential(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICredentialManager, MethodICredentialManagerExecuteGetCredential)
+	_compiledDescs := []string{
+		"Landroid/credentials/GetCredentialRequest;",
+		"Landroid/credentials/IGetCredentialCallback;",
+		"Ljava/lang/String;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerExecuteGetCredential)
 	if _err != nil {
@@ -126,13 +149,39 @@ func (p *CredentialManagerProxy) ExecutePrepareGetCredential(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICredentialManager, MethodICredentialManagerExecutePrepareGetCredential)
+	_compiledDescs := []string{
+		"Landroid/credentials/GetCredentialRequest;",
+		"Landroid/credentials/IPrepareGetCredentialCallback;",
+		"Landroid/credentials/IGetCredentialCallback;",
+		"Ljava/lang/String;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, prepareGetCredentialCallback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, getCredentialCallback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, prepareGetCredentialCallback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, getCredentialCallback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, prepareGetCredentialCallback.AsBinder(), p.Remote.Transport())
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, getCredentialCallback.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerExecutePrepareGetCredential)
 	if _err != nil {
@@ -167,12 +216,35 @@ func (p *CredentialManagerProxy) ExecuteCreateCredential(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICredentialManager, MethodICredentialManagerExecuteCreateCredential)
+	_compiledDescs := []string{
+		"Landroid/credentials/CreateCredentialRequest;",
+		"Landroid/credentials/ICreateCredentialCallback;",
+		"Ljava/lang/String;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerExecuteCreateCredential)
 	if _err != nil {
@@ -208,13 +280,39 @@ func (p *CredentialManagerProxy) GetCandidateCredentials(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICredentialManager, MethodICredentialManagerGetCandidateCredentials)
+	_compiledDescs := []string{
+		"Landroid/credentials/GetCredentialRequest;",
+		"Landroid/credentials/IGetCandidateCredentialsCallback;",
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, clientCallback, p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, clientCallback, p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, clientCallback, p.Remote.Transport())
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerGetCandidateCredentials)
 	if _err != nil {
@@ -249,12 +347,35 @@ func (p *CredentialManagerProxy) ClearCredentialState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICredentialManager, MethodICredentialManagerClearCredentialState)
+	_compiledDescs := []string{
+		"Landroid/credentials/ClearCredentialStateRequest;",
+		"Landroid/credentials/IClearCredentialStateCallback;",
+		"Ljava/lang/String;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerClearCredentialState)
 	if _err != nil {
@@ -289,24 +410,61 @@ func (p *CredentialManagerProxy) SetEnabledProviders(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
-	if primaryProviders == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICredentialManager, MethodICredentialManagerSetEnabledProviders)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Ljava/util/List;",
+		"I",
+		"Landroid/credentials/ISetEnabledProvidersCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if primaryProviders == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(primaryProviders)))
+			for _, _item := range primaryProviders {
+				_data.WriteString16(_item)
+			}
+		}
+		if providers == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(providers)))
+			for _, _item := range providers {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(primaryProviders)))
-		for _, _item := range primaryProviders {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if primaryProviders == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(primaryProviders)))
+					for _, _item := range primaryProviders {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				if providers == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(providers)))
+					for _, _item := range providers {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	if providers == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(providers)))
-		for _, _item := range providers {
-			_data.WriteString16(_item)
-		}
-	}
-	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerSetEnabledProviders)
 	if _err != nil {
@@ -334,11 +492,31 @@ func (p *CredentialManagerProxy) RegisterCredentialDescription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICredentialManager, MethodICredentialManagerRegisterCredentialDescription)
+	_compiledDescs := []string{
+		"Landroid/credentials/RegisterCredentialDescriptionRequest;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerRegisterCredentialDescription)
 	if _err != nil {
@@ -366,11 +544,31 @@ func (p *CredentialManagerProxy) UnregisterCredentialDescription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICredentialManager, MethodICredentialManagerUnregisterCredentialDescription)
+	_compiledDescs := []string{
+		"Landroid/credentials/UnregisterCredentialDescriptionRequest;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerUnregisterCredentialDescription)
 	if _err != nil {
@@ -399,11 +597,31 @@ func (p *CredentialManagerProxy) IsEnabledCredentialProviderService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICredentialManager, MethodICredentialManagerIsEnabledCredentialProviderService)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := componentName.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := componentName.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerIsEnabledCredentialProviderService)
 	if _err != nil {
@@ -436,8 +654,25 @@ func (p *CredentialManagerProxy) GetCredentialProviderServices(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(providerFilter)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICredentialManager, MethodICredentialManagerGetCredentialProviderServices)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(providerFilter)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(providerFilter)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerGetCredentialProviderServices)
 	if _err != nil {
@@ -501,7 +736,21 @@ func (p *CredentialManagerProxy) GetCredentialProviderServicesForTesting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
-	_data.WriteInt32(providerFilter)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICredentialManager, MethodICredentialManagerGetCredentialProviderServicesForTesting)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(providerFilter)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(providerFilter)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerGetCredentialProviderServicesForTesting)
 	if _err != nil {

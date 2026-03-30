@@ -75,15 +75,41 @@ func (p *PredictionManagerProxy) CreatePredictionSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
-	_data.WriteInt32(1)
-	if _err := context_.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPredictionManager, MethodIPredictionManagerCreatePredictionSession)
+	_compiledDescs := []string{
+		"Landroid/app/prediction/AppPredictionContext;",
+		"Landroid/app/prediction/AppPredictionSessionId;",
+		"Landroid/os/IBinder;",
 	}
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := context_.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := context_.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionManager, MethodIPredictionManagerCreatePredictionSession)
 	if _err != nil {
@@ -111,13 +137,36 @@ func (p *PredictionManagerProxy) NotifyAppTargetEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPredictionManager, MethodIPredictionManagerNotifyAppTargetEvent)
+	_compiledDescs := []string{
+		"Landroid/app/prediction/AppPredictionSessionId;",
+		"Landroid/app/prediction/AppTargetEvent;",
 	}
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionManager, MethodIPredictionManagerNotifyAppTargetEvent)
@@ -147,14 +196,40 @@ func (p *PredictionManagerProxy) NotifyLaunchLocationShown(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPredictionManager, MethodIPredictionManagerNotifyLaunchLocationShown)
+	_compiledDescs := []string{
+		"Landroid/app/prediction/AppPredictionSessionId;",
+		"Ljava/lang/String;",
+		"Landroid/content/pm/ParceledListSlice;",
 	}
-	_data.WriteString16(launchLocation)
-	_data.WriteInt32(1)
-	if _err := targetIds.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(launchLocation)
+		_data.WriteInt32(1)
+		if _err := targetIds.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(launchLocation)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := targetIds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionManager, MethodIPredictionManagerNotifyLaunchLocationShown)
@@ -184,15 +259,41 @@ func (p *PredictionManagerProxy) SortAppTargets(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPredictionManager, MethodIPredictionManagerSortAppTargets)
+	_compiledDescs := []string{
+		"Landroid/app/prediction/AppPredictionSessionId;",
+		"Landroid/content/pm/ParceledListSlice;",
+		"Landroid/app/prediction/IPredictionCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := targets.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := targets.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := targets.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionManager, MethodIPredictionManagerSortAppTargets)
 	if _err != nil {
@@ -220,11 +321,31 @@ func (p *PredictionManagerProxy) RegisterPredictionUpdates(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPredictionManager, MethodIPredictionManagerRegisterPredictionUpdates)
+	_compiledDescs := []string{
+		"Landroid/app/prediction/AppPredictionSessionId;",
+		"Landroid/app/prediction/IPredictionCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionManager, MethodIPredictionManagerRegisterPredictionUpdates)
 	if _err != nil {
@@ -252,11 +373,31 @@ func (p *PredictionManagerProxy) UnregisterPredictionUpdates(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPredictionManager, MethodIPredictionManagerUnregisterPredictionUpdates)
+	_compiledDescs := []string{
+		"Landroid/app/prediction/AppPredictionSessionId;",
+		"Landroid/app/prediction/IPredictionCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionManager, MethodIPredictionManagerUnregisterPredictionUpdates)
 	if _err != nil {
@@ -283,9 +424,26 @@ func (p *PredictionManagerProxy) RequestPredictionUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPredictionManager, MethodIPredictionManagerRequestPredictionUpdate)
+	_compiledDescs := []string{
+		"Landroid/app/prediction/AppPredictionSessionId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionManager, MethodIPredictionManagerRequestPredictionUpdate)
@@ -313,9 +471,26 @@ func (p *PredictionManagerProxy) OnDestroyPredictionSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPredictionManager, MethodIPredictionManagerOnDestroyPredictionSession)
+	_compiledDescs := []string{
+		"Landroid/app/prediction/AppPredictionSessionId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionManager, MethodIPredictionManagerOnDestroyPredictionSession)
@@ -344,11 +519,31 @@ func (p *PredictionManagerProxy) RequestServiceFeatures(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPredictionManager, MethodIPredictionManagerRequestServiceFeatures)
+	_compiledDescs := []string{
+		"Landroid/app/prediction/AppPredictionSessionId;",
+		"Landroid/os/IRemoteCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionManager, MethodIPredictionManagerRequestServiceFeatures)
 	if _err != nil {

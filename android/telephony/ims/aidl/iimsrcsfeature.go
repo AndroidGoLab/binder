@@ -136,7 +136,21 @@ func (p *ImsRcsFeatureProxy) AddCapabilityCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureAddCapabilityCallback)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/aidl/IImsCapabilityCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureAddCapabilityCallback)
 	if _err != nil {
@@ -154,7 +168,21 @@ func (p *ImsRcsFeatureProxy) RemoveCapabilityCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureRemoveCapabilityCallback)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/aidl/IImsCapabilityCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureRemoveCapabilityCallback)
 	if _err != nil {
@@ -173,11 +201,31 @@ func (p *ImsRcsFeatureProxy) ChangeCapabilitiesConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
-	_data.WriteInt32(1)
-	if _err := r.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureChangeCapabilitiesConfiguration)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/feature/CapabilityChangeRequest;",
+		"Landroid/telephony/ims/aidl/IImsCapabilityCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := r.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := r.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureChangeCapabilitiesConfiguration)
 	if _err != nil {
@@ -197,9 +245,29 @@ func (p *ImsRcsFeatureProxy) QueryCapabilityConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
-	_data.WriteInt32(capability)
-	_data.WriteInt32(radioTech)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureQueryCapabilityConfiguration)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/telephony/ims/aidl/IImsCapabilityCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(capability)
+		_data.WriteInt32(radioTech)
+		binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(capability)
+			case 1:
+				_data.WriteInt32(radioTech)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureQueryCapabilityConfiguration)
 	if _err != nil {
@@ -217,7 +285,21 @@ func (p *ImsRcsFeatureProxy) SetCapabilityExchangeEventListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureSetCapabilityExchangeEventListener)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/aidl/ICapabilityExchangeEventListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureSetCapabilityExchangeEventListener)
 	if _err != nil {
@@ -236,8 +318,25 @@ func (p *ImsRcsFeatureProxy) PublishCapabilities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
-	_data.WriteString16(pidfXml)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeaturePublishCapabilities)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/telephony/ims/aidl/IPublishResponseCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pidfXml)
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pidfXml)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeaturePublishCapabilities)
 	if _err != nil {
@@ -256,18 +355,45 @@ func (p *ImsRcsFeatureProxy) SubscribeForCapabilities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
-	if uris == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureSubscribeForCapabilities)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Landroid/telephony/ims/aidl/ISubscribeResponseCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if uris == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(uris)))
+			for _, _item := range uris {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(uris)))
-		for _, _item := range uris {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if uris == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(uris)))
+					for _, _item := range uris {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureSubscribeForCapabilities)
 	if _err != nil {
@@ -287,19 +413,49 @@ func (p *ImsRcsFeatureProxy) SendOptionsCapabilityRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
-	_data.WriteInt32(1)
-	if _err := contactUri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureSendOptionsCapabilityRequest)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"Ljava/util/List;",
+		"Landroid/telephony/ims/aidl/IOptionsResponseCallback;",
 	}
-	if myCapabilities == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := contactUri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if myCapabilities == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(myCapabilities)))
+			for _, _item := range myCapabilities {
+				_data.WriteString16(_item)
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(myCapabilities)))
-		for _, _item := range myCapabilities {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := contactUri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if myCapabilities == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(myCapabilities)))
+					for _, _item := range myCapabilities {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureSendOptionsCapabilityRequest)
 	if _err != nil {

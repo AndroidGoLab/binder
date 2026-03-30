@@ -205,7 +205,21 @@ func (p *StreamInProxy) SetMicrophoneDirection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
-	_data.WriteInt32(int32(direction))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamIn, MethodIStreamInSetMicrophoneDirection)
+	_compiledDescs := []string{
+		"Landroid/hardware/audio/core/IStreamIn/MicrophoneDirection;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(direction))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(direction))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInSetMicrophoneDirection)
 	if _err != nil {
@@ -262,7 +276,21 @@ func (p *StreamInProxy) SetMicrophoneFieldDimension(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
-	_data.WriteFloat32(zoom)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamIn, MethodIStreamInSetMicrophoneFieldDimension)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(zoom)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(zoom)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInSetMicrophoneFieldDimension)
 	if _err != nil {
@@ -289,9 +317,26 @@ func (p *StreamInProxy) UpdateMetadata(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
-	_data.WriteInt32(1)
-	if _err := sinkMetadata.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamIn, MethodIStreamInUpdateMetadata)
+	_compiledDescs := []string{
+		"Landroid/hardware/audio/common/SinkMetadata;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sinkMetadata.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sinkMetadata.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInUpdateMetadata)
@@ -362,12 +407,33 @@ func (p *StreamInProxy) SetHwGain(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
-	if channelGains == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamIn, MethodIStreamInSetHwGain)
+	_compiledDescs := []string{
+		"[F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if channelGains == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(channelGains)))
+			for _, _item := range channelGains {
+				_data.WriteFloat32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(channelGains)))
-		for _, _item := range channelGains {
-			_data.WriteFloat32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if channelGains == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(channelGains)))
+					for _, _item := range channelGains {
+						_data.WriteFloat32(_item)
+					}
+				}
+			}
 		}
 	}
 

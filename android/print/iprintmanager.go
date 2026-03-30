@@ -126,8 +126,25 @@ func (p *PrintManagerProxy) GetPrintJobInfos(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	_data.WriteInt32(appId)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerGetPrintJobInfos)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(appId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(appId)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerGetPrintJobInfos)
 	if _err != nil {
@@ -193,12 +210,35 @@ func (p *PrintManagerProxy) GetPrintJobInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	_data.WriteInt32(1)
-	if _err := printJobId.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerGetPrintJobInfo)
+	_compiledDescs := []string{
+		"Landroid/print/PrintJobId;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(appId)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printJobId.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(appId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printJobId.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(appId)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerGetPrintJobInfo)
 	if _err != nil {
@@ -240,15 +280,47 @@ func (p *PrintManagerProxy) Print(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	_data.WriteString16(printJobName)
-	binder.WriteBinderToParcel(ctx, _data, printAdapter.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := attributes.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerPrint)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/print/IPrintDocumentAdapter;",
+		"Landroid/print/PrintAttributes;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(appId)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(printJobName)
+		binder.WriteBinderToParcel(ctx, _data, printAdapter.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := attributes.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(appId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(printJobName)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, printAdapter.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(1)
+				if _err := attributes.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteString16(packageName)
+			case 4:
+				_data.WriteInt32(appId)
+			case 5:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerPrint)
 	if _err != nil {
@@ -286,12 +358,35 @@ func (p *PrintManagerProxy) CancelPrintJob(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	_data.WriteInt32(1)
-	if _err := printJobId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerCancelPrintJob)
+	_compiledDescs := []string{
+		"Landroid/print/PrintJobId;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(appId)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printJobId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(appId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printJobId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(appId)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerCancelPrintJob)
 	if _err != nil {
@@ -320,12 +415,35 @@ func (p *PrintManagerProxy) RestartPrintJob(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	_data.WriteInt32(1)
-	if _err := printJobId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerRestartPrintJob)
+	_compiledDescs := []string{
+		"Landroid/print/PrintJobId;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(appId)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printJobId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(appId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printJobId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(appId)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerRestartPrintJob)
 	if _err != nil {
@@ -354,9 +472,29 @@ func (p *PrintManagerProxy) AddPrintJobStateChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(appId)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerAddPrintJobStateChangeListener)
+	_compiledDescs := []string{
+		"Landroid/print/IPrintJobStateChangeListener;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(appId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(appId)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerAddPrintJobStateChangeListener)
 	if _err != nil {
@@ -384,8 +522,25 @@ func (p *PrintManagerProxy) RemovePrintJobStateChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerRemovePrintJobStateChangeListener)
+	_compiledDescs := []string{
+		"Landroid/print/IPrintJobStateChangeListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerRemovePrintJobStateChangeListener)
 	if _err != nil {
@@ -413,8 +568,25 @@ func (p *PrintManagerProxy) AddPrintServicesChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerAddPrintServicesChangeListener)
+	_compiledDescs := []string{
+		"Landroid/print/IPrintServicesChangeListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerAddPrintServicesChangeListener)
 	if _err != nil {
@@ -442,8 +614,25 @@ func (p *PrintManagerProxy) RemovePrintServicesChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerRemovePrintServicesChangeListener)
+	_compiledDescs := []string{
+		"Landroid/print/IPrintServicesChangeListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerRemovePrintServicesChangeListener)
 	if _err != nil {
@@ -472,8 +661,25 @@ func (p *PrintManagerProxy) GetPrintServices(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	_data.WriteInt32(selectionFlags)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerGetPrintServices)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(selectionFlags)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(selectionFlags)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerGetPrintServices)
 	if _err != nil {
@@ -538,12 +744,35 @@ func (p *PrintManagerProxy) SetPrintServiceEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerSetPrintServiceEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
+		"I",
 	}
-	_data.WriteBool(isEnabled)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(isEnabled)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(isEnabled)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerSetPrintServiceEnabled)
 	if _err != nil {
@@ -572,11 +801,31 @@ func (p *PrintManagerProxy) IsPrintServiceEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerIsPrintServiceEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerIsPrintServiceEnabled)
 	if _err != nil {
@@ -608,8 +857,25 @@ func (p *PrintManagerProxy) AddPrintServiceRecommendationsChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerAddPrintServiceRecommendationsChangeListener)
+	_compiledDescs := []string{
+		"Landroid/printservice/recommendation/IRecommendationsChangeListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerAddPrintServiceRecommendationsChangeListener)
 	if _err != nil {
@@ -637,8 +903,25 @@ func (p *PrintManagerProxy) RemovePrintServiceRecommendationsChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerRemovePrintServiceRecommendationsChangeListener)
+	_compiledDescs := []string{
+		"Landroid/printservice/recommendation/IRecommendationsChangeListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerRemovePrintServiceRecommendationsChangeListener)
 	if _err != nil {
@@ -666,7 +949,21 @@ func (p *PrintManagerProxy) GetPrintServiceRecommendations(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerGetPrintServiceRecommendations)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerGetPrintServiceRecommendations)
 	if _err != nil {
@@ -730,8 +1027,25 @@ func (p *PrintManagerProxy) CreatePrinterDiscoverySession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerCreatePrinterDiscoverySession)
+	_compiledDescs := []string{
+		"Landroid/print/IPrinterDiscoveryObserver;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerCreatePrinterDiscoverySession)
 	if _err != nil {
@@ -760,19 +1074,49 @@ func (p *PrintManagerProxy) StartPrinterDiscovery(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
-	if priorityList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerStartPrinterDiscovery)
+	_compiledDescs := []string{
+		"Landroid/print/IPrinterDiscoveryObserver;",
+		"Ljava/util/List;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+		if priorityList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(priorityList)))
+			for _, _item := range priorityList {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(priorityList)))
-		for _, _item := range priorityList {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			case 1:
+				if priorityList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(priorityList)))
+					for _, _item := range priorityList {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
 			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerStartPrinterDiscovery)
 	if _err != nil {
@@ -800,8 +1144,25 @@ func (p *PrintManagerProxy) StopPrinterDiscovery(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerStopPrinterDiscovery)
+	_compiledDescs := []string{
+		"Landroid/print/IPrinterDiscoveryObserver;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerStopPrinterDiscovery)
 	if _err != nil {
@@ -829,18 +1190,45 @@ func (p *PrintManagerProxy) ValidatePrinters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	if printerIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerValidatePrinters)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if printerIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(printerIds)))
+			for _, _item := range printerIds {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(printerIds)))
-		for _, _item := range printerIds {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if printerIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(printerIds)))
+					for _, _item := range printerIds {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
 			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerValidatePrinters)
 	if _err != nil {
@@ -868,11 +1256,31 @@ func (p *PrintManagerProxy) StartPrinterStateTracking(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	_data.WriteInt32(1)
-	if _err := printerId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerStartPrinterStateTracking)
+	_compiledDescs := []string{
+		"Landroid/print/PrinterId;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printerId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printerId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerStartPrinterStateTracking)
 	if _err != nil {
@@ -901,11 +1309,31 @@ func (p *PrintManagerProxy) GetCustomPrinterIcon(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	_data.WriteInt32(1)
-	if _err := printerId.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerGetCustomPrinterIcon)
+	_compiledDescs := []string{
+		"Landroid/print/PrinterId;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printerId.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printerId.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerGetCustomPrinterIcon)
 	if _err != nil {
@@ -942,11 +1370,31 @@ func (p *PrintManagerProxy) StopPrinterStateTracking(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	_data.WriteInt32(1)
-	if _err := printerId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerStopPrinterStateTracking)
+	_compiledDescs := []string{
+		"Landroid/print/PrinterId;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printerId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printerId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerStopPrinterStateTracking)
 	if _err != nil {
@@ -974,8 +1422,25 @@ func (p *PrintManagerProxy) DestroyPrinterDiscoverySession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerDestroyPrinterDiscoverySession)
+	_compiledDescs := []string{
+		"Landroid/print/IPrinterDiscoveryObserver;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerDestroyPrinterDiscoverySession)
 	if _err != nil {
@@ -1003,7 +1468,21 @@ func (p *PrintManagerProxy) GetBindInstantServiceAllowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerGetBindInstantServiceAllowed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerGetBindInstantServiceAllowed)
 	if _err != nil {
@@ -1035,8 +1514,25 @@ func (p *PrintManagerProxy) SetBindInstantServiceAllowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(allowed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintManager, MethodIPrintManagerSetBindInstantServiceAllowed)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(allowed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(allowed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintManager, MethodIPrintManagerSetBindInstantServiceAllowed)
 	if _err != nil {

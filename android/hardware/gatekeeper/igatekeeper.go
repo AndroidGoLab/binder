@@ -89,7 +89,21 @@ func (p *GatekeeperProxy) DeleteUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGatekeeper)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGatekeeper, MethodIGatekeeperDeleteUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGatekeeper, MethodIGatekeeperDeleteUser)
 	if _err != nil {
@@ -120,10 +134,33 @@ func (p *GatekeeperProxy) Enroll(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGatekeeper)
-	_data.WriteInt32(uid)
-	_data.WriteByteArray(currentPasswordHandle)
-	_data.WriteByteArray(currentPassword)
-	_data.WriteByteArray(desiredPassword)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGatekeeper, MethodIGatekeeperEnroll)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteByteArray(currentPasswordHandle)
+		_data.WriteByteArray(currentPassword)
+		_data.WriteByteArray(desiredPassword)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteByteArray(currentPasswordHandle)
+			case 2:
+				_data.WriteByteArray(currentPassword)
+			case 3:
+				_data.WriteByteArray(desiredPassword)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGatekeeper, MethodIGatekeeperEnroll)
 	if _err != nil {
@@ -163,10 +200,33 @@ func (p *GatekeeperProxy) Verify(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGatekeeper)
-	_data.WriteInt32(uid)
-	_data.WriteInt64(challenge)
-	_data.WriteByteArray(enrolledPasswordHandle)
-	_data.WriteByteArray(providedPassword)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGatekeeper, MethodIGatekeeperVerify)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt64(challenge)
+		_data.WriteByteArray(enrolledPasswordHandle)
+		_data.WriteByteArray(providedPassword)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt64(challenge)
+			case 2:
+				_data.WriteByteArray(enrolledPasswordHandle)
+			case 3:
+				_data.WriteByteArray(providedPassword)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGatekeeper, MethodIGatekeeperVerify)
 	if _err != nil {

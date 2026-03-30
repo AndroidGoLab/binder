@@ -54,10 +54,30 @@ func (p *HciProxyCallbacksProxy) StartStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHciProxyCallbacks)
-	_data.WriteInt32(handle)
-	_data.WriteInt32(1)
-	if _err := configuration.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHciProxyCallbacks, MethodIHciProxyCallbacksStartStream)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/bluetooth/offload/leaudio/StreamConfiguration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(handle)
+		_data.WriteInt32(1)
+		if _err := configuration.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(handle)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := configuration.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHciProxyCallbacks, MethodIHciProxyCallbacksStartStream)
@@ -76,7 +96,21 @@ func (p *HciProxyCallbacksProxy) StopStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHciProxyCallbacks)
-	_data.WriteInt32(handle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHciProxyCallbacks, MethodIHciProxyCallbacksStopStream)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(handle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(handle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHciProxyCallbacks, MethodIHciProxyCallbacksStopStream)
 	if _err != nil {
@@ -97,10 +131,33 @@ func (p *HciProxyCallbacksProxy) LinkFeedback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHciProxyCallbacks)
-	_data.WriteInt32(handle)
-	_data.WriteInt32(sequence_number)
-	_data.WriteInt32(anchor_point_delay)
-	_data.WriteInt32(sdu_input_status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHciProxyCallbacks, MethodIHciProxyCallbacksLinkFeedback)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(handle)
+		_data.WriteInt32(sequence_number)
+		_data.WriteInt32(anchor_point_delay)
+		_data.WriteInt32(sdu_input_status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(handle)
+			case 1:
+				_data.WriteInt32(sequence_number)
+			case 2:
+				_data.WriteInt32(anchor_point_delay)
+			case 3:
+				_data.WriteInt32(sdu_input_status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHciProxyCallbacks, MethodIHciProxyCallbacksLinkFeedback)
 	if _err != nil {

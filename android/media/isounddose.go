@@ -77,7 +77,21 @@ func (p *SoundDoseProxy) SetOutputRs2UpperBound(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
-	_data.WriteFloat32(rs2Value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDose, MethodISoundDoseSetOutputRs2UpperBound)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(rs2Value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(rs2Value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseSetOutputRs2UpperBound)
 	if _err != nil {
@@ -96,15 +110,42 @@ func (p *SoundDoseProxy) ResetCsd(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
-	_data.WriteFloat32(currentCsd)
-	if records == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDose, MethodISoundDoseResetCsd)
+	_compiledDescs := []string{
+		"F",
+		"[Landroid/media/SoundDoseRecord;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(currentCsd)
+		if records == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(records)))
+			for _, _item := range records {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(records)))
-		for _, _item := range records {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(currentCsd)
+			case 1:
+				if records == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(records)))
+					for _, _item := range records {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -126,8 +167,25 @@ func (p *SoundDoseProxy) UpdateAttenuation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
-	_data.WriteFloat32(attenuationDB)
-	_data.WriteInt32(device)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDose, MethodISoundDoseUpdateAttenuation)
+	_compiledDescs := []string{
+		"F",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(attenuationDB)
+		_data.WriteInt32(device)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(attenuationDB)
+			case 1:
+				_data.WriteInt32(device)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseUpdateAttenuation)
 	if _err != nil {
@@ -145,7 +203,21 @@ func (p *SoundDoseProxy) SetCsdEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDose, MethodISoundDoseSetCsdEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseSetCsdEnabled)
 	if _err != nil {
@@ -163,14 +235,38 @@ func (p *SoundDoseProxy) InitCachedAudioDeviceCategories(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
-	if audioDevices == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDose, MethodISoundDoseInitCachedAudioDeviceCategories)
+	_compiledDescs := []string{
+		"[Landroid/media/ISoundDose/AudioDeviceCategory;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if audioDevices == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(audioDevices)))
+			for _, _item := range audioDevices {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(audioDevices)))
-		for _, _item := range audioDevices {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if audioDevices == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(audioDevices)))
+					for _, _item := range audioDevices {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -191,9 +287,26 @@ func (p *SoundDoseProxy) SetAudioDeviceCategory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
-	_data.WriteInt32(1)
-	if _err := audioDevice.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDose, MethodISoundDoseSetAudioDeviceCategory)
+	_compiledDescs := []string{
+		"Landroid/media/ISoundDose/AudioDeviceCategory;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := audioDevice.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := audioDevice.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseSetAudioDeviceCategory)
@@ -302,7 +415,21 @@ func (p *SoundDoseProxy) ForceUseFrameworkMel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
-	_data.WriteBool(useFrameworkMel)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDose, MethodISoundDoseForceUseFrameworkMel)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(useFrameworkMel)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(useFrameworkMel)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseForceUseFrameworkMel)
 	if _err != nil {
@@ -320,7 +447,21 @@ func (p *SoundDoseProxy) ForceComputeCsdOnAllDevices(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
-	_data.WriteBool(computeCsdOnAllDevices)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDose, MethodISoundDoseForceComputeCsdOnAllDevices)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(computeCsdOnAllDevices)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(computeCsdOnAllDevices)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseForceComputeCsdOnAllDevices)
 	if _err != nil {

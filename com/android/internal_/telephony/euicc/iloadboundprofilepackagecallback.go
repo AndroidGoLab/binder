@@ -48,8 +48,25 @@ func (p *LoadBoundProfilePackageCallbackProxy) OnComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILoadBoundProfilePackageCallback)
-	_data.WriteInt32(resultCode)
-	_data.WriteByteArray(response)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILoadBoundProfilePackageCallback, MethodILoadBoundProfilePackageCallbackOnComplete)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(resultCode)
+		_data.WriteByteArray(response)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(resultCode)
+			case 1:
+				_data.WriteByteArray(response)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILoadBoundProfilePackageCallback, MethodILoadBoundProfilePackageCallbackOnComplete)
 	if _err != nil {

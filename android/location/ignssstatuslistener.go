@@ -88,7 +88,21 @@ func (p *GnssStatusListenerProxy) OnFirstFix(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssStatusListener)
-	_data.WriteInt32(ttff)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssStatusListener, MethodIGnssStatusListenerOnFirstFix)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(ttff)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(ttff)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssStatusListener, MethodIGnssStatusListenerOnFirstFix)
 	if _err != nil {
@@ -106,9 +120,26 @@ func (p *GnssStatusListenerProxy) OnSvStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssStatusListener)
-	_data.WriteInt32(1)
-	if _err := gnssStatus.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssStatusListener, MethodIGnssStatusListenerOnSvStatusChanged)
+	_compiledDescs := []string{
+		"Landroid/location/GnssStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := gnssStatus.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := gnssStatus.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssStatusListener, MethodIGnssStatusListenerOnSvStatusChanged)

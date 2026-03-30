@@ -49,7 +49,21 @@ func (p *SoundDoseFactoryProxy) GetSoundDose(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDoseFactory)
-	_data.WriteString16(module)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDoseFactory, MethodISoundDoseFactoryGetSoundDose)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(module)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(module)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDoseFactory, MethodISoundDoseFactoryGetSoundDose)
 	if _err != nil {

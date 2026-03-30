@@ -56,17 +56,47 @@ func (p *WwanSelectorCallbackProxy) OnRequestEmergencyNetworkScan(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWwanSelectorCallback)
-	if preferredNetworks == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWwanSelectorCallback, MethodIWwanSelectorCallbackOnRequestEmergencyNetworkScan)
+	_compiledDescs := []string{
+		"[I",
+		"I",
+		"Z",
+		"Lcom/android/internal/telephony/IWwanSelectorResultCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if preferredNetworks == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(preferredNetworks)))
+			for _, _item := range preferredNetworks {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteInt32(scanType)
+		_data.WriteBool(resetScan)
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(preferredNetworks)))
-		for _, _item := range preferredNetworks {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if preferredNetworks == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(preferredNetworks)))
+					for _, _item := range preferredNetworks {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				_data.WriteInt32(scanType)
+			case 2:
+				_data.WriteBool(resetScan)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	_data.WriteInt32(scanType)
-	_data.WriteBool(resetScan)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWwanSelectorCallback, MethodIWwanSelectorCallbackOnRequestEmergencyNetworkScan)
 	if _err != nil {
@@ -85,8 +115,25 @@ func (p *WwanSelectorCallbackProxy) OnDomainSelected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWwanSelectorCallback)
-	_data.WriteInt32(domain)
-	_data.WriteBool(useEmergencyPdn)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWwanSelectorCallback, MethodIWwanSelectorCallbackOnDomainSelected)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(domain)
+		_data.WriteBool(useEmergencyPdn)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(domain)
+			case 1:
+				_data.WriteBool(useEmergencyPdn)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWwanSelectorCallback, MethodIWwanSelectorCallbackOnDomainSelected)
 	if _err != nil {

@@ -48,13 +48,37 @@ func (p *OnProjectionStateChangedListenerProxy) OnProjectionStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnProjectionStateChangedListener)
-	_data.WriteInt32(activeProjectionTypes)
-	if projectingPackages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnProjectionStateChangedListener, MethodIOnProjectionStateChangedListenerOnProjectionStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(activeProjectionTypes)
+		if projectingPackages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(projectingPackages)))
+			for _, _item := range projectingPackages {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(projectingPackages)))
-		for _, _item := range projectingPackages {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(activeProjectionTypes)
+			case 1:
+				if projectingPackages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(projectingPackages)))
+					for _, _item := range projectingPackages {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 

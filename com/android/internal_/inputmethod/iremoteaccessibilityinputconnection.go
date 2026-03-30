@@ -77,15 +77,44 @@ func (p *RemoteAccessibilityInputConnectionProxy) CommitText(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
-	_data.WriteInt32(1)
-	if _err := header.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionCommitText)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/InputConnectionCommandHeader;",
+		"Ljava/lang/CharSequence;",
+		"I",
+		"Landroid/view/inputmethod/TextAttribute;",
 	}
-	_data.WriteString16(text)
-	_data.WriteInt32(newCursorPosition)
-	_data.WriteInt32(1)
-	if _err := textAttribute.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := header.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(text)
+		_data.WriteInt32(newCursorPosition)
+		_data.WriteInt32(1)
+		if _err := textAttribute.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := header.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(text)
+			case 2:
+				_data.WriteInt32(newCursorPosition)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := textAttribute.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionCommitText)
@@ -106,12 +135,35 @@ func (p *RemoteAccessibilityInputConnectionProxy) SetSelection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
-	_data.WriteInt32(1)
-	if _err := header.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionSetSelection)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/InputConnectionCommandHeader;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(start)
-	_data.WriteInt32(end)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := header.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(start)
+		_data.WriteInt32(end)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := header.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(start)
+			case 2:
+				_data.WriteInt32(end)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionSetSelection)
 	if _err != nil {
@@ -133,16 +185,48 @@ func (p *RemoteAccessibilityInputConnectionProxy) GetSurroundingText(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
-	_data.WriteInt32(1)
-	if _err := header.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionGetSurroundingText)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/InputConnectionCommandHeader;",
+		"I",
+		"I",
+		"I",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(beforeLength)
-	_data.WriteInt32(afterLength)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := future.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := header.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(beforeLength)
+		_data.WriteInt32(afterLength)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(1)
+		if _err := future.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := header.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(beforeLength)
+			case 2:
+				_data.WriteInt32(afterLength)
+			case 3:
+				_data.WriteInt32(flags)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := future.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionGetSurroundingText)
@@ -163,12 +247,35 @@ func (p *RemoteAccessibilityInputConnectionProxy) DeleteSurroundingText(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
-	_data.WriteInt32(1)
-	if _err := header.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionDeleteSurroundingText)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/InputConnectionCommandHeader;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(beforeLength)
-	_data.WriteInt32(afterLength)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := header.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(beforeLength)
+		_data.WriteInt32(afterLength)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := header.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(beforeLength)
+			case 2:
+				_data.WriteInt32(afterLength)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionDeleteSurroundingText)
 	if _err != nil {
@@ -187,13 +294,36 @@ func (p *RemoteAccessibilityInputConnectionProxy) SendKeyEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
-	_data.WriteInt32(1)
-	if _err := header.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionSendKeyEvent)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/InputConnectionCommandHeader;",
+		"Landroid/view/KeyEvent;",
 	}
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := header.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := header.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionSendKeyEvent)
@@ -213,11 +343,31 @@ func (p *RemoteAccessibilityInputConnectionProxy) PerformEditorAction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
-	_data.WriteInt32(1)
-	if _err := header.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionPerformEditorAction)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/InputConnectionCommandHeader;",
+		"I",
 	}
-	_data.WriteInt32(actionCode)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := header.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(actionCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := header.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(actionCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionPerformEditorAction)
 	if _err != nil {
@@ -236,11 +386,31 @@ func (p *RemoteAccessibilityInputConnectionProxy) PerformContextMenuAction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
-	_data.WriteInt32(1)
-	if _err := header.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionPerformContextMenuAction)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/InputConnectionCommandHeader;",
+		"I",
 	}
-	_data.WriteInt32(id)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := header.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := header.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionPerformContextMenuAction)
 	if _err != nil {
@@ -260,14 +430,40 @@ func (p *RemoteAccessibilityInputConnectionProxy) GetCursorCapsMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
-	_data.WriteInt32(1)
-	if _err := header.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionGetCursorCapsMode)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/InputConnectionCommandHeader;",
+		"I",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(reqModes)
-	_data.WriteInt32(1)
-	if _err := future.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := header.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(reqModes)
+		_data.WriteInt32(1)
+		if _err := future.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := header.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(reqModes)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := future.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionGetCursorCapsMode)
@@ -287,11 +483,31 @@ func (p *RemoteAccessibilityInputConnectionProxy) ClearMetaKeyStates(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
-	_data.WriteInt32(1)
-	if _err := header.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionClearMetaKeyStates)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/InputConnectionCommandHeader;",
+		"I",
 	}
-	_data.WriteInt32(states)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := header.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(states)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := header.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(states)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccessibilityInputConnection, MethodIRemoteAccessibilityInputConnectionClearMetaKeyStates)
 	if _err != nil {

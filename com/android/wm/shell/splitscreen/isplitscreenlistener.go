@@ -51,8 +51,25 @@ func (p *SplitScreenListenerProxy) OnStagePositionChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreenListener)
-	_data.WriteInt32(stage)
-	_data.WriteInt32(position)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreenListener, MethodISplitScreenListenerOnStagePositionChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(stage)
+		_data.WriteInt32(position)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(stage)
+			case 1:
+				_data.WriteInt32(position)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreenListener, MethodISplitScreenListenerOnStagePositionChanged)
 	if _err != nil {
@@ -72,9 +89,29 @@ func (p *SplitScreenListenerProxy) OnTaskStageChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreenListener)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(stage)
-	_data.WriteBool(visible)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreenListener, MethodISplitScreenListenerOnTaskStageChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(stage)
+		_data.WriteBool(visible)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			case 1:
+				_data.WriteInt32(stage)
+			case 2:
+				_data.WriteBool(visible)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreenListener, MethodISplitScreenListenerOnTaskStageChanged)
 	if _err != nil {

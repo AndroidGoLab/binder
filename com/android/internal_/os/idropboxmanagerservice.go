@@ -62,9 +62,29 @@ func (p *DropBoxManagerServiceProxy) AddData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDropBoxManagerService)
-	_data.WriteString16(tag)
-	_data.WriteByteArray(data)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceAddData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(tag)
+		_data.WriteByteArray(data)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(tag)
+			case 1:
+				_data.WriteByteArray(data)
+			case 2:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceAddData)
 	if _err != nil {
@@ -93,9 +113,29 @@ func (p *DropBoxManagerServiceProxy) AddFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDropBoxManagerService)
-	_data.WriteString16(tag)
-	_data.WriteParcelFileDescriptor(fd)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceAddFile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(tag)
+		_data.WriteParcelFileDescriptor(fd)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(tag)
+			case 1:
+				_data.WriteParcelFileDescriptor(fd)
+			case 2:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceAddFile)
 	if _err != nil {
@@ -123,7 +163,21 @@ func (p *DropBoxManagerServiceProxy) IsTagEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDropBoxManagerService)
-	_data.WriteString16(tag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceIsTagEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(tag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(tag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceIsTagEnabled)
 	if _err != nil {
@@ -157,9 +211,29 @@ func (p *DropBoxManagerServiceProxy) GetNextEntry(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDropBoxManagerService)
-	_data.WriteString16(tag)
-	_data.WriteInt64(millis)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceGetNextEntry)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(tag)
+		_data.WriteInt64(millis)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(tag)
+			case 1:
+				_data.WriteInt64(millis)
+			case 2:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceGetNextEntry)
 	if _err != nil {
@@ -199,10 +273,33 @@ func (p *DropBoxManagerServiceProxy) GetNextEntryWithAttribution(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDropBoxManagerService)
-	_data.WriteString16(tag)
-	_data.WriteInt64(millis)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceGetNextEntryWithAttribution)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(tag)
+		_data.WriteInt64(millis)
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(tag)
+			case 1:
+				_data.WriteInt64(millis)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceGetNextEntryWithAttribution)
 	if _err != nil {

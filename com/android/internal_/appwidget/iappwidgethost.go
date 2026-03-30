@@ -62,10 +62,30 @@ func (p *AppWidgetHostProxy) UpdateAppWidget(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetHost)
-	_data.WriteInt32(appWidgetId)
-	_data.WriteInt32(1)
-	if _err := views.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppWidgetHost, MethodIAppWidgetHostUpdateAppWidget)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/widget/RemoteViews;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(appWidgetId)
+		_data.WriteInt32(1)
+		if _err := views.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(appWidgetId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := views.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetHost, MethodIAppWidgetHostUpdateAppWidget)
@@ -85,10 +105,30 @@ func (p *AppWidgetHostProxy) ProviderChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetHost)
-	_data.WriteInt32(appWidgetId)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppWidgetHost, MethodIAppWidgetHostProviderChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/appwidget/AppWidgetProviderInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(appWidgetId)
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(appWidgetId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetHost, MethodIAppWidgetHostProviderChanged)
@@ -124,8 +164,25 @@ func (p *AppWidgetHostProxy) ViewDataChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetHost)
-	_data.WriteInt32(appWidgetId)
-	_data.WriteInt32(viewId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppWidgetHost, MethodIAppWidgetHostViewDataChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(appWidgetId)
+		_data.WriteInt32(viewId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(appWidgetId)
+			case 1:
+				_data.WriteInt32(viewId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetHost, MethodIAppWidgetHostViewDataChanged)
 	if _err != nil {
@@ -143,7 +200,21 @@ func (p *AppWidgetHostProxy) AppWidgetRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetHost)
-	_data.WriteInt32(appWidgetId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppWidgetHost, MethodIAppWidgetHostAppWidgetRemoved)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(appWidgetId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(appWidgetId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetHost, MethodIAppWidgetHostAppWidgetRemoved)
 	if _err != nil {

@@ -60,7 +60,21 @@ func (p *SipDelegateConnectionStateCallbackProxy) OnCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateConnectionStateCallback)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipDelegateConnectionStateCallback, MethodISipDelegateConnectionStateCallbackOnCreated)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/aidl/ISipDelegate;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateConnectionStateCallback, MethodISipDelegateConnectionStateCallbackOnCreated)
 	if _err != nil {
@@ -79,18 +93,48 @@ func (p *SipDelegateConnectionStateCallbackProxy) OnFeatureTagStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateConnectionStateCallback)
-	_data.WriteInt32(1)
-	if _err := registrationState.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipDelegateConnectionStateCallback, MethodISipDelegateConnectionStateCallbackOnFeatureTagStatusChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/DelegateRegistrationState;",
+		"Ljava/util/List;",
 	}
-	if deniedFeatureTags == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := registrationState.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if deniedFeatureTags == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(deniedFeatureTags)))
+			for _, _item := range deniedFeatureTags {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(deniedFeatureTags)))
-		for _, _item := range deniedFeatureTags {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := registrationState.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if deniedFeatureTags == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(deniedFeatureTags)))
+					for _, _item := range deniedFeatureTags {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -111,9 +155,26 @@ func (p *SipDelegateConnectionStateCallbackProxy) OnImsConfigurationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateConnectionStateCallback)
-	_data.WriteInt32(1)
-	if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipDelegateConnectionStateCallback, MethodISipDelegateConnectionStateCallbackOnImsConfigurationChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/SipDelegateImsConfiguration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateConnectionStateCallback, MethodISipDelegateConnectionStateCallbackOnImsConfigurationChanged)
@@ -132,9 +193,26 @@ func (p *SipDelegateConnectionStateCallbackProxy) OnConfigurationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateConnectionStateCallback)
-	_data.WriteInt32(1)
-	if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipDelegateConnectionStateCallback, MethodISipDelegateConnectionStateCallbackOnConfigurationChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/SipDelegateConfiguration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateConnectionStateCallback, MethodISipDelegateConnectionStateCallbackOnConfigurationChanged)
@@ -153,7 +231,21 @@ func (p *SipDelegateConnectionStateCallbackProxy) OnDestroyed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateConnectionStateCallback)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipDelegateConnectionStateCallback, MethodISipDelegateConnectionStateCallbackOnDestroyed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateConnectionStateCallback, MethodISipDelegateConnectionStateCallbackOnDestroyed)
 	if _err != nil {

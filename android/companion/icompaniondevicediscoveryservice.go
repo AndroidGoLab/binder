@@ -54,15 +54,44 @@ func (p *CompanionDeviceDiscoveryServiceProxy) StartDiscovery(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceDiscoveryService)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceDiscoveryService, MethodICompanionDeviceDiscoveryServiceStartDiscovery)
+	_compiledDescs := []string{
+		"Landroid/companion/AssociationRequest;",
+		"Ljava/lang/String;",
+		"Landroid/companion/IAssociationRequestCallback;",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteString16(_identity.PackageName)
-	binder.WriteBinderToParcel(ctx, _data, applicationCallback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := serviceCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+		binder.WriteBinderToParcel(ctx, _data, applicationCallback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := serviceCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, applicationCallback.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(1)
+				if _err := serviceCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceDiscoveryService, MethodICompanionDeviceDiscoveryServiceStartDiscovery)

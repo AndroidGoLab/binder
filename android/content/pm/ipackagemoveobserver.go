@@ -52,10 +52,30 @@ func (p *PackageMoveObserverProxy) OnCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageMoveObserver)
-	_data.WriteInt32(moveId)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageMoveObserver, MethodIPackageMoveObserverOnCreated)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(moveId)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(moveId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageMoveObserver, MethodIPackageMoveObserverOnCreated)
@@ -76,9 +96,29 @@ func (p *PackageMoveObserverProxy) OnStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageMoveObserver)
-	_data.WriteInt32(moveId)
-	_data.WriteInt32(status)
-	_data.WriteInt64(estMillis)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageMoveObserver, MethodIPackageMoveObserverOnStatusChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(moveId)
+		_data.WriteInt32(status)
+		_data.WriteInt64(estMillis)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(moveId)
+			case 1:
+				_data.WriteInt32(status)
+			case 2:
+				_data.WriteInt64(estMillis)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageMoveObserver, MethodIPackageMoveObserverOnStatusChanged)
 	if _err != nil {

@@ -61,15 +61,42 @@ func (p *SipDelegateStateCallbackProxy) OnCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateStateCallback)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
-	if deniedFeatureTags == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnCreated)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/aidl/ISipDelegate;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+		if deniedFeatureTags == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(deniedFeatureTags)))
+			for _, _item := range deniedFeatureTags {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(deniedFeatureTags)))
-		for _, _item := range deniedFeatureTags {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+			case 1:
+				if deniedFeatureTags == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(deniedFeatureTags)))
+					for _, _item := range deniedFeatureTags {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -90,9 +117,26 @@ func (p *SipDelegateStateCallbackProxy) OnFeatureTagRegistrationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateStateCallback)
-	_data.WriteInt32(1)
-	if _err := registrationState.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnFeatureTagRegistrationChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/DelegateRegistrationState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := registrationState.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := registrationState.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnFeatureTagRegistrationChanged)
@@ -111,9 +155,26 @@ func (p *SipDelegateStateCallbackProxy) OnImsConfigurationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateStateCallback)
-	_data.WriteInt32(1)
-	if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnImsConfigurationChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/SipDelegateImsConfiguration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnImsConfigurationChanged)
@@ -132,9 +193,26 @@ func (p *SipDelegateStateCallbackProxy) OnConfigurationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateStateCallback)
-	_data.WriteInt32(1)
-	if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnConfigurationChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/SipDelegateConfiguration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnConfigurationChanged)
@@ -153,7 +231,21 @@ func (p *SipDelegateStateCallbackProxy) OnDestroyed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateStateCallback)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnDestroyed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnDestroyed)
 	if _err != nil {

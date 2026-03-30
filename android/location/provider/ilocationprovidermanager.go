@@ -65,12 +65,35 @@ func (p *LocationProviderManagerProxy) OnInitialize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
-	_data.WriteBool(allowed)
-	_data.WriteInt32(1)
-	if _err := properties.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnInitialize)
+	_compiledDescs := []string{
+		"Z",
+		"Landroid/location/provider/ProviderProperties;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.AttributionTag)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(allowed)
+		_data.WriteInt32(1)
+		if _err := properties.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(allowed)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := properties.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnInitialize)
 	if _err != nil {
@@ -97,7 +120,21 @@ func (p *LocationProviderManagerProxy) OnSetAllowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
-	_data.WriteBool(allowed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnSetAllowed)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(allowed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(allowed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnSetAllowed)
 	if _err != nil {
@@ -124,9 +161,26 @@ func (p *LocationProviderManagerProxy) OnSetProperties(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
-	_data.WriteInt32(1)
-	if _err := properties.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnSetProperties)
+	_compiledDescs := []string{
+		"Landroid/location/provider/ProviderProperties;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := properties.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := properties.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnSetProperties)
@@ -154,9 +208,26 @@ func (p *LocationProviderManagerProxy) OnReportLocation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
-	_data.WriteInt32(1)
-	if _err := location.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnReportLocation)
+	_compiledDescs := []string{
+		"Landroid/location/Location;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := location.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := location.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnReportLocation)
@@ -184,14 +255,38 @@ func (p *LocationProviderManagerProxy) OnReportLocations(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
-	if locations == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnReportLocations)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if locations == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(locations)))
+			for _, _item := range locations {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(locations)))
-		for _, _item := range locations {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if locations == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(locations)))
+					for _, _item := range locations {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

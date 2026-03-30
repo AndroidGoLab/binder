@@ -47,7 +47,21 @@ func (p *BackAnimationFinishedCallbackProxy) OnAnimationFinished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackAnimationFinishedCallback)
-	_data.WriteBool(triggerBack)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackAnimationFinishedCallback, MethodIBackAnimationFinishedCallbackOnAnimationFinished)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(triggerBack)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(triggerBack)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackAnimationFinishedCallback, MethodIBackAnimationFinishedCallbackOnAnimationFinished)
 	if _err != nil {

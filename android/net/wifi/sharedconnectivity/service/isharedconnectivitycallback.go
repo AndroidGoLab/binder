@@ -63,14 +63,38 @@ func (p *SharedConnectivityCallbackProxy) OnHotspotNetworksUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
-	if networks == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnHotspotNetworksUpdated)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if networks == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(networks)))
+			for _, _item := range networks {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(networks)))
-		for _, _item := range networks {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if networks == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(networks)))
+					for _, _item := range networks {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -91,9 +115,26 @@ func (p *SharedConnectivityCallbackProxy) OnHotspotNetworkConnectionStatusChange
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
-	_data.WriteInt32(1)
-	if _err := status.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnHotspotNetworkConnectionStatusChanged)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/sharedconnectivity/app/HotspotNetworkConnectionStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := status.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := status.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnHotspotNetworkConnectionStatusChanged)
@@ -112,14 +153,38 @@ func (p *SharedConnectivityCallbackProxy) OnKnownNetworksUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
-	if networks == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnKnownNetworksUpdated)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if networks == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(networks)))
+			for _, _item := range networks {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(networks)))
-		for _, _item := range networks {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if networks == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(networks)))
+					for _, _item := range networks {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -140,9 +205,26 @@ func (p *SharedConnectivityCallbackProxy) OnKnownNetworkConnectionStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
-	_data.WriteInt32(1)
-	if _err := status.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnKnownNetworkConnectionStatusChanged)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/sharedconnectivity/app/KnownNetworkConnectionStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := status.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := status.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnKnownNetworkConnectionStatusChanged)
@@ -161,9 +243,26 @@ func (p *SharedConnectivityCallbackProxy) OnSharedConnectivitySettingsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
-	_data.WriteInt32(1)
-	if _err := state.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnSharedConnectivitySettingsChanged)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/sharedconnectivity/app/SharedConnectivitySettingsState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := state.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := state.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnSharedConnectivitySettingsChanged)

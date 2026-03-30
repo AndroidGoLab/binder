@@ -60,11 +60,37 @@ func (p *ImsSmsListenerProxy) OnSendSmsResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsSmsListener)
-	_data.WriteInt32(token)
-	_data.WriteInt32(messageRef)
-	_data.WriteInt32(status)
-	_data.WriteInt32(reason)
-	_data.WriteInt32(networkErrorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsSmsListener, MethodIImsSmsListenerOnSendSmsResult)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(token)
+		_data.WriteInt32(messageRef)
+		_data.WriteInt32(status)
+		_data.WriteInt32(reason)
+		_data.WriteInt32(networkErrorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(token)
+			case 1:
+				_data.WriteInt32(messageRef)
+			case 2:
+				_data.WriteInt32(status)
+			case 3:
+				_data.WriteInt32(reason)
+			case 4:
+				_data.WriteInt32(networkErrorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsSmsListener, MethodIImsSmsListenerOnSendSmsResult)
 	if _err != nil {
@@ -84,9 +110,29 @@ func (p *ImsSmsListenerProxy) OnSmsStatusReportReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsSmsListener)
-	_data.WriteInt32(token)
-	_data.WriteString16(format)
-	_data.WriteByteArray(pdu)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsSmsListener, MethodIImsSmsListenerOnSmsStatusReportReceived)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(token)
+		_data.WriteString16(format)
+		_data.WriteByteArray(pdu)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(token)
+			case 1:
+				_data.WriteString16(format)
+			case 2:
+				_data.WriteByteArray(pdu)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsSmsListener, MethodIImsSmsListenerOnSmsStatusReportReceived)
 	if _err != nil {
@@ -106,9 +152,29 @@ func (p *ImsSmsListenerProxy) OnSmsReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsSmsListener)
-	_data.WriteInt32(token)
-	_data.WriteString16(format)
-	_data.WriteByteArray(pdu)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsSmsListener, MethodIImsSmsListenerOnSmsReceived)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(token)
+		_data.WriteString16(format)
+		_data.WriteByteArray(pdu)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(token)
+			case 1:
+				_data.WriteString16(format)
+			case 2:
+				_data.WriteByteArray(pdu)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsSmsListener, MethodIImsSmsListenerOnSmsReceived)
 	if _err != nil {
@@ -128,9 +194,29 @@ func (p *ImsSmsListenerProxy) OnMemoryAvailableResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsSmsListener)
-	_data.WriteInt32(token)
-	_data.WriteInt32(status)
-	_data.WriteInt32(networkErrorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsSmsListener, MethodIImsSmsListenerOnMemoryAvailableResult)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(token)
+		_data.WriteInt32(status)
+		_data.WriteInt32(networkErrorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(token)
+			case 1:
+				_data.WriteInt32(status)
+			case 2:
+				_data.WriteInt32(networkErrorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsSmsListener, MethodIImsSmsListenerOnMemoryAvailableResult)
 	if _err != nil {

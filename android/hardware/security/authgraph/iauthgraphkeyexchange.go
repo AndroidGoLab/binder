@@ -95,16 +95,45 @@ func (p *AuthGraphKeyExchangeProxy) Init(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthGraphKeyExchange)
-	_data.WriteInt32(1)
-	if _err := peerPubKey.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeInit)
+	_compiledDescs := []string{
+		"Landroid/hardware/security/authgraph/PubKey;",
+		"Landroid/hardware/security/authgraph/Identity;",
+		"[B",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := peerId.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := peerPubKey.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := peerId.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteByteArray(peerNonce)
+		_data.WriteInt32(peerVersion)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := peerPubKey.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := peerId.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteByteArray(peerNonce)
+			case 3:
+				_data.WriteInt32(peerVersion)
+			}
+		}
 	}
-	_data.WriteByteArray(peerNonce)
-	_data.WriteInt32(peerVersion)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeInit)
 	if _err != nil {
@@ -146,23 +175,64 @@ func (p *AuthGraphKeyExchangeProxy) Finish(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthGraphKeyExchange)
-	_data.WriteInt32(1)
-	if _err := peerPubKey.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeFinish)
+	_compiledDescs := []string{
+		"Landroid/hardware/security/authgraph/PubKey;",
+		"Landroid/hardware/security/authgraph/Identity;",
+		"Landroid/hardware/security/authgraph/SessionIdSignature;",
+		"[B",
+		"I",
+		"Landroid/hardware/security/authgraph/Key;",
 	}
-	_data.WriteInt32(1)
-	if _err := peerId.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(1)
-	if _err := peerSignature.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteByteArray(peerNonce)
-	_data.WriteInt32(peerVersion)
-	_data.WriteInt32(1)
-	if _err := ownKey.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := peerPubKey.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := peerId.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := peerSignature.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteByteArray(peerNonce)
+		_data.WriteInt32(peerVersion)
+		_data.WriteInt32(1)
+		if _err := ownKey.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := peerPubKey.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := peerId.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := peerSignature.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteByteArray(peerNonce)
+			case 4:
+				_data.WriteInt32(peerVersion)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := ownKey.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeFinish)
@@ -201,18 +271,48 @@ func (p *AuthGraphKeyExchangeProxy) AuthenticationComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthGraphKeyExchange)
-	_data.WriteInt32(1)
-	if _err := peerSignature.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeAuthenticationComplete)
+	_compiledDescs := []string{
+		"Landroid/hardware/security/authgraph/SessionIdSignature;",
+		"[Landroid/hardware/security/authgraph/Arc;",
 	}
-	if sharedKeys == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := peerSignature.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		if sharedKeys == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(sharedKeys)))
+			for _, _item := range sharedKeys {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(sharedKeys)))
-		for _, _item := range sharedKeys {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := peerSignature.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				if sharedKeys == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(sharedKeys)))
+					for _, _item := range sharedKeys {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}

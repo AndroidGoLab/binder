@@ -116,10 +116,33 @@ func (p *VirtualTouchpadServiceProxy) Touch(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualTouchpadService)
-	_data.WriteInt32(touchpad)
-	_data.WriteFloat32(x)
-	_data.WriteFloat32(y)
-	_data.WriteFloat32(pressure)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualTouchpadService, MethodIVirtualTouchpadServiceTouch)
+	_compiledDescs := []string{
+		"I",
+		"F",
+		"F",
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(touchpad)
+		_data.WriteFloat32(x)
+		_data.WriteFloat32(y)
+		_data.WriteFloat32(pressure)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(touchpad)
+			case 1:
+				_data.WriteFloat32(x)
+			case 2:
+				_data.WriteFloat32(y)
+			case 3:
+				_data.WriteFloat32(pressure)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualTouchpadService, MethodIVirtualTouchpadServiceTouch)
 	if _err != nil {
@@ -147,8 +170,25 @@ func (p *VirtualTouchpadServiceProxy) ButtonState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualTouchpadService)
-	_data.WriteInt32(touchpad)
-	_data.WriteInt32(buttons)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualTouchpadService, MethodIVirtualTouchpadServiceButtonState)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(touchpad)
+		_data.WriteInt32(buttons)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(touchpad)
+			case 1:
+				_data.WriteInt32(buttons)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualTouchpadService, MethodIVirtualTouchpadServiceButtonState)
 	if _err != nil {
@@ -177,9 +217,29 @@ func (p *VirtualTouchpadServiceProxy) Scroll(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualTouchpadService)
-	_data.WriteInt32(touchpad)
-	_data.WriteFloat32(x)
-	_data.WriteFloat32(y)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualTouchpadService, MethodIVirtualTouchpadServiceScroll)
+	_compiledDescs := []string{
+		"I",
+		"F",
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(touchpad)
+		_data.WriteFloat32(x)
+		_data.WriteFloat32(y)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(touchpad)
+			case 1:
+				_data.WriteFloat32(x)
+			case 2:
+				_data.WriteFloat32(y)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualTouchpadService, MethodIVirtualTouchpadServiceScroll)
 	if _err != nil {

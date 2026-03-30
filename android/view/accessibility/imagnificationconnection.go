@@ -83,13 +83,45 @@ func (p *MagnificationConnectionProxy) EnableWindowMagnification(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
-	_data.WriteInt32(displayId)
-	_data.WriteFloat32(scale)
-	_data.WriteFloat32(centerX)
-	_data.WriteFloat32(centerY)
-	_data.WriteFloat32(magnificationFrameOffsetRatioX)
-	_data.WriteFloat32(magnificationFrameOffsetRatioY)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionEnableWindowMagnification)
+	_compiledDescs := []string{
+		"I",
+		"F",
+		"F",
+		"F",
+		"F",
+		"F",
+		"Landroid/view/accessibility/IRemoteMagnificationAnimationCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteFloat32(scale)
+		_data.WriteFloat32(centerX)
+		_data.WriteFloat32(centerY)
+		_data.WriteFloat32(magnificationFrameOffsetRatioX)
+		_data.WriteFloat32(magnificationFrameOffsetRatioY)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteFloat32(scale)
+			case 2:
+				_data.WriteFloat32(centerX)
+			case 3:
+				_data.WriteFloat32(centerY)
+			case 4:
+				_data.WriteFloat32(magnificationFrameOffsetRatioX)
+			case 5:
+				_data.WriteFloat32(magnificationFrameOffsetRatioY)
+			case 6:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionEnableWindowMagnification)
 	if _err != nil {
@@ -108,8 +140,25 @@ func (p *MagnificationConnectionProxy) SetScaleForWindowMagnification(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
-	_data.WriteInt32(displayId)
-	_data.WriteFloat32(scale)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionSetScaleForWindowMagnification)
+	_compiledDescs := []string{
+		"I",
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteFloat32(scale)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteFloat32(scale)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionSetScaleForWindowMagnification)
 	if _err != nil {
@@ -128,8 +177,25 @@ func (p *MagnificationConnectionProxy) DisableWindowMagnification(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
-	_data.WriteInt32(displayId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionDisableWindowMagnification)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/view/accessibility/IRemoteMagnificationAnimationCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionDisableWindowMagnification)
 	if _err != nil {
@@ -149,9 +215,29 @@ func (p *MagnificationConnectionProxy) MoveWindowMagnifier(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
-	_data.WriteInt32(displayId)
-	_data.WriteFloat32(offsetX)
-	_data.WriteFloat32(offsetY)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionMoveWindowMagnifier)
+	_compiledDescs := []string{
+		"I",
+		"F",
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteFloat32(offsetX)
+		_data.WriteFloat32(offsetY)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteFloat32(offsetX)
+			case 2:
+				_data.WriteFloat32(offsetY)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionMoveWindowMagnifier)
 	if _err != nil {
@@ -172,10 +258,33 @@ func (p *MagnificationConnectionProxy) MoveWindowMagnifierToPosition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
-	_data.WriteInt32(displayId)
-	_data.WriteFloat32(positionX)
-	_data.WriteFloat32(positionY)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionMoveWindowMagnifierToPosition)
+	_compiledDescs := []string{
+		"I",
+		"F",
+		"F",
+		"Landroid/view/accessibility/IRemoteMagnificationAnimationCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteFloat32(positionX)
+		_data.WriteFloat32(positionY)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteFloat32(positionX)
+			case 2:
+				_data.WriteFloat32(positionY)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionMoveWindowMagnifierToPosition)
 	if _err != nil {
@@ -194,8 +303,25 @@ func (p *MagnificationConnectionProxy) ShowMagnificationButton(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(magnificationMode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionShowMagnificationButton)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(magnificationMode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteInt32(magnificationMode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionShowMagnificationButton)
 	if _err != nil {
@@ -213,7 +339,21 @@ func (p *MagnificationConnectionProxy) RemoveMagnificationButton(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionRemoveMagnificationButton)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionRemoveMagnificationButton)
 	if _err != nil {
@@ -231,7 +371,21 @@ func (p *MagnificationConnectionProxy) RemoveMagnificationSettingsPanel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionRemoveMagnificationSettingsPanel)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionRemoveMagnificationSettingsPanel)
 	if _err != nil {
@@ -249,7 +403,21 @@ func (p *MagnificationConnectionProxy) SetConnectionCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionSetConnectionCallback)
+	_compiledDescs := []string{
+		"Landroid/view/accessibility/IMagnificationConnectionCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionSetConnectionCallback)
 	if _err != nil {
@@ -269,9 +437,29 @@ func (p *MagnificationConnectionProxy) OnUserMagnificationScaleChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(displayId)
-	_data.WriteFloat32(scale)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionOnUserMagnificationScaleChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(displayId)
+		_data.WriteFloat32(scale)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(displayId)
+			case 2:
+				_data.WriteFloat32(scale)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionOnUserMagnificationScaleChanged)
 	if _err != nil {
@@ -290,8 +478,25 @@ func (p *MagnificationConnectionProxy) OnFullscreenMagnificationActivationChange
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
-	_data.WriteInt32(displayId)
-	_data.WriteBool(activated)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionOnFullscreenMagnificationActivationChanged)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteBool(activated)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteBool(activated)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnection, MethodIMagnificationConnectionOnFullscreenMagnificationActivationChanged)
 	if _err != nil {

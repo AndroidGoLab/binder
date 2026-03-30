@@ -53,14 +53,46 @@ func (p *CommandReceiverProxy) SendCommand(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICommandReceiver)
-	_data.WriteInt32(command)
-	_data.WriteInt32(seq)
-	_data.WriteString16(sourcePackage)
-	_data.WriteString16(targetPackage)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := bundle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICommandReceiver, MethodICommandReceiverSendCommand)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(command)
+		_data.WriteInt32(seq)
+		_data.WriteString16(sourcePackage)
+		_data.WriteString16(targetPackage)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(1)
+		if _err := bundle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(command)
+			case 1:
+				_data.WriteInt32(seq)
+			case 2:
+				_data.WriteString16(sourcePackage)
+			case 3:
+				_data.WriteString16(targetPackage)
+			case 4:
+				_data.WriteInt32(flags)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := bundle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICommandReceiver, MethodICommandReceiverSendCommand)

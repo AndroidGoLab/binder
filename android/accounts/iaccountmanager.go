@@ -185,9 +185,26 @@ func (p *AccountManagerProxy) GetPassword(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerGetPassword)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetPassword)
@@ -221,11 +238,31 @@ func (p *AccountManagerProxy) GetUserData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerGetUserData)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(key)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(key)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(key)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetUserData)
 	if _err != nil {
@@ -257,7 +294,21 @@ func (p *AccountManagerProxy) GetAuthenticatorTypes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerGetAuthenticatorTypes)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetAuthenticatorTypes)
 	if _err != nil {
@@ -323,9 +374,29 @@ func (p *AccountManagerProxy) GetAccountsForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(uid)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerGetAccountsForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(uid)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetAccountsForPackage)
 	if _err != nil {
@@ -391,9 +462,29 @@ func (p *AccountManagerProxy) GetAccountsByTypeForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteString16(type_)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerGetAccountsByTypeForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(type_)
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(type_)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetAccountsByTypeForPackage)
 	if _err != nil {
@@ -458,9 +549,29 @@ func (p *AccountManagerProxy) GetAccountsAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteString16(accountType)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerGetAccountsAsUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(accountType)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(accountType)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetAccountsAsUser)
 	if _err != nil {
@@ -526,21 +637,57 @@ func (p *AccountManagerProxy) HasFeatures(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerHasFeatures)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Landroid/accounts/Account;",
+		"[Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
 	}
-	if features == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if features == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(features)))
+			for _, _item := range features {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
 	} else {
-		_data.WriteInt32(int32(len(features)))
-		for _, _item := range features {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				if features == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(features)))
+					for _, _item := range features {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				_data.WriteString16(_identity.PackageName)
+			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerHasFeatures)
 	if _err != nil {
@@ -570,17 +717,47 @@ func (p *AccountManagerProxy) GetAccountByTypeAndFeatures(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(accountType)
-	if features == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerGetAccountByTypeAndFeatures)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(accountType)
+		if features == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(features)))
+			for _, _item := range features {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteString16(_identity.PackageName)
 	} else {
-		_data.WriteInt32(int32(len(features)))
-		for _, _item := range features {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(accountType)
+			case 2:
+				if features == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(features)))
+					for _, _item := range features {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
 		}
 	}
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetAccountByTypeAndFeatures)
 	if _err != nil {
@@ -610,17 +787,47 @@ func (p *AccountManagerProxy) GetAccountsByFeatures(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(accountType)
-	if features == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerGetAccountsByFeatures)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(accountType)
+		if features == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(features)))
+			for _, _item := range features {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteString16(_identity.PackageName)
 	} else {
-		_data.WriteInt32(int32(len(features)))
-		for _, _item := range features {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(accountType)
+			case 2:
+				if features == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(features)))
+					for _, _item := range features {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
 		}
 	}
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetAccountsByFeatures)
 	if _err != nil {
@@ -651,16 +858,45 @@ func (p *AccountManagerProxy) AddAccountExplicitly(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerAddAccountExplicitly)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(password)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(password)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(password)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
 	}
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerAddAccountExplicitly)
 	if _err != nil {
@@ -694,13 +930,39 @@ func (p *AccountManagerProxy) RemoveAccountAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerRemoveAccountAsUser)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Landroid/accounts/Account;",
+		"Z",
+		"I",
 	}
-	_data.WriteBool(expectActivityLaunch)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(expectActivityLaunch)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteBool(expectActivityLaunch)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerRemoveAccountAsUser)
 	if _err != nil {
@@ -728,9 +990,26 @@ func (p *AccountManagerProxy) RemoveAccountExplicitly(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerRemoveAccountExplicitly)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerRemoveAccountExplicitly)
@@ -765,13 +1044,39 @@ func (p *AccountManagerProxy) CopyAccountToUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerCopyAccountToUser)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Landroid/accounts/Account;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(userFrom)
-	_data.WriteInt32(userTo)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(userFrom)
+		_data.WriteInt32(userTo)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(userFrom)
+			case 3:
+				_data.WriteInt32(userTo)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerCopyAccountToUser)
 	if _err != nil {
@@ -799,8 +1104,25 @@ func (p *AccountManagerProxy) InvalidateAuthToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteString16(accountType)
-	_data.WriteString16(authToken)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerInvalidateAuthToken)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(accountType)
+		_data.WriteString16(authToken)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(accountType)
+			case 1:
+				_data.WriteString16(authToken)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerInvalidateAuthToken)
 	if _err != nil {
@@ -829,11 +1151,31 @@ func (p *AccountManagerProxy) PeekAuthToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerPeekAuthToken)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(authTokenType)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(authTokenType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(authTokenType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerPeekAuthToken)
 	if _err != nil {
@@ -866,12 +1208,35 @@ func (p *AccountManagerProxy) SetAuthToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerSetAuthToken)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(authTokenType)
-	_data.WriteString16(authToken)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(authTokenType)
+		_data.WriteString16(authToken)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(authTokenType)
+			case 2:
+				_data.WriteString16(authToken)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerSetAuthToken)
 	if _err != nil {
@@ -899,11 +1264,31 @@ func (p *AccountManagerProxy) SetPassword(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerSetPassword)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(password)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(password)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(password)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerSetPassword)
 	if _err != nil {
@@ -930,9 +1315,26 @@ func (p *AccountManagerProxy) ClearPassword(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerClearPassword)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerClearPassword)
@@ -962,12 +1364,35 @@ func (p *AccountManagerProxy) SetUserData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerSetUserData)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(key)
-	_data.WriteString16(value)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(key)
+		_data.WriteString16(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(key)
+			case 2:
+				_data.WriteString16(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerSetUserData)
 	if _err != nil {
@@ -997,13 +1422,39 @@ func (p *AccountManagerProxy) UpdateAppPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerUpdateAppPermission)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
 	}
-	_data.WriteString16(authTokenType)
-	_data.WriteInt32(uid)
-	_data.WriteBool(value)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(authTokenType)
+		_data.WriteInt32(uid)
+		_data.WriteBool(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(authTokenType)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteBool(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerUpdateAppPermission)
 	if _err != nil {
@@ -1035,17 +1486,52 @@ func (p *AccountManagerProxy) GetAuthToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerGetAuthToken)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteString16(authTokenType)
-	_data.WriteBool(notifyOnAuthFailure)
-	_data.WriteBool(expectActivityLaunch)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(authTokenType)
+		_data.WriteBool(notifyOnAuthFailure)
+		_data.WriteBool(expectActivityLaunch)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(authTokenType)
+			case 3:
+				_data.WriteBool(notifyOnAuthFailure)
+			case 4:
+				_data.WriteBool(expectActivityLaunch)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetAuthToken)
@@ -1078,21 +1564,60 @@ func (p *AccountManagerProxy) AddAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(accountType)
-	_data.WriteString16(authTokenType)
-	if requiredFeatures == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(requiredFeatures)))
-		for _, _item := range requiredFeatures {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerAddAccount)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"Z",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteBool(expectActivityLaunch)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(accountType)
+		_data.WriteString16(authTokenType)
+		if requiredFeatures == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(requiredFeatures)))
+			for _, _item := range requiredFeatures {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteBool(expectActivityLaunch)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(accountType)
+			case 2:
+				_data.WriteString16(authTokenType)
+			case 3:
+				if requiredFeatures == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(requiredFeatures)))
+					for _, _item := range requiredFeatures {
+						_data.WriteString16(_item)
+					}
+				}
+			case 4:
+				_data.WriteBool(expectActivityLaunch)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerAddAccount)
@@ -1126,23 +1651,65 @@ func (p *AccountManagerProxy) AddAccountAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(accountType)
-	_data.WriteString16(authTokenType)
-	if requiredFeatures == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerAddAccountAsUser)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"Z",
+		"Landroid/os/Bundle;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(accountType)
+		_data.WriteString16(authTokenType)
+		if requiredFeatures == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(requiredFeatures)))
+			for _, _item := range requiredFeatures {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteBool(expectActivityLaunch)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(requiredFeatures)))
-		for _, _item := range requiredFeatures {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(accountType)
+			case 2:
+				_data.WriteString16(authTokenType)
+			case 3:
+				if requiredFeatures == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(requiredFeatures)))
+					for _, _item := range requiredFeatures {
+						_data.WriteString16(_item)
+					}
+				}
+			case 4:
+				_data.WriteBool(expectActivityLaunch)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				_data.WriteInt32(_identity.UserID)
+			}
 		}
 	}
-	_data.WriteBool(expectActivityLaunch)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerAddAccountAsUser)
 	if _err != nil {
@@ -1173,16 +1740,48 @@ func (p *AccountManagerProxy) UpdateCredentials(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerUpdateCredentials)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Z",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteString16(authTokenType)
-	_data.WriteBool(expectActivityLaunch)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(authTokenType)
+		_data.WriteBool(expectActivityLaunch)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(authTokenType)
+			case 3:
+				_data.WriteBool(expectActivityLaunch)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerUpdateCredentials)
@@ -1212,9 +1811,29 @@ func (p *AccountManagerProxy) EditProperties(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(accountType)
-	_data.WriteBool(expectActivityLaunch)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerEditProperties)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(accountType)
+		_data.WriteBool(expectActivityLaunch)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(accountType)
+			case 2:
+				_data.WriteBool(expectActivityLaunch)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerEditProperties)
 	if _err != nil {
@@ -1245,17 +1864,49 @@ func (p *AccountManagerProxy) ConfirmCredentialsAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerConfirmCredentialsAsUser)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Landroid/accounts/Account;",
+		"Landroid/os/Bundle;",
+		"Z",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(expectActivityLaunch)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteBool(expectActivityLaunch)
+			case 4:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
 	}
-	_data.WriteBool(expectActivityLaunch)
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerConfirmCredentialsAsUser)
 	if _err != nil {
@@ -1283,9 +1934,26 @@ func (p *AccountManagerProxy) AccountAuthenticated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerAccountAuthenticated)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerAccountAuthenticated)
@@ -1319,9 +1987,29 @@ func (p *AccountManagerProxy) GetAuthTokenLabel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(accountType)
-	_data.WriteString16(authTokenType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerGetAuthTokenLabel)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(accountType)
+		_data.WriteString16(authTokenType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(accountType)
+			case 2:
+				_data.WriteString16(authTokenType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetAuthTokenLabel)
 	if _err != nil {
@@ -1349,9 +2037,29 @@ func (p *AccountManagerProxy) AddSharedAccountsFromParentUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(parentUserId)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerAddSharedAccountsFromParentUser)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(parentUserId)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(parentUserId)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerAddSharedAccountsFromParentUser)
 	if _err != nil {
@@ -1380,12 +2088,35 @@ func (p *AccountManagerProxy) RenameAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := accountToRename.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerRenameAccount)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(newName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := accountToRename.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(newName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := accountToRename.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(newName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerRenameAccount)
 	if _err != nil {
@@ -1413,9 +2144,26 @@ func (p *AccountManagerProxy) GetPreviousName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerGetPreviousName)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetPreviousName)
@@ -1452,21 +2200,60 @@ func (p *AccountManagerProxy) StartAddAccountSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(accountType)
-	_data.WriteString16(authTokenType)
-	if requiredFeatures == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(requiredFeatures)))
-		for _, _item := range requiredFeatures {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerStartAddAccountSession)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"Z",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteBool(expectActivityLaunch)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(accountType)
+		_data.WriteString16(authTokenType)
+		if requiredFeatures == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(requiredFeatures)))
+			for _, _item := range requiredFeatures {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteBool(expectActivityLaunch)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(accountType)
+			case 2:
+				_data.WriteString16(authTokenType)
+			case 3:
+				if requiredFeatures == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(requiredFeatures)))
+					for _, _item := range requiredFeatures {
+						_data.WriteString16(_item)
+					}
+				}
+			case 4:
+				_data.WriteBool(expectActivityLaunch)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerStartAddAccountSession)
@@ -1498,16 +2285,48 @@ func (p *AccountManagerProxy) StartUpdateCredentialsSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerStartUpdateCredentialsSession)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Z",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteString16(authTokenType)
-	_data.WriteBool(expectActivityLaunch)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(authTokenType)
+		_data.WriteBool(expectActivityLaunch)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(authTokenType)
+			case 3:
+				_data.WriteBool(expectActivityLaunch)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerStartUpdateCredentialsSession)
@@ -1539,17 +2358,49 @@ func (p *AccountManagerProxy) FinishSessionAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := sessionBundle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerFinishSessionAsUser)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Landroid/os/Bundle;",
+		"Z",
+		"Landroid/os/Bundle;",
+		"I",
 	}
-	_data.WriteBool(expectActivityLaunch)
-	_data.WriteInt32(1)
-	if _err := appInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := sessionBundle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(expectActivityLaunch)
+		_data.WriteInt32(1)
+		if _err := appInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := sessionBundle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteBool(expectActivityLaunch)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := appInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerFinishSessionAsUser)
 	if _err != nil {
@@ -1577,9 +2428,26 @@ func (p *AccountManagerProxy) SomeUserHasAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerSomeUserHasAccount)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerSomeUserHasAccount)
@@ -1613,12 +2481,35 @@ func (p *AccountManagerProxy) IsCredentialsUpdateSuggested(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerIsCredentialsUpdateSuggested)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountManagerResponse;",
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(statusToken)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(statusToken)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(statusToken)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerIsCredentialsUpdateSuggested)
 	if _err != nil {
@@ -1646,9 +2537,26 @@ func (p *AccountManagerProxy) GetPackagesAndVisibilityForAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerGetPackagesAndVisibilityForAccount)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetPackagesAndVisibilityForAccount)
@@ -1701,25 +2609,65 @@ func (p *AccountManagerProxy) AddAccountExplicitlyWithVisibility(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerAddAccountExplicitlyWithVisibility)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"Ljava/util/Map;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(password)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	if visibility == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(password)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		if visibility == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(visibility)))
+			for _k, _v := range visibility {
+				_data.WriteString16(_k.(string))
+				_data.WriteString16(_v.(string))
+			}
+		}
+		_data.WriteString16(_identity.PackageName)
 	} else {
-		_data.WriteInt32(int32(len(visibility)))
-		for _k, _v := range visibility {
-			_data.WriteString16(_k.(string))
-			_data.WriteString16(_v.(string))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(password)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				if visibility == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(visibility)))
+					for _k, _v := range visibility {
+						_data.WriteString16(_k.(string))
+						_data.WriteString16(_v.(string))
+					}
+				}
+			case 4:
+				_data.WriteString16(_identity.PackageName)
+			}
 		}
 	}
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerAddAccountExplicitlyWithVisibility)
 	if _err != nil {
@@ -1753,12 +2701,35 @@ func (p *AccountManagerProxy) SetAccountVisibility(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := a.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerSetAccountVisibility)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(newVisibility)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := a.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(newVisibility)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := a.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(newVisibility)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerSetAccountVisibility)
 	if _err != nil {
@@ -1791,11 +2762,31 @@ func (p *AccountManagerProxy) GetAccountVisibility(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := a.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerGetAccountVisibility)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := a.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := a.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetAccountVisibility)
 	if _err != nil {
@@ -1828,8 +2819,25 @@ func (p *AccountManagerProxy) GetAccountsAndVisibilityForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(accountType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerGetAccountsAndVisibilityForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(accountType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(accountType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetAccountsAndVisibilityForPackage)
 	if _err != nil {
@@ -1877,15 +2885,39 @@ func (p *AccountManagerProxy) RegisterAccountListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	if accountTypes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerRegisterAccountListener)
+	_compiledDescs := []string{
+		"[Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if accountTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(accountTypes)))
+			for _, _item := range accountTypes {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteString16(_identity.PackageName)
 	} else {
-		_data.WriteInt32(int32(len(accountTypes)))
-		for _, _item := range accountTypes {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if accountTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(accountTypes)))
+					for _, _item := range accountTypes {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
 		}
 	}
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerRegisterAccountListener)
 	if _err != nil {
@@ -1913,15 +2945,39 @@ func (p *AccountManagerProxy) UnregisterAccountListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	if accountTypes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerUnregisterAccountListener)
+	_compiledDescs := []string{
+		"[Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if accountTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(accountTypes)))
+			for _, _item := range accountTypes {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteString16(_identity.PackageName)
 	} else {
-		_data.WriteInt32(int32(len(accountTypes)))
-		for _, _item := range accountTypes {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if accountTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(accountTypes)))
+					for _, _item := range accountTypes {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
 		}
 	}
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerUnregisterAccountListener)
 	if _err != nil {
@@ -1951,14 +3007,40 @@ func (p *AccountManagerProxy) HasAccountAccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerHasAccountAccess)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := userHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := userHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerHasAccountAccess)
@@ -1993,14 +3075,40 @@ func (p *AccountManagerProxy) CreateRequestAccountAccessIntentSenderAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerCreateRequestAccountAccessIntentSenderAsUser)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := userHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := userHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerCreateRequestAccountAccessIntentSenderAsUser)
@@ -2037,7 +3145,21 @@ func (p *AccountManagerProxy) OnAccountAccessed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
-	_data.WriteString16(token)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountManager, MethodIAccountManagerOnAccountAccessed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(token)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(token)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerOnAccountAccessed)
 	if _err != nil {

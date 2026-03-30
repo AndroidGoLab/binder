@@ -68,9 +68,26 @@ func (p *ContextHubClientCallbackProxy) OnMessageFromNanoApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
-	_data.WriteInt32(1)
-	if _err := message.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnMessageFromNanoApp)
+	_compiledDescs := []string{
+		"Landroid/hardware/location/NanoAppMessage;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := message.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := message.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnMessageFromNanoApp)
@@ -106,8 +123,25 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppAborted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
-	_data.WriteInt64(nanoAppId)
-	_data.WriteInt32(abortCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppAborted)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(nanoAppId)
+		_data.WriteInt32(abortCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(nanoAppId)
+			case 1:
+				_data.WriteInt32(abortCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppAborted)
 	if _err != nil {
@@ -125,7 +159,21 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppLoaded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
-	_data.WriteInt64(nanoAppId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppLoaded)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(nanoAppId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(nanoAppId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppLoaded)
 	if _err != nil {
@@ -143,7 +191,21 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppUnloaded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
-	_data.WriteInt64(nanoAppId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppUnloaded)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(nanoAppId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(nanoAppId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppUnloaded)
 	if _err != nil {
@@ -161,7 +223,21 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
-	_data.WriteInt64(nanoAppId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppEnabled)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(nanoAppId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(nanoAppId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppEnabled)
 	if _err != nil {
@@ -179,7 +255,21 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
-	_data.WriteInt64(nanoAppId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppDisabled)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(nanoAppId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(nanoAppId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppDisabled)
 	if _err != nil {
@@ -198,8 +288,25 @@ func (p *ContextHubClientCallbackProxy) OnClientAuthorizationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
-	_data.WriteInt64(nanoAppId)
-	_data.WriteInt32(authorization)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnClientAuthorizationChanged)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(nanoAppId)
+		_data.WriteInt32(authorization)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(nanoAppId)
+			case 1:
+				_data.WriteInt32(authorization)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnClientAuthorizationChanged)
 	if _err != nil {

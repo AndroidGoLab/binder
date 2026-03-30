@@ -80,7 +80,21 @@ func (p *OemNetdProxy) RegisterOemUnsolicitedEventListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemNetd)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOemNetd, MethodIOemNetdRegisterOemUnsolicitedEventListener)
+	_compiledDescs := []string{
+		"Lcom/android/internal/net/IOemNetdUnsolicitedEventListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemNetd, MethodIOemNetdRegisterOemUnsolicitedEventListener)
 	if _err != nil {

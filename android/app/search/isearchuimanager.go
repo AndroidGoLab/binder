@@ -64,15 +64,41 @@ func (p *SearchUiManagerProxy) CreateSearchSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchUiManager)
-	_data.WriteInt32(1)
-	if _err := context_.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISearchUiManager, MethodISearchUiManagerCreateSearchSession)
+	_compiledDescs := []string{
+		"Landroid/app/search/SearchContext;",
+		"Landroid/app/search/SearchSessionId;",
+		"Landroid/os/IBinder;",
 	}
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := context_.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := context_.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchUiManager, MethodISearchUiManagerCreateSearchSession)
 	if _err != nil {
@@ -101,15 +127,41 @@ func (p *SearchUiManagerProxy) Query(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchUiManager)
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISearchUiManager, MethodISearchUiManagerQuery)
+	_compiledDescs := []string{
+		"Landroid/app/search/SearchSessionId;",
+		"Landroid/app/search/Query;",
+		"Landroid/app/search/ISearchCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := input.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := input.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := input.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchUiManager, MethodISearchUiManagerQuery)
 	if _err != nil {
@@ -138,17 +190,46 @@ func (p *SearchUiManagerProxy) NotifyEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchUiManager)
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISearchUiManager, MethodISearchUiManagerNotifyEvent)
+	_compiledDescs := []string{
+		"Landroid/app/search/SearchSessionId;",
+		"Landroid/app/search/Query;",
+		"Landroid/app/search/SearchTargetEvent;",
 	}
-	_data.WriteInt32(1)
-	if _err := input.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := input.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := input.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchUiManager, MethodISearchUiManagerNotifyEvent)
@@ -177,11 +258,31 @@ func (p *SearchUiManagerProxy) RegisterEmptyQueryResultUpdateCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchUiManager)
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISearchUiManager, MethodISearchUiManagerRegisterEmptyQueryResultUpdateCallback)
+	_compiledDescs := []string{
+		"Landroid/app/search/SearchSessionId;",
+		"Landroid/app/search/ISearchCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchUiManager, MethodISearchUiManagerRegisterEmptyQueryResultUpdateCallback)
 	if _err != nil {
@@ -209,11 +310,31 @@ func (p *SearchUiManagerProxy) UnregisterEmptyQueryResultUpdateCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchUiManager)
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISearchUiManager, MethodISearchUiManagerUnregisterEmptyQueryResultUpdateCallback)
+	_compiledDescs := []string{
+		"Landroid/app/search/SearchSessionId;",
+		"Landroid/app/search/ISearchCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchUiManager, MethodISearchUiManagerUnregisterEmptyQueryResultUpdateCallback)
 	if _err != nil {
@@ -240,9 +361,26 @@ func (p *SearchUiManagerProxy) DestroySearchSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchUiManager)
-	_data.WriteInt32(1)
-	if _err := sessionId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISearchUiManager, MethodISearchUiManagerDestroySearchSession)
+	_compiledDescs := []string{
+		"Landroid/app/search/SearchSessionId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchUiManager, MethodISearchUiManagerDestroySearchSession)

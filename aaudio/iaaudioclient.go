@@ -49,9 +49,29 @@ func (p *AAudioClientProxy) OnStreamChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioClient)
-	_data.WriteInt32(handle)
-	_data.WriteInt32(opcode)
-	_data.WriteInt32(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAAudioClient, MethodIAAudioClientOnStreamChange)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(handle)
+		_data.WriteInt32(opcode)
+		_data.WriteInt32(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(handle)
+			case 1:
+				_data.WriteInt32(opcode)
+			case 2:
+				_data.WriteInt32(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAAudioClient, MethodIAAudioClientOnStreamChange)
 	if _err != nil {

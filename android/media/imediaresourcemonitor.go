@@ -48,8 +48,25 @@ func (p *MediaResourceMonitorProxy) NotifyResourceGranted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaResourceMonitor)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(type_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaResourceMonitor, MethodIMediaResourceMonitorNotifyResourceGranted)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(pid)
+		_data.WriteInt32(type_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(pid)
+			case 1:
+				_data.WriteInt32(type_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaResourceMonitor, MethodIMediaResourceMonitorNotifyResourceGranted)
 	if _err != nil {

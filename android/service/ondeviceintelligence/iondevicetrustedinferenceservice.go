@@ -61,7 +61,21 @@ func (p *OnDeviceTrustedInferenceServiceProxy) RegisterRemoteStorageService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceTrustedInferenceService)
-	binder.WriteBinderToParcel(ctx, _data, storageService.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnDeviceTrustedInferenceService, MethodIOnDeviceTrustedInferenceServiceRegisterRemoteStorageService)
+	_compiledDescs := []string{
+		"Landroid/service/ondeviceintelligence/IRemoteStorageService;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, storageService.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, storageService.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceTrustedInferenceService, MethodIOnDeviceTrustedInferenceServiceRegisterRemoteStorageService)
 	if _err != nil {
@@ -82,16 +96,45 @@ func (p *OnDeviceTrustedInferenceServiceProxy) RequestTokenCount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceTrustedInferenceService)
-	_data.WriteInt32(1)
-	if _err := feature.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnDeviceTrustedInferenceService, MethodIOnDeviceTrustedInferenceServiceRequestTokenCount)
+	_compiledDescs := []string{
+		"Landroid/app/ondeviceintelligence/Feature;",
+		"Landroid/app/ondeviceintelligence/Content;",
+		"Landroid/hardware/biometrics/common/ICancellationSignal;",
+		"Landroid/app/ondeviceintelligence/ITokenCountCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := feature.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, tokenCountCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := feature.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, tokenCountCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, tokenCountCallback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceTrustedInferenceService, MethodIOnDeviceTrustedInferenceServiceRequestTokenCount)
 	if _err != nil {
@@ -114,18 +157,53 @@ func (p *OnDeviceTrustedInferenceServiceProxy) ProcessRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceTrustedInferenceService)
-	_data.WriteInt32(1)
-	if _err := feature.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnDeviceTrustedInferenceService, MethodIOnDeviceTrustedInferenceServiceProcessRequest)
+	_compiledDescs := []string{
+		"Landroid/app/ondeviceintelligence/Feature;",
+		"Landroid/app/ondeviceintelligence/Content;",
+		"I",
+		"Landroid/hardware/biometrics/common/ICancellationSignal;",
+		"Landroid/app/ondeviceintelligence/IProcessingSignal;",
+		"Landroid/app/ondeviceintelligence/IResponseCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := feature.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(requestType)
+		binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, processingSignal.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := feature.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(requestType)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, processingSignal.AsBinder(), p.Remote.Transport())
+			case 5:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	_data.WriteInt32(requestType)
-	binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, processingSignal.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceTrustedInferenceService, MethodIOnDeviceTrustedInferenceServiceProcessRequest)
 	if _err != nil {
@@ -148,18 +226,53 @@ func (p *OnDeviceTrustedInferenceServiceProxy) ProcessRequestStreaming(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceTrustedInferenceService)
-	_data.WriteInt32(1)
-	if _err := feature.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnDeviceTrustedInferenceService, MethodIOnDeviceTrustedInferenceServiceProcessRequestStreaming)
+	_compiledDescs := []string{
+		"Landroid/app/ondeviceintelligence/Feature;",
+		"Landroid/app/ondeviceintelligence/Content;",
+		"I",
+		"Landroid/hardware/biometrics/common/ICancellationSignal;",
+		"Landroid/app/ondeviceintelligence/IProcessingSignal;",
+		"Landroid/app/ondeviceintelligence/IStreamingResponseCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := feature.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(requestType)
+		binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, processingSignal.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := feature.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(requestType)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, processingSignal.AsBinder(), p.Remote.Transport())
+			case 5:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	_data.WriteInt32(requestType)
-	binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, processingSignal.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceTrustedInferenceService, MethodIOnDeviceTrustedInferenceServiceProcessRequestStreaming)
 	if _err != nil {
@@ -178,11 +291,31 @@ func (p *OnDeviceTrustedInferenceServiceProxy) UpdateProcessingState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceTrustedInferenceService)
-	_data.WriteInt32(1)
-	if _err := processingState.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnDeviceTrustedInferenceService, MethodIOnDeviceTrustedInferenceServiceUpdateProcessingState)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+		"Landroid/service/ondeviceintelligence/IProcessingUpdateStatusCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := processingState.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := processingState.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceTrustedInferenceService, MethodIOnDeviceTrustedInferenceServiceUpdateProcessingState)
 	if _err != nil {

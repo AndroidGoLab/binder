@@ -64,20 +64,50 @@ func (p *MediaRouter2Proxy) NotifyRouterRegistered(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
-	if currentRoutes == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(currentRoutes)))
-		for _, _item := range currentRoutes {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRouter2, MethodIMediaRouter2NotifyRouterRegistered)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Landroid/media/RoutingSessionInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if currentRoutes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(currentRoutes)))
+			for _, _item := range currentRoutes {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
 			}
 		}
-	}
-	_data.WriteInt32(1)
-	if _err := currentSystemSessionInfo.MarshalParcel(_data); _err != nil {
-		return _err
+		_data.WriteInt32(1)
+		if _err := currentSystemSessionInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if currentRoutes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(currentRoutes)))
+					for _, _item := range currentRoutes {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := currentSystemSessionInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2, MethodIMediaRouter2NotifyRouterRegistered)
@@ -96,14 +126,38 @@ func (p *MediaRouter2Proxy) NotifyRoutesUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
-	if routes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRouter2, MethodIMediaRouter2NotifyRoutesUpdated)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if routes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(routes)))
+			for _, _item := range routes {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(routes)))
-		for _, _item := range routes {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if routes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(routes)))
+					for _, _item := range routes {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -125,14 +179,38 @@ func (p *MediaRouter2Proxy) NotifySessionCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
-	_data.WriteInt32(requestId)
-	if sessionInfo != nil {
-		_data.WriteInt32(1)
-		if _err := (*sessionInfo).MarshalParcel(_data); _err != nil {
-			return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRouter2, MethodIMediaRouter2NotifySessionCreated)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/RoutingSessionInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(requestId)
+		if sessionInfo != nil {
+			_data.WriteInt32(1)
+			if _err := (*sessionInfo).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(requestId)
+			case 1:
+				if sessionInfo != nil {
+					_data.WriteInt32(1)
+					if _err := (*sessionInfo).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2, MethodIMediaRouter2NotifySessionCreated)
@@ -151,9 +229,26 @@ func (p *MediaRouter2Proxy) NotifySessionInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
-	_data.WriteInt32(1)
-	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRouter2, MethodIMediaRouter2NotifySessionInfoChanged)
+	_compiledDescs := []string{
+		"Landroid/media/RoutingSessionInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2, MethodIMediaRouter2NotifySessionInfoChanged)
@@ -172,9 +267,26 @@ func (p *MediaRouter2Proxy) NotifySessionReleased(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
-	_data.WriteInt32(1)
-	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRouter2, MethodIMediaRouter2NotifySessionReleased)
+	_compiledDescs := []string{
+		"Landroid/media/RoutingSessionInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2, MethodIMediaRouter2NotifySessionReleased)
@@ -197,20 +309,55 @@ func (p *MediaRouter2Proxy) RequestCreateSessionByManager(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
-	_data.WriteInt64(uniqueRequestId)
-	_data.WriteInt32(1)
-	if _err := oldSession.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRouter2, MethodIMediaRouter2RequestCreateSessionByManager)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/media/RoutingSessionInfo;",
+		"Landroid/media/MediaRoute2Info;",
+		"Landroid/os/UserHandle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(1)
-	if _err := route.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(uniqueRequestId)
+		_data.WriteInt32(1)
+		if _err := oldSession.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := route.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := transferInitiatorUserHandle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(transferInitiatorPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(uniqueRequestId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := oldSession.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := route.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := transferInitiatorUserHandle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteString16(transferInitiatorPackageName)
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := transferInitiatorUserHandle.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteString16(transferInitiatorPackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2, MethodIMediaRouter2RequestCreateSessionByManager)
 	if _err != nil {

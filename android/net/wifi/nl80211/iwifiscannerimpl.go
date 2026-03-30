@@ -248,9 +248,26 @@ func (p *WifiScannerImplProxy) Scan(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
-	_data.WriteInt32(1)
-	if _err := scanSettings.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplScan)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/nl80211/SingleScanSettings;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := scanSettings.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := scanSettings.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplScan)
@@ -283,9 +300,26 @@ func (p *WifiScannerImplProxy) ScanRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
-	_data.WriteInt32(1)
-	if _err := scanSettings.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplScanRequest)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/nl80211/SingleScanSettings;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := scanSettings.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := scanSettings.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplScanRequest)
@@ -317,7 +351,21 @@ func (p *WifiScannerImplProxy) SubscribeScanEvents(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
-	binder.WriteBinderToParcel(ctx, _data, handler.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplSubscribeScanEvents)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/nl80211/IScanEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, handler.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, handler.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplSubscribeScanEvents)
 	if _err != nil {
@@ -351,7 +399,21 @@ func (p *WifiScannerImplProxy) SubscribePnoScanEvents(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
-	binder.WriteBinderToParcel(ctx, _data, handler.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplSubscribePnoScanEvents)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/nl80211/IPnoScanEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, handler.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, handler.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplSubscribePnoScanEvents)
 	if _err != nil {
@@ -386,9 +448,26 @@ func (p *WifiScannerImplProxy) StartPnoScan(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
-	_data.WriteInt32(1)
-	if _err := pnoSettings.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplStartPnoScan)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/nl80211/PnoSettings;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pnoSettings.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pnoSettings.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplStartPnoScan)

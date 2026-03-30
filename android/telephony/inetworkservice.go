@@ -59,7 +59,21 @@ func (p *NetworkServiceProxy) CreateNetworkServiceProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkService)
-	_data.WriteInt32(slotId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkService, MethodINetworkServiceCreateNetworkServiceProvider)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkService, MethodINetworkServiceCreateNetworkServiceProvider)
 	if _err != nil {
@@ -77,7 +91,21 @@ func (p *NetworkServiceProxy) RemoveNetworkServiceProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkService)
-	_data.WriteInt32(slotId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkService, MethodINetworkServiceRemoveNetworkServiceProvider)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkService, MethodINetworkServiceRemoveNetworkServiceProvider)
 	if _err != nil {
@@ -97,9 +125,29 @@ func (p *NetworkServiceProxy) RequestNetworkRegistrationInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkService)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(domain)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkService, MethodINetworkServiceRequestNetworkRegistrationInfo)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/telephony/INetworkServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(domain)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(domain)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkService, MethodINetworkServiceRequestNetworkRegistrationInfo)
 	if _err != nil {
@@ -118,8 +166,25 @@ func (p *NetworkServiceProxy) RegisterForNetworkRegistrationInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkService)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkService, MethodINetworkServiceRegisterForNetworkRegistrationInfoChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/INetworkServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkService, MethodINetworkServiceRegisterForNetworkRegistrationInfoChanged)
 	if _err != nil {
@@ -138,8 +203,25 @@ func (p *NetworkServiceProxy) UnregisterForNetworkRegistrationInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkService)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkService, MethodINetworkServiceUnregisterForNetworkRegistrationInfoChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/INetworkServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkService, MethodINetworkServiceUnregisterForNetworkRegistrationInfoChanged)
 	if _err != nil {

@@ -54,10 +54,30 @@ func (p *RemoteStorageServiceProxy) GetReadOnlyFileDescriptor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteStorageService)
-	_data.WriteString16(filePath)
-	_data.WriteInt32(1)
-	if _err := future.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteStorageService, MethodIRemoteStorageServiceGetReadOnlyFileDescriptor)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(filePath)
+		_data.WriteInt32(1)
+		if _err := future.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(filePath)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := future.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteStorageService, MethodIRemoteStorageServiceGetReadOnlyFileDescriptor)
@@ -77,13 +97,36 @@ func (p *RemoteStorageServiceProxy) GetReadOnlyFeatureFileDescriptorMap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteStorageService)
-	_data.WriteInt32(1)
-	if _err := feature.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteStorageService, MethodIRemoteStorageServiceGetReadOnlyFeatureFileDescriptorMap)
+	_compiledDescs := []string{
+		"Landroid/app/ondeviceintelligence/Feature;",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := remoteCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := feature.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := remoteCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := feature.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := remoteCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteStorageService, MethodIRemoteStorageServiceGetReadOnlyFeatureFileDescriptorMap)

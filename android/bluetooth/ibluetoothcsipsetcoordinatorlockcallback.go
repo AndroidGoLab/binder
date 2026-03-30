@@ -49,9 +49,29 @@ func (p *BluetoothCsipSetCoordinatorLockCallbackProxy) OnGroupLockSet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinatorLockCallback)
-	_data.WriteInt32(groupId)
-	_data.WriteInt32(opStatus)
-	_data.WriteBool(isLocked)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothCsipSetCoordinatorLockCallback, MethodIBluetoothCsipSetCoordinatorLockCallbackOnGroupLockSet)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(groupId)
+		_data.WriteInt32(opStatus)
+		_data.WriteBool(isLocked)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(groupId)
+			case 1:
+				_data.WriteInt32(opStatus)
+			case 2:
+				_data.WriteBool(isLocked)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinatorLockCallback, MethodIBluetoothCsipSetCoordinatorLockCallbackOnGroupLockSet)
 	if _err != nil {

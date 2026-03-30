@@ -55,13 +55,39 @@ func (p *TranslationDirectManagerProxy) OnTranslationRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranslationDirectManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITranslationDirectManager, MethodITranslationDirectManagerOnTranslationRequest)
+	_compiledDescs := []string{
+		"Landroid/view/translation/TranslationRequest;",
+		"I",
+		"Landroid/hardware/biometrics/common/ICancellationSignal;",
+		"Landroid/service/translation/ITranslationCallback;",
 	}
-	_data.WriteInt32(sessionId)
-	binder.WriteBinderToParcel(ctx, _data, transport.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(sessionId)
+		binder.WriteBinderToParcel(ctx, _data, transport.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(sessionId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, transport.AsBinder(), p.Remote.Transport())
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationDirectManager, MethodITranslationDirectManagerOnTranslationRequest)
 	if _err != nil {
@@ -79,7 +105,21 @@ func (p *TranslationDirectManagerProxy) OnFinishTranslationSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranslationDirectManager)
-	_data.WriteInt32(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITranslationDirectManager, MethodITranslationDirectManagerOnFinishTranslationSession)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationDirectManager, MethodITranslationDirectManagerOnFinishTranslationSession)
 	if _err != nil {

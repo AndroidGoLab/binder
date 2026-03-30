@@ -71,7 +71,21 @@ func (p *PowerHintSessionProxy) UpdateTargetWorkDuration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
-	_data.WriteInt64(targetDurationNanos)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionUpdateTargetWorkDuration)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(targetDurationNanos)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(targetDurationNanos)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionUpdateTargetWorkDuration)
 	if _err != nil {
@@ -89,14 +103,38 @@ func (p *PowerHintSessionProxy) ReportActualWorkDuration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
-	if durations == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionReportActualWorkDuration)
+	_compiledDescs := []string{
+		"[Landroid/hardware/power/WorkDuration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if durations == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(durations)))
+			for _, _item := range durations {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(durations)))
-		for _, _item := range durations {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if durations == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(durations)))
+					for _, _item := range durations {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -165,7 +203,21 @@ func (p *PowerHintSessionProxy) SendHint(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
-	_data.WriteInt32(int32(hint))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionSendHint)
+	_compiledDescs := []string{
+		"Landroid/hardware/power/SessionHint;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(hint))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(hint))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionSendHint)
 	if _err != nil {
@@ -183,12 +235,33 @@ func (p *PowerHintSessionProxy) SetThreads(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
-	if threadIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionSetThreads)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if threadIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(threadIds)))
+			for _, _item := range threadIds {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(threadIds)))
-		for _, _item := range threadIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if threadIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(threadIds)))
+					for _, _item := range threadIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -218,8 +291,25 @@ func (p *PowerHintSessionProxy) SetMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
-	_data.WriteInt32(int32(type_))
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionSetMode)
+	_compiledDescs := []string{
+		"Landroid/hardware/power/SessionMode;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionSetMode)
 	if _err != nil {

@@ -53,16 +53,43 @@ func (p *EphemeralResolverProxy) GetEphemeralResolveInfoList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEphemeralResolver)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	if digestPrefix == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEphemeralResolver, MethodIEphemeralResolverGetEphemeralResolveInfoList)
+	_compiledDescs := []string{
+		"Landroid/os/IRemoteCallback;",
+		"[I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		if digestPrefix == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(digestPrefix)))
+			for _, _item := range digestPrefix {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteInt32(sequence)
 	} else {
-		_data.WriteInt32(int32(len(digestPrefix)))
-		for _, _item := range digestPrefix {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				if digestPrefix == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(digestPrefix)))
+					for _, _item := range digestPrefix {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt32(sequence)
+			}
 		}
 	}
-	_data.WriteInt32(sequence)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEphemeralResolver, MethodIEphemeralResolverGetEphemeralResolveInfoList)
 	if _err != nil {
@@ -82,9 +109,29 @@ func (p *EphemeralResolverProxy) GetEphemeralIntentFilterList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEphemeralResolver)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(hostName)
-	_data.WriteInt32(sequence)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEphemeralResolver, MethodIEphemeralResolverGetEphemeralIntentFilterList)
+	_compiledDescs := []string{
+		"Landroid/os/IRemoteCallback;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(hostName)
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(hostName)
+			case 2:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEphemeralResolver, MethodIEphemeralResolverGetEphemeralIntentFilterList)
 	if _err != nil {

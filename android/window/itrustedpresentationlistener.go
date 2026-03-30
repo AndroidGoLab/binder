@@ -48,20 +48,51 @@ func (p *TrustedPresentationListenerProxy) OnTrustedPresentationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustedPresentationListener)
-	if enteredTrustedStateIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(enteredTrustedStateIds)))
-		for _, _item := range enteredTrustedStateIds {
-			_data.WriteInt32(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustedPresentationListener, MethodITrustedPresentationListenerOnTrustedPresentationChanged)
+	_compiledDescs := []string{
+		"[I",
+		"[I",
 	}
-	if exitedTrustedStateIds == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if enteredTrustedStateIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(enteredTrustedStateIds)))
+			for _, _item := range enteredTrustedStateIds {
+				_data.WriteInt32(_item)
+			}
+		}
+		if exitedTrustedStateIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(exitedTrustedStateIds)))
+			for _, _item := range exitedTrustedStateIds {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(exitedTrustedStateIds)))
-		for _, _item := range exitedTrustedStateIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if enteredTrustedStateIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(enteredTrustedStateIds)))
+					for _, _item := range enteredTrustedStateIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				if exitedTrustedStateIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(exitedTrustedStateIds)))
+					for _, _item := range exitedTrustedStateIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 

@@ -53,12 +53,35 @@ func (p *ContentObserverProxy) OnChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentObserver)
-	_data.WriteBool(selfUpdate)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentObserver, MethodIContentObserverOnChange)
+	_compiledDescs := []string{
+		"Z",
+		"Landroid/net/Uri;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(selfUpdate)
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(selfUpdate)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentObserver, MethodIContentObserverOnChange)
 	if _err != nil {
@@ -79,20 +102,53 @@ func (p *ContentObserverProxy) OnChangeEtc(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentObserver)
-	_data.WriteBool(selfUpdate)
-	if uri == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentObserver, MethodIContentObserverOnChangeEtc)
+	_compiledDescs := []string{
+		"Z",
+		"[Landroid/net/Uri;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(selfUpdate)
+		if uri == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(uri)))
+			for _, _item := range uri {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(flags)
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(uri)))
-		for _, _item := range uri {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(selfUpdate)
+			case 1:
+				if uri == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(uri)))
+					for _, _item := range uri {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
 			}
 		}
 	}
-	_data.WriteInt32(flags)
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentObserver, MethodIContentObserverOnChangeEtc)
 	if _err != nil {

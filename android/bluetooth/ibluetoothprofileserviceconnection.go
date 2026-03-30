@@ -52,11 +52,31 @@ func (p *BluetoothProfileServiceConnectionProxy) OnServiceConnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothProfileServiceConnection)
-	_data.WriteInt32(1)
-	if _err := comp.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothProfileServiceConnection, MethodIBluetoothProfileServiceConnectionOnServiceConnected)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/os/IBinder;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := comp.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := comp.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothProfileServiceConnection, MethodIBluetoothProfileServiceConnectionOnServiceConnected)
 	if _err != nil {
@@ -74,9 +94,26 @@ func (p *BluetoothProfileServiceConnectionProxy) OnServiceDisconnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothProfileServiceConnection)
-	_data.WriteInt32(1)
-	if _err := comp.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothProfileServiceConnection, MethodIBluetoothProfileServiceConnectionOnServiceDisconnected)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := comp.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := comp.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothProfileServiceConnection, MethodIBluetoothProfileServiceConnectionOnServiceDisconnected)

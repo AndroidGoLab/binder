@@ -50,9 +50,26 @@ func (p *GnssMeasurementsListenerProxy) OnGnssMeasurementsReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementsListener)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssMeasurementsListener, MethodIGnssMeasurementsListenerOnGnssMeasurementsReceived)
+	_compiledDescs := []string{
+		"Landroid/location/GnssMeasurementsEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssMeasurementsListener, MethodIGnssMeasurementsListenerOnGnssMeasurementsReceived)
@@ -71,7 +88,21 @@ func (p *GnssMeasurementsListenerProxy) OnStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementsListener)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssMeasurementsListener, MethodIGnssMeasurementsListenerOnStatusChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssMeasurementsListener, MethodIGnssMeasurementsListenerOnStatusChanged)
 	if _err != nil {

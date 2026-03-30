@@ -49,9 +49,29 @@ func (p *ObbActionListenerProxy) OnObbResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIObbActionListener)
-	_data.WriteString16(filename)
-	_data.WriteInt32(nonce)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIObbActionListener, MethodIObbActionListenerOnObbResult)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(filename)
+		_data.WriteInt32(nonce)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(filename)
+			case 1:
+				_data.WriteInt32(nonce)
+			case 2:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIObbActionListener, MethodIObbActionListenerOnObbResult)
 	if _err != nil {

@@ -58,9 +58,29 @@ func (p *PlatformCompatNativeProxy) ReportChangeByPackageName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompatNative)
-	_data.WriteInt64(changeId)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeReportChangeByPackageName)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(changeId)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(changeId)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeReportChangeByPackageName)
 	if _err != nil {
@@ -88,8 +108,25 @@ func (p *PlatformCompatNativeProxy) ReportChangeByUid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompatNative)
-	_data.WriteInt64(changeId)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeReportChangeByUid)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(changeId)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(changeId)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeReportChangeByUid)
 	if _err != nil {
@@ -119,9 +156,29 @@ func (p *PlatformCompatNativeProxy) IsChangeEnabledByPackageName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompatNative)
-	_data.WriteInt64(changeId)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeIsChangeEnabledByPackageName)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(changeId)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(changeId)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeIsChangeEnabledByPackageName)
 	if _err != nil {
@@ -154,8 +211,25 @@ func (p *PlatformCompatNativeProxy) IsChangeEnabledByUid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompatNative)
-	_data.WriteInt64(changeId)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeIsChangeEnabledByUid)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(changeId)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(changeId)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeIsChangeEnabledByUid)
 	if _err != nil {

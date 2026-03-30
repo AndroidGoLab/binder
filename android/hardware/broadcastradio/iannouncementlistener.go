@@ -47,14 +47,38 @@ func (p *AnnouncementListenerProxy) OnListUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAnnouncementListener)
-	if announcements == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAnnouncementListener, MethodIAnnouncementListenerOnListUpdated)
+	_compiledDescs := []string{
+		"[Landroid/hardware/broadcastradio/Announcement;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if announcements == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(announcements)))
+			for _, _item := range announcements {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(announcements)))
-		for _, _item := range announcements {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if announcements == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(announcements)))
+					for _, _item := range announcements {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

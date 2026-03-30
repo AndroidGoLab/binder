@@ -48,8 +48,25 @@ func (p *TimeReceiverCallbackProxy) SendTime(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeReceiverCallback)
-	_data.WriteString16(type_)
-	_data.WriteInt64(timeNs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITimeReceiverCallback, MethodITimeReceiverCallbackSendTime)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(type_)
+		_data.WriteInt64(timeNs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(type_)
+			case 1:
+				_data.WriteInt64(timeNs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeReceiverCallback, MethodITimeReceiverCallbackSendTime)
 	if _err != nil {

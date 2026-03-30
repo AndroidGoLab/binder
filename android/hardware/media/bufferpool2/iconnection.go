@@ -51,14 +51,38 @@ func (p *ConnectionProxy) Fetch(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnection)
-	if fetchInfos == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnection, MethodIConnectionFetch)
+	_compiledDescs := []string{
+		"[Landroid/hardware/media/bufferpool2/IConnection/FetchInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if fetchInfos == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(fetchInfos)))
+			for _, _item := range fetchInfos {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(fetchInfos)))
-		for _, _item := range fetchInfos {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if fetchInfos == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(fetchInfos)))
+					for _, _item := range fetchInfos {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}

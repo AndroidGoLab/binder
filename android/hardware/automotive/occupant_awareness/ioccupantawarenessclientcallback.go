@@ -51,8 +51,25 @@ func (p *OccupantAwarenessClientCallbackProxy) OnSystemStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwarenessClientCallback)
-	_data.WriteInt32(detectionFlags)
-	_data.WritePaddedByte(byte(status))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOccupantAwarenessClientCallback, MethodIOccupantAwarenessClientCallbackOnSystemStatusChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/automotive/occupant_awareness/OccupantAwarenessStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(detectionFlags)
+		_data.WritePaddedByte(byte(status))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(detectionFlags)
+			case 1:
+				_data.WritePaddedByte(byte(status))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwarenessClientCallback, MethodIOccupantAwarenessClientCallbackOnSystemStatusChanged)
 	if _err != nil {
@@ -70,9 +87,26 @@ func (p *OccupantAwarenessClientCallbackProxy) OnDetectionEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwarenessClientCallback)
-	_data.WriteInt32(1)
-	if _err := detections.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOccupantAwarenessClientCallback, MethodIOccupantAwarenessClientCallbackOnDetectionEvent)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/occupant_awareness/OccupantDetections;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := detections.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := detections.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwarenessClientCallback, MethodIOccupantAwarenessClientCallbackOnDetectionEvent)

@@ -73,7 +73,21 @@ func (p *ImsConfigProxy) GetProvisionedValue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
-	_data.WriteInt32(item)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsConfig, MethodIImsConfigGetProvisionedValue)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(item)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(item)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigGetProvisionedValue)
 	if _err != nil {
@@ -105,7 +119,21 @@ func (p *ImsConfigProxy) GetProvisionedStringValue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
-	_data.WriteInt32(item)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsConfig, MethodIImsConfigGetProvisionedStringValue)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(item)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(item)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigGetProvisionedStringValue)
 	if _err != nil {
@@ -138,8 +166,25 @@ func (p *ImsConfigProxy) SetProvisionedValue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
-	_data.WriteInt32(item)
-	_data.WriteInt32(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsConfig, MethodIImsConfigSetProvisionedValue)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(item)
+		_data.WriteInt32(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(item)
+			case 1:
+				_data.WriteInt32(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigSetProvisionedValue)
 	if _err != nil {
@@ -172,8 +217,25 @@ func (p *ImsConfigProxy) SetProvisionedStringValue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
-	_data.WriteInt32(item)
-	_data.WriteString16(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsConfig, MethodIImsConfigSetProvisionedStringValue)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(item)
+		_data.WriteString16(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(item)
+			case 1:
+				_data.WriteString16(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigSetProvisionedStringValue)
 	if _err != nil {
@@ -206,9 +268,29 @@ func (p *ImsConfigProxy) GetFeatureValue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
-	_data.WriteInt32(feature)
-	_data.WriteInt32(network)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsConfig, MethodIImsConfigGetFeatureValue)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Lcom/android/ims/ImsConfigListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(feature)
+		_data.WriteInt32(network)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(feature)
+			case 1:
+				_data.WriteInt32(network)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigGetFeatureValue)
 	if _err != nil {
@@ -229,10 +311,33 @@ func (p *ImsConfigProxy) SetFeatureValue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
-	_data.WriteInt32(feature)
-	_data.WriteInt32(network)
-	_data.WriteInt32(value)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsConfig, MethodIImsConfigSetFeatureValue)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Lcom/android/ims/ImsConfigListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(feature)
+		_data.WriteInt32(network)
+		_data.WriteInt32(value)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(feature)
+			case 1:
+				_data.WriteInt32(network)
+			case 2:
+				_data.WriteInt32(value)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigSetFeatureValue)
 	if _err != nil {
@@ -280,7 +385,21 @@ func (p *ImsConfigProxy) GetVideoQuality(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsConfig, MethodIImsConfigGetVideoQuality)
+	_compiledDescs := []string{
+		"Lcom/android/ims/ImsConfigListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigGetVideoQuality)
 	if _err != nil {
@@ -299,8 +418,25 @@ func (p *ImsConfigProxy) SetVideoQuality(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
-	_data.WriteInt32(quality)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsConfig, MethodIImsConfigSetVideoQuality)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/ims/ImsConfigListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(quality)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(quality)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigSetVideoQuality)
 	if _err != nil {

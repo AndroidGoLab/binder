@@ -150,14 +150,40 @@ func (p *WifiNanIfaceProxy) ConfigRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteInt32(1)
-	if _err := msg1.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceConfigRequest)
+	_compiledDescs := []string{
+		"C",
+		"Landroid/hardware/wifi/NanConfigRequest;",
+		"Landroid/hardware/wifi/NanConfigRequestSupplemental;",
 	}
-	_data.WriteInt32(1)
-	if _err := msg2.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteInt32(1)
+		if _err := msg1.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := msg2.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := msg1.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := msg2.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceConfigRequest)
@@ -186,8 +212,25 @@ func (p *WifiNanIfaceProxy) CreateDataInterfaceRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteString16(ifaceName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceCreateDataInterfaceRequest)
+	_compiledDescs := []string{
+		"C",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteString16(ifaceName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteString16(ifaceName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceCreateDataInterfaceRequest)
 	if _err != nil {
@@ -215,8 +258,25 @@ func (p *WifiNanIfaceProxy) DeleteDataInterfaceRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteString16(ifaceName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceDeleteDataInterfaceRequest)
+	_compiledDescs := []string{
+		"C",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteString16(ifaceName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteString16(ifaceName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceDeleteDataInterfaceRequest)
 	if _err != nil {
@@ -243,7 +303,21 @@ func (p *WifiNanIfaceProxy) DisableRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceDisableRequest)
+	_compiledDescs := []string{
+		"C",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceDisableRequest)
 	if _err != nil {
@@ -272,14 +346,40 @@ func (p *WifiNanIfaceProxy) EnableRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteInt32(1)
-	if _err := msg1.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceEnableRequest)
+	_compiledDescs := []string{
+		"C",
+		"Landroid/hardware/wifi/NanEnableRequest;",
+		"Landroid/hardware/wifi/NanConfigRequestSupplemental;",
 	}
-	_data.WriteInt32(1)
-	if _err := msg2.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteInt32(1)
+		if _err := msg1.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := msg2.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := msg1.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := msg2.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceEnableRequest)
@@ -307,7 +407,21 @@ func (p *WifiNanIfaceProxy) GetCapabilitiesRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceGetCapabilitiesRequest)
+	_compiledDescs := []string{
+		"C",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceGetCapabilitiesRequest)
 	if _err != nil {
@@ -335,10 +449,30 @@ func (p *WifiNanIfaceProxy) InitiateDataPathRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteInt32(1)
-	if _err := msg.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceInitiateDataPathRequest)
+	_compiledDescs := []string{
+		"C",
+		"Landroid/hardware/wifi/NanInitiateDataPathRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteInt32(1)
+		if _err := msg.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := msg.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceInitiateDataPathRequest)
@@ -366,7 +500,21 @@ func (p *WifiNanIfaceProxy) RegisterEventCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceRegisterEventCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/IWifiNanIfaceEventCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceRegisterEventCallback)
 	if _err != nil {
@@ -394,10 +542,30 @@ func (p *WifiNanIfaceProxy) RespondToDataPathIndicationRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteInt32(1)
-	if _err := msg.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceRespondToDataPathIndicationRequest)
+	_compiledDescs := []string{
+		"C",
+		"Landroid/hardware/wifi/NanRespondToDataPathIndicationRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteInt32(1)
+		if _err := msg.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := msg.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceRespondToDataPathIndicationRequest)
@@ -426,10 +594,30 @@ func (p *WifiNanIfaceProxy) StartPublishRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteInt32(1)
-	if _err := msg.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceStartPublishRequest)
+	_compiledDescs := []string{
+		"C",
+		"Landroid/hardware/wifi/NanPublishRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteInt32(1)
+		if _err := msg.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := msg.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceStartPublishRequest)
@@ -458,10 +646,30 @@ func (p *WifiNanIfaceProxy) StartSubscribeRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteInt32(1)
-	if _err := msg.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceStartSubscribeRequest)
+	_compiledDescs := []string{
+		"C",
+		"Landroid/hardware/wifi/NanSubscribeRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteInt32(1)
+		if _err := msg.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := msg.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceStartSubscribeRequest)
@@ -490,8 +698,25 @@ func (p *WifiNanIfaceProxy) StopPublishRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WritePaddedByte(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceStopPublishRequest)
+	_compiledDescs := []string{
+		"C",
+		"B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WritePaddedByte(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WritePaddedByte(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceStopPublishRequest)
 	if _err != nil {
@@ -519,8 +744,25 @@ func (p *WifiNanIfaceProxy) StopSubscribeRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WritePaddedByte(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceStopSubscribeRequest)
+	_compiledDescs := []string{
+		"C",
+		"B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WritePaddedByte(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WritePaddedByte(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceStopSubscribeRequest)
 	if _err != nil {
@@ -548,8 +790,25 @@ func (p *WifiNanIfaceProxy) TerminateDataPathRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteInt32(ndpInstanceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceTerminateDataPathRequest)
+	_compiledDescs := []string{
+		"C",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteInt32(ndpInstanceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteInt32(ndpInstanceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceTerminateDataPathRequest)
 	if _err != nil {
@@ -577,8 +836,25 @@ func (p *WifiNanIfaceProxy) SuspendRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WritePaddedByte(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceSuspendRequest)
+	_compiledDescs := []string{
+		"C",
+		"B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WritePaddedByte(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WritePaddedByte(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceSuspendRequest)
 	if _err != nil {
@@ -606,8 +882,25 @@ func (p *WifiNanIfaceProxy) ResumeRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WritePaddedByte(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceResumeRequest)
+	_compiledDescs := []string{
+		"C",
+		"B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WritePaddedByte(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WritePaddedByte(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceResumeRequest)
 	if _err != nil {
@@ -635,10 +928,30 @@ func (p *WifiNanIfaceProxy) TransmitFollowupRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteInt32(1)
-	if _err := msg.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceTransmitFollowupRequest)
+	_compiledDescs := []string{
+		"C",
+		"Landroid/hardware/wifi/NanTransmitFollowupRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteInt32(1)
+		if _err := msg.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := msg.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceTransmitFollowupRequest)
@@ -667,10 +980,30 @@ func (p *WifiNanIfaceProxy) InitiatePairingRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteInt32(1)
-	if _err := msg.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceInitiatePairingRequest)
+	_compiledDescs := []string{
+		"C",
+		"Landroid/hardware/wifi/NanPairingRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteInt32(1)
+		if _err := msg.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := msg.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceInitiatePairingRequest)
@@ -699,10 +1032,30 @@ func (p *WifiNanIfaceProxy) RespondToPairingIndicationRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteInt32(1)
-	if _err := msg.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceRespondToPairingIndicationRequest)
+	_compiledDescs := []string{
+		"C",
+		"Landroid/hardware/wifi/NanRespondToPairingIndicationRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteInt32(1)
+		if _err := msg.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := msg.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceRespondToPairingIndicationRequest)
@@ -731,10 +1084,30 @@ func (p *WifiNanIfaceProxy) InitiateBootstrappingRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteInt32(1)
-	if _err := msg.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceInitiateBootstrappingRequest)
+	_compiledDescs := []string{
+		"C",
+		"Landroid/hardware/wifi/NanBootstrappingRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteInt32(1)
+		if _err := msg.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := msg.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceInitiateBootstrappingRequest)
@@ -763,10 +1136,30 @@ func (p *WifiNanIfaceProxy) RespondToBootstrappingIndicationRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteInt32(1)
-	if _err := msg.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceRespondToBootstrappingIndicationRequest)
+	_compiledDescs := []string{
+		"C",
+		"Landroid/hardware/wifi/NanBootstrappingResponse;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteInt32(1)
+		if _err := msg.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := msg.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceRespondToBootstrappingIndicationRequest)
@@ -795,8 +1188,25 @@ func (p *WifiNanIfaceProxy) TerminatePairingRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
-	_data.WriteInt32(int32(cmdId))
-	_data.WriteInt32(pairingInstanceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceTerminatePairingRequest)
+	_compiledDescs := []string{
+		"C",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cmdId))
+		_data.WriteInt32(pairingInstanceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cmdId))
+			case 1:
+				_data.WriteInt32(pairingInstanceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIface, MethodIWifiNanIfaceTerminatePairingRequest)
 	if _err != nil {

@@ -50,7 +50,21 @@ func (p *EventQueueProxy) DisableSensor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEventQueue)
-	_data.WriteInt32(sensorHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEventQueue, MethodIEventQueueDisableSensor)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventQueue, MethodIEventQueueDisableSensor)
 	if _err != nil {
@@ -79,9 +93,29 @@ func (p *EventQueueProxy) EnableSensor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEventQueue)
-	_data.WriteInt32(sensorHandle)
-	_data.WriteInt32(samplingPeriodUs)
-	_data.WriteInt64(maxBatchReportLatencyUs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEventQueue, MethodIEventQueueEnableSensor)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorHandle)
+		_data.WriteInt32(samplingPeriodUs)
+		_data.WriteInt64(maxBatchReportLatencyUs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorHandle)
+			case 1:
+				_data.WriteInt32(samplingPeriodUs)
+			case 2:
+				_data.WriteInt64(maxBatchReportLatencyUs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventQueue, MethodIEventQueueEnableSensor)
 	if _err != nil {

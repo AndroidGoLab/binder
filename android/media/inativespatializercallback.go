@@ -51,7 +51,21 @@ func (p *NativeSpatializerCallbackProxy) OnLevelChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINativeSpatializerCallback)
-	_data.WritePaddedByte(byte(level))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINativeSpatializerCallback, MethodINativeSpatializerCallbackOnLevelChanged)
+	_compiledDescs := []string{
+		"LSpatialization/Level;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(level))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(level))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINativeSpatializerCallback, MethodINativeSpatializerCallbackOnLevelChanged)
 	if _err != nil {
@@ -69,7 +83,21 @@ func (p *NativeSpatializerCallbackProxy) OnOutputChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINativeSpatializerCallback)
-	_data.WriteInt32(output)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINativeSpatializerCallback, MethodINativeSpatializerCallbackOnOutputChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(output)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(output)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINativeSpatializerCallback, MethodINativeSpatializerCallbackOnOutputChanged)
 	if _err != nil {

@@ -50,10 +50,33 @@ func (p *AppOpsCallbackProxy) OpChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsCallback)
-	_data.WriteInt32(op)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(persistentDeviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsCallback, MethodIAppOpsCallbackOpChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(op)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(persistentDeviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(op)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteString16(persistentDeviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsCallback, MethodIAppOpsCallbackOpChanged)
 	if _err != nil {

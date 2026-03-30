@@ -66,8 +66,25 @@ func (p *TextServicesManagerProxy) GetCurrentSpellChecker(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextServicesManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(locale)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextServicesManager, MethodITextServicesManagerGetCurrentSpellChecker)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(locale)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(locale)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextServicesManager, MethodITextServicesManagerGetCurrentSpellChecker)
 	if _err != nil {
@@ -105,8 +122,25 @@ func (p *TextServicesManagerProxy) GetCurrentSpellCheckerSubtype(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextServicesManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(allowImplicitlySelectedSubtype)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextServicesManager, MethodITextServicesManagerGetCurrentSpellCheckerSubtype)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(allowImplicitlySelectedSubtype)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(allowImplicitlySelectedSubtype)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextServicesManager, MethodITextServicesManagerGetCurrentSpellCheckerSubtype)
 	if _err != nil {
@@ -148,16 +182,51 @@ func (p *TextServicesManagerProxy) GetSpellCheckerService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextServicesManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(sciId)
-	_data.WriteString16(locale)
-	binder.WriteBinderToParcel(ctx, _data, tsListener.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, scListener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := bundle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextServicesManager, MethodITextServicesManagerGetSpellCheckerService)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/textservice/ITextServicesSessionListener;",
+		"Lcom/android/internal/textservice/ISpellCheckerSessionListener;",
+		"Landroid/os/Bundle;",
+		"I",
 	}
-	_data.WriteInt32(supportedAttributes)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(sciId)
+		_data.WriteString16(locale)
+		binder.WriteBinderToParcel(ctx, _data, tsListener.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, scListener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := bundle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(supportedAttributes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(sciId)
+			case 2:
+				_data.WriteString16(locale)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, tsListener.AsBinder(), p.Remote.Transport())
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, scListener.AsBinder(), p.Remote.Transport())
+			case 5:
+				_data.WriteInt32(1)
+				if _err := bundle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				_data.WriteInt32(supportedAttributes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextServicesManager, MethodITextServicesManagerGetSpellCheckerService)
 	if _err != nil {
@@ -176,8 +245,25 @@ func (p *TextServicesManagerProxy) FinishSpellCheckerService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextServicesManager)
-	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextServicesManager, MethodITextServicesManagerFinishSpellCheckerService)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/textservice/ISpellCheckerSessionListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextServicesManager, MethodITextServicesManagerFinishSpellCheckerService)
 	if _err != nil {
@@ -196,7 +282,21 @@ func (p *TextServicesManagerProxy) IsSpellCheckerEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextServicesManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextServicesManager, MethodITextServicesManagerIsSpellCheckerEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextServicesManager, MethodITextServicesManagerIsSpellCheckerEnabled)
 	if _err != nil {
@@ -228,7 +328,21 @@ func (p *TextServicesManagerProxy) GetEnabledSpellCheckers(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextServicesManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextServicesManager, MethodITextServicesManagerGetEnabledSpellCheckers)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextServicesManager, MethodITextServicesManagerGetEnabledSpellCheckers)
 	if _err != nil {

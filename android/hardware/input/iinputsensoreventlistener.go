@@ -54,16 +54,49 @@ func (p *InputSensorEventListenerProxy) OnInputSensorChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputSensorEventListener)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(sensorId)
-	_data.WriteInt32(accuracy)
-	_data.WriteInt64(timestamp)
-	if values == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputSensorEventListener, MethodIInputSensorEventListenerOnInputSensorChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"J",
+		"[F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(sensorId)
+		_data.WriteInt32(accuracy)
+		_data.WriteInt64(timestamp)
+		if values == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(values)))
+			for _, _item := range values {
+				_data.WriteFloat32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(values)))
-		for _, _item := range values {
-			_data.WriteFloat32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(sensorId)
+			case 2:
+				_data.WriteInt32(accuracy)
+			case 3:
+				_data.WriteInt64(timestamp)
+			case 4:
+				if values == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(values)))
+					for _, _item := range values {
+						_data.WriteFloat32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -85,9 +118,29 @@ func (p *InputSensorEventListenerProxy) OnInputSensorAccuracyChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputSensorEventListener)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(sensorId)
-	_data.WriteInt32(accuracy)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputSensorEventListener, MethodIInputSensorEventListenerOnInputSensorAccuracyChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(sensorId)
+		_data.WriteInt32(accuracy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(sensorId)
+			case 2:
+				_data.WriteInt32(accuracy)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputSensorEventListener, MethodIInputSensorEventListenerOnInputSensorAccuracyChanged)
 	if _err != nil {

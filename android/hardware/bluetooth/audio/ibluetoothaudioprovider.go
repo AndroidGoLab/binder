@@ -126,17 +126,47 @@ func (p *BluetoothAudioProviderProxy) StartSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	binder.WriteBinderToParcel(ctx, _data, hostIf.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := audioConfig.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderStartSession)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/audio/IBluetoothAudioPort;",
+		"Landroid/hardware/bluetooth/audio/AudioConfiguration;",
+		"[Landroid/hardware/bluetooth/audio/LatencyMode;",
 	}
-	if supportedLatencyModes == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, hostIf.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := audioConfig.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		if supportedLatencyModes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(supportedLatencyModes)))
+			for _, _item := range supportedLatencyModes {
+				_data.WriteInt32(int32(_item))
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(supportedLatencyModes)))
-		for _, _item := range supportedLatencyModes {
-			_data.WriteInt32(int32(_item))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, hostIf.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := audioConfig.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				if supportedLatencyModes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(supportedLatencyModes)))
+					for _, _item := range supportedLatencyModes {
+						_data.WriteInt32(int32(_item))
+					}
+				}
+			}
 		}
 	}
 
@@ -174,7 +204,21 @@ func (p *BluetoothAudioProviderProxy) StreamStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	_data.WriteInt32(int32(status))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderStreamStarted)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/audio/BluetoothAudioStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(status))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(status))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderStreamStarted)
 	if _err != nil {
@@ -201,7 +245,21 @@ func (p *BluetoothAudioProviderProxy) StreamSuspended(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	_data.WriteInt32(int32(status))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderStreamSuspended)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/audio/BluetoothAudioStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(status))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(status))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderStreamSuspended)
 	if _err != nil {
@@ -228,9 +286,26 @@ func (p *BluetoothAudioProviderProxy) UpdateAudioConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	_data.WriteInt32(1)
-	if _err := audioConfig.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderUpdateAudioConfiguration)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/audio/AudioConfiguration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := audioConfig.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := audioConfig.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderUpdateAudioConfiguration)
@@ -258,7 +333,21 @@ func (p *BluetoothAudioProviderProxy) SetLowLatencyModeAllowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	_data.WriteBool(allowed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderSetLowLatencyModeAllowed)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(allowed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(allowed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderSetLowLatencyModeAllowed)
 	if _err != nil {
@@ -288,11 +377,31 @@ func (p *BluetoothAudioProviderProxy) ParseA2dpConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	_data.WriteInt32(1)
-	if _err := codecId.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderParseA2dpConfiguration)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/audio/CodecId;",
+		"[B",
 	}
-	_data.WriteByteArray(configuration)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := codecId.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteByteArray(configuration)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := codecId.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteByteArray(configuration)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderParseA2dpConfiguration)
 	if _err != nil {
@@ -337,20 +446,50 @@ func (p *BluetoothAudioProviderProxy) GetA2dpConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	if remoteA2dpCapabilities == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(remoteA2dpCapabilities)))
-		for _, _item := range remoteA2dpCapabilities {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderGetA2dpConfiguration)
+	_compiledDescs := []string{
+		"[Landroid/hardware/bluetooth/audio/A2dpRemoteCapabilities;",
+		"Landroid/hardware/bluetooth/audio/A2dpConfigurationHint;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if remoteA2dpCapabilities == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(remoteA2dpCapabilities)))
+			for _, _item := range remoteA2dpCapabilities {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
 			}
 		}
-	}
-	_data.WriteInt32(1)
-	if _err := hint.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		_data.WriteInt32(1)
+		if _err := hint.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if remoteA2dpCapabilities == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(remoteA2dpCapabilities)))
+					for _, _item := range remoteA2dpCapabilities {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := hint.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderGetA2dpConfiguration)
@@ -388,11 +527,31 @@ func (p *BluetoothAudioProviderProxy) SetCodecPriority(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	_data.WriteInt32(1)
-	if _err := codecId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderSetCodecPriority)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/audio/CodecId;",
+		"I",
 	}
-	_data.WriteInt32(priority)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := codecId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(priority)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := codecId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(priority)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderSetCodecPriority)
 	if _err != nil {
@@ -422,36 +581,86 @@ func (p *BluetoothAudioProviderProxy) GetLeAudioAseConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	if remoteSinkAudioCapabilities == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(remoteSinkAudioCapabilities)))
-		for _, _item := range remoteSinkAudioCapabilities {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderGetLeAudioAseConfiguration)
+	_compiledDescs := []string{
+		"[Landroid/hardware/bluetooth/audio/IBluetoothAudioProvider/LeAudioDeviceCapabilities;",
+		"[Landroid/hardware/bluetooth/audio/IBluetoothAudioProvider/LeAudioDeviceCapabilities;",
+		"[Landroid/hardware/bluetooth/audio/IBluetoothAudioProvider/LeAudioConfigurationRequirement;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if remoteSinkAudioCapabilities == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(remoteSinkAudioCapabilities)))
+			for _, _item := range remoteSinkAudioCapabilities {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
 			}
 		}
-	}
-	if remoteSourceAudioCapabilities == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(remoteSourceAudioCapabilities)))
-		for _, _item := range remoteSourceAudioCapabilities {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		if remoteSourceAudioCapabilities == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(remoteSourceAudioCapabilities)))
+			for _, _item := range remoteSourceAudioCapabilities {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
 			}
 		}
-	}
-	if requirements == nil {
-		_data.WriteInt32(-1)
+		if requirements == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(requirements)))
+			for _, _item := range requirements {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(requirements)))
-		for _, _item := range requirements {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if remoteSinkAudioCapabilities == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(remoteSinkAudioCapabilities)))
+					for _, _item := range remoteSinkAudioCapabilities {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 1:
+				if remoteSourceAudioCapabilities == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(remoteSourceAudioCapabilities)))
+					for _, _item := range remoteSourceAudioCapabilities {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 2:
+				if requirements == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(requirements)))
+					for _, _item := range requirements {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -518,9 +727,26 @@ func (p *BluetoothAudioProviderProxy) GetLeAudioAseQosConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	_data.WriteInt32(1)
-	if _err := qosRequirement.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderGetLeAudioAseQosConfiguration)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/audio/IBluetoothAudioProvider/LeAudioAseQosConfigurationRequirement;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := qosRequirement.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := qosRequirement.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderGetLeAudioAseQosConfiguration)
@@ -559,21 +785,52 @@ func (p *BluetoothAudioProviderProxy) GetLeAudioAseDatapathConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	if sinkConfig != nil {
-		_data.WriteInt32(1)
-		if _err := (*sinkConfig).MarshalParcel(_data); _err != nil {
-			return _result, _err
-		}
-	} else {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderGetLeAudioAseDatapathConfiguration)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/audio/IBluetoothAudioProvider/StreamConfig;",
+		"Landroid/hardware/bluetooth/audio/IBluetoothAudioProvider/StreamConfig;",
 	}
-	if sourceConfig != nil {
-		_data.WriteInt32(1)
-		if _err := (*sourceConfig).MarshalParcel(_data); _err != nil {
-			return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if sinkConfig != nil {
+			_data.WriteInt32(1)
+			if _err := (*sinkConfig).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		if sourceConfig != nil {
+			_data.WriteInt32(1)
+			if _err := (*sourceConfig).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if sinkConfig != nil {
+					_data.WriteInt32(1)
+					if _err := (*sinkConfig).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 1:
+				if sourceConfig != nil {
+					_data.WriteInt32(1)
+					if _err := (*sourceConfig).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderGetLeAudioAseDatapathConfiguration)
@@ -613,17 +870,50 @@ func (p *BluetoothAudioProviderProxy) OnSinkAseMetadataChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	_data.WritePaddedByte(byte(state))
-	_data.WriteInt32(cigId)
-	_data.WriteInt32(cisId)
-	if metadata == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderOnSinkAseMetadataChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/audio/IBluetoothAudioProvider/AseState;",
+		"I",
+		"I",
+		"[Landroid/hardware/bluetooth/audio/MetadataLtv;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(state))
+		_data.WriteInt32(cigId)
+		_data.WriteInt32(cisId)
+		if metadata == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(metadata)))
+			for _, _item := range metadata {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(metadata)))
-		for _, _item := range metadata {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(state))
+			case 1:
+				_data.WriteInt32(cigId)
+			case 2:
+				_data.WriteInt32(cisId)
+			case 3:
+				if metadata == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(metadata)))
+					for _, _item := range metadata {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -656,17 +946,50 @@ func (p *BluetoothAudioProviderProxy) OnSourceAseMetadataChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	_data.WritePaddedByte(byte(state))
-	_data.WriteInt32(cigId)
-	_data.WriteInt32(cisId)
-	if metadata == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderOnSourceAseMetadataChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/audio/IBluetoothAudioProvider/AseState;",
+		"I",
+		"I",
+		"[Landroid/hardware/bluetooth/audio/MetadataLtv;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(state))
+		_data.WriteInt32(cigId)
+		_data.WriteInt32(cisId)
+		if metadata == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(metadata)))
+			for _, _item := range metadata {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(metadata)))
-		for _, _item := range metadata {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(state))
+			case 1:
+				_data.WriteInt32(cigId)
+			case 2:
+				_data.WriteInt32(cisId)
+			case 3:
+				if metadata == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(metadata)))
+					for _, _item := range metadata {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -698,20 +1021,50 @@ func (p *BluetoothAudioProviderProxy) GetLeAudioBroadcastConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	if remoteSinkAudioCapabilities == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(remoteSinkAudioCapabilities)))
-		for _, _item := range remoteSinkAudioCapabilities {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderGetLeAudioBroadcastConfiguration)
+	_compiledDescs := []string{
+		"[Landroid/hardware/bluetooth/audio/IBluetoothAudioProvider/LeAudioDeviceCapabilities;",
+		"Landroid/hardware/bluetooth/audio/IBluetoothAudioProvider/LeAudioBroadcastConfigurationRequirement;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if remoteSinkAudioCapabilities == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(remoteSinkAudioCapabilities)))
+			for _, _item := range remoteSinkAudioCapabilities {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
 			}
 		}
-	}
-	_data.WriteInt32(1)
-	if _err := requirement.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		_data.WriteInt32(1)
+		if _err := requirement.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if remoteSinkAudioCapabilities == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(remoteSinkAudioCapabilities)))
+					for _, _item := range remoteSinkAudioCapabilities {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := requirement.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderGetLeAudioBroadcastConfiguration)
@@ -750,18 +1103,48 @@ func (p *BluetoothAudioProviderProxy) GetLeAudioBroadcastDatapathConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
-	_data.WriteInt32(1)
-	if _err := audioContext.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAudioProvider, MethodIBluetoothAudioProviderGetLeAudioBroadcastDatapathConfiguration)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/audio/AudioContext;",
+		"[Landroid/hardware/bluetooth/audio/LeAudioBroadcastConfiguration/BroadcastStreamMap;",
 	}
-	if streamMap == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := audioContext.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		if streamMap == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(streamMap)))
+			for _, _item := range streamMap {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(streamMap)))
-		for _, _item := range streamMap {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := audioContext.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				if streamMap == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(streamMap)))
+					for _, _item := range streamMap {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}

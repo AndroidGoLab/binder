@@ -53,11 +53,34 @@ func (p *ResumeOnRebootServiceProxy) WrapSecret(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResumeOnRebootService)
-	_data.WriteByteArray(unwrappedBlob)
-	_data.WriteInt64(lifeTimeInMillis)
-	_data.WriteInt32(1)
-	if _err := resultCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResumeOnRebootService, MethodIResumeOnRebootServiceWrapSecret)
+	_compiledDescs := []string{
+		"[B",
+		"J",
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(unwrappedBlob)
+		_data.WriteInt64(lifeTimeInMillis)
+		_data.WriteInt32(1)
+		if _err := resultCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(unwrappedBlob)
+			case 1:
+				_data.WriteInt64(lifeTimeInMillis)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := resultCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResumeOnRebootService, MethodIResumeOnRebootServiceWrapSecret)
@@ -77,10 +100,30 @@ func (p *ResumeOnRebootServiceProxy) Unwrap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResumeOnRebootService)
-	_data.WriteByteArray(wrappedBlob)
-	_data.WriteInt32(1)
-	if _err := resultCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResumeOnRebootService, MethodIResumeOnRebootServiceUnwrap)
+	_compiledDescs := []string{
+		"[B",
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(wrappedBlob)
+		_data.WriteInt32(1)
+		if _err := resultCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(wrappedBlob)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := resultCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResumeOnRebootService, MethodIResumeOnRebootServiceUnwrap)

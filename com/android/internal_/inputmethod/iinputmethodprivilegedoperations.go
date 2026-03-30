@@ -99,8 +99,25 @@ func (p *InputMethodPrivilegedOperationsProxy) SetImeWindowStatusAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteInt32(vis)
-	_data.WriteInt32(backDisposition)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSetImeWindowStatusAsync)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(vis)
+		_data.WriteInt32(backDisposition)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(vis)
+			case 1:
+				_data.WriteInt32(backDisposition)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSetImeWindowStatusAsync)
 	if _err != nil {
@@ -118,7 +135,21 @@ func (p *InputMethodPrivilegedOperationsProxy) ReportStartInputAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	binder.WriteBinderToParcel(ctx, _data, startInputToken, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsReportStartInputAsync)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, startInputToken, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, startInputToken, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsReportStartInputAsync)
 	if _err != nil {
@@ -138,14 +169,40 @@ func (p *InputMethodPrivilegedOperationsProxy) CreateInputContentUriToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteInt32(1)
-	if _err := contentUri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsCreateInputContentUriToken)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := future.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := contentUri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := future.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := contentUri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := future.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsCreateInputContentUriToken)
@@ -164,7 +221,21 @@ func (p *InputMethodPrivilegedOperationsProxy) ReportFullscreenModeAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteBool(fullscreen)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsReportFullscreenModeAsync)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(fullscreen)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(fullscreen)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsReportFullscreenModeAsync)
 	if _err != nil {
@@ -183,10 +254,30 @@ func (p *InputMethodPrivilegedOperationsProxy) SetInputMethod(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteString16(id)
-	_data.WriteInt32(1)
-	if _err := future.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSetInputMethod)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(id)
+		_data.WriteInt32(1)
+		if _err := future.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(id)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := future.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSetInputMethod)
@@ -207,14 +298,40 @@ func (p *InputMethodPrivilegedOperationsProxy) SetInputMethodAndSubtype(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteString16(id)
-	_data.WriteInt32(1)
-	if _err := subtype.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSetInputMethodAndSubtype)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/view/inputmethod/InputMethodSubtype;",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(1)
-	if _err := future.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(id)
+		_data.WriteInt32(1)
+		if _err := subtype.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := future.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(id)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := subtype.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := future.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSetInputMethodAndSubtype)
@@ -236,15 +353,44 @@ func (p *InputMethodPrivilegedOperationsProxy) HideMySoftInput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteInt32(1)
-	if _err := statsToken.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsHideMySoftInput)
+	_compiledDescs := []string{
+		"LImeTracker/Token;",
+		"I",
+		"I",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(flags)
-	_data.WriteInt32(reason)
-	_data.WriteInt32(1)
-	if _err := future.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := statsToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(flags)
+		_data.WriteInt32(reason)
+		_data.WriteInt32(1)
+		if _err := future.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := statsToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(flags)
+			case 2:
+				_data.WriteInt32(reason)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := future.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsHideMySoftInput)
@@ -266,15 +412,44 @@ func (p *InputMethodPrivilegedOperationsProxy) ShowMySoftInput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteInt32(1)
-	if _err := statsToken.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsShowMySoftInput)
+	_compiledDescs := []string{
+		"LImeTracker/Token;",
+		"I",
+		"I",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(flags)
-	_data.WriteInt32(reason)
-	_data.WriteInt32(1)
-	if _err := future.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := statsToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(flags)
+		_data.WriteInt32(reason)
+		_data.WriteInt32(1)
+		if _err := future.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := statsToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(flags)
+			case 2:
+				_data.WriteInt32(reason)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := future.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsShowMySoftInput)
@@ -294,8 +469,25 @@ func (p *InputMethodPrivilegedOperationsProxy) UpdateStatusIconAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(iconId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsUpdateStatusIconAsync)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(iconId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(iconId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsUpdateStatusIconAsync)
 	if _err != nil {
@@ -313,9 +505,26 @@ func (p *InputMethodPrivilegedOperationsProxy) SwitchToPreviousInputMethod(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteInt32(1)
-	if _err := future.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSwitchToPreviousInputMethod)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := future.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := future.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSwitchToPreviousInputMethod)
@@ -335,10 +544,30 @@ func (p *InputMethodPrivilegedOperationsProxy) SwitchToNextInputMethod(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteBool(onlyCurrentIme)
-	_data.WriteInt32(1)
-	if _err := future.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSwitchToNextInputMethod)
+	_compiledDescs := []string{
+		"Z",
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(onlyCurrentIme)
+		_data.WriteInt32(1)
+		if _err := future.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(onlyCurrentIme)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := future.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSwitchToNextInputMethod)
@@ -357,9 +586,26 @@ func (p *InputMethodPrivilegedOperationsProxy) ShouldOfferSwitchingToNextInputMe
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteInt32(1)
-	if _err := future.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsShouldOfferSwitchingToNextInputMethod)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := future.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := future.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsShouldOfferSwitchingToNextInputMethod)
@@ -396,11 +642,34 @@ func (p *InputMethodPrivilegedOperationsProxy) ApplyImeVisibilityAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	binder.WriteBinderToParcel(ctx, _data, showOrHideInputToken, p.Remote.Transport())
-	_data.WriteBool(setVisible)
-	_data.WriteInt32(1)
-	if _err := statsToken.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsApplyImeVisibilityAsync)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Z",
+		"LImeTracker/Token;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, showOrHideInputToken, p.Remote.Transport())
+		_data.WriteBool(setVisible)
+		_data.WriteInt32(1)
+		if _err := statsToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, showOrHideInputToken, p.Remote.Transport())
+			case 1:
+				_data.WriteBool(setVisible)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := statsToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsApplyImeVisibilityAsync)
@@ -420,8 +689,25 @@ func (p *InputMethodPrivilegedOperationsProxy) OnStylusHandwritingReady(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteInt32(requestId)
-	_data.WriteInt32(pid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsOnStylusHandwritingReady)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(requestId)
+		_data.WriteInt32(pid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(requestId)
+			case 1:
+				_data.WriteInt32(pid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsOnStylusHandwritingReady)
 	if _err != nil {
@@ -439,7 +725,21 @@ func (p *InputMethodPrivilegedOperationsProxy) ResetStylusHandwriting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteInt32(requestId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsResetStylusHandwriting)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(requestId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(requestId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsResetStylusHandwriting)
 	if _err != nil {
@@ -457,7 +757,21 @@ func (p *InputMethodPrivilegedOperationsProxy) SwitchKeyboardLayoutAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteInt32(direction)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSwitchKeyboardLayoutAsync)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(direction)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(direction)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSwitchKeyboardLayoutAsync)
 	if _err != nil {

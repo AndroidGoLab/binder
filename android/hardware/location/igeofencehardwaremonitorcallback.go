@@ -47,9 +47,26 @@ func (p *GeofenceHardwareMonitorCallbackProxy) OnMonitoringSystemChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardwareMonitorCallback)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGeofenceHardwareMonitorCallback, MethodIGeofenceHardwareMonitorCallbackOnMonitoringSystemChange)
+	_compiledDescs := []string{
+		"Landroid/hardware/location/GeofenceHardwareMonitorEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceHardwareMonitorCallback, MethodIGeofenceHardwareMonitorCallbackOnMonitoringSystemChange)

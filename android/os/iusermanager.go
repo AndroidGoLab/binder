@@ -354,7 +354,21 @@ func (p *UserManagerProxy) GetCredentialOwnerProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetCredentialOwnerProfile)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetCredentialOwnerProfile)
 	if _err != nil {
@@ -386,7 +400,21 @@ func (p *UserManagerProxy) GetProfileParentId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetProfileParentId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetProfileParentId)
 	if _err != nil {
@@ -420,9 +448,29 @@ func (p *UserManagerProxy) CreateUserWithThrow(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(name)
-	_data.WriteString16(userType)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerCreateUserWithThrow)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteString16(userType)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteString16(userType)
+			case 2:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCreateUserWithThrow)
 	if _err != nil {
@@ -459,7 +507,21 @@ func (p *UserManagerProxy) PreCreateUserWithThrow(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(userType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerPreCreateUserWithThrow)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(userType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(userType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerPreCreateUserWithThrow)
 	if _err != nil {
@@ -500,16 +562,49 @@ func (p *UserManagerProxy) CreateProfileForUserWithThrow(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(name)
-	_data.WriteString16(userType)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(_identity.UserID)
-	if disallowedPackages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerCreateProfileForUserWithThrow)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteString16(userType)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(_identity.UserID)
+		if disallowedPackages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(disallowedPackages)))
+			for _, _item := range disallowedPackages {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(disallowedPackages)))
-		for _, _item := range disallowedPackages {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteString16(userType)
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				if disallowedPackages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(disallowedPackages)))
+					for _, _item := range disallowedPackages {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -549,8 +644,25 @@ func (p *UserManagerProxy) CreateRestrictedProfileWithThrow(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(name)
-	_data.WriteInt32(parentUserHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerCreateRestrictedProfileWithThrow)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteInt32(parentUserHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteInt32(parentUserHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCreateRestrictedProfileWithThrow)
 	if _err != nil {
@@ -587,7 +699,21 @@ func (p *UserManagerProxy) GetPreInstallableSystemPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(userType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetPreInstallableSystemPackages)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(userType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(userType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetPreInstallableSystemPackages)
 	if _err != nil {
@@ -631,7 +757,21 @@ func (p *UserManagerProxy) SetUserEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerSetUserEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetUserEnabled)
 	if _err != nil {
@@ -658,7 +798,21 @@ func (p *UserManagerProxy) SetUserAdmin(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerSetUserAdmin)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetUserAdmin)
 	if _err != nil {
@@ -685,7 +839,21 @@ func (p *UserManagerProxy) RevokeUserAdmin(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerRevokeUserAdmin)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerRevokeUserAdmin)
 	if _err != nil {
@@ -712,7 +880,21 @@ func (p *UserManagerProxy) EvictCredentialEncryptionKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerEvictCredentialEncryptionKey)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerEvictCredentialEncryptionKey)
 	if _err != nil {
@@ -740,7 +922,21 @@ func (p *UserManagerProxy) RemoveUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerRemoveUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerRemoveUser)
 	if _err != nil {
@@ -772,7 +968,21 @@ func (p *UserManagerProxy) RemoveUserEvenWhenDisallowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerRemoveUserEvenWhenDisallowed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerRemoveUserEvenWhenDisallowed)
 	if _err != nil {
@@ -804,8 +1014,25 @@ func (p *UserManagerProxy) SetUserName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerSetUserName)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetUserName)
 	if _err != nil {
@@ -833,10 +1060,30 @@ func (p *UserManagerProxy) SetUserIcon(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := icon.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerSetUserIcon)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/graphics/Bitmap;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := icon.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := icon.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetUserIcon)
@@ -865,7 +1112,21 @@ func (p *UserManagerProxy) GetUserIcon(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserIcon)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserIcon)
 	if _err != nil {
@@ -1024,9 +1285,29 @@ func (p *UserManagerProxy) GetUsers(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteBool(excludePartial)
-	_data.WriteBool(excludeDying)
-	_data.WriteBool(excludePreCreated)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUsers)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(excludePartial)
+		_data.WriteBool(excludeDying)
+		_data.WriteBool(excludePreCreated)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(excludePartial)
+			case 1:
+				_data.WriteBool(excludeDying)
+			case 2:
+				_data.WriteBool(excludePreCreated)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUsers)
 	if _err != nil {
@@ -1091,8 +1372,25 @@ func (p *UserManagerProxy) GetProfiles(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(enabledOnly)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetProfiles)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(enabledOnly)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(enabledOnly)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetProfiles)
 	if _err != nil {
@@ -1157,8 +1455,25 @@ func (p *UserManagerProxy) GetProfileIds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(enabledOnly)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetProfileIds)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(enabledOnly)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(enabledOnly)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetProfileIds)
 	if _err != nil {
@@ -1203,7 +1518,21 @@ func (p *UserManagerProxy) IsUserTypeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(userType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsUserTypeEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(userType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(userType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserTypeEnabled)
 	if _err != nil {
@@ -1235,7 +1564,21 @@ func (p *UserManagerProxy) CanAddMoreUsersOfType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(userType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerCanAddMoreUsersOfType)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(userType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(userType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCanAddMoreUsersOfType)
 	if _err != nil {
@@ -1267,7 +1610,21 @@ func (p *UserManagerProxy) GetRemainingCreatableUserCount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(userType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetRemainingCreatableUserCount)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(userType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(userType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetRemainingCreatableUserCount)
 	if _err != nil {
@@ -1300,8 +1657,25 @@ func (p *UserManagerProxy) GetRemainingCreatableProfileCount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(userType)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetRemainingCreatableProfileCount)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(userType)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(userType)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetRemainingCreatableProfileCount)
 	if _err != nil {
@@ -1335,9 +1709,29 @@ func (p *UserManagerProxy) CanAddMoreProfilesToUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(userType)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(allowedToRemoveOne)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerCanAddMoreProfilesToUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(userType)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(allowedToRemoveOne)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(userType)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(allowedToRemoveOne)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCanAddMoreProfilesToUser)
 	if _err != nil {
@@ -1370,8 +1764,25 @@ func (p *UserManagerProxy) CanAddMoreManagedProfiles(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(allowedToRemoveOne)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerCanAddMoreManagedProfiles)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(allowedToRemoveOne)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(allowedToRemoveOne)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCanAddMoreManagedProfiles)
 	if _err != nil {
@@ -1403,7 +1814,21 @@ func (p *UserManagerProxy) GetProfileParent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetProfileParent)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetProfileParent)
 	if _err != nil {
@@ -1441,8 +1866,25 @@ func (p *UserManagerProxy) IsSameProfileGroup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(otherUserHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsSameProfileGroup)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(otherUserHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(otherUserHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsSameProfileGroup)
 	if _err != nil {
@@ -1505,8 +1947,25 @@ func (p *UserManagerProxy) IsUserOfType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(userType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsUserOfType)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(userType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(userType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserOfType)
 	if _err != nil {
@@ -1538,7 +1997,21 @@ func (p *UserManagerProxy) GetUserInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserInfo)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserInfo)
 	if _err != nil {
@@ -1575,7 +2048,21 @@ func (p *UserManagerProxy) GetUserPropertiesCopy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserPropertiesCopy)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserPropertiesCopy)
 	if _err != nil {
@@ -1612,7 +2099,21 @@ func (p *UserManagerProxy) GetUserAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserAccount)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserAccount)
 	if _err != nil {
@@ -1644,8 +2145,25 @@ func (p *UserManagerProxy) SetUserAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(accountName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerSetUserAccount)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(accountName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(accountName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetUserAccount)
 	if _err != nil {
@@ -1673,7 +2191,21 @@ func (p *UserManagerProxy) GetUserCreationTime(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserCreationTime)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserCreationTime)
 	if _err != nil {
@@ -1705,7 +2237,21 @@ func (p *UserManagerProxy) GetUserSwitchability(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserSwitchability)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserSwitchability)
 	if _err != nil {
@@ -1738,8 +2284,25 @@ func (p *UserManagerProxy) IsUserSwitcherEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteBool(showEvenIfNotActionable)
-	_data.WriteInt32(mUserId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsUserSwitcherEnabled)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(showEvenIfNotActionable)
+		_data.WriteInt32(mUserId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(showEvenIfNotActionable)
+			case 1:
+				_data.WriteInt32(mUserId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserSwitcherEnabled)
 	if _err != nil {
@@ -1771,7 +2334,21 @@ func (p *UserManagerProxy) IsRestricted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsRestricted)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsRestricted)
 	if _err != nil {
@@ -1803,7 +2380,21 @@ func (p *UserManagerProxy) CanHaveRestrictedProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerCanHaveRestrictedProfile)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCanHaveRestrictedProfile)
 	if _err != nil {
@@ -1835,7 +2426,21 @@ func (p *UserManagerProxy) GetUserSerialNumber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserSerialNumber)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserSerialNumber)
 	if _err != nil {
@@ -1867,7 +2472,21 @@ func (p *UserManagerProxy) GetUserHandle(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(userSerialNumber)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserHandle)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(userSerialNumber)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(userSerialNumber)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserHandle)
 	if _err != nil {
@@ -1900,8 +2519,25 @@ func (p *UserManagerProxy) GetUserRestrictionSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(restrictionKey)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserRestrictionSource)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(restrictionKey)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(restrictionKey)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserRestrictionSource)
 	if _err != nil {
@@ -1934,8 +2570,25 @@ func (p *UserManagerProxy) GetUserRestrictionSources(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(restrictionKey)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserRestrictionSources)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(restrictionKey)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(restrictionKey)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserRestrictionSources)
 	if _err != nil {
@@ -1999,7 +2652,21 @@ func (p *UserManagerProxy) GetUserRestrictions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserRestrictions)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserRestrictions)
 	if _err != nil {
@@ -2037,8 +2704,25 @@ func (p *UserManagerProxy) HasBaseUserRestriction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(restrictionKey)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerHasBaseUserRestriction)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(restrictionKey)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(restrictionKey)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerHasBaseUserRestriction)
 	if _err != nil {
@@ -2071,8 +2755,25 @@ func (p *UserManagerProxy) HasUserRestriction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(restrictionKey)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerHasUserRestriction)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(restrictionKey)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(restrictionKey)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerHasUserRestriction)
 	if _err != nil {
@@ -2104,7 +2805,21 @@ func (p *UserManagerProxy) HasUserRestrictionOnAnyUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(restrictionKey)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerHasUserRestrictionOnAnyUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(restrictionKey)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(restrictionKey)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerHasUserRestrictionOnAnyUser)
 	if _err != nil {
@@ -2138,10 +2853,33 @@ func (p *UserManagerProxy) IsSettingRestrictedForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(setting)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(value)
-	_data.WriteInt32(_identity.UID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsSettingRestrictedForUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(setting)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(value)
+		_data.WriteInt32(_identity.UID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(setting)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteString16(value)
+			case 3:
+				_data.WriteInt32(_identity.UID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsSettingRestrictedForUser)
 	if _err != nil {
@@ -2172,7 +2910,21 @@ func (p *UserManagerProxy) AddUserRestrictionsListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerAddUserRestrictionsListener)
+	_compiledDescs := []string{
+		"Landroid/os/IUserRestrictionsListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerAddUserRestrictionsListener)
 	if _err != nil {
@@ -2201,9 +2953,29 @@ func (p *UserManagerProxy) SetUserRestriction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(key)
-	_data.WriteBool(value)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerSetUserRestriction)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteBool(value)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteBool(value)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetUserRestriction)
 	if _err != nil {
@@ -2232,12 +3004,35 @@ func (p *UserManagerProxy) SetApplicationRestrictions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := restrictions.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerSetApplicationRestrictions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := restrictions.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := restrictions.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetApplicationRestrictions)
 	if _err != nil {
@@ -2265,7 +3060,21 @@ func (p *UserManagerProxy) GetApplicationRestrictions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetApplicationRestrictions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetApplicationRestrictions)
 	if _err != nil {
@@ -2303,8 +3112,25 @@ func (p *UserManagerProxy) GetApplicationRestrictionsForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetApplicationRestrictionsForUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetApplicationRestrictionsForUser)
 	if _err != nil {
@@ -2340,9 +3166,26 @@ func (p *UserManagerProxy) SetDefaultGuestRestrictions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(1)
-	if _err := restrictions.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerSetDefaultGuestRestrictions)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := restrictions.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := restrictions.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetDefaultGuestRestrictions)
@@ -2407,8 +3250,25 @@ func (p *UserManagerProxy) RemoveUserWhenPossible(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(overrideDevicePolicy)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerRemoveUserWhenPossible)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(overrideDevicePolicy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(overrideDevicePolicy)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerRemoveUserWhenPossible)
 	if _err != nil {
@@ -2440,7 +3300,21 @@ func (p *UserManagerProxy) MarkGuestForDeletion(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerMarkGuestForDeletion)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerMarkGuestForDeletion)
 	if _err != nil {
@@ -2534,7 +3408,21 @@ func (p *UserManagerProxy) IsQuietModeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsQuietModeEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsQuietModeEnabled)
 	if _err != nil {
@@ -2572,18 +3460,56 @@ func (p *UserManagerProxy) CreateUserWithAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(userName)
-	_data.WriteString16(userType)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := userIcon.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerCreateUserWithAttributes)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/graphics/Bitmap;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/PersistableBundle;",
 	}
-	_data.WriteString16(accountName)
-	_data.WriteString16(accountType)
-	_data.WriteInt32(1)
-	if _err := accountOptions.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(userName)
+		_data.WriteString16(userType)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(1)
+		if _err := userIcon.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(accountName)
+		_data.WriteString16(accountType)
+		_data.WriteInt32(1)
+		if _err := accountOptions.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(userName)
+			case 1:
+				_data.WriteString16(userType)
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := userIcon.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				_data.WriteString16(accountName)
+			case 5:
+				_data.WriteString16(accountType)
+			case 6:
+				_data.WriteInt32(1)
+				if _err := accountOptions.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCreateUserWithAttributes)
@@ -2624,14 +3550,43 @@ func (p *UserManagerProxy) SetSeedAccountData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(accountName)
-	_data.WriteString16(accountType)
-	_data.WriteInt32(1)
-	if _err := accountOptions.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerSetSeedAccountData)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/PersistableBundle;",
+		"Z",
 	}
-	_data.WriteBool(persist)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(accountName)
+		_data.WriteString16(accountType)
+		_data.WriteInt32(1)
+		if _err := accountOptions.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(persist)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(accountName)
+			case 2:
+				_data.WriteString16(accountType)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := accountOptions.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteBool(persist)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetSeedAccountData)
 	if _err != nil {
@@ -2659,7 +3614,21 @@ func (p *UserManagerProxy) GetSeedAccountName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetSeedAccountName)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetSeedAccountName)
 	if _err != nil {
@@ -2691,7 +3660,21 @@ func (p *UserManagerProxy) GetSeedAccountType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetSeedAccountType)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetSeedAccountType)
 	if _err != nil {
@@ -2723,7 +3706,21 @@ func (p *UserManagerProxy) GetSeedAccountOptions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetSeedAccountOptions)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetSeedAccountOptions)
 	if _err != nil {
@@ -2759,7 +3756,21 @@ func (p *UserManagerProxy) ClearSeedAccountData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerClearSeedAccountData)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerClearSeedAccountData)
 	if _err != nil {
@@ -2788,8 +3799,25 @@ func (p *UserManagerProxy) SomeUserHasSeedAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(accountName)
-	_data.WriteString16(accountType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerSomeUserHasSeedAccount)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(accountName)
+		_data.WriteString16(accountType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(accountName)
+			case 1:
+				_data.WriteString16(accountType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSomeUserHasSeedAccount)
 	if _err != nil {
@@ -2822,8 +3850,25 @@ func (p *UserManagerProxy) SomeUserHasAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(accountName)
-	_data.WriteString16(accountType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerSomeUserHasAccount)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(accountName)
+		_data.WriteString16(accountType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(accountName)
+			case 1:
+				_data.WriteString16(accountType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSomeUserHasAccount)
 	if _err != nil {
@@ -2855,7 +3900,21 @@ func (p *UserManagerProxy) GetProfileType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetProfileType)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetProfileType)
 	if _err != nil {
@@ -2887,7 +3946,21 @@ func (p *UserManagerProxy) IsDemoUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsDemoUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsDemoUser)
 	if _err != nil {
@@ -2919,7 +3992,21 @@ func (p *UserManagerProxy) IsAdminUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsAdminUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsAdminUser)
 	if _err != nil {
@@ -2951,7 +4038,21 @@ func (p *UserManagerProxy) IsPreCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsPreCreated)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsPreCreated)
 	if _err != nil {
@@ -2987,16 +4088,49 @@ func (p *UserManagerProxy) CreateProfileForUserEvenWhenDisallowedWithThrow(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(name)
-	_data.WriteString16(userType)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(_identity.UserID)
-	if disallowedPackages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerCreateProfileForUserEvenWhenDisallowedWithThrow)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteString16(userType)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(_identity.UserID)
+		if disallowedPackages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(disallowedPackages)))
+			for _, _item := range disallowedPackages {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(disallowedPackages)))
-		for _, _item := range disallowedPackages {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteString16(userType)
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				if disallowedPackages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(disallowedPackages)))
+					for _, _item := range disallowedPackages {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -3035,7 +4169,21 @@ func (p *UserManagerProxy) IsUserUnlockingOrUnlocked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsUserUnlockingOrUnlocked)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserUnlockingOrUnlocked)
 	if _err != nil {
@@ -3067,7 +4215,21 @@ func (p *UserManagerProxy) GetUserIconBadgeResId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserIconBadgeResId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserIconBadgeResId)
 	if _err != nil {
@@ -3099,7 +4261,21 @@ func (p *UserManagerProxy) GetUserBadgeResId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeResId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeResId)
 	if _err != nil {
@@ -3131,7 +4307,21 @@ func (p *UserManagerProxy) GetUserBadgeNoBackgroundResId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeNoBackgroundResId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeNoBackgroundResId)
 	if _err != nil {
@@ -3163,7 +4353,21 @@ func (p *UserManagerProxy) GetUserBadgeLabelResId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeLabelResId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeLabelResId)
 	if _err != nil {
@@ -3195,7 +4399,21 @@ func (p *UserManagerProxy) GetUserBadgeColorResId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeColorResId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeColorResId)
 	if _err != nil {
@@ -3227,7 +4445,21 @@ func (p *UserManagerProxy) GetUserBadgeDarkColorResId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeDarkColorResId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeDarkColorResId)
 	if _err != nil {
@@ -3259,7 +4491,21 @@ func (p *UserManagerProxy) GetUserStatusBarIconResId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetUserStatusBarIconResId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserStatusBarIconResId)
 	if _err != nil {
@@ -3291,7 +4537,21 @@ func (p *UserManagerProxy) HasBadge(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerHasBadge)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerHasBadge)
 	if _err != nil {
@@ -3323,7 +4583,21 @@ func (p *UserManagerProxy) GetProfileLabelResId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetProfileLabelResId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetProfileLabelResId)
 	if _err != nil {
@@ -3355,7 +4629,21 @@ func (p *UserManagerProxy) IsUserUnlocked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsUserUnlocked)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserUnlocked)
 	if _err != nil {
@@ -3387,7 +4675,21 @@ func (p *UserManagerProxy) IsUserRunning(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsUserRunning)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserRunning)
 	if _err != nil {
@@ -3419,7 +4721,21 @@ func (p *UserManagerProxy) IsUserForeground(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsUserForeground)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserForeground)
 	if _err != nil {
@@ -3451,7 +4767,21 @@ func (p *UserManagerProxy) IsUserVisible(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsUserVisible)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserVisible)
 	if _err != nil {
@@ -3586,7 +4916,21 @@ func (p *UserManagerProxy) IsUserNameSet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerIsUserNameSet)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserNameSet)
 	if _err != nil {
@@ -3618,7 +4962,21 @@ func (p *UserManagerProxy) HasRestrictedProfiles(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerHasRestrictedProfiles)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerHasRestrictedProfiles)
 	if _err != nil {
@@ -3653,14 +5011,43 @@ func (p *UserManagerProxy) RequestQuietModeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteBool(enableQuietMode)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := target.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerRequestQuietModeEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"I",
+		"Landroid/content/IntentSender;",
+		"I",
 	}
-	_data.WriteInt32(flags)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteBool(enableQuietMode)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := target.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteBool(enableQuietMode)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := target.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerRequestQuietModeEnabled)
 	if _err != nil {
@@ -3783,8 +5170,25 @@ func (p *UserManagerProxy) SetUserEphemeral(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(enableEphemeral)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerSetUserEphemeral)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(enableEphemeral)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(enableEphemeral)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetUserEphemeral)
 	if _err != nil {
@@ -3815,7 +5219,21 @@ func (p *UserManagerProxy) SetBootUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerSetBootUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetBootUser)
 	if _err != nil {
@@ -3874,8 +5292,25 @@ func (p *UserManagerProxy) GetProfileIdsExcludingHidden(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(enabledOnly)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserManager, MethodIUserManagerGetProfileIdsExcludingHidden)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(enabledOnly)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(enabledOnly)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetProfileIdsExcludingHidden)
 	if _err != nil {

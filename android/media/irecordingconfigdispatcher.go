@@ -47,14 +47,38 @@ func (p *RecordingConfigDispatcherProxy) DispatchRecordingConfigChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecordingConfigDispatcher)
-	if configs == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecordingConfigDispatcher, MethodIRecordingConfigDispatcherDispatchRecordingConfigChange)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if configs == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(configs)))
+			for _, _item := range configs {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(configs)))
-		for _, _item := range configs {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if configs == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(configs)))
+					for _, _item := range configs {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

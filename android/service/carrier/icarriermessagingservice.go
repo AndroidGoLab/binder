@@ -67,14 +67,43 @@ func (p *CarrierMessagingServiceProxy) FilterSms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
-	_data.WriteInt32(1)
-	if _err := pdu.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceFilterSms)
+	_compiledDescs := []string{
+		"Landroid/service/carrier/MessagePdu;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Landroid/service/carrier/ICarrierMessagingCallback;",
 	}
-	_data.WriteString16(format)
-	_data.WriteInt32(destPort)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pdu.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(format)
+		_data.WriteInt32(destPort)
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pdu.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(format)
+			case 2:
+				_data.WriteInt32(destPort)
+			case 3:
+				_data.WriteInt32(subId)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceFilterSms)
 	if _err != nil {
@@ -96,11 +125,37 @@ func (p *CarrierMessagingServiceProxy) SendTextSms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
-	_data.WriteString16(text)
-	_data.WriteInt32(subId)
-	_data.WriteString16(destAddress)
-	_data.WriteInt32(sendSmsFlag)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendTextSms)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/service/carrier/ICarrierMessagingCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(text)
+		_data.WriteInt32(subId)
+		_data.WriteString16(destAddress)
+		_data.WriteInt32(sendSmsFlag)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(text)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteString16(destAddress)
+			case 3:
+				_data.WriteInt32(sendSmsFlag)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendTextSms)
 	if _err != nil {
@@ -123,12 +178,41 @@ func (p *CarrierMessagingServiceProxy) SendDataSms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
-	_data.WriteByteArray(data)
-	_data.WriteInt32(subId)
-	_data.WriteString16(destAddress)
-	_data.WriteInt32(destPort)
-	_data.WriteInt32(sendSmsFlag)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendDataSms)
+	_compiledDescs := []string{
+		"[B",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Landroid/service/carrier/ICarrierMessagingCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(data)
+		_data.WriteInt32(subId)
+		_data.WriteString16(destAddress)
+		_data.WriteInt32(destPort)
+		_data.WriteInt32(sendSmsFlag)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(data)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteString16(destAddress)
+			case 3:
+				_data.WriteInt32(destPort)
+			case 4:
+				_data.WriteInt32(sendSmsFlag)
+			case 5:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendDataSms)
 	if _err != nil {
@@ -150,18 +234,51 @@ func (p *CarrierMessagingServiceProxy) SendMultipartTextSms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
-	if parts == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendMultipartTextSms)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/service/carrier/ICarrierMessagingCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if parts == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(parts)))
+			for _, _item := range parts {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(subId)
+		_data.WriteString16(destAddress)
+		_data.WriteInt32(sendSmsFlag)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(parts)))
-		for _, _item := range parts {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if parts == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(parts)))
+					for _, _item := range parts {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteString16(destAddress)
+			case 3:
+				_data.WriteInt32(sendSmsFlag)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	_data.WriteInt32(subId)
-	_data.WriteString16(destAddress)
-	_data.WriteInt32(sendSmsFlag)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendMultipartTextSms)
 	if _err != nil {
@@ -182,16 +299,45 @@ func (p *CarrierMessagingServiceProxy) SendMms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
-	_data.WriteInt32(1)
-	if _err := pduUri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendMms)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"I",
+		"Landroid/net/Uri;",
+		"Landroid/service/carrier/ICarrierMessagingCallback;",
 	}
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := location.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pduUri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := location.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pduUri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := location.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendMms)
 	if _err != nil {
@@ -212,16 +358,45 @@ func (p *CarrierMessagingServiceProxy) DownloadMms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
-	_data.WriteInt32(1)
-	if _err := pduUri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceDownloadMms)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"I",
+		"Landroid/net/Uri;",
+		"Landroid/service/carrier/ICarrierMessagingCallback;",
 	}
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := location.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pduUri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := location.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pduUri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := location.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceDownloadMms)
 	if _err != nil {

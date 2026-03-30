@@ -58,9 +58,29 @@ func (p *UsbGadgetCallbackProxy) SetCurrentUsbFunctionsCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbGadgetCallback)
-	_data.WriteInt64(functions)
-	_data.WriteInt32(int32(status))
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackSetCurrentUsbFunctionsCb)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/hardware/usb/gadget/Status;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(functions)
+		_data.WriteInt32(int32(status))
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(functions)
+			case 1:
+				_data.WriteInt32(int32(status))
+			case 2:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackSetCurrentUsbFunctionsCb)
 	if _err != nil {
@@ -80,9 +100,29 @@ func (p *UsbGadgetCallbackProxy) GetCurrentUsbFunctionsCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbGadgetCallback)
-	_data.WriteInt64(functions)
-	_data.WriteInt32(int32(status))
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackGetCurrentUsbFunctionsCb)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/hardware/usb/gadget/Status;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(functions)
+		_data.WriteInt32(int32(status))
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(functions)
+			case 1:
+				_data.WriteInt32(int32(status))
+			case 2:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackGetCurrentUsbFunctionsCb)
 	if _err != nil {
@@ -101,8 +141,25 @@ func (p *UsbGadgetCallbackProxy) GetUsbSpeedCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbGadgetCallback)
-	_data.WriteInt32(int32(speed))
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackGetUsbSpeedCb)
+	_compiledDescs := []string{
+		"Landroid/hardware/usb/gadget/UsbSpeed;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(speed))
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(speed))
+			case 1:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackGetUsbSpeedCb)
 	if _err != nil {
@@ -121,8 +178,25 @@ func (p *UsbGadgetCallbackProxy) ResetCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbGadgetCallback)
-	_data.WriteInt32(int32(status))
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackResetCb)
+	_compiledDescs := []string{
+		"Landroid/hardware/usb/gadget/Status;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(status))
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(status))
+			case 1:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackResetCb)
 	if _err != nil {

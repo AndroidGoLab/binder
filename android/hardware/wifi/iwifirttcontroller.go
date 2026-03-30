@@ -74,7 +74,21 @@ func (p *WifiRttControllerProxy) DisableResponder(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
-	_data.WriteInt32(cmdId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiRttController, MethodIWifiRttControllerDisableResponder)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiRttController, MethodIWifiRttControllerDisableResponder)
 	if _err != nil {
@@ -104,15 +118,44 @@ func (p *WifiRttControllerProxy) EnableResponder(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
-	_data.WriteInt32(cmdId)
-	_data.WriteInt32(1)
-	if _err := channelHint.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiRttController, MethodIWifiRttControllerEnableResponder)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/wifi/WifiChannelInfo;",
+		"I",
+		"Landroid/hardware/wifi/RttResponder;",
 	}
-	_data.WriteInt32(maxDurationInSeconds)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		_data.WriteInt32(1)
+		if _err := channelHint.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(maxDurationInSeconds)
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := channelHint.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(maxDurationInSeconds)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiRttController, MethodIWifiRttControllerEnableResponder)
@@ -242,15 +285,42 @@ func (p *WifiRttControllerProxy) RangeCancel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
-	_data.WriteInt32(cmdId)
-	if addrs == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiRttController, MethodIWifiRttControllerRangeCancel)
+	_compiledDescs := []string{
+		"I",
+		"[Landroid/hardware/wifi/MacAddress;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		if addrs == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(addrs)))
+			for _, _item := range addrs {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(addrs)))
-		for _, _item := range addrs {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				if addrs == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(addrs)))
+					for _, _item := range addrs {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -281,15 +351,42 @@ func (p *WifiRttControllerProxy) RangeRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
-	_data.WriteInt32(cmdId)
-	if rttConfigs == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiRttController, MethodIWifiRttControllerRangeRequest)
+	_compiledDescs := []string{
+		"I",
+		"[Landroid/hardware/wifi/RttConfig;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		if rttConfigs == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(rttConfigs)))
+			for _, _item := range rttConfigs {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(rttConfigs)))
-		for _, _item := range rttConfigs {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				if rttConfigs == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(rttConfigs)))
+					for _, _item := range rttConfigs {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -319,7 +416,21 @@ func (p *WifiRttControllerProxy) RegisterEventCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiRttController, MethodIWifiRttControllerRegisterEventCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/IWifiRttControllerEventCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiRttController, MethodIWifiRttControllerRegisterEventCallback)
 	if _err != nil {
@@ -347,10 +458,30 @@ func (p *WifiRttControllerProxy) SetLci(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
-	_data.WriteInt32(cmdId)
-	_data.WriteInt32(1)
-	if _err := lci.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiRttController, MethodIWifiRttControllerSetLci)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/wifi/RttLciInformation;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		_data.WriteInt32(1)
+		if _err := lci.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := lci.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiRttController, MethodIWifiRttControllerSetLci)
@@ -379,10 +510,30 @@ func (p *WifiRttControllerProxy) SetLcr(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
-	_data.WriteInt32(cmdId)
-	_data.WriteInt32(1)
-	if _err := lcr.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiRttController, MethodIWifiRttControllerSetLcr)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/wifi/RttLcrInformation;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		_data.WriteInt32(1)
+		if _err := lcr.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := lcr.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiRttController, MethodIWifiRttControllerSetLcr)

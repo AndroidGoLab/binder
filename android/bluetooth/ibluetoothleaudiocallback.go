@@ -63,10 +63,30 @@ func (p *BluetoothLeAudioCallbackProxy) OnCodecConfigChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeAudioCallback)
-	_data.WriteInt32(groupId)
-	_data.WriteInt32(1)
-	if _err := status.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnCodecConfigChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/bluetooth/BluetoothLeAudioCodecStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(groupId)
+		_data.WriteInt32(1)
+		if _err := status.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(groupId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := status.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnCodecConfigChanged)
@@ -86,11 +106,31 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupNodeAdded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeAudioCallback)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupNodeAdded)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"I",
 	}
-	_data.WriteInt32(groupId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(groupId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(groupId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupNodeAdded)
 	if _err != nil {
@@ -109,11 +149,31 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupNodeRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeAudioCallback)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupNodeRemoved)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"I",
 	}
-	_data.WriteInt32(groupId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(groupId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(groupId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupNodeRemoved)
 	if _err != nil {
@@ -132,8 +192,25 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeAudioCallback)
-	_data.WriteInt32(groupId)
-	_data.WriteInt32(groupStatus)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupStatusChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(groupId)
+		_data.WriteInt32(groupStatus)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(groupId)
+			case 1:
+				_data.WriteInt32(groupStatus)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupStatusChanged)
 	if _err != nil {
@@ -152,8 +229,25 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupStreamStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeAudioCallback)
-	_data.WriteInt32(groupId)
-	_data.WriteInt32(groupStreamStatus)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupStreamStatusChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(groupId)
+		_data.WriteInt32(groupStreamStatus)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(groupId)
+			case 1:
+				_data.WriteInt32(groupStreamStatus)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupStreamStatusChanged)
 	if _err != nil {
@@ -171,7 +265,21 @@ func (p *BluetoothLeAudioCallbackProxy) OnBroadcastToUnicastFallbackGroupChanged
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeAudioCallback)
-	_data.WriteInt32(groupId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnBroadcastToUnicastFallbackGroupChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(groupId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(groupId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnBroadcastToUnicastFallbackGroupChanged)
 	if _err != nil {

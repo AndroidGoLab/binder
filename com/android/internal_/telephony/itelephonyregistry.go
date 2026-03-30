@@ -211,9 +211,29 @@ func (p *TelephonyRegistryProxy) AddOnSubscriptionsChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteString16(pkg)
-	_data.WriteString16(featureId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryAddOnSubscriptionsChangedListener)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/IOnSubscriptionsChangedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(featureId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(featureId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryAddOnSubscriptionsChangedListener)
 	if _err != nil {
@@ -242,9 +262,29 @@ func (p *TelephonyRegistryProxy) AddOnOpportunisticSubscriptionsChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteString16(pkg)
-	_data.WriteString16(featureId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryAddOnOpportunisticSubscriptionsChangedListener)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/IOnSubscriptionsChangedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(featureId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(featureId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryAddOnOpportunisticSubscriptionsChangedListener)
 	if _err != nil {
@@ -272,8 +312,25 @@ func (p *TelephonyRegistryProxy) RemoveOnSubscriptionsChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteString16(pkg)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryRemoveOnSubscriptionsChangedListener)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/IOnSubscriptionsChangedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryRemoveOnSubscriptionsChangedListener)
 	if _err != nil {
@@ -307,21 +364,63 @@ func (p *TelephonyRegistryProxy) ListenWithEventList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteBool(renounceFineLocationAccess)
-	_data.WriteBool(renounceCoarseLocationAccess)
-	_data.WriteInt32(subId)
-	_data.WriteString16(pkg)
-	_data.WriteString16(featureId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	if events == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryListenWithEventList)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/IPhoneStateListener;",
+		"[I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(renounceFineLocationAccess)
+		_data.WriteBool(renounceCoarseLocationAccess)
+		_data.WriteInt32(subId)
+		_data.WriteString16(pkg)
+		_data.WriteString16(featureId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		if events == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(events)))
+			for _, _item := range events {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteBool(notifyNow)
 	} else {
-		_data.WriteInt32(int32(len(events)))
-		for _, _item := range events {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(renounceFineLocationAccess)
+			case 1:
+				_data.WriteBool(renounceCoarseLocationAccess)
+			case 2:
+				_data.WriteInt32(subId)
+			case 3:
+				_data.WriteString16(pkg)
+			case 4:
+				_data.WriteString16(featureId)
+			case 5:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 6:
+				if events == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(events)))
+					for _, _item := range events {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 7:
+				_data.WriteBool(notifyNow)
+			}
 		}
 	}
-	_data.WriteBool(notifyNow)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryListenWithEventList)
 	if _err != nil {
@@ -349,8 +448,25 @@ func (p *TelephonyRegistryProxy) NotifyCallStateForAllSubs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(state)
-	_data.WriteString16(incomingNumber)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCallStateForAllSubs)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(state)
+		_data.WriteString16(incomingNumber)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(state)
+			case 1:
+				_data.WriteString16(incomingNumber)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCallStateForAllSubs)
 	if _err != nil {
@@ -380,10 +496,33 @@ func (p *TelephonyRegistryProxy) NotifyCallState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(state)
-	_data.WriteString16(incomingNumber)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCallState)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(state)
+		_data.WriteString16(incomingNumber)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(state)
+			case 3:
+				_data.WriteString16(incomingNumber)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCallState)
 	if _err != nil {
@@ -412,11 +551,34 @@ func (p *TelephonyRegistryProxy) NotifyServiceStateForPhoneId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := state.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyServiceStateForPhoneId)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/telephony/ServiceState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := state.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := state.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyServiceStateForPhoneId)
@@ -446,11 +608,34 @@ func (p *TelephonyRegistryProxy) NotifySignalStrengthForPhoneId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := signalStrength.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifySignalStrengthForPhoneId)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/hardware/radio/network/SignalStrength;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := signalStrength.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := signalStrength.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifySignalStrengthForPhoneId)
@@ -480,9 +665,29 @@ func (p *TelephonyRegistryProxy) NotifyMessageWaitingChangedForPhoneId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteBool(mwi)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyMessageWaitingChangedForPhoneId)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteBool(mwi)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteBool(mwi)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyMessageWaitingChangedForPhoneId)
 	if _err != nil {
@@ -509,7 +714,21 @@ func (p *TelephonyRegistryProxy) NotifyCallForwardingChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteBool(cfi)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCallForwardingChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(cfi)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(cfi)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCallForwardingChanged)
 	if _err != nil {
@@ -537,8 +756,25 @@ func (p *TelephonyRegistryProxy) NotifyCallForwardingChangedForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(subId)
-	_data.WriteBool(cfi)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCallForwardingChangedForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(cfi)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(cfi)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCallForwardingChangedForSubscriber)
 	if _err != nil {
@@ -566,8 +802,25 @@ func (p *TelephonyRegistryProxy) NotifyDataActivityForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyDataActivityForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyDataActivityForSubscriber)
 	if _err != nil {
@@ -596,9 +849,29 @@ func (p *TelephonyRegistryProxy) NotifyDataActivityForSubscriberWithSlot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyDataActivityForSubscriberWithSlot)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyDataActivityForSubscriberWithSlot)
 	if _err != nil {
@@ -627,11 +900,34 @@ func (p *TelephonyRegistryProxy) NotifyDataConnectionForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := preciseState.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyDataConnectionForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/telephony/PreciseDataConnectionState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := preciseState.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := preciseState.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyDataConnectionForSubscriber)
@@ -660,10 +956,30 @@ func (p *TelephonyRegistryProxy) NotifyCellLocationForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := cellLocation.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCellLocationForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/CellIdentity;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := cellLocation.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := cellLocation.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCellLocationForSubscriber)
@@ -691,14 +1007,38 @@ func (p *TelephonyRegistryProxy) NotifyCellInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	if cellInfo == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCellInfo)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if cellInfo == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(cellInfo)))
+			for _, _item := range cellInfo {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(cellInfo)))
-		for _, _item := range cellInfo {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if cellInfo == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(cellInfo)))
+					for _, _item := range cellInfo {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -733,38 +1073,95 @@ func (p *TelephonyRegistryProxy) NotifyPreciseCallState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	if callStates == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(callStates)))
-		for _, _item := range callStates {
-			_data.WriteInt32(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyPreciseCallState)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[I",
+		"[Ljava/lang/String;",
+		"[I",
+		"[I",
 	}
-	if imsCallIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(imsCallIds)))
-		for _, _item := range imsCallIds {
-			_data.WriteString16(_item)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		if callStates == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(callStates)))
+			for _, _item := range callStates {
+				_data.WriteInt32(_item)
+			}
 		}
-	}
-	if imsCallServiceTypes == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(imsCallServiceTypes)))
-		for _, _item := range imsCallServiceTypes {
-			_data.WriteInt32(_item)
+		if imsCallIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(imsCallIds)))
+			for _, _item := range imsCallIds {
+				_data.WriteString16(_item)
+			}
 		}
-	}
-	if imsCallTypes == nil {
-		_data.WriteInt32(-1)
+		if imsCallServiceTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(imsCallServiceTypes)))
+			for _, _item := range imsCallServiceTypes {
+				_data.WriteInt32(_item)
+			}
+		}
+		if imsCallTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(imsCallTypes)))
+			for _, _item := range imsCallTypes {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(imsCallTypes)))
-		for _, _item := range imsCallTypes {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				if callStates == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(callStates)))
+					for _, _item := range callStates {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 3:
+				if imsCallIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(imsCallIds)))
+					for _, _item := range imsCallIds {
+						_data.WriteString16(_item)
+					}
+				}
+			case 4:
+				if imsCallServiceTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(imsCallServiceTypes)))
+					for _, _item := range imsCallServiceTypes {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 5:
+				if imsCallTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(imsCallTypes)))
+					for _, _item := range imsCallTypes {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -796,10 +1193,33 @@ func (p *TelephonyRegistryProxy) NotifyDisconnectCause(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(disconnectCause)
-	_data.WriteInt32(preciseDisconnectCause)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyDisconnectCause)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(disconnectCause)
+		_data.WriteInt32(preciseDisconnectCause)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(disconnectCause)
+			case 3:
+				_data.WriteInt32(preciseDisconnectCause)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyDisconnectCause)
 	if _err != nil {
@@ -827,15 +1247,42 @@ func (p *TelephonyRegistryProxy) NotifyCellInfoForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(subId)
-	if cellInfo == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCellInfoForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		if cellInfo == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(cellInfo)))
+			for _, _item := range cellInfo {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(cellInfo)))
-		for _, _item := range cellInfo {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				if cellInfo == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(cellInfo)))
+					for _, _item := range cellInfo {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -866,8 +1313,25 @@ func (p *TelephonyRegistryProxy) NotifySrvccStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(lteState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifySrvccStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(lteState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(lteState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifySrvccStateChanged)
 	if _err != nil {
@@ -897,10 +1361,33 @@ func (p *TelephonyRegistryProxy) NotifySimActivationStateChangedForPhoneId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(activationState)
-	_data.WriteInt32(activationType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifySimActivationStateChangedForPhoneId)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(activationState)
+		_data.WriteInt32(activationType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(activationState)
+			case 3:
+				_data.WriteInt32(activationType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifySimActivationStateChangedForPhoneId)
 	if _err != nil {
@@ -929,9 +1416,29 @@ func (p *TelephonyRegistryProxy) NotifyOemHookRawEventForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteByteArray(rawData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyOemHookRawEventForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteByteArray(rawData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteByteArray(rawData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyOemHookRawEventForSubscriber)
 	if _err != nil {
@@ -1008,7 +1515,21 @@ func (p *TelephonyRegistryProxy) NotifyCarrierNetworkChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteBool(active)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCarrierNetworkChange)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(active)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(active)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCarrierNetworkChange)
 	if _err != nil {
@@ -1036,8 +1557,25 @@ func (p *TelephonyRegistryProxy) NotifyCarrierNetworkChangeWithSubId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(subId)
-	_data.WriteBool(active)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCarrierNetworkChangeWithSubId)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(active)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(active)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCarrierNetworkChangeWithSubId)
 	if _err != nil {
@@ -1066,9 +1604,29 @@ func (p *TelephonyRegistryProxy) NotifyUserMobileDataStateChangedForPhoneId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteBool(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyUserMobileDataStateChangedForPhoneId)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteBool(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteBool(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyUserMobileDataStateChangedForPhoneId)
 	if _err != nil {
@@ -1097,11 +1655,34 @@ func (p *TelephonyRegistryProxy) NotifyDisplayInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(slotIndex)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := telephonyDisplayInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyDisplayInfoChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/telephony/TelephonyDisplayInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := telephonyDisplayInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := telephonyDisplayInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyDisplayInfoChanged)
@@ -1129,9 +1710,26 @@ func (p *TelephonyRegistryProxy) NotifyPhoneCapabilityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(1)
-	if _err := capability.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyPhoneCapabilityChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/config/PhoneCapability;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := capability.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := capability.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyPhoneCapabilityChanged)
@@ -1159,7 +1757,21 @@ func (p *TelephonyRegistryProxy) NotifyActiveDataSubIdChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(activeDataSubId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyActiveDataSubIdChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(activeDataSubId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(activeDataSubId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyActiveDataSubIdChanged)
 	if _err != nil {
@@ -1188,9 +1800,29 @@ func (p *TelephonyRegistryProxy) NotifyRadioPowerStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyRadioPowerStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyRadioPowerStateChanged)
 	if _err != nil {
@@ -1218,8 +1850,25 @@ func (p *TelephonyRegistryProxy) NotifyEmergencyNumberList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyEmergencyNumberList)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyEmergencyNumberList)
 	if _err != nil {
@@ -1248,11 +1897,34 @@ func (p *TelephonyRegistryProxy) NotifyOutgoingEmergencyCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := emergencyNumber.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyOutgoingEmergencyCall)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/hardware/radio/voice/EmergencyNumber;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := emergencyNumber.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := emergencyNumber.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyOutgoingEmergencyCall)
@@ -1282,11 +1954,34 @@ func (p *TelephonyRegistryProxy) NotifyOutgoingEmergencySms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := emergencyNumber.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyOutgoingEmergencySms)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/hardware/radio/voice/EmergencyNumber;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := emergencyNumber.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := emergencyNumber.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyOutgoingEmergencySms)
@@ -1317,13 +2012,39 @@ func (p *TelephonyRegistryProxy) NotifyCallQualityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(1)
-	if _err := callQuality.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCallQualityChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/ims/media/CallQuality;",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(callNetworkType)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := callQuality.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(callNetworkType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := callQuality.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(phoneId)
+			case 2:
+				_data.WriteInt32(subId)
+			case 3:
+				_data.WriteInt32(callNetworkType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCallQualityChanged)
 	if _err != nil {
@@ -1352,11 +2073,34 @@ func (p *TelephonyRegistryProxy) NotifyMediaQualityStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := status.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyMediaQualityStatusChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/telephony/ims/MediaQualityStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := status.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := status.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyMediaQualityStatusChanged)
@@ -1385,10 +2129,30 @@ func (p *TelephonyRegistryProxy) NotifyImsDisconnectCause(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyImsDisconnectCause)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/ImsReasonInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyImsDisconnectCause)
@@ -1422,16 +2186,51 @@ func (p *TelephonyRegistryProxy) NotifyRegistrationFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(slotIndex)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := cellIdentity.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyRegistrationFailed)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/telephony/CellIdentity;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteString16(chosenPlmn)
-	_data.WriteInt32(domain)
-	_data.WriteInt32(causeCode)
-	_data.WriteInt32(additionalCauseCode)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := cellIdentity.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(chosenPlmn)
+		_data.WriteInt32(domain)
+		_data.WriteInt32(causeCode)
+		_data.WriteInt32(additionalCauseCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := cellIdentity.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteString16(chosenPlmn)
+			case 4:
+				_data.WriteInt32(domain)
+			case 5:
+				_data.WriteInt32(causeCode)
+			case 6:
+				_data.WriteInt32(additionalCauseCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyRegistrationFailed)
 	if _err != nil {
@@ -1460,11 +2259,34 @@ func (p *TelephonyRegistryProxy) NotifyBarringInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(slotIndex)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := barringInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyBarringInfoChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/hardware/radio/network/BarringInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := barringInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := barringInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyBarringInfoChanged)
@@ -1494,16 +2316,46 @@ func (p *TelephonyRegistryProxy) NotifyPhysicalChannelConfigForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	if configs == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyPhysicalChannelConfigForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		if configs == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(configs)))
+			for _, _item := range configs {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(configs)))
-		for _, _item := range configs {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				if configs == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(configs)))
+					for _, _item := range configs {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1536,10 +2388,33 @@ func (p *TelephonyRegistryProxy) NotifyDataEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteBool(enabled)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyDataEnabled)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteBool(enabled)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteBool(enabled)
+			case 3:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyDataEnabled)
 	if _err != nil {
@@ -1569,10 +2444,33 @@ func (p *TelephonyRegistryProxy) NotifyAllowedNetworkTypesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(reason)
-	_data.WriteInt64(allowedNetworkType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyAllowedNetworkTypesChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(reason)
+		_data.WriteInt64(allowedNetworkType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(reason)
+			case 3:
+				_data.WriteInt64(allowedNetworkType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyAllowedNetworkTypesChanged)
 	if _err != nil {
@@ -1601,16 +2499,46 @@ func (p *TelephonyRegistryProxy) NotifyLinkCapacityEstimateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	if linkCapacityEstimateList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyLinkCapacityEstimateChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		if linkCapacityEstimateList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(linkCapacityEstimateList)))
+			for _, _item := range linkCapacityEstimateList {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(linkCapacityEstimateList)))
-		for _, _item := range linkCapacityEstimateList {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				if linkCapacityEstimateList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(linkCapacityEstimateList)))
+					for _, _item := range linkCapacityEstimateList {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1640,12 +2568,33 @@ func (p *TelephonyRegistryProxy) NotifySimultaneousCellularCallingSubscriptionsC
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	if subIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifySimultaneousCellularCallingSubscriptionsChanged)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if subIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(subIds)))
+			for _, _item := range subIds {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(subIds)))
-		for _, _item := range subIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if subIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(subIds)))
+					for _, _item := range subIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -1677,10 +2626,33 @@ func (p *TelephonyRegistryProxy) AddCarrierPrivilegesCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(pkg)
-	_data.WriteString16(featureId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryAddCarrierPrivilegesCallback)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/telephony/ICarrierPrivilegesCallback;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(pkg)
+		_data.WriteString16(featureId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteString16(pkg)
+			case 3:
+				_data.WriteString16(featureId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryAddCarrierPrivilegesCallback)
 	if _err != nil {
@@ -1708,8 +2680,25 @@ func (p *TelephonyRegistryProxy) RemoveCarrierPrivilegesCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryRemoveCarrierPrivilegesCallback)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telephony/ICarrierPrivilegesCallback;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryRemoveCarrierPrivilegesCallback)
 	if _err != nil {
@@ -1738,21 +2727,55 @@ func (p *TelephonyRegistryProxy) NotifyCarrierPrivilegesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	if privilegedPackageNames == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(privilegedPackageNames)))
-		for _, _item := range privilegedPackageNames {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCarrierPrivilegesChanged)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+		"[I",
 	}
-	if privilegedUids == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		if privilegedPackageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(privilegedPackageNames)))
+			for _, _item := range privilegedPackageNames {
+				_data.WriteString16(_item)
+			}
+		}
+		if privilegedUids == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(privilegedUids)))
+			for _, _item := range privilegedUids {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(privilegedUids)))
-		for _, _item := range privilegedUids {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				if privilegedPackageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(privilegedPackageNames)))
+					for _, _item := range privilegedPackageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				if privilegedUids == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(privilegedUids)))
+					for _, _item := range privilegedUids {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -1783,9 +2806,29 @@ func (p *TelephonyRegistryProxy) NotifyCarrierServiceChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCarrierServiceChanged)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCarrierServiceChanged)
 	if _err != nil {
@@ -1814,9 +2857,29 @@ func (p *TelephonyRegistryProxy) AddCarrierConfigChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(pkg)
-	_data.WriteString16(featureId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryAddCarrierConfigChangeListener)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telephony/ICarrierConfigChangeListener;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(pkg)
+		_data.WriteString16(featureId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(pkg)
+			case 2:
+				_data.WriteString16(featureId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryAddCarrierConfigChangeListener)
 	if _err != nil {
@@ -1844,8 +2907,25 @@ func (p *TelephonyRegistryProxy) RemoveCarrierConfigChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryRemoveCarrierConfigChangeListener)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telephony/ICarrierConfigChangeListener;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryRemoveCarrierConfigChangeListener)
 	if _err != nil {
@@ -1875,10 +2955,33 @@ func (p *TelephonyRegistryProxy) NotifyCarrierConfigChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(carrierId)
-	_data.WriteInt32(specificCarrierId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCarrierConfigChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(carrierId)
+		_data.WriteInt32(specificCarrierId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(carrierId)
+			case 3:
+				_data.WriteInt32(specificCarrierId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCarrierConfigChanged)
 	if _err != nil {
@@ -1907,9 +3010,29 @@ func (p *TelephonyRegistryProxy) NotifyCallbackModeStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(type_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCallbackModeStarted)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(type_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(type_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCallbackModeStarted)
 	if _err != nil {
@@ -1939,10 +3062,33 @@ func (p *TelephonyRegistryProxy) NotifyCallbackModeStopped(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(type_)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCallbackModeStopped)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(type_)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(type_)
+			case 3:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCallbackModeStopped)
 	if _err != nil {
@@ -1970,8 +3116,25 @@ func (p *TelephonyRegistryProxy) NotifyCarrierRoamingNtnModeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
-	_data.WriteInt32(subId)
-	_data.WriteBool(active)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCarrierRoamingNtnModeChanged)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(active)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(active)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyCarrierRoamingNtnModeChanged)
 	if _err != nil {

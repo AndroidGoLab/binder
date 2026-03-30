@@ -178,7 +178,21 @@ func (p *SecureElementChannelProxy) Transmit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
-	_data.WriteByteArray(command)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISecureElementChannel, MethodISecureElementChannelTransmit)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(command)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(command)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementChannel, MethodISecureElementChannelTransmit)
 	if _err != nil {

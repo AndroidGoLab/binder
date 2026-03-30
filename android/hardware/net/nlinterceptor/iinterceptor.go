@@ -59,9 +59,29 @@ func (p *InterceptorProxy) CreateSocket(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterceptor)
-	_data.WriteInt32(nlFamily)
-	_data.WriteInt32(clientNlPid)
-	_data.WriteString16(clientName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInterceptor, MethodIInterceptorCreateSocket)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nlFamily)
+		_data.WriteInt32(clientNlPid)
+		_data.WriteString16(clientName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nlFamily)
+			case 1:
+				_data.WriteInt32(clientNlPid)
+			case 2:
+				_data.WriteString16(clientName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterceptor, MethodIInterceptorCreateSocket)
 	if _err != nil {
@@ -97,9 +117,26 @@ func (p *InterceptorProxy) CloseSocket(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterceptor)
-	_data.WriteInt32(1)
-	if _err := handle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInterceptor, MethodIInterceptorCloseSocket)
+	_compiledDescs := []string{
+		"Landroid/hardware/net/nlinterceptor/InterceptedSocket;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := handle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := handle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterceptor, MethodIInterceptorCloseSocket)
@@ -128,11 +165,31 @@ func (p *InterceptorProxy) SubscribeGroup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterceptor)
-	_data.WriteInt32(1)
-	if _err := handle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInterceptor, MethodIInterceptorSubscribeGroup)
+	_compiledDescs := []string{
+		"Landroid/hardware/net/nlinterceptor/InterceptedSocket;",
+		"I",
 	}
-	_data.WriteInt32(nlGroup)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := handle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(nlGroup)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := handle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(nlGroup)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterceptor, MethodIInterceptorSubscribeGroup)
 	if _err != nil {
@@ -160,11 +217,31 @@ func (p *InterceptorProxy) UnsubscribeGroup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterceptor)
-	_data.WriteInt32(1)
-	if _err := handle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInterceptor, MethodIInterceptorUnsubscribeGroup)
+	_compiledDescs := []string{
+		"Landroid/hardware/net/nlinterceptor/InterceptedSocket;",
+		"I",
 	}
-	_data.WriteInt32(nlGroup)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := handle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(nlGroup)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := handle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(nlGroup)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterceptor, MethodIInterceptorUnsubscribeGroup)
 	if _err != nil {

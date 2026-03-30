@@ -65,7 +65,21 @@ func (p *VolumeControllerProxy) DisplaySafeVolumeWarning(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVolumeController, MethodIVolumeControllerDisplaySafeVolumeWarning)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVolumeController, MethodIVolumeControllerDisplaySafeVolumeWarning)
 	if _err != nil {
@@ -84,8 +98,25 @@ func (p *VolumeControllerProxy) VolumeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
-	_data.WriteInt32(streamType)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVolumeController, MethodIVolumeControllerVolumeChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(streamType)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(streamType)
+			case 1:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVolumeController, MethodIVolumeControllerVolumeChanged)
 	if _err != nil {
@@ -103,7 +134,21 @@ func (p *VolumeControllerProxy) MasterMuteChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVolumeController, MethodIVolumeControllerMasterMuteChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVolumeController, MethodIVolumeControllerMasterMuteChanged)
 	if _err != nil {
@@ -121,7 +166,21 @@ func (p *VolumeControllerProxy) SetLayoutDirection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
-	_data.WriteInt32(layoutDirection)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVolumeController, MethodIVolumeControllerSetLayoutDirection)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(layoutDirection)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(layoutDirection)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVolumeController, MethodIVolumeControllerSetLayoutDirection)
 	if _err != nil {
@@ -155,7 +214,21 @@ func (p *VolumeControllerProxy) SetA11yMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVolumeController, MethodIVolumeControllerSetA11yMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVolumeController, MethodIVolumeControllerSetA11yMode)
 	if _err != nil {
@@ -174,8 +247,25 @@ func (p *VolumeControllerProxy) DisplayCsdWarning(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
-	_data.WriteInt32(warning)
-	_data.WriteInt32(displayDurationMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVolumeController, MethodIVolumeControllerDisplayCsdWarning)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(warning)
+		_data.WriteInt32(displayDurationMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(warning)
+			case 1:
+				_data.WriteInt32(displayDurationMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVolumeController, MethodIVolumeControllerDisplayCsdWarning)
 	if _err != nil {

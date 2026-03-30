@@ -60,7 +60,21 @@ func (p *VirtualDeviceManagerNativeProxy) GetDeviceIdsForUid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManagerNative)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManagerNative, MethodIVirtualDeviceManagerNativeGetDeviceIdsForUid)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManagerNative, MethodIVirtualDeviceManagerNativeGetDeviceIdsForUid)
 	if _err != nil {
@@ -106,8 +120,25 @@ func (p *VirtualDeviceManagerNativeProxy) GetDevicePolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManagerNative)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(policyType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManagerNative, MethodIVirtualDeviceManagerNativeGetDevicePolicy)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(policyType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(policyType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManagerNative, MethodIVirtualDeviceManagerNativeGetDevicePolicy)
 	if _err != nil {

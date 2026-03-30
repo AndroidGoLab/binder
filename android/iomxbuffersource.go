@@ -134,7 +134,21 @@ func (p *OMXBufferSourceProxy) OnInputBufferAdded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOMXBufferSource)
-	_data.WriteInt32(bufferID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnInputBufferAdded)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(bufferID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(bufferID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnInputBufferAdded)
 	if _err != nil {
@@ -162,10 +176,30 @@ func (p *OMXBufferSourceProxy) OnInputBufferEmptied(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOMXBufferSource)
-	_data.WriteInt32(bufferID)
-	_data.WriteInt32(1)
-	if _err := fenceParcel.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnInputBufferEmptied)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/OMXFenceParcelable;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(bufferID)
+		_data.WriteInt32(1)
+		if _err := fenceParcel.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(bufferID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := fenceParcel.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnInputBufferEmptied)

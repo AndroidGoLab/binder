@@ -78,11 +78,31 @@ func (p *FingerprintServiceReceiverProxy) OnEnrollResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
-	_data.WriteInt32(1)
-	if _err := fp.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnEnrollResult)
+	_compiledDescs := []string{
+		"Landroid/hardware/fingerprint/Fingerprint;",
+		"I",
 	}
-	_data.WriteInt32(remaining)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := fp.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(remaining)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := fp.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(remaining)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnEnrollResult)
 	if _err != nil {
@@ -101,8 +121,25 @@ func (p *FingerprintServiceReceiverProxy) OnAcquired(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
-	_data.WriteInt32(acquiredInfo)
-	_data.WriteInt32(vendorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnAcquired)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(acquiredInfo)
+		_data.WriteInt32(vendorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(acquiredInfo)
+			case 1:
+				_data.WriteInt32(vendorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnAcquired)
 	if _err != nil {
@@ -122,12 +159,35 @@ func (p *FingerprintServiceReceiverProxy) OnAuthenticationSucceeded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
-	_data.WriteInt32(1)
-	if _err := fp.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnAuthenticationSucceeded)
+	_compiledDescs := []string{
+		"Landroid/hardware/fingerprint/Fingerprint;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(isStrongBiometric)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := fp.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(isStrongBiometric)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := fp.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(isStrongBiometric)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnAuthenticationSucceeded)
 	if _err != nil {
@@ -147,9 +207,29 @@ func (p *FingerprintServiceReceiverProxy) OnFingerprintDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
-	_data.WriteInt32(sensorId)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(isStrongBiometric)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnFingerprintDetected)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(isStrongBiometric)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(isStrongBiometric)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnFingerprintDetected)
 	if _err != nil {
@@ -184,8 +264,25 @@ func (p *FingerprintServiceReceiverProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
-	_data.WriteInt32(error_)
-	_data.WriteInt32(vendorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnError)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(error_)
+		_data.WriteInt32(vendorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(error_)
+			case 1:
+				_data.WriteInt32(vendorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnError)
 	if _err != nil {
@@ -204,11 +301,31 @@ func (p *FingerprintServiceReceiverProxy) OnRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
-	_data.WriteInt32(1)
-	if _err := fp.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnRemoved)
+	_compiledDescs := []string{
+		"Landroid/hardware/fingerprint/Fingerprint;",
+		"I",
 	}
-	_data.WriteInt32(remaining)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := fp.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(remaining)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := fp.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(remaining)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnRemoved)
 	if _err != nil {
@@ -228,9 +345,29 @@ func (p *FingerprintServiceReceiverProxy) OnChallengeGenerated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
-	_data.WriteInt32(sensorId)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt64(challenge)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnChallengeGenerated)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt64(challenge)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt64(challenge)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnChallengeGenerated)
 	if _err != nil {
@@ -248,7 +385,21 @@ func (p *FingerprintServiceReceiverProxy) OnUdfpsPointerDown(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
-	_data.WriteInt32(sensorId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnUdfpsPointerDown)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnUdfpsPointerDown)
 	if _err != nil {
@@ -266,7 +417,21 @@ func (p *FingerprintServiceReceiverProxy) OnUdfpsPointerUp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
-	_data.WriteInt32(sensorId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnUdfpsPointerUp)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnUdfpsPointerUp)
 	if _err != nil {

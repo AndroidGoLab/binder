@@ -81,7 +81,21 @@ func (p *FullBackupRestoreObserverProxy) OnBackupPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnBackupPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnBackupPackage)
 	if _err != nil {
@@ -131,7 +145,21 @@ func (p *FullBackupRestoreObserverProxy) OnRestorePackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnRestorePackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnRestorePackage)
 	if _err != nil {

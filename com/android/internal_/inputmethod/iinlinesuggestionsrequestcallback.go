@@ -87,11 +87,31 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInlineSuggestionsRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsRequestCallback)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInlineSuggestionsRequestCallback, MethodIInlineSuggestionsRequestCallbackOnInlineSuggestionsRequest)
+	_compiledDescs := []string{
+		"Landroid/view/inputmethod/InlineSuggestionsRequest;",
+		"Lcom/android/internal/inputmethod/IInlineSuggestionsResponseCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionsRequestCallback, MethodIInlineSuggestionsRequestCallbackOnInlineSuggestionsRequest)
 	if _err != nil {
@@ -109,9 +129,26 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInputMethodStartInput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsRequestCallback)
-	_data.WriteInt32(1)
-	if _err := imeFieldId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInlineSuggestionsRequestCallback, MethodIInlineSuggestionsRequestCallbackOnInputMethodStartInput)
+	_compiledDescs := []string{
+		"Landroid/view/autofill/AutofillId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := imeFieldId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := imeFieldId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionsRequestCallback, MethodIInlineSuggestionsRequestCallbackOnInputMethodStartInput)
@@ -130,7 +167,21 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInputMethodShowInputRequested(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsRequestCallback)
-	_data.WriteBool(requestResult)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInlineSuggestionsRequestCallback, MethodIInlineSuggestionsRequestCallbackOnInputMethodShowInputRequested)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(requestResult)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(requestResult)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionsRequestCallback, MethodIInlineSuggestionsRequestCallbackOnInputMethodShowInputRequested)
 	if _err != nil {

@@ -53,10 +53,33 @@ func (p *LogcatManagerServiceProxy) StartThread(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILogcatManagerService)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(gid)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(fd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILogcatManagerService, MethodILogcatManagerServiceStartThread)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(gid)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(fd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(gid)
+			case 2:
+				_data.WriteInt32(pid)
+			case 3:
+				_data.WriteInt32(fd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILogcatManagerService, MethodILogcatManagerServiceStartThread)
 	if _err != nil {
@@ -77,10 +100,33 @@ func (p *LogcatManagerServiceProxy) FinishThread(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILogcatManagerService)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(gid)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(fd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILogcatManagerService, MethodILogcatManagerServiceFinishThread)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(gid)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(fd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(gid)
+			case 2:
+				_data.WriteInt32(pid)
+			case 3:
+				_data.WriteInt32(fd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILogcatManagerService, MethodILogcatManagerServiceFinishThread)
 	if _err != nil {

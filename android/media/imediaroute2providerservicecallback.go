@@ -59,9 +59,26 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifyProviderUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderServiceCallback)
-	_data.WriteInt32(1)
-	if _err := providerInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifyProviderUpdated)
+	_compiledDescs := []string{
+		"Landroid/media/MediaRoute2ProviderInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := providerInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := providerInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifyProviderUpdated)
@@ -81,10 +98,30 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifySessionCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderServiceCallback)
-	_data.WriteInt64(requestId)
-	_data.WriteInt32(1)
-	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifySessionCreated)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/media/RoutingSessionInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(requestId)
+		_data.WriteInt32(1)
+		if _err := sessionInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(requestId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := sessionInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifySessionCreated)
@@ -103,14 +140,38 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifySessionsUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderServiceCallback)
-	if sessionInfo == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifySessionsUpdated)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if sessionInfo == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(sessionInfo)))
+			for _, _item := range sessionInfo {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(sessionInfo)))
-		for _, _item := range sessionInfo {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if sessionInfo == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(sessionInfo)))
+					for _, _item := range sessionInfo {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -131,9 +192,26 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifySessionReleased(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderServiceCallback)
-	_data.WriteInt32(1)
-	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifySessionReleased)
+	_compiledDescs := []string{
+		"Landroid/media/RoutingSessionInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifySessionReleased)
@@ -153,8 +231,25 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifyRequestFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderServiceCallback)
-	_data.WriteInt64(requestId)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifyRequestFailed)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(requestId)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(requestId)
+			case 1:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifyRequestFailed)
 	if _err != nil {

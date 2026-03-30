@@ -109,7 +109,21 @@ func (p *ActivityRecognitionHardwareProxy) IsActivitySupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
-	_data.WriteString16(activityType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareIsActivitySupported)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(activityType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(activityType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareIsActivitySupported)
 	if _err != nil {
@@ -141,7 +155,21 @@ func (p *ActivityRecognitionHardwareProxy) RegisterSink(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
-	binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareRegisterSink)
+	_compiledDescs := []string{
+		"Landroid/hardware/location/IActivityRecognitionHardwareSink;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareRegisterSink)
 	if _err != nil {
@@ -173,7 +201,21 @@ func (p *ActivityRecognitionHardwareProxy) UnregisterSink(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
-	binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareUnregisterSink)
+	_compiledDescs := []string{
+		"Landroid/hardware/location/IActivityRecognitionHardwareSink;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareUnregisterSink)
 	if _err != nil {
@@ -207,9 +249,29 @@ func (p *ActivityRecognitionHardwareProxy) EnableActivityEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
-	_data.WriteString16(activityType)
-	_data.WriteInt32(eventType)
-	_data.WriteInt64(reportLatencyNs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareEnableActivityEvent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(activityType)
+		_data.WriteInt32(eventType)
+		_data.WriteInt64(reportLatencyNs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(activityType)
+			case 1:
+				_data.WriteInt32(eventType)
+			case 2:
+				_data.WriteInt64(reportLatencyNs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareEnableActivityEvent)
 	if _err != nil {
@@ -242,8 +304,25 @@ func (p *ActivityRecognitionHardwareProxy) DisableActivityEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
-	_data.WriteString16(activityType)
-	_data.WriteInt32(eventType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareDisableActivityEvent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(activityType)
+		_data.WriteInt32(eventType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(activityType)
+			case 1:
+				_data.WriteInt32(eventType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareDisableActivityEvent)
 	if _err != nil {

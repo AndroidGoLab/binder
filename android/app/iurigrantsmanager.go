@@ -70,13 +70,39 @@ func (p *UriGrantsManagerProxy) TakePersistableUriPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerTakePersistableUriPermission)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"I",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteInt32(modeFlags)
-	_data.WriteString16(toPackage)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(modeFlags)
+		_data.WriteString16(toPackage)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(modeFlags)
+			case 2:
+				_data.WriteString16(toPackage)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerTakePersistableUriPermission)
 	if _err != nil {
@@ -106,13 +132,39 @@ func (p *UriGrantsManagerProxy) ReleasePersistableUriPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerReleasePersistableUriPermission)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"I",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteInt32(modeFlags)
-	_data.WriteString16(toPackage)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(modeFlags)
+		_data.WriteString16(toPackage)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(modeFlags)
+			case 2:
+				_data.WriteString16(toPackage)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerReleasePersistableUriPermission)
 	if _err != nil {
@@ -145,16 +197,51 @@ func (p *UriGrantsManagerProxy) GrantUriPermissionFromOwner(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
-	binder.WriteBinderToParcel(ctx, _data, owner, p.Remote.Transport())
-	_data.WriteInt32(fromUid)
-	_data.WriteString16(targetPkg)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerGrantUriPermissionFromOwner)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(mode)
-	_data.WriteInt32(sourceUserId)
-	_data.WriteInt32(targetUserId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, owner, p.Remote.Transport())
+		_data.WriteInt32(fromUid)
+		_data.WriteString16(targetPkg)
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(mode)
+		_data.WriteInt32(sourceUserId)
+		_data.WriteInt32(targetUserId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, owner, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(fromUid)
+			case 2:
+				_data.WriteString16(targetPkg)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(mode)
+			case 5:
+				_data.WriteInt32(sourceUserId)
+			case 6:
+				_data.WriteInt32(targetUserId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerGrantUriPermissionFromOwner)
 	if _err != nil {
@@ -183,8 +270,25 @@ func (p *UriGrantsManagerProxy) GetGrantedUriPermissions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerGetGrantedUriPermissions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerGetGrantedUriPermissions)
 	if _err != nil {
@@ -221,8 +325,25 @@ func (p *UriGrantsManagerProxy) ClearGrantedUriPermissions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerClearGrantedUriPermissions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerClearGrantedUriPermissions)
 	if _err != nil {
@@ -252,9 +373,29 @@ func (p *UriGrantsManagerProxy) GetUriPermissions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
-	_data.WriteString16(packageName)
-	_data.WriteBool(incoming)
-	_data.WriteBool(persistedOnly)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerGetUriPermissions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteBool(incoming)
+		_data.WriteBool(persistedOnly)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteBool(incoming)
+			case 2:
+				_data.WriteBool(persistedOnly)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerGetUriPermissions)
 	if _err != nil {
@@ -295,14 +436,43 @@ func (p *UriGrantsManagerProxy) CheckGrantUriPermission_ignoreNonSystem(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
-	_data.WriteInt32(sourceUid)
-	_data.WriteString16(targetPkg)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerCheckGrantUriPermission_ignoreNonSystem)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(modeFlags)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sourceUid)
+		_data.WriteString16(targetPkg)
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(modeFlags)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sourceUid)
+			case 1:
+				_data.WriteString16(targetPkg)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteInt32(modeFlags)
+			case 4:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerCheckGrantUriPermission_ignoreNonSystem)
 	if _err != nil {

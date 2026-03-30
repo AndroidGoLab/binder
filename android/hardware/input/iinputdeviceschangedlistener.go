@@ -47,12 +47,33 @@ func (p *InputDevicesChangedListenerProxy) OnInputDevicesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputDevicesChangedListener)
-	if deviceIdAndGeneration == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputDevicesChangedListener, MethodIInputDevicesChangedListenerOnInputDevicesChanged)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if deviceIdAndGeneration == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(deviceIdAndGeneration)))
+			for _, _item := range deviceIdAndGeneration {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(deviceIdAndGeneration)))
-		for _, _item := range deviceIdAndGeneration {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if deviceIdAndGeneration == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(deviceIdAndGeneration)))
+					for _, _item := range deviceIdAndGeneration {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 

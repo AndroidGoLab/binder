@@ -63,7 +63,21 @@ func (p *ImsServiceControllerProxy) CreateEmergencyMMTelFeature(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
-	_data.WriteInt32(slotId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsServiceController, MethodIImsServiceControllerCreateEmergencyMMTelFeature)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceController, MethodIImsServiceControllerCreateEmergencyMMTelFeature)
 	if _err != nil {
@@ -96,7 +110,21 @@ func (p *ImsServiceControllerProxy) CreateMMTelFeature(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
-	_data.WriteInt32(slotId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsServiceController, MethodIImsServiceControllerCreateMMTelFeature)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceController, MethodIImsServiceControllerCreateMMTelFeature)
 	if _err != nil {
@@ -129,7 +157,21 @@ func (p *ImsServiceControllerProxy) CreateRcsFeature(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
-	_data.WriteInt32(slotId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsServiceController, MethodIImsServiceControllerCreateRcsFeature)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceController, MethodIImsServiceControllerCreateRcsFeature)
 	if _err != nil {
@@ -162,8 +204,25 @@ func (p *ImsServiceControllerProxy) RemoveImsFeature(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(featureType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsServiceController, MethodIImsServiceControllerRemoveImsFeature)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(featureType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(featureType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceController, MethodIImsServiceControllerRemoveImsFeature)
 	if _err != nil {
@@ -192,9 +251,29 @@ func (p *ImsServiceControllerProxy) AddFeatureStatusCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(featureType)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsServiceController, MethodIImsServiceControllerAddFeatureStatusCallback)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Lcom/android/ims/internal/IImsFeatureStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(featureType)
+		binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(featureType)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceController, MethodIImsServiceControllerAddFeatureStatusCallback)
 	if _err != nil {
@@ -223,9 +302,29 @@ func (p *ImsServiceControllerProxy) RemoveFeatureStatusCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(featureType)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsServiceController, MethodIImsServiceControllerRemoveFeatureStatusCallback)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Lcom/android/ims/internal/IImsFeatureStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(featureType)
+		binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(featureType)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceController, MethodIImsServiceControllerRemoveFeatureStatusCallback)
 	if _err != nil {

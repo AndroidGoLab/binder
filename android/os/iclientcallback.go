@@ -48,8 +48,25 @@ func (p *ClientCallbackProxy) OnClients(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClientCallback)
-	binder.WriteBinderToParcel(ctx, _data, registered, p.Remote.Transport())
-	_data.WriteBool(hasClients)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClientCallback, MethodIClientCallbackOnClients)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, registered, p.Remote.Transport())
+		_data.WriteBool(hasClients)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, registered, p.Remote.Transport())
+			case 1:
+				_data.WriteBool(hasClients)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientCallback, MethodIClientCallbackOnClients)
 	if _err != nil {

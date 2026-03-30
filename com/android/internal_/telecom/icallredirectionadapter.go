@@ -89,15 +89,41 @@ func (p *CallRedirectionAdapterProxy) RedirectCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallRedirectionAdapter)
-	_data.WriteInt32(1)
-	if _err := handle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICallRedirectionAdapter, MethodICallRedirectionAdapterRedirectCall)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Z",
 	}
-	_data.WriteInt32(1)
-	if _err := targetPhoneAccount.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := handle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := targetPhoneAccount.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(confirmFirst)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := handle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := targetPhoneAccount.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteBool(confirmFirst)
+			}
+		}
 	}
-	_data.WriteBool(confirmFirst)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallRedirectionAdapter, MethodICallRedirectionAdapterRedirectCall)
 	if _err != nil {

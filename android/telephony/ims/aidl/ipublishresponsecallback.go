@@ -51,7 +51,21 @@ func (p *PublishResponseCallbackProxy) OnCommandError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPublishResponseCallback)
-	_data.WriteInt32(code)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPublishResponseCallback, MethodIPublishResponseCallbackOnCommandError)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPublishResponseCallback, MethodIPublishResponseCallbackOnCommandError)
 	if _err != nil {
@@ -69,9 +83,26 @@ func (p *PublishResponseCallbackProxy) OnNetworkResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPublishResponseCallback)
-	_data.WriteInt32(1)
-	if _err := details.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPublishResponseCallback, MethodIPublishResponseCallbackOnNetworkResponse)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/SipDetails;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := details.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := details.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPublishResponseCallback, MethodIPublishResponseCallbackOnNetworkResponse)

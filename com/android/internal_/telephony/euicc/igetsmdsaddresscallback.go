@@ -48,8 +48,25 @@ func (p *GetSmdsAddressCallbackProxy) OnComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetSmdsAddressCallback)
-	_data.WriteInt32(resultCode)
-	_data.WriteString16(address)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGetSmdsAddressCallback, MethodIGetSmdsAddressCallbackOnComplete)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(resultCode)
+		_data.WriteString16(address)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(resultCode)
+			case 1:
+				_data.WriteString16(address)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetSmdsAddressCallback, MethodIGetSmdsAddressCallbackOnComplete)
 	if _err != nil {

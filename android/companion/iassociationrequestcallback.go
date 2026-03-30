@@ -54,9 +54,26 @@ func (p *AssociationRequestCallbackProxy) OnAssociationPending(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAssociationRequestCallback)
-	_data.WriteInt32(1)
-	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAssociationRequestCallback, MethodIAssociationRequestCallbackOnAssociationPending)
+	_compiledDescs := []string{
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAssociationRequestCallback, MethodIAssociationRequestCallbackOnAssociationPending)
@@ -75,9 +92,26 @@ func (p *AssociationRequestCallbackProxy) OnAssociationCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAssociationRequestCallback)
-	_data.WriteInt32(1)
-	if _err := associationInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAssociationRequestCallback, MethodIAssociationRequestCallbackOnAssociationCreated)
+	_compiledDescs := []string{
+		"Landroid/companion/AssociationInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := associationInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := associationInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAssociationRequestCallback, MethodIAssociationRequestCallbackOnAssociationCreated)
@@ -96,7 +130,21 @@ func (p *AssociationRequestCallbackProxy) OnFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAssociationRequestCallback)
-	_data.WriteString16(error_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAssociationRequestCallback, MethodIAssociationRequestCallbackOnFailure)
+	_compiledDescs := []string{
+		"Ljava/lang/CharSequence;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(error_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(error_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAssociationRequestCallback, MethodIAssociationRequestCallbackOnFailure)
 	if _err != nil {

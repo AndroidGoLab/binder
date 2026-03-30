@@ -50,7 +50,21 @@ func (p *RecognitionServiceManagerCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionServiceManagerCallback)
-	binder.WriteBinderToParcel(ctx, _data, service.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecognitionServiceManagerCallback, MethodIRecognitionServiceManagerCallbackOnSuccess)
+	_compiledDescs := []string{
+		"Landroid/speech/IRecognitionService;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, service.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, service.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionServiceManagerCallback, MethodIRecognitionServiceManagerCallbackOnSuccess)
 	if _err != nil {
@@ -68,7 +82,21 @@ func (p *RecognitionServiceManagerCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionServiceManagerCallback)
-	_data.WriteInt32(errorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecognitionServiceManagerCallback, MethodIRecognitionServiceManagerCallbackOnError)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionServiceManagerCallback, MethodIRecognitionServiceManagerCallbackOnError)
 	if _err != nil {

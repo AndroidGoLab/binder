@@ -122,7 +122,21 @@ func (p *LightsManagerProxy) GetLightState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILightsManager)
-	_data.WriteInt32(lightId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILightsManager, MethodILightsManagerGetLightState)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(lightId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(lightId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILightsManager, MethodILightsManagerGetLightState)
 	if _err != nil {
@@ -159,8 +173,25 @@ func (p *LightsManagerProxy) OpenSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILightsManager)
-	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
-	_data.WriteInt32(priority)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILightsManager, MethodILightsManagerOpenSession)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
+		_data.WriteInt32(priority)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(priority)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILightsManager, MethodILightsManagerOpenSession)
 	if _err != nil {
@@ -187,7 +218,21 @@ func (p *LightsManagerProxy) CloseSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILightsManager)
-	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILightsManager, MethodILightsManagerCloseSession)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILightsManager, MethodILightsManagerCloseSession)
 	if _err != nil {
@@ -216,23 +261,60 @@ func (p *LightsManagerProxy) SetLightStates(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILightsManager)
-	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
-	if lightIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(lightIds)))
-		for _, _item := range lightIds {
-			_data.WriteInt32(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILightsManager, MethodILightsManagerSetLightStates)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"[I",
+		"[Landroid/hardware/lights/LightState;",
 	}
-	if states == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
+		if lightIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(lightIds)))
+			for _, _item := range lightIds {
+				_data.WriteInt32(_item)
+			}
+		}
+		if states == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(states)))
+			for _, _item := range states {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(states)))
-		for _, _item := range states {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
+			case 1:
+				if lightIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(lightIds)))
+					for _, _item := range lightIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 2:
+				if states == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(states)))
+					for _, _item := range states {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

@@ -62,12 +62,41 @@ func (p *AccessibilityInputMethodSessionProxy) UpdateSelection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInputMethodSession)
-	_data.WriteInt32(oldSelStart)
-	_data.WriteInt32(oldSelEnd)
-	_data.WriteInt32(newSelStart)
-	_data.WriteInt32(newSelEnd)
-	_data.WriteInt32(candidatesStart)
-	_data.WriteInt32(candidatesEnd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInputMethodSession, MethodIAccessibilityInputMethodSessionUpdateSelection)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(oldSelStart)
+		_data.WriteInt32(oldSelEnd)
+		_data.WriteInt32(newSelStart)
+		_data.WriteInt32(newSelEnd)
+		_data.WriteInt32(candidatesStart)
+		_data.WriteInt32(candidatesEnd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(oldSelStart)
+			case 1:
+				_data.WriteInt32(oldSelEnd)
+			case 2:
+				_data.WriteInt32(newSelStart)
+			case 3:
+				_data.WriteInt32(newSelEnd)
+			case 4:
+				_data.WriteInt32(candidatesStart)
+			case 5:
+				_data.WriteInt32(candidatesEnd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInputMethodSession, MethodIAccessibilityInputMethodSessionUpdateSelection)
 	if _err != nil {
@@ -119,12 +148,35 @@ func (p *AccessibilityInputMethodSessionProxy) InvalidateInput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInputMethodSession)
-	_data.WriteInt32(1)
-	if _err := editorInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInputMethodSession, MethodIAccessibilityInputMethodSessionInvalidateInput)
+	_compiledDescs := []string{
+		"Landroid/view/inputmethod/EditorInfo;",
+		"Lcom/android/internal/inputmethod/IRemoteAccessibilityInputConnection;",
+		"I",
 	}
-	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(sessionId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := editorInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := editorInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInputMethodSession, MethodIAccessibilityInputMethodSessionInvalidateInput)
 	if _err != nil {

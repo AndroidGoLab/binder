@@ -114,9 +114,29 @@ func (p *AccessibilityServiceClientProxy) Init(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(connectionId)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientInit)
+	_compiledDescs := []string{
+		"Landroid/accessibilityservice/IAccessibilityServiceConnection;",
+		"I",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(connectionId)
+		binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(connectionId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientInit)
 	if _err != nil {
@@ -135,11 +155,31 @@ func (p *AccessibilityServiceClientProxy) OnAccessibilityEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnAccessibilityEvent)
+	_compiledDescs := []string{
+		"Landroid/view/accessibility/AccessibilityEvent;",
+		"Z",
 	}
-	_data.WriteBool(serviceWantsEvent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(serviceWantsEvent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(serviceWantsEvent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnAccessibilityEvent)
 	if _err != nil {
@@ -173,9 +213,26 @@ func (p *AccessibilityServiceClientProxy) OnGesture(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	_data.WriteInt32(1)
-	if _err := gestureEvent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnGesture)
+	_compiledDescs := []string{
+		"Landroid/accessibilityservice/AccessibilityGestureEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := gestureEvent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := gestureEvent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnGesture)
@@ -211,11 +268,31 @@ func (p *AccessibilityServiceClientProxy) OnKeyEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnKeyEvent)
+	_compiledDescs := []string{
+		"Landroid/view/KeyEvent;",
+		"I",
 	}
-	_data.WriteInt32(sequence)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnKeyEvent)
 	if _err != nil {
@@ -235,14 +312,40 @@ func (p *AccessibilityServiceClientProxy) OnMagnificationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(1)
-	if _err := region.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnMagnificationChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/graphics/Region;",
+		"Landroid/accessibilityservice/MagnificationConfig;",
 	}
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(1)
+		if _err := region.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := region.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnMagnificationChanged)
@@ -261,9 +364,26 @@ func (p *AccessibilityServiceClientProxy) OnMotionEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnMotionEvent)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/common/MotionEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnMotionEvent)
@@ -283,8 +403,25 @@ func (p *AccessibilityServiceClientProxy) OnTouchStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnTouchStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnTouchStateChanged)
 	if _err != nil {
@@ -302,7 +439,21 @@ func (p *AccessibilityServiceClientProxy) OnSoftKeyboardShowModeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	_data.WriteInt32(showMode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnSoftKeyboardShowModeChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(showMode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(showMode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnSoftKeyboardShowModeChanged)
 	if _err != nil {
@@ -321,8 +472,25 @@ func (p *AccessibilityServiceClientProxy) OnPerformGestureResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	_data.WriteInt32(sequence)
-	_data.WriteBool(completedSuccessfully)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnPerformGestureResult)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sequence)
+		_data.WriteBool(completedSuccessfully)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sequence)
+			case 1:
+				_data.WriteBool(completedSuccessfully)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnPerformGestureResult)
 	if _err != nil {
@@ -340,7 +508,21 @@ func (p *AccessibilityServiceClientProxy) OnFingerprintCapturingGesturesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	_data.WriteBool(capturing)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnFingerprintCapturingGesturesChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(capturing)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(capturing)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnFingerprintCapturingGesturesChanged)
 	if _err != nil {
@@ -358,7 +540,21 @@ func (p *AccessibilityServiceClientProxy) OnFingerprintGesture(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	_data.WriteInt32(gesture)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnFingerprintGesture)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(gesture)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(gesture)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnFingerprintGesture)
 	if _err != nil {
@@ -376,7 +572,21 @@ func (p *AccessibilityServiceClientProxy) OnAccessibilityButtonClicked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnAccessibilityButtonClicked)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnAccessibilityButtonClicked)
 	if _err != nil {
@@ -394,7 +604,21 @@ func (p *AccessibilityServiceClientProxy) OnAccessibilityButtonAvailabilityChang
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	_data.WriteBool(available)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnAccessibilityButtonAvailabilityChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(available)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(available)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnAccessibilityButtonAvailabilityChanged)
 	if _err != nil {
@@ -428,7 +652,21 @@ func (p *AccessibilityServiceClientProxy) CreateImeSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientCreateImeSession)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/IAccessibilityInputMethodSessionCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientCreateImeSession)
 	if _err != nil {
@@ -447,8 +685,25 @@ func (p *AccessibilityServiceClientProxy) SetImeSessionEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientSetImeSessionEnabled)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/IAccessibilityInputMethodSession;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientSetImeSessionEnabled)
 	if _err != nil {
@@ -500,12 +755,35 @@ func (p *AccessibilityServiceClientProxy) StartInput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
-	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := editorInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientStartInput)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/IRemoteAccessibilityInputConnection;",
+		"Landroid/view/inputmethod/EditorInfo;",
+		"Z",
 	}
-	_data.WriteBool(restarting)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := editorInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(restarting)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := editorInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteBool(restarting)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientStartInput)
 	if _err != nil {

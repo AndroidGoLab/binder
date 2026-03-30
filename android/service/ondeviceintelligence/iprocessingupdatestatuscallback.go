@@ -51,9 +51,26 @@ func (p *ProcessingUpdateStatusCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessingUpdateStatusCallback)
-	_data.WriteInt32(1)
-	if _err := statusParams.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProcessingUpdateStatusCallback, MethodIProcessingUpdateStatusCallbackOnSuccess)
+	_compiledDescs := []string{
+		"Landroid/os/PersistableBundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := statusParams.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := statusParams.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessingUpdateStatusCallback, MethodIProcessingUpdateStatusCallbackOnSuccess)
@@ -82,8 +99,25 @@ func (p *ProcessingUpdateStatusCallbackProxy) OnFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessingUpdateStatusCallback)
-	_data.WriteInt32(errorCode)
-	_data.WriteString16(errorMessage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProcessingUpdateStatusCallback, MethodIProcessingUpdateStatusCallbackOnFailure)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+		_data.WriteString16(errorMessage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			case 1:
+				_data.WriteString16(errorMessage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessingUpdateStatusCallback, MethodIProcessingUpdateStatusCallbackOnFailure)
 	if _err != nil {

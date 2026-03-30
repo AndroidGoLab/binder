@@ -95,7 +95,21 @@ func (p *UwbChipProxy) Open(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
-	binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUwbChip, MethodIUwbChipOpen)
+	_compiledDescs := []string{
+		"Landroid/hardware/uwb/IUwbClientCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipOpen)
 	if _err != nil {
@@ -172,7 +186,21 @@ func (p *UwbChipProxy) SessionInit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
-	_data.WriteInt32(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUwbChip, MethodIUwbChipSessionInit)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipSessionInit)
 	if _err != nil {
@@ -230,7 +258,21 @@ func (p *UwbChipProxy) SendUciMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUwbChip, MethodIUwbChipSendUciMessage)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipSendUciMessage)
 	if _err != nil {

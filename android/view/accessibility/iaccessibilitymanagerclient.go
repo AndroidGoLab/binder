@@ -56,7 +56,21 @@ func (p *AccessibilityManagerClientProxy) SetState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManagerClient)
-	_data.WriteInt32(stateFlags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientSetState)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(stateFlags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(stateFlags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientSetState)
 	if _err != nil {
@@ -74,7 +88,21 @@ func (p *AccessibilityManagerClientProxy) NotifyServicesStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManagerClient)
-	_data.WriteInt64(updatedUiTimeout)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientNotifyServicesStateChanged)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(updatedUiTimeout)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(updatedUiTimeout)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientNotifyServicesStateChanged)
 	if _err != nil {
@@ -92,7 +120,21 @@ func (p *AccessibilityManagerClientProxy) SetRelevantEventTypes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManagerClient)
-	_data.WriteInt32(eventTypes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientSetRelevantEventTypes)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(eventTypes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(eventTypes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientSetRelevantEventTypes)
 	if _err != nil {
@@ -111,8 +153,25 @@ func (p *AccessibilityManagerClientProxy) SetFocusAppearance(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManagerClient)
-	_data.WriteInt32(strokeWidth)
-	_data.WriteInt32(color)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientSetFocusAppearance)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(strokeWidth)
+		_data.WriteInt32(color)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(strokeWidth)
+			case 1:
+				_data.WriteInt32(color)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientSetFocusAppearance)
 	if _err != nil {

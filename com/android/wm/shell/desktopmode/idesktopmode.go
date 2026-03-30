@@ -68,10 +68,30 @@ func (p *DesktopModeProxy) ShowDesktopApps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(1)
-	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDesktopMode, MethodIDesktopModeShowDesktopApps)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/window/RemoteTransition;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(1)
+		if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopMode, MethodIDesktopModeShowDesktopApps)
@@ -99,7 +119,21 @@ func (p *DesktopModeProxy) StashDesktopApps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDesktopMode, MethodIDesktopModeStashDesktopApps)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopMode, MethodIDesktopModeStashDesktopApps)
 	if _err != nil {
@@ -126,7 +160,21 @@ func (p *DesktopModeProxy) HideStashedDesktopApps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDesktopMode, MethodIDesktopModeHideStashedDesktopApps)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopMode, MethodIDesktopModeHideStashedDesktopApps)
 	if _err != nil {
@@ -153,7 +201,21 @@ func (p *DesktopModeProxy) ShowDesktopApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
-	_data.WriteInt32(taskId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDesktopMode, MethodIDesktopModeShowDesktopApp)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopMode, MethodIDesktopModeShowDesktopApp)
 	if _err != nil {
@@ -172,7 +234,21 @@ func (p *DesktopModeProxy) GetVisibleTaskCount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDesktopMode, MethodIDesktopModeGetVisibleTaskCount)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopMode, MethodIDesktopModeGetVisibleTaskCount)
 	if _err != nil {
@@ -203,9 +279,26 @@ func (p *DesktopModeProxy) OnDesktopSplitSelectAnimComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDesktopMode, MethodIDesktopModeOnDesktopSplitSelectAnimComplete)
+	_compiledDescs := []string{
+		"Landroid/app/ActivityManager/RunningTaskInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := taskInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := taskInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopMode, MethodIDesktopModeOnDesktopSplitSelectAnimComplete)
@@ -224,7 +317,21 @@ func (p *DesktopModeProxy) SetTaskListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDesktopMode, MethodIDesktopModeSetTaskListener)
+	_compiledDescs := []string{
+		"Lcom/android/wm/shell/desktopmode/IDesktopTaskListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopMode, MethodIDesktopModeSetTaskListener)
 	if _err != nil {

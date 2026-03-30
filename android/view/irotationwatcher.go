@@ -47,7 +47,21 @@ func (p *RotationWatcherProxy) OnRotationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRotationWatcher)
-	_data.WriteInt32(rotation)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRotationWatcher, MethodIRotationWatcherOnRotationChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(rotation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(rotation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRotationWatcher, MethodIRotationWatcherOnRotationChanged)
 	if _err != nil {

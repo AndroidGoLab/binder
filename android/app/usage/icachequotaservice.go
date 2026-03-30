@@ -49,18 +49,48 @@ func (p *CacheQuotaServiceProxy) ComputeCacheQuotaHints(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICacheQuotaService)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICacheQuotaService, MethodICacheQuotaServiceComputeCacheQuotaHints)
+	_compiledDescs := []string{
+		"Landroid/os/RemoteCallback;",
+		"Ljava/util/List;",
 	}
-	if requests == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if requests == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(requests)))
+			for _, _item := range requests {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(requests)))
-		for _, _item := range requests {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if requests == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(requests)))
+					for _, _item := range requests {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

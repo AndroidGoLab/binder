@@ -78,22 +78,60 @@ func (p *PipProxy) StartSwipePipToHome(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPip, MethodIPipStartSwipePipToHome)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/content/pm/ActivityInfo;",
+		"Landroid/app/PictureInPictureParams;",
+		"I",
+		"Landroid/graphics/Rect;",
 	}
-	_data.WriteInt32(1)
-	if _err := activityInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(1)
-	if _err := pictureInPictureParams.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(launcherRotation)
-	_data.WriteInt32(1)
-	if _err := hotseatKeepClearArea.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := componentName.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := activityInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := pictureInPictureParams.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(launcherRotation)
+		_data.WriteInt32(1)
+		if _err := hotseatKeepClearArea.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := componentName.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := activityInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := pictureInPictureParams.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteInt32(launcherRotation)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := hotseatKeepClearArea.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipStartSwipePipToHome)
@@ -135,26 +173,70 @@ func (p *PipProxy) StopSwipePipToHome(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPip, MethodIPipStopSwipePipToHome)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"Landroid/graphics/Rect;",
+		"Landroid/view/SurfaceControl;",
+		"Landroid/graphics/Rect;",
+		"Landroid/graphics/Rect;",
 	}
-	_data.WriteInt32(1)
-	if _err := destinationBounds.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := overlay.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := appBounds.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := sourceRectHint.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(1)
+		if _err := componentName.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := destinationBounds.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := overlay.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := appBounds.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := sourceRectHint.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := componentName.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := destinationBounds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := overlay.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := appBounds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := sourceRectHint.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipStopSwipePipToHome)
@@ -174,10 +256,30 @@ func (p *PipProxy) AbortSwipePipToHome(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPip, MethodIPipAbortSwipePipToHome)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(1)
+		if _err := componentName.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := componentName.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipAbortSwipePipToHome)
@@ -196,7 +298,21 @@ func (p *PipProxy) SetPipAnimationListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPip, MethodIPipSetPipAnimationListener)
+	_compiledDescs := []string{
+		"Lcom/android/wm/shell/common/pip/IPipAnimationListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipSetPipAnimationListener)
 	if _err != nil {
@@ -215,8 +331,25 @@ func (p *PipProxy) SetShelfHeight(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
-	_data.WriteBool(visible)
-	_data.WriteInt32(shelfHeight)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPip, MethodIPipSetShelfHeight)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(visible)
+		_data.WriteInt32(shelfHeight)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(visible)
+			case 1:
+				_data.WriteInt32(shelfHeight)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipSetShelfHeight)
 	if _err != nil {
@@ -251,8 +384,25 @@ func (p *PipProxy) SetLauncherKeepClearAreaHeight(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
-	_data.WriteBool(visible)
-	_data.WriteInt32(height)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPip, MethodIPipSetLauncherKeepClearAreaHeight)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(visible)
+		_data.WriteInt32(height)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(visible)
+			case 1:
+				_data.WriteInt32(height)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipSetLauncherKeepClearAreaHeight)
 	if _err != nil {
@@ -270,7 +420,21 @@ func (p *PipProxy) SetLauncherAppIconSize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
-	_data.WriteInt32(iconSizePx)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPip, MethodIPipSetLauncherAppIconSize)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(iconSizePx)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(iconSizePx)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipSetLauncherAppIconSize)
 	if _err != nil {

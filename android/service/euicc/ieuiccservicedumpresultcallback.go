@@ -47,7 +47,21 @@ func (p *EuiccServiceDumpResultCallbackProxy) OnComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccServiceDumpResultCallback)
-	_data.WriteString16(logs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccServiceDumpResultCallback, MethodIEuiccServiceDumpResultCallbackOnComplete)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(logs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(logs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccServiceDumpResultCallback, MethodIEuiccServiceDumpResultCallbackOnComplete)
 	if _err != nil {

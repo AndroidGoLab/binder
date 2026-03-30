@@ -48,8 +48,25 @@ func (p *TabletModeChangedListenerProxy) OnTabletModeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITabletModeChangedListener)
-	_data.WriteInt64(whenNanos)
-	_data.WriteBool(inTabletMode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITabletModeChangedListener, MethodITabletModeChangedListenerOnTabletModeChanged)
+	_compiledDescs := []string{
+		"J",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(whenNanos)
+		_data.WriteBool(inTabletMode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(whenNanos)
+			case 1:
+				_data.WriteBool(inTabletMode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITabletModeChangedListener, MethodITabletModeChangedListenerOnTabletModeChanged)
 	if _err != nil {

@@ -93,7 +93,21 @@ func (p *DynamicSystemServiceProxy) StartInstallation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
-	_data.WriteString16(dsuSlot)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceStartInstallation)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(dsuSlot)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(dsuSlot)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceStartInstallation)
 	if _err != nil {
@@ -127,9 +141,29 @@ func (p *DynamicSystemServiceProxy) CreatePartition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
-	_data.WriteString16(name)
-	_data.WriteInt64(size)
-	_data.WriteBool(readOnly)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceCreatePartition)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteInt64(size)
+		_data.WriteBool(readOnly)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteInt64(size)
+			case 2:
+				_data.WriteBool(readOnly)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceCreatePartition)
 	if _err != nil {
@@ -409,8 +443,25 @@ func (p *DynamicSystemServiceProxy) SetEnable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
-	_data.WriteBool(enable)
-	_data.WriteBool(oneShot)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSetEnable)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+		_data.WriteBool(oneShot)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			case 1:
+				_data.WriteBool(oneShot)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSetEnable)
 	if _err != nil {
@@ -443,8 +494,25 @@ func (p *DynamicSystemServiceProxy) SetAshmem(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
-	_data.WriteParcelFileDescriptor(fd)
-	_data.WriteInt64(size)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSetAshmem)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(fd)
+		_data.WriteInt64(size)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(fd)
+			case 1:
+				_data.WriteInt64(size)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSetAshmem)
 	if _err != nil {
@@ -476,7 +544,21 @@ func (p *DynamicSystemServiceProxy) SubmitFromAshmem(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
-	_data.WriteInt64(bytes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSubmitFromAshmem)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(bytes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(bytes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSubmitFromAshmem)
 	if _err != nil {

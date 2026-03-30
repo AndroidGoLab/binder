@@ -52,9 +52,29 @@ func (p *SensorPrivacyListenerProxy) OnSensorPrivacyChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyListener)
-	_data.WriteInt32(toggleType)
-	_data.WriteInt32(sensor)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyListener, MethodISensorPrivacyListenerOnSensorPrivacyChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(toggleType)
+		_data.WriteInt32(sensor)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(toggleType)
+			case 1:
+				_data.WriteInt32(sensor)
+			case 2:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyListener, MethodISensorPrivacyListenerOnSensorPrivacyChanged)
 	if _err != nil {
@@ -74,9 +94,29 @@ func (p *SensorPrivacyListenerProxy) OnSensorPrivacyStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyListener)
-	_data.WriteInt32(toggleType)
-	_data.WriteInt32(sensor)
-	_data.WriteInt32(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyListener, MethodISensorPrivacyListenerOnSensorPrivacyStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(toggleType)
+		_data.WriteInt32(sensor)
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(toggleType)
+			case 1:
+				_data.WriteInt32(sensor)
+			case 2:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyListener, MethodISensorPrivacyListenerOnSensorPrivacyStateChanged)
 	if _err != nil {

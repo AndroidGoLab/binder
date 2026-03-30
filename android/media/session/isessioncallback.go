@@ -125,17 +125,52 @@ func (p *SessionCallbackProxy) OnCommand(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteString16(command)
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnCommand)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"Landroid/os/ResultReceiver;",
 	}
-	_data.WriteInt32(1)
-	if _err := cb.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteString16(command)
+		_data.WriteInt32(1)
+		if _err := args.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := cb.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteString16(command)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := args.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := cb.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnCommand)
@@ -159,17 +194,52 @@ func (p *SessionCallbackProxy) OnMediaButton(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(1)
-	if _err := mediaButtonIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnMediaButton)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Landroid/content/Intent;",
+		"I",
+		"Landroid/os/ResultReceiver;",
 	}
-	_data.WriteInt32(sequenceNumber)
-	_data.WriteInt32(1)
-	if _err := cb.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(1)
+		if _err := mediaButtonIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(sequenceNumber)
+		_data.WriteInt32(1)
+		if _err := cb.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := mediaButtonIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(sequenceNumber)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := cb.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnMediaButton)
@@ -191,12 +261,38 @@ func (p *SessionCallbackProxy) OnMediaButtonFromController(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(1)
-	if _err := mediaButtonIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnMediaButtonFromController)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Landroid/content/Intent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(1)
+		if _err := mediaButtonIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := mediaButtonIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnMediaButtonFromController)
@@ -217,9 +313,29 @@ func (p *SessionCallbackProxy) OnPrepare(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnPrepare)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnPrepare)
 	if _err != nil {
@@ -241,13 +357,42 @@ func (p *SessionCallbackProxy) OnPrepareFromMediaId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteString16(mediaId)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnPrepareFromMediaId)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteString16(mediaId)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteString16(mediaId)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnPrepareFromMediaId)
@@ -270,13 +415,42 @@ func (p *SessionCallbackProxy) OnPrepareFromSearch(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteString16(query)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnPrepareFromSearch)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteString16(query)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteString16(query)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnPrepareFromSearch)
@@ -299,16 +473,48 @@ func (p *SessionCallbackProxy) OnPrepareFromUri(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnPrepareFromUri)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Landroid/net/Uri;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnPrepareFromUri)
@@ -329,9 +535,29 @@ func (p *SessionCallbackProxy) OnPlay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnPlay)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnPlay)
 	if _err != nil {
@@ -353,13 +579,42 @@ func (p *SessionCallbackProxy) OnPlayFromMediaId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteString16(mediaId)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnPlayFromMediaId)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteString16(mediaId)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteString16(mediaId)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnPlayFromMediaId)
@@ -382,13 +637,42 @@ func (p *SessionCallbackProxy) OnPlayFromSearch(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteString16(query)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnPlayFromSearch)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteString16(query)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteString16(query)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnPlayFromSearch)
@@ -411,16 +695,48 @@ func (p *SessionCallbackProxy) OnPlayFromUri(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnPlayFromUri)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Landroid/net/Uri;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnPlayFromUri)
@@ -442,10 +758,33 @@ func (p *SessionCallbackProxy) OnSkipToTrack(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteInt64(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnSkipToTrack)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteInt64(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteInt64(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnSkipToTrack)
 	if _err != nil {
@@ -465,9 +804,29 @@ func (p *SessionCallbackProxy) OnPause(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnPause)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnPause)
 	if _err != nil {
@@ -487,9 +846,29 @@ func (p *SessionCallbackProxy) OnStop(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnStop)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnStop)
 	if _err != nil {
@@ -509,9 +888,29 @@ func (p *SessionCallbackProxy) OnNext(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnNext)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnNext)
 	if _err != nil {
@@ -531,9 +930,29 @@ func (p *SessionCallbackProxy) OnPrevious(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnPrevious)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnPrevious)
 	if _err != nil {
@@ -553,9 +972,29 @@ func (p *SessionCallbackProxy) OnFastForward(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnFastForward)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnFastForward)
 	if _err != nil {
@@ -575,9 +1014,29 @@ func (p *SessionCallbackProxy) OnRewind(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnRewind)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnRewind)
 	if _err != nil {
@@ -598,10 +1057,33 @@ func (p *SessionCallbackProxy) OnSeekTo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteInt64(pos)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnSeekTo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteInt64(pos)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteInt64(pos)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnSeekTo)
 	if _err != nil {
@@ -622,12 +1104,38 @@ func (p *SessionCallbackProxy) OnRate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(1)
-	if _err := rating.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnRate)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Landroid/media/Rating;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(1)
+		if _err := rating.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := rating.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnRate)
@@ -649,10 +1157,33 @@ func (p *SessionCallbackProxy) OnSetPlaybackSpeed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteFloat32(speed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnSetPlaybackSpeed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteFloat32(speed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteFloat32(speed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnSetPlaybackSpeed)
 	if _err != nil {
@@ -674,13 +1205,42 @@ func (p *SessionCallbackProxy) OnCustomAction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteString16(action)
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnCustomAction)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteString16(action)
+		_data.WriteInt32(1)
+		if _err := args.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteString16(action)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := args.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnCustomAction)
@@ -702,10 +1262,33 @@ func (p *SessionCallbackProxy) OnAdjustVolume(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(direction)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnAdjustVolume)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(direction)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteInt32(direction)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnAdjustVolume)
 	if _err != nil {
@@ -726,10 +1309,33 @@ func (p *SessionCallbackProxy) OnSetVolumeTo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnSetVolumeTo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteInt32(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnSetVolumeTo)
 	if _err != nil {

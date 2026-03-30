@@ -54,9 +54,26 @@ func (p *CreateCredentialCallbackProxy) OnPendingIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICreateCredentialCallback)
-	_data.WriteInt32(1)
-	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICreateCredentialCallback, MethodICreateCredentialCallbackOnPendingIntent)
+	_compiledDescs := []string{
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICreateCredentialCallback, MethodICreateCredentialCallbackOnPendingIntent)
@@ -75,9 +92,26 @@ func (p *CreateCredentialCallbackProxy) OnResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICreateCredentialCallback)
-	_data.WriteInt32(1)
-	if _err := response.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICreateCredentialCallback, MethodICreateCredentialCallbackOnResponse)
+	_compiledDescs := []string{
+		"Landroid/credentials/CreateCredentialResponse;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := response.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := response.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICreateCredentialCallback, MethodICreateCredentialCallbackOnResponse)
@@ -97,8 +131,25 @@ func (p *CreateCredentialCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICreateCredentialCallback)
-	_data.WriteString16(errorType)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICreateCredentialCallback, MethodICreateCredentialCallbackOnError)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(errorType)
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(errorType)
+			case 1:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICreateCredentialCallback, MethodICreateCredentialCallbackOnError)
 	if _err != nil {

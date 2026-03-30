@@ -48,8 +48,25 @@ func (p *MidiDeviceOpenCallbackProxy) OnDeviceOpened(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiDeviceOpenCallback)
-	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMidiDeviceOpenCallback, MethodIMidiDeviceOpenCallbackOnDeviceOpened)
+	_compiledDescs := []string{
+		"Landroid/media/midi/IMidiDeviceServer;",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiDeviceOpenCallback, MethodIMidiDeviceOpenCallbackOnDeviceOpened)
 	if _err != nil {

@@ -53,7 +53,21 @@ func (p *MeasurementCorrectionsCallbackProxy) SetCapabilitiesCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMeasurementCorrectionsCallback)
-	_data.WriteInt32(capabilities)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMeasurementCorrectionsCallback, MethodIMeasurementCorrectionsCallbackSetCapabilitiesCb)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(capabilities)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(capabilities)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMeasurementCorrectionsCallback, MethodIMeasurementCorrectionsCallbackSetCapabilitiesCb)
 	if _err != nil {

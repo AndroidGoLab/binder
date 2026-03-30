@@ -86,8 +86,25 @@ func (p *StorageStatsManagerProxy) IsQuotaSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
-	_data.WriteString16(volumeUuid)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerIsQuotaSupported)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerIsQuotaSupported)
 	if _err != nil {
@@ -120,8 +137,25 @@ func (p *StorageStatsManagerProxy) IsReservedSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
-	_data.WriteString16(volumeUuid)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerIsReservedSupported)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerIsReservedSupported)
 	if _err != nil {
@@ -154,8 +188,25 @@ func (p *StorageStatsManagerProxy) GetTotalBytes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
-	_data.WriteString16(volumeUuid)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetTotalBytes)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetTotalBytes)
 	if _err != nil {
@@ -188,8 +239,25 @@ func (p *StorageStatsManagerProxy) GetFreeBytes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
-	_data.WriteString16(volumeUuid)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetFreeBytes)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetFreeBytes)
 	if _err != nil {
@@ -222,8 +290,25 @@ func (p *StorageStatsManagerProxy) GetCacheBytes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
-	_data.WriteString16(volumeUuid)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetCacheBytes)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetCacheBytes)
 	if _err != nil {
@@ -257,9 +342,29 @@ func (p *StorageStatsManagerProxy) GetCacheQuotaBytes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
-	_data.WriteString16(volumeUuid)
-	_data.WriteInt32(uid)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetCacheQuotaBytes)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+		_data.WriteInt32(uid)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetCacheQuotaBytes)
 	if _err != nil {
@@ -293,10 +398,33 @@ func (p *StorageStatsManagerProxy) QueryStatsForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
-	_data.WriteString16(volumeUuid)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryStatsForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryStatsForPackage)
 	if _err != nil {
@@ -335,9 +463,29 @@ func (p *StorageStatsManagerProxy) QueryStatsForUid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
-	_data.WriteString16(volumeUuid)
-	_data.WriteInt32(uid)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryStatsForUid)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+		_data.WriteInt32(uid)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryStatsForUid)
 	if _err != nil {
@@ -375,9 +523,29 @@ func (p *StorageStatsManagerProxy) QueryStatsForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
-	_data.WriteString16(volumeUuid)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryStatsForUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryStatsForUser)
 	if _err != nil {
@@ -415,9 +583,29 @@ func (p *StorageStatsManagerProxy) QueryExternalStatsForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
-	_data.WriteString16(volumeUuid)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryExternalStatsForUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryExternalStatsForUser)
 	if _err != nil {
@@ -456,10 +644,33 @@ func (p *StorageStatsManagerProxy) QueryCratesForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
-	_data.WriteString16(volumeUuid)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryCratesForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryCratesForPackage)
 	if _err != nil {
@@ -498,9 +709,29 @@ func (p *StorageStatsManagerProxy) QueryCratesForUid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
-	_data.WriteString16(volumeUuid)
-	_data.WriteInt32(uid)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryCratesForUid)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+		_data.WriteInt32(uid)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryCratesForUid)
 	if _err != nil {
@@ -538,9 +769,29 @@ func (p *StorageStatsManagerProxy) QueryCratesForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
-	_data.WriteString16(volumeUuid)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryCratesForUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryCratesForUser)
 	if _err != nil {

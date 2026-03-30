@@ -110,7 +110,21 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveWhitelistApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerAddPowerSaveWhitelistApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerAddPowerSaveWhitelistApp)
 	if _err != nil {
@@ -138,12 +152,33 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveWhitelistApps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerAddPowerSaveWhitelistApps)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -176,7 +211,21 @@ func (p *DeviceIdleControllerProxy) RemovePowerSaveWhitelistApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerRemovePowerSaveWhitelistApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerRemovePowerSaveWhitelistApp)
 	if _err != nil {
@@ -203,7 +252,21 @@ func (p *DeviceIdleControllerProxy) RemoveSystemPowerWhitelistApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerRemoveSystemPowerWhitelistApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerRemoveSystemPowerWhitelistApp)
 	if _err != nil {
@@ -230,7 +293,21 @@ func (p *DeviceIdleControllerProxy) RestoreSystemPowerWhitelistApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerRestoreSystemPowerWhitelistApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerRestoreSystemPowerWhitelistApp)
 	if _err != nil {
@@ -688,7 +765,21 @@ func (p *DeviceIdleControllerProxy) IsPowerSaveWhitelistExceptIdleApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerIsPowerSaveWhitelistExceptIdleApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerIsPowerSaveWhitelistExceptIdleApp)
 	if _err != nil {
@@ -720,7 +811,21 @@ func (p *DeviceIdleControllerProxy) IsPowerSaveWhitelistApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerIsPowerSaveWhitelistApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerIsPowerSaveWhitelistApp)
 	if _err != nil {
@@ -755,11 +860,37 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveTempWhitelistApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
-	_data.WriteString16(name)
-	_data.WriteInt64(duration)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(reasonCode)
-	_data.WriteString16(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerAddPowerSaveTempWhitelistApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteInt64(duration)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(reasonCode)
+		_data.WriteString16(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteInt64(duration)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(reasonCode)
+			case 4:
+				_data.WriteString16(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerAddPowerSaveTempWhitelistApp)
 	if _err != nil {
@@ -790,10 +921,33 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveTempWhitelistAppForMms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
-	_data.WriteString16(name)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(reasonCode)
-	_data.WriteString16(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerAddPowerSaveTempWhitelistAppForMms)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(reasonCode)
+		_data.WriteString16(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(reasonCode)
+			case 3:
+				_data.WriteString16(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerAddPowerSaveTempWhitelistAppForMms)
 	if _err != nil {
@@ -828,10 +982,33 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveTempWhitelistAppForSms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
-	_data.WriteString16(name)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(reasonCode)
-	_data.WriteString16(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerAddPowerSaveTempWhitelistAppForSms)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(reasonCode)
+		_data.WriteString16(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(reasonCode)
+			case 3:
+				_data.WriteString16(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerAddPowerSaveTempWhitelistAppForSms)
 	if _err != nil {
@@ -866,10 +1043,33 @@ func (p *DeviceIdleControllerProxy) WhitelistAppTemporarily(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
-	_data.WriteString16(name)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(reasonCode)
-	_data.WriteString16(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerWhitelistAppTemporarily)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(reasonCode)
+		_data.WriteString16(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(reasonCode)
+			case 3:
+				_data.WriteString16(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerWhitelistAppTemporarily)
 	if _err != nil {
@@ -900,7 +1100,21 @@ func (p *DeviceIdleControllerProxy) ExitIdle(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
-	_data.WriteString16(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerExitIdle)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerExitIdle)
 	if _err != nil {

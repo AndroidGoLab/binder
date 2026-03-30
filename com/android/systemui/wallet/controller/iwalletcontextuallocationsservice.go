@@ -50,7 +50,21 @@ func (p *WalletContextualLocationsServiceProxy) AddWalletCardsUpdatedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWalletContextualLocationsService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWalletContextualLocationsService, MethodIWalletContextualLocationsServiceAddWalletCardsUpdatedListener)
+	_compiledDescs := []string{
+		"Lcom/android/systemui/wallet/controller/IWalletCardsUpdatedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWalletContextualLocationsService, MethodIWalletContextualLocationsServiceAddWalletCardsUpdatedListener)
 	if _err != nil {
@@ -77,12 +91,33 @@ func (p *WalletContextualLocationsServiceProxy) OnWalletContextualLocationsState
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWalletContextualLocationsService)
-	if storeLocations == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWalletContextualLocationsService, MethodIWalletContextualLocationsServiceOnWalletContextualLocationsStateUpdated)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if storeLocations == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(storeLocations)))
+			for _, _item := range storeLocations {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(storeLocations)))
-		for _, _item := range storeLocations {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if storeLocations == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(storeLocations)))
+					for _, _item := range storeLocations {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 

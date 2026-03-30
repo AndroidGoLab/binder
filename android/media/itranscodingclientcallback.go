@@ -70,8 +70,25 @@ func (p *TranscodingClientCallbackProxy) OpenFileDescriptor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
-	_data.WriteString16(fileUri)
-	_data.WriteString16(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOpenFileDescriptor)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(fileUri)
+		_data.WriteString16(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(fileUri)
+			case 1:
+				_data.WriteString16(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOpenFileDescriptor)
 	if _err != nil {
@@ -102,7 +119,21 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
-	_data.WriteInt32(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingStarted)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingStarted)
 	if _err != nil {
@@ -120,7 +151,21 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingPaused(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
-	_data.WriteInt32(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingPaused)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingPaused)
 	if _err != nil {
@@ -138,7 +183,21 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingResumed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
-	_data.WriteInt32(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingResumed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingResumed)
 	if _err != nil {
@@ -157,10 +216,30 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingFinished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingFinished)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/TranscodingResultParcel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingFinished)
@@ -180,8 +259,25 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(int32(errorCode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingFailed)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/TranscodingErrorCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		_data.WriteInt32(int32(errorCode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				_data.WriteInt32(int32(errorCode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingFailed)
 	if _err != nil {
@@ -201,9 +297,29 @@ func (p *TranscodingClientCallbackProxy) OnAwaitNumberOfSessionsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(oldAwaitNumber)
-	_data.WriteInt32(newAwaitNumber)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnAwaitNumberOfSessionsChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		_data.WriteInt32(oldAwaitNumber)
+		_data.WriteInt32(newAwaitNumber)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				_data.WriteInt32(oldAwaitNumber)
+			case 2:
+				_data.WriteInt32(newAwaitNumber)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnAwaitNumberOfSessionsChanged)
 	if _err != nil {
@@ -222,8 +338,25 @@ func (p *TranscodingClientCallbackProxy) OnProgressUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(progress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnProgressUpdate)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		_data.WriteInt32(progress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				_data.WriteInt32(progress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnProgressUpdate)
 	if _err != nil {

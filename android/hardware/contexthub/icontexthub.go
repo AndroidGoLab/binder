@@ -157,12 +157,35 @@ func (p *ContextHubProxy) LoadNanoapp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(contextHubId)
-	_data.WriteInt32(1)
-	if _err := appBinary.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHub, MethodIContextHubLoadNanoapp)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/contexthub/NanoappBinary;",
+		"I",
 	}
-	_data.WriteInt32(transactionId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(contextHubId)
+		_data.WriteInt32(1)
+		if _err := appBinary.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(contextHubId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := appBinary.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubLoadNanoapp)
 	if _err != nil {
@@ -191,9 +214,29 @@ func (p *ContextHubProxy) UnloadNanoapp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(contextHubId)
-	_data.WriteInt64(appId)
-	_data.WriteInt32(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHub, MethodIContextHubUnloadNanoapp)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(contextHubId)
+		_data.WriteInt64(appId)
+		_data.WriteInt32(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(contextHubId)
+			case 1:
+				_data.WriteInt64(appId)
+			case 2:
+				_data.WriteInt32(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubUnloadNanoapp)
 	if _err != nil {
@@ -222,9 +265,29 @@ func (p *ContextHubProxy) DisableNanoapp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(contextHubId)
-	_data.WriteInt64(appId)
-	_data.WriteInt32(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHub, MethodIContextHubDisableNanoapp)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(contextHubId)
+		_data.WriteInt64(appId)
+		_data.WriteInt32(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(contextHubId)
+			case 1:
+				_data.WriteInt64(appId)
+			case 2:
+				_data.WriteInt32(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubDisableNanoapp)
 	if _err != nil {
@@ -253,9 +316,29 @@ func (p *ContextHubProxy) EnableNanoapp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(contextHubId)
-	_data.WriteInt64(appId)
-	_data.WriteInt32(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHub, MethodIContextHubEnableNanoapp)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(contextHubId)
+		_data.WriteInt64(appId)
+		_data.WriteInt32(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(contextHubId)
+			case 1:
+				_data.WriteInt64(appId)
+			case 2:
+				_data.WriteInt32(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubEnableNanoapp)
 	if _err != nil {
@@ -283,8 +366,25 @@ func (p *ContextHubProxy) OnSettingChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WritePaddedByte(byte(setting))
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHub, MethodIContextHubOnSettingChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/contexthub/Setting;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(setting))
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(setting))
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubOnSettingChanged)
 	if _err != nil {
@@ -311,7 +411,21 @@ func (p *ContextHubProxy) QueryNanoapps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(contextHubId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHub, MethodIContextHubQueryNanoapps)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(contextHubId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(contextHubId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubQueryNanoapps)
 	if _err != nil {
@@ -339,8 +453,25 @@ func (p *ContextHubProxy) RegisterCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(contextHubId)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHub, MethodIContextHubRegisterCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/contexthub/IContextHubCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(contextHubId)
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(contextHubId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubRegisterCallback)
 	if _err != nil {
@@ -368,10 +499,30 @@ func (p *ContextHubProxy) SendMessageToHub(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(contextHubId)
-	_data.WriteInt32(1)
-	if _err := message.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHub, MethodIContextHubSendMessageToHub)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/contexthub/ContextHubMessage;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(contextHubId)
+		_data.WriteInt32(1)
+		if _err := message.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(contextHubId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := message.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubSendMessageToHub)
@@ -399,9 +550,26 @@ func (p *ContextHubProxy) OnHostEndpointConnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(1)
-	if _err := hostEndpointInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHub, MethodIContextHubOnHostEndpointConnected)
+	_compiledDescs := []string{
+		"Landroid/hardware/contexthub/HostEndpointInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := hostEndpointInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := hostEndpointInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubOnHostEndpointConnected)
@@ -429,7 +597,21 @@ func (p *ContextHubProxy) OnHostEndpointDisconnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(int32(hostEndpointId))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHub, MethodIContextHubOnHostEndpointDisconnected)
+	_compiledDescs := []string{
+		"C",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(hostEndpointId))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(hostEndpointId))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubOnHostEndpointDisconnected)
 	if _err != nil {
@@ -457,7 +639,21 @@ func (p *ContextHubProxy) GetPreloadedNanoappIds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(contextHubId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHub, MethodIContextHubGetPreloadedNanoappIds)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(contextHubId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(contextHubId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubGetPreloadedNanoappIds)
 	if _err != nil {
@@ -501,9 +697,26 @@ func (p *ContextHubProxy) OnNanSessionStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(1)
-	if _err := update.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHub, MethodIContextHubOnNanSessionStateChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/contexthub/NanSessionStateUpdate;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := update.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := update.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubOnNanSessionStateChanged)
@@ -531,7 +744,21 @@ func (p *ContextHubProxy) SetTestMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHub, MethodIContextHubSetTestMode)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubSetTestMode)
 	if _err != nil {
@@ -559,10 +786,30 @@ func (p *ContextHubProxy) SendMessageDeliveryStatusToHub(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(contextHubId)
-	_data.WriteInt32(1)
-	if _err := messageDeliveryStatus.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHub, MethodIContextHubSendMessageDeliveryStatusToHub)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/contexthub/MessageDeliveryStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(contextHubId)
+		_data.WriteInt32(1)
+		if _err := messageDeliveryStatus.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(contextHubId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := messageDeliveryStatus.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubSendMessageDeliveryStatusToHub)

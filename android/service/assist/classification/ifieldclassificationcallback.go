@@ -60,7 +60,21 @@ func (p *FieldClassificationCallbackProxy) OnCancellable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
-	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackOnCancellable)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/common/ICancellationSignal;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackOnCancellable)
 	if _err != nil {
@@ -87,9 +101,26 @@ func (p *FieldClassificationCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
-	_data.WriteInt32(1)
-	if _err := response.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackOnSuccess)
+	_compiledDescs := []string{
+		"Landroid/service/assist/classification/FieldClassificationResponse;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := response.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := response.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackOnSuccess)

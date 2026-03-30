@@ -81,10 +81,30 @@ func (p *InputMethodSessionProxy) UpdateExtractedText(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
-	_data.WriteInt32(token)
-	_data.WriteInt32(1)
-	if _err := text.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateExtractedText)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/view/inputmethod/ExtractedText;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(token)
+		_data.WriteInt32(1)
+		if _err := text.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(token)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := text.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateExtractedText)
@@ -108,12 +128,41 @@ func (p *InputMethodSessionProxy) UpdateSelection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
-	_data.WriteInt32(oldSelStart)
-	_data.WriteInt32(oldSelEnd)
-	_data.WriteInt32(newSelStart)
-	_data.WriteInt32(newSelEnd)
-	_data.WriteInt32(candidatesStart)
-	_data.WriteInt32(candidatesEnd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateSelection)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(oldSelStart)
+		_data.WriteInt32(oldSelEnd)
+		_data.WriteInt32(newSelStart)
+		_data.WriteInt32(newSelEnd)
+		_data.WriteInt32(candidatesStart)
+		_data.WriteInt32(candidatesEnd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(oldSelStart)
+			case 1:
+				_data.WriteInt32(oldSelEnd)
+			case 2:
+				_data.WriteInt32(newSelStart)
+			case 3:
+				_data.WriteInt32(newSelEnd)
+			case 4:
+				_data.WriteInt32(candidatesStart)
+			case 5:
+				_data.WriteInt32(candidatesEnd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateSelection)
 	if _err != nil {
@@ -131,7 +180,21 @@ func (p *InputMethodSessionProxy) ViewClicked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
-	_data.WriteBool(focusChanged)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionViewClicked)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(focusChanged)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(focusChanged)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionViewClicked)
 	if _err != nil {
@@ -149,9 +212,26 @@ func (p *InputMethodSessionProxy) UpdateCursor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
-	_data.WriteInt32(1)
-	if _err := newCursor.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateCursor)
+	_compiledDescs := []string{
+		"Landroid/graphics/Rect;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := newCursor.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := newCursor.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateCursor)
@@ -170,14 +250,38 @@ func (p *InputMethodSessionProxy) DisplayCompletions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
-	if completions == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionDisplayCompletions)
+	_compiledDescs := []string{
+		"[Landroid/view/inputmethod/CompletionInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if completions == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(completions)))
+			for _, _item := range completions {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(completions)))
-		for _, _item := range completions {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if completions == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(completions)))
+					for _, _item := range completions {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -199,10 +303,30 @@ func (p *InputMethodSessionProxy) AppPrivateCommand(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
-	_data.WriteString16(action)
-	_data.WriteInt32(1)
-	if _err := data.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionAppPrivateCommand)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(action)
+		_data.WriteInt32(1)
+		if _err := data.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(action)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := data.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionAppPrivateCommand)
@@ -237,9 +361,26 @@ func (p *InputMethodSessionProxy) UpdateCursorAnchorInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
-	_data.WriteInt32(1)
-	if _err := cursorAnchorInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateCursorAnchorInfo)
+	_compiledDescs := []string{
+		"Landroid/view/inputmethod/CursorAnchorInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := cursorAnchorInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := cursorAnchorInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateCursorAnchorInfo)
@@ -292,12 +433,35 @@ func (p *InputMethodSessionProxy) InvalidateInput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
-	_data.WriteInt32(1)
-	if _err := editorInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionInvalidateInput)
+	_compiledDescs := []string{
+		"Landroid/view/inputmethod/EditorInfo;",
+		"Lcom/android/internal/inputmethod/IRemoteInputConnection;",
+		"I",
 	}
-	binder.WriteBinderToParcel(ctx, _data, inputConnection.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(sessionId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := editorInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, inputConnection.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := editorInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, inputConnection.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionInvalidateInput)
 	if _err != nil {

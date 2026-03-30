@@ -88,7 +88,21 @@ func (p *CustomVibratorProxy) SetDirectionality(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICustomVibrator)
-	_data.WriteInt32(int32(directionality))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICustomVibrator, MethodICustomVibratorSetDirectionality)
+	_compiledDescs := []string{
+		"Landroid/hardware/tests/extension/vibrator/Directionality;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(directionality))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(directionality))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICustomVibrator, MethodICustomVibratorSetDirectionality)
 	if _err != nil {
@@ -117,8 +131,25 @@ func (p *CustomVibratorProxy) Perform(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICustomVibrator)
-	_data.WriteInt32(int32(effect))
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICustomVibrator, MethodICustomVibratorPerform)
+	_compiledDescs := []string{
+		"Landroid/hardware/tests/extension/vibrator/VendorEffect;",
+		"Landroid/hardware/vibrator/IVibratorCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(effect))
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(effect))
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICustomVibrator, MethodICustomVibratorPerform)
 	if _err != nil {

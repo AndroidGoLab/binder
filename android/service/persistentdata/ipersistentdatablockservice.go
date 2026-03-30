@@ -84,7 +84,21 @@ func (p *PersistentDataBlockServiceProxy) Write(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceWrite)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceWrite)
 	if _err != nil {
@@ -230,7 +244,21 @@ func (p *PersistentDataBlockServiceProxy) SetOemUnlockEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceSetOemUnlockEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceSetOemUnlockEnabled)
 	if _err != nil {
@@ -408,7 +436,21 @@ func (p *PersistentDataBlockServiceProxy) DeactivateFactoryResetProtection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
-	_data.WriteByteArray(secret)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceDeactivateFactoryResetProtection)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(secret)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(secret)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceDeactivateFactoryResetProtection)
 	if _err != nil {
@@ -440,7 +482,21 @@ func (p *PersistentDataBlockServiceProxy) SetFactoryResetProtectionSecret(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
-	_data.WriteByteArray(secret)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceSetFactoryResetProtectionSecret)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(secret)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(secret)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceSetFactoryResetProtectionSecret)
 	if _err != nil {

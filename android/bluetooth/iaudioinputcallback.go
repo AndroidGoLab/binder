@@ -62,7 +62,21 @@ func (p *AudioInputCallbackProxy) OnDescriptionChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioInputCallback)
-	_data.WriteString16(description)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioInputCallback, MethodIAudioInputCallbackOnDescriptionChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(description)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(description)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioInputCallback, MethodIAudioInputCallbackOnDescriptionChanged)
 	if _err != nil {
@@ -80,7 +94,21 @@ func (p *AudioInputCallbackProxy) OnStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioInputCallback)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioInputCallback, MethodIAudioInputCallbackOnStatusChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioInputCallback, MethodIAudioInputCallbackOnStatusChanged)
 	if _err != nil {
@@ -100,9 +128,29 @@ func (p *AudioInputCallbackProxy) OnStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioInputCallback)
-	_data.WriteInt32(gainSetting)
-	_data.WriteInt32(mute)
-	_data.WriteInt32(gainMode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioInputCallback, MethodIAudioInputCallbackOnStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(gainSetting)
+		_data.WriteInt32(mute)
+		_data.WriteInt32(gainMode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(gainSetting)
+			case 1:
+				_data.WriteInt32(mute)
+			case 2:
+				_data.WriteInt32(gainMode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioInputCallback, MethodIAudioInputCallbackOnStateChanged)
 	if _err != nil {

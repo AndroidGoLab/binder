@@ -59,19 +59,49 @@ func (p *SpellCheckerSessionProxy) OnGetSuggestionsMultiple(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerSession)
-	if textInfos == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpellCheckerSession, MethodISpellCheckerSessionOnGetSuggestionsMultiple)
+	_compiledDescs := []string{
+		"[Landroid/view/textservice/TextInfo;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if textInfos == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(textInfos)))
+			for _, _item := range textInfos {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(suggestionsLimit)
+		_data.WriteBool(multipleWords)
 	} else {
-		_data.WriteInt32(int32(len(textInfos)))
-		for _, _item := range textInfos {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if textInfos == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(textInfos)))
+					for _, _item := range textInfos {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(suggestionsLimit)
+			case 2:
+				_data.WriteBool(multipleWords)
 			}
 		}
 	}
-	_data.WriteInt32(suggestionsLimit)
-	_data.WriteBool(multipleWords)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpellCheckerSession, MethodISpellCheckerSessionOnGetSuggestionsMultiple)
 	if _err != nil {
@@ -90,18 +120,45 @@ func (p *SpellCheckerSessionProxy) OnGetSentenceSuggestionsMultiple(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerSession)
-	if textInfos == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpellCheckerSession, MethodISpellCheckerSessionOnGetSentenceSuggestionsMultiple)
+	_compiledDescs := []string{
+		"[Landroid/view/textservice/TextInfo;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if textInfos == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(textInfos)))
+			for _, _item := range textInfos {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(suggestionsLimit)
 	} else {
-		_data.WriteInt32(int32(len(textInfos)))
-		for _, _item := range textInfos {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if textInfos == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(textInfos)))
+					for _, _item := range textInfos {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(suggestionsLimit)
 			}
 		}
 	}
-	_data.WriteInt32(suggestionsLimit)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpellCheckerSession, MethodISpellCheckerSessionOnGetSentenceSuggestionsMultiple)
 	if _err != nil {

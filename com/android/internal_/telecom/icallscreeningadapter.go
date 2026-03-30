@@ -51,14 +51,40 @@ func (p *CallScreeningAdapterProxy) OnScreeningResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallScreeningAdapter)
-	_data.WriteString16(callId)
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICallScreeningAdapter, MethodICallScreeningAdapterOnScreeningResponse)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
+		"LCallScreeningService/ParcelableCallResponse;",
 	}
-	_data.WriteInt32(1)
-	if _err := response.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteInt32(1)
+		if _err := componentName.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := response.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := componentName.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := response.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallScreeningAdapter, MethodICallScreeningAdapterOnScreeningResponse)

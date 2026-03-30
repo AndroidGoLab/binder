@@ -282,7 +282,21 @@ func (p *NfcAdapterProxy) GetNfcAdapterExtrasInterface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterGetNfcAdapterExtrasInterface)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterGetNfcAdapterExtrasInterface)
 	if _err != nil {
@@ -315,7 +329,21 @@ func (p *NfcAdapterProxy) GetNfcDtaInterface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterGetNfcDtaInterface)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterGetNfcDtaInterface)
 	if _err != nil {
@@ -378,7 +406,21 @@ func (p *NfcAdapterProxy) Disable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteBool(saveState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterDisable)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(saveState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(saveState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterDisable)
 	if _err != nil {
@@ -439,7 +481,21 @@ func (p *NfcAdapterProxy) PausePolling(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteInt32(timeoutInMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterPausePolling)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(timeoutInMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(timeoutInMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterPausePolling)
 	if _err != nil {
@@ -493,24 +549,60 @@ func (p *NfcAdapterProxy) SetForegroundDispatch(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterSetForegroundDispatch)
+	_compiledDescs := []string{
+		"Landroid/app/PendingIntent;",
+		"[Landroid/content/IntentFilter;",
+		"Landroid/nfc/TechListParcel;",
 	}
-	if filters == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(filters)))
-		for _, _item := range filters {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if filters == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(filters)))
+			for _, _item := range filters {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
 			}
 		}
-	}
-	_data.WriteInt32(1)
-	if _err := techLists.MarshalParcel(_data); _err != nil {
-		return _err
+		_data.WriteInt32(1)
+		if _err := techLists.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if filters == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(filters)))
+					for _, _item := range filters {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := techLists.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterSetForegroundDispatch)
@@ -538,7 +630,21 @@ func (p *NfcAdapterProxy) SetAppCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterSetAppCallback)
+	_compiledDescs := []string{
+		"Landroid/nfc/IAppCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterSetAppCallback)
 	if _err != nil {
@@ -568,9 +674,29 @@ func (p *NfcAdapterProxy) Ignore(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteInt32(nativeHandle)
-	_data.WriteInt32(debounceMs)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterIgnore)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/nfc/ITagRemovedCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nativeHandle)
+		_data.WriteInt32(debounceMs)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nativeHandle)
+			case 1:
+				_data.WriteInt32(debounceMs)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterIgnore)
 	if _err != nil {
@@ -601,9 +727,26 @@ func (p *NfcAdapterProxy) Dispatch(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteInt32(1)
-	if _err := tag.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterDispatch)
+	_compiledDescs := []string{
+		"Landroid/nfc/Tag;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := tag.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := tag.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterDispatch)
@@ -634,12 +777,38 @@ func (p *NfcAdapterProxy) SetReaderMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterSetReaderMode)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/nfc/IAppCallback;",
+		"I",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(flags)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterSetReaderMode)
@@ -668,13 +837,37 @@ func (p *NfcAdapterProxy) AddNfcUnlockHandler(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	binder.WriteBinderToParcel(ctx, _data, unlockHandler.AsBinder(), p.Remote.Transport())
-	if techList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterAddNfcUnlockHandler)
+	_compiledDescs := []string{
+		"Landroid/nfc/INfcUnlockHandler;",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, unlockHandler.AsBinder(), p.Remote.Transport())
+		if techList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(techList)))
+			for _, _item := range techList {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(techList)))
-		for _, _item := range techList {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, unlockHandler.AsBinder(), p.Remote.Transport())
+			case 1:
+				if techList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(techList)))
+					for _, _item := range techList {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -703,7 +896,21 @@ func (p *NfcAdapterProxy) RemoveNfcUnlockHandler(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	binder.WriteBinderToParcel(ctx, _data, unlockHandler.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterRemoveNfcUnlockHandler)
+	_compiledDescs := []string{
+		"Landroid/nfc/INfcUnlockHandler;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, unlockHandler.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, unlockHandler.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterRemoveNfcUnlockHandler)
 	if _err != nil {
@@ -816,7 +1023,21 @@ func (p *NfcAdapterProxy) SetNfcSecure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterSetNfcSecure)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterSetNfcSecure)
 	if _err != nil {
@@ -883,7 +1104,21 @@ func (p *NfcAdapterProxy) SetControllerAlwaysOn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteBool(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterSetControllerAlwaysOn)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterSetControllerAlwaysOn)
 	if _err != nil {
@@ -974,7 +1209,21 @@ func (p *NfcAdapterProxy) RegisterControllerAlwaysOnListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterRegisterControllerAlwaysOnListener)
+	_compiledDescs := []string{
+		"Landroid/nfc/INfcControllerAlwaysOnListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterRegisterControllerAlwaysOnListener)
 	if _err != nil {
@@ -1001,7 +1250,21 @@ func (p *NfcAdapterProxy) UnregisterControllerAlwaysOnListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterUnregisterControllerAlwaysOnListener)
+	_compiledDescs := []string{
+		"Landroid/nfc/INfcControllerAlwaysOnListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterUnregisterControllerAlwaysOnListener)
 	if _err != nil {
@@ -1059,7 +1322,21 @@ func (p *NfcAdapterProxy) GetTagIntentAppPreferenceForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterGetTagIntentAppPreferenceForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterGetTagIntentAppPreferenceForUser)
 	if _err != nil {
@@ -1109,9 +1386,29 @@ func (p *NfcAdapterProxy) SetTagIntentAppPreferenceForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(pkg)
-	_data.WriteBool(allow)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterSetTagIntentAppPreferenceForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(pkg)
+		_data.WriteBool(allow)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(pkg)
+			case 2:
+				_data.WriteBool(allow)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterSetTagIntentAppPreferenceForUser)
 	if _err != nil {
@@ -1203,7 +1500,21 @@ func (p *NfcAdapterProxy) EnableReaderOption(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterEnableReaderOption)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterEnableReaderOption)
 	if _err != nil {
@@ -1295,7 +1606,21 @@ func (p *NfcAdapterProxy) SetObserveMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterSetObserveMode)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterSetObserveMode)
 	if _err != nil {
@@ -1327,7 +1652,21 @@ func (p *NfcAdapterProxy) SetWlcEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterSetWlcEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterSetWlcEnabled)
 	if _err != nil {
@@ -1388,7 +1727,21 @@ func (p *NfcAdapterProxy) RegisterWlcStateListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterRegisterWlcStateListener)
+	_compiledDescs := []string{
+		"Landroid/nfc/INfcWlcStateListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterRegisterWlcStateListener)
 	if _err != nil {
@@ -1415,7 +1768,21 @@ func (p *NfcAdapterProxy) UnregisterWlcStateListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterUnregisterWlcStateListener)
+	_compiledDescs := []string{
+		"Landroid/nfc/INfcWlcStateListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterUnregisterWlcStateListener)
 	if _err != nil {
@@ -1479,9 +1846,29 @@ func (p *NfcAdapterProxy) UpdateDiscoveryTechnology(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
-	_data.WriteInt32(pollFlags)
-	_data.WriteInt32(listenFlags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterUpdateDiscoveryTechnology)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
+		_data.WriteInt32(pollFlags)
+		_data.WriteInt32(listenFlags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(pollFlags)
+			case 2:
+				_data.WriteInt32(listenFlags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterUpdateDiscoveryTechnology)
 	if _err != nil {
@@ -1508,9 +1895,26 @@ func (p *NfcAdapterProxy) NotifyPollingLoop(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteInt32(1)
-	if _err := frame.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterNotifyPollingLoop)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := frame.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := frame.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterNotifyPollingLoop)
@@ -1567,10 +1971,33 @@ func (p *NfcAdapterProxy) SendVendorNciMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	_data.WriteInt32(mt)
-	_data.WriteInt32(gid)
-	_data.WriteInt32(oid)
-	_data.WriteByteArray(payload)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterSendVendorNciMessage)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mt)
+		_data.WriteInt32(gid)
+		_data.WriteInt32(oid)
+		_data.WriteByteArray(payload)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mt)
+			case 1:
+				_data.WriteInt32(gid)
+			case 2:
+				_data.WriteInt32(oid)
+			case 3:
+				_data.WriteByteArray(payload)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterSendVendorNciMessage)
 	if _err != nil {
@@ -1601,7 +2028,21 @@ func (p *NfcAdapterProxy) RegisterVendorExtensionCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterRegisterVendorExtensionCallback)
+	_compiledDescs := []string{
+		"Landroid/nfc/INfcVendorNciCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterRegisterVendorExtensionCallback)
 	if _err != nil {
@@ -1628,7 +2069,21 @@ func (p *NfcAdapterProxy) UnregisterVendorExtensionCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapter, MethodINfcAdapterUnregisterVendorExtensionCallback)
+	_compiledDescs := []string{
+		"Landroid/nfc/INfcVendorNciCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterUnregisterVendorExtensionCallback)
 	if _err != nil {

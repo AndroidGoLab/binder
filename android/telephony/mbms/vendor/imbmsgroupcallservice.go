@@ -62,8 +62,25 @@ func (p *MbmsGroupCallServiceProxy) Initialize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceInitialize)
+	_compiledDescs := []string{
+		"Landroid/telephony/mbms/IMbmsGroupCallSessionCallback;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceInitialize)
 	if _err != nil {
@@ -95,8 +112,25 @@ func (p *MbmsGroupCallServiceProxy) StopGroupCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallService)
-	_data.WriteInt32(subId)
-	_data.WriteInt64(tmgi)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceStopGroupCall)
+	_compiledDescs := []string{
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt64(tmgi)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt64(tmgi)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceStopGroupCall)
 	if _err != nil {
@@ -126,17 +160,48 @@ func (p *MbmsGroupCallServiceProxy) UpdateGroupCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallService)
-	_data.WriteInt32(subscriptionId)
-	_data.WriteInt64(tmgi)
-	if saiList == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(saiList)))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceUpdateGroupCall)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"Ljava/util/List;",
+		"Ljava/util/List;",
 	}
-	if frequencyList == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subscriptionId)
+		_data.WriteInt64(tmgi)
+		if saiList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(saiList)))
+		}
+		if frequencyList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(frequencyList)))
+		}
 	} else {
-		_data.WriteInt32(int32(len(frequencyList)))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subscriptionId)
+			case 1:
+				_data.WriteInt64(tmgi)
+			case 2:
+				if saiList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(saiList)))
+				}
+			case 3:
+				if frequencyList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(frequencyList)))
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceUpdateGroupCall)
@@ -169,19 +234,53 @@ func (p *MbmsGroupCallServiceProxy) StartGroupCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallService)
-	_data.WriteInt32(subscriptionId)
-	_data.WriteInt64(tmgi)
-	if saiList == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(saiList)))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceStartGroupCall)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"Ljava/util/List;",
+		"Ljava/util/List;",
+		"Landroid/telephony/mbms/IGroupCallCallback;",
 	}
-	if frequencyList == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subscriptionId)
+		_data.WriteInt64(tmgi)
+		if saiList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(saiList)))
+		}
+		if frequencyList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(frequencyList)))
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(frequencyList)))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subscriptionId)
+			case 1:
+				_data.WriteInt64(tmgi)
+			case 2:
+				if saiList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(saiList)))
+				}
+			case 3:
+				if frequencyList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(frequencyList)))
+				}
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceStartGroupCall)
 	if _err != nil {
@@ -212,7 +311,21 @@ func (p *MbmsGroupCallServiceProxy) Dispose(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallService)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceDispose)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceDispose)
 	if _err != nil {

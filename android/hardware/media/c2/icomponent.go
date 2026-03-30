@@ -85,7 +85,21 @@ func (p *ComponentProxy) ConfigureVideoTunnel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
-	_data.WriteInt32(avSyncHwId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComponent, MethodIComponentConfigureVideoTunnel)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(avSyncHwId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(avSyncHwId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentConfigureVideoTunnel)
 	if _err != nil {
@@ -122,9 +136,26 @@ func (p *ComponentProxy) CreateBlockPool(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
-	_data.WriteInt32(1)
-	if _err := allocator.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComponent, MethodIComponentCreateBlockPool)
+	_compiledDescs := []string{
+		"Landroid/hardware/media/c2/IComponent/BlockPoolAllocator;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := allocator.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := allocator.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentCreateBlockPool)
@@ -161,7 +192,21 @@ func (p *ComponentProxy) DestroyBlockPool(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
-	_data.WriteInt64(blockPoolId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComponent, MethodIComponentDestroyBlockPool)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(blockPoolId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(blockPoolId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentDestroyBlockPool)
 	if _err != nil {
@@ -188,7 +233,21 @@ func (p *ComponentProxy) Drain(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
-	_data.WriteBool(withEos)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComponent, MethodIComponentDrain)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(withEos)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(withEos)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentDrain)
 	if _err != nil {
@@ -281,9 +340,26 @@ func (p *ComponentProxy) Queue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
-	_data.WriteInt32(1)
-	if _err := workBundle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComponent, MethodIComponentQueue)
+	_compiledDescs := []string{
+		"Landroid/hardware/media/c2/WorkBundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := workBundle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := workBundle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentQueue)
@@ -412,7 +488,21 @@ func (p *ComponentProxy) ConnectToInputSurface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
-	binder.WriteBinderToParcel(ctx, _data, inputSurface.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComponent, MethodIComponentConnectToInputSurface)
+	_compiledDescs := []string{
+		"Landroid/hardware/media/c2/IInputSurface;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, inputSurface.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, inputSurface.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentConnectToInputSurface)
 	if _err != nil {

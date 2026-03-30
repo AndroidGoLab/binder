@@ -60,7 +60,21 @@ func (p *MediaCasServiceProxy) CreateDescrambler(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
-	_data.WriteInt32(CA_system_id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaCasService, MethodIMediaCasServiceCreateDescrambler)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(CA_system_id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(CA_system_id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaCasService, MethodIMediaCasServiceCreateDescrambler)
 	if _err != nil {
@@ -94,8 +108,25 @@ func (p *MediaCasServiceProxy) CreatePlugin(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
-	_data.WriteInt32(CA_system_id)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaCasService, MethodIMediaCasServiceCreatePlugin)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/cas/ICasListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(CA_system_id)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(CA_system_id)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaCasService, MethodIMediaCasServiceCreatePlugin)
 	if _err != nil {
@@ -190,7 +221,21 @@ func (p *MediaCasServiceProxy) IsDescramblerSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
-	_data.WriteInt32(CA_system_id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaCasService, MethodIMediaCasServiceIsDescramblerSupported)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(CA_system_id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(CA_system_id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaCasService, MethodIMediaCasServiceIsDescramblerSupported)
 	if _err != nil {
@@ -222,7 +267,21 @@ func (p *MediaCasServiceProxy) IsSystemIdSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
-	_data.WriteInt32(CA_system_id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaCasService, MethodIMediaCasServiceIsSystemIdSupported)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(CA_system_id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(CA_system_id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaCasService, MethodIMediaCasServiceIsSystemIdSupported)
 	if _err != nil {

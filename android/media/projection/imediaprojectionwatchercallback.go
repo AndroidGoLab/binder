@@ -54,9 +54,26 @@ func (p *MediaProjectionWatcherCallbackProxy) OnStart(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionWatcherCallback)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionWatcherCallback, MethodIMediaProjectionWatcherCallbackOnStart)
+	_compiledDescs := []string{
+		"Landroid/media/projection/MediaProjectionInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionWatcherCallback, MethodIMediaProjectionWatcherCallbackOnStart)
@@ -75,9 +92,26 @@ func (p *MediaProjectionWatcherCallbackProxy) OnStop(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionWatcherCallback)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionWatcherCallback, MethodIMediaProjectionWatcherCallbackOnStop)
+	_compiledDescs := []string{
+		"Landroid/media/projection/MediaProjectionInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionWatcherCallback, MethodIMediaProjectionWatcherCallbackOnStop)
@@ -97,17 +131,44 @@ func (p *MediaProjectionWatcherCallbackProxy) OnRecordingSessionSet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionWatcherCallback)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionWatcherCallback, MethodIMediaProjectionWatcherCallbackOnRecordingSessionSet)
+	_compiledDescs := []string{
+		"Landroid/media/projection/MediaProjectionInfo;",
+		"Landroid/view/ContentRecordingSession;",
 	}
-	if session != nil {
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
 		_data.WriteInt32(1)
-		if _err := (*session).MarshalParcel(_data); _err != nil {
+		if _err := info.MarshalParcel(_data); _err != nil {
 			return _err
 		}
+		if session != nil {
+			_data.WriteInt32(1)
+			if _err := (*session).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if session != nil {
+					_data.WriteInt32(1)
+					if _err := (*session).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionWatcherCallback, MethodIMediaProjectionWatcherCallbackOnRecordingSessionSet)

@@ -48,7 +48,21 @@ func (p *AppClipsScreenshotHelperServiceProxy) TakeScreenshot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppClipsScreenshotHelperService)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppClipsScreenshotHelperService, MethodIAppClipsScreenshotHelperServiceTakeScreenshot)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppClipsScreenshotHelperService, MethodIAppClipsScreenshotHelperServiceTakeScreenshot)
 	if _err != nil {

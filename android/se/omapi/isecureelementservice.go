@@ -97,7 +97,21 @@ func (p *SecureElementServiceProxy) GetReader(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementService)
-	_data.WriteString16(reader)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISecureElementService, MethodISecureElementServiceGetReader)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(reader)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(reader)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementService, MethodISecureElementServiceGetReader)
 	if _err != nil {
@@ -133,17 +147,47 @@ func (p *SecureElementServiceProxy) IsNfcEventAllowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementService)
-	_data.WriteString16(reader)
-	_data.WriteByteArray(aid)
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISecureElementService, MethodISecureElementServiceIsNfcEventAllowed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+		"[Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(reader)
+		_data.WriteByteArray(aid)
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(reader)
+			case 1:
+				_data.WriteByteArray(aid)
+			case 2:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementService, MethodISecureElementServiceIsNfcEventAllowed)
 	if _err != nil {

@@ -51,11 +51,31 @@ func (p *WallpaperEffectsGenerationManagerProxy) GenerateCinematicEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEffectsGenerationManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperEffectsGenerationManager, MethodIWallpaperEffectsGenerationManagerGenerateCinematicEffect)
+	_compiledDescs := []string{
+		"Landroid/app/wallpapereffectsgeneration/CinematicEffectRequest;",
+		"Landroid/app/wallpapereffectsgeneration/ICinematicEffectListener;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEffectsGenerationManager, MethodIWallpaperEffectsGenerationManagerGenerateCinematicEffect)
 	if _err != nil {
@@ -73,9 +93,26 @@ func (p *WallpaperEffectsGenerationManagerProxy) ReturnCinematicEffectResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEffectsGenerationManager)
-	_data.WriteInt32(1)
-	if _err := response.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperEffectsGenerationManager, MethodIWallpaperEffectsGenerationManagerReturnCinematicEffectResponse)
+	_compiledDescs := []string{
+		"Landroid/app/wallpapereffectsgeneration/CinematicEffectResponse;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := response.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := response.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEffectsGenerationManager, MethodIWallpaperEffectsGenerationManagerReturnCinematicEffectResponse)

@@ -50,10 +50,33 @@ func (p *CarrierConfigChangeListenerProxy) OnCarrierConfigChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigChangeListener)
-	_data.WriteInt32(slotIndex)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(carrierId)
-	_data.WriteInt32(specificCarrierId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierConfigChangeListener, MethodICarrierConfigChangeListenerOnCarrierConfigChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(carrierId)
+		_data.WriteInt32(specificCarrierId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(carrierId)
+			case 3:
+				_data.WriteInt32(specificCarrierId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigChangeListener, MethodICarrierConfigChangeListenerOnCarrierConfigChanged)
 	if _err != nil {

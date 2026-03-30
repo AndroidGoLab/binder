@@ -130,9 +130,26 @@ func (p *BackupTransportProxy) Name(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportName)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportName)
@@ -151,9 +168,26 @@ func (p *BackupTransportProxy) ConfigurationIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportConfigurationIntent)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportConfigurationIntent)
@@ -172,9 +206,26 @@ func (p *BackupTransportProxy) CurrentDestinationString(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportCurrentDestinationString)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportCurrentDestinationString)
@@ -193,9 +244,26 @@ func (p *BackupTransportProxy) DataManagementIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportDataManagementIntent)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportDataManagementIntent)
@@ -214,9 +282,26 @@ func (p *BackupTransportProxy) DataManagementIntentLabel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportDataManagementIntentLabel)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportDataManagementIntentLabel)
@@ -235,9 +320,26 @@ func (p *BackupTransportProxy) TransportDirName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportTransportDirName)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportTransportDirName)
@@ -256,9 +358,26 @@ func (p *BackupTransportProxy) RequestBackupTime(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportRequestBackupTime)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportRequestBackupTime)
@@ -277,7 +396,21 @@ func (p *BackupTransportProxy) InitializeDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportInitializeDevice)
+	_compiledDescs := []string{
+		"Lcom/android/internal/backup/ITransportStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportInitializeDevice)
 	if _err != nil {
@@ -298,13 +431,39 @@ func (p *BackupTransportProxy) PerformBackup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := packageInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportPerformBackup)
+	_compiledDescs := []string{
+		"Landroid/content/pm/PackageInfo;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"I",
+		"Lcom/android/internal/backup/ITransportStatusCallback;",
 	}
-	_data.WriteParcelFileDescriptor(inFd)
-	_data.WriteInt32(flags)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := packageInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteParcelFileDescriptor(inFd)
+		_data.WriteInt32(flags)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := packageInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteParcelFileDescriptor(inFd)
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportPerformBackup)
 	if _err != nil {
@@ -323,11 +482,31 @@ func (p *BackupTransportProxy) ClearBackupData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := packageInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportClearBackupData)
+	_compiledDescs := []string{
+		"Landroid/content/pm/PackageInfo;",
+		"Lcom/android/internal/backup/ITransportStatusCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := packageInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := packageInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportClearBackupData)
 	if _err != nil {
@@ -345,7 +524,21 @@ func (p *BackupTransportProxy) FinishBackup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportFinishBackup)
+	_compiledDescs := []string{
+		"Lcom/android/internal/backup/ITransportStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportFinishBackup)
 	if _err != nil {
@@ -363,9 +556,26 @@ func (p *BackupTransportProxy) GetAvailableRestoreSets(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportGetAvailableRestoreSets)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportGetAvailableRestoreSets)
@@ -384,9 +594,26 @@ func (p *BackupTransportProxy) GetCurrentRestoreSet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportGetCurrentRestoreSet)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportGetCurrentRestoreSet)
@@ -407,19 +634,49 @@ func (p *BackupTransportProxy) StartRestore(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt64(token)
-	if packages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportStartRestore)
+	_compiledDescs := []string{
+		"J",
+		"[Landroid/content/pm/PackageInfo;",
+		"Lcom/android/internal/backup/ITransportStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(token)
+		if packages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packages)))
+			for _, _item := range packages {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(packages)))
-		for _, _item := range packages {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(token)
+			case 1:
+				if packages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packages)))
+					for _, _item := range packages {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportStartRestore)
 	if _err != nil {
@@ -437,9 +694,26 @@ func (p *BackupTransportProxy) NextRestorePackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportNextRestorePackage)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportNextRestorePackage)
@@ -459,8 +733,25 @@ func (p *BackupTransportProxy) GetRestoreData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteParcelFileDescriptor(outFd)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportGetRestoreData)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"Lcom/android/internal/backup/ITransportStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(outFd)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(outFd)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportGetRestoreData)
 	if _err != nil {
@@ -478,7 +769,21 @@ func (p *BackupTransportProxy) FinishRestore(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportFinishRestore)
+	_compiledDescs := []string{
+		"Lcom/android/internal/backup/ITransportStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportFinishRestore)
 	if _err != nil {
@@ -496,9 +801,26 @@ func (p *BackupTransportProxy) RequestFullBackupTime(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportRequestFullBackupTime)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportRequestFullBackupTime)
@@ -520,13 +842,39 @@ func (p *BackupTransportProxy) PerformFullBackup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := targetPackage.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportPerformFullBackup)
+	_compiledDescs := []string{
+		"Landroid/content/pm/PackageInfo;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"I",
+		"Lcom/android/internal/backup/ITransportStatusCallback;",
 	}
-	_data.WriteParcelFileDescriptor(socket)
-	_data.WriteInt32(flags)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := targetPackage.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteParcelFileDescriptor(socket)
+		_data.WriteInt32(flags)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := targetPackage.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteParcelFileDescriptor(socket)
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportPerformFullBackup)
 	if _err != nil {
@@ -545,8 +893,25 @@ func (p *BackupTransportProxy) CheckFullBackupSize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt64(size)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportCheckFullBackupSize)
+	_compiledDescs := []string{
+		"J",
+		"Lcom/android/internal/backup/ITransportStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(size)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(size)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportCheckFullBackupSize)
 	if _err != nil {
@@ -565,8 +930,25 @@ func (p *BackupTransportProxy) SendBackupData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(numBytes)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportSendBackupData)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/backup/ITransportStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(numBytes)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(numBytes)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportSendBackupData)
 	if _err != nil {
@@ -584,7 +966,21 @@ func (p *BackupTransportProxy) CancelFullBackup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportCancelFullBackup)
+	_compiledDescs := []string{
+		"Lcom/android/internal/backup/ITransportStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportCancelFullBackup)
 	if _err != nil {
@@ -604,14 +1000,40 @@ func (p *BackupTransportProxy) IsAppEligibleForBackup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := targetPackage.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportIsAppEligibleForBackup)
+	_compiledDescs := []string{
+		"Landroid/content/pm/PackageInfo;",
+		"Z",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteBool(isFullBackup)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := targetPackage.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(isFullBackup)
+		_data.WriteInt32(1)
+		if _err := resultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := targetPackage.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(isFullBackup)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := resultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportIsAppEligibleForBackup)
@@ -632,11 +1054,34 @@ func (p *BackupTransportProxy) GetBackupQuota(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteString16(packageName)
-	_data.WriteBool(isFullBackup)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportGetBackupQuota)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteBool(isFullBackup)
+		_data.WriteInt32(1)
+		if _err := resultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteBool(isFullBackup)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := resultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportGetBackupQuota)
@@ -656,8 +1101,25 @@ func (p *BackupTransportProxy) GetNextFullRestoreDataChunk(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteParcelFileDescriptor(socket)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportGetNextFullRestoreDataChunk)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"Lcom/android/internal/backup/ITransportStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(socket)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(socket)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportGetNextFullRestoreDataChunk)
 	if _err != nil {
@@ -675,7 +1137,21 @@ func (p *BackupTransportProxy) AbortFullRestore(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportAbortFullRestore)
+	_compiledDescs := []string{
+		"Lcom/android/internal/backup/ITransportStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportAbortFullRestore)
 	if _err != nil {
@@ -693,9 +1169,26 @@ func (p *BackupTransportProxy) GetTransportFlags(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportGetTransportFlags)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportGetTransportFlags)
@@ -714,9 +1207,26 @@ func (p *BackupTransportProxy) GetBackupManagerMonitor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupTransport, MethodIBackupTransportGetBackupManagerMonitor)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportGetBackupManagerMonitor)

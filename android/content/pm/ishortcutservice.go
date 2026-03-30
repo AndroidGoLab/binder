@@ -121,12 +121,35 @@ func (p *ShortcutServiceProxy) SetDynamicShortcuts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := shortcutInfoList.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceSetDynamicShortcuts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/ParceledListSlice;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := shortcutInfoList.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := shortcutInfoList.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceSetDynamicShortcuts)
 	if _err != nil {
@@ -160,12 +183,35 @@ func (p *ShortcutServiceProxy) AddDynamicShortcuts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := shortcutInfoList.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceAddDynamicShortcuts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/ParceledListSlice;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := shortcutInfoList.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := shortcutInfoList.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceAddDynamicShortcuts)
 	if _err != nil {
@@ -198,16 +244,43 @@ func (p *ShortcutServiceProxy) RemoveDynamicShortcuts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	if shortcutIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceRemoveDynamicShortcuts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		if shortcutIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(shortcutIds)))
+			for _, _item := range shortcutIds {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(shortcutIds)))
-		for _, _item := range shortcutIds {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				if shortcutIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(shortcutIds)))
+					for _, _item := range shortcutIds {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceRemoveDynamicShortcuts)
 	if _err != nil {
@@ -235,8 +308,25 @@ func (p *ShortcutServiceProxy) RemoveAllDynamicShortcuts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceRemoveAllDynamicShortcuts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceRemoveAllDynamicShortcuts)
 	if _err != nil {
@@ -266,12 +356,35 @@ func (p *ShortcutServiceProxy) UpdateShortcuts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := shortcuts.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceUpdateShortcuts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/ParceledListSlice;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := shortcuts.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := shortcuts.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceUpdateShortcuts)
 	if _err != nil {
@@ -306,19 +419,54 @@ func (p *ShortcutServiceProxy) RequestPinShortcut(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := shortcut.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceRequestPinShortcut)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/ShortcutInfo;",
+		"Landroid/content/IntentSender;",
+		"I",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(1)
-	if _err := resultIntent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := ret.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := shortcut.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := resultIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := ret.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := shortcut.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := resultIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := ret.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceRequestPinShortcut)
@@ -349,15 +497,44 @@ func (p *ShortcutServiceProxy) CreateShortcutResultIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := shortcut.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceCreateShortcutResultIntent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/ShortcutInfo;",
+		"I",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := ret.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := shortcut.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := ret.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := shortcut.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := ret.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceCreateShortcutResultIntent)
@@ -389,18 +566,51 @@ func (p *ShortcutServiceProxy) DisableShortcuts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	if shortcutIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceDisableShortcuts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"Ljava/lang/CharSequence;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		if shortcutIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(shortcutIds)))
+			for _, _item := range shortcutIds {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteString16(disabledMessage)
+		_data.WriteInt32(disabledMessageResId)
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(shortcutIds)))
-		for _, _item := range shortcutIds {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				if shortcutIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(shortcutIds)))
+					for _, _item := range shortcutIds {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				_data.WriteString16(disabledMessage)
+			case 3:
+				_data.WriteInt32(disabledMessageResId)
+			case 4:
+				_data.WriteInt32(_identity.UserID)
+			}
 		}
 	}
-	_data.WriteString16(disabledMessage)
-	_data.WriteInt32(disabledMessageResId)
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceDisableShortcuts)
 	if _err != nil {
@@ -429,16 +639,43 @@ func (p *ShortcutServiceProxy) EnableShortcuts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	if shortcutIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceEnableShortcuts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		if shortcutIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(shortcutIds)))
+			for _, _item := range shortcutIds {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(shortcutIds)))
-		for _, _item := range shortcutIds {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				if shortcutIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(shortcutIds)))
+					for _, _item := range shortcutIds {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceEnableShortcuts)
 	if _err != nil {
@@ -467,8 +704,25 @@ func (p *ShortcutServiceProxy) GetMaxShortcutCountPerActivity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceGetMaxShortcutCountPerActivity)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceGetMaxShortcutCountPerActivity)
 	if _err != nil {
@@ -501,8 +755,25 @@ func (p *ShortcutServiceProxy) GetRemainingCallCount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceGetRemainingCallCount)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceGetRemainingCallCount)
 	if _err != nil {
@@ -535,8 +806,25 @@ func (p *ShortcutServiceProxy) GetRateLimitResetTime(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceGetRateLimitResetTime)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceGetRateLimitResetTime)
 	if _err != nil {
@@ -569,8 +857,25 @@ func (p *ShortcutServiceProxy) GetIconMaxDimensions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceGetIconMaxDimensions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceGetIconMaxDimensions)
 	if _err != nil {
@@ -603,9 +908,29 @@ func (p *ShortcutServiceProxy) ReportShortcutUsed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteString16(shortcutId)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceReportShortcutUsed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(shortcutId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(shortcutId)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceReportShortcutUsed)
 	if _err != nil {
@@ -658,8 +983,25 @@ func (p *ShortcutServiceProxy) OnApplicationActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceOnApplicationActive)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceOnApplicationActive)
 	if _err != nil {
@@ -678,7 +1020,21 @@ func (p *ShortcutServiceProxy) GetBackupPayload(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteInt32(user)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceGetBackupPayload)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(user)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(user)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceGetBackupPayload)
 	if _err != nil {
@@ -710,8 +1066,25 @@ func (p *ShortcutServiceProxy) ApplyRestore(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteByteArray(payload)
-	_data.WriteInt32(user)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceApplyRestore)
+	_compiledDescs := []string{
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(payload)
+		_data.WriteInt32(user)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(payload)
+			case 1:
+				_data.WriteInt32(user)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceApplyRestore)
 	if _err != nil {
@@ -740,8 +1113,25 @@ func (p *ShortcutServiceProxy) IsRequestPinItemSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteInt32(user)
-	_data.WriteInt32(requestType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceIsRequestPinItemSupported)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(user)
+		_data.WriteInt32(requestType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(user)
+			case 1:
+				_data.WriteInt32(requestType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceIsRequestPinItemSupported)
 	if _err != nil {
@@ -775,12 +1165,35 @@ func (p *ShortcutServiceProxy) GetShareTargets(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := filter.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceGetShareTargets)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/IntentFilter;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := filter.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := filter.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceGetShareTargets)
 	if _err != nil {
@@ -819,9 +1232,29 @@ func (p *ShortcutServiceProxy) HasShareTargets(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteString16(packageToCheck)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceHasShareTargets)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(packageToCheck)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(packageToCheck)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceHasShareTargets)
 	if _err != nil {
@@ -854,16 +1287,43 @@ func (p *ShortcutServiceProxy) RemoveLongLivedShortcuts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	if shortcutIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceRemoveLongLivedShortcuts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		if shortcutIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(shortcutIds)))
+			for _, _item := range shortcutIds {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(shortcutIds)))
-		for _, _item := range shortcutIds {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				if shortcutIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(shortcutIds)))
+					for _, _item := range shortcutIds {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceRemoveLongLivedShortcuts)
 	if _err != nil {
@@ -893,9 +1353,29 @@ func (p *ShortcutServiceProxy) GetShortcuts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(matchFlags)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceGetShortcuts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(matchFlags)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(matchFlags)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceGetShortcuts)
 	if _err != nil {
@@ -933,12 +1413,35 @@ func (p *ShortcutServiceProxy) PushDynamicShortcut(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := shortcut.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServicePushDynamicShortcut)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/ShortcutInfo;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := shortcut.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := shortcut.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServicePushDynamicShortcut)
 	if _err != nil {

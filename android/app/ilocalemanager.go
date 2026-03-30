@@ -63,13 +63,39 @@ func (p *LocaleManagerProxy) SetApplicationLocales(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := locales.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILocaleManager, MethodILocaleManagerSetApplicationLocales)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/os/LocaleList;",
+		"Z",
 	}
-	_data.WriteBool(fromDelegate)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := locales.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(fromDelegate)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := locales.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteBool(fromDelegate)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocaleManager, MethodILocaleManagerSetApplicationLocales)
 	if _err != nil {
@@ -98,8 +124,25 @@ func (p *LocaleManagerProxy) GetApplicationLocales(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILocaleManager, MethodILocaleManagerGetApplicationLocales)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocaleManager, MethodILocaleManagerGetApplicationLocales)
 	if _err != nil {
@@ -172,11 +215,34 @@ func (p *LocaleManagerProxy) SetOverrideLocaleConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := localeConfig.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILocaleManager, MethodILocaleManagerSetOverrideLocaleConfig)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/app/LocaleConfig;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := localeConfig.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := localeConfig.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocaleManager, MethodILocaleManagerSetOverrideLocaleConfig)
@@ -206,8 +272,25 @@ func (p *LocaleManagerProxy) GetOverrideLocaleConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILocaleManager, MethodILocaleManagerGetOverrideLocaleConfig)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocaleManager, MethodILocaleManagerGetOverrideLocaleConfig)
 	if _err != nil {

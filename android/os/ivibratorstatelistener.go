@@ -47,7 +47,21 @@ func (p *VibratorStateListenerProxy) OnVibrating(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorStateListener)
-	_data.WriteBool(vibrating)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorStateListener, MethodIVibratorStateListenerOnVibrating)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(vibrating)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(vibrating)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorStateListener, MethodIVibratorStateListenerOnVibrating)
 	if _err != nil {

@@ -71,9 +71,26 @@ func (p *OnDeviceIntelligenceServiceProxy) GetVersion(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-	_data.WriteInt32(1)
-	if _err := remoteCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetVersion)
+	_compiledDescs := []string{
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := remoteCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := remoteCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetVersion)
@@ -93,8 +110,25 @@ func (p *OnDeviceIntelligenceServiceProxy) GetFeature(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-	_data.WriteInt32(featureId)
-	binder.WriteBinderToParcel(ctx, _data, featureCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetFeature)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/app/ondeviceintelligence/IFeatureCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(featureId)
+		binder.WriteBinderToParcel(ctx, _data, featureCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(featureId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, featureCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetFeature)
 	if _err != nil {
@@ -112,7 +146,21 @@ func (p *OnDeviceIntelligenceServiceProxy) ListFeatures(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-	binder.WriteBinderToParcel(ctx, _data, listFeaturesCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceListFeatures)
+	_compiledDescs := []string{
+		"Landroid/app/ondeviceintelligence/IListFeaturesCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listFeaturesCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listFeaturesCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceListFeatures)
 	if _err != nil {
@@ -131,11 +179,31 @@ func (p *OnDeviceIntelligenceServiceProxy) GetFeatureDetails(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-	_data.WriteInt32(1)
-	if _err := feature.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetFeatureDetails)
+	_compiledDescs := []string{
+		"Landroid/app/ondeviceintelligence/Feature;",
+		"Landroid/app/ondeviceintelligence/IFeatureDetailsCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, featureDetailsCallback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := feature.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, featureDetailsCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := feature.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, featureDetailsCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetFeatureDetails)
 	if _err != nil {
@@ -154,10 +222,30 @@ func (p *OnDeviceIntelligenceServiceProxy) GetReadOnlyFileDescriptor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-	_data.WriteString16(fileName)
-	_data.WriteInt32(1)
-	if _err := future.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetReadOnlyFileDescriptor)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(fileName)
+		_data.WriteInt32(1)
+		if _err := future.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(fileName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := future.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetReadOnlyFileDescriptor)
@@ -177,13 +265,36 @@ func (p *OnDeviceIntelligenceServiceProxy) GetReadOnlyFeatureFileDescriptorMap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-	_data.WriteInt32(1)
-	if _err := feature.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetReadOnlyFeatureFileDescriptorMap)
+	_compiledDescs := []string{
+		"Landroid/app/ondeviceintelligence/Feature;",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := remoteCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := feature.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := remoteCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := feature.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := remoteCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetReadOnlyFeatureFileDescriptorMap)
@@ -204,12 +315,35 @@ func (p *OnDeviceIntelligenceServiceProxy) RequestFeatureDownload(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-	_data.WriteInt32(1)
-	if _err := feature.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceRequestFeatureDownload)
+	_compiledDescs := []string{
+		"Landroid/app/ondeviceintelligence/Feature;",
+		"Landroid/hardware/biometrics/common/ICancellationSignal;",
+		"Landroid/app/ondeviceintelligence/IDownloadCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, downloadCallback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := feature.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, downloadCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := feature.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, downloadCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceRequestFeatureDownload)
 	if _err != nil {
@@ -227,7 +361,21 @@ func (p *OnDeviceIntelligenceServiceProxy) RegisterRemoteServices(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-	binder.WriteBinderToParcel(ctx, _data, remoteProcessingService.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceRegisterRemoteServices)
+	_compiledDescs := []string{
+		"Landroid/service/ondeviceintelligence/IRemoteProcessingService;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, remoteProcessingService.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, remoteProcessingService.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceRegisterRemoteServices)
 	if _err != nil {

@@ -47,7 +47,21 @@ func (p *ProxyPortListenerProxy) SetProxyPort(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProxyPortListener)
-	_data.WriteInt32(port)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProxyPortListener, MethodIProxyPortListenerSetProxyPort)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(port)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(port)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProxyPortListener, MethodIProxyPortListenerSetProxyPort)
 	if _err != nil {

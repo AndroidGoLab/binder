@@ -91,15 +91,47 @@ func (p *ContentCaptureManagerProxy) StartSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, shareableActivityToken, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerStartSession)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/os/IBinder;",
+		"Landroid/content/ComponentName;",
+		"I",
+		"I",
+		"Lcom/android/internal/os/IResultReceiver;",
 	}
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(flags)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, shareableActivityToken, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := componentName.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(sessionId)
+		_data.WriteInt32(flags)
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, shareableActivityToken, p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(1)
+				if _err := componentName.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(sessionId)
+			case 4:
+				_data.WriteInt32(flags)
+			case 5:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerStartSession)
 	if _err != nil {
@@ -117,7 +149,21 @@ func (p *ContentCaptureManagerProxy) FinishSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	_data.WriteInt32(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerFinishSession)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerFinishSession)
 	if _err != nil {
@@ -135,7 +181,21 @@ func (p *ContentCaptureManagerProxy) GetServiceComponentName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerGetServiceComponentName)
+	_compiledDescs := []string{
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerGetServiceComponentName)
 	if _err != nil {
@@ -153,9 +213,26 @@ func (p *ContentCaptureManagerProxy) RemoveData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerRemoveData)
+	_compiledDescs := []string{
+		"Landroid/view/contentcapture/DataRemovalRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerRemoveData)
@@ -175,11 +252,31 @@ func (p *ContentCaptureManagerProxy) ShareData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerShareData)
+	_compiledDescs := []string{
+		"Landroid/view/contentcapture/DataShareRequest;",
+		"Landroid/view/contentcapture/IDataShareWriteAdapter;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerShareData)
 	if _err != nil {
@@ -197,7 +294,21 @@ func (p *ContentCaptureManagerProxy) IsContentCaptureFeatureEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerIsContentCaptureFeatureEnabled)
+	_compiledDescs := []string{
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerIsContentCaptureFeatureEnabled)
 	if _err != nil {
@@ -215,7 +326,21 @@ func (p *ContentCaptureManagerProxy) GetServiceSettingsActivity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerGetServiceSettingsActivity)
+	_compiledDescs := []string{
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerGetServiceSettingsActivity)
 	if _err != nil {
@@ -234,8 +359,25 @@ func (p *ContentCaptureManagerProxy) GetContentCaptureConditions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerGetContentCaptureConditions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerGetContentCaptureConditions)
 	if _err != nil {
@@ -253,7 +395,21 @@ func (p *ContentCaptureManagerProxy) ResetTemporaryService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerResetTemporaryService)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerResetTemporaryService)
 	if _err != nil {
@@ -273,9 +429,29 @@ func (p *ContentCaptureManagerProxy) SetTemporaryService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(serviceName)
-	_data.WriteInt32(duration)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerSetTemporaryService)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(serviceName)
+		_data.WriteInt32(duration)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(serviceName)
+			case 2:
+				_data.WriteInt32(duration)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerSetTemporaryService)
 	if _err != nil {
@@ -294,8 +470,25 @@ func (p *ContentCaptureManagerProxy) SetDefaultServiceEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerSetDefaultServiceEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerSetDefaultServiceEnabled)
 	if _err != nil {
@@ -314,8 +507,25 @@ func (p *ContentCaptureManagerProxy) RegisterContentCaptureOptionsCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerRegisterContentCaptureOptionsCallback)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/view/contentcapture/IContentCaptureOptionsCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerRegisterContentCaptureOptionsCallback)
 	if _err != nil {
@@ -333,9 +543,26 @@ func (p *ContentCaptureManagerProxy) OnLoginDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	_data.WriteInt32(1)
-	if _err := events.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerOnLoginDetected)
+	_compiledDescs := []string{
+		"Landroid/content/pm/ParceledListSlice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := events.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := events.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerOnLoginDetected)

@@ -63,13 +63,36 @@ func (p *HostapdProxy) AddAccessPoint(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
-	_data.WriteInt32(1)
-	if _err := ifaceParams.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHostapd, MethodIHostapdAddAccessPoint)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/hostapd/IfaceParams;",
+		"Landroid/hardware/wifi/hostapd/NetworkParams;",
 	}
-	_data.WriteInt32(1)
-	if _err := nwParams.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := ifaceParams.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := nwParams.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := ifaceParams.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := nwParams.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapd, MethodIHostapdAddAccessPoint)
@@ -99,9 +122,29 @@ func (p *HostapdProxy) ForceClientDisconnect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
-	_data.WriteString16(ifaceName)
-	_data.WriteByteArray(clientAddress)
-	_data.WriteInt32(int32(reasonCode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHostapd, MethodIHostapdForceClientDisconnect)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+		"Landroid/hardware/wifi/hostapd/Ieee80211ReasonCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(ifaceName)
+		_data.WriteByteArray(clientAddress)
+		_data.WriteInt32(int32(reasonCode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(ifaceName)
+			case 1:
+				_data.WriteByteArray(clientAddress)
+			case 2:
+				_data.WriteInt32(int32(reasonCode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapd, MethodIHostapdForceClientDisconnect)
 	if _err != nil {
@@ -128,7 +171,21 @@ func (p *HostapdProxy) RegisterCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHostapd, MethodIHostapdRegisterCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/hostapd/IHostapdCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapd, MethodIHostapdRegisterCallback)
 	if _err != nil {
@@ -155,7 +212,21 @@ func (p *HostapdProxy) RemoveAccessPoint(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
-	_data.WriteString16(ifaceName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHostapd, MethodIHostapdRemoveAccessPoint)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(ifaceName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(ifaceName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapd, MethodIHostapdRemoveAccessPoint)
 	if _err != nil {
@@ -182,7 +253,21 @@ func (p *HostapdProxy) SetDebugParams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
-	_data.WriteInt32(int32(level))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHostapd, MethodIHostapdSetDebugParams)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/hostapd/DebugLevel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(level))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(level))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapd, MethodIHostapdSetDebugParams)
 	if _err != nil {

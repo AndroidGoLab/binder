@@ -63,10 +63,30 @@ func (p *TunerCallbackProxy) OnTuneFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteInt32(int32(result))
-	_data.WriteInt32(1)
-	if _err := selector.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnTuneFailed)
+	_compiledDescs := []string{
+		"Landroid/hardware/broadcastradio/Result;",
+		"Landroid/hardware/broadcastradio/ProgramSelector;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(result))
+		_data.WriteInt32(1)
+		if _err := selector.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(result))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := selector.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnTuneFailed)
@@ -85,9 +105,26 @@ func (p *TunerCallbackProxy) OnCurrentProgramInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnCurrentProgramInfoChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/broadcastradio/ProgramInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnCurrentProgramInfoChanged)
@@ -106,9 +143,26 @@ func (p *TunerCallbackProxy) OnProgramListUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteInt32(1)
-	if _err := chunk.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnProgramListUpdated)
+	_compiledDescs := []string{
+		"Landroid/hardware/broadcastradio/ProgramListChunk;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := chunk.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := chunk.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnProgramListUpdated)
@@ -127,7 +181,21 @@ func (p *TunerCallbackProxy) OnAntennaStateChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteBool(connected)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnAntennaStateChange)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(connected)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(connected)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnAntennaStateChange)
 	if _err != nil {
@@ -146,8 +214,25 @@ func (p *TunerCallbackProxy) OnConfigFlagUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteInt32(int32(flag))
-	_data.WriteBool(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnConfigFlagUpdated)
+	_compiledDescs := []string{
+		"Landroid/hardware/broadcastradio/ConfigFlag;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(flag))
+		_data.WriteBool(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(flag))
+			case 1:
+				_data.WriteBool(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnConfigFlagUpdated)
 	if _err != nil {
@@ -165,14 +250,38 @@ func (p *TunerCallbackProxy) OnParametersUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	if parameters == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnParametersUpdated)
+	_compiledDescs := []string{
+		"[Landroid/hardware/broadcastradio/VendorKeyValue;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if parameters == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(parameters)))
+			for _, _item := range parameters {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(parameters)))
-		for _, _item := range parameters {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if parameters == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(parameters)))
+					for _, _item := range parameters {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

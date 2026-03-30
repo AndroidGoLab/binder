@@ -69,8 +69,25 @@ func (p *AdapterProxy) OffToBleOn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdapter)
-	_data.WriteBool(quietMode)
-	_data.WriteString16(hciInstanceName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdapter, MethodIAdapterOffToBleOn)
+	_compiledDescs := []string{
+		"Z",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(quietMode)
+		_data.WriteString16(hciInstanceName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(quietMode)
+			case 1:
+				_data.WriteString16(hciInstanceName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdapter, MethodIAdapterOffToBleOn)
 	if _err != nil {
@@ -136,7 +153,21 @@ func (p *AdapterProxy) RegisterCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdapter)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdapter, MethodIAdapterRegisterCallback)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/IBluetoothCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdapter, MethodIAdapterRegisterCallback)
 	if _err != nil {
@@ -154,7 +185,21 @@ func (p *AdapterProxy) UnregisterCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdapter)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdapter, MethodIAdapterUnregisterCallback)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/IBluetoothCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdapter, MethodIAdapterUnregisterCallback)
 	if _err != nil {

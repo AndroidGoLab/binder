@@ -115,7 +115,21 @@ func (p *VibratorManagerServiceProxy) GetVibratorInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
-	_data.WriteInt32(vibratorId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceGetVibratorInfo)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(vibratorId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(vibratorId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceGetVibratorInfo)
 	if _err != nil {
@@ -152,7 +166,21 @@ func (p *VibratorManagerServiceProxy) IsVibrating(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
-	_data.WriteInt32(vibratorId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceIsVibrating)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(vibratorId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(vibratorId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceIsVibrating)
 	if _err != nil {
@@ -185,8 +213,25 @@ func (p *VibratorManagerServiceProxy) RegisterVibratorStateListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
-	_data.WriteInt32(vibratorId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceRegisterVibratorStateListener)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IVibratorStateListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(vibratorId)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(vibratorId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceRegisterVibratorStateListener)
 	if _err != nil {
@@ -219,8 +264,25 @@ func (p *VibratorManagerServiceProxy) UnregisterVibratorStateListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
-	_data.WriteInt32(vibratorId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceUnregisterVibratorStateListener)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IVibratorStateListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(vibratorId)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(vibratorId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceUnregisterVibratorStateListener)
 	if _err != nil {
@@ -256,16 +318,48 @@ func (p *VibratorManagerServiceProxy) SetAlwaysOnEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
-	_data.WriteInt32(uid)
-	_data.WriteString16(opPkg)
-	_data.WriteInt32(alwaysOnId)
-	_data.WriteInt32(1)
-	if _err := vibration.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceSetAlwaysOnEffect)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/os/CombinedVibration;",
+		"Landroid/os/VibrationAttributes;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributes.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteString16(opPkg)
+		_data.WriteInt32(alwaysOnId)
+		_data.WriteInt32(1)
+		if _err := vibration.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributes.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteString16(opPkg)
+			case 2:
+				_data.WriteInt32(alwaysOnId)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := vibration.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := attributes.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceSetAlwaysOnEffect)
@@ -303,19 +397,57 @@ func (p *VibratorManagerServiceProxy) Vibrate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(deviceId)
-	_data.WriteString16(opPkg)
-	_data.WriteInt32(1)
-	if _err := vibration.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceVibrate)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/CombinedVibration;",
+		"Landroid/os/VibrationAttributes;",
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributes.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(deviceId)
+		_data.WriteString16(opPkg)
+		_data.WriteInt32(1)
+		if _err := vibration.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributes.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(reason)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(deviceId)
+			case 2:
+				_data.WriteString16(opPkg)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := vibration.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := attributes.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteString16(reason)
+			case 6:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
 	}
-	_data.WriteString16(reason)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceVibrate)
 	if _err != nil {
@@ -343,8 +475,25 @@ func (p *VibratorManagerServiceProxy) CancelVibrate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
-	_data.WriteInt32(usageFilter)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceCancelVibrate)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(usageFilter)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(usageFilter)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceCancelVibrate)
 	if _err != nil {
@@ -377,13 +526,45 @@ func (p *VibratorManagerServiceProxy) PerformHapticFeedback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(deviceId)
-	_data.WriteString16(opPkg)
-	_data.WriteInt32(constant)
-	_data.WriteBool(always)
-	_data.WriteString16(reason)
-	_data.WriteBool(fromIme)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServicePerformHapticFeedback)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(deviceId)
+		_data.WriteString16(opPkg)
+		_data.WriteInt32(constant)
+		_data.WriteBool(always)
+		_data.WriteString16(reason)
+		_data.WriteBool(fromIme)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(deviceId)
+			case 2:
+				_data.WriteString16(opPkg)
+			case 3:
+				_data.WriteInt32(constant)
+			case 4:
+				_data.WriteBool(always)
+			case 5:
+				_data.WriteString16(reason)
+			case 6:
+				_data.WriteBool(fromIme)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServicePerformHapticFeedback)
 	if _err != nil {

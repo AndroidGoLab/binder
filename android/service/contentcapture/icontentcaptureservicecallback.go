@@ -59,22 +59,56 @@ func (p *ContentCaptureServiceCallbackProxy) SetContentCaptureWhitelist(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureServiceCallback)
-	if packages == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(packages)))
-		for _, _item := range packages {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureServiceCallback, MethodIContentCaptureServiceCallbackSetContentCaptureWhitelist)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Ljava/util/List;",
 	}
-	if activities == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if packages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packages)))
+			for _, _item := range packages {
+				_data.WriteString16(_item)
+			}
+		}
+		if activities == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(activities)))
+			for _, _item := range activities {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(activities)))
-		for _, _item := range activities {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if packages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packages)))
+					for _, _item := range packages {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				if activities == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(activities)))
+					for _, _item := range activities {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -96,15 +130,42 @@ func (p *ContentCaptureServiceCallbackProxy) SetContentCaptureConditions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureServiceCallback)
-	_data.WriteString16(packageName)
-	if conditions == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureServiceCallback, MethodIContentCaptureServiceCallbackSetContentCaptureConditions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		if conditions == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(conditions)))
+			for _, _item := range conditions {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(conditions)))
-		for _, _item := range conditions {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				if conditions == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(conditions)))
+					for _, _item := range conditions {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -145,20 +206,55 @@ func (p *ContentCaptureServiceCallbackProxy) WriteSessionFlush(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureServiceCallback)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(1)
-	if _err := app.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentCaptureServiceCallback, MethodIContentCaptureServiceCallbackWriteSessionFlush)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"Landroid/service/contentcapture/FlushMetrics;",
+		"Landroid/content/ContentCaptureOptions;",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := flushMetrics.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		_data.WriteInt32(1)
+		if _err := app.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := flushMetrics.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(flushReason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := app.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := flushMetrics.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(flushReason)
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(flushReason)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureServiceCallback, MethodIContentCaptureServiceCallbackWriteSessionFlush)
 	if _err != nil {

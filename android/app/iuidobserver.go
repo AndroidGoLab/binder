@@ -63,8 +63,25 @@ func (p *UidObserverProxy) OnUidGone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUidObserver)
-	_data.WriteInt32(uid)
-	_data.WriteBool(disabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUidObserver, MethodIUidObserverOnUidGone)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteBool(disabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteBool(disabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUidObserver, MethodIUidObserverOnUidGone)
 	if _err != nil {
@@ -82,7 +99,21 @@ func (p *UidObserverProxy) OnUidActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUidObserver)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUidObserver, MethodIUidObserverOnUidActive)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUidObserver, MethodIUidObserverOnUidActive)
 	if _err != nil {
@@ -101,8 +132,25 @@ func (p *UidObserverProxy) OnUidIdle(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUidObserver)
-	_data.WriteInt32(uid)
-	_data.WriteBool(disabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUidObserver, MethodIUidObserverOnUidIdle)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteBool(disabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteBool(disabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUidObserver, MethodIUidObserverOnUidIdle)
 	if _err != nil {
@@ -123,10 +171,33 @@ func (p *UidObserverProxy) OnUidStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUidObserver)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(procState)
-	_data.WriteInt64(procStateSeq)
-	_data.WriteInt32(capability)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUidObserver, MethodIUidObserverOnUidStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(procState)
+		_data.WriteInt64(procStateSeq)
+		_data.WriteInt32(capability)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(procState)
+			case 2:
+				_data.WriteInt64(procStateSeq)
+			case 3:
+				_data.WriteInt32(capability)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUidObserver, MethodIUidObserverOnUidStateChanged)
 	if _err != nil {
@@ -145,8 +216,25 @@ func (p *UidObserverProxy) OnUidProcAdjChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUidObserver)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(adj)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUidObserver, MethodIUidObserverOnUidProcAdjChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(adj)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(adj)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUidObserver, MethodIUidObserverOnUidProcAdjChanged)
 	if _err != nil {
@@ -165,8 +253,25 @@ func (p *UidObserverProxy) OnUidCachedChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUidObserver)
-	_data.WriteInt32(uid)
-	_data.WriteBool(cached)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUidObserver, MethodIUidObserverOnUidCachedChanged)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteBool(cached)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteBool(cached)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUidObserver, MethodIUidObserverOnUidCachedChanged)
 	if _err != nil {

@@ -48,8 +48,25 @@ func (p *PhoneAccountSuggestionServiceProxy) OnAccountSuggestionRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneAccountSuggestionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(number)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneAccountSuggestionService, MethodIPhoneAccountSuggestionServiceOnAccountSuggestionRequest)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telecom/IPhoneAccountSuggestionCallback;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(number)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(number)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneAccountSuggestionService, MethodIPhoneAccountSuggestionServiceOnAccountSuggestionRequest)
 	if _err != nil {

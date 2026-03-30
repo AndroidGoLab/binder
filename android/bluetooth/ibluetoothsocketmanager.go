@@ -73,25 +73,65 @@ func (p *BluetoothSocketManagerProxy) ConnectSocket(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerConnectSocket)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"I",
+		"Landroid/os/ParcelUuid;",
+		"I",
+		"I",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(type_)
-	if uuid != nil {
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
 		_data.WriteInt32(1)
-		if _err := (*uuid).MarshalParcel(_data); _err != nil {
+		if _err := device.MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
-	} else {
-		_data.WriteInt32(-1)
-	}
-	_data.WriteInt32(port)
-	_data.WriteInt32(flag)
-	if binder.APILevelFromBinder(p.Remote) == 0 || binder.APILevelFromBinder(p.Remote) >= 36 {
+		_data.WriteInt32(type_)
+		if uuid != nil {
+			_data.WriteInt32(1)
+			if _err := (*uuid).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		_data.WriteInt32(port)
+		_data.WriteInt32(flag)
 		_data.WriteInt32(1)
 		if _err := attributionSource.MarshalParcel(_data); _err != nil {
 			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(type_)
+			case 2:
+				if uuid != nil {
+					_data.WriteInt32(1)
+					if _err := (*uuid).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 3:
+				_data.WriteInt32(port)
+			case 4:
+				_data.WriteInt32(flag)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
 		}
 	}
 
@@ -135,29 +175,86 @@ func (p *BluetoothSocketManagerProxy) ConnectSocketWithOffload(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerConnectSocketWithOffload)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"I",
+		"Landroid/os/ParcelUuid;",
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"J",
+		"J",
+		"I",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(type_)
-	if uuid != nil {
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
 		_data.WriteInt32(1)
-		if _err := (*uuid).MarshalParcel(_data); _err != nil {
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(type_)
+		if uuid != nil {
+			_data.WriteInt32(1)
+			if _err := (*uuid).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		_data.WriteInt32(port)
+		_data.WriteInt32(flag)
+		_data.WriteInt32(dataPath)
+		_data.WriteString16(socketName)
+		_data.WriteInt64(hubId)
+		_data.WriteInt64(endpointId)
+		_data.WriteInt32(maximumPacketSize)
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
 	} else {
-		_data.WriteInt32(-1)
-	}
-	_data.WriteInt32(port)
-	_data.WriteInt32(flag)
-	_data.WriteInt32(dataPath)
-	_data.WriteString16(socketName)
-	_data.WriteInt64(hubId)
-	_data.WriteInt64(endpointId)
-	_data.WriteInt32(maximumPacketSize)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(type_)
+			case 2:
+				if uuid != nil {
+					_data.WriteInt32(1)
+					if _err := (*uuid).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 3:
+				_data.WriteInt32(port)
+			case 4:
+				_data.WriteInt32(flag)
+			case 5:
+				_data.WriteInt32(dataPath)
+			case 6:
+				_data.WriteString16(socketName)
+			case 7:
+				_data.WriteInt64(hubId)
+			case 8:
+				_data.WriteInt64(endpointId)
+			case 9:
+				_data.WriteInt32(maximumPacketSize)
+			case 10:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerConnectSocketWithOffload)
@@ -195,22 +292,59 @@ func (p *BluetoothSocketManagerProxy) CreateSocketChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
-	_data.WriteInt32(type_)
-	_data.WriteString16(serviceName)
-	if uuid != nil {
-		_data.WriteInt32(1)
-		if _err := (*uuid).MarshalParcel(_data); _err != nil {
-			return _result, _err
-		}
-	} else {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerCreateSocketChannel)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/ParcelUuid;",
+		"I",
+		"I",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(port)
-	_data.WriteInt32(flag)
-	if binder.APILevelFromBinder(p.Remote) == 0 || binder.APILevelFromBinder(p.Remote) >= 36 {
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(type_)
+		_data.WriteString16(serviceName)
+		if uuid != nil {
+			_data.WriteInt32(1)
+			if _err := (*uuid).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		_data.WriteInt32(port)
+		_data.WriteInt32(flag)
 		_data.WriteInt32(1)
 		if _err := attributionSource.MarshalParcel(_data); _err != nil {
 			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(type_)
+			case 1:
+				_data.WriteString16(serviceName)
+			case 2:
+				if uuid != nil {
+					_data.WriteInt32(1)
+					if _err := (*uuid).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 3:
+				_data.WriteInt32(port)
+			case 4:
+				_data.WriteInt32(flag)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
 		}
 	}
 
@@ -254,26 +388,80 @@ func (p *BluetoothSocketManagerProxy) CreateSocketChannelWithOffload(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
-	_data.WriteInt32(type_)
-	_data.WriteString16(serviceName)
-	if uuid != nil {
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerCreateSocketChannelWithOffload)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/ParcelUuid;",
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"J",
+		"J",
+		"I",
+		"Landroid/content/AttributionSource;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(type_)
+		_data.WriteString16(serviceName)
+		if uuid != nil {
+			_data.WriteInt32(1)
+			if _err := (*uuid).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		_data.WriteInt32(port)
+		_data.WriteInt32(flag)
+		_data.WriteInt32(dataPath)
+		_data.WriteString16(socketName)
+		_data.WriteInt64(hubId)
+		_data.WriteInt64(endpointId)
+		_data.WriteInt32(maximumPacketSize)
 		_data.WriteInt32(1)
-		if _err := (*uuid).MarshalParcel(_data); _err != nil {
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
 	} else {
-		_data.WriteInt32(-1)
-	}
-	_data.WriteInt32(port)
-	_data.WriteInt32(flag)
-	_data.WriteInt32(dataPath)
-	_data.WriteString16(socketName)
-	_data.WriteInt64(hubId)
-	_data.WriteInt64(endpointId)
-	_data.WriteInt32(maximumPacketSize)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(type_)
+			case 1:
+				_data.WriteString16(serviceName)
+			case 2:
+				if uuid != nil {
+					_data.WriteInt32(1)
+					if _err := (*uuid).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 3:
+				_data.WriteInt32(port)
+			case 4:
+				_data.WriteInt32(flag)
+			case 5:
+				_data.WriteInt32(dataPath)
+			case 6:
+				_data.WriteString16(socketName)
+			case 7:
+				_data.WriteInt64(hubId)
+			case 8:
+				_data.WriteInt64(endpointId)
+			case 9:
+				_data.WriteInt32(maximumPacketSize)
+			case 10:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerCreateSocketChannelWithOffload)
@@ -306,14 +494,35 @@ func (p *BluetoothSocketManagerProxy) RequestMaximumTxDataLength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerRequestMaximumTxDataLength)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"Landroid/content/AttributionSource;",
 	}
-	if binder.APILevelFromBinder(p.Remote) == 0 || binder.APILevelFromBinder(p.Remote) >= 36 {
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
 		_data.WriteInt32(1)
 		if _err := attributionSource.MarshalParcel(_data); _err != nil {
 			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
 		}
 	}
 
@@ -344,13 +553,36 @@ func (p *BluetoothSocketManagerProxy) GetL2capLocalChannelId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
-	_data.WriteInt32(1)
-	if _err := connectionUuid.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerGetL2capLocalChannelId)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelUuid;",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := connectionUuid.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := connectionUuid.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerGetL2capLocalChannelId)
@@ -384,13 +616,36 @@ func (p *BluetoothSocketManagerProxy) GetL2capRemoteChannelId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
-	_data.WriteInt32(1)
-	if _err := connectionUuid.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerGetL2capRemoteChannelId)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelUuid;",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := connectionUuid.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := connectionUuid.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerGetL2capRemoteChannelId)

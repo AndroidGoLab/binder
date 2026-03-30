@@ -49,16 +49,46 @@ func (p *CapturePresetDevicesRoleDispatcherProxy) DispatchDevicesRoleChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICapturePresetDevicesRoleDispatcher)
-	_data.WriteInt32(capturePreset)
-	_data.WriteInt32(role)
-	if devices == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICapturePresetDevicesRoleDispatcher, MethodICapturePresetDevicesRoleDispatcherDispatchDevicesRoleChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(capturePreset)
+		_data.WriteInt32(role)
+		if devices == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(devices)))
+			for _, _item := range devices {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(capturePreset)
+			case 1:
+				_data.WriteInt32(role)
+			case 2:
+				if devices == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(devices)))
+					for _, _item := range devices {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

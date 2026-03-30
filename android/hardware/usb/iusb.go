@@ -70,9 +70,29 @@ func (p *UsbProxy) EnableContaminantPresenceDetection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
-	_data.WriteString16(portName)
-	_data.WriteBool(enable)
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsb, MethodIUsbEnableContaminantPresenceDetection)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(portName)
+		_data.WriteBool(enable)
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(portName)
+			case 1:
+				_data.WriteBool(enable)
+			case 2:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsb, MethodIUsbEnableContaminantPresenceDetection)
 	if _err != nil {
@@ -92,9 +112,29 @@ func (p *UsbProxy) EnableUsbData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
-	_data.WriteString16(portName)
-	_data.WriteBool(enable)
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsb, MethodIUsbEnableUsbData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(portName)
+		_data.WriteBool(enable)
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(portName)
+			case 1:
+				_data.WriteBool(enable)
+			case 2:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsb, MethodIUsbEnableUsbData)
 	if _err != nil {
@@ -113,8 +153,25 @@ func (p *UsbProxy) EnableUsbDataWhileDocked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
-	_data.WriteString16(portName)
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsb, MethodIUsbEnableUsbDataWhileDocked)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(portName)
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(portName)
+			case 1:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsb, MethodIUsbEnableUsbDataWhileDocked)
 	if _err != nil {
@@ -132,7 +189,21 @@ func (p *UsbProxy) QueryPortStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsb, MethodIUsbQueryPortStatus)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsb, MethodIUsbQueryPortStatus)
 	if _err != nil {
@@ -150,7 +221,21 @@ func (p *UsbProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsb, MethodIUsbSetCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/usb/IUsbCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsb, MethodIUsbSetCallback)
 	if _err != nil {
@@ -170,12 +255,35 @@ func (p *UsbProxy) SwitchRole(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
-	_data.WriteString16(portName)
-	_data.WriteInt32(1)
-	if _err := role.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsb, MethodIUsbSwitchRole)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/usb/PortRole;",
+		"J",
 	}
-	_data.WriteInt64(transactionId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(portName)
+		_data.WriteInt32(1)
+		if _err := role.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(portName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := role.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsb, MethodIUsbSwitchRole)
 	if _err != nil {
@@ -195,9 +303,29 @@ func (p *UsbProxy) LimitPowerTransfer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
-	_data.WriteString16(portName)
-	_data.WriteBool(limit)
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsb, MethodIUsbLimitPowerTransfer)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(portName)
+		_data.WriteBool(limit)
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(portName)
+			case 1:
+				_data.WriteBool(limit)
+			case 2:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsb, MethodIUsbLimitPowerTransfer)
 	if _err != nil {
@@ -216,8 +344,25 @@ func (p *UsbProxy) ResetUsbPort(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
-	_data.WriteString16(portName)
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsb, MethodIUsbResetUsbPort)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(portName)
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(portName)
+			case 1:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsb, MethodIUsbResetUsbPort)
 	if _err != nil {

@@ -52,10 +52,30 @@ func (p *AudioFlingerClientProxy) IoConfigChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerClient)
-	_data.WriteInt32(int32(event))
-	_data.WriteInt32(1)
-	if _err := ioDesc.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioFlingerClient, MethodIAudioFlingerClientIoConfigChanged)
+	_compiledDescs := []string{
+		"Landroid/media/AudioIoConfigEvent;",
+		"Landroid/media/AudioIoDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(event))
+		_data.WriteInt32(1)
+		if _err := ioDesc.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(event))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := ioDesc.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerClient, MethodIAudioFlingerClientIoConfigChanged)
@@ -75,13 +95,37 @@ func (p *AudioFlingerClientProxy) OnSupportedLatencyModesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerClient)
-	_data.WriteInt32(output)
-	if latencyModes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioFlingerClient, MethodIAudioFlingerClientOnSupportedLatencyModesChanged)
+	_compiledDescs := []string{
+		"I",
+		"[Landroid/media/audio/common/AudioLatencyMode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(output)
+		if latencyModes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(latencyModes)))
+			for _, _item := range latencyModes {
+				_data.WritePaddedByte(byte(_item))
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(latencyModes)))
-		for _, _item := range latencyModes {
-			_data.WritePaddedByte(byte(_item))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(output)
+			case 1:
+				if latencyModes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(latencyModes)))
+					for _, _item := range latencyModes {
+						_data.WritePaddedByte(byte(_item))
+					}
+				}
+			}
 		}
 	}
 

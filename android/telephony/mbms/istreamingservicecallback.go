@@ -60,8 +60,25 @@ func (p *StreamingServiceCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamingServiceCallback)
-	_data.WriteInt32(errorCode)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnError)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			case 1:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnError)
 	if _err != nil {
@@ -80,8 +97,25 @@ func (p *StreamingServiceCallbackProxy) OnStreamStateUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamingServiceCallback)
-	_data.WriteInt32(state)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnStreamStateUpdated)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(state)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(state)
+			case 1:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnStreamStateUpdated)
 	if _err != nil {
@@ -115,7 +149,21 @@ func (p *StreamingServiceCallbackProxy) OnBroadcastSignalStrengthUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamingServiceCallback)
-	_data.WriteInt32(signalStrength)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnBroadcastSignalStrengthUpdated)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(signalStrength)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(signalStrength)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnBroadcastSignalStrengthUpdated)
 	if _err != nil {
@@ -133,7 +181,21 @@ func (p *StreamingServiceCallbackProxy) OnStreamMethodUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamingServiceCallback)
-	_data.WriteInt32(methodType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnStreamMethodUpdated)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(methodType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(methodType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnStreamMethodUpdated)
 	if _err != nil {

@@ -119,7 +119,21 @@ func (p *PresentationSessionProxy) SetReaderEphemeralPublicKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresentationSession)
-	_data.WriteByteArray(publicKey)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresentationSession, MethodIPresentationSessionSetReaderEphemeralPublicKey)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(publicKey)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(publicKey)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresentationSession, MethodIPresentationSessionSetReaderEphemeralPublicKey)
 	if _err != nil {
@@ -146,7 +160,21 @@ func (p *PresentationSessionProxy) SetSessionTranscript(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresentationSession)
-	_data.WriteByteArray(sessionTranscript)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresentationSession, MethodIPresentationSessionSetSessionTranscript)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionTranscript)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionTranscript)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresentationSession, MethodIPresentationSessionSetSessionTranscript)
 	if _err != nil {
@@ -174,7 +202,21 @@ func (p *PresentationSessionProxy) GetCredential(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresentationSession)
-	_data.WriteByteArray(credentialData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPresentationSession, MethodIPresentationSessionGetCredential)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(credentialData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(credentialData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresentationSession, MethodIPresentationSessionGetCredential)
 	if _err != nil {

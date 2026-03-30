@@ -51,11 +51,34 @@ func (p *ResourcesManagerProxy) DumpResources(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourcesManager)
-	_data.WriteString16(process)
-	_data.WriteParcelFileDescriptor(fd)
-	_data.WriteInt32(1)
-	if _err := finishCallback.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourcesManager, MethodIResourcesManagerDumpResources)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(process)
+		_data.WriteParcelFileDescriptor(fd)
+		_data.WriteInt32(1)
+		if _err := finishCallback.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(process)
+			case 1:
+				_data.WriteParcelFileDescriptor(fd)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := finishCallback.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourcesManager, MethodIResourcesManagerDumpResources)

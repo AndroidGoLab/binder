@@ -96,9 +96,26 @@ func (p *ConfirmationUIProxy) DeliverSecureInputEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfirmationUI)
-	_data.WriteInt32(1)
-	if _err := secureInputToken.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConfirmationUI, MethodIConfirmationUIDeliverSecureInputEvent)
+	_compiledDescs := []string{
+		"Landroid/hardware/keymaster/HardwareAuthToken;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := secureInputToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := secureInputToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfirmationUI, MethodIConfirmationUIDeliverSecureInputEvent)
@@ -130,16 +147,49 @@ func (p *ConfirmationUIProxy) PromptUserConfirmation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfirmationUI)
-	binder.WriteBinderToParcel(ctx, _data, resultCB.AsBinder(), p.Remote.Transport())
-	_data.WriteByteArray(promptText)
-	_data.WriteByteArray(extraData)
-	_data.WriteString16(locale)
-	if uiOptions == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConfirmationUI, MethodIConfirmationUIPromptUserConfirmation)
+	_compiledDescs := []string{
+		"Landroid/hardware/confirmationui/IConfirmationResultCallback;",
+		"[B",
+		"[B",
+		"Ljava/lang/String;",
+		"[Landroid/hardware/confirmationui/UIOption;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, resultCB.AsBinder(), p.Remote.Transport())
+		_data.WriteByteArray(promptText)
+		_data.WriteByteArray(extraData)
+		_data.WriteString16(locale)
+		if uiOptions == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(uiOptions)))
+			for _, _item := range uiOptions {
+				_data.WriteInt32(int32(_item))
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(uiOptions)))
-		for _, _item := range uiOptions {
-			_data.WriteInt32(int32(_item))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, resultCB.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteByteArray(promptText)
+			case 2:
+				_data.WriteByteArray(extraData)
+			case 3:
+				_data.WriteString16(locale)
+			case 4:
+				if uiOptions == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(uiOptions)))
+					for _, _item := range uiOptions {
+						_data.WriteInt32(int32(_item))
+					}
+				}
+			}
 		}
 	}
 

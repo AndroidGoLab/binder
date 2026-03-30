@@ -47,7 +47,21 @@ func (p *BooleanConsumerProxy) Accept(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBooleanConsumer)
-	_data.WriteBool(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBooleanConsumer, MethodIBooleanConsumerAccept)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBooleanConsumer, MethodIBooleanConsumerAccept)
 	if _err != nil {

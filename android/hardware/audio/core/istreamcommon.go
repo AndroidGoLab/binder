@@ -116,7 +116,21 @@ func (p *StreamCommonProxy) UpdateHwAvSyncId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
-	_data.WriteInt32(hwAvSyncId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamCommon, MethodIStreamCommonUpdateHwAvSyncId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(hwAvSyncId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(hwAvSyncId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCommon, MethodIStreamCommonUpdateHwAvSyncId)
 	if _err != nil {
@@ -144,12 +158,33 @@ func (p *StreamCommonProxy) GetVendorParameters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
-	if ids == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamCommon, MethodIStreamCommonGetVendorParameters)
+	_compiledDescs := []string{
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if ids == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ids)))
+			for _, _item := range ids {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(ids)))
-		for _, _item := range ids {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if ids == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ids)))
+					for _, _item := range ids {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -215,18 +250,45 @@ func (p *StreamCommonProxy) SetVendorParameters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
-	if parameters == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamCommon, MethodIStreamCommonSetVendorParameters)
+	_compiledDescs := []string{
+		"[Landroid/hardware/audio/core/VendorParameter;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if parameters == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(parameters)))
+			for _, _item := range parameters {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteBool(async)
 	} else {
-		_data.WriteInt32(int32(len(parameters)))
-		for _, _item := range parameters {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if parameters == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(parameters)))
+					for _, _item := range parameters {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteBool(async)
 			}
 		}
 	}
-	_data.WriteBool(async)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCommon, MethodIStreamCommonSetVendorParameters)
 	if _err != nil {
@@ -253,7 +315,21 @@ func (p *StreamCommonProxy) AddEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
-	binder.WriteBinderToParcel(ctx, _data, effect.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamCommon, MethodIStreamCommonAddEffect)
+	_compiledDescs := []string{
+		"Landroid/hardware/audio/effect/IEffect;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, effect.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, effect.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCommon, MethodIStreamCommonAddEffect)
 	if _err != nil {
@@ -280,7 +356,21 @@ func (p *StreamCommonProxy) RemoveEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
-	binder.WriteBinderToParcel(ctx, _data, effect.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamCommon, MethodIStreamCommonRemoveEffect)
+	_compiledDescs := []string{
+		"Landroid/hardware/audio/effect/IEffect;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, effect.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, effect.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCommon, MethodIStreamCommonRemoveEffect)
 	if _err != nil {

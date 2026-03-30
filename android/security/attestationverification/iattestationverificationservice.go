@@ -51,14 +51,40 @@ func (p *AttestationVerificationServiceProxy) OnVerifyAttestation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttestationVerificationService)
-	_data.WriteInt32(1)
-	if _err := requirements.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAttestationVerificationService, MethodIAttestationVerificationServiceOnVerifyAttestation)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+		"[B",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteByteArray(attestation)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := requirements.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteByteArray(attestation)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := requirements.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteByteArray(attestation)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttestationVerificationService, MethodIAttestationVerificationServiceOnVerifyAttestation)

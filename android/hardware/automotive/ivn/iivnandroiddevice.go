@@ -136,7 +136,21 @@ func (p *IvnAndroidDeviceProxy) GetDeviceIdForOccupantZone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
-	_data.WriteInt32(zoneId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetDeviceIdForOccupantZone)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(zoneId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(zoneId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetDeviceIdForOccupantZone)
 	if _err != nil {
@@ -168,7 +182,21 @@ func (p *IvnAndroidDeviceProxy) GetOccupantZonesForDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
-	_data.WriteInt32(androidDeviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetOccupantZonesForDevice)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(androidDeviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(androidDeviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetOccupantZonesForDevice)
 	if _err != nil {
@@ -267,7 +295,21 @@ func (p *IvnAndroidDeviceProxy) GetEndpointInfoForDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
-	_data.WriteInt32(androidDeviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetEndpointInfoForDevice)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(androidDeviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(androidDeviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetEndpointInfoForDevice)
 	if _err != nil {

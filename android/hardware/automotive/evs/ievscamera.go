@@ -98,14 +98,38 @@ func (p *EvsCameraProxy) DoneWithFrame(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
-	if buffer == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsCamera, MethodIEvsCameraDoneWithFrame)
+	_compiledDescs := []string{
+		"[Landroid/hardware/automotive/evs/BufferDesc;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if buffer == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(buffer)))
+			for _, _item := range buffer {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(buffer)))
-		for _, _item := range buffer {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if buffer == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(buffer)))
+					for _, _item := range buffer {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -135,7 +159,21 @@ func (p *EvsCameraProxy) ForcePrimaryClient(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
-	binder.WriteBinderToParcel(ctx, _data, display.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsCamera, MethodIEvsCameraForcePrimaryClient)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/IEvsDisplay;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, display.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, display.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraForcePrimaryClient)
 	if _err != nil {
@@ -198,7 +236,21 @@ func (p *EvsCameraProxy) GetExtendedInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
-	_data.WriteInt32(opaqueIdentifier)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsCamera, MethodIEvsCameraGetExtendedInfo)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(opaqueIdentifier)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(opaqueIdentifier)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraGetExtendedInfo)
 	if _err != nil {
@@ -230,7 +282,21 @@ func (p *EvsCameraProxy) GetIntParameter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
-	_data.WriteInt32(int32(id))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsCamera, MethodIEvsCameraGetIntParameter)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/CameraParam;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(id))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(id))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraGetIntParameter)
 	if _err != nil {
@@ -275,7 +341,21 @@ func (p *EvsCameraProxy) GetIntParameterRange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
-	_data.WriteInt32(int32(id))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsCamera, MethodIEvsCameraGetIntParameterRange)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/CameraParam;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(id))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(id))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraGetIntParameterRange)
 	if _err != nil {
@@ -356,7 +436,21 @@ func (p *EvsCameraProxy) GetPhysicalCameraInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
-	_data.WriteString16(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsCamera, MethodIEvsCameraGetPhysicalCameraInfo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraGetPhysicalCameraInfo)
 	if _err != nil {
@@ -393,14 +487,38 @@ func (p *EvsCameraProxy) ImportExternalBuffers(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
-	if buffers == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsCamera, MethodIEvsCameraImportExternalBuffers)
+	_compiledDescs := []string{
+		"[Landroid/hardware/automotive/evs/BufferDesc;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if buffers == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(buffers)))
+			for _, _item := range buffers {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(buffers)))
-		for _, _item := range buffers {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if buffers == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(buffers)))
+					for _, _item := range buffers {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -485,8 +603,25 @@ func (p *EvsCameraProxy) SetExtendedInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
-	_data.WriteInt32(opaqueIdentifier)
-	_data.WriteByteArray(opaqueValue)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsCamera, MethodIEvsCameraSetExtendedInfo)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(opaqueIdentifier)
+		_data.WriteByteArray(opaqueValue)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(opaqueIdentifier)
+			case 1:
+				_data.WriteByteArray(opaqueValue)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraSetExtendedInfo)
 	if _err != nil {
@@ -515,8 +650,25 @@ func (p *EvsCameraProxy) SetIntParameter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
-	_data.WriteInt32(int32(id))
-	_data.WriteInt32(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsCamera, MethodIEvsCameraSetIntParameter)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/CameraParam;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(id))
+		_data.WriteInt32(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(id))
+			case 1:
+				_data.WriteInt32(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraSetIntParameter)
 	if _err != nil {
@@ -585,7 +737,21 @@ func (p *EvsCameraProxy) SetMaxFramesInFlight(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
-	_data.WriteInt32(bufferCount)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsCamera, MethodIEvsCameraSetMaxFramesInFlight)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(bufferCount)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(bufferCount)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraSetMaxFramesInFlight)
 	if _err != nil {
@@ -612,7 +778,21 @@ func (p *EvsCameraProxy) StartVideoStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
-	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsCamera, MethodIEvsCameraStartVideoStream)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/IEvsCameraStream;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraStartVideoStream)
 	if _err != nil {

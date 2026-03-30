@@ -86,12 +86,35 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackMetrics(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
-	_data.WriteString16(sessionId)
-	_data.WriteInt32(1)
-	if _err := metrics.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportPlaybackMetrics)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/media/metrics/PlaybackMetrics;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+		_data.WriteInt32(1)
+		if _err := metrics.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := metrics.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportPlaybackMetrics)
 	if _err != nil {
@@ -119,7 +142,21 @@ func (p *MediaMetricsManagerProxy) GetPlaybackSessionId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetPlaybackSessionId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetPlaybackSessionId)
 	if _err != nil {
@@ -151,7 +188,21 @@ func (p *MediaMetricsManagerProxy) GetRecordingSessionId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetRecordingSessionId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetRecordingSessionId)
 	if _err != nil {
@@ -184,12 +235,35 @@ func (p *MediaMetricsManagerProxy) ReportNetworkEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
-	_data.WriteString16(sessionId)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportNetworkEvent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/media/metrics/NetworkEvent;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportNetworkEvent)
 	if _err != nil {
@@ -218,12 +292,35 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackErrorEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
-	_data.WriteString16(sessionId)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportPlaybackErrorEvent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/media/metrics/PlaybackErrorEvent;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportPlaybackErrorEvent)
 	if _err != nil {
@@ -252,12 +349,35 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackStateEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
-	_data.WriteString16(sessionId)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportPlaybackStateEvent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/media/metrics/PlaybackStateEvent;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportPlaybackStateEvent)
 	if _err != nil {
@@ -286,12 +406,35 @@ func (p *MediaMetricsManagerProxy) ReportTrackChangeEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
-	_data.WriteString16(sessionId)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportTrackChangeEvent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/media/metrics/TrackChangeEvent;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportTrackChangeEvent)
 	if _err != nil {
@@ -320,12 +463,35 @@ func (p *MediaMetricsManagerProxy) ReportEditingEndedEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
-	_data.WriteString16(sessionId)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportEditingEndedEvent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/media/metrics/EditingEndedEvent;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportEditingEndedEvent)
 	if _err != nil {
@@ -353,7 +519,21 @@ func (p *MediaMetricsManagerProxy) GetTranscodingSessionId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetTranscodingSessionId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetTranscodingSessionId)
 	if _err != nil {
@@ -385,7 +565,21 @@ func (p *MediaMetricsManagerProxy) GetEditingSessionId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetEditingSessionId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetEditingSessionId)
 	if _err != nil {
@@ -417,7 +611,21 @@ func (p *MediaMetricsManagerProxy) GetBundleSessionId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetBundleSessionId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetBundleSessionId)
 	if _err != nil {
@@ -450,12 +658,35 @@ func (p *MediaMetricsManagerProxy) ReportBundleMetrics(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
-	_data.WriteString16(sessionId)
-	_data.WriteInt32(1)
-	if _err := metrics.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportBundleMetrics)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/PersistableBundle;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+		_data.WriteInt32(1)
+		if _err := metrics.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := metrics.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportBundleMetrics)
 	if _err != nil {
@@ -483,8 +714,25 @@ func (p *MediaMetricsManagerProxy) ReleaseSessionId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
-	_data.WriteString16(sessionId)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReleaseSessionId)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReleaseSessionId)
 	if _err != nil {

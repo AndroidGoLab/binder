@@ -106,14 +106,43 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) StartRecognition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSoundTriggerSession)
-	_data.WriteInt32(keyphraseId)
-	_data.WriteString16(bcp47Locale)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := recognitionConfig.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionSoundTriggerSession, MethodIVoiceInteractionSoundTriggerSessionStartRecognition)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/app/IHotwordRecognitionStatusCallback;",
+		"LSoundTrigger/RecognitionConfig;",
+		"Z",
 	}
-	_data.WriteBool(runInBatterySaver)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(keyphraseId)
+		_data.WriteString16(bcp47Locale)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := recognitionConfig.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(runInBatterySaver)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(keyphraseId)
+			case 1:
+				_data.WriteString16(bcp47Locale)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(1)
+				if _err := recognitionConfig.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				_data.WriteBool(runInBatterySaver)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSoundTriggerSession, MethodIVoiceInteractionSoundTriggerSessionStartRecognition)
 	if _err != nil {
@@ -146,8 +175,25 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) StopRecognition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSoundTriggerSession)
-	_data.WriteInt32(keyphraseId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionSoundTriggerSession, MethodIVoiceInteractionSoundTriggerSessionStopRecognition)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/app/IHotwordRecognitionStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(keyphraseId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(keyphraseId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSoundTriggerSession, MethodIVoiceInteractionSoundTriggerSessionStopRecognition)
 	if _err != nil {
@@ -181,9 +227,29 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) SetParameter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSoundTriggerSession)
-	_data.WriteInt32(keyphraseId)
-	_data.WriteInt32(int32(modelParam))
-	_data.WriteInt32(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionSoundTriggerSession, MethodIVoiceInteractionSoundTriggerSessionSetParameter)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/soundtrigger/ModelParams;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(keyphraseId)
+		_data.WriteInt32(int32(modelParam))
+		_data.WriteInt32(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(keyphraseId)
+			case 1:
+				_data.WriteInt32(int32(modelParam))
+			case 2:
+				_data.WriteInt32(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSoundTriggerSession, MethodIVoiceInteractionSoundTriggerSessionSetParameter)
 	if _err != nil {
@@ -216,8 +282,25 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) GetParameter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSoundTriggerSession)
-	_data.WriteInt32(keyphraseId)
-	_data.WriteInt32(int32(modelParam))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionSoundTriggerSession, MethodIVoiceInteractionSoundTriggerSessionGetParameter)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/soundtrigger/ModelParams;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(keyphraseId)
+		_data.WriteInt32(int32(modelParam))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(keyphraseId)
+			case 1:
+				_data.WriteInt32(int32(modelParam))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSoundTriggerSession, MethodIVoiceInteractionSoundTriggerSessionGetParameter)
 	if _err != nil {
@@ -250,8 +333,25 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) QueryParameter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSoundTriggerSession)
-	_data.WriteInt32(keyphraseId)
-	_data.WriteInt32(int32(modelParam))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionSoundTriggerSession, MethodIVoiceInteractionSoundTriggerSessionQueryParameter)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/soundtrigger/ModelParams;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(keyphraseId)
+		_data.WriteInt32(int32(modelParam))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(keyphraseId)
+			case 1:
+				_data.WriteInt32(int32(modelParam))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSoundTriggerSession, MethodIVoiceInteractionSoundTriggerSessionQueryParameter)
 	if _err != nil {

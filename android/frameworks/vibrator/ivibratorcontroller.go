@@ -49,9 +49,29 @@ func (p *VibratorControllerProxy) RequestVibrationParams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorController)
-	_data.WriteInt32(typesMask)
-	_data.WriteInt64(deadlineElapsedRealtimeMillis)
-	binder.WriteBinderToParcel(ctx, _data, requestToken, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorController, MethodIVibratorControllerRequestVibrationParams)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(typesMask)
+		_data.WriteInt64(deadlineElapsedRealtimeMillis)
+		binder.WriteBinderToParcel(ctx, _data, requestToken, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(typesMask)
+			case 1:
+				_data.WriteInt64(deadlineElapsedRealtimeMillis)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, requestToken, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorController, MethodIVibratorControllerRequestVibrationParams)
 	if _err != nil {

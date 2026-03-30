@@ -83,7 +83,21 @@ func (p *TvInputServiceProxy) RegisterCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInputService, MethodITvInputServiceRegisterCallback)
+	_compiledDescs := []string{
+		"Landroid/media/tv/ITvInputServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceRegisterCallback)
 	if _err != nil {
@@ -101,7 +115,21 @@ func (p *TvInputServiceProxy) UnregisterCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInputService, MethodITvInputServiceUnregisterCallback)
+	_compiledDescs := []string{
+		"Landroid/media/tv/ITvInputServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceUnregisterCallback)
 	if _err != nil {
@@ -123,16 +151,48 @@ func (p *TvInputServiceProxy) CreateSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
-	_data.WriteInt32(1)
-	if _err := channel.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInputService, MethodITvInputServiceCreateSession)
+	_compiledDescs := []string{
+		"Landroid/view/InputChannel;",
+		"Landroid/media/tv/ITvInputSessionCallback;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/content/AttributionSource;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(inputId)
-	_data.WriteString16(sessionId)
-	_data.WriteInt32(1)
-	if _err := tvAppAttributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := channel.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(inputId)
+		_data.WriteString16(sessionId)
+		_data.WriteInt32(1)
+		if _err := tvAppAttributionSource.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := channel.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteString16(inputId)
+			case 3:
+				_data.WriteString16(sessionId)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := tvAppAttributionSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceCreateSession)
@@ -153,9 +213,29 @@ func (p *TvInputServiceProxy) CreateRecordingSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(inputId)
-	_data.WriteString16(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInputService, MethodITvInputServiceCreateRecordingSession)
+	_compiledDescs := []string{
+		"Landroid/media/tv/ITvInputSessionCallback;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(inputId)
+		_data.WriteString16(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(inputId)
+			case 2:
+				_data.WriteString16(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceCreateRecordingSession)
 	if _err != nil {
@@ -217,7 +297,21 @@ func (p *TvInputServiceProxy) GetExtensionInterface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInputService, MethodITvInputServiceGetExtensionInterface)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceGetExtensionInterface)
 	if _err != nil {
@@ -250,7 +344,21 @@ func (p *TvInputServiceProxy) GetExtensionInterfacePermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInputService, MethodITvInputServiceGetExtensionInterfacePermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceGetExtensionInterfacePermission)
 	if _err != nil {
@@ -281,9 +389,26 @@ func (p *TvInputServiceProxy) NotifyHardwareAdded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
-	_data.WriteInt32(1)
-	if _err := hardwareInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHardwareAdded)
+	_compiledDescs := []string{
+		"Landroid/media/tv/TvInputHardwareInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := hardwareInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := hardwareInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHardwareAdded)
@@ -302,9 +427,26 @@ func (p *TvInputServiceProxy) NotifyHardwareRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
-	_data.WriteInt32(1)
-	if _err := hardwareInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHardwareRemoved)
+	_compiledDescs := []string{
+		"Landroid/media/tv/TvInputHardwareInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := hardwareInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := hardwareInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHardwareRemoved)
@@ -323,9 +465,26 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceAdded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
-	_data.WriteInt32(1)
-	if _err := deviceInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHdmiDeviceAdded)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/HdmiDeviceInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := deviceInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := deviceInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHdmiDeviceAdded)
@@ -344,9 +503,26 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
-	_data.WriteInt32(1)
-	if _err := deviceInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHdmiDeviceRemoved)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/HdmiDeviceInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := deviceInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := deviceInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHdmiDeviceRemoved)
@@ -365,9 +541,26 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
-	_data.WriteInt32(1)
-	if _err := deviceInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHdmiDeviceUpdated)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/HdmiDeviceInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := deviceInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := deviceInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHdmiDeviceUpdated)

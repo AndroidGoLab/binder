@@ -48,8 +48,25 @@ func (p *GetEuiccInfo2CallbackProxy) OnComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetEuiccInfo2Callback)
-	_data.WriteInt32(resultCode)
-	_data.WriteByteArray(info)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGetEuiccInfo2Callback, MethodIGetEuiccInfo2CallbackOnComplete)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(resultCode)
+		_data.WriteByteArray(info)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(resultCode)
+			case 1:
+				_data.WriteByteArray(info)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetEuiccInfo2Callback, MethodIGetEuiccInfo2CallbackOnComplete)
 	if _err != nil {

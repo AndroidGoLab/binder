@@ -98,19 +98,52 @@ func (p *RadioNetworkIndicationProxy) BarringInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(1)
-	if _err := cellIdentity.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationBarringInfoChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Landroid/hardware/radio/network/CellIdentity;",
+		"[Landroid/hardware/radio/network/BarringInfo;",
 	}
-	if barringInfos == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(1)
+		if _err := cellIdentity.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if barringInfos == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(barringInfos)))
+			for _, _item := range barringInfos {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(barringInfos)))
-		for _, _item := range barringInfos {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := cellIdentity.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				if barringInfos == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(barringInfos)))
+					for _, _item := range barringInfos {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -132,8 +165,25 @@ func (p *RadioNetworkIndicationProxy) CdmaPrlChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(version)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCdmaPrlChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(version)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(version)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCdmaPrlChanged)
 	if _err != nil {
@@ -152,15 +202,42 @@ func (p *RadioNetworkIndicationProxy) CellInfoList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	if records == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCellInfoList)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"[Landroid/hardware/radio/network/CellInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		if records == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(records)))
+			for _, _item := range records {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(records)))
-		for _, _item := range records {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				if records == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(records)))
+					for _, _item := range records {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -182,10 +259,30 @@ func (p *RadioNetworkIndicationProxy) CurrentLinkCapacityEstimate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(1)
-	if _err := lce.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCurrentLinkCapacityEstimate)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Landroid/hardware/radio/network/LinkCapacityEstimate;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(1)
+		if _err := lce.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := lce.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCurrentLinkCapacityEstimate)
@@ -205,15 +302,42 @@ func (p *RadioNetworkIndicationProxy) CurrentPhysicalChannelConfigs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	if configs == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCurrentPhysicalChannelConfigs)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"[Landroid/hardware/radio/network/PhysicalChannelConfig;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		if configs == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(configs)))
+			for _, _item := range configs {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(configs)))
-		for _, _item := range configs {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				if configs == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(configs)))
+					for _, _item := range configs {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -235,10 +359,30 @@ func (p *RadioNetworkIndicationProxy) CurrentSignalStrength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(1)
-	if _err := signalStrength.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCurrentSignalStrength)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Landroid/hardware/radio/network/SignalStrength;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(1)
+		if _err := signalStrength.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := signalStrength.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCurrentSignalStrength)
@@ -257,7 +401,21 @@ func (p *RadioNetworkIndicationProxy) ImsNetworkStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationImsNetworkStateChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationImsNetworkStateChanged)
 	if _err != nil {
@@ -276,10 +434,30 @@ func (p *RadioNetworkIndicationProxy) NetworkScanResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationNetworkScanResult)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Landroid/hardware/radio/network/NetworkScanResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationNetworkScanResult)
@@ -298,7 +476,21 @@ func (p *RadioNetworkIndicationProxy) NetworkStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationNetworkStateChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationNetworkStateChanged)
 	if _err != nil {
@@ -319,10 +511,33 @@ func (p *RadioNetworkIndicationProxy) NitzTimeReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteString16(nitzTime)
-	_data.WriteInt64(receivedTimeMs)
-	_data.WriteInt64(ageMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationNitzTimeReceived)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Ljava/lang/String;",
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteString16(nitzTime)
+		_data.WriteInt64(receivedTimeMs)
+		_data.WriteInt64(ageMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteString16(nitzTime)
+			case 2:
+				_data.WriteInt64(receivedTimeMs)
+			case 3:
+				_data.WriteInt64(ageMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationNitzTimeReceived)
 	if _err != nil {
@@ -345,15 +560,47 @@ func (p *RadioNetworkIndicationProxy) RegistrationFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(1)
-	if _err := cellIdentity.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationRegistrationFailed)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Landroid/hardware/radio/network/CellIdentity;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteString16(chosenPlmn)
-	_data.WriteInt32(domain)
-	_data.WriteInt32(causeCode)
-	_data.WriteInt32(additionalCauseCode)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(1)
+		if _err := cellIdentity.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(chosenPlmn)
+		_data.WriteInt32(domain)
+		_data.WriteInt32(causeCode)
+		_data.WriteInt32(additionalCauseCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := cellIdentity.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(chosenPlmn)
+			case 3:
+				_data.WriteInt32(domain)
+			case 4:
+				_data.WriteInt32(causeCode)
+			case 5:
+				_data.WriteInt32(additionalCauseCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationRegistrationFailed)
 	if _err != nil {
@@ -372,8 +619,25 @@ func (p *RadioNetworkIndicationProxy) RestrictedStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(int32(state))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationRestrictedStateChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Landroid/hardware/radio/network/PhoneRestrictedState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(int32(state))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(int32(state))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationRestrictedStateChanged)
 	if _err != nil {
@@ -392,10 +656,30 @@ func (p *RadioNetworkIndicationProxy) SuppSvcNotify(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(1)
-	if _err := suppSvc.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationSuppSvcNotify)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Landroid/hardware/radio/network/SuppSvcNotification;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(1)
+		if _err := suppSvc.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := suppSvc.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationSuppSvcNotify)
@@ -415,8 +699,25 @@ func (p *RadioNetworkIndicationProxy) VoiceRadioTechChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(int32(rat))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationVoiceRadioTechChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Landroid/hardware/radio/RadioTechnology;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(int32(rat))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(int32(rat))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationVoiceRadioTechChanged)
 	if _err != nil {
@@ -435,10 +736,30 @@ func (p *RadioNetworkIndicationProxy) EmergencyNetworkScanResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationEmergencyNetworkScanResult)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Landroid/hardware/radio/network/EmergencyRegResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationEmergencyNetworkScanResult)
@@ -458,10 +779,30 @@ func (p *RadioNetworkIndicationProxy) CellularIdentifierDisclosed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(1)
-	if _err := disclosure.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCellularIdentifierDisclosed)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Landroid/hardware/radio/network/CellularIdentifierDisclosure;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(1)
+		if _err := disclosure.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := disclosure.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCellularIdentifierDisclosed)
@@ -481,10 +822,30 @@ func (p *RadioNetworkIndicationProxy) SecurityAlgorithmsUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(1)
-	if _err := securityAlgorithmUpdate.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationSecurityAlgorithmsUpdated)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Landroid/hardware/radio/network/SecurityAlgorithmUpdate;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(1)
+		if _err := securityAlgorithmUpdate.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := securityAlgorithmUpdate.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationSecurityAlgorithmsUpdated)

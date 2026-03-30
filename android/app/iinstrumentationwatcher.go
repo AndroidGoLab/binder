@@ -54,14 +54,40 @@ func (p *InstrumentationWatcherProxy) InstrumentationStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstrumentationWatcher)
-	_data.WriteInt32(1)
-	if _err := name.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstrumentationWatcher, MethodIInstrumentationWatcherInstrumentationStatus)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(resultCode)
-	_data.WriteInt32(1)
-	if _err := results.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := name.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(resultCode)
+		_data.WriteInt32(1)
+		if _err := results.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := name.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(resultCode)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := results.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstrumentationWatcher, MethodIInstrumentationWatcherInstrumentationStatus)
@@ -91,14 +117,40 @@ func (p *InstrumentationWatcherProxy) InstrumentationFinished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstrumentationWatcher)
-	_data.WriteInt32(1)
-	if _err := name.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstrumentationWatcher, MethodIInstrumentationWatcherInstrumentationFinished)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(resultCode)
-	_data.WriteInt32(1)
-	if _err := results.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := name.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(resultCode)
+		_data.WriteInt32(1)
+		if _err := results.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := name.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(resultCode)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := results.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstrumentationWatcher, MethodIInstrumentationWatcherInstrumentationFinished)

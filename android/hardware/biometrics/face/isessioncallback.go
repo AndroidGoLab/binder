@@ -102,7 +102,21 @@ func (p *SessionCallbackProxy) OnChallengeGenerated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteInt64(challenge)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnChallengeGenerated)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(challenge)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(challenge)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnChallengeGenerated)
 	if _err != nil {
@@ -129,7 +143,21 @@ func (p *SessionCallbackProxy) OnChallengeRevoked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteInt64(challenge)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnChallengeRevoked)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(challenge)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(challenge)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnChallengeRevoked)
 	if _err != nil {
@@ -156,9 +184,26 @@ func (p *SessionCallbackProxy) OnAuthenticationFrame(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteInt32(1)
-	if _err := frame.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnAuthenticationFrame)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/face/AuthenticationFrame;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := frame.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := frame.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnAuthenticationFrame)
@@ -186,9 +231,26 @@ func (p *SessionCallbackProxy) OnEnrollmentFrame(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteInt32(1)
-	if _err := frame.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnEnrollmentFrame)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/face/EnrollmentFrame;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := frame.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := frame.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnEnrollmentFrame)
@@ -217,8 +279,25 @@ func (p *SessionCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WritePaddedByte(byte(error_))
-	_data.WriteInt32(vendorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnError)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/face/Error;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(error_))
+		_data.WriteInt32(vendorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(error_))
+			case 1:
+				_data.WriteInt32(vendorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnError)
 	if _err != nil {
@@ -246,8 +325,25 @@ func (p *SessionCallbackProxy) OnEnrollmentProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteInt32(enrollmentId)
-	_data.WriteInt32(remaining)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnEnrollmentProgress)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(enrollmentId)
+		_data.WriteInt32(remaining)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(enrollmentId)
+			case 1:
+				_data.WriteInt32(remaining)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnEnrollmentProgress)
 	if _err != nil {
@@ -275,10 +371,30 @@ func (p *SessionCallbackProxy) OnAuthenticationSucceeded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteInt32(enrollmentId)
-	_data.WriteInt32(1)
-	if _err := hat.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnAuthenticationSucceeded)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/keymaster/HardwareAuthToken;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(enrollmentId)
+		_data.WriteInt32(1)
+		if _err := hat.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(enrollmentId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := hat.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnAuthenticationSucceeded)
@@ -331,7 +447,21 @@ func (p *SessionCallbackProxy) OnLockoutTimed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteInt64(durationMillis)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnLockoutTimed)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(durationMillis)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(durationMillis)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnLockoutTimed)
 	if _err != nil {
@@ -433,12 +563,33 @@ func (p *SessionCallbackProxy) OnEnrollmentsEnumerated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	if enrollmentIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnEnrollmentsEnumerated)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if enrollmentIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(enrollmentIds)))
+			for _, _item := range enrollmentIds {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(enrollmentIds)))
-		for _, _item := range enrollmentIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if enrollmentIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(enrollmentIds)))
+					for _, _item := range enrollmentIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -467,12 +618,33 @@ func (p *SessionCallbackProxy) OnFeaturesRetrieved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	if features == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnFeaturesRetrieved)
+	_compiledDescs := []string{
+		"[Landroid/hardware/biometrics/face/Feature;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if features == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(features)))
+			for _, _item := range features {
+				_data.WritePaddedByte(byte(_item))
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(features)))
-		for _, _item := range features {
-			_data.WritePaddedByte(byte(_item))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if features == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(features)))
+					for _, _item := range features {
+						_data.WritePaddedByte(byte(_item))
+					}
+				}
+			}
 		}
 	}
 
@@ -501,7 +673,21 @@ func (p *SessionCallbackProxy) OnFeatureSet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WritePaddedByte(byte(feature))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnFeatureSet)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/face/Feature;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(feature))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(feature))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnFeatureSet)
 	if _err != nil {
@@ -528,12 +714,33 @@ func (p *SessionCallbackProxy) OnEnrollmentsRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	if enrollmentIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnEnrollmentsRemoved)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if enrollmentIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(enrollmentIds)))
+			for _, _item := range enrollmentIds {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(enrollmentIds)))
-		for _, _item := range enrollmentIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if enrollmentIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(enrollmentIds)))
+					for _, _item := range enrollmentIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -562,7 +769,21 @@ func (p *SessionCallbackProxy) OnAuthenticatorIdRetrieved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteInt64(authenticatorId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnAuthenticatorIdRetrieved)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(authenticatorId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(authenticatorId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnAuthenticatorIdRetrieved)
 	if _err != nil {
@@ -589,7 +810,21 @@ func (p *SessionCallbackProxy) OnAuthenticatorIdInvalidated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
-	_data.WriteInt64(newAuthenticatorId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionCallback, MethodISessionCallbackOnAuthenticatorIdInvalidated)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(newAuthenticatorId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(newAuthenticatorId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnAuthenticatorIdInvalidated)
 	if _err != nil {

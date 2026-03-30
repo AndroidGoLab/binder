@@ -63,11 +63,31 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SetFindAccessibilityNo
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnectionCallback)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInteractionConnectionCallback, MethodIAccessibilityInteractionConnectionCallbackSetFindAccessibilityNodeInfoResult)
+	_compiledDescs := []string{
+		"Landroid/view/accessibility/AccessibilityNodeInfo;",
+		"I",
 	}
-	_data.WriteInt32(interactionId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(interactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(interactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnectionCallback, MethodIAccessibilityInteractionConnectionCallbackSetFindAccessibilityNodeInfoResult)
 	if _err != nil {
@@ -86,18 +106,45 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SetFindAccessibilityNo
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnectionCallback)
-	if infos == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInteractionConnectionCallback, MethodIAccessibilityInteractionConnectionCallbackSetFindAccessibilityNodeInfosResult)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if infos == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(infos)))
+			for _, _item := range infos {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(interactionId)
 	} else {
-		_data.WriteInt32(int32(len(infos)))
-		for _, _item := range infos {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if infos == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(infos)))
+					for _, _item := range infos {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(interactionId)
 			}
 		}
 	}
-	_data.WriteInt32(interactionId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnectionCallback, MethodIAccessibilityInteractionConnectionCallbackSetFindAccessibilityNodeInfosResult)
 	if _err != nil {
@@ -116,18 +163,45 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SetPrefetchAccessibili
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnectionCallback)
-	if infos == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInteractionConnectionCallback, MethodIAccessibilityInteractionConnectionCallbackSetPrefetchAccessibilityNodeInfoResult)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if infos == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(infos)))
+			for _, _item := range infos {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(interactionId)
 	} else {
-		_data.WriteInt32(int32(len(infos)))
-		for _, _item := range infos {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if infos == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(infos)))
+					for _, _item := range infos {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(interactionId)
 			}
 		}
 	}
-	_data.WriteInt32(interactionId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnectionCallback, MethodIAccessibilityInteractionConnectionCallbackSetPrefetchAccessibilityNodeInfoResult)
 	if _err != nil {
@@ -146,8 +220,25 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SetPerformAccessibilit
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnectionCallback)
-	_data.WriteBool(succeeded)
-	_data.WriteInt32(interactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInteractionConnectionCallback, MethodIAccessibilityInteractionConnectionCallbackSetPerformAccessibilityActionResult)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(succeeded)
+		_data.WriteInt32(interactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(succeeded)
+			case 1:
+				_data.WriteInt32(interactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnectionCallback, MethodIAccessibilityInteractionConnectionCallbackSetPerformAccessibilityActionResult)
 	if _err != nil {
@@ -166,8 +257,25 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SendTakeScreenshotOfWi
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnectionCallback)
-	_data.WriteInt32(errorCode)
-	_data.WriteInt32(interactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInteractionConnectionCallback, MethodIAccessibilityInteractionConnectionCallbackSendTakeScreenshotOfWindowError)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+		_data.WriteInt32(interactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			case 1:
+				_data.WriteInt32(interactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnectionCallback, MethodIAccessibilityInteractionConnectionCallbackSendTakeScreenshotOfWindowError)
 	if _err != nil {
@@ -186,8 +294,25 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SendAttachOverlayResul
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnectionCallback)
-	_data.WriteInt32(result)
-	_data.WriteInt32(interactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInteractionConnectionCallback, MethodIAccessibilityInteractionConnectionCallbackSendAttachOverlayResult)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+		_data.WriteInt32(interactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			case 1:
+				_data.WriteInt32(interactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnectionCallback, MethodIAccessibilityInteractionConnectionCallbackSendAttachOverlayResult)
 	if _err != nil {

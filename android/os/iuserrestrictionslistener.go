@@ -49,14 +49,40 @@ func (p *UserRestrictionsListenerProxy) OnUserRestrictionsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserRestrictionsListener)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := newRestrictions.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserRestrictionsListener, MethodIUserRestrictionsListenerOnUserRestrictionsChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/Bundle;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(1)
-	if _err := prevRestrictions.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := newRestrictions.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := prevRestrictions.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := newRestrictions.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := prevRestrictions.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserRestrictionsListener, MethodIUserRestrictionsListenerOnUserRestrictionsChanged)

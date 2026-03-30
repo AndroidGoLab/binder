@@ -131,7 +131,21 @@ func (p *ImsUtProxy) QueryCallBarring(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
-	_data.WriteInt32(cbType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUt, MethodIImsUtQueryCallBarring)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cbType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cbType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtQueryCallBarring)
 	if _err != nil {
@@ -164,8 +178,25 @@ func (p *ImsUtProxy) QueryCallForward(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
-	_data.WriteInt32(condition)
-	_data.WriteString16(number)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUt, MethodIImsUtQueryCallForward)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(condition)
+		_data.WriteString16(number)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(condition)
+			case 1:
+				_data.WriteString16(number)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtQueryCallForward)
 	if _err != nil {
@@ -347,9 +378,26 @@ func (p *ImsUtProxy) Transact(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
-	_data.WriteInt32(1)
-	if _err := ssInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUt, MethodIImsUtTransact)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := ssInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := ssInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtTransact)
@@ -384,14 +432,41 @@ func (p *ImsUtProxy) UpdateCallBarring(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
-	_data.WriteInt32(cbType)
-	_data.WriteInt32(action)
-	if barrList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUt, MethodIImsUtUpdateCallBarring)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cbType)
+		_data.WriteInt32(action)
+		if barrList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(barrList)))
+			for _, _item := range barrList {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(barrList)))
-		for _, _item := range barrList {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cbType)
+			case 1:
+				_data.WriteInt32(action)
+			case 2:
+				if barrList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(barrList)))
+					for _, _item := range barrList {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -429,11 +504,37 @@ func (p *ImsUtProxy) UpdateCallForward(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
-	_data.WriteInt32(action)
-	_data.WriteInt32(condition)
-	_data.WriteString16(number)
-	_data.WriteInt32(serviceClass)
-	_data.WriteInt32(timeSeconds)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUt, MethodIImsUtUpdateCallForward)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(action)
+		_data.WriteInt32(condition)
+		_data.WriteString16(number)
+		_data.WriteInt32(serviceClass)
+		_data.WriteInt32(timeSeconds)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(action)
+			case 1:
+				_data.WriteInt32(condition)
+			case 2:
+				_data.WriteString16(number)
+			case 3:
+				_data.WriteInt32(serviceClass)
+			case 4:
+				_data.WriteInt32(timeSeconds)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtUpdateCallForward)
 	if _err != nil {
@@ -466,8 +567,25 @@ func (p *ImsUtProxy) UpdateCallWaiting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
-	_data.WriteBool(enable)
-	_data.WriteInt32(serviceClass)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUt, MethodIImsUtUpdateCallWaiting)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+		_data.WriteInt32(serviceClass)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			case 1:
+				_data.WriteInt32(serviceClass)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtUpdateCallWaiting)
 	if _err != nil {
@@ -499,7 +617,21 @@ func (p *ImsUtProxy) UpdateCLIR(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
-	_data.WriteInt32(clirMode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUt, MethodIImsUtUpdateCLIR)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(clirMode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(clirMode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtUpdateCLIR)
 	if _err != nil {
@@ -531,7 +663,21 @@ func (p *ImsUtProxy) UpdateCLIP(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUt, MethodIImsUtUpdateCLIP)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtUpdateCLIP)
 	if _err != nil {
@@ -563,7 +709,21 @@ func (p *ImsUtProxy) UpdateCOLR(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
-	_data.WriteInt32(presentation)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUt, MethodIImsUtUpdateCOLR)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(presentation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(presentation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtUpdateCOLR)
 	if _err != nil {
@@ -595,7 +755,21 @@ func (p *ImsUtProxy) UpdateCOLP(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUt, MethodIImsUtUpdateCOLP)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtUpdateCOLP)
 	if _err != nil {
@@ -626,7 +800,21 @@ func (p *ImsUtProxy) SetListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUt, MethodIImsUtSetListener)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/IImsUtListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtSetListener)
 	if _err != nil {
@@ -655,8 +843,25 @@ func (p *ImsUtProxy) QueryCallBarringForServiceClass(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
-	_data.WriteInt32(cbType)
-	_data.WriteInt32(serviceClass)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUt, MethodIImsUtQueryCallBarringForServiceClass)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cbType)
+		_data.WriteInt32(serviceClass)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cbType)
+			case 1:
+				_data.WriteInt32(serviceClass)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtQueryCallBarringForServiceClass)
 	if _err != nil {
@@ -691,17 +896,47 @@ func (p *ImsUtProxy) UpdateCallBarringForServiceClass(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
-	_data.WriteInt32(cbType)
-	_data.WriteInt32(action)
-	if barrList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUt, MethodIImsUtUpdateCallBarringForServiceClass)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cbType)
+		_data.WriteInt32(action)
+		if barrList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(barrList)))
+			for _, _item := range barrList {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(serviceClass)
 	} else {
-		_data.WriteInt32(int32(len(barrList)))
-		for _, _item := range barrList {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cbType)
+			case 1:
+				_data.WriteInt32(action)
+			case 2:
+				if barrList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(barrList)))
+					for _, _item := range barrList {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				_data.WriteInt32(serviceClass)
+			}
 		}
 	}
-	_data.WriteInt32(serviceClass)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtUpdateCallBarringForServiceClass)
 	if _err != nil {
@@ -737,18 +972,51 @@ func (p *ImsUtProxy) UpdateCallBarringWithPassword(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
-	_data.WriteInt32(cbType)
-	_data.WriteInt32(action)
-	if barrList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUt, MethodIImsUtUpdateCallBarringWithPassword)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cbType)
+		_data.WriteInt32(action)
+		if barrList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(barrList)))
+			for _, _item := range barrList {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(serviceClass)
+		_data.WriteString16(password)
 	} else {
-		_data.WriteInt32(int32(len(barrList)))
-		for _, _item := range barrList {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cbType)
+			case 1:
+				_data.WriteInt32(action)
+			case 2:
+				if barrList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(barrList)))
+					for _, _item := range barrList {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				_data.WriteInt32(serviceClass)
+			case 4:
+				_data.WriteString16(password)
+			}
 		}
 	}
-	_data.WriteInt32(serviceClass)
-	_data.WriteString16(password)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtUpdateCallBarringWithPassword)
 	if _err != nil {

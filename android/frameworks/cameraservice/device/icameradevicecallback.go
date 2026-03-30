@@ -63,11 +63,31 @@ func (p *CameraDeviceCallbackProxy) OnCaptureStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceCallback)
-	_data.WriteInt32(1)
-	if _err := resultExtras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackOnCaptureStarted)
+	_compiledDescs := []string{
+		"Landroid/frameworks/cameraservice/device/CaptureResultExtras;",
+		"J",
 	}
-	_data.WriteInt64(timestamp)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultExtras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt64(timestamp)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultExtras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt64(timestamp)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackOnCaptureStarted)
 	if _err != nil {
@@ -86,10 +106,30 @@ func (p *CameraDeviceCallbackProxy) OnDeviceError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceCallback)
-	_data.WriteInt32(int32(errorCode))
-	_data.WriteInt32(1)
-	if _err := resultExtras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackOnDeviceError)
+	_compiledDescs := []string{
+		"Landroid/frameworks/cameraservice/device/ErrorCode;",
+		"Landroid/frameworks/cameraservice/device/CaptureResultExtras;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(errorCode))
+		_data.WriteInt32(1)
+		if _err := resultExtras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(errorCode))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := resultExtras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackOnDeviceError)
@@ -124,7 +164,21 @@ func (p *CameraDeviceCallbackProxy) OnPrepared(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceCallback)
-	_data.WriteInt32(streamId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackOnPrepared)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(streamId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(streamId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackOnPrepared)
 	if _err != nil {
@@ -143,8 +197,25 @@ func (p *CameraDeviceCallbackProxy) OnRepeatingRequestError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceCallback)
-	_data.WriteInt64(lastFrameNumber)
-	_data.WriteInt32(repeatingRequestId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackOnRepeatingRequestError)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(lastFrameNumber)
+		_data.WriteInt32(repeatingRequestId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(lastFrameNumber)
+			case 1:
+				_data.WriteInt32(repeatingRequestId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackOnRepeatingRequestError)
 	if _err != nil {
@@ -164,22 +235,58 @@ func (p *CameraDeviceCallbackProxy) OnResultReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceCallback)
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackOnResultReceived)
+	_compiledDescs := []string{
+		"Landroid/frameworks/cameraservice/device/CaptureMetadataInfo;",
+		"Landroid/frameworks/cameraservice/device/CaptureResultExtras;",
+		"[Landroid/frameworks/cameraservice/device/PhysicalCaptureResultInfo;",
 	}
-	_data.WriteInt32(1)
-	if _err := resultExtras.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	if physicalCaptureResultInfos == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := resultExtras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if physicalCaptureResultInfos == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(physicalCaptureResultInfos)))
+			for _, _item := range physicalCaptureResultInfos {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(physicalCaptureResultInfos)))
-		for _, _item := range physicalCaptureResultInfos {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := resultExtras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				if physicalCaptureResultInfos == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(physicalCaptureResultInfos)))
+					for _, _item := range physicalCaptureResultInfos {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

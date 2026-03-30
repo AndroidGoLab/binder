@@ -62,8 +62,25 @@ func (p *OnsProxy) SetEnable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOns)
-	_data.WriteBool(enable)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOns, MethodIOnsSetEnable)
+	_compiledDescs := []string{
+		"Z",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOns, MethodIOnsSetEnable)
 	if _err != nil {
@@ -95,7 +112,21 @@ func (p *OnsProxy) IsEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOns)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOns, MethodIOnsIsEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOns, MethodIOnsIsEnabled)
 	if _err != nil {
@@ -129,10 +160,33 @@ func (p *OnsProxy) SetPreferredDataSubscriptionId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOns)
-	_data.WriteInt32(subId)
-	_data.WriteBool(needValidation)
-	binder.WriteBinderToParcel(ctx, _data, callbackStub.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOns, MethodIOnsSetPreferredDataSubscriptionId)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Lcom/android/internal/telephony/ISetOpportunisticDataCallback;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(needValidation)
+		binder.WriteBinderToParcel(ctx, _data, callbackStub.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(needValidation)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callbackStub.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOns, MethodIOnsSetPreferredDataSubscriptionId)
 	if _err != nil {
@@ -160,8 +214,25 @@ func (p *OnsProxy) GetPreferredDataSubscriptionId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOns)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOns, MethodIOnsGetPreferredDataSubscriptionId)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOns, MethodIOnsGetPreferredDataSubscriptionId)
 	if _err != nil {
@@ -194,19 +265,49 @@ func (p *OnsProxy) UpdateAvailableNetworks(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOns)
-	if availableNetworks == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOns, MethodIOnsUpdateAvailableNetworks)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Lcom/android/internal/telephony/IUpdateAvailableNetworksCallback;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if availableNetworks == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(availableNetworks)))
+			for _, _item := range availableNetworks {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, callbackStub.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
 	} else {
-		_data.WriteInt32(int32(len(availableNetworks)))
-		for _, _item := range availableNetworks {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if availableNetworks == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(availableNetworks)))
+					for _, _item := range availableNetworks {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callbackStub.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteString16(_identity.PackageName)
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callbackStub.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOns, MethodIOnsUpdateAvailableNetworks)
 	if _err != nil {

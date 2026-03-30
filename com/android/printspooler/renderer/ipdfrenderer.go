@@ -55,7 +55,21 @@ func (p *PdfRendererProxy) OpenDocument(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPdfRenderer)
-	_data.WriteParcelFileDescriptor(source)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPdfRenderer, MethodIPdfRendererOpenDocument)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(source)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(source)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfRenderer, MethodIPdfRendererOpenDocument)
 	if _err != nil {
@@ -90,14 +104,43 @@ func (p *PdfRendererProxy) RenderPage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPdfRenderer)
-	_data.WriteInt32(pageIndex)
-	_data.WriteInt32(bitmapWidth)
-	_data.WriteInt32(bitmapHeight)
-	_data.WriteInt32(1)
-	if _err := attributes.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPdfRenderer, MethodIPdfRendererRenderPage)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Landroid/print/PrintAttributes;",
+		"Landroid/os/ParcelFileDescriptor;",
 	}
-	_data.WriteParcelFileDescriptor(destination)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(pageIndex)
+		_data.WriteInt32(bitmapWidth)
+		_data.WriteInt32(bitmapHeight)
+		_data.WriteInt32(1)
+		if _err := attributes.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteParcelFileDescriptor(destination)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(pageIndex)
+			case 1:
+				_data.WriteInt32(bitmapWidth)
+			case 2:
+				_data.WriteInt32(bitmapHeight)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := attributes.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteParcelFileDescriptor(destination)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfRenderer, MethodIPdfRendererRenderPage)
 	if _err != nil {

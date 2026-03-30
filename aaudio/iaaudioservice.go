@@ -77,7 +77,21 @@ func (p *AAudioServiceProxy) RegisterClient(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAAudioService, MethodIAAudioServiceRegisterClient)
+	_compiledDescs := []string{
+		"Laaudio/IAAudioClient;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAAudioService, MethodIAAudioServiceRegisterClient)
 	if _err != nil {
@@ -106,9 +120,26 @@ func (p *AAudioServiceProxy) OpenStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAAudioService, MethodIAAudioServiceOpenStream)
+	_compiledDescs := []string{
+		"Laaudio/StreamRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAAudioService, MethodIAAudioServiceOpenStream)
@@ -152,7 +183,21 @@ func (p *AAudioServiceProxy) CloseStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
-	_data.WriteInt32(streamHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAAudioService, MethodIAAudioServiceCloseStream)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(streamHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(streamHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAAudioService, MethodIAAudioServiceCloseStream)
 	if _err != nil {
@@ -185,7 +230,21 @@ func (p *AAudioServiceProxy) GetStreamDescription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
-	_data.WriteInt32(streamHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAAudioService, MethodIAAudioServiceGetStreamDescription)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(streamHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(streamHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAAudioService, MethodIAAudioServiceGetStreamDescription)
 	if _err != nil {
@@ -228,7 +287,21 @@ func (p *AAudioServiceProxy) StartStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
-	_data.WriteInt32(streamHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAAudioService, MethodIAAudioServiceStartStream)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(streamHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(streamHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAAudioService, MethodIAAudioServiceStartStream)
 	if _err != nil {
@@ -260,7 +333,21 @@ func (p *AAudioServiceProxy) PauseStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
-	_data.WriteInt32(streamHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAAudioService, MethodIAAudioServicePauseStream)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(streamHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(streamHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAAudioService, MethodIAAudioServicePauseStream)
 	if _err != nil {
@@ -292,7 +379,21 @@ func (p *AAudioServiceProxy) StopStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
-	_data.WriteInt32(streamHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAAudioService, MethodIAAudioServiceStopStream)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(streamHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(streamHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAAudioService, MethodIAAudioServiceStopStream)
 	if _err != nil {
@@ -324,7 +425,21 @@ func (p *AAudioServiceProxy) FlushStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
-	_data.WriteInt32(streamHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAAudioService, MethodIAAudioServiceFlushStream)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(streamHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(streamHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAAudioService, MethodIAAudioServiceFlushStream)
 	if _err != nil {
@@ -358,9 +473,29 @@ func (p *AAudioServiceProxy) RegisterAudioThread(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
-	_data.WriteInt32(streamHandle)
-	_data.WriteInt32(clientThreadId)
-	_data.WriteInt64(periodNanoseconds)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAAudioService, MethodIAAudioServiceRegisterAudioThread)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(streamHandle)
+		_data.WriteInt32(clientThreadId)
+		_data.WriteInt64(periodNanoseconds)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(streamHandle)
+			case 1:
+				_data.WriteInt32(clientThreadId)
+			case 2:
+				_data.WriteInt64(periodNanoseconds)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAAudioService, MethodIAAudioServiceRegisterAudioThread)
 	if _err != nil {
@@ -393,8 +528,25 @@ func (p *AAudioServiceProxy) UnregisterAudioThread(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
-	_data.WriteInt32(streamHandle)
-	_data.WriteInt32(clientThreadId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAAudioService, MethodIAAudioServiceUnregisterAudioThread)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(streamHandle)
+		_data.WriteInt32(clientThreadId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(streamHandle)
+			case 1:
+				_data.WriteInt32(clientThreadId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAAudioService, MethodIAAudioServiceUnregisterAudioThread)
 	if _err != nil {
@@ -427,7 +579,21 @@ func (p *AAudioServiceProxy) ExitStandby(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
-	_data.WriteInt32(streamHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAAudioService, MethodIAAudioServiceExitStandby)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(streamHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(streamHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAAudioService, MethodIAAudioServiceExitStandby)
 	if _err != nil {

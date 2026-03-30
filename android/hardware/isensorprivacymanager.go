@@ -94,8 +94,25 @@ func (p *SensorPrivacyManagerProxy) SupportsSensorToggle(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyManager)
-	_data.WriteInt32(toggleType)
-	_data.WriteInt32(sensor)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerSupportsSensorToggle)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(toggleType)
+		_data.WriteInt32(sensor)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(toggleType)
+			case 1:
+				_data.WriteInt32(sensor)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerSupportsSensorToggle)
 	if _err != nil {
@@ -126,7 +143,21 @@ func (p *SensorPrivacyManagerProxy) AddSensorPrivacyListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerAddSensorPrivacyListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/ISensorPrivacyListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerAddSensorPrivacyListener)
 	if _err != nil {
@@ -153,7 +184,21 @@ func (p *SensorPrivacyManagerProxy) AddToggleSensorPrivacyListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerAddToggleSensorPrivacyListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/ISensorPrivacyListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerAddToggleSensorPrivacyListener)
 	if _err != nil {
@@ -180,7 +225,21 @@ func (p *SensorPrivacyManagerProxy) RemoveSensorPrivacyListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerRemoveSensorPrivacyListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/ISensorPrivacyListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerRemoveSensorPrivacyListener)
 	if _err != nil {
@@ -207,7 +266,21 @@ func (p *SensorPrivacyManagerProxy) RemoveToggleSensorPrivacyListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerRemoveToggleSensorPrivacyListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/ISensorPrivacyListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerRemoveToggleSensorPrivacyListener)
 	if _err != nil {
@@ -265,7 +338,21 @@ func (p *SensorPrivacyManagerProxy) IsCombinedToggleSensorPrivacyEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyManager)
-	_data.WriteInt32(sensor)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerIsCombinedToggleSensorPrivacyEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensor)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensor)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerIsCombinedToggleSensorPrivacyEnabled)
 	if _err != nil {
@@ -298,8 +385,25 @@ func (p *SensorPrivacyManagerProxy) IsToggleSensorPrivacyEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyManager)
-	_data.WriteInt32(toggleType)
-	_data.WriteInt32(sensor)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerIsToggleSensorPrivacyEnabled)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(toggleType)
+		_data.WriteInt32(sensor)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(toggleType)
+			case 1:
+				_data.WriteInt32(sensor)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerIsToggleSensorPrivacyEnabled)
 	if _err != nil {
@@ -330,7 +434,21 @@ func (p *SensorPrivacyManagerProxy) SetSensorPrivacy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyManager)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerSetSensorPrivacy)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerSetSensorPrivacy)
 	if _err != nil {
@@ -360,10 +478,33 @@ func (p *SensorPrivacyManagerProxy) SetToggleSensorPrivacy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(source)
-	_data.WriteInt32(sensor)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerSetToggleSensorPrivacy)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(source)
+		_data.WriteInt32(sensor)
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(source)
+			case 2:
+				_data.WriteInt32(sensor)
+			case 3:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerSetToggleSensorPrivacy)
 	if _err != nil {
@@ -393,10 +534,33 @@ func (p *SensorPrivacyManagerProxy) SetToggleSensorPrivacyForProfileGroup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(source)
-	_data.WriteInt32(sensor)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerSetToggleSensorPrivacyForProfileGroup)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(source)
+		_data.WriteInt32(sensor)
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(source)
+			case 2:
+				_data.WriteInt32(sensor)
+			case 3:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerSetToggleSensorPrivacyForProfileGroup)
 	if _err != nil {
@@ -487,8 +651,25 @@ func (p *SensorPrivacyManagerProxy) GetToggleSensorPrivacyState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyManager)
-	_data.WriteInt32(toggleType)
-	_data.WriteInt32(sensor)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerGetToggleSensorPrivacyState)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(toggleType)
+		_data.WriteInt32(sensor)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(toggleType)
+			case 1:
+				_data.WriteInt32(sensor)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerGetToggleSensorPrivacyState)
 	if _err != nil {
@@ -522,10 +703,33 @@ func (p *SensorPrivacyManagerProxy) SetToggleSensorPrivacyState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(source)
-	_data.WriteInt32(sensor)
-	_data.WriteInt32(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerSetToggleSensorPrivacyState)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(source)
+		_data.WriteInt32(sensor)
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(source)
+			case 2:
+				_data.WriteInt32(sensor)
+			case 3:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerSetToggleSensorPrivacyState)
 	if _err != nil {
@@ -555,10 +759,33 @@ func (p *SensorPrivacyManagerProxy) SetToggleSensorPrivacyStateForProfileGroup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(source)
-	_data.WriteInt32(sensor)
-	_data.WriteInt32(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerSetToggleSensorPrivacyStateForProfileGroup)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(source)
+		_data.WriteInt32(sensor)
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(source)
+			case 2:
+				_data.WriteInt32(sensor)
+			case 3:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerSetToggleSensorPrivacyStateForProfileGroup)
 	if _err != nil {
@@ -586,7 +813,21 @@ func (p *SensorPrivacyManagerProxy) IsCameraPrivacyEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerIsCameraPrivacyEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyManager, MethodISensorPrivacyManagerIsCameraPrivacyEnabled)
 	if _err != nil {

@@ -106,7 +106,21 @@ func (p *RemoteMemoryIntArrayProxy) Create(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteMemoryIntArray)
-	_data.WriteInt32(size)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteMemoryIntArray, MethodIRemoteMemoryIntArrayCreate)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(size)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(size)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteMemoryIntArray, MethodIRemoteMemoryIntArrayCreate)
 	if _err != nil {
@@ -164,7 +178,21 @@ func (p *RemoteMemoryIntArrayProxy) Get(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteMemoryIntArray)
-	_data.WriteInt32(index)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteMemoryIntArray, MethodIRemoteMemoryIntArrayGet)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(index)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(index)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteMemoryIntArray, MethodIRemoteMemoryIntArrayGet)
 	if _err != nil {
@@ -196,8 +224,25 @@ func (p *RemoteMemoryIntArrayProxy) Set(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteMemoryIntArray)
-	_data.WriteInt32(index)
-	_data.WriteInt32(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteMemoryIntArray, MethodIRemoteMemoryIntArraySet)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(index)
+		_data.WriteInt32(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(index)
+			case 1:
+				_data.WriteInt32(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteMemoryIntArray, MethodIRemoteMemoryIntArraySet)
 	if _err != nil {
@@ -309,9 +354,26 @@ func (p *RemoteMemoryIntArrayProxy) AccessLastElementInRemoteProcess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteMemoryIntArray)
-	_data.WriteInt32(1)
-	if _err := array.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteMemoryIntArray, MethodIRemoteMemoryIntArrayAccessLastElementInRemoteProcess)
+	_compiledDescs := []string{
+		"Landroid/util/MemoryIntArray;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := array.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := array.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteMemoryIntArray, MethodIRemoteMemoryIntArrayAccessLastElementInRemoteProcess)

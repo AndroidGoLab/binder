@@ -48,7 +48,21 @@ func (p *TestServiceProxy) RepeatData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITestService)
-	_data.WriteBool(token)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITestService, MethodITestServiceRepeatData)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(token)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(token)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestService, MethodITestServiceRepeatData)
 	if _err != nil {

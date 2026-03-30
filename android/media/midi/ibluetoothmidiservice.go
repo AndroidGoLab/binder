@@ -49,9 +49,26 @@ func (p *BluetoothMidiServiceProxy) AddBluetoothDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMidiService)
-	_data.WriteInt32(1)
-	if _err := bluetoothDevice.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothMidiService, MethodIBluetoothMidiServiceAddBluetoothDevice)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := bluetoothDevice.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := bluetoothDevice.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMidiService, MethodIBluetoothMidiServiceAddBluetoothDevice)

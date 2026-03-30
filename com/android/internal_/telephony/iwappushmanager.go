@@ -60,11 +60,34 @@ func (p *WapPushManagerProxy) ProcessMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWapPushManager)
-	_data.WriteString16(app_id)
-	_data.WriteString16(content_type)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWapPushManager, MethodIWapPushManagerProcessMessage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/content/Intent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(app_id)
+		_data.WriteString16(content_type)
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(app_id)
+			case 1:
+				_data.WriteString16(content_type)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWapPushManager, MethodIWapPushManagerProcessMessage)
@@ -103,13 +126,45 @@ func (p *WapPushManagerProxy) AddPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWapPushManager)
-	_data.WriteString16(x_app_id)
-	_data.WriteString16(content_type)
-	_data.WriteString16(package_name)
-	_data.WriteString16(class_name)
-	_data.WriteInt32(app_type)
-	_data.WriteBool(need_signature)
-	_data.WriteBool(further_processing)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWapPushManager, MethodIWapPushManagerAddPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(x_app_id)
+		_data.WriteString16(content_type)
+		_data.WriteString16(package_name)
+		_data.WriteString16(class_name)
+		_data.WriteInt32(app_type)
+		_data.WriteBool(need_signature)
+		_data.WriteBool(further_processing)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(x_app_id)
+			case 1:
+				_data.WriteString16(content_type)
+			case 2:
+				_data.WriteString16(package_name)
+			case 3:
+				_data.WriteString16(class_name)
+			case 4:
+				_data.WriteInt32(app_type)
+			case 5:
+				_data.WriteBool(need_signature)
+			case 6:
+				_data.WriteBool(further_processing)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWapPushManager, MethodIWapPushManagerAddPackage)
 	if _err != nil {
@@ -147,13 +202,45 @@ func (p *WapPushManagerProxy) UpdatePackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWapPushManager)
-	_data.WriteString16(x_app_id)
-	_data.WriteString16(content_type)
-	_data.WriteString16(package_name)
-	_data.WriteString16(class_name)
-	_data.WriteInt32(app_type)
-	_data.WriteBool(need_signature)
-	_data.WriteBool(further_processing)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWapPushManager, MethodIWapPushManagerUpdatePackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(x_app_id)
+		_data.WriteString16(content_type)
+		_data.WriteString16(package_name)
+		_data.WriteString16(class_name)
+		_data.WriteInt32(app_type)
+		_data.WriteBool(need_signature)
+		_data.WriteBool(further_processing)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(x_app_id)
+			case 1:
+				_data.WriteString16(content_type)
+			case 2:
+				_data.WriteString16(package_name)
+			case 3:
+				_data.WriteString16(class_name)
+			case 4:
+				_data.WriteInt32(app_type)
+			case 5:
+				_data.WriteBool(need_signature)
+			case 6:
+				_data.WriteBool(further_processing)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWapPushManager, MethodIWapPushManagerUpdatePackage)
 	if _err != nil {
@@ -188,10 +275,33 @@ func (p *WapPushManagerProxy) DeletePackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWapPushManager)
-	_data.WriteString16(x_app_id)
-	_data.WriteString16(content_type)
-	_data.WriteString16(package_name)
-	_data.WriteString16(class_name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWapPushManager, MethodIWapPushManagerDeletePackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(x_app_id)
+		_data.WriteString16(content_type)
+		_data.WriteString16(package_name)
+		_data.WriteString16(class_name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(x_app_id)
+			case 1:
+				_data.WriteString16(content_type)
+			case 2:
+				_data.WriteString16(package_name)
+			case 3:
+				_data.WriteString16(class_name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWapPushManager, MethodIWapPushManagerDeletePackage)
 	if _err != nil {

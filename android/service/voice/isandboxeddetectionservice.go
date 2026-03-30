@@ -83,16 +83,45 @@ func (p *SandboxedDetectionServiceProxy) DetectFromDspSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceDetectFromDspSource)
+	_compiledDescs := []string{
+		"LSoundTrigger/KeyphraseRecognitionEvent;",
+		"Landroid/media/AudioFormat;",
+		"J",
+		"Landroid/service/voice/IDspHotwordDetectionCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := audioFormat.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := audioFormat.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt64(timeoutMillis)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := audioFormat.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt64(timeoutMillis)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	_data.WriteInt64(timeoutMillis)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceDetectFromDspSource)
 	if _err != nil {
@@ -114,17 +143,49 @@ func (p *SandboxedDetectionServiceProxy) DetectFromMicrophoneSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	_data.WriteParcelFileDescriptor(audioStream)
-	_data.WriteInt32(audioSource)
-	_data.WriteInt32(1)
-	if _err := audioFormat.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceDetectFromMicrophoneSource)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"I",
+		"Landroid/media/AudioFormat;",
+		"Landroid/os/PersistableBundle;",
+		"Landroid/service/voice/IDspHotwordDetectionCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(audioStream)
+		_data.WriteInt32(audioSource)
+		_data.WriteInt32(1)
+		if _err := audioFormat.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(audioStream)
+			case 1:
+				_data.WriteInt32(audioSource)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := audioFormat.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceDetectFromMicrophoneSource)
 	if _err != nil {
@@ -142,7 +203,21 @@ func (p *SandboxedDetectionServiceProxy) DetectWithVisualSignals(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceDetectWithVisualSignals)
+	_compiledDescs := []string{
+		"Landroid/service/voice/IDetectorSessionVisualQueryDetectionCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceDetectWithVisualSignals)
 	if _err != nil {
@@ -162,15 +237,41 @@ func (p *SandboxedDetectionServiceProxy) UpdateState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateState)
+	_compiledDescs := []string{
+		"Landroid/os/PersistableBundle;",
+		"Landroid/os/SharedMemory;",
+		"Landroid/os/IRemoteCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := sharedMemory.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := sharedMemory.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := sharedMemory.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateState)
 	if _err != nil {
@@ -188,7 +289,21 @@ func (p *SandboxedDetectionServiceProxy) UpdateAudioFlinger(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, audioFlinger, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateAudioFlinger)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, audioFlinger, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, audioFlinger, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateAudioFlinger)
 	if _err != nil {
@@ -207,10 +322,30 @@ func (p *SandboxedDetectionServiceProxy) UpdateContentCaptureManager(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, contentCaptureManager.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateContentCaptureManager)
+	_compiledDescs := []string{
+		"Landroid/view/contentcapture/IContentCaptureManager;",
+		"Landroid/content/ContentCaptureOptions;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, contentCaptureManager.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, contentCaptureManager.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateContentCaptureManager)
@@ -229,7 +364,21 @@ func (p *SandboxedDetectionServiceProxy) UpdateRecognitionServiceManager(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, recognitionServiceManager.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateRecognitionServiceManager)
+	_compiledDescs := []string{
+		"Landroid/speech/IRecognitionServiceManager;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, recognitionServiceManager.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, recognitionServiceManager.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateRecognitionServiceManager)
 	if _err != nil {
@@ -247,7 +396,21 @@ func (p *SandboxedDetectionServiceProxy) Ping(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServicePing)
+	_compiledDescs := []string{
+		"Landroid/os/IRemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServicePing)
 	if _err != nil {
@@ -281,7 +444,21 @@ func (p *SandboxedDetectionServiceProxy) RegisterRemoteStorageService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, detectorSessionStorageService.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceRegisterRemoteStorageService)
+	_compiledDescs := []string{
+		"Landroid/service/voice/IDetectorSessionStorageService;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, detectorSessionStorageService.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, detectorSessionStorageService.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceRegisterRemoteStorageService)
 	if _err != nil {

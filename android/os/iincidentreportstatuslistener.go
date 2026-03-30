@@ -78,8 +78,25 @@ func (p *IncidentReportStatusListenerProxy) OnReportSectionStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentReportStatusListener)
-	_data.WriteInt32(section)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncidentReportStatusListener, MethodIIncidentReportStatusListenerOnReportSectionStatus)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(section)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(section)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentReportStatusListener, MethodIIncidentReportStatusListenerOnReportSectionStatus)
 	if _err != nil {

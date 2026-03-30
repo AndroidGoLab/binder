@@ -49,9 +49,29 @@ func (p *ControlsActionCallbackProxy) Accept(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIControlsActionCallback)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteString16(controlId)
-	_data.WriteInt32(response)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIControlsActionCallback, MethodIControlsActionCallbackAccept)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteString16(controlId)
+		_data.WriteInt32(response)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(controlId)
+			case 2:
+				_data.WriteInt32(response)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsActionCallback, MethodIControlsActionCallbackAccept)
 	if _err != nil {

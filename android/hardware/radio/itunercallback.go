@@ -83,7 +83,21 @@ func (p *TunerCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnError)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnError)
 	if _err != nil {
@@ -102,10 +116,30 @@ func (p *TunerCallbackProxy) OnTuneFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteInt32(result)
-	_data.WriteInt32(1)
-	if _err := selector.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnTuneFailed)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/ProgramSelector;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+		_data.WriteInt32(1)
+		if _err := selector.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := selector.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnTuneFailed)
@@ -124,9 +158,26 @@ func (p *TunerCallbackProxy) OnConfigurationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnConfigurationChanged)
+	_compiledDescs := []string{
+		"LRadioManager/BandConfig;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnConfigurationChanged)
@@ -145,9 +196,26 @@ func (p *TunerCallbackProxy) OnCurrentProgramInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnCurrentProgramInfoChanged)
+	_compiledDescs := []string{
+		"LRadioManager/ProgramInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnCurrentProgramInfoChanged)
@@ -166,7 +234,21 @@ func (p *TunerCallbackProxy) OnTrafficAnnouncement(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteBool(active)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnTrafficAnnouncement)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(active)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(active)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnTrafficAnnouncement)
 	if _err != nil {
@@ -184,7 +266,21 @@ func (p *TunerCallbackProxy) OnEmergencyAnnouncement(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteBool(active)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnEmergencyAnnouncement)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(active)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(active)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnEmergencyAnnouncement)
 	if _err != nil {
@@ -202,7 +298,21 @@ func (p *TunerCallbackProxy) OnAntennaState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteBool(connected)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnAntennaState)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(connected)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(connected)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnAntennaState)
 	if _err != nil {
@@ -220,7 +330,21 @@ func (p *TunerCallbackProxy) OnBackgroundScanAvailabilityChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteBool(isAvailable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnBackgroundScanAvailabilityChange)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isAvailable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isAvailable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnBackgroundScanAvailabilityChange)
 	if _err != nil {
@@ -270,9 +394,26 @@ func (p *TunerCallbackProxy) OnProgramListUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteInt32(1)
-	if _err := chunk.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnProgramListUpdated)
+	_compiledDescs := []string{
+		"LProgramList/Chunk;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := chunk.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := chunk.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnProgramListUpdated)
@@ -292,8 +433,25 @@ func (p *TunerCallbackProxy) OnConfigFlagUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	_data.WriteInt32(flag)
-	_data.WriteBool(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnConfigFlagUpdated)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(flag)
+		_data.WriteBool(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(flag)
+			case 1:
+				_data.WriteBool(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnConfigFlagUpdated)
 	if _err != nil {
@@ -311,13 +469,35 @@ func (p *TunerCallbackProxy) OnParametersUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
-	if parameters == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerCallback, MethodITunerCallbackOnParametersUpdated)
+	_compiledDescs := []string{
+		"Ljava/util/Map;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if parameters == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(parameters)))
+			for _k, _v := range parameters {
+				_data.WriteString16(_k)
+				_data.WriteString16(_v)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(parameters)))
-		for _k, _v := range parameters {
-			_data.WriteString16(_k)
-			_data.WriteString16(_v)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if parameters == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(parameters)))
+					for _k, _v := range parameters {
+						_data.WriteString16(_k)
+						_data.WriteString16(_v)
+					}
+				}
+			}
 		}
 	}
 

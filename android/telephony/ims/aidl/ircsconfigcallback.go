@@ -59,7 +59,21 @@ func (p *RcsConfigCallbackProxy) OnConfigurationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRcsConfigCallback)
-	_data.WriteByteArray(config)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnConfigurationChanged)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(config)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(config)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnConfigurationChanged)
 	if _err != nil {
@@ -78,8 +92,25 @@ func (p *RcsConfigCallbackProxy) OnAutoConfigurationErrorReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRcsConfigCallback)
-	_data.WriteInt32(errorCode)
-	_data.WriteString16(errorString)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnAutoConfigurationErrorReceived)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+		_data.WriteString16(errorString)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			case 1:
+				_data.WriteString16(errorString)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnAutoConfigurationErrorReceived)
 	if _err != nil {
@@ -129,7 +160,21 @@ func (p *RcsConfigCallbackProxy) OnPreProvisioningReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRcsConfigCallback)
-	_data.WriteByteArray(config)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnPreProvisioningReceived)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(config)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(config)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnPreProvisioningReceived)
 	if _err != nil {

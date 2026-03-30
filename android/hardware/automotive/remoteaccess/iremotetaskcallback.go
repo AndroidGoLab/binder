@@ -48,8 +48,25 @@ func (p *RemoteTaskCallbackProxy) OnRemoteTaskRequested(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteTaskCallback)
-	_data.WriteString16(clientId)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteTaskCallback, MethodIRemoteTaskCallbackOnRemoteTaskRequested)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(clientId)
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(clientId)
+			case 1:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteTaskCallback, MethodIRemoteTaskCallbackOnRemoteTaskRequested)
 	if _err != nil {

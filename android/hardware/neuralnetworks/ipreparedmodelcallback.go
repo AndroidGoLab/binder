@@ -48,8 +48,25 @@ func (p *PreparedModelCallbackProxy) Notify(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreparedModelCallback)
-	_data.WriteInt32(int32(status))
-	binder.WriteBinderToParcel(ctx, _data, preparedModel.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPreparedModelCallback, MethodIPreparedModelCallbackNotify)
+	_compiledDescs := []string{
+		"Landroid/hardware/neuralnetworks/ErrorStatus;",
+		"Landroid/hardware/neuralnetworks/IPreparedModel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(status))
+		binder.WriteBinderToParcel(ctx, _data, preparedModel.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(status))
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, preparedModel.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreparedModelCallback, MethodIPreparedModelCallbackNotify)
 	if _err != nil {

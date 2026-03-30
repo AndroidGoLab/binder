@@ -47,7 +47,21 @@ func (p *SatelliteCommunicationAllowedStateCallbackProxy) OnSatelliteCommunicati
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteCommunicationAllowedStateCallback)
-	_data.WriteBool(isAllowed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatelliteCommunicationAllowedStateCallback, MethodISatelliteCommunicationAllowedStateCallbackOnSatelliteCommunicationAllowedStateChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isAllowed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isAllowed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteCommunicationAllowedStateCallback, MethodISatelliteCommunicationAllowedStateCallbackOnSatelliteCommunicationAllowedStateChanged)
 	if _err != nil {

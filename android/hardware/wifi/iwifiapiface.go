@@ -165,7 +165,21 @@ func (p *WifiApIfaceProxy) SetCountryCode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiApIface)
-	_data.WriteByteArray(code)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiApIface, MethodIWifiApIfaceSetCountryCode)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(code)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(code)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiApIface, MethodIWifiApIfaceSetCountryCode)
 	if _err != nil {
@@ -217,7 +231,21 @@ func (p *WifiApIfaceProxy) SetMacAddress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiApIface)
-	_data.WriteByteArray(mac)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiApIface, MethodIWifiApIfaceSetMacAddress)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(mac)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(mac)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiApIface, MethodIWifiApIfaceSetMacAddress)
 	if _err != nil {

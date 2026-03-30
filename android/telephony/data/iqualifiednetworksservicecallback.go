@@ -55,13 +55,37 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnQualifiedNetworkTypesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksServiceCallback)
-	_data.WriteInt32(apnTypes)
-	if qualifiedNetworkTypes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIQualifiedNetworksServiceCallback, MethodIQualifiedNetworksServiceCallbackOnQualifiedNetworkTypesChanged)
+	_compiledDescs := []string{
+		"I",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(apnTypes)
+		if qualifiedNetworkTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(qualifiedNetworkTypes)))
+			for _, _item := range qualifiedNetworkTypes {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(qualifiedNetworkTypes)))
-		for _, _item := range qualifiedNetworkTypes {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(apnTypes)
+			case 1:
+				if qualifiedNetworkTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(qualifiedNetworkTypes)))
+					for _, _item := range qualifiedNetworkTypes {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -82,8 +106,25 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnNetworkValidationRequested(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksServiceCallback)
-	_data.WriteInt32(networkCapability)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIQualifiedNetworksServiceCallback, MethodIQualifiedNetworksServiceCallbackOnNetworkValidationRequested)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(networkCapability)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(networkCapability)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQualifiedNetworksServiceCallback, MethodIQualifiedNetworksServiceCallbackOnNetworkValidationRequested)
 	if _err != nil {
@@ -102,8 +143,25 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnReconnectQualifedNetworkType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksServiceCallback)
-	_data.WriteInt32(apnTypes)
-	_data.WriteInt32(qualifiedNetworkType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIQualifiedNetworksServiceCallback, MethodIQualifiedNetworksServiceCallbackOnReconnectQualifedNetworkType)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(apnTypes)
+		_data.WriteInt32(qualifiedNetworkType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(apnTypes)
+			case 1:
+				_data.WriteInt32(qualifiedNetworkType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQualifiedNetworksServiceCallback, MethodIQualifiedNetworksServiceCallbackOnReconnectQualifedNetworkType)
 	if _err != nil {

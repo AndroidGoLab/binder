@@ -54,13 +54,39 @@ func (p *SipTransportProxy) CreateSipDelegate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipTransport)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipTransport, MethodISipTransportCreateSipDelegate)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/DelegateRequest;",
+		"Landroid/telephony/ims/aidl/ISipDelegateStateCallback;",
+		"Landroid/telephony/ims/aidl/ISipDelegateMessageCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, dc.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, mc.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, dc.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, mc.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, dc.AsBinder(), p.Remote.Transport())
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, mc.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipTransport, MethodISipTransportCreateSipDelegate)
 	if _err != nil {
@@ -79,8 +105,25 @@ func (p *SipTransportProxy) DestroySipDelegate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipTransport)
-	binder.WriteBinderToParcel(ctx, _data, delegate.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipTransport, MethodISipTransportDestroySipDelegate)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/aidl/ISipDelegate;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, delegate.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, delegate.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipTransport, MethodISipTransportDestroySipDelegate)
 	if _err != nil {

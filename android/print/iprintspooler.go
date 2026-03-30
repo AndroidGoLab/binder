@@ -114,14 +114,43 @@ func (p *PrintSpoolerProxy) GetPrintJobInfos(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerGetPrintJobInfos)
+	_compiledDescs := []string{
+		"Landroid/print/IPrintSpoolerCallbacks;",
+		"Landroid/content/ComponentName;",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(state)
-	_data.WriteInt32(appId)
-	_data.WriteInt32(sequence)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := componentName.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(state)
+		_data.WriteInt32(appId)
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := componentName.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(state)
+			case 3:
+				_data.WriteInt32(appId)
+			case 4:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerGetPrintJobInfos)
 	if _err != nil {
@@ -142,13 +171,39 @@ func (p *PrintSpoolerProxy) GetPrintJobInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	_data.WriteInt32(1)
-	if _err := printJobId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerGetPrintJobInfo)
+	_compiledDescs := []string{
+		"Landroid/print/PrintJobId;",
+		"Landroid/print/IPrintSpoolerCallbacks;",
+		"I",
+		"I",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(appId)
-	_data.WriteInt32(sequence)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printJobId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(appId)
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printJobId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(appId)
+			case 3:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerGetPrintJobInfo)
 	if _err != nil {
@@ -166,9 +221,26 @@ func (p *PrintSpoolerProxy) CreatePrintJob(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	_data.WriteInt32(1)
-	if _err := printJob.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerCreatePrintJob)
+	_compiledDescs := []string{
+		"Landroid/print/PrintJobInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printJob.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printJob.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerCreatePrintJob)
@@ -191,14 +263,43 @@ func (p *PrintSpoolerProxy) SetPrintJobState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	_data.WriteInt32(1)
-	if _err := printJobId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetPrintJobState)
+	_compiledDescs := []string{
+		"Landroid/print/PrintJobId;",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/print/IPrintSpoolerCallbacks;",
+		"I",
 	}
-	_data.WriteInt32(status)
-	_data.WriteString16(stateReason)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(sequence)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printJobId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(status)
+		_data.WriteString16(stateReason)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printJobId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(status)
+			case 2:
+				_data.WriteString16(stateReason)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 4:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetPrintJobState)
 	if _err != nil {
@@ -217,11 +318,31 @@ func (p *PrintSpoolerProxy) SetProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	_data.WriteInt32(1)
-	if _err := printJobId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetProgress)
+	_compiledDescs := []string{
+		"Landroid/print/PrintJobId;",
+		"F",
 	}
-	_data.WriteFloat32(progress)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printJobId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteFloat32(progress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printJobId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteFloat32(progress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetProgress)
 	if _err != nil {
@@ -240,11 +361,31 @@ func (p *PrintSpoolerProxy) SetStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	_data.WriteInt32(1)
-	if _err := printJobId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetStatus)
+	_compiledDescs := []string{
+		"Landroid/print/PrintJobId;",
+		"Ljava/lang/CharSequence;",
 	}
-	_data.WriteString16(status)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printJobId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printJobId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetStatus)
 	if _err != nil {
@@ -264,12 +405,35 @@ func (p *PrintSpoolerProxy) SetStatusRes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	_data.WriteInt32(1)
-	if _err := printJobId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetStatusRes)
+	_compiledDescs := []string{
+		"Landroid/print/PrintJobId;",
+		"I",
+		"Ljava/lang/CharSequence;",
 	}
-	_data.WriteInt32(status)
-	_data.WriteString16(appPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printJobId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(status)
+		_data.WriteString16(appPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printJobId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(status)
+			case 2:
+				_data.WriteString16(appPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetStatusRes)
 	if _err != nil {
@@ -290,16 +454,45 @@ func (p *PrintSpoolerProxy) OnCustomPrinterIconLoaded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	_data.WriteInt32(1)
-	if _err := printerId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerOnCustomPrinterIconLoaded)
+	_compiledDescs := []string{
+		"Landroid/print/PrinterId;",
+		"Landroid/graphics/drawable/Icon;",
+		"Landroid/print/IPrintSpoolerCallbacks;",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := icon.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printerId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := icon.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printerId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := icon.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(sequence)
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(sequence)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerOnCustomPrinterIconLoaded)
 	if _err != nil {
@@ -319,12 +512,35 @@ func (p *PrintSpoolerProxy) GetCustomPrinterIcon(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	_data.WriteInt32(1)
-	if _err := printerId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerGetCustomPrinterIcon)
+	_compiledDescs := []string{
+		"Landroid/print/PrinterId;",
+		"Landroid/print/IPrintSpoolerCallbacks;",
+		"I",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(sequence)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printerId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printerId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerGetCustomPrinterIcon)
 	if _err != nil {
@@ -343,8 +559,25 @@ func (p *PrintSpoolerProxy) ClearCustomPrinterIconCache(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(sequence)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerClearCustomPrinterIconCache)
+	_compiledDescs := []string{
+		"Landroid/print/IPrintSpoolerCallbacks;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerClearCustomPrinterIconCache)
 	if _err != nil {
@@ -365,13 +598,39 @@ func (p *PrintSpoolerProxy) SetPrintJobTag(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	_data.WriteInt32(1)
-	if _err := printJobId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetPrintJobTag)
+	_compiledDescs := []string{
+		"Landroid/print/PrintJobId;",
+		"Ljava/lang/String;",
+		"Landroid/print/IPrintSpoolerCallbacks;",
+		"I",
 	}
-	_data.WriteString16(tag)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(sequence)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printJobId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(tag)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printJobId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(tag)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetPrintJobTag)
 	if _err != nil {
@@ -390,10 +649,30 @@ func (p *PrintSpoolerProxy) WritePrintJobData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	_data.WriteParcelFileDescriptor(fd)
-	_data.WriteInt32(1)
-	if _err := printJobId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerWritePrintJobData)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/print/PrintJobId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(fd)
+		_data.WriteInt32(1)
+		if _err := printJobId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(fd)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := printJobId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerWritePrintJobData)
@@ -412,7 +691,21 @@ func (p *PrintSpoolerProxy) SetClient(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetClient)
+	_compiledDescs := []string{
+		"Landroid/print/IPrintSpoolerClient;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetClient)
 	if _err != nil {
@@ -431,11 +724,31 @@ func (p *PrintSpoolerProxy) SetPrintJobCancelling(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	_data.WriteInt32(1)
-	if _err := printJobId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetPrintJobCancelling)
+	_compiledDescs := []string{
+		"Landroid/print/PrintJobId;",
+		"Z",
 	}
-	_data.WriteBool(cancelling)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printJobId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(cancelling)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printJobId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(cancelling)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetPrintJobCancelling)
 	if _err != nil {
@@ -453,14 +766,38 @@ func (p *PrintSpoolerProxy) PruneApprovedPrintServices(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
-	if servicesToKeep == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerPruneApprovedPrintServices)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if servicesToKeep == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(servicesToKeep)))
+			for _, _item := range servicesToKeep {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(servicesToKeep)))
-		for _, _item := range servicesToKeep {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if servicesToKeep == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(servicesToKeep)))
+					for _, _item := range servicesToKeep {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

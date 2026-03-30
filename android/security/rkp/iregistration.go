@@ -54,8 +54,25 @@ func (p *RegistrationProxy) GetKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRegistration)
-	_data.WriteInt32(keyId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRegistration, MethodIRegistrationGetKey)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/security/rkp/IGetKeyCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(keyId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(keyId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRegistration, MethodIRegistrationGetKey)
 	if _err != nil {
@@ -73,7 +90,21 @@ func (p *RegistrationProxy) CancelGetKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRegistration)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRegistration, MethodIRegistrationCancelGetKey)
+	_compiledDescs := []string{
+		"Landroid/security/rkp/IGetKeyCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRegistration, MethodIRegistrationCancelGetKey)
 	if _err != nil {
@@ -93,9 +124,29 @@ func (p *RegistrationProxy) StoreUpgradedKeyAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRegistration)
-	_data.WriteByteArray(oldKeyBlob)
-	_data.WriteByteArray(newKeyBlob)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRegistration, MethodIRegistrationStoreUpgradedKeyAsync)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"Landroid/security/rkp/IStoreUpgradedKeyCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(oldKeyBlob)
+		_data.WriteByteArray(newKeyBlob)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(oldKeyBlob)
+			case 1:
+				_data.WriteByteArray(newKeyBlob)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRegistration, MethodIRegistrationStoreUpgradedKeyAsync)
 	if _err != nil {

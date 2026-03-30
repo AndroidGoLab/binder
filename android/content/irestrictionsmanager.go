@@ -64,7 +64,21 @@ func (p *RestrictionsManagerProxy) GetApplicationRestrictions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerGetApplicationRestrictions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerGetApplicationRestrictions)
 	if _err != nil {
@@ -102,8 +116,25 @@ func (p *RestrictionsManagerProxy) GetApplicationRestrictionsPerAdminForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerGetApplicationRestrictionsPerAdminForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerGetApplicationRestrictionsPerAdminForUser)
 	if _err != nil {
@@ -199,12 +230,38 @@ func (p *RestrictionsManagerProxy) RequestPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(requestType)
-	_data.WriteString16(requestId)
-	_data.WriteInt32(1)
-	if _err := requestData.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerRequestPermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/PersistableBundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(requestType)
+		_data.WriteString16(requestId)
+		_data.WriteInt32(1)
+		if _err := requestData.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(requestType)
+			case 2:
+				_data.WriteString16(requestId)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := requestData.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerRequestPermission)
@@ -233,10 +290,30 @@ func (p *RestrictionsManagerProxy) NotifyPermissionResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := response.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerNotifyPermissionResponse)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/PersistableBundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := response.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := response.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerNotifyPermissionResponse)

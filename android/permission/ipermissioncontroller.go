@@ -104,16 +104,48 @@ func (p *PermissionControllerProxy) RevokeRuntimePermissions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerRevokeRuntimePermissions)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+		"Z",
+		"I",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteBool(doDryRun)
-	_data.WriteInt32(reason)
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(doDryRun)
+		_data.WriteInt32(reason)
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(doDryRun)
+			case 2:
+				_data.WriteInt32(reason)
+			case 3:
+				_data.WriteString16(callerPackageName)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerRevokeRuntimePermissions)
@@ -133,11 +165,31 @@ func (p *PermissionControllerProxy) GetRuntimePermissionBackup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerGetRuntimePermissionBackup)
+	_compiledDescs := []string{
+		"Landroid/os/UserHandle;",
+		"Landroid/os/ParcelFileDescriptor;",
 	}
-	_data.WriteParcelFileDescriptor(pipe)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteParcelFileDescriptor(pipe)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteParcelFileDescriptor(pipe)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerGetRuntimePermissionBackup)
 	if _err != nil {
@@ -156,11 +208,31 @@ func (p *PermissionControllerProxy) StageAndApplyRuntimePermissionsBackup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerStageAndApplyRuntimePermissionsBackup)
+	_compiledDescs := []string{
+		"Landroid/os/UserHandle;",
+		"Landroid/os/ParcelFileDescriptor;",
 	}
-	_data.WriteParcelFileDescriptor(pipe)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteParcelFileDescriptor(pipe)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteParcelFileDescriptor(pipe)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerStageAndApplyRuntimePermissionsBackup)
 	if _err != nil {
@@ -180,14 +252,40 @@ func (p *PermissionControllerProxy) ApplyStagedRuntimePermissionBackup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerApplyStagedRuntimePermissionBackup)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerApplyStagedRuntimePermissionBackup)
@@ -207,10 +305,30 @@ func (p *PermissionControllerProxy) GetAppPermissions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerGetAppPermissions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerGetAppPermissions)
@@ -230,8 +348,25 @@ func (p *PermissionControllerProxy) RevokeRuntimePermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteString16(packageName)
-	_data.WriteString16(permissionName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerRevokeRuntimePermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(permissionName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(permissionName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerRevokeRuntimePermission)
 	if _err != nil {
@@ -251,18 +386,48 @@ func (p *PermissionControllerProxy) CountPermissionApps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	if permissionNames == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(permissionNames)))
-		for _, _item := range permissionNames {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerCountPermissionApps)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"I",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if permissionNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(permissionNames)))
+			for _, _item := range permissionNames {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(flags)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if permissionNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(permissionNames)))
+					for _, _item := range permissionNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				_data.WriteInt32(flags)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerCountPermissionApps)
@@ -283,11 +448,34 @@ func (p *PermissionControllerProxy) GetPermissionUsages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteBool(countSystem)
-	_data.WriteInt64(numMillis)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerGetPermissionUsages)
+	_compiledDescs := []string{
+		"Z",
+		"J",
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(countSystem)
+		_data.WriteInt64(numMillis)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(countSystem)
+			case 1:
+				_data.WriteInt64(numMillis)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerGetPermissionUsages)
@@ -308,14 +496,40 @@ func (p *PermissionControllerProxy) SetRuntimePermissionGrantStateByDeviceAdminF
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerSetRuntimePermissionGrantStateByDeviceAdminFromParams)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/permission/AdminPermissionControlParams;",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerSetRuntimePermissionGrantStateByDeviceAdminFromParams)
@@ -334,9 +548,26 @@ func (p *PermissionControllerProxy) GrantOrUpgradeDefaultRuntimePermissions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerGrantOrUpgradeDefaultRuntimePermissions)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerGrantOrUpgradeDefaultRuntimePermissions)
@@ -356,8 +587,25 @@ func (p *PermissionControllerProxy) NotifyOneTimePermissionSessionTimeout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerNotifyOneTimePermissionSessionTimeout)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerNotifyOneTimePermissionSessionTimeout)
 	if _err != nil {
@@ -376,10 +624,30 @@ func (p *PermissionControllerProxy) UpdateUserSensitiveForApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerUpdateUserSensitiveForApp)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerUpdateUserSensitiveForApp)
@@ -399,10 +667,30 @@ func (p *PermissionControllerProxy) GetPrivilegesDescriptionStringForProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteString16(deviceProfileName)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerGetPrivilegesDescriptionStringForProfile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(deviceProfileName)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(deviceProfileName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerGetPrivilegesDescriptionStringForProfile)
@@ -422,10 +710,30 @@ func (p *PermissionControllerProxy) GetPlatformPermissionsForGroup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteString16(permissionGroupName)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerGetPlatformPermissionsForGroup)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(permissionGroupName)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(permissionGroupName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerGetPlatformPermissionsForGroup)
@@ -445,10 +753,30 @@ func (p *PermissionControllerProxy) GetGroupOfPlatformPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteString16(permissionName)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerGetGroupOfPlatformPermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(permissionName)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(permissionName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerGetGroupOfPlatformPermission)
@@ -467,9 +795,26 @@ func (p *PermissionControllerProxy) GetUnusedAppCount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerGetUnusedAppCount)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerGetUnusedAppCount)
@@ -489,10 +834,30 @@ func (p *PermissionControllerProxy) GetHibernationEligibility(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerGetHibernationEligibility)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerGetHibernationEligibility)
@@ -514,19 +879,52 @@ func (p *PermissionControllerProxy) RevokeSelfPermissionsOnKill(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
-	_data.WriteString16(packageName)
-	if permissions == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(permissions)))
-		for _, _item := range permissions {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionController, MethodIPermissionControllerRevokeSelfPermissionsOnKill)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"I",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		if permissions == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(permissions)))
+			for _, _item := range permissions {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				if permissions == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(permissions)))
+					for _, _item := range permissions {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt32(deviceId)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerRevokeSelfPermissionsOnKill)

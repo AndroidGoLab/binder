@@ -82,14 +82,43 @@ func (p *ClipboardProxy) SetPrimaryClip(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
-	_data.WriteInt32(1)
-	if _err := clip.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClipboard, MethodIClipboardSetPrimaryClip)
+	_compiledDescs := []string{
+		"Landroid/content/ClipData;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
 	}
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(deviceId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := clip.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := clip.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClipboard, MethodIClipboardSetPrimaryClip)
 	if _err != nil {
@@ -119,15 +148,47 @@ func (p *ClipboardProxy) SetPrimaryClipAsPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
-	_data.WriteInt32(1)
-	if _err := clip.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClipboard, MethodIClipboardSetPrimaryClipAsPackage)
+	_compiledDescs := []string{
+		"Landroid/content/ClipData;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(deviceId)
-	_data.WriteString16(sourcePackage)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := clip.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(deviceId)
+		_data.WriteString16(sourcePackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := clip.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				_data.WriteInt32(deviceId)
+			case 5:
+				_data.WriteString16(sourcePackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClipboard, MethodIClipboardSetPrimaryClipAsPackage)
 	if _err != nil {
@@ -155,10 +216,33 @@ func (p *ClipboardProxy) ClearPrimaryClip(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClipboard, MethodIClipboardClearPrimaryClip)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClipboard, MethodIClipboardClearPrimaryClip)
 	if _err != nil {
@@ -188,10 +272,33 @@ func (p *ClipboardProxy) GetPrimaryClip(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
-	_data.WriteString16(pkg)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClipboard, MethodIClipboardGetPrimaryClip)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClipboard, MethodIClipboardGetPrimaryClip)
 	if _err != nil {
@@ -229,10 +336,33 @@ func (p *ClipboardProxy) GetPrimaryClipDescription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClipboard, MethodIClipboardGetPrimaryClipDescription)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClipboard, MethodIClipboardGetPrimaryClipDescription)
 	if _err != nil {
@@ -270,10 +400,33 @@ func (p *ClipboardProxy) HasPrimaryClip(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClipboard, MethodIClipboardHasPrimaryClip)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClipboard, MethodIClipboardHasPrimaryClip)
 	if _err != nil {
@@ -306,11 +459,37 @@ func (p *ClipboardProxy) AddPrimaryClipChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClipboard, MethodIClipboardAddPrimaryClipChangedListener)
+	_compiledDescs := []string{
+		"Landroid/content/IOnPrimaryClipChangedListener;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClipboard, MethodIClipboardAddPrimaryClipChangedListener)
 	if _err != nil {
@@ -339,11 +518,37 @@ func (p *ClipboardProxy) RemovePrimaryClipChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClipboard, MethodIClipboardRemovePrimaryClipChangedListener)
+	_compiledDescs := []string{
+		"Landroid/content/IOnPrimaryClipChangedListener;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClipboard, MethodIClipboardRemovePrimaryClipChangedListener)
 	if _err != nil {
@@ -372,10 +577,33 @@ func (p *ClipboardProxy) HasClipboardText(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClipboard, MethodIClipboardHasClipboardText)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClipboard, MethodIClipboardHasClipboardText)
 	if _err != nil {
@@ -408,10 +636,33 @@ func (p *ClipboardProxy) GetPrimaryClipSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClipboard, MethodIClipboardGetPrimaryClipSource)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClipboard, MethodIClipboardGetPrimaryClipSource)
 	if _err != nil {
@@ -443,7 +694,21 @@ func (p *ClipboardProxy) AreClipboardAccessNotificationsEnabledForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClipboard, MethodIClipboardAreClipboardAccessNotificationsEnabledForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClipboard, MethodIClipboardAreClipboardAccessNotificationsEnabledForUser)
 	if _err != nil {
@@ -475,8 +740,25 @@ func (p *ClipboardProxy) SetClipboardAccessNotificationsEnabledForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
-	_data.WriteBool(enable)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClipboard, MethodIClipboardSetClipboardAccessNotificationsEnabledForUser)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClipboard, MethodIClipboardSetClipboardAccessNotificationsEnabledForUser)
 	if _err != nil {

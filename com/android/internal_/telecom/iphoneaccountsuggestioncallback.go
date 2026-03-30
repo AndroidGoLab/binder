@@ -49,15 +49,42 @@ func (p *PhoneAccountSuggestionCallbackProxy) SuggestPhoneAccounts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneAccountSuggestionCallback)
-	_data.WriteString16(number)
-	if suggestions == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneAccountSuggestionCallback, MethodIPhoneAccountSuggestionCallbackSuggestPhoneAccounts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(number)
+		if suggestions == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(suggestions)))
+			for _, _item := range suggestions {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(suggestions)))
-		for _, _item := range suggestions {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(number)
+			case 1:
+				if suggestions == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(suggestions)))
+					for _, _item := range suggestions {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

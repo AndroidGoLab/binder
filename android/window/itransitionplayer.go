@@ -54,18 +54,50 @@ func (p *TransitionPlayerProxy) OnTransitionReady(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransitionPlayer)
-	binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITransitionPlayer, MethodITransitionPlayerOnTransitionReady)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/window/TransitionInfo;",
+		"LSurfaceControl/Transaction;",
+		"LSurfaceControl/Transaction;",
 	}
-	_data.WriteInt32(1)
-	if _err := t.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := finishT.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := t.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := finishT.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := t.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := finishT.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransitionPlayer, MethodITransitionPlayerOnTransitionReady)
@@ -85,10 +117,30 @@ func (p *TransitionPlayerProxy) RequestStartTransition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransitionPlayer)
-	binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITransitionPlayer, MethodITransitionPlayerRequestStartTransition)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/window/TransitionRequestInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransitionPlayer, MethodITransitionPlayerRequestStartTransition)

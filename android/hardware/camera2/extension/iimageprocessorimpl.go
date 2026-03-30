@@ -49,15 +49,41 @@ func (p *ImageProcessorImplProxy) OnNextImageAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageProcessorImpl)
-	_data.WriteInt32(1)
-	if _err := outputConfigId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImageProcessorImpl, MethodIImageProcessorImplOnNextImageAvailable)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera2/extension/OutputConfigId;",
+		"Landroid/hardware/camera2/extension/ParcelImage;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(1)
-	if _err := image.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := outputConfigId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := image.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(physicalCameraId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := outputConfigId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := image.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(physicalCameraId)
+			}
+		}
 	}
-	_data.WriteString16(physicalCameraId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageProcessorImpl, MethodIImageProcessorImplOnNextImageAvailable)
 	if _err != nil {

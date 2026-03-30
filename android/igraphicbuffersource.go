@@ -78,8 +78,25 @@ func (p *GraphicBufferSourceProxy) Configure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
-	binder.WriteBinderToParcel(ctx, _data, omxNode.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(dataSpace)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceConfigure)
+	_compiledDescs := []string{
+		"Landroid/IOMXNode;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, omxNode.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(dataSpace)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, omxNode.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(dataSpace)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceConfigure)
 	if _err != nil {
@@ -107,8 +124,25 @@ func (p *GraphicBufferSourceProxy) SetSuspend(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
-	_data.WriteBool(suspend)
-	_data.WriteInt64(suspendTimeUs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetSuspend)
+	_compiledDescs := []string{
+		"Z",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(suspend)
+		_data.WriteInt64(suspendTimeUs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(suspend)
+			case 1:
+				_data.WriteInt64(suspendTimeUs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetSuspend)
 	if _err != nil {
@@ -135,7 +169,21 @@ func (p *GraphicBufferSourceProxy) SetRepeatPreviousFrameDelayUs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
-	_data.WriteInt64(repeatAfterUs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetRepeatPreviousFrameDelayUs)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(repeatAfterUs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(repeatAfterUs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetRepeatPreviousFrameDelayUs)
 	if _err != nil {
@@ -162,7 +210,21 @@ func (p *GraphicBufferSourceProxy) SetMaxFps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
-	_data.WriteFloat32(maxFps)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetMaxFps)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(maxFps)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(maxFps)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetMaxFps)
 	if _err != nil {
@@ -190,8 +252,25 @@ func (p *GraphicBufferSourceProxy) SetTimeLapseConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
-	_data.WriteFloat64(fps)
-	_data.WriteFloat64(captureFps)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetTimeLapseConfig)
+	_compiledDescs := []string{
+		"D",
+		"D",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat64(fps)
+		_data.WriteFloat64(captureFps)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat64(fps)
+			case 1:
+				_data.WriteFloat64(captureFps)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetTimeLapseConfig)
 	if _err != nil {
@@ -218,7 +297,21 @@ func (p *GraphicBufferSourceProxy) SetStartTimeUs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
-	_data.WriteInt64(startTimeUs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetStartTimeUs)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(startTimeUs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(startTimeUs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetStartTimeUs)
 	if _err != nil {
@@ -245,7 +338,21 @@ func (p *GraphicBufferSourceProxy) SetStopTimeUs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
-	_data.WriteInt64(stopTimeUs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetStopTimeUs)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(stopTimeUs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(stopTimeUs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetStopTimeUs)
 	if _err != nil {
@@ -302,7 +409,21 @@ func (p *GraphicBufferSourceProxy) SetColorAspects(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
-	_data.WriteInt32(aspects)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetColorAspects)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(aspects)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(aspects)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetColorAspects)
 	if _err != nil {
@@ -329,7 +450,21 @@ func (p *GraphicBufferSourceProxy) SetTimeOffsetUs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
-	_data.WriteInt64(timeOffsetsUs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetTimeOffsetUs)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(timeOffsetsUs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(timeOffsetsUs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetTimeOffsetUs)
 	if _err != nil {

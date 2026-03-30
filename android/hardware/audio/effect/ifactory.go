@@ -60,29 +60,70 @@ func (p *FactoryProxy) QueryEffects(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFactory)
-	if type_ != nil {
-		_data.WriteInt32(1)
-		if _err := (*type_).MarshalParcel(_data); _err != nil {
-			return _result, _err
-		}
-	} else {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFactory, MethodIFactoryQueryEffects)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioUuid;",
+		"Landroid/media/audio/common/AudioUuid;",
+		"Landroid/media/audio/common/AudioUuid;",
 	}
-	if implementation != nil {
-		_data.WriteInt32(1)
-		if _err := (*implementation).MarshalParcel(_data); _err != nil {
-			return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if type_ != nil {
+			_data.WriteInt32(1)
+			if _err := (*type_).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		if implementation != nil {
+			_data.WriteInt32(1)
+			if _err := (*implementation).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		if proxy != nil {
+			_data.WriteInt32(1)
+			if _err := (*proxy).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
-	}
-	if proxy != nil {
-		_data.WriteInt32(1)
-		if _err := (*proxy).MarshalParcel(_data); _err != nil {
-			return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if type_ != nil {
+					_data.WriteInt32(1)
+					if _err := (*type_).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 1:
+				if implementation != nil {
+					_data.WriteInt32(1)
+					if _err := (*implementation).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 2:
+				if proxy != nil {
+					_data.WriteInt32(1)
+					if _err := (*proxy).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
 		}
-	} else {
-		_data.WriteInt32(-1)
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFactory, MethodIFactoryQueryEffects)
@@ -147,13 +188,34 @@ func (p *FactoryProxy) QueryProcessing(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFactory)
-	if type_ != nil {
-		_data.WriteInt32(1)
-		if _err := (*type_).MarshalParcel(_data); _err != nil {
-			return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFactory, MethodIFactoryQueryProcessing)
+	_compiledDescs := []string{
+		"LProcessing/Type;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if type_ != nil {
+			_data.WriteInt32(1)
+			if _err := (*type_).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if type_ != nil {
+					_data.WriteInt32(1)
+					if _err := (*type_).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFactory, MethodIFactoryQueryProcessing)
@@ -218,9 +280,26 @@ func (p *FactoryProxy) CreateEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFactory)
-	_data.WriteInt32(1)
-	if _err := implUuid.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFactory, MethodIFactoryCreateEffect)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioUuid;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := implUuid.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := implUuid.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFactory, MethodIFactoryCreateEffect)
@@ -253,7 +332,21 @@ func (p *FactoryProxy) DestroyEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFactory)
-	binder.WriteBinderToParcel(ctx, _data, handle.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFactory, MethodIFactoryDestroyEffect)
+	_compiledDescs := []string{
+		"Landroid/hardware/audio/effect/IEffect;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, handle.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, handle.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFactory, MethodIFactoryDestroyEffect)
 	if _err != nil {

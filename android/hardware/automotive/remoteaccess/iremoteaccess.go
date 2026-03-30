@@ -173,7 +173,21 @@ func (p *RemoteAccessProxy) SetRemoteTaskCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccess, MethodIRemoteAccessSetRemoteTaskCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/remoteaccess/IRemoteTaskCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccess, MethodIRemoteAccessSetRemoteTaskCallback)
 	if _err != nil {
@@ -225,9 +239,26 @@ func (p *RemoteAccessProxy) NotifyApStateChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
-	_data.WriteInt32(1)
-	if _err := state.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccess, MethodIRemoteAccessNotifyApStateChange)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/remoteaccess/ApState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := state.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := state.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccess, MethodIRemoteAccessNotifyApStateChange)
@@ -329,9 +360,26 @@ func (p *RemoteAccessProxy) ScheduleTask(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
-	_data.WriteInt32(1)
-	if _err := scheduleInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccess, MethodIRemoteAccessScheduleTask)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/remoteaccess/ScheduleInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := scheduleInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := scheduleInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccess, MethodIRemoteAccessScheduleTask)
@@ -360,8 +408,25 @@ func (p *RemoteAccessProxy) UnscheduleTask(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
-	_data.WriteString16(clientId)
-	_data.WriteString16(scheduleId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccess, MethodIRemoteAccessUnscheduleTask)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(clientId)
+		_data.WriteString16(scheduleId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(clientId)
+			case 1:
+				_data.WriteString16(scheduleId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccess, MethodIRemoteAccessUnscheduleTask)
 	if _err != nil {
@@ -388,7 +453,21 @@ func (p *RemoteAccessProxy) UnscheduleAllTasks(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
-	_data.WriteString16(clientId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccess, MethodIRemoteAccessUnscheduleAllTasks)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(clientId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(clientId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccess, MethodIRemoteAccessUnscheduleAllTasks)
 	if _err != nil {
@@ -417,8 +496,25 @@ func (p *RemoteAccessProxy) IsTaskScheduled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
-	_data.WriteString16(clientId)
-	_data.WriteString16(scheduleId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccess, MethodIRemoteAccessIsTaskScheduled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(clientId)
+		_data.WriteString16(scheduleId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(clientId)
+			case 1:
+				_data.WriteString16(scheduleId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccess, MethodIRemoteAccessIsTaskScheduled)
 	if _err != nil {
@@ -450,7 +546,21 @@ func (p *RemoteAccessProxy) GetAllPendingScheduledTasks(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
-	_data.WriteString16(clientId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteAccess, MethodIRemoteAccessGetAllPendingScheduledTasks)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(clientId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(clientId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccess, MethodIRemoteAccessGetAllPendingScheduledTasks)
 	if _err != nil {

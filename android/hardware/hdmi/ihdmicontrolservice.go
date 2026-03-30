@@ -296,7 +296,21 @@ func (p *HdmiControlServiceProxy) OneTouchPlay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceOneTouchPlay)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiControlCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceOneTouchPlay)
 	if _err != nil {
@@ -378,7 +392,21 @@ func (p *HdmiControlServiceProxy) QueryDisplayStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceQueryDisplayStatus)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiControlCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceQueryDisplayStatus)
 	if _err != nil {
@@ -405,7 +433,21 @@ func (p *HdmiControlServiceProxy) AddHdmiControlStatusChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddHdmiControlStatusChangeListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiControlStatusChangeListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddHdmiControlStatusChangeListener)
 	if _err != nil {
@@ -432,7 +474,21 @@ func (p *HdmiControlServiceProxy) RemoveHdmiControlStatusChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceRemoveHdmiControlStatusChangeListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiControlStatusChangeListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceRemoveHdmiControlStatusChangeListener)
 	if _err != nil {
@@ -459,7 +515,21 @@ func (p *HdmiControlServiceProxy) AddHdmiCecVolumeControlFeatureListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddHdmiCecVolumeControlFeatureListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiCecVolumeControlFeatureListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddHdmiCecVolumeControlFeatureListener)
 	if _err != nil {
@@ -486,7 +556,21 @@ func (p *HdmiControlServiceProxy) RemoveHdmiCecVolumeControlFeatureListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceRemoveHdmiCecVolumeControlFeatureListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiCecVolumeControlFeatureListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceRemoveHdmiCecVolumeControlFeatureListener)
 	if _err != nil {
@@ -513,7 +597,21 @@ func (p *HdmiControlServiceProxy) AddHotplugEventListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddHotplugEventListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiHotplugEventListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddHotplugEventListener)
 	if _err != nil {
@@ -540,7 +638,21 @@ func (p *HdmiControlServiceProxy) RemoveHotplugEventListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceRemoveHotplugEventListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiHotplugEventListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceRemoveHotplugEventListener)
 	if _err != nil {
@@ -567,7 +679,21 @@ func (p *HdmiControlServiceProxy) AddDeviceEventListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddDeviceEventListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiDeviceEventListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddDeviceEventListener)
 	if _err != nil {
@@ -595,8 +721,25 @@ func (p *HdmiControlServiceProxy) DeviceSelect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(deviceId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceDeviceSelect)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/hdmi/IHdmiControlCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceDeviceSelect)
 	if _err != nil {
@@ -624,8 +767,25 @@ func (p *HdmiControlServiceProxy) PortSelect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(portId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServicePortSelect)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/hdmi/IHdmiControlCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServicePortSelect)
 	if _err != nil {
@@ -654,9 +814,29 @@ func (p *HdmiControlServiceProxy) SendKeyEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(deviceType)
-	_data.WriteInt32(keyCode)
-	_data.WriteBool(isPressed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSendKeyEvent)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceType)
+		_data.WriteInt32(keyCode)
+		_data.WriteBool(isPressed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceType)
+			case 1:
+				_data.WriteInt32(keyCode)
+			case 2:
+				_data.WriteBool(isPressed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSendKeyEvent)
 	if _err != nil {
@@ -685,9 +865,29 @@ func (p *HdmiControlServiceProxy) SendVolumeKeyEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(deviceType)
-	_data.WriteInt32(keyCode)
-	_data.WriteBool(isPressed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSendVolumeKeyEvent)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceType)
+		_data.WriteInt32(keyCode)
+		_data.WriteBool(isPressed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceType)
+			case 1:
+				_data.WriteInt32(keyCode)
+			case 2:
+				_data.WriteBool(isPressed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSendVolumeKeyEvent)
 	if _err != nil {
@@ -867,8 +1067,25 @@ func (p *HdmiControlServiceProxy) SetSystemAudioMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteBool(enabled)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetSystemAudioMode)
+	_compiledDescs := []string{
+		"Z",
+		"Landroid/hardware/hdmi/IHdmiControlCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetSystemAudioMode)
 	if _err != nil {
@@ -895,7 +1112,21 @@ func (p *HdmiControlServiceProxy) AddSystemAudioModeChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddSystemAudioModeChangeListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiSystemAudioModeChangeListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddSystemAudioModeChangeListener)
 	if _err != nil {
@@ -922,7 +1153,21 @@ func (p *HdmiControlServiceProxy) RemoveSystemAudioModeChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceRemoveSystemAudioModeChangeListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiSystemAudioModeChangeListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceRemoveSystemAudioModeChangeListener)
 	if _err != nil {
@@ -949,7 +1194,21 @@ func (p *HdmiControlServiceProxy) SetArcMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetArcMode)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetArcMode)
 	if _err != nil {
@@ -976,7 +1235,21 @@ func (p *HdmiControlServiceProxy) SetProhibitMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetProhibitMode)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetProhibitMode)
 	if _err != nil {
@@ -1005,9 +1278,29 @@ func (p *HdmiControlServiceProxy) SetSystemAudioVolume(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(oldIndex)
-	_data.WriteInt32(newIndex)
-	_data.WriteInt32(maxIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetSystemAudioVolume)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(oldIndex)
+		_data.WriteInt32(newIndex)
+		_data.WriteInt32(maxIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(oldIndex)
+			case 1:
+				_data.WriteInt32(newIndex)
+			case 2:
+				_data.WriteInt32(maxIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetSystemAudioVolume)
 	if _err != nil {
@@ -1034,7 +1327,21 @@ func (p *HdmiControlServiceProxy) SetSystemAudioMute(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteBool(mute)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetSystemAudioMute)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(mute)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(mute)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetSystemAudioMute)
 	if _err != nil {
@@ -1061,7 +1368,21 @@ func (p *HdmiControlServiceProxy) SetInputChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetInputChangeListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiInputChangeListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetInputChangeListener)
 	if _err != nil {
@@ -1213,8 +1534,25 @@ func (p *HdmiControlServiceProxy) PowerOffRemoteDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(logicalAddress)
-	_data.WriteInt32(powerStatus)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServicePowerOffRemoteDevice)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(logicalAddress)
+		_data.WriteInt32(powerStatus)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(logicalAddress)
+			case 1:
+				_data.WriteInt32(powerStatus)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServicePowerOffRemoteDevice)
 	if _err != nil {
@@ -1242,8 +1580,25 @@ func (p *HdmiControlServiceProxy) PowerOnRemoteDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(logicalAddress)
-	_data.WriteInt32(powerStatus)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServicePowerOnRemoteDevice)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(logicalAddress)
+		_data.WriteInt32(powerStatus)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(logicalAddress)
+			case 1:
+				_data.WriteInt32(powerStatus)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServicePowerOnRemoteDevice)
 	if _err != nil {
@@ -1270,7 +1625,21 @@ func (p *HdmiControlServiceProxy) AskRemoteDeviceToBecomeActiveSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(physicalAddress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAskRemoteDeviceToBecomeActiveSource)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(physicalAddress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(physicalAddress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAskRemoteDeviceToBecomeActiveSource)
 	if _err != nil {
@@ -1300,10 +1669,33 @@ func (p *HdmiControlServiceProxy) SendVendorCommand(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(deviceType)
-	_data.WriteInt32(targetAddress)
-	_data.WriteByteArray(params)
-	_data.WriteBool(hasVendorId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSendVendorCommand)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[B",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceType)
+		_data.WriteInt32(targetAddress)
+		_data.WriteByteArray(params)
+		_data.WriteBool(hasVendorId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceType)
+			case 1:
+				_data.WriteInt32(targetAddress)
+			case 2:
+				_data.WriteByteArray(params)
+			case 3:
+				_data.WriteBool(hasVendorId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSendVendorCommand)
 	if _err != nil {
@@ -1331,8 +1723,25 @@ func (p *HdmiControlServiceProxy) AddVendorCommandListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(vendorId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddVendorCommandListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiVendorCommandListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(vendorId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(vendorId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddVendorCommandListener)
 	if _err != nil {
@@ -1360,8 +1769,25 @@ func (p *HdmiControlServiceProxy) SendStandby(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(deviceType)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSendStandby)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceType)
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceType)
+			case 1:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSendStandby)
 	if _err != nil {
@@ -1388,7 +1814,21 @@ func (p *HdmiControlServiceProxy) SetHdmiRecordListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetHdmiRecordListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiRecordListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetHdmiRecordListener)
 	if _err != nil {
@@ -1416,8 +1856,25 @@ func (p *HdmiControlServiceProxy) StartOneTouchRecord(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(recorderAddress)
-	_data.WriteByteArray(recordSource)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceStartOneTouchRecord)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(recorderAddress)
+		_data.WriteByteArray(recordSource)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(recorderAddress)
+			case 1:
+				_data.WriteByteArray(recordSource)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceStartOneTouchRecord)
 	if _err != nil {
@@ -1444,7 +1901,21 @@ func (p *HdmiControlServiceProxy) StopOneTouchRecord(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(recorderAddress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceStopOneTouchRecord)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(recorderAddress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(recorderAddress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceStopOneTouchRecord)
 	if _err != nil {
@@ -1473,9 +1944,29 @@ func (p *HdmiControlServiceProxy) StartTimerRecording(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(recorderAddress)
-	_data.WriteInt32(sourceType)
-	_data.WriteByteArray(recordSource)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceStartTimerRecording)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(recorderAddress)
+		_data.WriteInt32(sourceType)
+		_data.WriteByteArray(recordSource)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(recorderAddress)
+			case 1:
+				_data.WriteInt32(sourceType)
+			case 2:
+				_data.WriteByteArray(recordSource)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceStartTimerRecording)
 	if _err != nil {
@@ -1504,9 +1995,29 @@ func (p *HdmiControlServiceProxy) ClearTimerRecording(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(recorderAddress)
-	_data.WriteInt32(sourceType)
-	_data.WriteByteArray(recordSource)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceClearTimerRecording)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(recorderAddress)
+		_data.WriteInt32(sourceType)
+		_data.WriteByteArray(recordSource)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(recorderAddress)
+			case 1:
+				_data.WriteInt32(sourceType)
+			case 2:
+				_data.WriteByteArray(recordSource)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceClearTimerRecording)
 	if _err != nil {
@@ -1536,10 +2047,33 @@ func (p *HdmiControlServiceProxy) SendMhlVendorCommand(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(portId)
-	_data.WriteInt32(offset)
-	_data.WriteInt32(length)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSendMhlVendorCommand)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+		_data.WriteInt32(offset)
+		_data.WriteInt32(length)
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			case 1:
+				_data.WriteInt32(offset)
+			case 2:
+				_data.WriteInt32(length)
+			case 3:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSendMhlVendorCommand)
 	if _err != nil {
@@ -1566,7 +2100,21 @@ func (p *HdmiControlServiceProxy) AddHdmiMhlVendorCommandListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddHdmiMhlVendorCommandListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/hdmi/IHdmiMhlVendorCommandListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddHdmiMhlVendorCommandListener)
 	if _err != nil {
@@ -1593,7 +2141,21 @@ func (p *HdmiControlServiceProxy) SetStandbyMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteBool(isStandbyModeOn)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetStandbyMode)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isStandbyModeOn)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isStandbyModeOn)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetStandbyMode)
 	if _err != nil {
@@ -1623,10 +2185,33 @@ func (p *HdmiControlServiceProxy) ReportAudioStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(deviceType)
-	_data.WriteInt32(volume)
-	_data.WriteInt32(maxVolume)
-	_data.WriteBool(isMute)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceReportAudioStatus)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceType)
+		_data.WriteInt32(volume)
+		_data.WriteInt32(maxVolume)
+		_data.WriteBool(isMute)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceType)
+			case 1:
+				_data.WriteInt32(volume)
+			case 2:
+				_data.WriteInt32(maxVolume)
+			case 3:
+				_data.WriteBool(isMute)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceReportAudioStatus)
 	if _err != nil {
@@ -1679,7 +2264,21 @@ func (p *HdmiControlServiceProxy) SetMessageHistorySize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteInt32(newSize)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetMessageHistorySize)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(newSize)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(newSize)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetMessageHistorySize)
 	if _err != nil {
@@ -1741,8 +2340,25 @@ func (p *HdmiControlServiceProxy) AddCecSettingChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddCecSettingChangeListener)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/hdmi/IHdmiCecSettingChangeListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceAddCecSettingChangeListener)
 	if _err != nil {
@@ -1770,8 +2386,25 @@ func (p *HdmiControlServiceProxy) RemoveCecSettingChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceRemoveCecSettingChangeListener)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/hdmi/IHdmiCecSettingChangeListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceRemoveCecSettingChangeListener)
 	if _err != nil {
@@ -1842,7 +2475,21 @@ func (p *HdmiControlServiceProxy) GetAllowedCecSettingStringValues(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetAllowedCecSettingStringValues)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetAllowedCecSettingStringValues)
 	if _err != nil {
@@ -1887,7 +2534,21 @@ func (p *HdmiControlServiceProxy) GetAllowedCecSettingIntValues(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetAllowedCecSettingIntValues)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetAllowedCecSettingIntValues)
 	if _err != nil {
@@ -1932,7 +2593,21 @@ func (p *HdmiControlServiceProxy) GetCecSettingStringValue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetCecSettingStringValue)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetCecSettingStringValue)
 	if _err != nil {
@@ -1964,8 +2639,25 @@ func (p *HdmiControlServiceProxy) SetCecSettingStringValue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteString16(name)
-	_data.WriteString16(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetCecSettingStringValue)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteString16(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteString16(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetCecSettingStringValue)
 	if _err != nil {
@@ -1993,7 +2685,21 @@ func (p *HdmiControlServiceProxy) GetCecSettingIntValue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetCecSettingIntValue)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetCecSettingIntValue)
 	if _err != nil {
@@ -2025,8 +2731,25 @@ func (p *HdmiControlServiceProxy) SetCecSettingIntValue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
-	_data.WriteString16(name)
-	_data.WriteInt32(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetCecSettingIntValue)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteInt32(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteInt32(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetCecSettingIntValue)
 	if _err != nil {

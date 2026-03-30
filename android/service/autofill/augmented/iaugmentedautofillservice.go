@@ -60,8 +60,25 @@ func (p *AugmentedAutofillServiceProxy) OnConnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillService)
-	_data.WriteBool(debug)
-	_data.WriteBool(verbose)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAugmentedAutofillService, MethodIAugmentedAutofillServiceOnConnected)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(debug)
+		_data.WriteBool(verbose)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(debug)
+			case 1:
+				_data.WriteBool(verbose)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAugmentedAutofillService, MethodIAugmentedAutofillServiceOnConnected)
 	if _err != nil {
@@ -103,27 +120,77 @@ func (p *AugmentedAutofillServiceProxy) OnFillRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillService)
-	_data.WriteInt32(sessionId)
-	binder.WriteBinderToParcel(ctx, _data, autofillManagerClient, p.Remote.Transport())
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(1)
-	if _err := activityComponent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAugmentedAutofillService, MethodIAugmentedAutofillServiceOnFillRequest)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IBinder;",
+		"I",
+		"Landroid/content/ComponentName;",
+		"Landroid/view/autofill/AutofillId;",
+		"Landroid/view/autofill/AutofillValue;",
+		"J",
+		"Landroid/view/inputmethod/InlineSuggestionsRequest;",
+		"Landroid/service/autofill/augmented/IFillCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := focusedId.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		binder.WriteBinderToParcel(ctx, _data, autofillManagerClient, p.Remote.Transport())
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(1)
+		if _err := activityComponent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := focusedId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := focusedValue.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt64(requestTime)
+		_data.WriteInt32(1)
+		if _err := inlineSuggestionsRequest.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, autofillManagerClient, p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(taskId)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := activityComponent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := focusedId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := focusedValue.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				_data.WriteInt64(requestTime)
+			case 7:
+				_data.WriteInt32(1)
+				if _err := inlineSuggestionsRequest.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 8:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := focusedValue.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt64(requestTime)
-	_data.WriteInt32(1)
-	if _err := inlineSuggestionsRequest.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAugmentedAutofillService, MethodIAugmentedAutofillServiceOnFillRequest)
 	if _err != nil {

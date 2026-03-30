@@ -52,14 +52,40 @@ func (p *SplitSelectListenerProxy) OnRequestSplitSelect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitSelectListener)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitSelectListener, MethodISplitSelectListenerOnRequestSplitSelect)
+	_compiledDescs := []string{
+		"Landroid/app/ActivityManager/RunningTaskInfo;",
+		"I",
+		"Landroid/graphics/Rect;",
 	}
-	_data.WriteInt32(splitPosition)
-	_data.WriteInt32(1)
-	if _err := taskBounds.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := taskInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(splitPosition)
+		_data.WriteInt32(1)
+		if _err := taskBounds.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := taskInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(splitPosition)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := taskBounds.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitSelectListener, MethodISplitSelectListenerOnRequestSplitSelect)

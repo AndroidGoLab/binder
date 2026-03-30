@@ -59,7 +59,21 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceAdded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
-	_data.WriteString16(iAppServiceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceAdded)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iAppServiceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iAppServiceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceAdded)
 	if _err != nil {
@@ -77,7 +91,21 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
-	_data.WriteString16(iAppServiceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceRemoved)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iAppServiceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iAppServiceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceRemoved)
 	if _err != nil {
@@ -95,7 +123,21 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
-	_data.WriteString16(iAppServiceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceUpdated)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iAppServiceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iAppServiceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceUpdated)
 	if _err != nil {
@@ -113,9 +155,26 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnTvInteractiveAppServiceInfoUpda
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
-	_data.WriteInt32(1)
-	if _err := tvIAppInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnTvInteractiveAppServiceInfoUpdated)
+	_compiledDescs := []string{
+		"Landroid/media/tv/interactive/TvInteractiveAppServiceInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := tvIAppInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := tvIAppInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnTvInteractiveAppServiceInfoUpdated)
@@ -137,10 +196,33 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
-	_data.WriteString16(iAppServiceId)
-	_data.WriteInt32(type_)
-	_data.WriteInt32(state)
-	_data.WriteInt32(err)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnStateChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iAppServiceId)
+		_data.WriteInt32(type_)
+		_data.WriteInt32(state)
+		_data.WriteInt32(err)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iAppServiceId)
+			case 1:
+				_data.WriteInt32(type_)
+			case 2:
+				_data.WriteInt32(state)
+			case 3:
+				_data.WriteInt32(err)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnStateChanged)
 	if _err != nil {

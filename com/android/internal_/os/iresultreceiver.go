@@ -49,10 +49,30 @@ func (p *ResultReceiverProxy) Send(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResultReceiver)
-	_data.WriteInt32(resultCode)
-	_data.WriteInt32(1)
-	if _err := resultData.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResultReceiver, MethodIResultReceiverSend)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(resultCode)
+		_data.WriteInt32(1)
+		if _err := resultData.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(resultCode)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := resultData.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResultReceiver, MethodIResultReceiverSend)

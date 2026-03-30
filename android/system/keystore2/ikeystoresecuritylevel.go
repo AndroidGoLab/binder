@@ -70,22 +70,55 @@ func (p *KeystoreSecurityLevelProxy) CreateOperation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
-	_data.WriteInt32(1)
-	if _err := key.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelCreateOperation)
+	_compiledDescs := []string{
+		"Landroid/system/keystore2/KeyDescriptor;",
+		"[Landroid/hardware/security/keymint/KeyParameter;",
+		"Z",
 	}
-	if operationParameters == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := key.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		if operationParameters == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(operationParameters)))
+			for _, _item := range operationParameters {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+		_data.WriteBool(forced)
 	} else {
-		_data.WriteInt32(int32(len(operationParameters)))
-		for _, _item := range operationParameters {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := key.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				if operationParameters == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(operationParameters)))
+					for _, _item := range operationParameters {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 2:
+				_data.WriteBool(forced)
 			}
 		}
 	}
-	_data.WriteBool(forced)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelCreateOperation)
 	if _err != nil {
@@ -126,31 +159,77 @@ func (p *KeystoreSecurityLevelProxy) GenerateKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
-	_data.WriteInt32(1)
-	if _err := key.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelGenerateKey)
+	_compiledDescs := []string{
+		"Landroid/system/keystore2/KeyDescriptor;",
+		"Landroid/system/keystore2/KeyDescriptor;",
+		"[Landroid/hardware/security/keymint/KeyParameter;",
+		"I",
+		"[B",
 	}
-	if attestationKey != nil {
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
 		_data.WriteInt32(1)
-		if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
+		if _err := key.MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
-	} else {
-		_data.WriteInt32(-1)
-	}
-	if params == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(params)))
-		for _, _item := range params {
+		if attestationKey != nil {
 			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
+			if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
 				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		if params == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(params)))
+			for _, _item := range params {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+		_data.WriteInt32(flags)
+		_data.WriteByteArray(entropy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := key.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				if attestationKey != nil {
+					_data.WriteInt32(1)
+					if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 2:
+				if params == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(params)))
+					for _, _item := range params {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 3:
+				_data.WriteInt32(flags)
+			case 4:
+				_data.WriteByteArray(entropy)
 			}
 		}
 	}
-	_data.WriteInt32(flags)
-	_data.WriteByteArray(entropy)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelGenerateKey)
 	if _err != nil {
@@ -191,31 +270,77 @@ func (p *KeystoreSecurityLevelProxy) ImportKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
-	_data.WriteInt32(1)
-	if _err := key.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelImportKey)
+	_compiledDescs := []string{
+		"Landroid/system/keystore2/KeyDescriptor;",
+		"Landroid/system/keystore2/KeyDescriptor;",
+		"[Landroid/hardware/security/keymint/KeyParameter;",
+		"I",
+		"[B",
 	}
-	if attestationKey != nil {
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
 		_data.WriteInt32(1)
-		if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
+		if _err := key.MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
-	} else {
-		_data.WriteInt32(-1)
-	}
-	if params == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(params)))
-		for _, _item := range params {
+		if attestationKey != nil {
 			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
+			if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
 				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		if params == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(params)))
+			for _, _item := range params {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+		_data.WriteInt32(flags)
+		_data.WriteByteArray(keyData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := key.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				if attestationKey != nil {
+					_data.WriteInt32(1)
+					if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 2:
+				if params == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(params)))
+					for _, _item := range params {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 3:
+				_data.WriteInt32(flags)
+			case 4:
+				_data.WriteByteArray(keyData)
 			}
 		}
 	}
-	_data.WriteInt32(flags)
-	_data.WriteByteArray(keyData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelImportKey)
 	if _err != nil {
@@ -256,34 +381,86 @@ func (p *KeystoreSecurityLevelProxy) ImportWrappedKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
-	_data.WriteInt32(1)
-	if _err := key.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelImportWrappedKey)
+	_compiledDescs := []string{
+		"Landroid/system/keystore2/KeyDescriptor;",
+		"Landroid/system/keystore2/KeyDescriptor;",
+		"[B",
+		"[Landroid/hardware/security/keymint/KeyParameter;",
+		"[Landroid/system/keystore2/AuthenticatorSpec;",
 	}
-	_data.WriteInt32(1)
-	if _err := wrappingKey.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteByteArray(maskingKey)
-	if params == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(params)))
-		for _, _item := range params {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := key.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := wrappingKey.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteByteArray(maskingKey)
+		if params == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(params)))
+			for _, _item := range params {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
 			}
 		}
-	}
-	if authenticators == nil {
-		_data.WriteInt32(-1)
+		if authenticators == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(authenticators)))
+			for _, _item := range authenticators {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(authenticators)))
-		for _, _item := range authenticators {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := key.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := wrappingKey.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteByteArray(maskingKey)
+			case 3:
+				if params == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(params)))
+					for _, _item := range params {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 4:
+				if authenticators == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(authenticators)))
+					for _, _item := range authenticators {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -323,9 +500,26 @@ func (p *KeystoreSecurityLevelProxy) ConvertStorageKeyToEphemeral(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
-	_data.WriteInt32(1)
-	if _err := storageKey.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelConvertStorageKeyToEphemeral)
+	_compiledDescs := []string{
+		"Landroid/system/keystore2/KeyDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := storageKey.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := storageKey.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelConvertStorageKeyToEphemeral)
@@ -362,9 +556,26 @@ func (p *KeystoreSecurityLevelProxy) DeleteKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
-	_data.WriteInt32(1)
-	if _err := key.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelDeleteKey)
+	_compiledDescs := []string{
+		"Landroid/system/keystore2/KeyDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := key.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := key.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelDeleteKey)

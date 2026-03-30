@@ -55,9 +55,29 @@ func (p *ImsCapabilityCallbackProxy) OnQueryCapabilityConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCapabilityCallback)
-	_data.WriteInt32(capability)
-	_data.WriteInt32(radioTech)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsCapabilityCallback, MethodIImsCapabilityCallbackOnQueryCapabilityConfiguration)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(capability)
+		_data.WriteInt32(radioTech)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(capability)
+			case 1:
+				_data.WriteInt32(radioTech)
+			case 2:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCapabilityCallback, MethodIImsCapabilityCallbackOnQueryCapabilityConfiguration)
 	if _err != nil {
@@ -77,9 +97,29 @@ func (p *ImsCapabilityCallbackProxy) OnChangeCapabilityConfigurationError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCapabilityCallback)
-	_data.WriteInt32(capability)
-	_data.WriteInt32(radioTech)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsCapabilityCallback, MethodIImsCapabilityCallbackOnChangeCapabilityConfigurationError)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(capability)
+		_data.WriteInt32(radioTech)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(capability)
+			case 1:
+				_data.WriteInt32(radioTech)
+			case 2:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCapabilityCallback, MethodIImsCapabilityCallbackOnChangeCapabilityConfigurationError)
 	if _err != nil {
@@ -97,7 +137,21 @@ func (p *ImsCapabilityCallbackProxy) OnCapabilitiesStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCapabilityCallback)
-	_data.WriteInt32(config)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsCapabilityCallback, MethodIImsCapabilityCallbackOnCapabilitiesStatusChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(config)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(config)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCapabilityCallback, MethodIImsCapabilityCallbackOnCapabilitiesStatusChanged)
 	if _err != nil {

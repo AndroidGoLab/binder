@@ -60,13 +60,34 @@ func (p *ExplicitHealthCheckServiceProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExplicitHealthCheckService)
-	if callback != nil {
-		_data.WriteInt32(1)
-		if _err := (*callback).MarshalParcel(_data); _err != nil {
-			return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceSetCallback)
+	_compiledDescs := []string{
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if callback != nil {
+			_data.WriteInt32(1)
+			if _err := (*callback).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if callback != nil {
+					_data.WriteInt32(1)
+					if _err := (*callback).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceSetCallback)
@@ -85,7 +106,21 @@ func (p *ExplicitHealthCheckServiceProxy) Request(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExplicitHealthCheckService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceRequest)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceRequest)
 	if _err != nil {
@@ -103,7 +138,21 @@ func (p *ExplicitHealthCheckServiceProxy) Cancel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExplicitHealthCheckService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceCancel)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceCancel)
 	if _err != nil {
@@ -121,9 +170,26 @@ func (p *ExplicitHealthCheckServiceProxy) GetSupportedPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExplicitHealthCheckService)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceGetSupportedPackages)
+	_compiledDescs := []string{
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceGetSupportedPackages)
@@ -142,9 +208,26 @@ func (p *ExplicitHealthCheckServiceProxy) GetRequestedPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExplicitHealthCheckService)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceGetRequestedPackages)
+	_compiledDescs := []string{
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceGetRequestedPackages)

@@ -240,7 +240,21 @@ func (p *AudioTrackProxy) AttachAuxEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
-	_data.WriteInt32(effectId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioTrack, MethodIAudioTrackAttachAuxEffect)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(effectId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(effectId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackAttachAuxEffect)
 	if _err != nil {
@@ -272,7 +286,21 @@ func (p *AudioTrackProxy) SetParameters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
-	_data.WriteString16(keyValuePairs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioTrack, MethodIAudioTrackSetParameters)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(keyValuePairs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(keyValuePairs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackSetParameters)
 	if _err != nil {
@@ -305,8 +333,25 @@ func (p *AudioTrackProxy) SelectPresentation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
-	_data.WriteInt32(presentationId)
-	_data.WriteInt32(programId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioTrack, MethodIAudioTrackSelectPresentation)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(presentationId)
+		_data.WriteInt32(programId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(presentationId)
+			case 1:
+				_data.WriteInt32(programId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackSelectPresentation)
 	if _err != nil {
@@ -406,13 +451,36 @@ func (p *AudioTrackProxy) ApplyVolumeShaper(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
-	_data.WriteInt32(1)
-	if _err := configuration.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioTrack, MethodIAudioTrackApplyVolumeShaper)
+	_compiledDescs := []string{
+		"Landroid/media/VolumeShaperConfiguration;",
+		"Landroid/media/VolumeShaperOperation;",
 	}
-	_data.WriteInt32(1)
-	if _err := operation.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := configuration.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := operation.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := configuration.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := operation.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackApplyVolumeShaper)
@@ -445,7 +513,21 @@ func (p *AudioTrackProxy) GetVolumeShaperState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioTrack, MethodIAudioTrackGetVolumeShaperState)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackGetVolumeShaperState)
 	if _err != nil {
@@ -512,7 +594,21 @@ func (p *AudioTrackProxy) SetDualMonoMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
-	_data.WriteInt32(int32(mode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioTrack, MethodIAudioTrackSetDualMonoMode)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioDualMonoMode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(mode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(mode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackSetDualMonoMode)
 	if _err != nil {
@@ -569,7 +665,21 @@ func (p *AudioTrackProxy) SetAudioDescriptionMixLevel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
-	_data.WriteFloat32(leveldB)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioTrack, MethodIAudioTrackSetAudioDescriptionMixLevel)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(leveldB)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(leveldB)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackSetAudioDescriptionMixLevel)
 	if _err != nil {
@@ -631,9 +741,26 @@ func (p *AudioTrackProxy) SetPlaybackRateParameters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
-	_data.WriteInt32(1)
-	if _err := playbackRate.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioTrack, MethodIAudioTrackSetPlaybackRateParameters)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioPlaybackRate;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := playbackRate.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := playbackRate.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackSetPlaybackRateParameters)

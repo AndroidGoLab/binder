@@ -51,20 +51,51 @@ func (p *CarrierPrivilegesCallbackProxy) OnCarrierPrivilegesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierPrivilegesCallback)
-	if privilegedPackageNames == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(privilegedPackageNames)))
-		for _, _item := range privilegedPackageNames {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierPrivilegesCallback, MethodICarrierPrivilegesCallbackOnCarrierPrivilegesChanged)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"[I",
 	}
-	if privilegedUids == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if privilegedPackageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(privilegedPackageNames)))
+			for _, _item := range privilegedPackageNames {
+				_data.WriteString16(_item)
+			}
+		}
+		if privilegedUids == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(privilegedUids)))
+			for _, _item := range privilegedUids {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(privilegedUids)))
-		for _, _item := range privilegedUids {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if privilegedPackageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(privilegedPackageNames)))
+					for _, _item := range privilegedPackageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				if privilegedUids == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(privilegedUids)))
+					for _, _item := range privilegedUids {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -85,8 +116,25 @@ func (p *CarrierPrivilegesCallbackProxy) OnCarrierServiceChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierPrivilegesCallback)
-	_data.WriteString16(carrierServicePackageName)
-	_data.WriteInt32(carrierServiceUid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierPrivilegesCallback, MethodICarrierPrivilegesCallbackOnCarrierServiceChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(carrierServicePackageName)
+		_data.WriteInt32(carrierServiceUid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(carrierServicePackageName)
+			case 1:
+				_data.WriteInt32(carrierServiceUid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierPrivilegesCallback, MethodICarrierPrivilegesCallbackOnCarrierServiceChanged)
 	if _err != nil {

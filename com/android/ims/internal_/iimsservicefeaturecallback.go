@@ -58,11 +58,31 @@ func (p *ImsServiceFeatureCallbackProxy) ImsFeatureCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceFeatureCallback)
-	_data.WriteInt32(1)
-	if _err := feature.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackImsFeatureCreated)
+	_compiledDescs := []string{
+		"Lcom/android/ims/ImsFeatureContainer;",
+		"I",
 	}
-	_data.WriteInt32(subId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := feature.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := feature.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackImsFeatureCreated)
 	if _err != nil {
@@ -80,7 +100,21 @@ func (p *ImsServiceFeatureCallbackProxy) ImsFeatureRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceFeatureCallback)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackImsFeatureRemoved)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackImsFeatureRemoved)
 	if _err != nil {
@@ -99,8 +133,25 @@ func (p *ImsServiceFeatureCallbackProxy) ImsStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceFeatureCallback)
-	_data.WriteInt32(status)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackImsStatusChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			case 1:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackImsStatusChanged)
 	if _err != nil {
@@ -118,7 +169,21 @@ func (p *ImsServiceFeatureCallbackProxy) UpdateCapabilities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceFeatureCallback)
-	_data.WriteInt64(capabilities)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackUpdateCapabilities)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(capabilities)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(capabilities)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackUpdateCapabilities)
 	if _err != nil {

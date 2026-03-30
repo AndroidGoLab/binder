@@ -59,7 +59,21 @@ func (p *VibratorControlServiceProxy) RegisterVibratorController(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorControlService)
-	binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorControlService, MethodIVibratorControlServiceRegisterVibratorController)
+	_compiledDescs := []string{
+		"Landroid/frameworks/vibrator/IVibratorController;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorControlService, MethodIVibratorControlServiceRegisterVibratorController)
 	if _err != nil {
@@ -77,7 +91,21 @@ func (p *VibratorControlServiceProxy) UnregisterVibratorController(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorControlService)
-	binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorControlService, MethodIVibratorControlServiceUnregisterVibratorController)
+	_compiledDescs := []string{
+		"Landroid/frameworks/vibrator/IVibratorController;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorControlService, MethodIVibratorControlServiceUnregisterVibratorController)
 	if _err != nil {
@@ -96,18 +124,45 @@ func (p *VibratorControlServiceProxy) SetVibrationParams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorControlService)
-	if params == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorControlService, MethodIVibratorControlServiceSetVibrationParams)
+	_compiledDescs := []string{
+		"[Landroid/frameworks/vibrator/VibrationParam;",
+		"Landroid/frameworks/vibrator/IVibratorController;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if params == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(params)))
+			for _, _item := range params {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(params)))
-		for _, _item := range params {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if params == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(params)))
+					for _, _item := range params {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorControlService, MethodIVibratorControlServiceSetVibrationParams)
 	if _err != nil {
@@ -126,8 +181,25 @@ func (p *VibratorControlServiceProxy) ClearVibrationParams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorControlService)
-	_data.WriteInt32(typesMask)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorControlService, MethodIVibratorControlServiceClearVibrationParams)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/frameworks/vibrator/IVibratorController;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(typesMask)
+		binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(typesMask)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorControlService, MethodIVibratorControlServiceClearVibrationParams)
 	if _err != nil {
@@ -146,15 +218,42 @@ func (p *VibratorControlServiceProxy) OnRequestVibrationParamsComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorControlService)
-	binder.WriteBinderToParcel(ctx, _data, requestToken, p.Remote.Transport())
-	if result == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVibratorControlService, MethodIVibratorControlServiceOnRequestVibrationParamsComplete)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"[Landroid/frameworks/vibrator/VibrationParam;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, requestToken, p.Remote.Transport())
+		if result == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(result)))
+			for _, _item := range result {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(result)))
-		for _, _item := range result {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, requestToken, p.Remote.Transport())
+			case 1:
+				if result == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(result)))
+					for _, _item := range result {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

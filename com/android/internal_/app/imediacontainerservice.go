@@ -61,8 +61,25 @@ func (p *MediaContainerServiceProxy) CopyPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
-	_data.WriteString16(packagePath)
-	binder.WriteBinderToParcel(ctx, _data, target.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaContainerService, MethodIMediaContainerServiceCopyPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/os/IParcelFileDescriptorFactory;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packagePath)
+		binder.WriteBinderToParcel(ctx, _data, target.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packagePath)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, target.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaContainerService, MethodIMediaContainerServiceCopyPackage)
 	if _err != nil {
@@ -96,9 +113,29 @@ func (p *MediaContainerServiceProxy) GetMinimalPackageInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
-	_data.WriteString16(packagePath)
-	_data.WriteInt32(flags)
-	_data.WriteString16(abiOverride)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaContainerService, MethodIMediaContainerServiceGetMinimalPackageInfo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packagePath)
+		_data.WriteInt32(flags)
+		_data.WriteString16(abiOverride)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packagePath)
+			case 1:
+				_data.WriteInt32(flags)
+			case 2:
+				_data.WriteString16(abiOverride)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaContainerService, MethodIMediaContainerServiceGetMinimalPackageInfo)
 	if _err != nil {
@@ -135,7 +172,21 @@ func (p *MediaContainerServiceProxy) GetObbInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
-	_data.WriteString16(filename)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaContainerService, MethodIMediaContainerServiceGetObbInfo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(filename)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(filename)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaContainerService, MethodIMediaContainerServiceGetObbInfo)
 	if _err != nil {
@@ -173,8 +224,25 @@ func (p *MediaContainerServiceProxy) CalculateInstalledSize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
-	_data.WriteString16(packagePath)
-	_data.WriteString16(abiOverride)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaContainerService, MethodIMediaContainerServiceCalculateInstalledSize)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packagePath)
+		_data.WriteString16(abiOverride)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packagePath)
+			case 1:
+				_data.WriteString16(abiOverride)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaContainerService, MethodIMediaContainerServiceCalculateInstalledSize)
 	if _err != nil {

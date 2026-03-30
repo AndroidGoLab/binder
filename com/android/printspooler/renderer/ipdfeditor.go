@@ -61,7 +61,21 @@ func (p *PdfEditorProxy) OpenDocument(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPdfEditor)
-	_data.WriteParcelFileDescriptor(source)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPdfEditor, MethodIPdfEditorOpenDocument)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(source)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(source)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfEditor, MethodIPdfEditorOpenDocument)
 	if _err != nil {
@@ -92,14 +106,38 @@ func (p *PdfEditorProxy) RemovePages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPdfEditor)
-	if pages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPdfEditor, MethodIPdfEditorRemovePages)
+	_compiledDescs := []string{
+		"[Landroid/print/PageRange;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if pages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(pages)))
+			for _, _item := range pages {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(pages)))
-		for _, _item := range pages {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if pages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(pages)))
+					for _, _item := range pages {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -129,9 +167,26 @@ func (p *PdfEditorProxy) ApplyPrintAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPdfEditor)
-	_data.WriteInt32(1)
-	if _err := attributes.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPdfEditor, MethodIPdfEditorApplyPrintAttributes)
+	_compiledDescs := []string{
+		"Landroid/print/PrintAttributes;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attributes.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attributes.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfEditor, MethodIPdfEditorApplyPrintAttributes)
@@ -159,7 +214,21 @@ func (p *PdfEditorProxy) Write(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPdfEditor)
-	_data.WriteParcelFileDescriptor(destination)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPdfEditor, MethodIPdfEditorWrite)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(destination)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(destination)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfEditor, MethodIPdfEditorWrite)
 	if _err != nil {

@@ -59,16 +59,43 @@ func (p *HintManagerProxy) CreateHintSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	if tids == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHintManager, MethodIHintManagerCreateHintSession)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"[I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		if tids == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(tids)))
+			for _, _item := range tids {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteInt64(durationNanos)
 	} else {
-		_data.WriteInt32(int32(len(tids)))
-		for _, _item := range tids {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				if tids == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(tids)))
+					for _, _item := range tids {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt64(durationNanos)
+			}
 		}
 	}
-	_data.WriteInt64(durationNanos)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintManager, MethodIHintManagerCreateHintSession)
 	if _err != nil {
@@ -131,13 +158,37 @@ func (p *HintManagerProxy) SetHintSessionThreads(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintManager)
-	binder.WriteBinderToParcel(ctx, _data, hintSession.AsBinder(), p.Remote.Transport())
-	if tids == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHintManager, MethodIHintManagerSetHintSessionThreads)
+	_compiledDescs := []string{
+		"Landroid/os/IHintSession;",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, hintSession.AsBinder(), p.Remote.Transport())
+		if tids == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(tids)))
+			for _, _item := range tids {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(tids)))
-		for _, _item := range tids {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, hintSession.AsBinder(), p.Remote.Transport())
+			case 1:
+				if tids == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(tids)))
+					for _, _item := range tids {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -167,7 +218,21 @@ func (p *HintManagerProxy) GetHintSessionThreadIds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintManager)
-	binder.WriteBinderToParcel(ctx, _data, hintSession.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHintManager, MethodIHintManagerGetHintSessionThreadIds)
+	_compiledDescs := []string{
+		"Landroid/os/IHintSession;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, hintSession.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, hintSession.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintManager, MethodIHintManagerGetHintSessionThreadIds)
 	if _err != nil {

@@ -51,13 +51,39 @@ func (p *SatelliteDatagramCallbackProxy) OnSatelliteDatagramReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteDatagramCallback)
-	_data.WriteInt64(datagramId)
-	_data.WriteInt32(1)
-	if _err := datagram.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatelliteDatagramCallback, MethodISatelliteDatagramCallbackOnSatelliteDatagramReceived)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/telephony/satellite/SatelliteDatagram;",
+		"I",
+		"Lcom/android/internal/telephony/IVoidConsumer;",
 	}
-	_data.WriteInt32(pendingCount)
-	// WARNING: param callback (type types.IVoidConsumer) cannot be serialized — type not resolved
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(datagramId)
+		_data.WriteInt32(1)
+		if _err := datagram.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(pendingCount)
+		// WARNING: param callback (type types.IVoidConsumer) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(datagramId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := datagram.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(pendingCount)
+			case 3:
+				// WARNING: param callback (type types.IVoidConsumer) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteDatagramCallback, MethodISatelliteDatagramCallbackOnSatelliteDatagramReceived)
 	if _err != nil {

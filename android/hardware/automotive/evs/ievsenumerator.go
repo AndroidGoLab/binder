@@ -86,7 +86,21 @@ func (p *EvsEnumeratorProxy) CloseCamera(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
-	binder.WriteBinderToParcel(ctx, _data, carCamera.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorCloseCamera)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/IEvsCamera;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, carCamera.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, carCamera.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorCloseCamera)
 	if _err != nil {
@@ -113,7 +127,21 @@ func (p *EvsEnumeratorProxy) CloseDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
-	binder.WriteBinderToParcel(ctx, _data, display.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorCloseDisplay)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/IEvsDisplay;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, display.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, display.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorCloseDisplay)
 	if _err != nil {
@@ -140,7 +168,21 @@ func (p *EvsEnumeratorProxy) CloseUltrasonicsArray(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
-	binder.WriteBinderToParcel(ctx, _data, evsUltrasonicsArray.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorCloseUltrasonicsArray)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/IEvsUltrasonicsArray;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, evsUltrasonicsArray.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, evsUltrasonicsArray.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorCloseUltrasonicsArray)
 	if _err != nil {
@@ -291,9 +333,26 @@ func (p *EvsEnumeratorProxy) GetStreamList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
-	_data.WriteInt32(1)
-	if _err := description.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetStreamList)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/CameraDesc;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := description.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := description.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetStreamList)
@@ -451,10 +510,30 @@ func (p *EvsEnumeratorProxy) OpenCamera(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
-	_data.WriteString16(cameraId)
-	_data.WriteInt32(1)
-	if _err := streamCfg.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorOpenCamera)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/automotive/evs/Stream;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+		_data.WriteInt32(1)
+		if _err := streamCfg.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := streamCfg.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorOpenCamera)
@@ -488,7 +567,21 @@ func (p *EvsEnumeratorProxy) OpenDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorOpenDisplay)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorOpenDisplay)
 	if _err != nil {
@@ -521,7 +614,21 @@ func (p *EvsEnumeratorProxy) OpenUltrasonicsArray(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
-	_data.WriteString16(ultrasonicsArrayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorOpenUltrasonicsArray)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(ultrasonicsArrayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(ultrasonicsArrayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorOpenUltrasonicsArray)
 	if _err != nil {
@@ -553,7 +660,21 @@ func (p *EvsEnumeratorProxy) RegisterStatusCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorRegisterStatusCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/IEvsEnumeratorStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorRegisterStatusCallback)
 	if _err != nil {
@@ -581,7 +702,21 @@ func (p *EvsEnumeratorProxy) GetDisplayStateById(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetDisplayStateById)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetDisplayStateById)
 	if _err != nil {

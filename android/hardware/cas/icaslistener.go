@@ -55,9 +55,29 @@ func (p *CasListenerProxy) OnEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICasListener)
-	_data.WriteInt32(event)
-	_data.WriteInt32(arg)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICasListener, MethodICasListenerOnEvent)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(event)
+		_data.WriteInt32(arg)
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(event)
+			case 1:
+				_data.WriteInt32(arg)
+			case 2:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICasListener, MethodICasListenerOnEvent)
 	if _err != nil {
@@ -87,10 +107,33 @@ func (p *CasListenerProxy) OnSessionEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICasListener)
-	_data.WriteByteArray(sessionId)
-	_data.WriteInt32(event)
-	_data.WriteInt32(arg)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICasListener, MethodICasListenerOnSessionEvent)
+	_compiledDescs := []string{
+		"[B",
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+		_data.WriteInt32(event)
+		_data.WriteInt32(arg)
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			case 1:
+				_data.WriteInt32(event)
+			case 2:
+				_data.WriteInt32(arg)
+			case 3:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICasListener, MethodICasListenerOnSessionEvent)
 	if _err != nil {
@@ -118,8 +161,25 @@ func (p *CasListenerProxy) OnStatusUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICasListener)
-	_data.WritePaddedByte(byte(event))
-	_data.WriteInt32(number)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICasListener, MethodICasListenerOnStatusUpdate)
+	_compiledDescs := []string{
+		"Landroid/hardware/cas/StatusEvent;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(event))
+		_data.WriteInt32(number)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(event))
+			case 1:
+				_data.WriteInt32(number)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICasListener, MethodICasListenerOnStatusUpdate)
 	if _err != nil {

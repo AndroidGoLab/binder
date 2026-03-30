@@ -51,18 +51,50 @@ func (p *GameSessionServiceProxy) Create(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameSessionService)
-	binder.WriteBinderToParcel(ctx, _data, gameSessionController.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := createGameSessionRequest.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGameSessionService, MethodIGameSessionServiceCreate)
+	_compiledDescs := []string{
+		"Landroid/service/games/IGameSessionController;",
+		"Landroid/service/games/CreateGameSessionRequest;",
+		"Landroid/service/games/GameSessionViewHostConfiguration;",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(1)
-	if _err := gameSessionViewHostConfiguration.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := createGameSessionResultFuture.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, gameSessionController.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := createGameSessionRequest.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := gameSessionViewHostConfiguration.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := createGameSessionResultFuture.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, gameSessionController.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := createGameSessionRequest.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := gameSessionViewHostConfiguration.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := createGameSessionResultFuture.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameSessionService, MethodIGameSessionServiceCreate)

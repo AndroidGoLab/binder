@@ -160,31 +160,83 @@ func (p *WallpaperManagerProxy) SetWallpaper(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteString16(name)
-	_data.WriteString16(_identity.PackageName)
-	if screenOrientations == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(screenOrientations)))
-		for _, _item := range screenOrientations {
-			_data.WriteInt32(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaper)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[I",
+		"Ljava/util/List;",
+		"Z",
+		"I",
+		"Landroid/app/IWallpaperManagerCallback;",
+		"I",
 	}
-	if crops == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteString16(_identity.PackageName)
+		if screenOrientations == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(screenOrientations)))
+			for _, _item := range screenOrientations {
+				_data.WriteInt32(_item)
+			}
+		}
+		if crops == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(crops)))
+			for _, _item := range crops {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+		_data.WriteBool(allowBackup)
+		_data.WriteInt32(which)
+		binder.WriteBinderToParcel(ctx, _data, completion.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(crops)))
-		for _, _item := range crops {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				if screenOrientations == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(screenOrientations)))
+					for _, _item := range screenOrientations {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 3:
+				if crops == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(crops)))
+					for _, _item := range crops {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 4:
+				_data.WriteBool(allowBackup)
+			case 5:
+				_data.WriteInt32(which)
+			case 6:
+				binder.WriteBinderToParcel(ctx, _data, completion.AsBinder(), p.Remote.Transport())
+			case 7:
+				_data.WriteInt32(_identity.UserID)
 			}
 		}
 	}
-	_data.WriteBool(allowBackup)
-	_data.WriteInt32(which)
-	binder.WriteBinderToParcel(ctx, _data, completion.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaper)
 	if _err != nil {
@@ -228,13 +280,39 @@ func (p *WallpaperManagerProxy) SetWallpaperComponentChecked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(1)
-	if _err := name.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaperComponentChecked)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
 	}
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(which)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := name.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(which)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := name.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(which)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaperComponentChecked)
 	if _err != nil {
@@ -261,9 +339,26 @@ func (p *WallpaperManagerProxy) SetWallpaperComponent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(1)
-	if _err := name.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaperComponent)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := name.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := name.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaperComponent)
@@ -296,10 +391,33 @@ func (p *WallpaperManagerProxy) GetWallpaper(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteString16(callingPkg)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(which)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaper)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/app/IWallpaperManagerCallback;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(which)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(which)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaper)
 	if _err != nil {
@@ -347,12 +465,41 @@ func (p *WallpaperManagerProxy) GetWallpaperWithFeature(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(_identity.AttributionTag)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(which)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(getCropped)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperWithFeature)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/app/IWallpaperManagerCallback;",
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(_identity.AttributionTag)
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(which)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(getCropped)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(which)
+			case 4:
+				_data.WriteInt32(_identity.UserID)
+			case 5:
+				_data.WriteBool(getCropped)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperWithFeature)
 	if _err != nil {
@@ -398,20 +545,53 @@ func (p *WallpaperManagerProxy) GetBitmapCrops(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	if displaySizes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetBitmapCrops)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"I",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if displaySizes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(displaySizes)))
+			for _, _item := range displaySizes {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+		_data.WriteInt32(which)
+		_data.WriteBool(originalBitmap)
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(displaySizes)))
-		for _, _item := range displaySizes {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if displaySizes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(displaySizes)))
+					for _, _item := range displaySizes {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(which)
+			case 2:
+				_data.WriteBool(originalBitmap)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
 			}
 		}
 	}
-	_data.WriteInt32(which)
-	_data.WriteBool(originalBitmap)
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetBitmapCrops)
 	if _err != nil {
@@ -455,37 +635,90 @@ func (p *WallpaperManagerProxy) GetFutureBitmapCrops(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(1)
-	if _err := bitmapSize.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetFutureBitmapCrops)
+	_compiledDescs := []string{
+		"Landroid/graphics/Point;",
+		"Ljava/util/List;",
+		"[I",
+		"Ljava/util/List;",
 	}
-	if displaySizes == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(displaySizes)))
-		for _, _item := range displaySizes {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := bitmapSize.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		if displaySizes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(displaySizes)))
+			for _, _item := range displaySizes {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
 			}
 		}
-	}
-	if screenOrientations == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(screenOrientations)))
-		for _, _item := range screenOrientations {
-			_data.WriteInt32(_item)
+		if screenOrientations == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(screenOrientations)))
+			for _, _item := range screenOrientations {
+				_data.WriteInt32(_item)
+			}
 		}
-	}
-	if crops == nil {
-		_data.WriteInt32(-1)
+		if crops == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(crops)))
+			for _, _item := range crops {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(crops)))
-		for _, _item := range crops {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := bitmapSize.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				if displaySizes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(displaySizes)))
+					for _, _item := range displaySizes {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 2:
+				if screenOrientations == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(screenOrientations)))
+					for _, _item := range screenOrientations {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 3:
+				if crops == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(crops)))
+					for _, _item := range crops {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -531,26 +764,66 @@ func (p *WallpaperManagerProxy) GetBitmapCrop(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(1)
-	if _err := bitmapSize.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetBitmapCrop)
+	_compiledDescs := []string{
+		"Landroid/graphics/Point;",
+		"[I",
+		"Ljava/util/List;",
 	}
-	if screenOrientations == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(screenOrientations)))
-		for _, _item := range screenOrientations {
-			_data.WriteInt32(_item)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := bitmapSize.MarshalParcel(_data); _err != nil {
+			return _result, _err
 		}
-	}
-	if crops == nil {
-		_data.WriteInt32(-1)
+		if screenOrientations == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(screenOrientations)))
+			for _, _item := range screenOrientations {
+				_data.WriteInt32(_item)
+			}
+		}
+		if crops == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(crops)))
+			for _, _item := range crops {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(crops)))
-		for _, _item := range crops {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := bitmapSize.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				if screenOrientations == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(screenOrientations)))
+					for _, _item := range screenOrientations {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 2:
+				if crops == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(crops)))
+					for _, _item := range crops {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -591,8 +864,25 @@ func (p *WallpaperManagerProxy) GetWallpaperIdForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(which)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperIdForUser)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(which)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(which)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperIdForUser)
 	if _err != nil {
@@ -624,7 +914,21 @@ func (p *WallpaperManagerProxy) GetWallpaperInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperInfo)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperInfo)
 	if _err != nil {
@@ -662,8 +966,25 @@ func (p *WallpaperManagerProxy) GetWallpaperInfoWithFlags(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(which)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperInfoWithFlags)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(which)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(which)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperInfoWithFlags)
 	if _err != nil {
@@ -700,7 +1021,21 @@ func (p *WallpaperManagerProxy) GetWallpaperInfoFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperInfoFile)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperInfoFile)
 	if _err != nil {
@@ -732,9 +1067,29 @@ func (p *WallpaperManagerProxy) ClearWallpaper(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(which)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerClearWallpaper)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(which)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(which)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerClearWallpaper)
 	if _err != nil {
@@ -762,7 +1117,21 @@ func (p *WallpaperManagerProxy) HasNamedWallpaper(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerHasNamedWallpaper)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerHasNamedWallpaper)
 	if _err != nil {
@@ -796,10 +1165,33 @@ func (p *WallpaperManagerProxy) SetDimensionHints(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(width)
-	_data.WriteInt32(height)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetDimensionHints)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(width)
+		_data.WriteInt32(height)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(width)
+			case 1:
+				_data.WriteInt32(height)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			case 3:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetDimensionHints)
 	if _err != nil {
@@ -827,7 +1219,21 @@ func (p *WallpaperManagerProxy) GetWidthHint(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWidthHint)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWidthHint)
 	if _err != nil {
@@ -859,7 +1265,21 @@ func (p *WallpaperManagerProxy) GetHeightHint(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetHeightHint)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetHeightHint)
 	if _err != nil {
@@ -892,12 +1312,35 @@ func (p *WallpaperManagerProxy) SetDisplayPadding(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(1)
-	if _err := padding.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetDisplayPadding)
+	_compiledDescs := []string{
+		"Landroid/graphics/Rect;",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(displayId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := padding.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := padding.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetDisplayPadding)
 	if _err != nil {
@@ -980,7 +1423,21 @@ func (p *WallpaperManagerProxy) IsWallpaperSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerIsWallpaperSupported)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerIsWallpaperSupported)
 	if _err != nil {
@@ -1012,7 +1469,21 @@ func (p *WallpaperManagerProxy) IsSetWallpaperAllowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerIsSetWallpaperAllowed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerIsSetWallpaperAllowed)
 	if _err != nil {
@@ -1045,8 +1516,25 @@ func (p *WallpaperManagerProxy) IsWallpaperBackupEligible(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(which)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerIsWallpaperBackupEligible)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(which)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(which)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerIsWallpaperBackupEligible)
 	if _err != nil {
@@ -1080,9 +1568,29 @@ func (p *WallpaperManagerProxy) GetWallpaperColors(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(which)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperColors)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(which)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(which)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperColors)
 	if _err != nil {
@@ -1122,21 +1630,57 @@ func (p *WallpaperManagerProxy) RemoveOnLocalColorsChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	if area == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerRemoveOnLocalColorsChangedListener)
+	_compiledDescs := []string{
+		"Landroid/app/ILocalWallpaperColorConsumer;",
+		"Ljava/util/List;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		if area == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(area)))
+			for _, _item := range area {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(which)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(displayId)
 	} else {
-		_data.WriteInt32(int32(len(area)))
-		for _, _item := range area {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				if area == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(area)))
+					for _, _item := range area {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				_data.WriteInt32(which)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				_data.WriteInt32(displayId)
 			}
 		}
 	}
-	_data.WriteInt32(which)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(displayId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerRemoveOnLocalColorsChangedListener)
 	if _err != nil {
@@ -1167,21 +1711,57 @@ func (p *WallpaperManagerProxy) AddOnLocalColorsChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	if regions == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerAddOnLocalColorsChangedListener)
+	_compiledDescs := []string{
+		"Landroid/app/ILocalWallpaperColorConsumer;",
+		"Ljava/util/List;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		if regions == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(regions)))
+			for _, _item := range regions {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(which)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(displayId)
 	} else {
-		_data.WriteInt32(int32(len(regions)))
-		for _, _item := range regions {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				if regions == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(regions)))
+					for _, _item := range regions {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				_data.WriteInt32(which)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				_data.WriteInt32(displayId)
 			}
 		}
 	}
-	_data.WriteInt32(which)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(displayId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerAddOnLocalColorsChangedListener)
 	if _err != nil {
@@ -1210,9 +1790,29 @@ func (p *WallpaperManagerProxy) RegisterWallpaperColorsCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerRegisterWallpaperColorsCallback)
+	_compiledDescs := []string{
+		"Landroid/app/IWallpaperManagerCallback;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerRegisterWallpaperColorsCallback)
 	if _err != nil {
@@ -1241,9 +1841,29 @@ func (p *WallpaperManagerProxy) UnregisterWallpaperColorsCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerUnregisterWallpaperColorsCallback)
+	_compiledDescs := []string{
+		"Landroid/app/IWallpaperManagerCallback;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerUnregisterWallpaperColorsCallback)
 	if _err != nil {
@@ -1271,8 +1891,25 @@ func (p *WallpaperManagerProxy) SetInAmbientMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteBool(inAmbientMode)
-	_data.WriteInt64(animationDuration)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetInAmbientMode)
+	_compiledDescs := []string{
+		"Z",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(inAmbientMode)
+		_data.WriteInt64(animationDuration)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(inAmbientMode)
+			case 1:
+				_data.WriteInt64(animationDuration)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetInAmbientMode)
 	if _err != nil {
@@ -1292,11 +1929,34 @@ func (p *WallpaperManagerProxy) NotifyWakingUp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(x)
-	_data.WriteInt32(y)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerNotifyWakingUp)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(x)
+		_data.WriteInt32(y)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(x)
+			case 1:
+				_data.WriteInt32(y)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerNotifyWakingUp)
@@ -1317,11 +1977,34 @@ func (p *WallpaperManagerProxy) NotifyGoingToSleep(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(x)
-	_data.WriteInt32(y)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerNotifyGoingToSleep)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(x)
+		_data.WriteInt32(y)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(x)
+			case 1:
+				_data.WriteInt32(y)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerNotifyGoingToSleep)
@@ -1349,7 +2032,21 @@ func (p *WallpaperManagerProxy) SetWallpaperDimAmount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteFloat32(dimAmount)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaperDimAmount)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(dimAmount)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(dimAmount)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaperDimAmount)
 	if _err != nil {
@@ -1428,7 +2125,21 @@ func (p *WallpaperManagerProxy) IsStaticWallpaper(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(which)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerIsStaticWallpaper)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(which)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(which)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerIsStaticWallpaper)
 	if _err != nil {

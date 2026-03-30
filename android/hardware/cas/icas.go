@@ -80,7 +80,21 @@ func (p *CasProxy) CloseSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	_data.WriteByteArray(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICas, MethodICasCloseSession)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasCloseSession)
 	if _err != nil {
@@ -139,8 +153,25 @@ func (p *CasProxy) OpenSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	_data.WriteInt32(int32(intent))
-	_data.WriteInt32(int32(mode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICas, MethodICasOpenSession)
+	_compiledDescs := []string{
+		"Landroid/hardware/cas/SessionIntent;",
+		"Landroid/hardware/cas/ScramblingMode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(intent))
+		_data.WriteInt32(int32(mode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(intent))
+			case 1:
+				_data.WriteInt32(int32(mode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasOpenSession)
 	if _err != nil {
@@ -172,8 +203,25 @@ func (p *CasProxy) ProcessEcm(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	_data.WriteByteArray(sessionId)
-	_data.WriteByteArray(ecm)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICas, MethodICasProcessEcm)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+		_data.WriteByteArray(ecm)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			case 1:
+				_data.WriteByteArray(ecm)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasProcessEcm)
 	if _err != nil {
@@ -200,7 +248,21 @@ func (p *CasProxy) ProcessEmm(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	_data.WriteByteArray(emm)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICas, MethodICasProcessEmm)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(emm)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(emm)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasProcessEmm)
 	if _err != nil {
@@ -227,7 +289,21 @@ func (p *CasProxy) Provision(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	_data.WriteString16(provisionString)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICas, MethodICasProvision)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(provisionString)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(provisionString)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasProvision)
 	if _err != nil {
@@ -255,8 +331,25 @@ func (p *CasProxy) RefreshEntitlements(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	_data.WriteInt32(refreshType)
-	_data.WriteByteArray(refreshData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICas, MethodICasRefreshEntitlements)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(refreshType)
+		_data.WriteByteArray(refreshData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(refreshType)
+			case 1:
+				_data.WriteByteArray(refreshData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasRefreshEntitlements)
 	if _err != nil {
@@ -310,9 +403,29 @@ func (p *CasProxy) SendEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	_data.WriteInt32(event)
-	_data.WriteInt32(arg)
-	_data.WriteByteArray(eventData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICas, MethodICasSendEvent)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(event)
+		_data.WriteInt32(arg)
+		_data.WriteByteArray(eventData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(event)
+			case 1:
+				_data.WriteInt32(arg)
+			case 2:
+				_data.WriteByteArray(eventData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasSendEvent)
 	if _err != nil {
@@ -342,10 +455,33 @@ func (p *CasProxy) SendSessionEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	_data.WriteByteArray(sessionId)
-	_data.WriteInt32(event)
-	_data.WriteInt32(arg)
-	_data.WriteByteArray(eventData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICas, MethodICasSendSessionEvent)
+	_compiledDescs := []string{
+		"[B",
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+		_data.WriteInt32(event)
+		_data.WriteInt32(arg)
+		_data.WriteByteArray(eventData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			case 1:
+				_data.WriteInt32(event)
+			case 2:
+				_data.WriteInt32(arg)
+			case 3:
+				_data.WriteByteArray(eventData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasSendSessionEvent)
 	if _err != nil {
@@ -372,7 +508,21 @@ func (p *CasProxy) SetPrivateData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	_data.WriteByteArray(pvtData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICas, MethodICasSetPrivateData)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(pvtData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(pvtData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasSetPrivateData)
 	if _err != nil {
@@ -400,8 +550,25 @@ func (p *CasProxy) SetSessionPrivateData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	_data.WriteByteArray(sessionId)
-	_data.WriteByteArray(pvtData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICas, MethodICasSetSessionPrivateData)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+		_data.WriteByteArray(pvtData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			case 1:
+				_data.WriteByteArray(pvtData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasSetSessionPrivateData)
 	if _err != nil {

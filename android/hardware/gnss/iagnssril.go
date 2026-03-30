@@ -64,7 +64,21 @@ func (p *AGnssRilProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnssRil)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAGnssRil, MethodIAGnssRilSetCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/IAGnssRilCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssRil, MethodIAGnssRilSetCallback)
 	if _err != nil {
@@ -91,9 +105,26 @@ func (p *AGnssRilProxy) SetRefLocation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnssRil)
-	_data.WriteInt32(1)
-	if _err := agnssReflocation.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAGnssRil, MethodIAGnssRilSetRefLocation)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/IAGnssRil/AGnssRefLocation;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := agnssReflocation.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := agnssReflocation.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssRil, MethodIAGnssRilSetRefLocation)
@@ -122,8 +153,25 @@ func (p *AGnssRilProxy) SetSetId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnssRil)
-	_data.WriteInt32(int32(type_))
-	_data.WriteString16(setid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAGnssRil, MethodIAGnssRilSetSetId)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/IAGnssRil/SetIdType;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteString16(setid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteString16(setid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssRil, MethodIAGnssRilSetSetId)
 	if _err != nil {
@@ -150,9 +198,26 @@ func (p *AGnssRilProxy) UpdateNetworkState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnssRil)
-	_data.WriteInt32(1)
-	if _err := attributes.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAGnssRil, MethodIAGnssRilUpdateNetworkState)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/IAGnssRil/NetworkAttributes;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attributes.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attributes.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssRil, MethodIAGnssRilUpdateNetworkState)
@@ -181,8 +246,25 @@ func (p *AGnssRilProxy) InjectNiSuplMessageData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnssRil)
-	_data.WriteByteArray(msgData)
-	_data.WriteInt32(slotIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAGnssRil, MethodIAGnssRilInjectNiSuplMessageData)
+	_compiledDescs := []string{
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(msgData)
+		_data.WriteInt32(slotIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(msgData)
+			case 1:
+				_data.WriteInt32(slotIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssRil, MethodIAGnssRilInjectNiSuplMessageData)
 	if _err != nil {

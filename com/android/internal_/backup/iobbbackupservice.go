@@ -54,10 +54,33 @@ func (p *ObbBackupServiceProxy) BackupObbs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIObbBackupService)
-	_data.WriteString16(packageName)
-	_data.WriteParcelFileDescriptor(data)
-	_data.WriteInt32(token)
-	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIObbBackupService, MethodIObbBackupServiceBackupObbs)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"I",
+		"Landroid/app/backup/IBackupManager;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteParcelFileDescriptor(data)
+		_data.WriteInt32(token)
+		binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteParcelFileDescriptor(data)
+			case 2:
+				_data.WriteInt32(token)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIObbBackupService, MethodIObbBackupServiceBackupObbs)
 	if _err != nil {
@@ -83,15 +106,53 @@ func (p *ObbBackupServiceProxy) RestoreObbFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIObbBackupService)
-	_data.WriteString16(pkgName)
-	_data.WriteParcelFileDescriptor(data)
-	_data.WriteInt64(fileSize)
-	_data.WriteInt32(type_)
-	_data.WriteString16(path)
-	_data.WriteInt64(mode)
-	_data.WriteInt64(mtime)
-	_data.WriteInt32(token)
-	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIObbBackupService, MethodIObbBackupServiceRestoreObbFile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"J",
+		"I",
+		"Ljava/lang/String;",
+		"J",
+		"J",
+		"I",
+		"Landroid/app/backup/IBackupManager;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkgName)
+		_data.WriteParcelFileDescriptor(data)
+		_data.WriteInt64(fileSize)
+		_data.WriteInt32(type_)
+		_data.WriteString16(path)
+		_data.WriteInt64(mode)
+		_data.WriteInt64(mtime)
+		_data.WriteInt32(token)
+		binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkgName)
+			case 1:
+				_data.WriteParcelFileDescriptor(data)
+			case 2:
+				_data.WriteInt64(fileSize)
+			case 3:
+				_data.WriteInt32(type_)
+			case 4:
+				_data.WriteString16(path)
+			case 5:
+				_data.WriteInt64(mode)
+			case 6:
+				_data.WriteInt64(mtime)
+			case 7:
+				_data.WriteInt32(token)
+			case 8:
+				binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIObbBackupService, MethodIObbBackupServiceRestoreObbFile)
 	if _err != nil {

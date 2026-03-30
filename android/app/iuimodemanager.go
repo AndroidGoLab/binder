@@ -125,7 +125,21 @@ func (p *UiModeManagerProxy) AddCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerAddCallback)
+	_compiledDescs := []string{
+		"Landroid/app/IUiModeManagerCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerAddCallback)
 	if _err != nil {
@@ -154,9 +168,29 @@ func (p *UiModeManagerProxy) EnableCarMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(priority)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerEnableCarMode)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(flags)
+		_data.WriteInt32(priority)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(flags)
+			case 1:
+				_data.WriteInt32(priority)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerEnableCarMode)
 	if _err != nil {
@@ -183,7 +217,21 @@ func (p *UiModeManagerProxy) DisableCarMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerDisableCarMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerDisableCarMode)
 	if _err != nil {
@@ -211,8 +259,25 @@ func (p *UiModeManagerProxy) DisableCarModeByCallingPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	_data.WriteInt32(flags)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerDisableCarModeByCallingPackage)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(flags)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(flags)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerDisableCarModeByCallingPackage)
 	if _err != nil {
@@ -269,7 +334,21 @@ func (p *UiModeManagerProxy) SetNightMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetNightMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetNightMode)
 	if _err != nil {
@@ -326,7 +405,21 @@ func (p *UiModeManagerProxy) SetNightModeCustomType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	_data.WriteInt32(nightModeCustomType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetNightModeCustomType)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nightModeCustomType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nightModeCustomType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetNightModeCustomType)
 	if _err != nil {
@@ -383,7 +476,21 @@ func (p *UiModeManagerProxy) SetAttentionModeThemeOverlay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	_data.WriteInt32(attentionModeThemeOverlayType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetAttentionModeThemeOverlay)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(attentionModeThemeOverlayType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(attentionModeThemeOverlayType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetAttentionModeThemeOverlay)
 	if _err != nil {
@@ -440,7 +547,21 @@ func (p *UiModeManagerProxy) SetApplicationNightMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetApplicationNightMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetApplicationNightMode)
 	if _err != nil {
@@ -529,8 +650,25 @@ func (p *UiModeManagerProxy) SetNightModeActivatedForCustomMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	_data.WriteInt32(nightModeCustom)
-	_data.WriteBool(active)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetNightModeActivatedForCustomMode)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nightModeCustom)
+		_data.WriteBool(active)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nightModeCustom)
+			case 1:
+				_data.WriteBool(active)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetNightModeActivatedForCustomMode)
 	if _err != nil {
@@ -562,7 +700,21 @@ func (p *UiModeManagerProxy) SetNightModeActivated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	_data.WriteBool(active)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetNightModeActivated)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(active)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(active)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetNightModeActivated)
 	if _err != nil {
@@ -623,7 +775,21 @@ func (p *UiModeManagerProxy) SetCustomNightModeStart(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	_data.WriteInt64(time)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetCustomNightModeStart)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(time)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(time)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetCustomNightModeStart)
 	if _err != nil {
@@ -680,7 +846,21 @@ func (p *UiModeManagerProxy) SetCustomNightModeEnd(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	_data.WriteInt64(time)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetCustomNightModeEnd)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(time)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(time)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerSetCustomNightModeEnd)
 	if _err != nil {
@@ -710,9 +890,29 @@ func (p *UiModeManagerProxy) RequestProjection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
-	_data.WriteInt32(projectionType)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerRequestProjection)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
+		_data.WriteInt32(projectionType)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(projectionType)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerRequestProjection)
 	if _err != nil {
@@ -745,8 +945,25 @@ func (p *UiModeManagerProxy) ReleaseProjection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	_data.WriteInt32(projectionType)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerReleaseProjection)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(projectionType)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(projectionType)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerReleaseProjection)
 	if _err != nil {
@@ -778,8 +995,25 @@ func (p *UiModeManagerProxy) AddOnProjectionStateChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(projectionType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerAddOnProjectionStateChangedListener)
+	_compiledDescs := []string{
+		"Landroid/app/IOnProjectionStateChangedListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(projectionType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(projectionType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerAddOnProjectionStateChangedListener)
 	if _err != nil {
@@ -806,7 +1040,21 @@ func (p *UiModeManagerProxy) RemoveOnProjectionStateChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerRemoveOnProjectionStateChangedListener)
+	_compiledDescs := []string{
+		"Landroid/app/IOnProjectionStateChangedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerRemoveOnProjectionStateChangedListener)
 	if _err != nil {
@@ -834,7 +1082,21 @@ func (p *UiModeManagerProxy) GetProjectingPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
-	_data.WriteInt32(projectionType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUiModeManager, MethodIUiModeManagerGetProjectingPackages)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(projectionType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(projectionType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerGetProjectingPackages)
 	if _err != nil {

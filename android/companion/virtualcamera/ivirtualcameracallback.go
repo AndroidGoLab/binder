@@ -58,14 +58,43 @@ func (p *VirtualCameraCallbackProxy) OnStreamConfigured(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraCallback)
-	_data.WriteInt32(streamId)
-	_data.WriteInt32(1)
-	if _err := surface.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualCameraCallback, MethodIVirtualCameraCallbackOnStreamConfigured)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/view/Surface;",
+		"I",
+		"I",
+		"Landroid/companion/virtualcamera/Format;",
 	}
-	_data.WriteInt32(width)
-	_data.WriteInt32(height)
-	_data.WriteInt32(int32(pixelFormat))
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(streamId)
+		_data.WriteInt32(1)
+		if _err := surface.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(width)
+		_data.WriteInt32(height)
+		_data.WriteInt32(int32(pixelFormat))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(streamId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := surface.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(width)
+			case 3:
+				_data.WriteInt32(height)
+			case 4:
+				_data.WriteInt32(int32(pixelFormat))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualCameraCallback, MethodIVirtualCameraCallbackOnStreamConfigured)
 	if _err != nil {
@@ -84,8 +113,25 @@ func (p *VirtualCameraCallbackProxy) OnProcessCaptureRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraCallback)
-	_data.WriteInt32(streamId)
-	_data.WriteInt32(frameId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualCameraCallback, MethodIVirtualCameraCallbackOnProcessCaptureRequest)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(streamId)
+		_data.WriteInt32(frameId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(streamId)
+			case 1:
+				_data.WriteInt32(frameId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualCameraCallback, MethodIVirtualCameraCallbackOnProcessCaptureRequest)
 	if _err != nil {
@@ -103,7 +149,21 @@ func (p *VirtualCameraCallbackProxy) OnStreamClosed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraCallback)
-	_data.WriteInt32(streamId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualCameraCallback, MethodIVirtualCameraCallbackOnStreamClosed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(streamId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(streamId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualCameraCallback, MethodIVirtualCameraCallbackOnStreamClosed)
 	if _err != nil {

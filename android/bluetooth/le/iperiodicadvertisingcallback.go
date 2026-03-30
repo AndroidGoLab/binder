@@ -65,15 +65,47 @@ func (p *PeriodicAdvertisingCallbackProxy) OnSyncEstablished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeriodicAdvertisingCallback)
-	_data.WriteInt32(syncHandle)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnSyncEstablished)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/bluetooth/BluetoothDevice;",
+		"I",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(advertisingSid)
-	_data.WriteInt32(skip)
-	_data.WriteInt32(timeout)
-	_data.WriteInt32(status)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(syncHandle)
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(advertisingSid)
+		_data.WriteInt32(skip)
+		_data.WriteInt32(timeout)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(syncHandle)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(advertisingSid)
+			case 3:
+				_data.WriteInt32(skip)
+			case 4:
+				_data.WriteInt32(timeout)
+			case 5:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnSyncEstablished)
 	if _err != nil {
@@ -91,9 +123,26 @@ func (p *PeriodicAdvertisingCallbackProxy) OnPeriodicAdvertisingReport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeriodicAdvertisingCallback)
-	_data.WriteInt32(1)
-	if _err := report.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnPeriodicAdvertisingReport)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/le/PeriodicAdvertisingReport;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := report.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := report.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnPeriodicAdvertisingReport)
@@ -112,7 +161,21 @@ func (p *PeriodicAdvertisingCallbackProxy) OnSyncLost(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeriodicAdvertisingCallback)
-	_data.WriteInt32(syncHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnSyncLost)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(syncHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(syncHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnSyncLost)
 	if _err != nil {
@@ -131,11 +194,31 @@ func (p *PeriodicAdvertisingCallbackProxy) OnSyncTransferred(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeriodicAdvertisingCallback)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnSyncTransferred)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"I",
 	}
-	_data.WriteInt32(status)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnSyncTransferred)
 	if _err != nil {
@@ -154,8 +237,25 @@ func (p *PeriodicAdvertisingCallbackProxy) OnBigInfoAdvertisingReport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeriodicAdvertisingCallback)
-	_data.WriteInt32(syncHandle)
-	_data.WriteBool(encrypted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnBigInfoAdvertisingReport)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(syncHandle)
+		_data.WriteBool(encrypted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(syncHandle)
+			case 1:
+				_data.WriteBool(encrypted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnBigInfoAdvertisingReport)
 	if _err != nil {

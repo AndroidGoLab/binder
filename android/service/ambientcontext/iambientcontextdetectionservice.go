@@ -58,18 +58,50 @@ func (p *AmbientContextDetectionServiceProxy) StartDetection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextDetectionService)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAmbientContextDetectionService, MethodIAmbientContextDetectionServiceStartDetection)
+	_compiledDescs := []string{
+		"Landroid/app/ambientcontext/AmbientContextEventRequest;",
+		"Ljava/lang/String;",
+		"Landroid/os/RemoteCallback;",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := detectionResultCallback.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := statusCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := detectionResultCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := statusCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := detectionResultCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := statusCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAmbientContextDetectionService, MethodIAmbientContextDetectionServiceStartDetection)
@@ -88,7 +120,21 @@ func (p *AmbientContextDetectionServiceProxy) StopDetection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextDetectionService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAmbientContextDetectionService, MethodIAmbientContextDetectionServiceStopDetection)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAmbientContextDetectionService, MethodIAmbientContextDetectionServiceStopDetection)
 	if _err != nil {
@@ -108,18 +154,48 @@ func (p *AmbientContextDetectionServiceProxy) QueryServiceStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextDetectionService)
-	if eventTypes == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(eventTypes)))
-		for _, _item := range eventTypes {
-			_data.WriteInt32(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAmbientContextDetectionService, MethodIAmbientContextDetectionServiceQueryServiceStatus)
+	_compiledDescs := []string{
+		"[I",
+		"Ljava/lang/String;",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if eventTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(eventTypes)))
+			for _, _item := range eventTypes {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if eventTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(eventTypes)))
+					for _, _item := range eventTypes {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAmbientContextDetectionService, MethodIAmbientContextDetectionServiceQueryServiceStatus)

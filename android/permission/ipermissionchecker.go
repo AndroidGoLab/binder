@@ -67,16 +67,51 @@ func (p *PermissionCheckerProxy) CheckPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionChecker)
-	_data.WriteString16(permission)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionChecker, MethodIPermissionCheckerCheckPermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/AttributionSourceState;",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
+		"Z",
+		"I",
 	}
-	_data.WriteString16(message)
-	_data.WriteBool(forDataDelivery)
-	_data.WriteBool(startDataDelivery)
-	_data.WriteBool(fromDatasource)
-	_data.WriteInt32(attributedOp)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(permission)
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(message)
+		_data.WriteBool(forDataDelivery)
+		_data.WriteBool(startDataDelivery)
+		_data.WriteBool(fromDatasource)
+		_data.WriteInt32(attributedOp)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(permission)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(message)
+			case 3:
+				_data.WriteBool(forDataDelivery)
+			case 4:
+				_data.WriteBool(startDataDelivery)
+			case 5:
+				_data.WriteBool(fromDatasource)
+			case 6:
+				_data.WriteInt32(attributedOp)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionChecker, MethodIPermissionCheckerCheckPermission)
 	if _err != nil {
@@ -109,12 +144,35 @@ func (p *PermissionCheckerProxy) FinishDataDelivery(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionChecker)
-	_data.WriteInt32(op)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionChecker, MethodIPermissionCheckerFinishDataDelivery)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/AttributionSourceState;",
+		"Z",
 	}
-	_data.WriteBool(fromDatasource)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(op)
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(fromDatasource)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(op)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteBool(fromDatasource)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionChecker, MethodIPermissionCheckerFinishDataDelivery)
 	if _err != nil {
@@ -146,14 +204,43 @@ func (p *PermissionCheckerProxy) CheckOp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionChecker)
-	_data.WriteInt32(op)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionChecker, MethodIPermissionCheckerCheckOp)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/AttributionSourceState;",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
 	}
-	_data.WriteString16(message)
-	_data.WriteBool(forDataDelivery)
-	_data.WriteBool(startDataDelivery)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(op)
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(message)
+		_data.WriteBool(forDataDelivery)
+		_data.WriteBool(startDataDelivery)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(op)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(message)
+			case 3:
+				_data.WriteBool(forDataDelivery)
+			case 4:
+				_data.WriteBool(startDataDelivery)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionChecker, MethodIPermissionCheckerCheckOp)
 	if _err != nil {

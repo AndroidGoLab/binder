@@ -58,8 +58,25 @@ func (p *AllocatorProxy) Allocate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAllocator)
-	_data.WriteByteArray(descriptor)
-	_data.WriteInt32(count)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAllocator, MethodIAllocatorAllocate)
+	_compiledDescs := []string{
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(descriptor)
+		_data.WriteInt32(count)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(descriptor)
+			case 1:
+				_data.WriteInt32(count)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAllocator, MethodIAllocatorAllocate)
 	if _err != nil {
@@ -97,11 +114,31 @@ func (p *AllocatorProxy) Allocate2(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAllocator)
-	_data.WriteInt32(1)
-	if _err := descriptor.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAllocator, MethodIAllocatorAllocate2)
+	_compiledDescs := []string{
+		"Landroid/hardware/graphics/allocator/BufferDescriptorInfo;",
+		"I",
 	}
-	_data.WriteInt32(count)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := descriptor.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(count)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := descriptor.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(count)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAllocator, MethodIAllocatorAllocate2)
 	if _err != nil {
@@ -138,9 +175,26 @@ func (p *AllocatorProxy) IsSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAllocator)
-	_data.WriteInt32(1)
-	if _err := descriptor.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAllocator, MethodIAllocatorIsSupported)
+	_compiledDescs := []string{
+		"Landroid/hardware/graphics/allocator/BufferDescriptorInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := descriptor.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := descriptor.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAllocator, MethodIAllocatorIsSupported)

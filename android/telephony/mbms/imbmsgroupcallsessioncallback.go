@@ -57,8 +57,25 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallSessionCallback)
-	_data.WriteInt32(errorCode)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnError)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			case 1:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnError)
 	if _err != nil {
@@ -77,15 +94,40 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnAvailableSaisUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallSessionCallback)
-	if currentSai == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(currentSai)))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnAvailableSaisUpdated)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Ljava/util/List;",
 	}
-	if availableSais == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if currentSai == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(currentSai)))
+		}
+		if availableSais == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(availableSais)))
+		}
 	} else {
-		_data.WriteInt32(int32(len(availableSais)))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if currentSai == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(currentSai)))
+				}
+			case 1:
+				if availableSais == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(availableSais)))
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnAvailableSaisUpdated)
@@ -105,8 +147,25 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnServiceInterfaceAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallSessionCallback)
-	_data.WriteString16(interfaceName)
-	_data.WriteInt32(index)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnServiceInterfaceAvailable)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(interfaceName)
+		_data.WriteInt32(index)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(interfaceName)
+			case 1:
+				_data.WriteInt32(index)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnServiceInterfaceAvailable)
 	if _err != nil {

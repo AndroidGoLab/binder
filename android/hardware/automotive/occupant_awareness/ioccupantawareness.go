@@ -132,7 +132,21 @@ func (p *OccupantAwarenessProxy) GetCapabilityForRole(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwareness)
-	_data.WriteInt32(int32(occupantRole))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessGetCapabilityForRole)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/occupant_awareness/Role;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(occupantRole))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(occupantRole))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessGetCapabilityForRole)
 	if _err != nil {
@@ -165,8 +179,25 @@ func (p *OccupantAwarenessProxy) GetState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwareness)
-	_data.WriteInt32(int32(occupantRole))
-	_data.WriteInt32(detectionCapability)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessGetState)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/occupant_awareness/Role;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(occupantRole))
+		_data.WriteInt32(detectionCapability)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(occupantRole))
+			case 1:
+				_data.WriteInt32(detectionCapability)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessGetState)
 	if _err != nil {
@@ -198,7 +229,21 @@ func (p *OccupantAwarenessProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwareness)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessSetCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/occupant_awareness/IOccupantAwarenessClientCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessSetCallback)
 	if _err != nil {

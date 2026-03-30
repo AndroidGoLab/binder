@@ -99,13 +99,39 @@ func (p *ImsServiceProxy) Open(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(serviceClass)
-	_data.WriteInt32(1)
-	if _err := incomingCallIntent.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceOpen)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/app/PendingIntent;",
+		"Lcom/android/ims/internal/IImsRegistrationListener;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(serviceClass)
+		_data.WriteInt32(1)
+		if _err := incomingCallIntent.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(serviceClass)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := incomingCallIntent.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceOpen)
 	if _err != nil {
@@ -136,7 +162,21 @@ func (p *ImsServiceProxy) Close(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(serviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceClose)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceClose)
 	if _err != nil {
@@ -166,9 +206,29 @@ func (p *ImsServiceProxy) IsConnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(serviceId)
-	_data.WriteInt32(serviceType)
-	_data.WriteInt32(callType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceIsConnected)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serviceId)
+		_data.WriteInt32(serviceType)
+		_data.WriteInt32(callType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serviceId)
+			case 1:
+				_data.WriteInt32(serviceType)
+			case 2:
+				_data.WriteInt32(callType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceIsConnected)
 	if _err != nil {
@@ -200,7 +260,21 @@ func (p *ImsServiceProxy) IsOpened(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(serviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceIsOpened)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceIsOpened)
 	if _err != nil {
@@ -232,8 +306,25 @@ func (p *ImsServiceProxy) SetRegistrationListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(serviceId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceSetRegistrationListener)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/ims/internal/IImsRegistrationListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serviceId)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serviceId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceSetRegistrationListener)
 	if _err != nil {
@@ -262,9 +353,29 @@ func (p *ImsServiceProxy) AddRegistrationListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(phoneId)
-	_data.WriteInt32(serviceClass)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceAddRegistrationListener)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Lcom/android/ims/internal/IImsRegistrationListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteInt32(serviceClass)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteInt32(serviceClass)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceAddRegistrationListener)
 	if _err != nil {
@@ -294,9 +405,29 @@ func (p *ImsServiceProxy) CreateCallProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(serviceId)
-	_data.WriteInt32(serviceType)
-	_data.WriteInt32(callType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceCreateCallProfile)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serviceId)
+		_data.WriteInt32(serviceType)
+		_data.WriteInt32(callType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serviceId)
+			case 1:
+				_data.WriteInt32(serviceType)
+			case 2:
+				_data.WriteInt32(callType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceCreateCallProfile)
 	if _err != nil {
@@ -335,12 +466,35 @@ func (p *ImsServiceProxy) CreateCallSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(serviceId)
-	_data.WriteInt32(1)
-	if _err := profile.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceCreateCallSession)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/ImsCallProfile;",
+		"Lcom/android/ims/internal/IImsCallSessionListener;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serviceId)
+		_data.WriteInt32(1)
+		if _err := profile.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serviceId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := profile.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceCreateCallSession)
 	if _err != nil {
@@ -374,8 +528,25 @@ func (p *ImsServiceProxy) GetPendingCallSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(serviceId)
-	_data.WriteString16(callId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceGetPendingCallSession)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serviceId)
+		_data.WriteString16(callId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serviceId)
+			case 1:
+				_data.WriteString16(callId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceGetPendingCallSession)
 	if _err != nil {
@@ -408,7 +579,21 @@ func (p *ImsServiceProxy) GetUtInterface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(serviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceGetUtInterface)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceGetUtInterface)
 	if _err != nil {
@@ -441,7 +626,21 @@ func (p *ImsServiceProxy) GetConfigInterface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(phoneId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceGetConfigInterface)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceGetConfigInterface)
 	if _err != nil {
@@ -473,7 +672,21 @@ func (p *ImsServiceProxy) TurnOnIms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(phoneId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceTurnOnIms)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceTurnOnIms)
 	if _err != nil {
@@ -500,7 +713,21 @@ func (p *ImsServiceProxy) TurnOffIms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(phoneId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceTurnOffIms)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceTurnOffIms)
 	if _err != nil {
@@ -528,7 +755,21 @@ func (p *ImsServiceProxy) GetEcbmInterface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(serviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceGetEcbmInterface)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceGetEcbmInterface)
 	if _err != nil {
@@ -562,11 +803,34 @@ func (p *ImsServiceProxy) SetUiTTYMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(serviceId)
-	_data.WriteInt32(uiTtyMode)
-	_data.WriteInt32(1)
-	if _err := onComplete.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceSetUiTTYMode)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/os/Message;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serviceId)
+		_data.WriteInt32(uiTtyMode)
+		_data.WriteInt32(1)
+		if _err := onComplete.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serviceId)
+			case 1:
+				_data.WriteInt32(uiTtyMode)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := onComplete.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceSetUiTTYMode)
@@ -595,7 +859,21 @@ func (p *ImsServiceProxy) GetMultiEndpointInterface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
-	_data.WriteInt32(serviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsService, MethodIImsServiceGetMultiEndpointInterface)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsService, MethodIImsServiceGetMultiEndpointInterface)
 	if _err != nil {

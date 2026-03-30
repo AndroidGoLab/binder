@@ -69,18 +69,45 @@ func (p *UsbCallbackProxy) NotifyPortStatusChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
-	if currentPortStatus == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyPortStatusChange)
+	_compiledDescs := []string{
+		"[Landroid/hardware/usb/PortStatus;",
+		"Landroid/hardware/usb/Status;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if currentPortStatus == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(currentPortStatus)))
+			for _, _item := range currentPortStatus {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(int32(retval))
 	} else {
-		_data.WriteInt32(int32(len(currentPortStatus)))
-		for _, _item := range currentPortStatus {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if currentPortStatus == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(currentPortStatus)))
+					for _, _item := range currentPortStatus {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(int32(retval))
 			}
 		}
 	}
-	_data.WriteInt32(int32(retval))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyPortStatusChange)
 	if _err != nil {
@@ -101,13 +128,39 @@ func (p *UsbCallbackProxy) NotifyRoleSwitchStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
-	_data.WriteString16(portName)
-	_data.WriteInt32(1)
-	if _err := newRole.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyRoleSwitchStatus)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/usb/PortRole;",
+		"Landroid/hardware/usb/Status;",
+		"J",
 	}
-	_data.WriteInt32(int32(retval))
-	_data.WriteInt64(transactionId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(portName)
+		_data.WriteInt32(1)
+		if _err := newRole.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(int32(retval))
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(portName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := newRole.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(int32(retval))
+			case 3:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyRoleSwitchStatus)
 	if _err != nil {
@@ -128,10 +181,33 @@ func (p *UsbCallbackProxy) NotifyEnableUsbDataStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
-	_data.WriteString16(portName)
-	_data.WriteBool(enable)
-	_data.WriteInt32(int32(retval))
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyEnableUsbDataStatus)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"Landroid/hardware/usb/Status;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(portName)
+		_data.WriteBool(enable)
+		_data.WriteInt32(int32(retval))
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(portName)
+			case 1:
+				_data.WriteBool(enable)
+			case 2:
+				_data.WriteInt32(int32(retval))
+			case 3:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyEnableUsbDataStatus)
 	if _err != nil {
@@ -151,9 +227,29 @@ func (p *UsbCallbackProxy) NotifyEnableUsbDataWhileDockedStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
-	_data.WriteString16(portName)
-	_data.WriteInt32(int32(retval))
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyEnableUsbDataWhileDockedStatus)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/usb/Status;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(portName)
+		_data.WriteInt32(int32(retval))
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(portName)
+			case 1:
+				_data.WriteInt32(int32(retval))
+			case 2:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyEnableUsbDataWhileDockedStatus)
 	if _err != nil {
@@ -174,10 +270,33 @@ func (p *UsbCallbackProxy) NotifyContaminantEnabledStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
-	_data.WriteString16(portName)
-	_data.WriteBool(enable)
-	_data.WriteInt32(int32(retval))
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyContaminantEnabledStatus)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"Landroid/hardware/usb/Status;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(portName)
+		_data.WriteBool(enable)
+		_data.WriteInt32(int32(retval))
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(portName)
+			case 1:
+				_data.WriteBool(enable)
+			case 2:
+				_data.WriteInt32(int32(retval))
+			case 3:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyContaminantEnabledStatus)
 	if _err != nil {
@@ -197,9 +316,29 @@ func (p *UsbCallbackProxy) NotifyQueryPortStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
-	_data.WriteString16(portName)
-	_data.WriteInt32(int32(retval))
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyQueryPortStatus)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/usb/Status;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(portName)
+		_data.WriteInt32(int32(retval))
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(portName)
+			case 1:
+				_data.WriteInt32(int32(retval))
+			case 2:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyQueryPortStatus)
 	if _err != nil {
@@ -220,10 +359,33 @@ func (p *UsbCallbackProxy) NotifyLimitPowerTransferStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
-	_data.WriteString16(portName)
-	_data.WriteBool(limit)
-	_data.WriteInt32(int32(retval))
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyLimitPowerTransferStatus)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"Landroid/hardware/usb/Status;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(portName)
+		_data.WriteBool(limit)
+		_data.WriteInt32(int32(retval))
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(portName)
+			case 1:
+				_data.WriteBool(limit)
+			case 2:
+				_data.WriteInt32(int32(retval))
+			case 3:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyLimitPowerTransferStatus)
 	if _err != nil {
@@ -243,9 +405,29 @@ func (p *UsbCallbackProxy) NotifyResetUsbPortStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
-	_data.WriteString16(portName)
-	_data.WriteInt32(int32(retval))
-	_data.WriteInt64(transactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyResetUsbPortStatus)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/usb/Status;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(portName)
+		_data.WriteInt32(int32(retval))
+		_data.WriteInt64(transactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(portName)
+			case 1:
+				_data.WriteInt32(int32(retval))
+			case 2:
+				_data.WriteInt64(transactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbCallback, MethodIUsbCallbackNotifyResetUsbPortStatus)
 	if _err != nil {

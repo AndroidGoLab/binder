@@ -60,7 +60,21 @@ func (p *SubscribeResponseCallbackProxy) OnCommandError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISubscribeResponseCallback)
-	_data.WriteInt32(code)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnCommandError)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnCommandError)
 	if _err != nil {
@@ -78,9 +92,26 @@ func (p *SubscribeResponseCallbackProxy) OnNetworkResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISubscribeResponseCallback)
-	_data.WriteInt32(1)
-	if _err := detail.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnNetworkResponse)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/SipDetails;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := detail.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := detail.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnNetworkResponse)
@@ -99,12 +130,33 @@ func (p *SubscribeResponseCallbackProxy) OnNotifyCapabilitiesUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISubscribeResponseCallback)
-	if pidfXmls == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnNotifyCapabilitiesUpdate)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if pidfXmls == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(pidfXmls)))
+			for _, _item := range pidfXmls {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(pidfXmls)))
-		for _, _item := range pidfXmls {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if pidfXmls == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(pidfXmls)))
+					for _, _item := range pidfXmls {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -124,14 +176,38 @@ func (p *SubscribeResponseCallbackProxy) OnResourceTerminated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISubscribeResponseCallback)
-	if uriTerminatedReason == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnResourceTerminated)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if uriTerminatedReason == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(uriTerminatedReason)))
+			for _, _item := range uriTerminatedReason {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(uriTerminatedReason)))
-		for _, _item := range uriTerminatedReason {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if uriTerminatedReason == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(uriTerminatedReason)))
+					for _, _item := range uriTerminatedReason {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -153,8 +229,25 @@ func (p *SubscribeResponseCallbackProxy) OnTerminated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISubscribeResponseCallback)
-	_data.WriteString16(reason)
-	_data.WriteInt64(retryAfterMilliseconds)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnTerminated)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(reason)
+		_data.WriteInt64(retryAfterMilliseconds)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(reason)
+			case 1:
+				_data.WriteInt64(retryAfterMilliseconds)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnTerminated)
 	if _err != nil {

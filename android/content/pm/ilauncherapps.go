@@ -171,8 +171,25 @@ func (p *LauncherAppsProxy) AddOnAppsChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsAddOnAppsChangedListener)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/IOnAppsChangedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsAddOnAppsChangedListener)
 	if _err != nil {
@@ -199,7 +216,21 @@ func (p *LauncherAppsProxy) RemoveOnAppsChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsRemoveOnAppsChangedListener)
+	_compiledDescs := []string{
+		"Landroid/content/pm/IOnAppsChangedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsRemoveOnAppsChangedListener)
 	if _err != nil {
@@ -229,11 +260,34 @@ func (p *LauncherAppsProxy) GetLauncherActivities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetLauncherActivities)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetLauncherActivities)
@@ -273,14 +327,40 @@ func (p *LauncherAppsProxy) ResolveLauncherActivityInternal(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := component.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsResolveLauncherActivityInternal)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := component.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := component.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsResolveLauncherActivityInternal)
@@ -322,24 +402,68 @@ func (p *LauncherAppsProxy) StartSessionDetailsActivityAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(1)
-	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsStartSessionDetailsActivityAsUser)
+	_compiledDescs := []string{
+		"Landroid/app/IApplicationThread;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"LPackageInstaller/SessionInfo;",
+		"Landroid/graphics/Rect;",
+		"Landroid/os/Bundle;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteInt32(1)
-	if _err := sourceBounds.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := opts.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(1)
+		if _err := sessionInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := sourceBounds.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := opts.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := sessionInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := sourceBounds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := opts.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsStartSessionDetailsActivityAsUser)
@@ -372,24 +496,68 @@ func (p *LauncherAppsProxy) StartActivityAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(1)
-	if _err := component.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsStartActivityAsUser)
+	_compiledDescs := []string{
+		"Landroid/app/IApplicationThread;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
+		"Landroid/graphics/Rect;",
+		"Landroid/os/Bundle;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteInt32(1)
-	if _err := sourceBounds.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := opts.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(1)
+		if _err := component.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := sourceBounds.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := opts.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := component.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := sourceBounds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := opts.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsStartActivityAsUser)
@@ -420,14 +588,40 @@ func (p *LauncherAppsProxy) GetActivityLaunchIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := component.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetActivityLaunchIntent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := component.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := component.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetActivityLaunchIntent)
@@ -465,9 +659,26 @@ func (p *LauncherAppsProxy) GetLauncherUserInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetLauncherUserInfo)
+	_compiledDescs := []string{
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetLauncherUserInfo)
@@ -505,9 +716,26 @@ func (p *LauncherAppsProxy) GetPreInstalledSystemPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetPreInstalledSystemPackages)
+	_compiledDescs := []string{
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetPreInstalledSystemPackages)
@@ -555,11 +783,34 @@ func (p *LauncherAppsProxy) GetAppMarketActivityIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetAppMarketActivityIntent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetAppMarketActivityIntent)
@@ -636,24 +887,68 @@ func (p *LauncherAppsProxy) ShowAppDetailsAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(1)
-	if _err := component.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsShowAppDetailsAsUser)
+	_compiledDescs := []string{
+		"Landroid/app/IApplicationThread;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
+		"Landroid/graphics/Rect;",
+		"Landroid/os/Bundle;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteInt32(1)
-	if _err := sourceBounds.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := opts.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(1)
+		if _err := component.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := sourceBounds.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := opts.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := component.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := sourceBounds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := opts.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsShowAppDetailsAsUser)
@@ -684,11 +979,34 @@ func (p *LauncherAppsProxy) IsPackageEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsIsPackageEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsIsPackageEnabled)
@@ -722,10 +1040,30 @@ func (p *LauncherAppsProxy) GetSuspendedPackageLauncherExtras(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetSuspendedPackageLauncherExtras)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetSuspendedPackageLauncherExtras)
@@ -765,14 +1103,40 @@ func (p *LauncherAppsProxy) IsActivityEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := component.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsIsActivityEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := component.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := component.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsIsActivityEnabled)
@@ -808,12 +1172,38 @@ func (p *LauncherAppsProxy) GetApplicationInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetApplicationInfo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetApplicationInfo)
@@ -853,11 +1243,34 @@ func (p *LauncherAppsProxy) GetAppUsageLimit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetAppUsageLimit)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetAppUsageLimit)
@@ -897,14 +1310,40 @@ func (p *LauncherAppsProxy) GetShortcuts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := query.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcuts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/ShortcutQueryWrapper;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := query.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := query.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcuts)
@@ -944,18 +1383,50 @@ func (p *LauncherAppsProxy) GetShortcutsAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := query.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcutsAsync)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/ShortcutQueryWrapper;",
+		"Landroid/os/UserHandle;",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := cb.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := query.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := cb.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := query.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := cb.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcutsAsync)
@@ -986,19 +1457,52 @@ func (p *LauncherAppsProxy) PinShortcuts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(packageName)
-	if shortcutIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(shortcutIds)))
-		for _, _item := range shortcutIds {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsPinShortcuts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(packageName)
+		if shortcutIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(shortcutIds)))
+			for _, _item := range shortcutIds {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				if shortcutIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(shortcutIds)))
+					for _, _item := range shortcutIds {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsPinShortcuts)
@@ -1032,19 +1536,57 @@ func (p *LauncherAppsProxy) StartShortcut(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(packageName)
-	_data.WriteString16(featureId)
-	_data.WriteString16(id)
-	_data.WriteInt32(1)
-	if _err := sourceBounds.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsStartShortcut)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/graphics/Rect;",
+		"Landroid/os/Bundle;",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := startActivityOptions.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(packageName)
+		_data.WriteString16(featureId)
+		_data.WriteString16(id)
+		_data.WriteInt32(1)
+		if _err := sourceBounds.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := startActivityOptions.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteString16(featureId)
+			case 3:
+				_data.WriteString16(id)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := sourceBounds.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := startActivityOptions.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 6:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsStartShortcut)
 	if _err != nil {
@@ -1078,10 +1620,33 @@ func (p *LauncherAppsProxy) GetShortcutIconResId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(packageName)
-	_data.WriteString16(id)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcutIconResId)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(packageName)
+		_data.WriteString16(id)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteString16(id)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcutIconResId)
 	if _err != nil {
@@ -1115,10 +1680,33 @@ func (p *LauncherAppsProxy) GetShortcutIconFd(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(packageName)
-	_data.WriteString16(id)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcutIconFd)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(packageName)
+		_data.WriteString16(id)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteString16(id)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcutIconFd)
 	if _err != nil {
@@ -1150,7 +1738,21 @@ func (p *LauncherAppsProxy) HasShortcutHostPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsHasShortcutHostPermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsHasShortcutHostPermission)
 	if _err != nil {
@@ -1183,10 +1785,30 @@ func (p *LauncherAppsProxy) ShouldHideFromSuggestions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsShouldHideFromSuggestions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsShouldHideFromSuggestions)
@@ -1221,11 +1843,34 @@ func (p *LauncherAppsProxy) GetShortcutConfigActivities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcutConfigActivities)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcutConfigActivities)
@@ -1265,14 +1910,40 @@ func (p *LauncherAppsProxy) GetShortcutConfigActivityIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := component.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcutConfigActivityIntent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := component.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := component.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcutConfigActivityIntent)
@@ -1314,16 +1985,48 @@ func (p *LauncherAppsProxy) GetShortcutIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(packageName)
-	_data.WriteString16(shortcutId)
-	_data.WriteInt32(1)
-	if _err := opts.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcutIntent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(packageName)
+		_data.WriteString16(shortcutId)
+		_data.WriteInt32(1)
+		if _err := opts.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteString16(shortcutId)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := opts.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcutIntent)
@@ -1361,8 +2064,25 @@ func (p *LauncherAppsProxy) RegisterPackageInstallerCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsRegisterPackageInstallerCallback)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/IPackageInstallerCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsRegisterPackageInstallerCallback)
 	if _err != nil {
@@ -1390,7 +2110,21 @@ func (p *LauncherAppsProxy) GetAllSessions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetAllSessions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetAllSessions)
 	if _err != nil {
@@ -1428,12 +2162,35 @@ func (p *LauncherAppsProxy) RegisterShortcutChangeCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := query.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsRegisterShortcutChangeCallback)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/ShortcutQueryWrapper;",
+		"Landroid/content/pm/IShortcutChangeCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := query.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := query.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsRegisterShortcutChangeCallback)
 	if _err != nil {
@@ -1461,8 +2218,25 @@ func (p *LauncherAppsProxy) UnregisterShortcutChangeCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsUnregisterShortcutChangeCallback)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/IShortcutChangeCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsUnregisterShortcutChangeCallback)
 	if _err != nil {
@@ -1493,21 +2267,57 @@ func (p *LauncherAppsProxy) CacheShortcuts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(packageName)
-	if shortcutIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsCacheShortcuts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"Landroid/os/UserHandle;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(packageName)
+		if shortcutIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(shortcutIds)))
+			for _, _item := range shortcutIds {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(cacheFlags)
 	} else {
-		_data.WriteInt32(int32(len(shortcutIds)))
-		for _, _item := range shortcutIds {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				if shortcutIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(shortcutIds)))
+					for _, _item := range shortcutIds {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(cacheFlags)
+			}
 		}
 	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(cacheFlags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsCacheShortcuts)
 	if _err != nil {
@@ -1538,21 +2348,57 @@ func (p *LauncherAppsProxy) UncacheShortcuts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(packageName)
-	if shortcutIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsUncacheShortcuts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"Landroid/os/UserHandle;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(packageName)
+		if shortcutIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(shortcutIds)))
+			for _, _item := range shortcutIds {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(cacheFlags)
 	} else {
-		_data.WriteInt32(int32(len(shortcutIds)))
-		for _, _item := range shortcutIds {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				if shortcutIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(shortcutIds)))
+					for _, _item := range shortcutIds {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(cacheFlags)
+			}
 		}
 	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(cacheFlags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsUncacheShortcuts)
 	if _err != nil {
@@ -1582,10 +2428,33 @@ func (p *LauncherAppsProxy) GetShortcutIconUri(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(packageName)
-	_data.WriteString16(shortcutId)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcutIconUri)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(packageName)
+		_data.WriteString16(shortcutId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteString16(shortcutId)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetShortcutIconUri)
 	if _err != nil {
@@ -1617,8 +2486,25 @@ func (p *LauncherAppsProxy) GetActivityOverrides(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsGetActivityOverrides)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsGetActivityOverrides)
 	if _err != nil {
@@ -1668,7 +2554,21 @@ func (p *LauncherAppsProxy) RegisterDumpCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsRegisterDumpCallback)
+	_compiledDescs := []string{
+		"Landroid/window/IDumpCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsRegisterDumpCallback)
 	if _err != nil {
@@ -1695,7 +2595,21 @@ func (p *LauncherAppsProxy) UnRegisterDumpCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsUnRegisterDumpCallback)
+	_compiledDescs := []string{
+		"Landroid/window/IDumpCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsUnRegisterDumpCallback)
 	if _err != nil {
@@ -1723,8 +2637,25 @@ func (p *LauncherAppsProxy) SetArchiveCompatibilityOptions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherApps)
-	_data.WriteBool(enableIconOverlay)
-	_data.WriteBool(enableUnarchivalConfirmation)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherApps, MethodILauncherAppsSetArchiveCompatibilityOptions)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enableIconOverlay)
+		_data.WriteBool(enableUnarchivalConfirmation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enableIconOverlay)
+			case 1:
+				_data.WriteBool(enableUnarchivalConfirmation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherApps, MethodILauncherAppsSetArchiveCompatibilityOptions)
 	if _err != nil {

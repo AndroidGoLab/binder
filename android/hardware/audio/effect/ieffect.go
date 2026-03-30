@@ -70,17 +70,44 @@ func (p *EffectProxy) Open(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
-	_data.WriteInt32(1)
-	if _err := common.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEffect, MethodIEffectOpen)
+	_compiledDescs := []string{
+		"LParameter/Common;",
+		"LParameter/Specific;",
 	}
-	if specific != nil {
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
 		_data.WriteInt32(1)
-		if _err := (*specific).MarshalParcel(_data); _err != nil {
+		if _err := common.MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
+		if specific != nil {
+			_data.WriteInt32(1)
+			if _err := (*specific).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := common.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				if specific != nil {
+					_data.WriteInt32(1)
+					if _err := (*specific).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectOpen)
@@ -177,7 +204,21 @@ func (p *EffectProxy) Command(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
-	_data.WriteInt32(int32(commandId))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEffect, MethodIEffectCommand)
+	_compiledDescs := []string{
+		"Landroid/hardware/audio/effect/CommandId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(commandId))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(commandId))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectCommand)
 	if _err != nil {
@@ -235,9 +276,26 @@ func (p *EffectProxy) SetParameter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
-	_data.WriteInt32(1)
-	if _err := param.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEffect, MethodIEffectSetParameter)
+	_compiledDescs := []string{
+		"Landroid/hardware/audio/effect/Parameter;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := param.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := param.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectSetParameter)
@@ -266,9 +324,26 @@ func (p *EffectProxy) GetParameter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
-	_data.WriteInt32(1)
-	if _err := paramId.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEffect, MethodIEffectGetParameter)
+	_compiledDescs := []string{
+		"LParameter/Id;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := paramId.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := paramId.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectGetParameter)

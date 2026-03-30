@@ -51,8 +51,25 @@ func (p *AttentionCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttentionCallback)
-	_data.WriteInt32(result)
-	_data.WriteInt64(timestamp)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAttentionCallback, MethodIAttentionCallbackOnSuccess)
+	_compiledDescs := []string{
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+		_data.WriteInt64(timestamp)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			case 1:
+				_data.WriteInt64(timestamp)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttentionCallback, MethodIAttentionCallbackOnSuccess)
 	if _err != nil {
@@ -70,7 +87,21 @@ func (p *AttentionCallbackProxy) OnFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttentionCallback)
-	_data.WriteInt32(error_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAttentionCallback, MethodIAttentionCallbackOnFailure)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(error_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(error_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttentionCallback, MethodIAttentionCallbackOnFailure)
 	if _err != nil {

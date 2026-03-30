@@ -51,14 +51,38 @@ func (p *ListFeaturesCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIListFeaturesCallback)
-	if result == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIListFeaturesCallback, MethodIListFeaturesCallbackOnSuccess)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if result == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(result)))
+			for _, _item := range result {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(result)))
-		for _, _item := range result {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if result == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(result)))
+					for _, _item := range result {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -90,11 +114,34 @@ func (p *ListFeaturesCallbackProxy) OnFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIListFeaturesCallback)
-	_data.WriteInt32(errorCode)
-	_data.WriteString16(errorMessage)
-	_data.WriteInt32(1)
-	if _err := errorParams.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIListFeaturesCallback, MethodIListFeaturesCallbackOnFailure)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/PersistableBundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+		_data.WriteString16(errorMessage)
+		_data.WriteInt32(1)
+		if _err := errorParams.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			case 1:
+				_data.WriteString16(errorMessage)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := errorParams.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIListFeaturesCallback, MethodIListFeaturesCallbackOnFailure)

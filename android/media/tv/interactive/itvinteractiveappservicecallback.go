@@ -49,9 +49,29 @@ func (p *TvInteractiveAppServiceCallbackProxy) OnStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppServiceCallback)
-	_data.WriteInt32(type_)
-	_data.WriteInt32(state)
-	_data.WriteInt32(error_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInteractiveAppServiceCallback, MethodITvInteractiveAppServiceCallbackOnStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(type_)
+		_data.WriteInt32(state)
+		_data.WriteInt32(error_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(type_)
+			case 1:
+				_data.WriteInt32(state)
+			case 2:
+				_data.WriteInt32(error_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppServiceCallback, MethodITvInteractiveAppServiceCallbackOnStateChanged)
 	if _err != nil {

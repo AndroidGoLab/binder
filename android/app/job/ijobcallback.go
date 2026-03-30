@@ -77,9 +77,29 @@ func (p *JobCallbackProxy) AcknowledgeGetTransferredDownloadBytesMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobCallback)
-	_data.WriteInt32(jobId)
-	_data.WriteInt32(workId)
-	_data.WriteInt64(transferredBytes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobCallback, MethodIJobCallbackAcknowledgeGetTransferredDownloadBytesMessage)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(jobId)
+		_data.WriteInt32(workId)
+		_data.WriteInt64(transferredBytes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(jobId)
+			case 1:
+				_data.WriteInt32(workId)
+			case 2:
+				_data.WriteInt64(transferredBytes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackAcknowledgeGetTransferredDownloadBytesMessage)
 	if _err != nil {
@@ -108,9 +128,29 @@ func (p *JobCallbackProxy) AcknowledgeGetTransferredUploadBytesMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobCallback)
-	_data.WriteInt32(jobId)
-	_data.WriteInt32(workId)
-	_data.WriteInt64(transferredBytes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobCallback, MethodIJobCallbackAcknowledgeGetTransferredUploadBytesMessage)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(jobId)
+		_data.WriteInt32(workId)
+		_data.WriteInt64(transferredBytes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(jobId)
+			case 1:
+				_data.WriteInt32(workId)
+			case 2:
+				_data.WriteInt64(transferredBytes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackAcknowledgeGetTransferredUploadBytesMessage)
 	if _err != nil {
@@ -138,8 +178,25 @@ func (p *JobCallbackProxy) AcknowledgeStartMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobCallback)
-	_data.WriteInt32(jobId)
-	_data.WriteBool(ongoing)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobCallback, MethodIJobCallbackAcknowledgeStartMessage)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(jobId)
+		_data.WriteBool(ongoing)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(jobId)
+			case 1:
+				_data.WriteBool(ongoing)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackAcknowledgeStartMessage)
 	if _err != nil {
@@ -167,8 +224,25 @@ func (p *JobCallbackProxy) AcknowledgeStopMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobCallback)
-	_data.WriteInt32(jobId)
-	_data.WriteBool(reschedule)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobCallback, MethodIJobCallbackAcknowledgeStopMessage)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(jobId)
+		_data.WriteBool(reschedule)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(jobId)
+			case 1:
+				_data.WriteBool(reschedule)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackAcknowledgeStopMessage)
 	if _err != nil {
@@ -196,7 +270,21 @@ func (p *JobCallbackProxy) DequeueWork(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobCallback)
-	_data.WriteInt32(jobId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobCallback, MethodIJobCallbackDequeueWork)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(jobId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(jobId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackDequeueWork)
 	if _err != nil {
@@ -234,8 +322,25 @@ func (p *JobCallbackProxy) CompleteWork(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobCallback)
-	_data.WriteInt32(jobId)
-	_data.WriteInt32(workId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobCallback, MethodIJobCallbackCompleteWork)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(jobId)
+		_data.WriteInt32(workId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(jobId)
+			case 1:
+				_data.WriteInt32(workId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackCompleteWork)
 	if _err != nil {
@@ -267,8 +372,25 @@ func (p *JobCallbackProxy) JobFinished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobCallback)
-	_data.WriteInt32(jobId)
-	_data.WriteBool(reschedule)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobCallback, MethodIJobCallbackJobFinished)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(jobId)
+		_data.WriteBool(reschedule)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(jobId)
+			case 1:
+				_data.WriteBool(reschedule)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackJobFinished)
 	if _err != nil {
@@ -298,13 +420,39 @@ func (p *JobCallbackProxy) UpdateEstimatedNetworkBytes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobCallback)
-	_data.WriteInt32(jobId)
-	_data.WriteInt32(1)
-	if _err := item.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobCallback, MethodIJobCallbackUpdateEstimatedNetworkBytes)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/app/job/JobWorkItem;",
+		"J",
+		"J",
 	}
-	_data.WriteInt64(downloadBytes)
-	_data.WriteInt64(uploadBytes)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(jobId)
+		_data.WriteInt32(1)
+		if _err := item.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt64(downloadBytes)
+		_data.WriteInt64(uploadBytes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(jobId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt64(downloadBytes)
+			case 3:
+				_data.WriteInt64(uploadBytes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackUpdateEstimatedNetworkBytes)
 	if _err != nil {
@@ -334,13 +482,39 @@ func (p *JobCallbackProxy) UpdateTransferredNetworkBytes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobCallback)
-	_data.WriteInt32(jobId)
-	_data.WriteInt32(1)
-	if _err := item.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobCallback, MethodIJobCallbackUpdateTransferredNetworkBytes)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/app/job/JobWorkItem;",
+		"J",
+		"J",
 	}
-	_data.WriteInt64(transferredDownloadBytes)
-	_data.WriteInt64(transferredUploadBytes)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(jobId)
+		_data.WriteInt32(1)
+		if _err := item.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt64(transferredDownloadBytes)
+		_data.WriteInt64(transferredUploadBytes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(jobId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt64(transferredDownloadBytes)
+			case 3:
+				_data.WriteInt64(transferredUploadBytes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackUpdateTransferredNetworkBytes)
 	if _err != nil {
@@ -370,13 +544,39 @@ func (p *JobCallbackProxy) SetNotification(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobCallback)
-	_data.WriteInt32(jobId)
-	_data.WriteInt32(notificationId)
-	_data.WriteInt32(1)
-	if _err := notification.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIJobCallback, MethodIJobCallbackSetNotification)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/app/Notification;",
+		"I",
 	}
-	_data.WriteInt32(jobEndNotificationPolicy)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(jobId)
+		_data.WriteInt32(notificationId)
+		_data.WriteInt32(1)
+		if _err := notification.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(jobEndNotificationPolicy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(jobId)
+			case 1:
+				_data.WriteInt32(notificationId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := notification.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(jobEndNotificationPolicy)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackSetNotification)
 	if _err != nil {

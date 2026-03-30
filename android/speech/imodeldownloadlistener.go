@@ -56,7 +56,21 @@ func (p *ModelDownloadListenerProxy) OnProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModelDownloadListener)
-	_data.WriteInt32(completedPercent)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIModelDownloadListener, MethodIModelDownloadListenerOnProgress)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(completedPercent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(completedPercent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModelDownloadListener, MethodIModelDownloadListenerOnProgress)
 	if _err != nil {
@@ -106,7 +120,21 @@ func (p *ModelDownloadListenerProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModelDownloadListener)
-	_data.WriteInt32(error_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIModelDownloadListener, MethodIModelDownloadListenerOnError)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(error_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(error_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModelDownloadListener, MethodIModelDownloadListenerOnError)
 	if _err != nil {

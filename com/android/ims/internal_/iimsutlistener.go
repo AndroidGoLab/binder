@@ -74,8 +74,25 @@ func (p *ImsUtListenerProxy) UtConfigurationUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationUpdated)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/IImsUt;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationUpdated)
 	if _err != nil {
@@ -95,11 +112,34 @@ func (p *ImsUtListenerProxy) UtConfigurationUpdateFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(id)
-	_data.WriteInt32(1)
-	if _err := error_.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationUpdateFailed)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/IImsUt;",
+		"I",
+		"Landroid/telephony/ims/ImsReasonInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(id)
+		_data.WriteInt32(1)
+		if _err := error_.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(id)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := error_.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationUpdateFailed)
@@ -120,11 +160,34 @@ func (p *ImsUtListenerProxy) UtConfigurationQueried(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(id)
-	_data.WriteInt32(1)
-	if _err := ssInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationQueried)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/IImsUt;",
+		"I",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(id)
+		_data.WriteInt32(1)
+		if _err := ssInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(id)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := ssInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationQueried)
@@ -145,11 +208,34 @@ func (p *ImsUtListenerProxy) UtConfigurationQueryFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(id)
-	_data.WriteInt32(1)
-	if _err := error_.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationQueryFailed)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/IImsUt;",
+		"I",
+		"Landroid/telephony/ims/ImsReasonInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(id)
+		_data.WriteInt32(1)
+		if _err := error_.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(id)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := error_.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationQueryFailed)
@@ -169,10 +255,30 @@ func (p *ImsUtListenerProxy) LineIdentificationSupplementaryServiceResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	_data.WriteInt32(id)
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUtListener, MethodIImsUtListenerLineIdentificationSupplementaryServiceResponse)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/ImsSsInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerLineIdentificationSupplementaryServiceResponse)
@@ -193,16 +299,46 @@ func (p *ImsUtListenerProxy) UtConfigurationCallBarringQueried(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(id)
-	if cbInfo == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationCallBarringQueried)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/IImsUt;",
+		"I",
+		"[Landroid/telephony/ims/ImsSsInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(id)
+		if cbInfo == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(cbInfo)))
+			for _, _item := range cbInfo {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(cbInfo)))
-		for _, _item := range cbInfo {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(id)
+			case 2:
+				if cbInfo == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(cbInfo)))
+					for _, _item := range cbInfo {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -225,16 +361,46 @@ func (p *ImsUtListenerProxy) UtConfigurationCallForwardQueried(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(id)
-	if cfInfo == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationCallForwardQueried)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/IImsUt;",
+		"I",
+		"[Landroid/telephony/ims/ImsCallForwardInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(id)
+		if cfInfo == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(cfInfo)))
+			for _, _item := range cfInfo {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(cfInfo)))
-		for _, _item := range cfInfo {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(id)
+			case 2:
+				if cfInfo == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(cfInfo)))
+					for _, _item := range cfInfo {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -257,16 +423,46 @@ func (p *ImsUtListenerProxy) UtConfigurationCallWaitingQueried(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(id)
-	if cwInfo == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationCallWaitingQueried)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/IImsUt;",
+		"I",
+		"[Landroid/telephony/ims/ImsSsInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(id)
+		if cwInfo == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(cwInfo)))
+			for _, _item := range cwInfo {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(cwInfo)))
-		for _, _item := range cwInfo {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(id)
+			case 2:
+				if cwInfo == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(cwInfo)))
+					for _, _item := range cwInfo {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -287,9 +483,26 @@ func (p *ImsUtListenerProxy) OnSupplementaryServiceIndication(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	_data.WriteInt32(1)
-	if _err := ssData.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsUtListener, MethodIImsUtListenerOnSupplementaryServiceIndication)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/ImsSsData;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := ssData.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := ssData.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerOnSupplementaryServiceIndication)

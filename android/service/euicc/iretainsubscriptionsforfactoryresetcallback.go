@@ -47,7 +47,21 @@ func (p *RetainSubscriptionsForFactoryResetCallbackProxy) OnComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRetainSubscriptionsForFactoryResetCallback)
-	_data.WriteInt32(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRetainSubscriptionsForFactoryResetCallback, MethodIRetainSubscriptionsForFactoryResetCallbackOnComplete)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRetainSubscriptionsForFactoryResetCallback, MethodIRetainSubscriptionsForFactoryResetCallbackOnComplete)
 	if _err != nil {

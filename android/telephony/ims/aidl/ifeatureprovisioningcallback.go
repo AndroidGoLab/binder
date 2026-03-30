@@ -52,9 +52,29 @@ func (p *FeatureProvisioningCallbackProxy) OnFeatureProvisioningChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureProvisioningCallback)
-	_data.WriteInt32(capability)
-	_data.WriteInt32(tech)
-	_data.WriteBool(isProvisioned)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFeatureProvisioningCallback, MethodIFeatureProvisioningCallbackOnFeatureProvisioningChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(capability)
+		_data.WriteInt32(tech)
+		_data.WriteBool(isProvisioned)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(capability)
+			case 1:
+				_data.WriteInt32(tech)
+			case 2:
+				_data.WriteBool(isProvisioned)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureProvisioningCallback, MethodIFeatureProvisioningCallbackOnFeatureProvisioningChanged)
 	if _err != nil {
@@ -74,9 +94,29 @@ func (p *FeatureProvisioningCallbackProxy) OnRcsFeatureProvisioningChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureProvisioningCallback)
-	_data.WriteInt32(capability)
-	_data.WriteInt32(tech)
-	_data.WriteBool(isProvisioned)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFeatureProvisioningCallback, MethodIFeatureProvisioningCallbackOnRcsFeatureProvisioningChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(capability)
+		_data.WriteInt32(tech)
+		_data.WriteBool(isProvisioned)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(capability)
+			case 1:
+				_data.WriteInt32(tech)
+			case 2:
+				_data.WriteBool(isProvisioned)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureProvisioningCallback, MethodIFeatureProvisioningCallbackOnRcsFeatureProvisioningChanged)
 	if _err != nil {

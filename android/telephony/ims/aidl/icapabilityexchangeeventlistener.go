@@ -58,7 +58,21 @@ func (p *CapabilityExchangeEventListenerProxy) OnRequestPublishCapabilities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICapabilityExchangeEventListener)
-	_data.WriteInt32(publishTriggerType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnRequestPublishCapabilities)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(publishTriggerType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(publishTriggerType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnRequestPublishCapabilities)
 	if _err != nil {
@@ -92,9 +106,26 @@ func (p *CapabilityExchangeEventListenerProxy) OnPublishUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICapabilityExchangeEventListener)
-	_data.WriteInt32(1)
-	if _err := details.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnPublishUpdated)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/SipDetails;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := details.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := details.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnPublishUpdated)
@@ -115,19 +146,49 @@ func (p *CapabilityExchangeEventListenerProxy) OnRemoteCapabilityRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICapabilityExchangeEventListener)
-	_data.WriteInt32(1)
-	if _err := contactUri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnRemoteCapabilityRequest)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"Ljava/util/List;",
+		"Landroid/telephony/ims/aidl/IOptionsRequestCallback;",
 	}
-	if remoteCapabilities == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := contactUri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if remoteCapabilities == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(remoteCapabilities)))
+			for _, _item := range remoteCapabilities {
+				_data.WriteString16(_item)
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(remoteCapabilities)))
-		for _, _item := range remoteCapabilities {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := contactUri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if remoteCapabilities == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(remoteCapabilities)))
+					for _, _item := range remoteCapabilities {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnRemoteCapabilityRequest)
 	if _err != nil {

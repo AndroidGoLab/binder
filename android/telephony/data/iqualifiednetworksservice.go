@@ -57,8 +57,25 @@ func (p *QualifiedNetworksServiceProxy) CreateNetworkAvailabilityProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksService)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceCreateNetworkAvailabilityProvider)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/data/IQualifiedNetworksServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceCreateNetworkAvailabilityProvider)
 	if _err != nil {
@@ -76,7 +93,21 @@ func (p *QualifiedNetworksServiceProxy) RemoveNetworkAvailabilityProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksService)
-	_data.WriteInt32(slotId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceRemoveNetworkAvailabilityProvider)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceRemoveNetworkAvailabilityProvider)
 	if _err != nil {
@@ -95,15 +126,42 @@ func (p *QualifiedNetworksServiceProxy) ReportThrottleStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksService)
-	_data.WriteInt32(slotId)
-	if statuses == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceReportThrottleStatusChanged)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		if statuses == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(statuses)))
+			for _, _item := range statuses {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(statuses)))
-		for _, _item := range statuses {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				if statuses == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(statuses)))
+					for _, _item := range statuses {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -125,8 +183,25 @@ func (p *QualifiedNetworksServiceProxy) ReportEmergencyDataNetworkPreferredTrans
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksService)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(transportType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceReportEmergencyDataNetworkPreferredTransportChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(transportType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(transportType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceReportEmergencyDataNetworkPreferredTransportChanged)
 	if _err != nil {

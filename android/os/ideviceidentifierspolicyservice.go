@@ -81,8 +81,25 @@ func (p *DeviceIdentifiersPolicyServiceProxy) GetSerialForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdentifiersPolicyService)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceIdentifiersPolicyService, MethodIDeviceIdentifiersPolicyServiceGetSerialForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdentifiersPolicyService, MethodIDeviceIdentifiersPolicyServiceGetSerialForPackage)
 	if _err != nil {

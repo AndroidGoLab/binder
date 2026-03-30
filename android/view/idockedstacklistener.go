@@ -59,7 +59,21 @@ func (p *DockedStackListenerProxy) OnDividerVisibilityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
-	_data.WriteBool(visible)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnDividerVisibilityChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(visible)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(visible)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnDividerVisibilityChanged)
 	if _err != nil {
@@ -77,7 +91,21 @@ func (p *DockedStackListenerProxy) OnDockedStackExistsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
-	_data.WriteBool(exists)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnDockedStackExistsChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(exists)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(exists)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnDockedStackExistsChanged)
 	if _err != nil {
@@ -97,9 +125,29 @@ func (p *DockedStackListenerProxy) OnDockedStackMinimizedChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
-	_data.WriteBool(minimized)
-	_data.WriteInt64(animDuration)
-	_data.WriteBool(isHomeStackResizable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnDockedStackMinimizedChanged)
+	_compiledDescs := []string{
+		"Z",
+		"J",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(minimized)
+		_data.WriteInt64(animDuration)
+		_data.WriteBool(isHomeStackResizable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(minimized)
+			case 1:
+				_data.WriteInt64(animDuration)
+			case 2:
+				_data.WriteBool(isHomeStackResizable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnDockedStackMinimizedChanged)
 	if _err != nil {
@@ -118,8 +166,25 @@ func (p *DockedStackListenerProxy) OnAdjustedForImeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
-	_data.WriteBool(adjustedForIme)
-	_data.WriteInt64(animDuration)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnAdjustedForImeChanged)
+	_compiledDescs := []string{
+		"Z",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(adjustedForIme)
+		_data.WriteInt64(animDuration)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(adjustedForIme)
+			case 1:
+				_data.WriteInt64(animDuration)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnAdjustedForImeChanged)
 	if _err != nil {
@@ -137,7 +202,21 @@ func (p *DockedStackListenerProxy) OnDockSideChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
-	_data.WriteInt32(newDockSide)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnDockSideChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(newDockSide)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(newDockSide)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnDockSideChanged)
 	if _err != nil {

@@ -50,14 +50,38 @@ func (p *EvsCameraStreamProxy) DeliverFrame(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCameraStream)
-	if buffer == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsCameraStream, MethodIEvsCameraStreamDeliverFrame)
+	_compiledDescs := []string{
+		"[Landroid/hardware/automotive/evs/BufferDesc;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if buffer == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(buffer)))
+			for _, _item := range buffer {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(buffer)))
-		for _, _item := range buffer {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if buffer == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(buffer)))
+					for _, _item := range buffer {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -78,9 +102,26 @@ func (p *EvsCameraStreamProxy) Notify(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCameraStream)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsCameraStream, MethodIEvsCameraStreamNotify)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/EvsEventDesc;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCameraStream, MethodIEvsCameraStreamNotify)

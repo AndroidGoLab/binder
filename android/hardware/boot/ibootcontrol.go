@@ -204,7 +204,21 @@ func (p *BootControlProxy) GetSuffix(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
-	_data.WriteInt32(slot)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBootControl, MethodIBootControlGetSuffix)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slot)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slot)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBootControl, MethodIBootControlGetSuffix)
 	if _err != nil {
@@ -236,7 +250,21 @@ func (p *BootControlProxy) IsSlotBootable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
-	_data.WriteInt32(slot)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBootControl, MethodIBootControlIsSlotBootable)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slot)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slot)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBootControl, MethodIBootControlIsSlotBootable)
 	if _err != nil {
@@ -268,7 +296,21 @@ func (p *BootControlProxy) IsSlotMarkedSuccessful(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
-	_data.WriteInt32(slot)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBootControl, MethodIBootControlIsSlotMarkedSuccessful)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slot)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slot)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBootControl, MethodIBootControlIsSlotMarkedSuccessful)
 	if _err != nil {
@@ -324,7 +366,21 @@ func (p *BootControlProxy) SetActiveBootSlot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
-	_data.WriteInt32(slot)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBootControl, MethodIBootControlSetActiveBootSlot)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slot)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slot)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBootControl, MethodIBootControlSetActiveBootSlot)
 	if _err != nil {
@@ -351,7 +407,21 @@ func (p *BootControlProxy) SetSlotAsUnbootable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
-	_data.WriteInt32(slot)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBootControl, MethodIBootControlSetSlotAsUnbootable)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slot)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slot)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBootControl, MethodIBootControlSetSlotAsUnbootable)
 	if _err != nil {
@@ -378,7 +448,21 @@ func (p *BootControlProxy) SetSnapshotMergeStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
-	_data.WriteInt32(int32(status))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBootControl, MethodIBootControlSetSnapshotMergeStatus)
+	_compiledDescs := []string{
+		"Landroid/hardware/boot/MergeStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(status))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(status))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBootControl, MethodIBootControlSetSnapshotMergeStatus)
 	if _err != nil {

@@ -77,7 +77,21 @@ func (p *TaskOrganizerControllerProxy) RegisterTaskOrganizer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerRegisterTaskOrganizer)
+	_compiledDescs := []string{
+		"Landroid/window/ITaskOrganizer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerRegisterTaskOrganizer)
 	if _err != nil {
@@ -113,7 +127,21 @@ func (p *TaskOrganizerControllerProxy) UnregisterTaskOrganizer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerUnregisterTaskOrganizer)
+	_compiledDescs := []string{
+		"Landroid/window/ITaskOrganizer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerUnregisterTaskOrganizer)
 	if _err != nil {
@@ -143,10 +171,33 @@ func (p *TaskOrganizerControllerProxy) CreateRootTask(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(windowingMode)
-	binder.WriteBinderToParcel(ctx, _data, launchCookie, p.Remote.Transport())
-	_data.WriteBool(removeWithTaskOrganizer)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerCreateRootTask)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/os/IBinder;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(windowingMode)
+		binder.WriteBinderToParcel(ctx, _data, launchCookie, p.Remote.Transport())
+		_data.WriteBool(removeWithTaskOrganizer)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteInt32(windowingMode)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, launchCookie, p.Remote.Transport())
+			case 3:
+				_data.WriteBool(removeWithTaskOrganizer)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerCreateRootTask)
 	if _err != nil {
@@ -174,9 +225,26 @@ func (p *TaskOrganizerControllerProxy) DeleteRootTask(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
-	_data.WriteInt32(1)
-	if _err := task.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerDeleteRootTask)
+	_compiledDescs := []string{
+		"Landroid/window/WindowContainerToken;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := task.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := task.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerDeleteRootTask)
@@ -210,16 +278,43 @@ func (p *TaskOrganizerControllerProxy) GetChildTasks(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
-	_data.WriteInt32(1)
-	if _err := parent.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerGetChildTasks)
+	_compiledDescs := []string{
+		"Landroid/window/WindowContainerToken;",
+		"[I",
 	}
-	if activityTypes == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := parent.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		if activityTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(activityTypes)))
+			for _, _item := range activityTypes {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(activityTypes)))
-		for _, _item := range activityTypes {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := parent.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				if activityTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(activityTypes)))
+					for _, _item := range activityTypes {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -286,13 +381,37 @@ func (p *TaskOrganizerControllerProxy) GetRootTasks(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
-	_data.WriteInt32(displayId)
-	if activityTypes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerGetRootTasks)
+	_compiledDescs := []string{
+		"I",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		if activityTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(activityTypes)))
+			for _, _item := range activityTypes {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(activityTypes)))
-		for _, _item := range activityTypes {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				if activityTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(activityTypes)))
+					for _, _item := range activityTypes {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -358,7 +477,21 @@ func (p *TaskOrganizerControllerProxy) GetImeTarget(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
-	_data.WriteInt32(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerGetImeTarget)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerGetImeTarget)
 	if _err != nil {
@@ -395,11 +528,31 @@ func (p *TaskOrganizerControllerProxy) SetInterceptBackPressedOnTaskRoot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
-	_data.WriteInt32(1)
-	if _err := task.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerSetInterceptBackPressedOnTaskRoot)
+	_compiledDescs := []string{
+		"Landroid/window/WindowContainerToken;",
+		"Z",
 	}
-	_data.WriteBool(interceptBackPressed)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := task.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(interceptBackPressed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := task.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(interceptBackPressed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerSetInterceptBackPressedOnTaskRoot)
 	if _err != nil {
@@ -426,9 +579,26 @@ func (p *TaskOrganizerControllerProxy) RestartTaskTopActivityProcessIfVisible(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
-	_data.WriteInt32(1)
-	if _err := task.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerRestartTaskTopActivityProcessIfVisible)
+	_compiledDescs := []string{
+		"Landroid/window/WindowContainerToken;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := task.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := task.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerRestartTaskTopActivityProcessIfVisible)
@@ -457,11 +627,31 @@ func (p *TaskOrganizerControllerProxy) UpdateCameraCompatControlState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
-	_data.WriteInt32(1)
-	if _err := task.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerUpdateCameraCompatControlState)
+	_compiledDescs := []string{
+		"Landroid/window/WindowContainerToken;",
+		"I",
 	}
-	_data.WriteInt32(state)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := task.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := task.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerUpdateCameraCompatControlState)
 	if _err != nil {

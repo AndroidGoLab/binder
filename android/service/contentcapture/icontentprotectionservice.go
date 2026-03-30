@@ -51,9 +51,26 @@ func (p *ContentProtectionServiceProxy) OnLoginDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentProtectionService)
-	_data.WriteInt32(1)
-	if _err := events.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentProtectionService, MethodIContentProtectionServiceOnLoginDetected)
+	_compiledDescs := []string{
+		"Landroid/content/pm/ParceledListSlice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := events.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := events.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentProtectionService, MethodIContentProtectionServiceOnLoginDetected)
@@ -72,7 +89,21 @@ func (p *ContentProtectionServiceProxy) OnUpdateAllowlistRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentProtectionService)
-	binder.WriteBinderToParcel(ctx, _data, callback, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentProtectionService, MethodIContentProtectionServiceOnUpdateAllowlistRequest)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentProtectionService, MethodIContentProtectionServiceOnUpdateAllowlistRequest)
 	if _err != nil {

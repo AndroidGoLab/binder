@@ -53,9 +53,26 @@ func (p *GetKeyCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetKeyCallback)
-	_data.WriteInt32(1)
-	if _err := key.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGetKeyCallback, MethodIGetKeyCallbackOnSuccess)
+	_compiledDescs := []string{
+		"Landroid/security/rkp/RemotelyProvisionedKey;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := key.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := key.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetKeyCallback, MethodIGetKeyCallbackOnSuccess)
@@ -91,8 +108,25 @@ func (p *GetKeyCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetKeyCallback)
-	_data.WriteInt32(int32(error_))
-	_data.WriteString16(description)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGetKeyCallback, MethodIGetKeyCallbackOnError)
+	_compiledDescs := []string{
+		"Landroid/frameworks/cameraservice/device/ErrorCode;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(error_))
+		_data.WriteString16(description)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(error_))
+			case 1:
+				_data.WriteString16(description)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetKeyCallback, MethodIGetKeyCallbackOnError)
 	if _err != nil {

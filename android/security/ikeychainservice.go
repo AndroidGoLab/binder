@@ -135,7 +135,21 @@ func (p *KeyChainServiceProxy) RequestPrivateKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceRequestPrivateKey)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceRequestPrivateKey)
 	if _err != nil {
@@ -167,7 +181,21 @@ func (p *KeyChainServiceProxy) GetCertificate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGetCertificate)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGetCertificate)
 	if _err != nil {
@@ -199,7 +227,21 @@ func (p *KeyChainServiceProxy) GetCaCertificates(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGetCaCertificates)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGetCaCertificates)
 	if _err != nil {
@@ -231,7 +273,21 @@ func (p *KeyChainServiceProxy) IsUserSelectable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceIsUserSelectable)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceIsUserSelectable)
 	if _err != nil {
@@ -263,8 +319,25 @@ func (p *KeyChainServiceProxy) SetUserSelectable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(alias)
-	_data.WriteBool(isUserSelectable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceSetUserSelectable)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+		_data.WriteBool(isUserSelectable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			case 1:
+				_data.WriteBool(isUserSelectable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceSetUserSelectable)
 	if _err != nil {
@@ -293,10 +366,30 @@ func (p *KeyChainServiceProxy) GenerateKeyPair(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(algorithm)
-	_data.WriteInt32(1)
-	if _err := spec.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGenerateKeyPair)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/security/keystore/ParcelableKeyGenParameterSpec;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(algorithm)
+		_data.WriteInt32(1)
+		if _err := spec.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(algorithm)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := spec.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGenerateKeyPair)
@@ -331,9 +424,29 @@ func (p *KeyChainServiceProxy) SetKeyPairCertificate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(alias)
-	_data.WriteByteArray(userCert)
-	_data.WriteByteArray(certChain)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceSetKeyPairCertificate)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+		_data.WriteByteArray(userCert)
+		_data.WriteByteArray(certChain)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			case 1:
+				_data.WriteByteArray(userCert)
+			case 2:
+				_data.WriteByteArray(certChain)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceSetKeyPairCertificate)
 	if _err != nil {
@@ -365,7 +478,21 @@ func (p *KeyChainServiceProxy) InstallCaCertificate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteByteArray(caCertificate)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceInstallCaCertificate)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(caCertificate)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(caCertificate)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceInstallCaCertificate)
 	if _err != nil {
@@ -401,11 +528,37 @@ func (p *KeyChainServiceProxy) InstallKeyPair(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteByteArray(privateKey)
-	_data.WriteByteArray(userCert)
-	_data.WriteByteArray(certChain)
-	_data.WriteString16(alias)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceInstallKeyPair)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"[B",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(privateKey)
+		_data.WriteByteArray(userCert)
+		_data.WriteByteArray(certChain)
+		_data.WriteString16(alias)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(privateKey)
+			case 1:
+				_data.WriteByteArray(userCert)
+			case 2:
+				_data.WriteByteArray(certChain)
+			case 3:
+				_data.WriteString16(alias)
+			case 4:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceInstallKeyPair)
 	if _err != nil {
@@ -437,7 +590,21 @@ func (p *KeyChainServiceProxy) RemoveKeyPair(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceRemoveKeyPair)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceRemoveKeyPair)
 	if _err != nil {
@@ -469,7 +636,21 @@ func (p *KeyChainServiceProxy) ContainsKeyPair(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceContainsKeyPair)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceContainsKeyPair)
 	if _err != nil {
@@ -501,7 +682,21 @@ func (p *KeyChainServiceProxy) GetGrants(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGetGrants)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGetGrants)
 	if _err != nil {
@@ -546,7 +741,21 @@ func (p *KeyChainServiceProxy) DeleteCaCertificate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceDeleteCaCertificate)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceDeleteCaCertificate)
 	if _err != nil {
@@ -678,7 +887,21 @@ func (p *KeyChainServiceProxy) ContainsCaAlias(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceContainsCaAlias)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceContainsCaAlias)
 	if _err != nil {
@@ -711,8 +934,25 @@ func (p *KeyChainServiceProxy) GetEncodedCaCertificate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(alias)
-	_data.WriteBool(includeDeletedSystem)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGetEncodedCaCertificate)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+		_data.WriteBool(includeDeletedSystem)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			case 1:
+				_data.WriteBool(includeDeletedSystem)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGetEncodedCaCertificate)
 	if _err != nil {
@@ -745,8 +985,25 @@ func (p *KeyChainServiceProxy) GetCaCertificateChainAliases(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(rootAlias)
-	_data.WriteBool(includeDeletedSystem)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGetCaCertificateChainAliases)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(rootAlias)
+		_data.WriteBool(includeDeletedSystem)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(rootAlias)
+			case 1:
+				_data.WriteBool(includeDeletedSystem)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGetCaCertificateChainAliases)
 	if _err != nil {
@@ -791,10 +1048,30 @@ func (p *KeyChainServiceProxy) SetCredentialManagementApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := policy.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceSetCredentialManagementApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/security/AppUriAuthenticationPolicy;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := policy.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := policy.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceSetCredentialManagementApp)
@@ -919,10 +1196,30 @@ func (p *KeyChainServiceProxy) GetPredefinedAliasForPackageAndUri(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGetPredefinedAliasForPackageAndUri)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGetPredefinedAliasForPackageAndUri)
@@ -980,7 +1277,21 @@ func (p *KeyChainServiceProxy) IsCredentialManagementApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceIsCredentialManagementApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceIsCredentialManagementApp)
 	if _err != nil {
@@ -1014,9 +1325,29 @@ func (p *KeyChainServiceProxy) SetGrant(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteInt32(uid)
-	_data.WriteString16(alias)
-	_data.WriteBool(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceSetGrant)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteString16(alias)
+		_data.WriteBool(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteString16(alias)
+			case 2:
+				_data.WriteBool(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceSetGrant)
 	if _err != nil {
@@ -1049,8 +1380,25 @@ func (p *KeyChainServiceProxy) HasGrant(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteInt32(uid)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceHasGrant)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceHasGrant)
 	if _err != nil {
@@ -1082,7 +1430,21 @@ func (p *KeyChainServiceProxy) GetWifiKeyGrantAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGetWifiKeyGrantAsUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainService, MethodIKeyChainServiceGetWifiKeyGrantAsUser)
 	if _err != nil {

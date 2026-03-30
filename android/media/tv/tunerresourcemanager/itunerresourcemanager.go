@@ -145,11 +145,31 @@ func (p *TunerResourceManagerProxy) RegisterClientProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(1)
-	if _err := profile.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRegisterClientProfile)
+	_compiledDescs := []string{
+		"Landroid/media/tv/tunerresourcemanager/ResourceClientProfile;",
+		"Landroid/media/tv/tunerresourcemanager/IResourcesReclaimListener;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := profile.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := profile.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRegisterClientProfile)
 	if _err != nil {
@@ -192,7 +212,21 @@ func (p *TunerResourceManagerProxy) UnregisterClientProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(clientId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerUnregisterClientProfile)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(clientId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(clientId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerUnregisterClientProfile)
 	if _err != nil {
@@ -222,9 +256,29 @@ func (p *TunerResourceManagerProxy) UpdateClientPriority(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(clientId)
-	_data.WriteInt32(priority)
-	_data.WriteInt32(niceValue)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerUpdateClientPriority)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(clientId)
+		_data.WriteInt32(priority)
+		_data.WriteInt32(niceValue)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(clientId)
+			case 1:
+				_data.WriteInt32(priority)
+			case 2:
+				_data.WriteInt32(niceValue)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerUpdateClientPriority)
 	if _err != nil {
@@ -256,7 +310,21 @@ func (p *TunerResourceManagerProxy) HasUnusedFrontend(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(frontendType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerHasUnusedFrontend)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(frontendType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(frontendType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerHasUnusedFrontend)
 	if _err != nil {
@@ -289,8 +357,25 @@ func (p *TunerResourceManagerProxy) IsLowestPriority(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(clientId)
-	_data.WriteInt32(frontendType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerIsLowestPriority)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(clientId)
+		_data.WriteInt32(frontendType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(clientId)
+			case 1:
+				_data.WriteInt32(frontendType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerIsLowestPriority)
 	if _err != nil {
@@ -321,14 +406,38 @@ func (p *TunerResourceManagerProxy) SetFrontendInfoList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	if infos == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerSetFrontendInfoList)
+	_compiledDescs := []string{
+		"[Landroid/media/tv/tunerresourcemanager/TunerFrontendInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if infos == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(infos)))
+			for _, _item := range infos {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(infos)))
-		for _, _item := range infos {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if infos == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(infos)))
+					for _, _item := range infos {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -359,8 +468,25 @@ func (p *TunerResourceManagerProxy) UpdateCasInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(casSystemId)
-	_data.WriteInt32(maxSessionNum)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerUpdateCasInfo)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(casSystemId)
+		_data.WriteInt32(maxSessionNum)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(casSystemId)
+			case 1:
+				_data.WriteInt32(maxSessionNum)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerUpdateCasInfo)
 	if _err != nil {
@@ -387,14 +513,38 @@ func (p *TunerResourceManagerProxy) SetDemuxInfoList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	if infos == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerSetDemuxInfoList)
+	_compiledDescs := []string{
+		"[Landroid/media/tv/tunerresourcemanager/TunerDemuxInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if infos == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(infos)))
+			for _, _item := range infos {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(infos)))
-		for _, _item := range infos {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if infos == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(infos)))
+					for _, _item := range infos {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -424,12 +574,33 @@ func (p *TunerResourceManagerProxy) SetLnbInfoList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	if lnbIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerSetLnbInfoList)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if lnbIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(lnbIds)))
+			for _, _item := range lnbIds {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(lnbIds)))
-		for _, _item := range lnbIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if lnbIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(lnbIds)))
+					for _, _item := range lnbIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -460,9 +631,26 @@ func (p *TunerResourceManagerProxy) RequestFrontend(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestFrontend)
+	_compiledDescs := []string{
+		"Landroid/media/tv/tunerresourcemanager/TunerFrontendRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestFrontend)
@@ -512,8 +700,25 @@ func (p *TunerResourceManagerProxy) SetMaxNumberOfFrontends(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(frontendType)
-	_data.WriteInt32(maxNum)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerSetMaxNumberOfFrontends)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(frontendType)
+		_data.WriteInt32(maxNum)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(frontendType)
+			case 1:
+				_data.WriteInt32(maxNum)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerSetMaxNumberOfFrontends)
 	if _err != nil {
@@ -545,7 +750,21 @@ func (p *TunerResourceManagerProxy) GetMaxNumberOfFrontends(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(frontendType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerGetMaxNumberOfFrontends)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(frontendType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(frontendType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerGetMaxNumberOfFrontends)
 	if _err != nil {
@@ -577,8 +796,25 @@ func (p *TunerResourceManagerProxy) ShareFrontend(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(selfClientId)
-	_data.WriteInt32(targetClientId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerShareFrontend)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(selfClientId)
+		_data.WriteInt32(targetClientId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(selfClientId)
+			case 1:
+				_data.WriteInt32(targetClientId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerShareFrontend)
 	if _err != nil {
@@ -608,9 +844,29 @@ func (p *TunerResourceManagerProxy) TransferOwner(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(resourceType)
-	_data.WriteInt32(currentOwnerId)
-	_data.WriteInt32(newOwnerId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerTransferOwner)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(resourceType)
+		_data.WriteInt32(currentOwnerId)
+		_data.WriteInt32(newOwnerId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(resourceType)
+			case 1:
+				_data.WriteInt32(currentOwnerId)
+			case 2:
+				_data.WriteInt32(newOwnerId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerTransferOwner)
 	if _err != nil {
@@ -643,9 +899,26 @@ func (p *TunerResourceManagerProxy) RequestDemux(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestDemux)
+	_compiledDescs := []string{
+		"Landroid/media/tv/tunerresourcemanager/TunerDemuxRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestDemux)
@@ -695,9 +968,26 @@ func (p *TunerResourceManagerProxy) RequestDescrambler(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestDescrambler)
+	_compiledDescs := []string{
+		"Landroid/media/tv/tunerresourcemanager/TunerDescramblerRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestDescrambler)
@@ -747,9 +1037,26 @@ func (p *TunerResourceManagerProxy) RequestCasSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestCasSession)
+	_compiledDescs := []string{
+		"Landroid/media/tv/tunerresourcemanager/CasSessionRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestCasSession)
@@ -799,9 +1106,26 @@ func (p *TunerResourceManagerProxy) RequestCiCam(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestCiCam)
+	_compiledDescs := []string{
+		"Landroid/media/tv/tunerresourcemanager/TunerCiCamRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestCiCam)
@@ -851,9 +1175,26 @@ func (p *TunerResourceManagerProxy) RequestLnb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestLnb)
+	_compiledDescs := []string{
+		"Landroid/media/tv/tunerresourcemanager/TunerLnbRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestLnb)
@@ -902,8 +1243,25 @@ func (p *TunerResourceManagerProxy) ReleaseFrontend(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(frontendHandle)
-	_data.WriteInt32(clientId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseFrontend)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(frontendHandle)
+		_data.WriteInt32(clientId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(frontendHandle)
+			case 1:
+				_data.WriteInt32(clientId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseFrontend)
 	if _err != nil {
@@ -931,8 +1289,25 @@ func (p *TunerResourceManagerProxy) ReleaseDemux(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(demuxHandle)
-	_data.WriteInt32(clientId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseDemux)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(demuxHandle)
+		_data.WriteInt32(clientId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(demuxHandle)
+			case 1:
+				_data.WriteInt32(clientId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseDemux)
 	if _err != nil {
@@ -960,8 +1335,25 @@ func (p *TunerResourceManagerProxy) ReleaseDescrambler(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(descramblerHandle)
-	_data.WriteInt32(clientId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseDescrambler)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(descramblerHandle)
+		_data.WriteInt32(clientId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(descramblerHandle)
+			case 1:
+				_data.WriteInt32(clientId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseDescrambler)
 	if _err != nil {
@@ -989,8 +1381,25 @@ func (p *TunerResourceManagerProxy) ReleaseCasSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(casSessionHandle)
-	_data.WriteInt32(clientId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseCasSession)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(casSessionHandle)
+		_data.WriteInt32(clientId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(casSessionHandle)
+			case 1:
+				_data.WriteInt32(clientId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseCasSession)
 	if _err != nil {
@@ -1018,8 +1427,25 @@ func (p *TunerResourceManagerProxy) ReleaseCiCam(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(ciCamHandle)
-	_data.WriteInt32(clientId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseCiCam)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(ciCamHandle)
+		_data.WriteInt32(clientId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(ciCamHandle)
+			case 1:
+				_data.WriteInt32(clientId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseCiCam)
 	if _err != nil {
@@ -1047,8 +1473,25 @@ func (p *TunerResourceManagerProxy) ReleaseLnb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(lnbHandle)
-	_data.WriteInt32(clientId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseLnb)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(lnbHandle)
+		_data.WriteInt32(clientId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(lnbHandle)
+			case 1:
+				_data.WriteInt32(clientId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseLnb)
 	if _err != nil {
@@ -1077,13 +1520,36 @@ func (p *TunerResourceManagerProxy) IsHigherPriority(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(1)
-	if _err := challengerProfile.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerIsHigherPriority)
+	_compiledDescs := []string{
+		"Landroid/media/tv/tunerresourcemanager/ResourceClientProfile;",
+		"Landroid/media/tv/tunerresourcemanager/ResourceClientProfile;",
 	}
-	_data.WriteInt32(1)
-	if _err := holderProfile.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := challengerProfile.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := holderProfile.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := challengerProfile.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := holderProfile.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerIsHigherPriority)
@@ -1115,7 +1581,21 @@ func (p *TunerResourceManagerProxy) StoreResourceMap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(resourceType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerStoreResourceMap)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(resourceType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(resourceType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerStoreResourceMap)
 	if _err != nil {
@@ -1142,7 +1622,21 @@ func (p *TunerResourceManagerProxy) ClearResourceMap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(resourceType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerClearResourceMap)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(resourceType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(resourceType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerClearResourceMap)
 	if _err != nil {
@@ -1169,7 +1663,21 @@ func (p *TunerResourceManagerProxy) RestoreResourceMap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(resourceType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRestoreResourceMap)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(resourceType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(resourceType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRestoreResourceMap)
 	if _err != nil {
@@ -1198,8 +1706,25 @@ func (p *TunerResourceManagerProxy) AcquireLock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(clientId)
-	_data.WriteInt64(clientThreadId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerAcquireLock)
+	_compiledDescs := []string{
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(clientId)
+		_data.WriteInt64(clientThreadId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(clientId)
+			case 1:
+				_data.WriteInt64(clientThreadId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerAcquireLock)
 	if _err != nil {
@@ -1231,7 +1756,21 @@ func (p *TunerResourceManagerProxy) ReleaseLock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(clientId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseLock)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(clientId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(clientId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseLock)
 	if _err != nil {
@@ -1264,8 +1803,25 @@ func (p *TunerResourceManagerProxy) GetClientPriority(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(useCase)
-	_data.WriteInt32(pid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerGetClientPriority)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(useCase)
+		_data.WriteInt32(pid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(useCase)
+			case 1:
+				_data.WriteInt32(pid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerGetClientPriority)
 	if _err != nil {
@@ -1298,8 +1854,25 @@ func (p *TunerResourceManagerProxy) GetConfigPriority(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(useCase)
-	_data.WriteBool(isForeground)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerGetConfigPriority)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(useCase)
+		_data.WriteBool(isForeground)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(useCase)
+			case 1:
+				_data.WriteBool(isForeground)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerGetConfigPriority)
 	if _err != nil {

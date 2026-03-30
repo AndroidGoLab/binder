@@ -220,9 +220,29 @@ func (p *LockSettingsProxy) SetBoolean(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(key)
-	_data.WriteBool(value)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsSetBoolean)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteBool(value)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteBool(value)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsSetBoolean)
 	if _err != nil {
@@ -251,9 +271,29 @@ func (p *LockSettingsProxy) SetLong(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(key)
-	_data.WriteInt64(value)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsSetLong)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteInt64(value)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteInt64(value)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsSetLong)
 	if _err != nil {
@@ -282,9 +322,29 @@ func (p *LockSettingsProxy) SetString(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(key)
-	_data.WriteString16(value)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsSetString)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteString16(value)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteString16(value)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsSetString)
 	if _err != nil {
@@ -314,9 +374,29 @@ func (p *LockSettingsProxy) GetBoolean(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(key)
-	_data.WriteBool(defaultValue)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsGetBoolean)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteBool(defaultValue)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteBool(defaultValue)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGetBoolean)
 	if _err != nil {
@@ -350,9 +430,29 @@ func (p *LockSettingsProxy) GetLong(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(key)
-	_data.WriteInt64(defaultValue)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsGetLong)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteInt64(defaultValue)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteInt64(defaultValue)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGetLong)
 	if _err != nil {
@@ -386,9 +486,29 @@ func (p *LockSettingsProxy) GetString(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(key)
-	_data.WriteString16(defaultValue)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsGetString)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteString16(defaultValue)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteString16(defaultValue)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGetString)
 	if _err != nil {
@@ -422,15 +542,41 @@ func (p *LockSettingsProxy) SetLockCredential(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(1)
-	if _err := credential.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsSetLockCredential)
+	_compiledDescs := []string{
+		"Lcom/android/internal/widget/LockscreenCredential;",
+		"Lcom/android/internal/widget/LockscreenCredential;",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := savedCredential.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := credential.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := savedCredential.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := credential.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := savedCredential.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsSetLockCredential)
 	if _err != nil {
@@ -461,7 +607,21 @@ func (p *LockSettingsProxy) ResetKeyStore(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsResetKeyStore)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsResetKeyStore)
 	if _err != nil {
@@ -491,12 +651,35 @@ func (p *LockSettingsProxy) CheckCredential(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(1)
-	if _err := credential.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsCheckCredential)
+	_compiledDescs := []string{
+		"Lcom/android/internal/widget/LockscreenCredential;",
+		"I",
+		"Lcom/android/internal/widget/ICheckCredentialProgressCallback;",
 	}
-	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, progressCallback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := credential.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		binder.WriteBinderToParcel(ctx, _data, progressCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := credential.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, progressCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsCheckCredential)
 	if _err != nil {
@@ -535,12 +718,35 @@ func (p *LockSettingsProxy) VerifyCredential(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(1)
-	if _err := credential.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsVerifyCredential)
+	_compiledDescs := []string{
+		"Lcom/android/internal/widget/LockscreenCredential;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(flags)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := credential.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := credential.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsVerifyCredential)
 	if _err != nil {
@@ -579,12 +785,35 @@ func (p *LockSettingsProxy) VerifyTiedProfileChallenge(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(1)
-	if _err := credential.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsVerifyTiedProfileChallenge)
+	_compiledDescs := []string{
+		"Lcom/android/internal/widget/LockscreenCredential;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(flags)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := credential.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := credential.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsVerifyTiedProfileChallenge)
 	if _err != nil {
@@ -623,9 +852,29 @@ func (p *LockSettingsProxy) VerifyGatekeeperPasswordHandle(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt64(gatekeeperPasswordHandle)
-	_data.WriteInt64(challenge)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsVerifyGatekeeperPasswordHandle)
+	_compiledDescs := []string{
+		"J",
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(gatekeeperPasswordHandle)
+		_data.WriteInt64(challenge)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(gatekeeperPasswordHandle)
+			case 1:
+				_data.WriteInt64(challenge)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsVerifyGatekeeperPasswordHandle)
 	if _err != nil {
@@ -661,7 +910,21 @@ func (p *LockSettingsProxy) RemoveGatekeeperPasswordHandle(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt64(gatekeeperPasswordHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsRemoveGatekeeperPasswordHandle)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(gatekeeperPasswordHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(gatekeeperPasswordHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsRemoveGatekeeperPasswordHandle)
 	if _err != nil {
@@ -689,7 +952,21 @@ func (p *LockSettingsProxy) GetCredentialType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsGetCredentialType)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGetCredentialType)
 	if _err != nil {
@@ -721,7 +998,21 @@ func (p *LockSettingsProxy) GetPinLength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsGetPinLength)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGetPinLength)
 	if _err != nil {
@@ -753,7 +1044,21 @@ func (p *LockSettingsProxy) RefreshStoredPinLength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsRefreshStoredPinLength)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsRefreshStoredPinLength)
 	if _err != nil {
@@ -786,11 +1091,31 @@ func (p *LockSettingsProxy) GetHashFactor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(1)
-	if _err := currentCredential.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsGetHashFactor)
+	_compiledDescs := []string{
+		"Lcom/android/internal/widget/LockscreenCredential;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := currentCredential.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := currentCredential.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGetHashFactor)
 	if _err != nil {
@@ -823,11 +1148,34 @@ func (p *LockSettingsProxy) SetSeparateProfileChallengeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(enabled)
-	_data.WriteInt32(1)
-	if _err := managedUserPassword.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsSetSeparateProfileChallengeEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Lcom/android/internal/widget/LockscreenCredential;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(enabled)
+		_data.WriteInt32(1)
+		if _err := managedUserPassword.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(enabled)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := managedUserPassword.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsSetSeparateProfileChallengeEnabled)
@@ -856,7 +1204,21 @@ func (p *LockSettingsProxy) GetSeparateProfileChallengeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsGetSeparateProfileChallengeEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGetSeparateProfileChallengeEnabled)
 	if _err != nil {
@@ -887,7 +1249,21 @@ func (p *LockSettingsProxy) RegisterStrongAuthTracker(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	binder.WriteBinderToParcel(ctx, _data, tracker.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsRegisterStrongAuthTracker)
+	_compiledDescs := []string{
+		"Landroid/app/trust/IStrongAuthTracker;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, tracker.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, tracker.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsRegisterStrongAuthTracker)
 	if _err != nil {
@@ -914,7 +1290,21 @@ func (p *LockSettingsProxy) UnregisterStrongAuthTracker(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	binder.WriteBinderToParcel(ctx, _data, tracker.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsUnregisterStrongAuthTracker)
+	_compiledDescs := []string{
+		"Landroid/app/trust/IStrongAuthTracker;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, tracker.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, tracker.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsUnregisterStrongAuthTracker)
 	if _err != nil {
@@ -942,8 +1332,25 @@ func (p *LockSettingsProxy) RequireStrongAuth(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(strongAuthReason)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsRequireStrongAuth)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(strongAuthReason)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(strongAuthReason)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsRequireStrongAuth)
 	if _err != nil {
@@ -971,8 +1378,25 @@ func (p *LockSettingsProxy) ReportSuccessfulBiometricUnlock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteBool(isStrongBiometric)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsReportSuccessfulBiometricUnlock)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isStrongBiometric)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isStrongBiometric)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsReportSuccessfulBiometricUnlock)
 	if _err != nil {
@@ -999,7 +1423,21 @@ func (p *LockSettingsProxy) ScheduleNonStrongBiometricIdleTimeout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsScheduleNonStrongBiometricIdleTimeout)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsScheduleNonStrongBiometricIdleTimeout)
 	if _err != nil {
@@ -1051,7 +1489,21 @@ func (p *LockSettingsProxy) UserPresent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsUserPresent)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsUserPresent)
 	if _err != nil {
@@ -1079,7 +1531,21 @@ func (p *LockSettingsProxy) GetStrongAuthForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsGetStrongAuthForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGetStrongAuthForUser)
 	if _err != nil {
@@ -1111,7 +1577,21 @@ func (p *LockSettingsProxy) HasPendingEscrowToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsHasPendingEscrowToken)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsHasPendingEscrowToken)
 	if _err != nil {
@@ -1144,9 +1624,29 @@ func (p *LockSettingsProxy) InitRecoveryServiceWithSigFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(rootCertificateAlias)
-	_data.WriteByteArray(recoveryServiceCertFile)
-	_data.WriteByteArray(recoveryServiceSigFile)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsInitRecoveryServiceWithSigFile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(rootCertificateAlias)
+		_data.WriteByteArray(recoveryServiceCertFile)
+		_data.WriteByteArray(recoveryServiceSigFile)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(rootCertificateAlias)
+			case 1:
+				_data.WriteByteArray(recoveryServiceCertFile)
+			case 2:
+				_data.WriteByteArray(recoveryServiceSigFile)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsInitRecoveryServiceWithSigFile)
 	if _err != nil {
@@ -1209,7 +1709,21 @@ func (p *LockSettingsProxy) GenerateKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsGenerateKey)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGenerateKey)
 	if _err != nil {
@@ -1242,8 +1756,25 @@ func (p *LockSettingsProxy) GenerateKeyWithMetadata(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(alias)
-	_data.WriteByteArray(metadata)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsGenerateKeyWithMetadata)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+		_data.WriteByteArray(metadata)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			case 1:
+				_data.WriteByteArray(metadata)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGenerateKeyWithMetadata)
 	if _err != nil {
@@ -1276,8 +1807,25 @@ func (p *LockSettingsProxy) ImportKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(alias)
-	_data.WriteByteArray(keyBytes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsImportKey)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+		_data.WriteByteArray(keyBytes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			case 1:
+				_data.WriteByteArray(keyBytes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsImportKey)
 	if _err != nil {
@@ -1311,9 +1859,29 @@ func (p *LockSettingsProxy) ImportKeyWithMetadata(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(alias)
-	_data.WriteByteArray(keyBytes)
-	_data.WriteByteArray(metadata)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsImportKeyWithMetadata)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+		_data.WriteByteArray(keyBytes)
+		_data.WriteByteArray(metadata)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			case 1:
+				_data.WriteByteArray(keyBytes)
+			case 2:
+				_data.WriteByteArray(metadata)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsImportKeyWithMetadata)
 	if _err != nil {
@@ -1345,7 +1913,21 @@ func (p *LockSettingsProxy) GetKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsGetKey)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGetKey)
 	if _err != nil {
@@ -1376,7 +1958,21 @@ func (p *LockSettingsProxy) RemoveKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsRemoveKey)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsRemoveKey)
 	if _err != nil {
@@ -1403,9 +1999,26 @@ func (p *LockSettingsProxy) SetSnapshotCreatedPendingIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsSetSnapshotCreatedPendingIntent)
+	_compiledDescs := []string{
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsSetSnapshotCreatedPendingIntent)
@@ -1433,7 +2046,21 @@ func (p *LockSettingsProxy) SetServerParams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteByteArray(serverParams)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsSetServerParams)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(serverParams)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(serverParams)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsSetServerParams)
 	if _err != nil {
@@ -1461,8 +2088,25 @@ func (p *LockSettingsProxy) SetRecoveryStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(alias)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsSetRecoveryStatus)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsSetRecoveryStatus)
 	if _err != nil {
@@ -1535,12 +2179,33 @@ func (p *LockSettingsProxy) SetRecoverySecretTypes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	if secretTypes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsSetRecoverySecretTypes)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if secretTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(secretTypes)))
+			for _, _item := range secretTypes {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(secretTypes)))
-		for _, _item := range secretTypes {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if secretTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(secretTypes)))
+					for _, _item := range secretTypes {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -1618,22 +2283,64 @@ func (p *LockSettingsProxy) StartRecoverySessionWithCertPath(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(sessionId)
-	_data.WriteString16(rootCertificateAlias)
-	_data.WriteInt32(1)
-	if _err := verifierCertPath.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsStartRecoverySessionWithCertPath)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/security/keystore/recovery/RecoveryCertPath;",
+		"[B",
+		"[B",
+		"Ljava/util/List;",
 	}
-	_data.WriteByteArray(vaultParams)
-	_data.WriteByteArray(vaultChallenge)
-	if secrets == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+		_data.WriteString16(rootCertificateAlias)
+		_data.WriteInt32(1)
+		if _err := verifierCertPath.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteByteArray(vaultParams)
+		_data.WriteByteArray(vaultChallenge)
+		if secrets == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(secrets)))
+			for _, _item := range secrets {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(secrets)))
-		for _, _item := range secrets {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			case 1:
+				_data.WriteString16(rootCertificateAlias)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := verifierCertPath.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteByteArray(vaultParams)
+			case 4:
+				_data.WriteByteArray(vaultChallenge)
+			case 5:
+				if secrets == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(secrets)))
+					for _, _item := range secrets {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1670,16 +2377,46 @@ func (p *LockSettingsProxy) RecoverKeyChainSnapshot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(sessionId)
-	_data.WriteByteArray(recoveryKeyBlob)
-	if applicationKeys == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsRecoverKeyChainSnapshot)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+		_data.WriteByteArray(recoveryKeyBlob)
+		if applicationKeys == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(applicationKeys)))
+			for _, _item := range applicationKeys {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(applicationKeys)))
-		for _, _item := range applicationKeys {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			case 1:
+				_data.WriteByteArray(recoveryKeyBlob)
+			case 2:
+				if applicationKeys == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(applicationKeys)))
+					for _, _item := range applicationKeys {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1729,7 +2466,21 @@ func (p *LockSettingsProxy) CloseSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteString16(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsCloseSession)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsCloseSession)
 	if _err != nil {
@@ -1792,7 +2543,21 @@ func (p *LockSettingsProxy) ValidateRemoteLockscreen(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteByteArray(encryptedCredential)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsValidateRemoteLockscreen)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(encryptedCredential)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(encryptedCredential)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsValidateRemoteLockscreen)
 	if _err != nil {
@@ -1859,7 +2624,21 @@ func (p *LockSettingsProxy) TryUnlockWithCachedUnifiedChallenge(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsTryUnlockWithCachedUnifiedChallenge)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsTryUnlockWithCachedUnifiedChallenge)
 	if _err != nil {
@@ -1890,7 +2669,21 @@ func (p *LockSettingsProxy) RemoveCachedUnifiedChallenge(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsRemoveCachedUnifiedChallenge)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsRemoveCachedUnifiedChallenge)
 	if _err != nil {
@@ -1918,7 +2711,21 @@ func (p *LockSettingsProxy) RegisterWeakEscrowTokenRemovedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsRegisterWeakEscrowTokenRemovedListener)
+	_compiledDescs := []string{
+		"Lcom/android/internal/widget/IWeakEscrowTokenRemovedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsRegisterWeakEscrowTokenRemovedListener)
 	if _err != nil {
@@ -1950,7 +2757,21 @@ func (p *LockSettingsProxy) UnregisterWeakEscrowTokenRemovedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsUnregisterWeakEscrowTokenRemovedListener)
+	_compiledDescs := []string{
+		"Lcom/android/internal/widget/IWeakEscrowTokenRemovedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsUnregisterWeakEscrowTokenRemovedListener)
 	if _err != nil {
@@ -1984,9 +2805,29 @@ func (p *LockSettingsProxy) AddWeakEscrowToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteByteArray(token)
-	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsAddWeakEscrowToken)
+	_compiledDescs := []string{
+		"[B",
+		"I",
+		"Lcom/android/internal/widget/IWeakEscrowTokenActivatedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(token)
+		_data.WriteInt32(_identity.UserID)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(token)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsAddWeakEscrowToken)
 	if _err != nil {
@@ -2019,8 +2860,25 @@ func (p *LockSettingsProxy) RemoveWeakEscrowToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt64(handle)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsRemoveWeakEscrowToken)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(handle)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(handle)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsRemoveWeakEscrowToken)
 	if _err != nil {
@@ -2053,8 +2911,25 @@ func (p *LockSettingsProxy) IsWeakEscrowTokenActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt64(handle)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsIsWeakEscrowTokenActive)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(handle)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(handle)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsIsWeakEscrowTokenActive)
 	if _err != nil {
@@ -2088,9 +2963,29 @@ func (p *LockSettingsProxy) IsWeakEscrowTokenValid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt64(handle)
-	_data.WriteByteArray(token)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsIsWeakEscrowTokenValid)
+	_compiledDescs := []string{
+		"J",
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(handle)
+		_data.WriteByteArray(token)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(handle)
+			case 1:
+				_data.WriteByteArray(token)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsIsWeakEscrowTokenValid)
 	if _err != nil {
@@ -2121,7 +3016,21 @@ func (p *LockSettingsProxy) UnlockUserKeyIfUnsecured(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILockSettings, MethodILockSettingsUnlockUserKeyIfUnsecured)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsUnlockUserKeyIfUnsecured)
 	if _err != nil {

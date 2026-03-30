@@ -65,7 +65,21 @@ func (p *WifiChipEventCallbackProxy) OnChipReconfigureFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
-	_data.WriteInt32(int32(status))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnChipReconfigureFailure)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/WifiStatusCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(status))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(status))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnChipReconfigureFailure)
 	if _err != nil {
@@ -83,7 +97,21 @@ func (p *WifiChipEventCallbackProxy) OnChipReconfigured(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
-	_data.WriteInt32(modeId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnChipReconfigured)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(modeId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(modeId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnChipReconfigured)
 	if _err != nil {
@@ -102,8 +130,25 @@ func (p *WifiChipEventCallbackProxy) OnDebugErrorAlert(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
-	_data.WriteInt32(errorCode)
-	_data.WriteByteArray(debugData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnDebugErrorAlert)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+		_data.WriteByteArray(debugData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			case 1:
+				_data.WriteByteArray(debugData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnDebugErrorAlert)
 	if _err != nil {
@@ -122,11 +167,31 @@ func (p *WifiChipEventCallbackProxy) OnDebugRingBufferDataAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
-	_data.WriteInt32(1)
-	if _err := status.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnDebugRingBufferDataAvailable)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/WifiDebugRingBufferStatus;",
+		"[B",
 	}
-	_data.WriteByteArray(data)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := status.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := status.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnDebugRingBufferDataAvailable)
 	if _err != nil {
@@ -145,8 +210,25 @@ func (p *WifiChipEventCallbackProxy) OnIfaceAdded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
-	_data.WriteInt32(int32(type_))
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnIfaceAdded)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/IfaceType;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnIfaceAdded)
 	if _err != nil {
@@ -165,8 +247,25 @@ func (p *WifiChipEventCallbackProxy) OnIfaceRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
-	_data.WriteInt32(int32(type_))
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnIfaceRemoved)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/IfaceType;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnIfaceRemoved)
 	if _err != nil {
@@ -184,14 +283,38 @@ func (p *WifiChipEventCallbackProxy) OnRadioModeChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
-	if radioModeInfos == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnRadioModeChange)
+	_compiledDescs := []string{
+		"[Landroid/hardware/wifi/IWifiChipEventCallback/RadioModeInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if radioModeInfos == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(radioModeInfos)))
+			for _, _item := range radioModeInfos {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(radioModeInfos)))
-		for _, _item := range radioModeInfos {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if radioModeInfos == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(radioModeInfos)))
+					for _, _item := range radioModeInfos {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

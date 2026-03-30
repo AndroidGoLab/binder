@@ -99,13 +99,39 @@ func (p *InlineSuggestionUiCallbackProxy) OnContent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
-	binder.WriteBinderToParcel(ctx, _data, content.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := surface.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnContent)
+	_compiledDescs := []string{
+		"Landroid/service/autofill/IInlineSuggestionUi;",
+		"LSurfaceControlViewHost/SurfacePackage;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(width)
-	_data.WriteInt32(height)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, content.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := surface.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(width)
+		_data.WriteInt32(height)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, content.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := surface.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(width)
+			case 3:
+				_data.WriteInt32(height)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnContent)
 	if _err != nil {
@@ -140,8 +166,25 @@ func (p *InlineSuggestionUiCallbackProxy) OnTransferTouchFocusToImeWindow(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
-	binder.WriteBinderToParcel(ctx, _data, sourceInputToken, p.Remote.Transport())
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnTransferTouchFocusToImeWindow)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, sourceInputToken, p.Remote.Transport())
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, sourceInputToken, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnTransferTouchFocusToImeWindow)
 	if _err != nil {
@@ -159,9 +202,26 @@ func (p *InlineSuggestionUiCallbackProxy) OnStartIntentSender(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
-	_data.WriteInt32(1)
-	if _err := intentSender.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnStartIntentSender)
+	_compiledDescs := []string{
+		"Landroid/content/IntentSender;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := intentSender.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := intentSender.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnStartIntentSender)

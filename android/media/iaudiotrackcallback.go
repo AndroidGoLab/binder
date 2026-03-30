@@ -47,7 +47,21 @@ func (p *AudioTrackCallbackProxy) OnCodecFormatChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrackCallback)
-	_data.WriteByteArray(audioMetadata)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioTrackCallback, MethodIAudioTrackCallbackOnCodecFormatChanged)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(audioMetadata)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(audioMetadata)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrackCallback, MethodIAudioTrackCallbackOnCodecFormatChanged)
 	if _err != nil {

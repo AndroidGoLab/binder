@@ -51,8 +51,25 @@ func (p *DesktopTaskListenerProxy) OnTasksVisibilityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopTaskListener)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(visibleTasksCount)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDesktopTaskListener, MethodIDesktopTaskListenerOnTasksVisibilityChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(visibleTasksCount)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteInt32(visibleTasksCount)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopTaskListener, MethodIDesktopTaskListenerOnTasksVisibilityChanged)
 	if _err != nil {
@@ -71,8 +88,25 @@ func (p *DesktopTaskListenerProxy) OnStashedChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopTaskListener)
-	_data.WriteInt32(displayId)
-	_data.WriteBool(stashed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDesktopTaskListener, MethodIDesktopTaskListenerOnStashedChanged)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteBool(stashed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteBool(stashed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopTaskListener, MethodIDesktopTaskListenerOnStashedChanged)
 	if _err != nil {

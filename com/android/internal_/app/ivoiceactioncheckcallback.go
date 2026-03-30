@@ -47,12 +47,33 @@ func (p *VoiceActionCheckCallbackProxy) OnComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceActionCheckCallback)
-	if voiceActions == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceActionCheckCallback, MethodIVoiceActionCheckCallbackOnComplete)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if voiceActions == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(voiceActions)))
+			for _, _item := range voiceActions {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(voiceActions)))
-		for _, _item := range voiceActions {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if voiceActions == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(voiceActions)))
+					for _, _item := range voiceActions {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 

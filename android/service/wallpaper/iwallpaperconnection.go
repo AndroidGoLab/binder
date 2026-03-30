@@ -62,8 +62,25 @@ func (p *WallpaperConnectionProxy) AttachEngine(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
-	binder.WriteBinderToParcel(ctx, _data, engine.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionAttachEngine)
+	_compiledDescs := []string{
+		"Landroid/service/wallpaper/IWallpaperEngine;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, engine.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, engine.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionAttachEngine)
 	if _err != nil {
@@ -90,7 +107,21 @@ func (p *WallpaperConnectionProxy) EngineShown(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
-	binder.WriteBinderToParcel(ctx, _data, engine.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionEngineShown)
+	_compiledDescs := []string{
+		"Landroid/service/wallpaper/IWallpaperEngine;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, engine.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, engine.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionEngineShown)
 	if _err != nil {
@@ -118,7 +149,21 @@ func (p *WallpaperConnectionProxy) SetWallpaper(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionSetWallpaper)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionSetWallpaper)
 	if _err != nil {
@@ -150,11 +195,31 @@ func (p *WallpaperConnectionProxy) OnWallpaperColorsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
-	_data.WriteInt32(1)
-	if _err := colors.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionOnWallpaperColorsChanged)
+	_compiledDescs := []string{
+		"Landroid/app/WallpaperColors;",
+		"I",
 	}
-	_data.WriteInt32(displayId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := colors.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := colors.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionOnWallpaperColorsChanged)
 	if _err != nil {
@@ -183,15 +248,41 @@ func (p *WallpaperConnectionProxy) OnLocalWallpaperColorsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
-	_data.WriteInt32(1)
-	if _err := area.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionOnLocalWallpaperColorsChanged)
+	_compiledDescs := []string{
+		"Landroid/graphics/RectF;",
+		"Landroid/app/WallpaperColors;",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := colors.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := area.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := colors.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := area.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := colors.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(displayId)
+			}
+		}
 	}
-	_data.WriteInt32(displayId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionOnLocalWallpaperColorsChanged)
 	if _err != nil {

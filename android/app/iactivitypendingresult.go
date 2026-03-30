@@ -51,11 +51,34 @@ func (p *ActivityPendingResultProxy) SendResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityPendingResult)
-	_data.WriteInt32(code)
-	_data.WriteString16(data)
-	_data.WriteInt32(1)
-	if _err := ex.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIActivityPendingResult, MethodIActivityPendingResultSendResult)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteString16(data)
+		_data.WriteInt32(1)
+		if _err := ex.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteString16(data)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := ex.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityPendingResult, MethodIActivityPendingResultSendResult)

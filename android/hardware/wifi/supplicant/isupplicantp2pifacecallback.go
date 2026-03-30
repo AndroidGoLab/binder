@@ -126,14 +126,49 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnDeviceFound(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteByteArray(srcAddress)
-	_data.WriteByteArray(p2pDeviceAddress)
-	_data.WriteByteArray(primaryDeviceType)
-	_data.WriteString16(deviceName)
-	_data.WriteInt32(int32(configMethods))
-	_data.WritePaddedByte(deviceCapabilities)
-	_data.WriteInt32(int32(groupCapabilities))
-	_data.WriteByteArray(wfdDeviceInfo)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceFound)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"[B",
+		"Ljava/lang/String;",
+		"Landroid/hardware/wifi/supplicant/WpsConfigMethods;",
+		"B",
+		"Landroid/hardware/wifi/supplicant/P2pGroupCapabilityMask;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(srcAddress)
+		_data.WriteByteArray(p2pDeviceAddress)
+		_data.WriteByteArray(primaryDeviceType)
+		_data.WriteString16(deviceName)
+		_data.WriteInt32(int32(configMethods))
+		_data.WritePaddedByte(deviceCapabilities)
+		_data.WriteInt32(int32(groupCapabilities))
+		_data.WriteByteArray(wfdDeviceInfo)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(srcAddress)
+			case 1:
+				_data.WriteByteArray(p2pDeviceAddress)
+			case 2:
+				_data.WriteByteArray(primaryDeviceType)
+			case 3:
+				_data.WriteString16(deviceName)
+			case 4:
+				_data.WriteInt32(int32(configMethods))
+			case 5:
+				_data.WritePaddedByte(deviceCapabilities)
+			case 6:
+				_data.WriteInt32(int32(groupCapabilities))
+			case 7:
+				_data.WriteByteArray(wfdDeviceInfo)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceFound)
 	if _err != nil {
@@ -151,7 +186,21 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnDeviceLost(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteByteArray(p2pDeviceAddress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceLost)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(p2pDeviceAddress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(p2pDeviceAddress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceLost)
 	if _err != nil {
@@ -185,7 +234,21 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGoNegotiationCompleted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteInt32(int32(status))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGoNegotiationCompleted)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/P2pStatusCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(status))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(status))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGoNegotiationCompleted)
 	if _err != nil {
@@ -204,8 +267,25 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGoNegotiationRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteByteArray(srcAddress)
-	_data.WriteInt32(int32(passwordId))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGoNegotiationRequest)
+	_compiledDescs := []string{
+		"[B",
+		"Landroid/hardware/wifi/supplicant/WpsDevPasswordId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(srcAddress)
+		_data.WriteInt32(int32(passwordId))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(srcAddress)
+			case 1:
+				_data.WriteInt32(int32(passwordId))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGoNegotiationRequest)
 	if _err != nil {
@@ -223,7 +303,21 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGroupFormationFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteString16(failureReason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupFormationFailure)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(failureReason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(failureReason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupFormationFailure)
 	if _err != nil {
@@ -258,8 +352,25 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGroupRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteString16(groupIfname)
-	_data.WriteBool(isGroupOwner)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupRemoved)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(groupIfname)
+		_data.WriteBool(isGroupOwner)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(groupIfname)
+			case 1:
+				_data.WriteBool(isGroupOwner)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupRemoved)
 	if _err != nil {
@@ -284,14 +395,49 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGroupStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteString16(groupIfname)
-	_data.WriteBool(isGroupOwner)
-	_data.WriteByteArray(ssid)
-	_data.WriteInt32(frequency)
-	_data.WriteByteArray(psk)
-	_data.WriteString16(passphrase)
-	_data.WriteByteArray(goDeviceAddress)
-	_data.WriteBool(isPersistent)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupStarted)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"[B",
+		"I",
+		"[B",
+		"Ljava/lang/String;",
+		"[B",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(groupIfname)
+		_data.WriteBool(isGroupOwner)
+		_data.WriteByteArray(ssid)
+		_data.WriteInt32(frequency)
+		_data.WriteByteArray(psk)
+		_data.WriteString16(passphrase)
+		_data.WriteByteArray(goDeviceAddress)
+		_data.WriteBool(isPersistent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(groupIfname)
+			case 1:
+				_data.WriteBool(isGroupOwner)
+			case 2:
+				_data.WriteByteArray(ssid)
+			case 3:
+				_data.WriteInt32(frequency)
+			case 4:
+				_data.WriteByteArray(psk)
+			case 5:
+				_data.WriteString16(passphrase)
+			case 6:
+				_data.WriteByteArray(goDeviceAddress)
+			case 7:
+				_data.WriteBool(isPersistent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupStarted)
 	if _err != nil {
@@ -313,11 +459,37 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnInvitationReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteByteArray(srcAddress)
-	_data.WriteByteArray(goDeviceAddress)
-	_data.WriteByteArray(bssid)
-	_data.WriteInt32(persistentNetworkId)
-	_data.WriteInt32(operatingFrequency)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnInvitationReceived)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"[B",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(srcAddress)
+		_data.WriteByteArray(goDeviceAddress)
+		_data.WriteByteArray(bssid)
+		_data.WriteInt32(persistentNetworkId)
+		_data.WriteInt32(operatingFrequency)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(srcAddress)
+			case 1:
+				_data.WriteByteArray(goDeviceAddress)
+			case 2:
+				_data.WriteByteArray(bssid)
+			case 3:
+				_data.WriteInt32(persistentNetworkId)
+			case 4:
+				_data.WriteInt32(operatingFrequency)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnInvitationReceived)
 	if _err != nil {
@@ -336,8 +508,25 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnInvitationResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteByteArray(bssid)
-	_data.WriteInt32(int32(status))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnInvitationResult)
+	_compiledDescs := []string{
+		"[B",
+		"Landroid/hardware/wifi/supplicant/P2pStatusCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(bssid)
+		_data.WriteInt32(int32(status))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(bssid)
+			case 1:
+				_data.WriteInt32(int32(status))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnInvitationResult)
 	if _err != nil {
@@ -359,11 +548,37 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnProvisionDiscoveryCompleted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteByteArray(p2pDeviceAddress)
-	_data.WriteBool(isRequest)
-	_data.WritePaddedByte(byte(status))
-	_data.WriteInt32(int32(configMethods))
-	_data.WriteString16(generatedPin)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompleted)
+	_compiledDescs := []string{
+		"[B",
+		"Z",
+		"Landroid/hardware/wifi/supplicant/P2pProvDiscStatusCode;",
+		"Landroid/hardware/wifi/supplicant/WpsConfigMethods;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(p2pDeviceAddress)
+		_data.WriteBool(isRequest)
+		_data.WritePaddedByte(byte(status))
+		_data.WriteInt32(int32(configMethods))
+		_data.WriteString16(generatedPin)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(p2pDeviceAddress)
+			case 1:
+				_data.WriteBool(isRequest)
+			case 2:
+				_data.WritePaddedByte(byte(status))
+			case 3:
+				_data.WriteInt32(int32(configMethods))
+			case 4:
+				_data.WriteString16(generatedPin)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompleted)
 	if _err != nil {
@@ -389,15 +604,53 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnR2DeviceFound(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteByteArray(srcAddress)
-	_data.WriteByteArray(p2pDeviceAddress)
-	_data.WriteByteArray(primaryDeviceType)
-	_data.WriteString16(deviceName)
-	_data.WriteInt32(int32(configMethods))
-	_data.WritePaddedByte(deviceCapabilities)
-	_data.WriteInt32(int32(groupCapabilities))
-	_data.WriteByteArray(wfdDeviceInfo)
-	_data.WriteByteArray(wfdR2DeviceInfo)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnR2DeviceFound)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"[B",
+		"Ljava/lang/String;",
+		"Landroid/hardware/wifi/supplicant/WpsConfigMethods;",
+		"B",
+		"Landroid/hardware/wifi/supplicant/P2pGroupCapabilityMask;",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(srcAddress)
+		_data.WriteByteArray(p2pDeviceAddress)
+		_data.WriteByteArray(primaryDeviceType)
+		_data.WriteString16(deviceName)
+		_data.WriteInt32(int32(configMethods))
+		_data.WritePaddedByte(deviceCapabilities)
+		_data.WriteInt32(int32(groupCapabilities))
+		_data.WriteByteArray(wfdDeviceInfo)
+		_data.WriteByteArray(wfdR2DeviceInfo)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(srcAddress)
+			case 1:
+				_data.WriteByteArray(p2pDeviceAddress)
+			case 2:
+				_data.WriteByteArray(primaryDeviceType)
+			case 3:
+				_data.WriteString16(deviceName)
+			case 4:
+				_data.WriteInt32(int32(configMethods))
+			case 5:
+				_data.WritePaddedByte(deviceCapabilities)
+			case 6:
+				_data.WriteInt32(int32(groupCapabilities))
+			case 7:
+				_data.WriteByteArray(wfdDeviceInfo)
+			case 8:
+				_data.WriteByteArray(wfdR2DeviceInfo)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnR2DeviceFound)
 	if _err != nil {
@@ -417,9 +670,29 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnServiceDiscoveryResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteByteArray(srcAddress)
-	_data.WriteInt32(int32(updateIndicator))
-	_data.WriteByteArray(tlvs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnServiceDiscoveryResponse)
+	_compiledDescs := []string{
+		"[B",
+		"C",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(srcAddress)
+		_data.WriteInt32(int32(updateIndicator))
+		_data.WriteByteArray(tlvs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(srcAddress)
+			case 1:
+				_data.WriteInt32(int32(updateIndicator))
+			case 2:
+				_data.WriteByteArray(tlvs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnServiceDiscoveryResponse)
 	if _err != nil {
@@ -438,8 +711,25 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnStaAuthorized(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteByteArray(srcAddress)
-	_data.WriteByteArray(p2pDeviceAddress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnStaAuthorized)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(srcAddress)
+		_data.WriteByteArray(p2pDeviceAddress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(srcAddress)
+			case 1:
+				_data.WriteByteArray(p2pDeviceAddress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnStaAuthorized)
 	if _err != nil {
@@ -458,8 +748,25 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnStaDeauthorized(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteByteArray(srcAddress)
-	_data.WriteByteArray(p2pDeviceAddress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnStaDeauthorized)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(srcAddress)
+		_data.WriteByteArray(p2pDeviceAddress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(srcAddress)
+			case 1:
+				_data.WriteByteArray(p2pDeviceAddress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnStaDeauthorized)
 	if _err != nil {
@@ -478,8 +785,25 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGroupFrequencyChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteString16(groupIfname)
-	_data.WriteInt32(frequency)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupFrequencyChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(groupIfname)
+		_data.WriteInt32(frequency)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(groupIfname)
+			case 1:
+				_data.WriteInt32(frequency)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupFrequencyChanged)
 	if _err != nil {
@@ -506,16 +830,57 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnDeviceFoundWithVendorElements(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteByteArray(srcAddress)
-	_data.WriteByteArray(p2pDeviceAddress)
-	_data.WriteByteArray(primaryDeviceType)
-	_data.WriteString16(deviceName)
-	_data.WriteInt32(int32(configMethods))
-	_data.WritePaddedByte(deviceCapabilities)
-	_data.WriteInt32(int32(groupCapabilities))
-	_data.WriteByteArray(wfdDeviceInfo)
-	_data.WriteByteArray(wfdR2DeviceInfo)
-	_data.WriteByteArray(vendorElemBytes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceFoundWithVendorElements)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"[B",
+		"Ljava/lang/String;",
+		"Landroid/hardware/wifi/supplicant/WpsConfigMethods;",
+		"B",
+		"Landroid/hardware/wifi/supplicant/P2pGroupCapabilityMask;",
+		"[B",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(srcAddress)
+		_data.WriteByteArray(p2pDeviceAddress)
+		_data.WriteByteArray(primaryDeviceType)
+		_data.WriteString16(deviceName)
+		_data.WriteInt32(int32(configMethods))
+		_data.WritePaddedByte(deviceCapabilities)
+		_data.WriteInt32(int32(groupCapabilities))
+		_data.WriteByteArray(wfdDeviceInfo)
+		_data.WriteByteArray(wfdR2DeviceInfo)
+		_data.WriteByteArray(vendorElemBytes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(srcAddress)
+			case 1:
+				_data.WriteByteArray(p2pDeviceAddress)
+			case 2:
+				_data.WriteByteArray(primaryDeviceType)
+			case 3:
+				_data.WriteString16(deviceName)
+			case 4:
+				_data.WriteInt32(int32(configMethods))
+			case 5:
+				_data.WritePaddedByte(deviceCapabilities)
+			case 6:
+				_data.WriteInt32(int32(groupCapabilities))
+			case 7:
+				_data.WriteByteArray(wfdDeviceInfo)
+			case 8:
+				_data.WriteByteArray(wfdR2DeviceInfo)
+			case 9:
+				_data.WriteByteArray(vendorElemBytes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceFoundWithVendorElements)
 	if _err != nil {
@@ -533,9 +898,26 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGroupStartedWithParams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := groupStartedEventParams.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupStartedWithParams)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/P2pGroupStartedEventParams;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := groupStartedEventParams.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := groupStartedEventParams.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupStartedWithParams)
@@ -554,9 +936,26 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnPeerClientJoined(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := clientJoinedEventParams.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnPeerClientJoined)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/P2pPeerClientJoinedEventParams;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := clientJoinedEventParams.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := clientJoinedEventParams.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnPeerClientJoined)
@@ -575,9 +974,26 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnPeerClientDisconnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := clientDisconnectedEventParams.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnPeerClientDisconnected)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/P2pPeerClientDisconnectedEventParams;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := clientDisconnectedEventParams.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := clientDisconnectedEventParams.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnPeerClientDisconnected)
@@ -596,9 +1012,26 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnProvisionDiscoveryCompletedEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := provisionDiscoveryCompletedEventParams.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompletedEvent)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/P2pProvisionDiscoveryCompletedEventParams;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := provisionDiscoveryCompletedEventParams.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := provisionDiscoveryCompletedEventParams.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompletedEvent)
@@ -617,9 +1050,26 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnDeviceFoundWithParams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := deviceFoundEventParams.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceFoundWithParams)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/P2pDeviceFoundEventParams;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := deviceFoundEventParams.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := deviceFoundEventParams.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceFoundWithParams)
@@ -638,9 +1088,26 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGoNegotiationRequestWithParams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGoNegotiationRequestWithParams)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/P2pGoNegotiationReqEventParams;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGoNegotiationRequestWithParams)
@@ -659,9 +1126,26 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnInvitationReceivedWithParams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnInvitationReceivedWithParams)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/P2pInvitationEventParams;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnInvitationReceivedWithParams)

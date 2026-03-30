@@ -52,10 +52,30 @@ func (p *SyncServiceAdapterProxy) StartSync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISyncServiceAdapter)
-	binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISyncServiceAdapter, MethodISyncServiceAdapterStartSync)
+	_compiledDescs := []string{
+		"Landroid/content/ISyncContext;",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISyncServiceAdapter, MethodISyncServiceAdapterStartSync)
@@ -74,7 +94,21 @@ func (p *SyncServiceAdapterProxy) CancelSync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISyncServiceAdapter)
-	binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISyncServiceAdapter, MethodISyncServiceAdapterCancelSync)
+	_compiledDescs := []string{
+		"Landroid/content/ISyncContext;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISyncServiceAdapter, MethodISyncServiceAdapterCancelSync)
 	if _err != nil {

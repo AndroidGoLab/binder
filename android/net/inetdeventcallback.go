@@ -69,21 +69,63 @@ func (p *NetdEventCallbackProxy) OnDnsEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetdEventCallback)
-	_data.WriteInt32(netId)
-	_data.WriteInt32(eventType)
-	_data.WriteInt32(returnCode)
-	_data.WriteString16(hostname)
-	if ipAddresses == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetdEventCallback, MethodINetdEventCallbackOnDnsEvent)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"I",
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(netId)
+		_data.WriteInt32(eventType)
+		_data.WriteInt32(returnCode)
+		_data.WriteString16(hostname)
+		if ipAddresses == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ipAddresses)))
+			for _, _item := range ipAddresses {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(ipAddressesCount)
+		_data.WriteInt64(timestamp)
+		_data.WriteInt32(uid)
 	} else {
-		_data.WriteInt32(int32(len(ipAddresses)))
-		for _, _item := range ipAddresses {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(netId)
+			case 1:
+				_data.WriteInt32(eventType)
+			case 2:
+				_data.WriteInt32(returnCode)
+			case 3:
+				_data.WriteString16(hostname)
+			case 4:
+				if ipAddresses == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ipAddresses)))
+					for _, _item := range ipAddresses {
+						_data.WriteString16(_item)
+					}
+				}
+			case 5:
+				_data.WriteInt32(ipAddressesCount)
+			case 6:
+				_data.WriteInt64(timestamp)
+			case 7:
+				_data.WriteInt32(uid)
+			}
 		}
 	}
-	_data.WriteInt32(ipAddressesCount)
-	_data.WriteInt64(timestamp)
-	_data.WriteInt32(uid)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetdEventCallback, MethodINetdEventCallbackOnDnsEvent)
 	if _err != nil {
@@ -104,10 +146,33 @@ func (p *NetdEventCallbackProxy) OnNat64PrefixEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetdEventCallback)
-	_data.WriteInt32(netId)
-	_data.WriteBool(added)
-	_data.WriteString16(prefixString)
-	_data.WriteInt32(prefixLength)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetdEventCallback, MethodINetdEventCallbackOnNat64PrefixEvent)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(netId)
+		_data.WriteBool(added)
+		_data.WriteString16(prefixString)
+		_data.WriteInt32(prefixLength)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(netId)
+			case 1:
+				_data.WriteBool(added)
+			case 2:
+				_data.WriteString16(prefixString)
+			case 3:
+				_data.WriteInt32(prefixLength)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetdEventCallback, MethodINetdEventCallbackOnNat64PrefixEvent)
 	if _err != nil {
@@ -128,10 +193,33 @@ func (p *NetdEventCallbackProxy) OnPrivateDnsValidationEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetdEventCallback)
-	_data.WriteInt32(netId)
-	_data.WriteString16(ipAddress)
-	_data.WriteString16(hostname)
-	_data.WriteBool(validated)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetdEventCallback, MethodINetdEventCallbackOnPrivateDnsValidationEvent)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(netId)
+		_data.WriteString16(ipAddress)
+		_data.WriteString16(hostname)
+		_data.WriteBool(validated)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(netId)
+			case 1:
+				_data.WriteString16(ipAddress)
+			case 2:
+				_data.WriteString16(hostname)
+			case 3:
+				_data.WriteBool(validated)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetdEventCallback, MethodINetdEventCallbackOnPrivateDnsValidationEvent)
 	if _err != nil {
@@ -152,10 +240,33 @@ func (p *NetdEventCallbackProxy) OnConnectEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetdEventCallback)
-	_data.WriteString16(ipAddr)
-	_data.WriteInt32(port)
-	_data.WriteInt64(timestamp)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetdEventCallback, MethodINetdEventCallbackOnConnectEvent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(ipAddr)
+		_data.WriteInt32(port)
+		_data.WriteInt64(timestamp)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(ipAddr)
+			case 1:
+				_data.WriteInt32(port)
+			case 2:
+				_data.WriteInt64(timestamp)
+			case 3:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetdEventCallback, MethodINetdEventCallbackOnConnectEvent)
 	if _err != nil {

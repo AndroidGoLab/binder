@@ -48,13 +48,37 @@ func (p *SuspendCallbackProxy) NotifyWakeup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISuspendCallback)
-	_data.WriteBool(success)
-	if wakeupReasons == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISuspendCallback, MethodISuspendCallbackNotifyWakeup)
+	_compiledDescs := []string{
+		"Z",
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(success)
+		if wakeupReasons == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(wakeupReasons)))
+			for _, _item := range wakeupReasons {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(wakeupReasons)))
-		for _, _item := range wakeupReasons {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(success)
+			case 1:
+				if wakeupReasons == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(wakeupReasons)))
+					for _, _item := range wakeupReasons {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 

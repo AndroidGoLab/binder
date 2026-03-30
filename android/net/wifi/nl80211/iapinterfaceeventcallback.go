@@ -62,11 +62,31 @@ func (p *ApInterfaceEventCallbackProxy) OnConnectedClientsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApInterfaceEventCallback)
-	_data.WriteInt32(1)
-	if _err := client.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIApInterfaceEventCallback, MethodIApInterfaceEventCallbackOnConnectedClientsChanged)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/nl80211/NativeWifiClient;",
+		"Z",
 	}
-	_data.WriteBool(isConnected)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := client.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(isConnected)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := client.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(isConnected)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApInterfaceEventCallback, MethodIApInterfaceEventCallbackOnConnectedClientsChanged)
 	if _err != nil {
@@ -85,8 +105,25 @@ func (p *ApInterfaceEventCallbackProxy) OnSoftApChannelSwitched(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApInterfaceEventCallback)
-	_data.WriteInt32(frequency)
-	_data.WriteInt32(bandwidth)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIApInterfaceEventCallback, MethodIApInterfaceEventCallbackOnSoftApChannelSwitched)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(frequency)
+		_data.WriteInt32(bandwidth)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(frequency)
+			case 1:
+				_data.WriteInt32(bandwidth)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApInterfaceEventCallback, MethodIApInterfaceEventCallbackOnSoftApChannelSwitched)
 	if _err != nil {

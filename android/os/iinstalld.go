@@ -220,10 +220,33 @@ func (p *InstalldProxy) CreateUserData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(userSerial)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldCreateUserData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(userSerial)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(userSerial)
+			case 3:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldCreateUserData)
 	if _err != nil {
@@ -252,9 +275,29 @@ func (p *InstalldProxy) DestroyUserData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldDestroyUserData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldDestroyUserData)
 	if _err != nil {
@@ -307,9 +350,26 @@ func (p *InstalldProxy) CreateAppData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldCreateAppData)
+	_compiledDescs := []string{
+		"Landroid/os/CreateAppDataArgs;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := args.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := args.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldCreateAppData)
@@ -347,14 +407,38 @@ func (p *InstalldProxy) CreateAppDataBatched(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	if args == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldCreateAppDataBatched)
+	_compiledDescs := []string{
+		"[Landroid/os/CreateAppDataArgs;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if args == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(args)))
+			for _, _item := range args {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(args)))
-		for _, _item := range args {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if args == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(args)))
+					for _, _item := range args {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -420,9 +504,26 @@ func (p *InstalldProxy) ReconcileSdkData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldReconcileSdkData)
+	_compiledDescs := []string{
+		"Landroid/os/ReconcileSdkDataArgs;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := args.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := args.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldReconcileSdkData)
@@ -455,12 +556,41 @@ func (p *InstalldProxy) RestoreconAppData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(appId)
-	_data.WriteString16(seInfo)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldRestoreconAppData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(appId)
+		_data.WriteString16(seInfo)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(flags)
+			case 4:
+				_data.WriteInt32(appId)
+			case 5:
+				_data.WriteString16(seInfo)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldRestoreconAppData)
 	if _err != nil {
@@ -490,10 +620,33 @@ func (p *InstalldProxy) MigrateAppData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldMigrateAppData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldMigrateAppData)
 	if _err != nil {
@@ -524,11 +677,37 @@ func (p *InstalldProxy) ClearAppData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(flags)
-	_data.WriteInt64(ceDataInode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldClearAppData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(flags)
+		_data.WriteInt64(ceDataInode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(flags)
+			case 4:
+				_data.WriteInt64(ceDataInode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldClearAppData)
 	if _err != nil {
@@ -559,11 +738,37 @@ func (p *InstalldProxy) DestroyAppData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(flags)
-	_data.WriteInt64(ceDataInode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldDestroyAppData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(flags)
+		_data.WriteInt64(ceDataInode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(flags)
+			case 4:
+				_data.WriteInt64(ceDataInode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldDestroyAppData)
 	if _err != nil {
@@ -591,8 +796,25 @@ func (p *InstalldProxy) FixupAppData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldFixupAppData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldFixupAppData)
 	if _err != nil {
@@ -626,32 +848,85 @@ func (p *InstalldProxy) GetAppSize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	if packageNames == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldGetAppSize)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+		"[J",
+		"[Ljava/lang/String;",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(appId)
-	if ceDataInodes == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(ceDataInodes)))
-		for _, _item := range ceDataInodes {
-			_data.WriteInt64(_item)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
 		}
-	}
-	if codePaths == nil {
-		_data.WriteInt32(-1)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(appId)
+		if ceDataInodes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ceDataInodes)))
+			for _, _item := range ceDataInodes {
+				_data.WriteInt64(_item)
+			}
+		}
+		if codePaths == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(codePaths)))
+			for _, _item := range codePaths {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(codePaths)))
-		for _, _item := range codePaths {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(flags)
+			case 4:
+				_data.WriteInt32(appId)
+			case 5:
+				if ceDataInodes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ceDataInodes)))
+					for _, _item := range ceDataInodes {
+						_data.WriteInt64(_item)
+					}
+				}
+			case 6:
+				if codePaths == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(codePaths)))
+					for _, _item := range codePaths {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -701,15 +976,45 @@ func (p *InstalldProxy) GetUserSize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(flags)
-	if appIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldGetUserSize)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(flags)
+		if appIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(appIds)))
+			for _, _item := range appIds {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(appIds)))
-		for _, _item := range appIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				if appIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(appIds)))
+					for _, _item := range appIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -759,15 +1064,45 @@ func (p *InstalldProxy) GetExternalSize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(flags)
-	if appIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldGetExternalSize)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(flags)
+		if appIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(appIds)))
+			for _, _item := range appIds {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(appIds)))
-		for _, _item := range appIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				if appIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(appIds)))
+					for _, _item := range appIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -816,16 +1151,43 @@ func (p *InstalldProxy) GetAppCrates(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldGetAppCrates)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldGetAppCrates)
 	if _err != nil {
@@ -890,8 +1252,25 @@ func (p *InstalldProxy) GetUserCrates(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldGetUserCrates)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldGetUserCrates)
 	if _err != nil {
@@ -957,10 +1336,33 @@ func (p *InstalldProxy) SetAppQuota(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(appId)
-	_data.WriteInt64(cacheQuota)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldSetAppQuota)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(appId)
+		_data.WriteInt64(cacheQuota)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(appId)
+			case 3:
+				_data.WriteInt64(cacheQuota)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldSetAppQuota)
 	if _err != nil {
@@ -993,13 +1395,45 @@ func (p *InstalldProxy) MoveCompleteApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(fromUuid)
-	_data.WriteString16(toUuid)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(appId)
-	_data.WriteString16(seInfo)
-	_data.WriteInt32(targetSdkVersion)
-	_data.WriteString16(fromCodePath)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldMoveCompleteApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(fromUuid)
+		_data.WriteString16(toUuid)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(appId)
+		_data.WriteString16(seInfo)
+		_data.WriteInt32(targetSdkVersion)
+		_data.WriteString16(fromCodePath)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(fromUuid)
+			case 1:
+				_data.WriteString16(toUuid)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteInt32(appId)
+			case 4:
+				_data.WriteString16(seInfo)
+			case 5:
+				_data.WriteInt32(targetSdkVersion)
+			case 6:
+				_data.WriteString16(fromCodePath)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldMoveCompleteApp)
 	if _err != nil {
@@ -1042,22 +1476,81 @@ func (p *InstalldProxy) Dexopt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(apkPath)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(instructionSet)
-	_data.WriteInt32(dexoptNeeded)
-	_data.WriteString16(outputPath)
-	_data.WriteInt32(dexFlags)
-	_data.WriteString16(compilerFilter)
-	_data.WriteString16(uuid)
-	_data.WriteString16(sharedLibraries)
-	_data.WriteString16(seInfo)
-	_data.WriteBool(downgrade)
-	_data.WriteInt32(targetSdkVersion)
-	_data.WriteString16(profileName)
-	_data.WriteString16(dexMetadataPath)
-	_data.WriteString16(compilationReason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldDexopt)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(apkPath)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(instructionSet)
+		_data.WriteInt32(dexoptNeeded)
+		_data.WriteString16(outputPath)
+		_data.WriteInt32(dexFlags)
+		_data.WriteString16(compilerFilter)
+		_data.WriteString16(uuid)
+		_data.WriteString16(sharedLibraries)
+		_data.WriteString16(seInfo)
+		_data.WriteBool(downgrade)
+		_data.WriteInt32(targetSdkVersion)
+		_data.WriteString16(profileName)
+		_data.WriteString16(dexMetadataPath)
+		_data.WriteString16(compilationReason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(apkPath)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteString16(instructionSet)
+			case 4:
+				_data.WriteInt32(dexoptNeeded)
+			case 5:
+				_data.WriteString16(outputPath)
+			case 6:
+				_data.WriteInt32(dexFlags)
+			case 7:
+				_data.WriteString16(compilerFilter)
+			case 8:
+				_data.WriteString16(uuid)
+			case 9:
+				_data.WriteString16(sharedLibraries)
+			case 10:
+				_data.WriteString16(seInfo)
+			case 11:
+				_data.WriteBool(downgrade)
+			case 12:
+				_data.WriteInt32(targetSdkVersion)
+			case 13:
+				_data.WriteString16(profileName)
+			case 14:
+				_data.WriteString16(dexMetadataPath)
+			case 15:
+				_data.WriteString16(compilationReason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldDexopt)
 	if _err != nil {
@@ -1088,7 +1581,21 @@ func (p *InstalldProxy) ControlDexOptBlocking(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteBool(block)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldControlDexOptBlocking)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(block)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(block)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldControlDexOptBlocking)
 	if _err != nil {
@@ -1116,8 +1623,25 @@ func (p *InstalldProxy) Rmdex(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(codePath)
-	_data.WriteString16(instructionSet)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldRmdex)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(codePath)
+		_data.WriteString16(instructionSet)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(codePath)
+			case 1:
+				_data.WriteString16(instructionSet)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldRmdex)
 	if _err != nil {
@@ -1147,9 +1671,29 @@ func (p *InstalldProxy) MergeProfiles(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(profileName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldMergeProfiles)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(profileName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteString16(profileName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldMergeProfiles)
 	if _err != nil {
@@ -1185,11 +1729,37 @@ func (p *InstalldProxy) DumpProfiles(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(profileName)
-	_data.WriteString16(codePath)
-	_data.WriteBool(dumpClassesAndMethods)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldDumpProfiles)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(profileName)
+		_data.WriteString16(codePath)
+		_data.WriteBool(dumpClassesAndMethods)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteString16(profileName)
+			case 3:
+				_data.WriteString16(codePath)
+			case 4:
+				_data.WriteBool(dumpClassesAndMethods)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldDumpProfiles)
 	if _err != nil {
@@ -1224,10 +1794,33 @@ func (p *InstalldProxy) CopySystemProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(systemProfile)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(profileName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldCopySystemProfile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(systemProfile)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(profileName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(systemProfile)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteString16(profileName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldCopySystemProfile)
 	if _err != nil {
@@ -1259,8 +1852,25 @@ func (p *InstalldProxy) ClearAppProfiles(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(packageName)
-	_data.WriteString16(profileName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldClearAppProfiles)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(profileName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(profileName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldClearAppProfiles)
 	if _err != nil {
@@ -1287,7 +1897,21 @@ func (p *InstalldProxy) DestroyAppProfiles(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldDestroyAppProfiles)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldDestroyAppProfiles)
 	if _err != nil {
@@ -1315,8 +1939,25 @@ func (p *InstalldProxy) DeleteReferenceProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(packageName)
-	_data.WriteString16(profileName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldDeleteReferenceProfile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(profileName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(profileName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldDeleteReferenceProfile)
 	if _err != nil {
@@ -1347,10 +1988,33 @@ func (p *InstalldProxy) CreateProfileSnapshot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteInt32(appId)
-	_data.WriteString16(packageName)
-	_data.WriteString16(profileName)
-	_data.WriteString16(classpath)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldCreateProfileSnapshot)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(appId)
+		_data.WriteString16(packageName)
+		_data.WriteString16(profileName)
+		_data.WriteString16(classpath)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(appId)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteString16(profileName)
+			case 3:
+				_data.WriteString16(classpath)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldCreateProfileSnapshot)
 	if _err != nil {
@@ -1382,8 +2046,25 @@ func (p *InstalldProxy) DestroyProfileSnapshot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(packageName)
-	_data.WriteString16(profileName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldDestroyProfileSnapshot)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(profileName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(profileName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldDestroyProfileSnapshot)
 	if _err != nil {
@@ -1411,8 +2092,25 @@ func (p *InstalldProxy) RmPackageDir(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(packageName)
-	_data.WriteString16(packageDir)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldRmPackageDir)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(packageDir)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(packageDir)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldRmPackageDir)
 	if _err != nil {
@@ -1441,9 +2139,29 @@ func (p *InstalldProxy) FreeCache(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteInt64(targetFreeBytes)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldFreeCache)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteInt64(targetFreeBytes)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteInt64(targetFreeBytes)
+			case 2:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldFreeCache)
 	if _err != nil {
@@ -1473,10 +2191,33 @@ func (p *InstalldProxy) LinkNativeLibraryDirectory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(nativeLibPath32)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldLinkNativeLibraryDirectory)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(nativeLibPath32)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteString16(nativeLibPath32)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldLinkNativeLibraryDirectory)
 	if _err != nil {
@@ -1505,9 +2246,29 @@ func (p *InstalldProxy) CreateOatDir(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(packageName)
-	_data.WriteString16(oatDir)
-	_data.WriteString16(instructionSet)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldCreateOatDir)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(oatDir)
+		_data.WriteString16(instructionSet)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(oatDir)
+			case 2:
+				_data.WriteString16(instructionSet)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldCreateOatDir)
 	if _err != nil {
@@ -1537,10 +2298,33 @@ func (p *InstalldProxy) LinkFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(packageName)
-	_data.WriteString16(relativePath)
-	_data.WriteString16(fromBase)
-	_data.WriteString16(toBase)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldLinkFile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(relativePath)
+		_data.WriteString16(fromBase)
+		_data.WriteString16(toBase)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(relativePath)
+			case 2:
+				_data.WriteString16(fromBase)
+			case 3:
+				_data.WriteString16(toBase)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldLinkFile)
 	if _err != nil {
@@ -1570,10 +2354,33 @@ func (p *InstalldProxy) MoveAb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(packageName)
-	_data.WriteString16(apkPath)
-	_data.WriteString16(instructionSet)
-	_data.WriteString16(outputPath)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldMoveAb)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(apkPath)
+		_data.WriteString16(instructionSet)
+		_data.WriteString16(outputPath)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(apkPath)
+			case 2:
+				_data.WriteString16(instructionSet)
+			case 3:
+				_data.WriteString16(outputPath)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldMoveAb)
 	if _err != nil {
@@ -1604,10 +2411,33 @@ func (p *InstalldProxy) DeleteOdex(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(packageName)
-	_data.WriteString16(apkPath)
-	_data.WriteString16(instructionSet)
-	_data.WriteString16(outputPath)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldDeleteOdex)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(apkPath)
+		_data.WriteString16(instructionSet)
+		_data.WriteString16(outputPath)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(apkPath)
+			case 2:
+				_data.WriteString16(instructionSet)
+			case 3:
+				_data.WriteString16(outputPath)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldDeleteOdex)
 	if _err != nil {
@@ -1644,19 +2474,55 @@ func (p *InstalldProxy) ReconcileSecondaryDexFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(dexPath)
-	_data.WriteString16(pkgName)
-	_data.WriteInt32(uid)
-	if isas == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldReconcileSecondaryDexFile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"[Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(dexPath)
+		_data.WriteString16(pkgName)
+		_data.WriteInt32(uid)
+		if isas == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(isas)))
+			for _, _item := range isas {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteString16(volume_uuid)
+		_data.WriteInt32(storage_flag)
 	} else {
-		_data.WriteInt32(int32(len(isas)))
-		for _, _item := range isas {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(dexPath)
+			case 1:
+				_data.WriteString16(pkgName)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				if isas == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(isas)))
+					for _, _item := range isas {
+						_data.WriteString16(_item)
+					}
+				}
+			case 4:
+				_data.WriteString16(volume_uuid)
+			case 5:
+				_data.WriteInt32(storage_flag)
+			}
 		}
 	}
-	_data.WriteString16(volume_uuid)
-	_data.WriteInt32(storage_flag)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldReconcileSecondaryDexFile)
 	if _err != nil {
@@ -1692,11 +2558,37 @@ func (p *InstalldProxy) HashSecondaryDexFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(dexPath)
-	_data.WriteString16(pkgName)
-	_data.WriteInt32(uid)
-	_data.WriteString16(volumeUuid)
-	_data.WriteInt32(storageFlag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldHashSecondaryDexFile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(dexPath)
+		_data.WriteString16(pkgName)
+		_data.WriteInt32(uid)
+		_data.WriteString16(volumeUuid)
+		_data.WriteInt32(storageFlag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(dexPath)
+			case 1:
+				_data.WriteString16(pkgName)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteString16(volumeUuid)
+			case 4:
+				_data.WriteInt32(storageFlag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldHashSecondaryDexFile)
 	if _err != nil {
@@ -1753,7 +2645,21 @@ func (p *InstalldProxy) IsQuotaSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldIsQuotaSupported)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldIsQuotaSupported)
 	if _err != nil {
@@ -1790,12 +2696,41 @@ func (p *InstalldProxy) PrepareAppProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(appId)
-	_data.WriteString16(profileName)
-	_data.WriteString16(codePath)
-	_data.WriteString16(dexMetadata)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldPrepareAppProfile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(appId)
+		_data.WriteString16(profileName)
+		_data.WriteString16(codePath)
+		_data.WriteString16(dexMetadata)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(appId)
+			case 3:
+				_data.WriteString16(profileName)
+			case 4:
+				_data.WriteString16(codePath)
+			case 5:
+				_data.WriteString16(dexMetadata)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldPrepareAppProfile)
 	if _err != nil {
@@ -1831,11 +2766,37 @@ func (p *InstalldProxy) SnapshotAppData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(snapshotId)
-	_data.WriteInt32(storageFlags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldSnapshotAppData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(snapshotId)
+		_data.WriteInt32(storageFlags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt32(snapshotId)
+			case 4:
+				_data.WriteInt32(storageFlags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldSnapshotAppData)
 	if _err != nil {
@@ -1872,13 +2833,45 @@ func (p *InstalldProxy) RestoreAppDataSnapshot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(appId)
-	_data.WriteString16(seInfo)
-	_data.WriteInt32(user)
-	_data.WriteInt32(snapshotId)
-	_data.WriteInt32(storageflags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldRestoreAppDataSnapshot)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(appId)
+		_data.WriteString16(seInfo)
+		_data.WriteInt32(user)
+		_data.WriteInt32(snapshotId)
+		_data.WriteInt32(storageflags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(appId)
+			case 3:
+				_data.WriteString16(seInfo)
+			case 4:
+				_data.WriteInt32(user)
+			case 5:
+				_data.WriteInt32(snapshotId)
+			case 6:
+				_data.WriteInt32(storageflags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldRestoreAppDataSnapshot)
 	if _err != nil {
@@ -1910,12 +2903,41 @@ func (p *InstalldProxy) DestroyAppDataSnapshot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt64(ceSnapshotInode)
-	_data.WriteInt32(snapshotId)
-	_data.WriteInt32(storageFlags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldDestroyAppDataSnapshot)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"J",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt64(ceSnapshotInode)
+		_data.WriteInt32(snapshotId)
+		_data.WriteInt32(storageFlags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt64(ceSnapshotInode)
+			case 4:
+				_data.WriteInt32(snapshotId)
+			case 5:
+				_data.WriteInt32(storageFlags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldDestroyAppDataSnapshot)
 	if _err != nil {
@@ -1944,14 +2966,41 @@ func (p *InstalldProxy) DestroyCeSnapshotsNotSpecified(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteInt32(_identity.UserID)
-	if retainSnapshotIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldDestroyCeSnapshotsNotSpecified)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteInt32(_identity.UserID)
+		if retainSnapshotIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(retainSnapshotIds)))
+			for _, _item := range retainSnapshotIds {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(retainSnapshotIds)))
-		for _, _item := range retainSnapshotIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				if retainSnapshotIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(retainSnapshotIds)))
+					for _, _item := range retainSnapshotIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -1980,7 +3029,21 @@ func (p *InstalldProxy) TryMountDataMirror(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(volumeUuid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldTryMountDataMirror)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldTryMountDataMirror)
 	if _err != nil {
@@ -2007,7 +3070,21 @@ func (p *InstalldProxy) OnPrivateVolumeRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(volumeUuid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldOnPrivateVolumeRemoved)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(volumeUuid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(volumeUuid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldOnPrivateVolumeRemoved)
 	if _err != nil {
@@ -2061,9 +3138,29 @@ func (p *InstalldProxy) CleanupInvalidPackageDirs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(uuid)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldCleanupInvalidPackageDirs)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uuid)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uuid)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldCleanupInvalidPackageDirs)
 	if _err != nil {
@@ -2094,10 +3191,33 @@ func (p *InstalldProxy) GetOdexVisibility(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteString16(packageName)
-	_data.WriteString16(apkPath)
-	_data.WriteString16(instructionSet)
-	_data.WriteString16(outputPath)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldGetOdexVisibility)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(apkPath)
+		_data.WriteString16(instructionSet)
+		_data.WriteString16(outputPath)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(apkPath)
+			case 2:
+				_data.WriteString16(instructionSet)
+			case 3:
+				_data.WriteString16(outputPath)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldGetOdexVisibility)
 	if _err != nil {
@@ -2130,8 +3250,25 @@ func (p *InstalldProxy) CreateFsveritySetupAuthToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	_data.WriteParcelFileDescriptor(authFd)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldCreateFsveritySetupAuthToken)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(authFd)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(authFd)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldCreateFsveritySetupAuthToken)
 	if _err != nil {
@@ -2166,9 +3303,29 @@ func (p *InstalldProxy) EnableFsverity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
-	binder.WriteBinderToParcel(ctx, _data, authToken.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(filePath)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInstalld, MethodIInstalldEnableFsverity)
+	_compiledDescs := []string{
+		"Landroid/os/IInstalld/IFsveritySetupAuthToken;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, authToken.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(filePath)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, authToken.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(filePath)
+			case 2:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldEnableFsverity)
 	if _err != nil {

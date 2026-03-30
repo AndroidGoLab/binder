@@ -52,15 +52,42 @@ func (p *InjectRecognitionEventProxy) TriggerRecognitionEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInjectRecognitionEvent)
-	_data.WriteByteArray(data)
-	if phraseExtras == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInjectRecognitionEvent, MethodIInjectRecognitionEventTriggerRecognitionEvent)
+	_compiledDescs := []string{
+		"[B",
+		"[Landroid/media/soundtrigger/PhraseRecognitionExtra;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(data)
+		if phraseExtras == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(phraseExtras)))
+			for _, _item := range phraseExtras {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(phraseExtras)))
-		for _, _item := range phraseExtras {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(data)
+			case 1:
+				if phraseExtras == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(phraseExtras)))
+					for _, _item := range phraseExtras {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

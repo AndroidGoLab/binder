@@ -59,10 +59,33 @@ func (p *msConfigListenerProxy) OnGetFeatureResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorImsConfigListener)
-	_data.WriteInt32(feature)
-	_data.WriteInt32(network)
-	_data.WriteInt32(value)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorImsConfigListener, MethodImsConfigListenerOnGetFeatureResponse)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(feature)
+		_data.WriteInt32(network)
+		_data.WriteInt32(value)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(feature)
+			case 1:
+				_data.WriteInt32(network)
+			case 2:
+				_data.WriteInt32(value)
+			case 3:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorImsConfigListener, MethodImsConfigListenerOnGetFeatureResponse)
 	if _err != nil {
@@ -83,10 +106,33 @@ func (p *msConfigListenerProxy) OnSetFeatureResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorImsConfigListener)
-	_data.WriteInt32(feature)
-	_data.WriteInt32(network)
-	_data.WriteInt32(value)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorImsConfigListener, MethodImsConfigListenerOnSetFeatureResponse)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(feature)
+		_data.WriteInt32(network)
+		_data.WriteInt32(value)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(feature)
+			case 1:
+				_data.WriteInt32(network)
+			case 2:
+				_data.WriteInt32(value)
+			case 3:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorImsConfigListener, MethodImsConfigListenerOnSetFeatureResponse)
 	if _err != nil {
@@ -105,8 +151,25 @@ func (p *msConfigListenerProxy) OnGetVideoQuality(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorImsConfigListener)
-	_data.WriteInt32(status)
-	_data.WriteInt32(quality)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorImsConfigListener, MethodImsConfigListenerOnGetVideoQuality)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+		_data.WriteInt32(quality)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			case 1:
+				_data.WriteInt32(quality)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorImsConfigListener, MethodImsConfigListenerOnGetVideoQuality)
 	if _err != nil {
@@ -124,7 +187,21 @@ func (p *msConfigListenerProxy) OnSetVideoQuality(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorImsConfigListener)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorImsConfigListener, MethodImsConfigListenerOnSetVideoQuality)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorImsConfigListener, MethodImsConfigListenerOnSetVideoQuality)
 	if _err != nil {

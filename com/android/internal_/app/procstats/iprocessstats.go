@@ -110,7 +110,21 @@ func (p *ProcessStatsProxy) GetStatsOverTime(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
-	_data.WriteInt64(minTime)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProcessStats, MethodIProcessStatsGetStatsOverTime)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(minTime)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(minTime)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessStats, MethodIProcessStatsGetStatsOverTime)
 	if _err != nil {
@@ -175,9 +189,29 @@ func (p *ProcessStatsProxy) GetCommittedStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
-	_data.WriteInt64(highWaterMarkMs)
-	_data.WriteInt32(section)
-	_data.WriteBool(doAggregate)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProcessStats, MethodIProcessStatsGetCommittedStats)
+	_compiledDescs := []string{
+		"J",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(highWaterMarkMs)
+		_data.WriteInt32(section)
+		_data.WriteBool(doAggregate)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(highWaterMarkMs)
+			case 1:
+				_data.WriteInt32(section)
+			case 2:
+				_data.WriteBool(doAggregate)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessStats, MethodIProcessStatsGetCommittedStats)
 	if _err != nil {
@@ -229,9 +263,29 @@ func (p *ProcessStatsProxy) GetCommittedStatsMerged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
-	_data.WriteInt64(highWaterMarkMs)
-	_data.WriteInt32(section)
-	_data.WriteBool(doAggregate)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProcessStats, MethodIProcessStatsGetCommittedStatsMerged)
+	_compiledDescs := []string{
+		"J",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(highWaterMarkMs)
+		_data.WriteInt32(section)
+		_data.WriteBool(doAggregate)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(highWaterMarkMs)
+			case 1:
+				_data.WriteInt32(section)
+			case 2:
+				_data.WriteBool(doAggregate)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessStats, MethodIProcessStatsGetCommittedStatsMerged)
 	if _err != nil {

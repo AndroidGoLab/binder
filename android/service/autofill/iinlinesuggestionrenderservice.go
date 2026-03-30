@@ -61,17 +61,55 @@ func (p *InlineSuggestionRenderServiceProxy) RenderSuggestion(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionRenderService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := presentation.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInlineSuggestionRenderService, MethodIInlineSuggestionRenderServiceRenderSuggestion)
+	_compiledDescs := []string{
+		"Landroid/service/autofill/IInlineSuggestionUiCallback;",
+		"Landroid/service/autofill/InlinePresentation;",
+		"I",
+		"I",
+		"Landroid/os/IBinder;",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(width)
-	_data.WriteInt32(height)
-	binder.WriteBinderToParcel(ctx, _data, hostInputToken, p.Remote.Transport())
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(sessionId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := presentation.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(width)
+		_data.WriteInt32(height)
+		binder.WriteBinderToParcel(ctx, _data, hostInputToken, p.Remote.Transport())
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := presentation.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(width)
+			case 3:
+				_data.WriteInt32(height)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, hostInputToken, p.Remote.Transport())
+			case 5:
+				_data.WriteInt32(displayId)
+			case 6:
+				_data.WriteInt32(_identity.UserID)
+			case 7:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionRenderService, MethodIInlineSuggestionRenderServiceRenderSuggestion)
 	if _err != nil {
@@ -89,9 +127,26 @@ func (p *InlineSuggestionRenderServiceProxy) GetInlineSuggestionsRendererInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionRenderService)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInlineSuggestionRenderService, MethodIInlineSuggestionRenderServiceGetInlineSuggestionsRendererInfo)
+	_compiledDescs := []string{
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionRenderService, MethodIInlineSuggestionRenderServiceGetInlineSuggestionsRendererInfo)
@@ -111,8 +166,25 @@ func (p *InlineSuggestionRenderServiceProxy) DestroySuggestionViews(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionRenderService)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInlineSuggestionRenderService, MethodIInlineSuggestionRenderServiceDestroySuggestionViews)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionRenderService, MethodIInlineSuggestionRenderServiceDestroySuggestionViews)
 	if _err != nil {

@@ -57,7 +57,21 @@ func (p *ControlsProviderProxy) Load(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIControlsProvider)
-	binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIControlsProvider, MethodIControlsProviderLoad)
+	_compiledDescs := []string{
+		"Landroid/service/controls/IControlsSubscriber;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsProvider, MethodIControlsProviderLoad)
 	if _err != nil {
@@ -75,7 +89,21 @@ func (p *ControlsProviderProxy) LoadSuggested(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIControlsProvider)
-	binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIControlsProvider, MethodIControlsProviderLoadSuggested)
+	_compiledDescs := []string{
+		"Landroid/service/controls/IControlsSubscriber;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsProvider, MethodIControlsProviderLoadSuggested)
 	if _err != nil {
@@ -94,15 +122,39 @@ func (p *ControlsProviderProxy) Subscribe(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIControlsProvider)
-	if controlIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIControlsProvider, MethodIControlsProviderSubscribe)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Landroid/service/controls/IControlsSubscriber;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if controlIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(controlIds)))
+			for _, _item := range controlIds {
+				_data.WriteString16(_item)
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(controlIds)))
-		for _, _item := range controlIds {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if controlIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(controlIds)))
+					for _, _item := range controlIds {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsProvider, MethodIControlsProviderSubscribe)
 	if _err != nil {
@@ -122,12 +174,35 @@ func (p *ControlsProviderProxy) Action(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIControlsProvider)
-	_data.WriteString16(controlId)
-	_data.WriteInt32(1)
-	if _err := action.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIControlsProvider, MethodIControlsProviderAction)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/service/controls/actions/ControlActionWrapper;",
+		"Landroid/service/controls/IControlsActionCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(controlId)
+		_data.WriteInt32(1)
+		if _err := action.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(controlId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := action.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsProvider, MethodIControlsProviderAction)
 	if _err != nil {

@@ -55,11 +55,31 @@ func (p *DomainSelectionServiceControllerProxy) SelectDomain(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainSelectionServiceController)
-	_data.WriteInt32(1)
-	if _err := attr.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDomainSelectionServiceController, MethodIDomainSelectionServiceControllerSelectDomain)
+	_compiledDescs := []string{
+		"Landroid/telephony/DomainSelectionService/SelectionAttributes;",
+		"Lcom/android/internal/telephony/ITransportSelectorCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attr.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attr.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainSelectionServiceController, MethodIDomainSelectionServiceControllerSelectDomain)
 	if _err != nil {
@@ -79,11 +99,34 @@ func (p *DomainSelectionServiceControllerProxy) UpdateServiceState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainSelectionServiceController)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := serviceState.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDomainSelectionServiceController, MethodIDomainSelectionServiceControllerUpdateServiceState)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/telephony/ServiceState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := serviceState.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := serviceState.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainSelectionServiceController, MethodIDomainSelectionServiceControllerUpdateServiceState)
@@ -104,11 +147,34 @@ func (p *DomainSelectionServiceControllerProxy) UpdateBarringInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainSelectionServiceController)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDomainSelectionServiceController, MethodIDomainSelectionServiceControllerUpdateBarringInfo)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/hardware/radio/network/BarringInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainSelectionServiceController, MethodIDomainSelectionServiceControllerUpdateBarringInfo)

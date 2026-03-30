@@ -59,8 +59,25 @@ func (p *DisplayAreaOrganizerControllerProxy) RegisterOrganizer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(displayAreaFeature)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerRegisterOrganizer)
+	_compiledDescs := []string{
+		"Landroid/window/IDisplayAreaOrganizer;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(displayAreaFeature)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(displayAreaFeature)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerRegisterOrganizer)
 	if _err != nil {
@@ -96,7 +113,21 @@ func (p *DisplayAreaOrganizerControllerProxy) UnregisterOrganizer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerUnregisterOrganizer)
+	_compiledDescs := []string{
+		"Landroid/window/IDisplayAreaOrganizer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerUnregisterOrganizer)
 	if _err != nil {
@@ -127,10 +158,33 @@ func (p *DisplayAreaOrganizerControllerProxy) CreateTaskDisplayArea(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(parentFeatureId)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerCreateTaskDisplayArea)
+	_compiledDescs := []string{
+		"Landroid/window/IDisplayAreaOrganizer;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(parentFeatureId)
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(displayId)
+			case 2:
+				_data.WriteInt32(parentFeatureId)
+			case 3:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerCreateTaskDisplayArea)
 	if _err != nil {
@@ -166,9 +220,26 @@ func (p *DisplayAreaOrganizerControllerProxy) DeleteTaskDisplayArea(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizerController)
-	_data.WriteInt32(1)
-	if _err := taskDisplayArea.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerDeleteTaskDisplayArea)
+	_compiledDescs := []string{
+		"Landroid/window/WindowContainerToken;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := taskDisplayArea.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := taskDisplayArea.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerDeleteTaskDisplayArea)

@@ -66,14 +66,46 @@ func (p *ExternalStorageServiceProxy) StartSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalStorageService)
-	_data.WriteString16(sessionId)
-	_data.WriteInt32(type_)
-	_data.WriteParcelFileDescriptor(deviceFd)
-	_data.WriteString16(upperPath)
-	_data.WriteString16(lowerPath)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceStartSession)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/os/ParcelFileDescriptor;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+		_data.WriteInt32(type_)
+		_data.WriteParcelFileDescriptor(deviceFd)
+		_data.WriteString16(upperPath)
+		_data.WriteString16(lowerPath)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			case 1:
+				_data.WriteInt32(type_)
+			case 2:
+				_data.WriteParcelFileDescriptor(deviceFd)
+			case 3:
+				_data.WriteString16(upperPath)
+			case 4:
+				_data.WriteString16(lowerPath)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceStartSession)
@@ -93,10 +125,30 @@ func (p *ExternalStorageServiceProxy) EndSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalStorageService)
-	_data.WriteString16(sessionId)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceEndSession)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceEndSession)
@@ -117,14 +169,40 @@ func (p *ExternalStorageServiceProxy) NotifyVolumeStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalStorageService)
-	_data.WriteString16(sessionId)
-	_data.WriteInt32(1)
-	if _err := vol.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceNotifyVolumeStateChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/storage/StorageVolume;",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+		_data.WriteInt32(1)
+		if _err := vol.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := vol.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceNotifyVolumeStateChanged)
@@ -146,12 +224,38 @@ func (p *ExternalStorageServiceProxy) FreeCache(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalStorageService)
-	_data.WriteString16(sessionId)
-	_data.WriteString16(volumeUuid)
-	_data.WriteInt64(bytes)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceFreeCache)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"J",
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(sessionId)
+		_data.WriteString16(volumeUuid)
+		_data.WriteInt64(bytes)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(sessionId)
+			case 1:
+				_data.WriteString16(volumeUuid)
+			case 2:
+				_data.WriteInt64(bytes)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceFreeCache)
@@ -173,10 +277,33 @@ func (p *ExternalStorageServiceProxy) NotifyAnrDelayStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalStorageService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(tid)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceNotifyAnrDelayStarted)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(tid)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteInt32(tid)
+			case 3:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceNotifyAnrDelayStarted)
 	if _err != nil {

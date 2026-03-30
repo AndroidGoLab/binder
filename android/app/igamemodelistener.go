@@ -50,10 +50,33 @@ func (p *GameModeListenerProxy) OnGameModeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameModeListener)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(gameModeFrom)
-	_data.WriteInt32(gameModeTo)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGameModeListener, MethodIGameModeListenerOnGameModeChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(gameModeFrom)
+		_data.WriteInt32(gameModeTo)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(gameModeFrom)
+			case 2:
+				_data.WriteInt32(gameModeTo)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameModeListener, MethodIGameModeListenerOnGameModeChanged)
 	if _err != nil {

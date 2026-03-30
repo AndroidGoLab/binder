@@ -57,7 +57,21 @@ func (p *CallStreamingServiceProxy) SetStreamingCallAdapter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallStreamingService)
-	binder.WriteBinderToParcel(ctx, _data, streamingCallAdapter.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICallStreamingService, MethodICallStreamingServiceSetStreamingCallAdapter)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telecom/IStreamingCallAdapter;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, streamingCallAdapter.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, streamingCallAdapter.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallStreamingService, MethodICallStreamingServiceSetStreamingCallAdapter)
 	if _err != nil {
@@ -75,9 +89,26 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallStreamingService)
-	_data.WriteInt32(1)
-	if _err := call.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICallStreamingService, MethodICallStreamingServiceOnCallStreamingStarted)
+	_compiledDescs := []string{
+		"Landroid/telecom/StreamingCall;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := call.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := call.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallStreamingService, MethodICallStreamingServiceOnCallStreamingStarted)
@@ -112,7 +143,21 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallStreamingService)
-	_data.WriteInt32(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICallStreamingService, MethodICallStreamingServiceOnCallStreamingStateChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallStreamingService, MethodICallStreamingServiceOnCallStreamingStateChanged)
 	if _err != nil {

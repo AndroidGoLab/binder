@@ -52,10 +52,30 @@ func (p *ProcessResultImplProxy) OnCaptureCompleted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessResultImpl)
-	_data.WriteInt64(shutterTimestamp)
-	_data.WriteInt32(1)
-	if _err := results.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProcessResultImpl, MethodIProcessResultImplOnCaptureCompleted)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/hardware/camera2/impl/CameraMetadataNative;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(shutterTimestamp)
+		_data.WriteInt32(1)
+		if _err := results.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(shutterTimestamp)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := results.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessResultImpl, MethodIProcessResultImplOnCaptureCompleted)
@@ -83,7 +103,21 @@ func (p *ProcessResultImplProxy) OnCaptureProcessProgressed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessResultImpl)
-	_data.WriteInt32(progress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProcessResultImpl, MethodIProcessResultImplOnCaptureProcessProgressed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(progress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(progress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessResultImpl, MethodIProcessResultImplOnCaptureProcessProgressed)
 	if _err != nil {

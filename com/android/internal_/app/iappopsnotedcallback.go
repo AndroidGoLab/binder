@@ -53,13 +53,45 @@ func (p *AppOpsNotedCallbackProxy) OpNoted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsNotedCallback)
-	_data.WriteInt32(op)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(virtualDeviceId)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppOpsNotedCallback, MethodIAppOpsNotedCallbackOpNoted)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(op)
+		_data.WriteInt32(uid)
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(virtualDeviceId)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(op)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteString16(_identity.AttributionTag)
+			case 4:
+				_data.WriteInt32(virtualDeviceId)
+			case 5:
+				_data.WriteInt32(flags)
+			case 6:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsNotedCallback, MethodIAppOpsNotedCallbackOpNoted)
 	if _err != nil {

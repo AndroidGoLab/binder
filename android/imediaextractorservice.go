@@ -55,8 +55,25 @@ func (p *MediaExtractorServiceProxy) MakeExtractor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaExtractorService)
-	binder.WriteBinderToParcel(ctx, _data, source.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(mime)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaExtractorService, MethodIMediaExtractorServiceMakeExtractor)
+	_compiledDescs := []string{
+		"Landroid/IDataSource;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, source.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(mime)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, source.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(mime)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaExtractorService, MethodIMediaExtractorServiceMakeExtractor)
 	if _err != nil {
@@ -91,9 +108,29 @@ func (p *MediaExtractorServiceProxy) MakeIDataSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaExtractorService)
-	_data.WriteFileDescriptor(fd)
-	_data.WriteInt64(offset)
-	_data.WriteInt64(length)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaExtractorService, MethodIMediaExtractorServiceMakeIDataSource)
+	_compiledDescs := []string{
+		"Ljava/io/FileDescriptor;",
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFileDescriptor(fd)
+		_data.WriteInt64(offset)
+		_data.WriteInt64(length)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFileDescriptor(fd)
+			case 1:
+				_data.WriteInt64(offset)
+			case 2:
+				_data.WriteInt64(length)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaExtractorService, MethodIMediaExtractorServiceMakeIDataSource)
 	if _err != nil {

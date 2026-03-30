@@ -53,7 +53,21 @@ func (p *BiometricStateListenerProxy) OnStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricStateListener)
-	_data.WriteInt32(newState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricStateListener, MethodIBiometricStateListenerOnStateChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(newState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(newState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricStateListener, MethodIBiometricStateListenerOnStateChanged)
 	if _err != nil {
@@ -71,7 +85,21 @@ func (p *BiometricStateListenerProxy) OnBiometricAction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricStateListener)
-	_data.WriteInt32(action)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricStateListener, MethodIBiometricStateListenerOnBiometricAction)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(action)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(action)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricStateListener, MethodIBiometricStateListenerOnBiometricAction)
 	if _err != nil {
@@ -91,9 +119,29 @@ func (p *BiometricStateListenerProxy) OnEnrollmentsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricStateListener)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(sensorId)
-	_data.WriteBool(hasEnrollments)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricStateListener, MethodIBiometricStateListenerOnEnrollmentsChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(sensorId)
+		_data.WriteBool(hasEnrollments)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(sensorId)
+			case 2:
+				_data.WriteBool(hasEnrollments)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricStateListener, MethodIBiometricStateListenerOnEnrollmentsChanged)
 	if _err != nil {

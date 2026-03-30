@@ -55,13 +55,36 @@ func (p *DisplayAreaOrganizerProxy) OnDisplayAreaAppeared(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizer)
-	_data.WriteInt32(1)
-	if _err := displayAreaInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayAreaOrganizer, MethodIDisplayAreaOrganizerOnDisplayAreaAppeared)
+	_compiledDescs := []string{
+		"Landroid/window/DisplayAreaInfo;",
+		"Landroid/view/SurfaceControl;",
 	}
-	_data.WriteInt32(1)
-	if _err := leash.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := displayAreaInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := leash.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := displayAreaInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := leash.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizer, MethodIDisplayAreaOrganizerOnDisplayAreaAppeared)
@@ -80,9 +103,26 @@ func (p *DisplayAreaOrganizerProxy) OnDisplayAreaVanished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizer)
-	_data.WriteInt32(1)
-	if _err := displayAreaInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayAreaOrganizer, MethodIDisplayAreaOrganizerOnDisplayAreaVanished)
+	_compiledDescs := []string{
+		"Landroid/window/DisplayAreaInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := displayAreaInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := displayAreaInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizer, MethodIDisplayAreaOrganizerOnDisplayAreaVanished)
@@ -101,9 +141,26 @@ func (p *DisplayAreaOrganizerProxy) OnDisplayAreaInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizer)
-	_data.WriteInt32(1)
-	if _err := displayAreaInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayAreaOrganizer, MethodIDisplayAreaOrganizerOnDisplayAreaInfoChanged)
+	_compiledDescs := []string{
+		"Landroid/window/DisplayAreaInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := displayAreaInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := displayAreaInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizer, MethodIDisplayAreaOrganizerOnDisplayAreaInfoChanged)

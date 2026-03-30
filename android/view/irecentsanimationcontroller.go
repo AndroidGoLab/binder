@@ -80,7 +80,21 @@ func (p *RecentsAnimationControllerProxy) ScreenshotTask(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
-	_data.WriteInt32(taskId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerScreenshotTask)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerScreenshotTask)
 	if _err != nil {
@@ -118,14 +132,40 @@ func (p *RecentsAnimationControllerProxy) SetFinishTaskTransaction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(1)
-	if _err := finishTransaction.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetFinishTaskTransaction)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/window/PictureInPictureSurfaceTransaction;",
+		"Landroid/view/SurfaceControl;",
 	}
-	_data.WriteInt32(1)
-	if _err := overlay.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(1)
+		if _err := finishTransaction.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := overlay.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := finishTransaction.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := overlay.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetFinishTaskTransaction)
@@ -155,9 +195,29 @@ func (p *RecentsAnimationControllerProxy) Finish(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
-	_data.WriteBool(moveHomeToTop)
-	_data.WriteBool(sendUserLeaveHint)
-	binder.WriteBinderToParcel(ctx, _data, finishCb.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerFinish)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(moveHomeToTop)
+		_data.WriteBool(sendUserLeaveHint)
+		binder.WriteBinderToParcel(ctx, _data, finishCb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(moveHomeToTop)
+			case 1:
+				_data.WriteBool(sendUserLeaveHint)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, finishCb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerFinish)
 	if _err != nil {
@@ -184,7 +244,21 @@ func (p *RecentsAnimationControllerProxy) SetInputConsumerEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetInputConsumerEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetInputConsumerEnabled)
 	if _err != nil {
@@ -211,7 +285,21 @@ func (p *RecentsAnimationControllerProxy) SetAnimationTargetsBehindSystemBars(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
-	_data.WriteBool(behindSystemBars)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetAnimationTargetsBehindSystemBars)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(behindSystemBars)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(behindSystemBars)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetAnimationTargetsBehindSystemBars)
 	if _err != nil {
@@ -264,8 +352,25 @@ func (p *RecentsAnimationControllerProxy) SetDeferCancelUntilNextTransition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
-	_data.WriteBool(defer_)
-	_data.WriteBool(screenshot)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetDeferCancelUntilNextTransition)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(defer_)
+		_data.WriteBool(screenshot)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(defer_)
+			case 1:
+				_data.WriteBool(screenshot)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetDeferCancelUntilNextTransition)
 	if _err != nil {
@@ -292,7 +397,21 @@ func (p *RecentsAnimationControllerProxy) SetWillFinishToHome(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
-	_data.WriteBool(willFinishToHome)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetWillFinishToHome)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(willFinishToHome)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(willFinishToHome)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetWillFinishToHome)
 	if _err != nil {
@@ -320,7 +439,21 @@ func (p *RecentsAnimationControllerProxy) RemoveTask(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
-	_data.WriteInt32(taskId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerRemoveTask)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerRemoveTask)
 	if _err != nil {
@@ -351,7 +484,21 @@ func (p *RecentsAnimationControllerProxy) DetachNavigationBarFromApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
-	_data.WriteBool(moveHomeToTop)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerDetachNavigationBarFromApp)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(moveHomeToTop)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(moveHomeToTop)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerDetachNavigationBarFromApp)
 	if _err != nil {
@@ -378,7 +525,21 @@ func (p *RecentsAnimationControllerProxy) AnimateNavigationBarToApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
-	_data.WriteInt64(duration)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerAnimateNavigationBarToApp)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(duration)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(duration)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerAnimateNavigationBarToApp)
 	if _err != nil {

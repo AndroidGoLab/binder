@@ -70,40 +70,93 @@ func (p *BackAnimationRunnerProxy) OnAnimationStart(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackAnimationRunner)
-	if apps == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackAnimationRunner, MethodIBackAnimationRunnerOnAnimationStart)
+	_compiledDescs := []string{
+		"[Landroid/view/RemoteAnimationTarget;",
+		"[Landroid/view/RemoteAnimationTarget;",
+		"[Landroid/view/RemoteAnimationTarget;",
+		"Landroid/window/IBackAnimationFinishedCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if apps == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(apps)))
+			for _, _item := range apps {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		if wallpapers == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(wallpapers)))
+			for _, _item := range wallpapers {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		if nonApps == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(nonApps)))
+			for _, _item := range nonApps {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, finishedCallback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(apps)))
-		for _, _item := range apps {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if apps == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(apps)))
+					for _, _item := range apps {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				if wallpapers == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(wallpapers)))
+					for _, _item := range wallpapers {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				if nonApps == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(nonApps)))
+					for _, _item := range nonApps {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, finishedCallback.AsBinder(), p.Remote.Transport())
 			}
 		}
 	}
-	if wallpapers == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(wallpapers)))
-		for _, _item := range wallpapers {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-	if nonApps == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(nonApps)))
-		for _, _item := range nonApps {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-	binder.WriteBinderToParcel(ctx, _data, finishedCallback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackAnimationRunner, MethodIBackAnimationRunnerOnAnimationStart)
 	if _err != nil {

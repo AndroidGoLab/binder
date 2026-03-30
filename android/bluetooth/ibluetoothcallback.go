@@ -63,8 +63,25 @@ func (p *BluetoothCallbackProxy) OnBluetoothStateChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCallback)
-	_data.WriteInt32(prevState)
-	_data.WriteInt32(newState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnBluetoothStateChange)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(prevState)
+		_data.WriteInt32(newState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(prevState)
+			case 1:
+				_data.WriteInt32(newState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnBluetoothStateChange)
 	if _err != nil {
@@ -82,7 +99,21 @@ func (p *BluetoothCallbackProxy) OnAdapterNameChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCallback)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnAdapterNameChange)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnAdapterNameChange)
 	if _err != nil {
@@ -100,7 +131,21 @@ func (p *BluetoothCallbackProxy) OnAdapterAddressChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCallback)
-	_data.WriteString16(address)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnAdapterAddressChange)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(address)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(address)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnAdapterAddressChange)
 	if _err != nil {
@@ -118,7 +163,21 @@ func (p *BluetoothCallbackProxy) SetAdapterServiceBinder(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCallback)
-	binder.WriteBinderToParcel(ctx, _data, adapterServiceBinder, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackSetAdapterServiceBinder)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, adapterServiceBinder, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, adapterServiceBinder, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackSetAdapterServiceBinder)
 	if _err != nil {
@@ -136,7 +195,21 @@ func (p *BluetoothCallbackProxy) OnMediaProfileConnectionChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCallback)
-	_data.WriteBool(connected)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnMediaProfileConnectionChange)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(connected)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(connected)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnMediaProfileConnectionChange)
 	if _err != nil {
@@ -154,7 +227,21 @@ func (p *BluetoothCallbackProxy) OnWatchConnectionChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCallback)
-	_data.WriteBool(connected)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnWatchConnectionChange)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(connected)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(connected)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnWatchConnectionChange)
 	if _err != nil {

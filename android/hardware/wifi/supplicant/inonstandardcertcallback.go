@@ -51,7 +51,21 @@ func (p *NonStandardCertCallbackProxy) GetBlob(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINonStandardCertCallback)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINonStandardCertCallback, MethodINonStandardCertCallbackGetBlob)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINonStandardCertCallback, MethodINonStandardCertCallbackGetBlob)
 	if _err != nil {
@@ -83,7 +97,21 @@ func (p *NonStandardCertCallbackProxy) ListAliases(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINonStandardCertCallback)
-	_data.WriteString16(prefix)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINonStandardCertCallback, MethodINonStandardCertCallbackListAliases)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(prefix)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(prefix)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINonStandardCertCallback, MethodINonStandardCertCallbackListAliases)
 	if _err != nil {

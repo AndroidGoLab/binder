@@ -53,7 +53,21 @@ func (p *GetRegistrationCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetRegistrationCallback)
-	binder.WriteBinderToParcel(ctx, _data, registration.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGetRegistrationCallback, MethodIGetRegistrationCallbackOnSuccess)
+	_compiledDescs := []string{
+		"Landroid/security/rkp/IRegistration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, registration.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, registration.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetRegistrationCallback, MethodIGetRegistrationCallbackOnSuccess)
 	if _err != nil {
@@ -87,7 +101,21 @@ func (p *GetRegistrationCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetRegistrationCallback)
-	_data.WriteString16(error_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGetRegistrationCallback, MethodIGetRegistrationCallbackOnError)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(error_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(error_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetRegistrationCallback, MethodIGetRegistrationCallbackOnError)
 	if _err != nil {

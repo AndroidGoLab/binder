@@ -48,8 +48,25 @@ func (p *WeakEscrowTokenRemovedListenerProxy) OnWeakEscrowTokenRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWeakEscrowTokenRemovedListener)
-	_data.WriteInt64(handle)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWeakEscrowTokenRemovedListener, MethodIWeakEscrowTokenRemovedListenerOnWeakEscrowTokenRemoved)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(handle)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(handle)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWeakEscrowTokenRemovedListener, MethodIWeakEscrowTokenRemovedListenerOnWeakEscrowTokenRemoved)
 	if _err != nil {

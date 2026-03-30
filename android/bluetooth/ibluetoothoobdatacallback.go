@@ -51,10 +51,30 @@ func (p *BluetoothOobDataCallbackProxy) OnOobData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothOobDataCallback)
-	_data.WriteInt32(transport)
-	_data.WriteInt32(1)
-	if _err := oobData.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothOobDataCallback, MethodIBluetoothOobDataCallbackOnOobData)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/bluetooth/OobData;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(transport)
+		_data.WriteInt32(1)
+		if _err := oobData.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(transport)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := oobData.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothOobDataCallback, MethodIBluetoothOobDataCallbackOnOobData)
@@ -73,7 +93,21 @@ func (p *BluetoothOobDataCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothOobDataCallback)
-	_data.WriteInt32(errorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothOobDataCallback, MethodIBluetoothOobDataCallbackOnError)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothOobDataCallback, MethodIBluetoothOobDataCallbackOnError)
 	if _err != nil {

@@ -62,11 +62,31 @@ func (p *DisplayWindowInsetsControllerProxy) TopFocusedWindowChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
-	_data.WriteInt32(1)
-	if _err := component.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerTopFocusedWindowChanged)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(requestedVisibleTypes)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := component.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(requestedVisibleTypes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := component.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(requestedVisibleTypes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerTopFocusedWindowChanged)
 	if _err != nil {
@@ -84,9 +104,26 @@ func (p *DisplayWindowInsetsControllerProxy) InsetsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
-	_data.WriteInt32(1)
-	if _err := insetsState.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerInsetsChanged)
+	_compiledDescs := []string{
+		"Landroid/view/InsetsState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := insetsState.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := insetsState.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerInsetsChanged)
@@ -106,18 +143,48 @@ func (p *DisplayWindowInsetsControllerProxy) InsetsControlChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
-	_data.WriteInt32(1)
-	if _err := insetsState.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerInsetsControlChanged)
+	_compiledDescs := []string{
+		"Landroid/view/InsetsState;",
+		"[Landroid/view/InsetsSourceControl;",
 	}
-	if activeControls == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := insetsState.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if activeControls == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(activeControls)))
+			for _, _item := range activeControls {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(activeControls)))
-		for _, _item := range activeControls {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := insetsState.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if activeControls == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(activeControls)))
+					for _, _item := range activeControls {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -140,15 +207,42 @@ func (p *DisplayWindowInsetsControllerProxy) ShowInsets(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
-	_data.WriteInt32(types)
-	_data.WriteBool(fromIme)
-	if statsToken != nil {
-		_data.WriteInt32(1)
-		if _err := (*statsToken).MarshalParcel(_data); _err != nil {
-			return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerShowInsets)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"LImeTracker/Token;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(types)
+		_data.WriteBool(fromIme)
+		if statsToken != nil {
+			_data.WriteInt32(1)
+			if _err := (*statsToken).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(types)
+			case 1:
+				_data.WriteBool(fromIme)
+			case 2:
+				if statsToken != nil {
+					_data.WriteInt32(1)
+					if _err := (*statsToken).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerShowInsets)
@@ -169,15 +263,42 @@ func (p *DisplayWindowInsetsControllerProxy) HideInsets(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
-	_data.WriteInt32(types)
-	_data.WriteBool(fromIme)
-	if statsToken != nil {
-		_data.WriteInt32(1)
-		if _err := (*statsToken).MarshalParcel(_data); _err != nil {
-			return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerHideInsets)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"LImeTracker/Token;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(types)
+		_data.WriteBool(fromIme)
+		if statsToken != nil {
+			_data.WriteInt32(1)
+			if _err := (*statsToken).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(types)
+			case 1:
+				_data.WriteBool(fromIme)
+			case 2:
+				if statsToken != nil {
+					_data.WriteInt32(1)
+					if _err := (*statsToken).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerHideInsets)

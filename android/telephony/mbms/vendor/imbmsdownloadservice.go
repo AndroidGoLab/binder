@@ -89,8 +89,25 @@ func (p *MbmsDownloadServiceProxy) Initialize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceInitialize)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/mbms/IMbmsDownloadSessionCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceInitialize)
 	if _err != nil {
@@ -123,13 +140,37 @@ func (p *MbmsDownloadServiceProxy) RequestUpdateFileServices(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
-	_data.WriteInt32(subId)
-	if serviceClasses == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRequestUpdateFileServices)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		if serviceClasses == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(serviceClasses)))
+			for _, _item := range serviceClasses {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(serviceClasses)))
-		for _, _item := range serviceClasses {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				if serviceClasses == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(serviceClasses)))
+					for _, _item := range serviceClasses {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -164,8 +205,25 @@ func (p *MbmsDownloadServiceProxy) SetTempFileRootDirectory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
-	_data.WriteInt32(subId)
-	_data.WriteString16(rootDirectoryPath)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceSetTempFileRootDirectory)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(rootDirectoryPath)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(rootDirectoryPath)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceSetTempFileRootDirectory)
 	if _err != nil {
@@ -198,8 +256,25 @@ func (p *MbmsDownloadServiceProxy) AddServiceAnnouncement(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
-	_data.WriteInt32(subId)
-	_data.WriteByteArray(contents)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceAddServiceAnnouncement)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteByteArray(contents)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteByteArray(contents)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceAddServiceAnnouncement)
 	if _err != nil {
@@ -231,9 +306,26 @@ func (p *MbmsDownloadServiceProxy) Download(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
-	_data.WriteInt32(1)
-	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceDownload)
+	_compiledDescs := []string{
+		"Landroid/telephony/mbms/DownloadRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceDownload)
@@ -267,11 +359,31 @@ func (p *MbmsDownloadServiceProxy) AddStatusListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
-	_data.WriteInt32(1)
-	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceAddStatusListener)
+	_compiledDescs := []string{
+		"Landroid/telephony/mbms/DownloadRequest;",
+		"Landroid/telephony/mbms/IDownloadStatusListener;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceAddStatusListener)
 	if _err != nil {
@@ -304,11 +416,31 @@ func (p *MbmsDownloadServiceProxy) RemoveStatusListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
-	_data.WriteInt32(1)
-	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRemoveStatusListener)
+	_compiledDescs := []string{
+		"Landroid/telephony/mbms/DownloadRequest;",
+		"Landroid/telephony/mbms/IDownloadStatusListener;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRemoveStatusListener)
 	if _err != nil {
@@ -341,11 +473,31 @@ func (p *MbmsDownloadServiceProxy) AddProgressListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
-	_data.WriteInt32(1)
-	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceAddProgressListener)
+	_compiledDescs := []string{
+		"Landroid/telephony/mbms/DownloadRequest;",
+		"Landroid/telephony/mbms/IDownloadProgressListener;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceAddProgressListener)
 	if _err != nil {
@@ -378,11 +530,31 @@ func (p *MbmsDownloadServiceProxy) RemoveProgressListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
-	_data.WriteInt32(1)
-	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRemoveProgressListener)
+	_compiledDescs := []string{
+		"Landroid/telephony/mbms/DownloadRequest;",
+		"Landroid/telephony/mbms/IDownloadProgressListener;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRemoveProgressListener)
 	if _err != nil {
@@ -414,7 +586,21 @@ func (p *MbmsDownloadServiceProxy) ListPendingDownloads(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
-	_data.WriteInt32(subscriptionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceListPendingDownloads)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subscriptionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subscriptionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceListPendingDownloads)
 	if _err != nil {
@@ -478,9 +664,26 @@ func (p *MbmsDownloadServiceProxy) CancelDownload(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
-	_data.WriteInt32(1)
-	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceCancelDownload)
+	_compiledDescs := []string{
+		"Landroid/telephony/mbms/DownloadRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceCancelDownload)
@@ -514,13 +717,36 @@ func (p *MbmsDownloadServiceProxy) RequestDownloadState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
-	_data.WriteInt32(1)
-	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRequestDownloadState)
+	_compiledDescs := []string{
+		"Landroid/telephony/mbms/DownloadRequest;",
+		"Landroid/telephony/mbms/FileInfo;",
 	}
-	_data.WriteInt32(1)
-	if _err := fileInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := fileInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := fileInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRequestDownloadState)
@@ -553,9 +779,26 @@ func (p *MbmsDownloadServiceProxy) ResetDownloadKnowledge(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
-	_data.WriteInt32(1)
-	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceResetDownloadKnowledge)
+	_compiledDescs := []string{
+		"Landroid/telephony/mbms/DownloadRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := downloadRequest.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceResetDownloadKnowledge)
@@ -587,7 +830,21 @@ func (p *MbmsDownloadServiceProxy) Dispose(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceDispose)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceDispose)
 	if _err != nil {

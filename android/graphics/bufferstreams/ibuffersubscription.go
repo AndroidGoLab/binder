@@ -50,7 +50,21 @@ func (p *BufferSubscriptionProxy) Request(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscription)
-	_data.WriteInt64(n)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBufferSubscription, MethodIBufferSubscriptionRequest)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(n)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(n)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferSubscription, MethodIBufferSubscriptionRequest)
 	if _err != nil {

@@ -75,7 +75,21 @@ func (p *GeofenceHardwareProxy) SetGpsGeofenceHardware(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
-	// WARNING: param service (type types.IGpsGeofenceHardware) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareSetGpsGeofenceHardware)
+	_compiledDescs := []string{
+		"Landroid/location/IGpsGeofenceHardware;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		// WARNING: param service (type types.IGpsGeofenceHardware) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				// WARNING: param service (type types.IGpsGeofenceHardware) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareSetGpsGeofenceHardware)
 	if _err != nil {
@@ -102,7 +116,21 @@ func (p *GeofenceHardwareProxy) SetFusedGeofenceHardware(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
-	// WARNING: param service (type types.IFusedGeofenceHardware) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareSetFusedGeofenceHardware)
+	_compiledDescs := []string{
+		"Landroid/location/IFusedGeofenceHardware;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		// WARNING: param service (type types.IFusedGeofenceHardware) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				// WARNING: param service (type types.IFusedGeofenceHardware) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareSetFusedGeofenceHardware)
 	if _err != nil {
@@ -173,7 +201,21 @@ func (p *GeofenceHardwareProxy) GetStatusOfMonitoringType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
-	_data.WriteInt32(monitoringType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareGetStatusOfMonitoringType)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(monitoringType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(monitoringType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareGetStatusOfMonitoringType)
 	if _err != nil {
@@ -207,12 +249,35 @@ func (p *GeofenceHardwareProxy) AddCircularFence(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
-	_data.WriteInt32(monitoringType)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareAddCircularFence)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/location/GeofenceHardwareRequestParcelable;",
+		"Landroid/hardware/location/IGeofenceHardwareCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(monitoringType)
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(monitoringType)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareAddCircularFence)
 	if _err != nil {
@@ -245,8 +310,25 @@ func (p *GeofenceHardwareProxy) RemoveGeofence(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
-	_data.WriteInt32(id)
-	_data.WriteInt32(monitoringType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareRemoveGeofence)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+		_data.WriteInt32(monitoringType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			case 1:
+				_data.WriteInt32(monitoringType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareRemoveGeofence)
 	if _err != nil {
@@ -279,8 +361,25 @@ func (p *GeofenceHardwareProxy) PauseGeofence(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
-	_data.WriteInt32(id)
-	_data.WriteInt32(monitoringType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwarePauseGeofence)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+		_data.WriteInt32(monitoringType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			case 1:
+				_data.WriteInt32(monitoringType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwarePauseGeofence)
 	if _err != nil {
@@ -314,9 +413,29 @@ func (p *GeofenceHardwareProxy) ResumeGeofence(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
-	_data.WriteInt32(id)
-	_data.WriteInt32(monitoringType)
-	_data.WriteInt32(monitorTransitions)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareResumeGeofence)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+		_data.WriteInt32(monitoringType)
+		_data.WriteInt32(monitorTransitions)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			case 1:
+				_data.WriteInt32(monitoringType)
+			case 2:
+				_data.WriteInt32(monitorTransitions)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareResumeGeofence)
 	if _err != nil {
@@ -349,8 +468,25 @@ func (p *GeofenceHardwareProxy) RegisterForMonitorStateChangeCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
-	_data.WriteInt32(monitoringType)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareRegisterForMonitorStateChangeCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/location/IGeofenceHardwareMonitorCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(monitoringType)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(monitoringType)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareRegisterForMonitorStateChangeCallback)
 	if _err != nil {
@@ -383,8 +519,25 @@ func (p *GeofenceHardwareProxy) UnregisterForMonitorStateChangeCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
-	_data.WriteInt32(monitoringType)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareUnregisterForMonitorStateChangeCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/location/IGeofenceHardwareMonitorCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(monitoringType)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(monitoringType)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareUnregisterForMonitorStateChangeCallback)
 	if _err != nil {

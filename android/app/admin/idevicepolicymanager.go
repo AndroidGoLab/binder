@@ -1248,12 +1248,35 @@ func (p *DevicePolicyManagerProxy) SetPasswordQuality(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordQuality)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(quality)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(quality)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(quality)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordQuality)
 	if _err != nil {
@@ -1283,12 +1306,35 @@ func (p *DevicePolicyManagerProxy) GetPasswordQuality(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordQuality)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordQuality)
 	if _err != nil {
@@ -1321,12 +1367,35 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumLength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordMinimumLength)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(length)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(length)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(length)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordMinimumLength)
 	if _err != nil {
@@ -1356,12 +1425,35 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumLength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumLength)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumLength)
 	if _err != nil {
@@ -1394,12 +1486,35 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumUpperCase(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordMinimumUpperCase)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(length)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(length)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(length)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordMinimumUpperCase)
 	if _err != nil {
@@ -1429,12 +1544,35 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumUpperCase(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumUpperCase)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumUpperCase)
 	if _err != nil {
@@ -1467,12 +1605,35 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumLowerCase(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordMinimumLowerCase)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(length)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(length)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(length)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordMinimumLowerCase)
 	if _err != nil {
@@ -1502,12 +1663,35 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumLowerCase(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumLowerCase)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumLowerCase)
 	if _err != nil {
@@ -1540,12 +1724,35 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumLetters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordMinimumLetters)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(length)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(length)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(length)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordMinimumLetters)
 	if _err != nil {
@@ -1575,12 +1782,35 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumLetters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumLetters)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumLetters)
 	if _err != nil {
@@ -1613,12 +1843,35 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumNumeric(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordMinimumNumeric)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(length)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(length)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(length)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordMinimumNumeric)
 	if _err != nil {
@@ -1648,12 +1901,35 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumNumeric(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumNumeric)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumNumeric)
 	if _err != nil {
@@ -1686,12 +1962,35 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumSymbols(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordMinimumSymbols)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(length)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(length)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(length)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordMinimumSymbols)
 	if _err != nil {
@@ -1721,12 +2020,35 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumSymbols(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumSymbols)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumSymbols)
 	if _err != nil {
@@ -1759,12 +2081,35 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumNonLetter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordMinimumNonLetter)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(length)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(length)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(length)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordMinimumNonLetter)
 	if _err != nil {
@@ -1794,12 +2139,35 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumNonLetter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumNonLetter)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumNonLetter)
 	if _err != nil {
@@ -1832,8 +2200,25 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumMetrics(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(deviceWideOnly)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumMetrics)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(deviceWideOnly)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(deviceWideOnly)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordMinimumMetrics)
 	if _err != nil {
@@ -1871,12 +2256,35 @@ func (p *DevicePolicyManagerProxy) SetPasswordHistoryLength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordHistoryLength)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(length)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(length)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(length)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordHistoryLength)
 	if _err != nil {
@@ -1906,12 +2314,35 @@ func (p *DevicePolicyManagerProxy) GetPasswordHistoryLength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordHistoryLength)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordHistoryLength)
 	if _err != nil {
@@ -1945,13 +2376,39 @@ func (p *DevicePolicyManagerProxy) SetPasswordExpirationTimeout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordExpirationTimeout)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"J",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt64(expiration)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt64(expiration)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteInt64(expiration)
+			case 3:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPasswordExpirationTimeout)
 	if _err != nil {
@@ -1981,12 +2438,35 @@ func (p *DevicePolicyManagerProxy) GetPasswordExpirationTimeout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordExpirationTimeout)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordExpirationTimeout)
 	if _err != nil {
@@ -2020,12 +2500,35 @@ func (p *DevicePolicyManagerProxy) GetPasswordExpiration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordExpiration)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordExpiration)
 	if _err != nil {
@@ -2059,9 +2562,29 @@ func (p *DevicePolicyManagerProxy) IsActivePasswordSufficient(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsActivePasswordSufficient)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsActivePasswordSufficient)
 	if _err != nil {
@@ -2124,8 +2647,25 @@ func (p *DevicePolicyManagerProxy) IsPasswordSufficientAfterProfileUnification(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(profileUser)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsPasswordSufficientAfterProfileUnification)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(profileUser)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(profileUser)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsPasswordSufficientAfterProfileUnification)
 	if _err != nil {
@@ -2157,7 +2697,21 @@ func (p *DevicePolicyManagerProxy) GetPasswordComplexity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteBool(parent)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordComplexity)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPasswordComplexity)
 	if _err != nil {
@@ -2190,9 +2744,29 @@ func (p *DevicePolicyManagerProxy) SetRequiredPasswordComplexity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(passwordComplexity)
-	_data.WriteBool(parent)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetRequiredPasswordComplexity)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(passwordComplexity)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			case 1:
+				_data.WriteInt32(passwordComplexity)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetRequiredPasswordComplexity)
 	if _err != nil {
@@ -2221,8 +2795,25 @@ func (p *DevicePolicyManagerProxy) GetRequiredPasswordComplexity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackageName)
-	_data.WriteBool(parent)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetRequiredPasswordComplexity)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			case 1:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetRequiredPasswordComplexity)
 	if _err != nil {
@@ -2255,8 +2846,25 @@ func (p *DevicePolicyManagerProxy) GetAggregatedPasswordComplexityForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(deviceWideOnly)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAggregatedPasswordComplexityForUser)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(deviceWideOnly)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(deviceWideOnly)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAggregatedPasswordComplexityForUser)
 	if _err != nil {
@@ -2288,9 +2896,26 @@ func (p *DevicePolicyManagerProxy) IsUsingUnifiedPassword(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsUsingUnifiedPassword)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsUsingUnifiedPassword)
@@ -2325,9 +2950,29 @@ func (p *DevicePolicyManagerProxy) GetCurrentFailedPasswordAttempts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCurrentFailedPasswordAttempts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCurrentFailedPasswordAttempts)
 	if _err != nil {
@@ -2360,8 +3005,25 @@ func (p *DevicePolicyManagerProxy) GetProfileWithMinimumFailedPasswordsForWipe(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetProfileWithMinimumFailedPasswordsForWipe)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetProfileWithMinimumFailedPasswordsForWipe)
 	if _err != nil {
@@ -2395,13 +3057,39 @@ func (p *DevicePolicyManagerProxy) SetMaximumFailedPasswordsForWipe(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetMaximumFailedPasswordsForWipe)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(num)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(num)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteInt32(num)
+			case 3:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetMaximumFailedPasswordsForWipe)
 	if _err != nil {
@@ -2431,12 +3119,35 @@ func (p *DevicePolicyManagerProxy) GetMaximumFailedPasswordsForWipe(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetMaximumFailedPasswordsForWipe)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetMaximumFailedPasswordsForWipe)
 	if _err != nil {
@@ -2469,8 +3180,25 @@ func (p *DevicePolicyManagerProxy) ResetPassword(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(password)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerResetPassword)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(password)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(password)
+			case 1:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerResetPassword)
 	if _err != nil {
@@ -2504,13 +3232,39 @@ func (p *DevicePolicyManagerProxy) SetMaximumTimeToLock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetMaximumTimeToLock)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"J",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt64(timeMs)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt64(timeMs)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteInt64(timeMs)
+			case 3:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetMaximumTimeToLock)
 	if _err != nil {
@@ -2540,12 +3294,35 @@ func (p *DevicePolicyManagerProxy) GetMaximumTimeToLock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetMaximumTimeToLock)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetMaximumTimeToLock)
 	if _err != nil {
@@ -2579,13 +3356,39 @@ func (p *DevicePolicyManagerProxy) SetRequiredStrongAuthTimeout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetRequiredStrongAuthTimeout)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"J",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt64(timeMs)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt64(timeMs)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteInt64(timeMs)
+			case 3:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetRequiredStrongAuthTimeout)
 	if _err != nil {
@@ -2615,12 +3418,35 @@ func (p *DevicePolicyManagerProxy) GetRequiredStrongAuthTimeout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetRequiredStrongAuthTimeout)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetRequiredStrongAuthTimeout)
 	if _err != nil {
@@ -2653,9 +3479,29 @@ func (p *DevicePolicyManagerProxy) LockNow(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(flags)
-	_data.WriteString16(callerPackageName)
-	_data.WriteBool(parent)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerLockNow)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(flags)
+		_data.WriteString16(callerPackageName)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(flags)
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerLockNow)
 	if _err != nil {
@@ -2686,11 +3532,37 @@ func (p *DevicePolicyManagerProxy) WipeDataWithReason(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(flags)
-	_data.WriteString16(wipeReasonForUser)
-	_data.WriteBool(parent)
-	_data.WriteBool(factoryReset)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerWipeDataWithReason)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(flags)
+		_data.WriteString16(wipeReasonForUser)
+		_data.WriteBool(parent)
+		_data.WriteBool(factoryReset)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			case 1:
+				_data.WriteInt32(flags)
+			case 2:
+				_data.WriteString16(wipeReasonForUser)
+			case 3:
+				_data.WriteBool(parent)
+			case 4:
+				_data.WriteBool(factoryReset)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerWipeDataWithReason)
 	if _err != nil {
@@ -2719,14 +3591,40 @@ func (p *DevicePolicyManagerProxy) SetFactoryResetProtectionPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetFactoryResetProtectionPolicy)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Landroid/app/admin/FactoryResetProtectionPolicy;",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(1)
-	if _err := policy.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(1)
+		if _err := policy.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := policy.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetFactoryResetProtectionPolicy)
@@ -2755,9 +3653,26 @@ func (p *DevicePolicyManagerProxy) GetFactoryResetProtectionPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetFactoryResetProtectionPolicy)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetFactoryResetProtectionPolicy)
@@ -2824,9 +3739,26 @@ func (p *DevicePolicyManagerProxy) SendLostModeLocationUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := future.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSendLostModeLocationUpdate)
+	_compiledDescs := []string{
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := future.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := future.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSendLostModeLocationUpdate)
@@ -2857,12 +3789,35 @@ func (p *DevicePolicyManagerProxy) SetGlobalProxy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetGlobalProxy)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(proxySpec)
-	_data.WriteString16(exclusionList)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(proxySpec)
+		_data.WriteString16(exclusionList)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(proxySpec)
+			case 2:
+				_data.WriteString16(exclusionList)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetGlobalProxy)
 	if _err != nil {
@@ -2899,7 +3854,21 @@ func (p *DevicePolicyManagerProxy) GetGlobalProxyAdmin(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetGlobalProxyAdmin)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetGlobalProxyAdmin)
 	if _err != nil {
@@ -2969,11 +3938,31 @@ func (p *DevicePolicyManagerProxy) SetStorageEncryption(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetStorageEncryption)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(encrypt)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(encrypt)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteBool(encrypt)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetStorageEncryption)
 	if _err != nil {
@@ -3006,11 +3995,31 @@ func (p *DevicePolicyManagerProxy) GetStorageEncryption(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetStorageEncryption)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetStorageEncryption)
 	if _err != nil {
@@ -3043,8 +4052,25 @@ func (p *DevicePolicyManagerProxy) GetStorageEncryptionStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetStorageEncryptionStatus)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetStorageEncryptionStatus)
 	if _err != nil {
@@ -3076,9 +4102,26 @@ func (p *DevicePolicyManagerProxy) RequestBugreport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRequestBugreport)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRequestBugreport)
@@ -3113,13 +4156,39 @@ func (p *DevicePolicyManagerProxy) SetCameraDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetCameraDisabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteBool(disabled)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteBool(disabled)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteBool(disabled)
+			case 3:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetCameraDisabled)
 	if _err != nil {
@@ -3150,13 +4219,39 @@ func (p *DevicePolicyManagerProxy) GetCameraDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCameraDisabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCameraDisabled)
 	if _err != nil {
@@ -3190,13 +4285,39 @@ func (p *DevicePolicyManagerProxy) SetScreenCaptureDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetScreenCaptureDisabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteBool(disabled)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteBool(disabled)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteBool(disabled)
+			case 3:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetScreenCaptureDisabled)
 	if _err != nil {
@@ -3226,12 +4347,35 @@ func (p *DevicePolicyManagerProxy) GetScreenCaptureDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetScreenCaptureDisabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetScreenCaptureDisabled)
 	if _err != nil {
@@ -3262,7 +4406,21 @@ func (p *DevicePolicyManagerProxy) SetNearbyNotificationStreamingPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(policy)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetNearbyNotificationStreamingPolicy)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(policy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(policy)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetNearbyNotificationStreamingPolicy)
 	if _err != nil {
@@ -3290,7 +4448,21 @@ func (p *DevicePolicyManagerProxy) GetNearbyNotificationStreamingPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetNearbyNotificationStreamingPolicy)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetNearbyNotificationStreamingPolicy)
 	if _err != nil {
@@ -3321,7 +4493,21 @@ func (p *DevicePolicyManagerProxy) SetNearbyAppStreamingPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(policy)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetNearbyAppStreamingPolicy)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(policy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(policy)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetNearbyAppStreamingPolicy)
 	if _err != nil {
@@ -3349,7 +4535,21 @@ func (p *DevicePolicyManagerProxy) GetNearbyAppStreamingPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetNearbyAppStreamingPolicy)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetNearbyAppStreamingPolicy)
 	if _err != nil {
@@ -3383,13 +4583,39 @@ func (p *DevicePolicyManagerProxy) SetKeyguardDisabledFeatures(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetKeyguardDisabledFeatures)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(which)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(which)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteInt32(which)
+			case 3:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetKeyguardDisabledFeatures)
 	if _err != nil {
@@ -3419,12 +4645,35 @@ func (p *DevicePolicyManagerProxy) GetKeyguardDisabledFeatures(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetKeyguardDisabledFeatures)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetKeyguardDisabledFeatures)
 	if _err != nil {
@@ -3457,12 +4706,35 @@ func (p *DevicePolicyManagerProxy) SetActiveAdmin(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetActiveAdmin)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
+		"I",
 	}
-	_data.WriteBool(refreshing)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := policyReceiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(refreshing)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := policyReceiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(refreshing)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetActiveAdmin)
 	if _err != nil {
@@ -3491,11 +4763,31 @@ func (p *DevicePolicyManagerProxy) IsAdminActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsAdminActive)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := policyReceiver.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := policyReceiver.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsAdminActive)
 	if _err != nil {
@@ -3527,7 +4819,21 @@ func (p *DevicePolicyManagerProxy) GetActiveAdmins(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetActiveAdmins)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetActiveAdmins)
 	if _err != nil {
@@ -3592,8 +4898,25 @@ func (p *DevicePolicyManagerProxy) PackageHasActiveAdmins(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerPackageHasActiveAdmins)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerPackageHasActiveAdmins)
 	if _err != nil {
@@ -3626,15 +4949,41 @@ func (p *DevicePolicyManagerProxy) GetRemoveWarning(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetRemoveWarning)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/os/RemoteCallback;",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := policyReceiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := policyReceiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetRemoveWarning)
 	if _err != nil {
@@ -3662,11 +5011,31 @@ func (p *DevicePolicyManagerProxy) RemoveActiveAdmin(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRemoveActiveAdmin)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := policyReceiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := policyReceiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRemoveActiveAdmin)
 	if _err != nil {
@@ -3694,11 +5063,31 @@ func (p *DevicePolicyManagerProxy) ForceRemoveActiveAdmin(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerForceRemoveActiveAdmin)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := policyReceiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := policyReceiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerForceRemoveActiveAdmin)
 	if _err != nil {
@@ -3728,12 +5117,35 @@ func (p *DevicePolicyManagerProxy) HasGrantedPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerHasGrantedPolicy)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(usesPolicy)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := policyReceiver.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(usesPolicy)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := policyReceiver.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(usesPolicy)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerHasGrantedPolicy)
 	if _err != nil {
@@ -3765,11 +5177,31 @@ func (p *DevicePolicyManagerProxy) ReportPasswordChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := metrics.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReportPasswordChanged)
+	_compiledDescs := []string{
+		"Landroid/app/admin/PasswordMetrics;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := metrics.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := metrics.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReportPasswordChanged)
 	if _err != nil {
@@ -3797,8 +5229,25 @@ func (p *DevicePolicyManagerProxy) ReportFailedPasswordAttempt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReportFailedPasswordAttempt)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReportFailedPasswordAttempt)
 	if _err != nil {
@@ -3825,7 +5274,21 @@ func (p *DevicePolicyManagerProxy) ReportSuccessfulPasswordAttempt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReportSuccessfulPasswordAttempt)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReportSuccessfulPasswordAttempt)
 	if _err != nil {
@@ -3852,7 +5315,21 @@ func (p *DevicePolicyManagerProxy) ReportFailedBiometricAttempt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReportFailedBiometricAttempt)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReportFailedBiometricAttempt)
 	if _err != nil {
@@ -3879,7 +5356,21 @@ func (p *DevicePolicyManagerProxy) ReportSuccessfulBiometricAttempt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReportSuccessfulBiometricAttempt)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReportSuccessfulBiometricAttempt)
 	if _err != nil {
@@ -3906,7 +5397,21 @@ func (p *DevicePolicyManagerProxy) ReportKeyguardDismissed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReportKeyguardDismissed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReportKeyguardDismissed)
 	if _err != nil {
@@ -3933,7 +5438,21 @@ func (p *DevicePolicyManagerProxy) ReportKeyguardSecured(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReportKeyguardSecured)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReportKeyguardSecured)
 	if _err != nil {
@@ -3963,12 +5482,35 @@ func (p *DevicePolicyManagerProxy) SetDeviceOwner(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDeviceOwner)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(setProfileOwnerOnCurrentUserIfNecessary)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(setProfileOwnerOnCurrentUserIfNecessary)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(setProfileOwnerOnCurrentUserIfNecessary)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDeviceOwner)
 	if _err != nil {
@@ -4000,7 +5542,21 @@ func (p *DevicePolicyManagerProxy) GetDeviceOwnerComponent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteBool(callingUserOnly)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDeviceOwnerComponent)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(callingUserOnly)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(callingUserOnly)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDeviceOwnerComponent)
 	if _err != nil {
@@ -4037,7 +5593,21 @@ func (p *DevicePolicyManagerProxy) GetDeviceOwnerComponentOnUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDeviceOwnerComponentOnUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDeviceOwnerComponentOnUser)
 	if _err != nil {
@@ -4133,7 +5703,21 @@ func (p *DevicePolicyManagerProxy) ClearDeviceOwner(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearDeviceOwner)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearDeviceOwner)
 	if _err != nil {
@@ -4192,11 +5776,31 @@ func (p *DevicePolicyManagerProxy) SetProfileOwner(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetProfileOwner)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetProfileOwner)
 	if _err != nil {
@@ -4228,7 +5832,21 @@ func (p *DevicePolicyManagerProxy) GetProfileOwnerAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetProfileOwnerAsUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetProfileOwnerAsUser)
 	if _err != nil {
@@ -4265,9 +5883,26 @@ func (p *DevicePolicyManagerProxy) GetProfileOwnerOrDeviceOwnerSupervisionCompon
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetProfileOwnerOrDeviceOwnerSupervisionComponent)
+	_compiledDescs := []string{
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := userHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := userHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetProfileOwnerOrDeviceOwnerSupervisionComponent)
@@ -4305,9 +5940,26 @@ func (p *DevicePolicyManagerProxy) IsSupervisionComponent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsSupervisionComponent)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsSupervisionComponent)
@@ -4340,7 +5992,21 @@ func (p *DevicePolicyManagerProxy) GetProfileOwnerName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetProfileOwnerName)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetProfileOwnerName)
 	if _err != nil {
@@ -4371,9 +6037,26 @@ func (p *DevicePolicyManagerProxy) SetProfileEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetProfileEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetProfileEnabled)
@@ -4402,11 +6085,31 @@ func (p *DevicePolicyManagerProxy) SetProfileName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetProfileName)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(profileName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(profileName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(profileName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetProfileName)
 	if _err != nil {
@@ -4433,9 +6136,26 @@ func (p *DevicePolicyManagerProxy) ClearProfileOwner(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearProfileOwner)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearProfileOwner)
@@ -4526,9 +6246,29 @@ func (p *DevicePolicyManagerProxy) CheckDeviceIdentifierAccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCheckDeviceIdentifierAccess)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(pid)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCheckDeviceIdentifierAccess)
 	if _err != nil {
@@ -4560,11 +6300,31 @@ func (p *DevicePolicyManagerProxy) SetDeviceOwnerLockScreenInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDeviceOwnerLockScreenInfo)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/CharSequence;",
 	}
-	_data.WriteString16(deviceOwnerInfo)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(deviceOwnerInfo)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(deviceOwnerInfo)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDeviceOwnerLockScreenInfo)
 	if _err != nil {
@@ -4625,20 +6385,53 @@ func (p *DevicePolicyManagerProxy) SetPackagesSuspended(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPackagesSuspended)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(callerPackage)
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteBool(suspended)
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				_data.WriteBool(suspended)
+			}
 		}
 	}
-	_data.WriteBool(suspended)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPackagesSuspended)
 	if _err != nil {
@@ -4685,12 +6478,35 @@ func (p *DevicePolicyManagerProxy) IsPackageSuspended(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsPackageSuspended)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsPackageSuspended)
 	if _err != nil {
@@ -4767,12 +6583,35 @@ func (p *DevicePolicyManagerProxy) InstallCaCert(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerInstallCaCert)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"[B",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteByteArray(certBuffer)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteByteArray(certBuffer)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteByteArray(certBuffer)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerInstallCaCert)
 	if _err != nil {
@@ -4805,17 +6644,47 @@ func (p *DevicePolicyManagerProxy) UninstallCaCerts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerUninstallCaCerts)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackage)
-	if aliases == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackage)
+		if aliases == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(aliases)))
+			for _, _item := range aliases {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(aliases)))
-		for _, _item := range aliases {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				if aliases == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(aliases)))
+					for _, _item := range aliases {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -4845,11 +6714,31 @@ func (p *DevicePolicyManagerProxy) EnforceCanManageCaCerts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerEnforceCanManageCaCerts)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackage)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerEnforceCanManageCaCerts)
 	if _err != nil {
@@ -4879,9 +6768,29 @@ func (p *DevicePolicyManagerProxy) ApproveCaCert(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(alias)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(approval)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerApproveCaCert)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(approval)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(approval)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerApproveCaCert)
 	if _err != nil {
@@ -4914,8 +6823,25 @@ func (p *DevicePolicyManagerProxy) IsCaCertApproved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(alias)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsCaCertApproved)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(alias)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(alias)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsCaCertApproved)
 	if _err != nil {
@@ -4954,17 +6880,55 @@ func (p *DevicePolicyManagerProxy) InstallKeyPair(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerInstallKeyPair)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"[B",
+		"[B",
+		"[B",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteByteArray(privKeyBuffer)
-	_data.WriteByteArray(certBuffer)
-	_data.WriteByteArray(certChainBuffer)
-	_data.WriteString16(alias)
-	_data.WriteBool(requestAccess)
-	_data.WriteBool(isUserSelectable)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteByteArray(privKeyBuffer)
+		_data.WriteByteArray(certBuffer)
+		_data.WriteByteArray(certChainBuffer)
+		_data.WriteString16(alias)
+		_data.WriteBool(requestAccess)
+		_data.WriteBool(isUserSelectable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteByteArray(privKeyBuffer)
+			case 3:
+				_data.WriteByteArray(certBuffer)
+			case 4:
+				_data.WriteByteArray(certChainBuffer)
+			case 5:
+				_data.WriteString16(alias)
+			case 6:
+				_data.WriteBool(requestAccess)
+			case 7:
+				_data.WriteBool(isUserSelectable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerInstallKeyPair)
 	if _err != nil {
@@ -4998,12 +6962,35 @@ func (p *DevicePolicyManagerProxy) RemoveKeyPair(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRemoveKeyPair)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(alias)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRemoveKeyPair)
 	if _err != nil {
@@ -5036,8 +7023,25 @@ func (p *DevicePolicyManagerProxy) HasKeyPair(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerHasKeyPair)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			case 1:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerHasKeyPair)
 	if _err != nil {
@@ -5074,17 +7078,49 @@ func (p *DevicePolicyManagerProxy) GenerateKeyPair(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGenerateKeyPair)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/security/keystore/ParcelableKeyGenParameterSpec;",
+		"I",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(algorithm)
-	_data.WriteInt32(1)
-	if _err := keySpec.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(algorithm)
+		_data.WriteInt32(1)
+		if _err := keySpec.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(idAttestationFlags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(algorithm)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := keySpec.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				_data.WriteInt32(idAttestationFlags)
+			}
+		}
 	}
-	_data.WriteInt32(idAttestationFlags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGenerateKeyPair)
 	if _err != nil {
@@ -5132,15 +7168,47 @@ func (p *DevicePolicyManagerProxy) SetKeyPairCertificate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetKeyPairCertificate)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[B",
+		"[B",
+		"Z",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(alias)
-	_data.WriteByteArray(certBuffer)
-	_data.WriteByteArray(certChainBuffer)
-	_data.WriteBool(isUserSelectable)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(alias)
+		_data.WriteByteArray(certBuffer)
+		_data.WriteByteArray(certChainBuffer)
+		_data.WriteBool(isUserSelectable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(alias)
+			case 3:
+				_data.WriteByteArray(certBuffer)
+			case 4:
+				_data.WriteByteArray(certChainBuffer)
+			case 5:
+				_data.WriteBool(isUserSelectable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetKeyPairCertificate)
 	if _err != nil {
@@ -5174,13 +7242,39 @@ func (p *DevicePolicyManagerProxy) ChoosePrivateKeyAlias(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerChoosePrivateKeyAlias)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/net/Uri;",
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
 	}
-	_data.WriteString16(alias)
-	binder.WriteBinderToParcel(ctx, _data, aliasCallback, p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(alias)
+		binder.WriteBinderToParcel(ctx, _data, aliasCallback, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(alias)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, aliasCallback, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerChoosePrivateKeyAlias)
 	if _err != nil {
@@ -5209,17 +7303,47 @@ func (p *DevicePolicyManagerProxy) SetDelegatedScopes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDelegatedScopes)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
 	}
-	_data.WriteString16(delegatePackage)
-	if scopes == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(delegatePackage)
+		if scopes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(scopes)))
+			for _, _item := range scopes {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(scopes)))
-		for _, _item := range scopes {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(delegatePackage)
+			case 2:
+				if scopes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(scopes)))
+					for _, _item := range scopes {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -5250,11 +7374,31 @@ func (p *DevicePolicyManagerProxy) GetDelegatedScopes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDelegatedScopes)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(delegatePackage)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(delegatePackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(delegatePackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDelegatedScopes)
 	if _err != nil {
@@ -5300,11 +7444,31 @@ func (p *DevicePolicyManagerProxy) GetDelegatePackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDelegatePackages)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(scope)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(scope)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(scope)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDelegatePackages)
 	if _err != nil {
@@ -5349,11 +7513,31 @@ func (p *DevicePolicyManagerProxy) SetCertInstallerPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetCertInstallerPackage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(installerPackage)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(installerPackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(installerPackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetCertInstallerPackage)
 	if _err != nil {
@@ -5381,9 +7565,26 @@ func (p *DevicePolicyManagerProxy) GetCertInstallerPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCertInstallerPackage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCertInstallerPackage)
@@ -5419,18 +7620,51 @@ func (p *DevicePolicyManagerProxy) SetAlwaysOnVpnPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetAlwaysOnVpnPackage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Z",
+		"Ljava/util/List;",
 	}
-	_data.WriteString16(vpnPackage)
-	_data.WriteBool(lockdown)
-	if lockdownAllowlist == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(vpnPackage)
+		_data.WriteBool(lockdown)
+		if lockdownAllowlist == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(lockdownAllowlist)))
+			for _, _item := range lockdownAllowlist {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(lockdownAllowlist)))
-		for _, _item := range lockdownAllowlist {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(vpnPackage)
+			case 2:
+				_data.WriteBool(lockdown)
+			case 3:
+				if lockdownAllowlist == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(lockdownAllowlist)))
+					for _, _item := range lockdownAllowlist {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -5464,9 +7698,26 @@ func (p *DevicePolicyManagerProxy) GetAlwaysOnVpnPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAlwaysOnVpnPackage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAlwaysOnVpnPackage)
@@ -5499,7 +7750,21 @@ func (p *DevicePolicyManagerProxy) GetAlwaysOnVpnPackageForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAlwaysOnVpnPackageForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAlwaysOnVpnPackageForUser)
 	if _err != nil {
@@ -5531,9 +7796,26 @@ func (p *DevicePolicyManagerProxy) IsAlwaysOnVpnLockdownEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsAlwaysOnVpnLockdownEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsAlwaysOnVpnLockdownEnabled)
@@ -5566,7 +7848,21 @@ func (p *DevicePolicyManagerProxy) IsAlwaysOnVpnLockdownEnabledForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsAlwaysOnVpnLockdownEnabledForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsAlwaysOnVpnLockdownEnabledForUser)
 	if _err != nil {
@@ -5598,9 +7894,26 @@ func (p *DevicePolicyManagerProxy) GetAlwaysOnVpnLockdownAllowlist(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAlwaysOnVpnLockdownAllowlist)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAlwaysOnVpnLockdownAllowlist)
@@ -5648,18 +7961,50 @@ func (p *DevicePolicyManagerProxy) AddPersistentPreferredActivity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerAddPersistentPreferredActivity)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Landroid/content/IntentFilter;",
+		"Landroid/content/ComponentName;",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(1)
-	if _err := filter.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := activity.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(1)
+		if _err := filter.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := activity.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := filter.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := activity.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerAddPersistentPreferredActivity)
@@ -5689,12 +8034,35 @@ func (p *DevicePolicyManagerProxy) ClearPackagePersistentPreferredActivities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearPackagePersistentPreferredActivities)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearPackagePersistentPreferredActivities)
 	if _err != nil {
@@ -5724,13 +8092,39 @@ func (p *DevicePolicyManagerProxy) SetDefaultSmsApplication(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDefaultSmsApplication)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteString16(packageName)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteString16(packageName)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDefaultSmsApplication)
 	if _err != nil {
@@ -5757,7 +8151,21 @@ func (p *DevicePolicyManagerProxy) SetDefaultDialerApplication(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDefaultDialerApplication)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDefaultDialerApplication)
 	if _err != nil {
@@ -5787,15 +8195,44 @@ func (p *DevicePolicyManagerProxy) SetApplicationRestrictions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetApplicationRestrictions)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := settings.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := settings.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := settings.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetApplicationRestrictions)
@@ -5826,12 +8263,35 @@ func (p *DevicePolicyManagerProxy) GetApplicationRestrictions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetApplicationRestrictions)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetApplicationRestrictions)
 	if _err != nil {
@@ -5869,11 +8329,31 @@ func (p *DevicePolicyManagerProxy) SetApplicationRestrictionsManagingPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetApplicationRestrictionsManagingPackage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetApplicationRestrictionsManagingPackage)
 	if _err != nil {
@@ -5905,9 +8385,26 @@ func (p *DevicePolicyManagerProxy) GetApplicationRestrictionsManagingPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetApplicationRestrictionsManagingPackage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetApplicationRestrictionsManagingPackage)
@@ -5940,7 +8437,21 @@ func (p *DevicePolicyManagerProxy) IsCallerApplicationRestrictionsManagingPackag
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsCallerApplicationRestrictionsManagingPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsCallerApplicationRestrictionsManagingPackage)
 	if _err != nil {
@@ -5972,13 +8483,36 @@ func (p *DevicePolicyManagerProxy) SetRestrictionsProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetRestrictionsProvider)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/content/ComponentName;",
 	}
-	_data.WriteInt32(1)
-	if _err := provider.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := provider.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := provider.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetRestrictionsProvider)
@@ -6007,7 +8541,21 @@ func (p *DevicePolicyManagerProxy) GetRestrictionsProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetRestrictionsProvider)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetRestrictionsProvider)
 	if _err != nil {
@@ -6047,14 +8595,43 @@ func (p *DevicePolicyManagerProxy) SetUserRestriction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetUserRestriction)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(key)
-	_data.WriteBool(enable)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(key)
+		_data.WriteBool(enable)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(key)
+			case 3:
+				_data.WriteBool(enable)
+			case 4:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetUserRestriction)
 	if _err != nil {
@@ -6082,8 +8659,25 @@ func (p *DevicePolicyManagerProxy) SetUserRestrictionGlobally(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(key)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetUserRestrictionGlobally)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(key)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			case 1:
+				_data.WriteString16(key)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetUserRestrictionGlobally)
 	if _err != nil {
@@ -6113,12 +8707,35 @@ func (p *DevicePolicyManagerProxy) GetUserRestrictions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetUserRestrictions)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetUserRestrictions)
 	if _err != nil {
@@ -6155,7 +8772,21 @@ func (p *DevicePolicyManagerProxy) GetUserRestrictionsGlobally(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetUserRestrictionsGlobally)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetUserRestrictionsGlobally)
 	if _err != nil {
@@ -6194,16 +8825,45 @@ func (p *DevicePolicyManagerProxy) AddCrossProfileIntentFilter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerAddCrossProfileIntentFilter)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Landroid/content/IntentFilter;",
+		"I",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(1)
-	if _err := filter.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(1)
+		if _err := filter.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := filter.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(flags)
+			}
+		}
 	}
-	_data.WriteInt32(flags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerAddCrossProfileIntentFilter)
 	if _err != nil {
@@ -6231,11 +8891,31 @@ func (p *DevicePolicyManagerProxy) ClearCrossProfileIntentFilters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearCrossProfileIntentFilters)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearCrossProfileIntentFilters)
 	if _err != nil {
@@ -6264,16 +8944,43 @@ func (p *DevicePolicyManagerProxy) SetPermittedAccessibilityServices(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPermittedAccessibilityServices)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/util/List;",
 	}
-	if packageList == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		if packageList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageList)))
+			for _, _item := range packageList {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(packageList)))
-		for _, _item := range packageList {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				if packageList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageList)))
+					for _, _item := range packageList {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -6307,9 +9014,26 @@ func (p *DevicePolicyManagerProxy) GetPermittedAccessibilityServices(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPermittedAccessibilityServices)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPermittedAccessibilityServices)
@@ -6355,7 +9079,21 @@ func (p *DevicePolicyManagerProxy) GetPermittedAccessibilityServicesForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPermittedAccessibilityServicesForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPermittedAccessibilityServicesForUser)
 	if _err != nil {
@@ -6402,12 +9140,35 @@ func (p *DevicePolicyManagerProxy) IsAccessibilityServicePermittedByAdmin(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsAccessibilityServicePermittedByAdmin)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsAccessibilityServicePermittedByAdmin)
 	if _err != nil {
@@ -6442,20 +9203,53 @@ func (p *DevicePolicyManagerProxy) SetPermittedInputMethods(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPermittedInputMethods)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	if packageList == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+		if packageList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageList)))
+			for _, _item := range packageList {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteBool(parent)
 	} else {
-		_data.WriteInt32(int32(len(packageList)))
-		for _, _item := range packageList {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				if packageList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageList)))
+					for _, _item := range packageList {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				_data.WriteBool(parent)
+			}
 		}
 	}
-	_data.WriteBool(parent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPermittedInputMethods)
 	if _err != nil {
@@ -6489,12 +9283,35 @@ func (p *DevicePolicyManagerProxy) GetPermittedInputMethods(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPermittedInputMethods)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPermittedInputMethods)
 	if _err != nil {
@@ -6539,7 +9356,21 @@ func (p *DevicePolicyManagerProxy) GetPermittedInputMethodsAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPermittedInputMethodsAsUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPermittedInputMethodsAsUser)
 	if _err != nil {
@@ -6587,13 +9418,39 @@ func (p *DevicePolicyManagerProxy) IsInputMethodPermittedByAdmin(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsInputMethodPermittedByAdmin)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsInputMethodPermittedByAdmin)
 	if _err != nil {
@@ -6626,16 +9483,43 @@ func (p *DevicePolicyManagerProxy) SetPermittedCrossProfileNotificationListeners
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPermittedCrossProfileNotificationListeners)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/util/List;",
 	}
-	if packageList == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		if packageList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageList)))
+			for _, _item := range packageList {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(packageList)))
-		for _, _item := range packageList {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				if packageList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageList)))
+					for _, _item := range packageList {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -6669,9 +9553,26 @@ func (p *DevicePolicyManagerProxy) GetPermittedCrossProfileNotificationListeners
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPermittedCrossProfileNotificationListeners)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPermittedCrossProfileNotificationListeners)
@@ -6718,8 +9619,25 @@ func (p *DevicePolicyManagerProxy) IsNotificationListenerServicePermitted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsNotificationListenerServicePermitted)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsNotificationListenerServicePermitted)
 	if _err != nil {
@@ -6751,7 +9669,21 @@ func (p *DevicePolicyManagerProxy) CreateAdminSupportIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(restriction)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCreateAdminSupportIntent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(restriction)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(restriction)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCreateAdminSupportIntent)
 	if _err != nil {
@@ -6789,8 +9721,25 @@ func (p *DevicePolicyManagerProxy) GetEnforcingAdminAndUserDetails(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(restriction)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetEnforcingAdminAndUserDetails)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(restriction)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(restriction)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetEnforcingAdminAndUserDetails)
 	if _err != nil {
@@ -6828,8 +9777,25 @@ func (p *DevicePolicyManagerProxy) GetEnforcingAdminsForRestriction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(restriction)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetEnforcingAdminsForRestriction)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(restriction)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(restriction)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetEnforcingAdminsForRestriction)
 	if _err != nil {
@@ -6897,14 +9863,43 @@ func (p *DevicePolicyManagerProxy) SetApplicationHidden(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetApplicationHidden)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(packageName)
-	_data.WriteBool(hidden)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(packageName)
+		_data.WriteBool(hidden)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteBool(hidden)
+			case 4:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetApplicationHidden)
 	if _err != nil {
@@ -6939,13 +9934,39 @@ func (p *DevicePolicyManagerProxy) IsApplicationHidden(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsApplicationHidden)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(packageName)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(packageName)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsApplicationHidden)
 	if _err != nil {
@@ -6981,20 +10002,55 @@ func (p *DevicePolicyManagerProxy) CreateAndManageUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCreateAndManageUser)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
+		"Landroid/os/PersistableBundle;",
+		"I",
 	}
-	_data.WriteString16(name)
-	_data.WriteInt32(1)
-	if _err := profileOwner.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(name)
+		_data.WriteInt32(1)
+		if _err := profileOwner.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := adminExtras.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(name)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := profileOwner.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := adminExtras.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				_data.WriteInt32(flags)
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := adminExtras.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(flags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCreateAndManageUser)
 	if _err != nil {
@@ -7032,13 +10088,36 @@ func (p *DevicePolicyManagerProxy) RemoveUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRemoveUser)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := userHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := userHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRemoveUser)
@@ -7072,13 +10151,36 @@ func (p *DevicePolicyManagerProxy) SwitchUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSwitchUser)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := userHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := userHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSwitchUser)
@@ -7112,13 +10214,36 @@ func (p *DevicePolicyManagerProxy) StartUserInBackground(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerStartUserInBackground)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := userHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := userHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerStartUserInBackground)
@@ -7152,13 +10277,36 @@ func (p *DevicePolicyManagerProxy) StopUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerStopUser)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/os/UserHandle;",
 	}
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := userHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := userHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerStopUser)
@@ -7191,9 +10339,26 @@ func (p *DevicePolicyManagerProxy) LogoutUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerLogoutUser)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerLogoutUser)
@@ -7286,9 +10451,26 @@ func (p *DevicePolicyManagerProxy) GetSecondaryUsers(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetSecondaryUsers)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetSecondaryUsers)
@@ -7352,7 +10534,21 @@ func (p *DevicePolicyManagerProxy) AcknowledgeNewUserDisclaimer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerAcknowledgeNewUserDisclaimer)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerAcknowledgeNewUserDisclaimer)
 	if _err != nil {
@@ -7380,7 +10576,21 @@ func (p *DevicePolicyManagerProxy) IsNewUserDisclaimerAcknowledged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsNewUserDisclaimerAcknowledged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsNewUserDisclaimerAcknowledged)
 	if _err != nil {
@@ -7413,12 +10623,35 @@ func (p *DevicePolicyManagerProxy) EnableSystemApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerEnableSystemApp)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerEnableSystemApp)
 	if _err != nil {
@@ -7448,14 +10681,40 @@ func (p *DevicePolicyManagerProxy) EnableSystemAppWithIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerEnableSystemAppWithIntent)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Landroid/content/Intent;",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerEnableSystemAppWithIntent)
@@ -7490,12 +10749,35 @@ func (p *DevicePolicyManagerProxy) InstallExistingPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerInstallExistingPackage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerInstallExistingPackage)
 	if _err != nil {
@@ -7530,14 +10812,43 @@ func (p *DevicePolicyManagerProxy) SetAccountManagementDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetAccountManagementDisabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteString16(accountType)
-	_data.WriteBool(disabled)
-	_data.WriteBool(parent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteString16(accountType)
+		_data.WriteBool(disabled)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteString16(accountType)
+			case 3:
+				_data.WriteBool(disabled)
+			case 4:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetAccountManagementDisabled)
 	if _err != nil {
@@ -7565,7 +10876,21 @@ func (p *DevicePolicyManagerProxy) GetAccountTypesWithManagementDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAccountTypesWithManagementDisabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAccountTypesWithManagementDisabled)
 	if _err != nil {
@@ -7612,9 +10937,29 @@ func (p *DevicePolicyManagerProxy) GetAccountTypesWithManagementDisabledAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(callerPackageName)
-	_data.WriteBool(parent)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAccountTypesWithManagementDisabledAsUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(callerPackageName)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteBool(parent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAccountTypesWithManagementDisabledAsUser)
 	if _err != nil {
@@ -7659,11 +11004,31 @@ func (p *DevicePolicyManagerProxy) SetSecondaryLockscreenEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetSecondaryLockscreenEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(enabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetSecondaryLockscreenEnabled)
 	if _err != nil {
@@ -7691,9 +11056,26 @@ func (p *DevicePolicyManagerProxy) IsSecondaryLockscreenEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsSecondaryLockscreenEnabled)
+	_compiledDescs := []string{
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := userHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := userHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsSecondaryLockscreenEnabled)
@@ -7725,14 +11107,38 @@ func (p *DevicePolicyManagerProxy) SetPreferentialNetworkServiceConfigs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	if preferentialNetworkServiceConfigs == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPreferentialNetworkServiceConfigs)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if preferentialNetworkServiceConfigs == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(preferentialNetworkServiceConfigs)))
+			for _, _item := range preferentialNetworkServiceConfigs {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(preferentialNetworkServiceConfigs)))
-		for _, _item := range preferentialNetworkServiceConfigs {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if preferentialNetworkServiceConfigs == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(preferentialNetworkServiceConfigs)))
+					for _, _item := range preferentialNetworkServiceConfigs {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -7826,17 +11232,47 @@ func (p *DevicePolicyManagerProxy) SetLockTaskPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetLockTaskPackages)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
-	if packages == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		if packages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packages)))
+			for _, _item := range packages {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(packages)))
-		for _, _item := range packages {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				if packages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packages)))
+					for _, _item := range packages {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -7867,11 +11303,31 @@ func (p *DevicePolicyManagerProxy) GetLockTaskPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetLockTaskPackages)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetLockTaskPackages)
 	if _err != nil {
@@ -7916,7 +11372,21 @@ func (p *DevicePolicyManagerProxy) IsLockTaskPermitted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsLockTaskPermitted)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsLockTaskPermitted)
 	if _err != nil {
@@ -7949,12 +11419,35 @@ func (p *DevicePolicyManagerProxy) SetLockTaskFeatures(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetLockTaskFeatures)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(flags)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetLockTaskFeatures)
 	if _err != nil {
@@ -7983,11 +11476,31 @@ func (p *DevicePolicyManagerProxy) GetLockTaskFeatures(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetLockTaskFeatures)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetLockTaskFeatures)
 	if _err != nil {
@@ -8020,12 +11533,35 @@ func (p *DevicePolicyManagerProxy) SetGlobalSetting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetGlobalSetting)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(setting)
-	_data.WriteString16(value)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(setting)
+		_data.WriteString16(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(setting)
+			case 2:
+				_data.WriteString16(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetGlobalSetting)
 	if _err != nil {
@@ -8054,12 +11590,35 @@ func (p *DevicePolicyManagerProxy) SetSystemSetting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetSystemSetting)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(setting)
-	_data.WriteString16(value)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(setting)
+		_data.WriteString16(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(setting)
+			case 2:
+				_data.WriteString16(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetSystemSetting)
 	if _err != nil {
@@ -8088,12 +11647,35 @@ func (p *DevicePolicyManagerProxy) SetSecureSetting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetSecureSetting)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(setting)
-	_data.WriteString16(value)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(setting)
+		_data.WriteString16(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(setting)
+			case 2:
+				_data.WriteString16(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetSecureSetting)
 	if _err != nil {
@@ -8122,12 +11704,35 @@ func (p *DevicePolicyManagerProxy) SetConfiguredNetworksLockdownState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetConfiguredNetworksLockdownState)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteBool(lockdown)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteBool(lockdown)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteBool(lockdown)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetConfiguredNetworksLockdownState)
 	if _err != nil {
@@ -8155,9 +11760,26 @@ func (p *DevicePolicyManagerProxy) HasLockdownAdminConfiguredNetworks(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerHasLockdownAdminConfiguredNetworks)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerHasLockdownAdminConfiguredNetworks)
@@ -8190,11 +11812,31 @@ func (p *DevicePolicyManagerProxy) SetLocationEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetLocationEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(locationEnabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(locationEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(locationEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetLocationEnabled)
 	if _err != nil {
@@ -8224,12 +11866,35 @@ func (p *DevicePolicyManagerProxy) SetTime(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetTime)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"J",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt64(millis)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt64(millis)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteInt64(millis)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetTime)
 	if _err != nil {
@@ -8263,12 +11928,35 @@ func (p *DevicePolicyManagerProxy) SetTimeZone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetTimeZone)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteString16(timeZone)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteString16(timeZone)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteString16(timeZone)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetTimeZone)
 	if _err != nil {
@@ -8300,11 +11988,31 @@ func (p *DevicePolicyManagerProxy) SetMasterVolumeMuted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetMasterVolumeMuted)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(on)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(on)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(on)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetMasterVolumeMuted)
 	if _err != nil {
@@ -8332,9 +12040,26 @@ func (p *DevicePolicyManagerProxy) IsMasterVolumeMuted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsMasterVolumeMuted)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsMasterVolumeMuted)
@@ -8368,9 +12093,29 @@ func (p *DevicePolicyManagerProxy) NotifyLockTaskModeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteBool(isEnabled)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerNotifyLockTaskModeChanged)
+	_compiledDescs := []string{
+		"Z",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isEnabled)
+		_data.WriteString16(pkg)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isEnabled)
+			case 1:
+				_data.WriteString16(pkg)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerNotifyLockTaskModeChanged)
 	if _err != nil {
@@ -8400,13 +12145,39 @@ func (p *DevicePolicyManagerProxy) SetUninstallBlocked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetUninstallBlocked)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(packageName)
-	_data.WriteBool(uninstallBlocked)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(packageName)
+		_data.WriteBool(uninstallBlocked)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteBool(uninstallBlocked)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetUninstallBlocked)
 	if _err != nil {
@@ -8434,7 +12205,21 @@ func (p *DevicePolicyManagerProxy) IsUninstallBlocked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsUninstallBlocked)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsUninstallBlocked)
 	if _err != nil {
@@ -8466,11 +12251,31 @@ func (p *DevicePolicyManagerProxy) SetCrossProfileCallerIdDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetCrossProfileCallerIdDisabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(disabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(disabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(disabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetCrossProfileCallerIdDisabled)
 	if _err != nil {
@@ -8498,9 +12303,26 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileCallerIdDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfileCallerIdDisabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfileCallerIdDisabled)
@@ -8533,7 +12355,21 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileCallerIdDisabledForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfileCallerIdDisabledForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfileCallerIdDisabledForUser)
 	if _err != nil {
@@ -8565,11 +12401,31 @@ func (p *DevicePolicyManagerProxy) SetCrossProfileContactsSearchDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetCrossProfileContactsSearchDisabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(disabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(disabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(disabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetCrossProfileContactsSearchDisabled)
 	if _err != nil {
@@ -8597,9 +12453,26 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileContactsSearchDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfileContactsSearchDisabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfileContactsSearchDisabled)
@@ -8632,7 +12505,21 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileContactsSearchDisabledForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfileContactsSearchDisabledForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfileContactsSearchDisabledForUser)
 	if _err != nil {
@@ -8667,13 +12554,42 @@ func (p *DevicePolicyManagerProxy) StartManagedQuickContact(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(lookupKey)
-	_data.WriteInt64(contactId)
-	_data.WriteBool(isContactIdIgnored)
-	_data.WriteInt64(directoryId)
-	_data.WriteInt32(1)
-	if _err := originalIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerStartManagedQuickContact)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"Z",
+		"J",
+		"Landroid/content/Intent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(lookupKey)
+		_data.WriteInt64(contactId)
+		_data.WriteBool(isContactIdIgnored)
+		_data.WriteInt64(directoryId)
+		_data.WriteInt32(1)
+		if _err := originalIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(lookupKey)
+			case 1:
+				_data.WriteInt64(contactId)
+			case 2:
+				_data.WriteBool(isContactIdIgnored)
+			case 3:
+				_data.WriteInt64(directoryId)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := originalIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerStartManagedQuickContact)
@@ -8701,9 +12617,26 @@ func (p *DevicePolicyManagerProxy) SetManagedProfileCallerIdAccessPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := policy.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetManagedProfileCallerIdAccessPolicy)
+	_compiledDescs := []string{
+		"Landroid/app/admin/PackagePolicy;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := policy.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := policy.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetManagedProfileCallerIdAccessPolicy)
@@ -8768,8 +12701,25 @@ func (p *DevicePolicyManagerProxy) HasManagedProfileCallerIdAccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerHasManagedProfileCallerIdAccess)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerHasManagedProfileCallerIdAccess)
 	if _err != nil {
@@ -8800,9 +12750,26 @@ func (p *DevicePolicyManagerProxy) SetCredentialManagerPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := policy.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetCredentialManagerPolicy)
+	_compiledDescs := []string{
+		"Landroid/app/admin/PackagePolicy;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := policy.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := policy.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetCredentialManagerPolicy)
@@ -8831,7 +12798,21 @@ func (p *DevicePolicyManagerProxy) GetCredentialManagerPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCredentialManagerPolicy)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCredentialManagerPolicy)
 	if _err != nil {
@@ -8867,9 +12848,26 @@ func (p *DevicePolicyManagerProxy) SetManagedProfileContactsAccessPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := policy.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetManagedProfileContactsAccessPolicy)
+	_compiledDescs := []string{
+		"Landroid/app/admin/PackagePolicy;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := policy.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := policy.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetManagedProfileContactsAccessPolicy)
@@ -8934,8 +12932,25 @@ func (p *DevicePolicyManagerProxy) HasManagedProfileContactsAccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerHasManagedProfileContactsAccess)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerHasManagedProfileContactsAccess)
 	if _err != nil {
@@ -8967,11 +12982,31 @@ func (p *DevicePolicyManagerProxy) SetBluetoothContactSharingDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetBluetoothContactSharingDisabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(disabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(disabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(disabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetBluetoothContactSharingDisabled)
 	if _err != nil {
@@ -8999,9 +13034,26 @@ func (p *DevicePolicyManagerProxy) GetBluetoothContactSharingDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetBluetoothContactSharingDisabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetBluetoothContactSharingDisabled)
@@ -9034,7 +13086,21 @@ func (p *DevicePolicyManagerProxy) GetBluetoothContactSharingDisabledForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetBluetoothContactSharingDisabledForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetBluetoothContactSharingDisabledForUser)
 	if _err != nil {
@@ -9069,20 +13135,55 @@ func (p *DevicePolicyManagerProxy) SetTrustAgentConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetTrustAgentConfiguration)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
+		"Landroid/os/PersistableBundle;",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(1)
-	if _err := agent.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(1)
+		if _err := agent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := args.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := agent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := args.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteBool(parent)
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteBool(parent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetTrustAgentConfiguration)
 	if _err != nil {
@@ -9113,16 +13214,45 @@ func (p *DevicePolicyManagerProxy) GetTrustAgentConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetTrustAgentConfiguration)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(1)
-	if _err := agent.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := agent.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(parent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := agent.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteBool(parent)
+			}
+		}
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(parent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetTrustAgentConfiguration)
 	if _err != nil {
@@ -9188,12 +13318,35 @@ func (p *DevicePolicyManagerProxy) AddCrossProfileWidgetProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerAddCrossProfileWidgetProvider)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerAddCrossProfileWidgetProvider)
 	if _err != nil {
@@ -9227,12 +13380,35 @@ func (p *DevicePolicyManagerProxy) RemoveCrossProfileWidgetProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRemoveCrossProfileWidgetProvider)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRemoveCrossProfileWidgetProvider)
 	if _err != nil {
@@ -9265,11 +13441,31 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileWidgetProviders(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfileWidgetProviders)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfileWidgetProviders)
 	if _err != nil {
@@ -9314,11 +13510,31 @@ func (p *DevicePolicyManagerProxy) SetAutoTimeRequired(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetAutoTimeRequired)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(required)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(required)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(required)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetAutoTimeRequired)
 	if _err != nil {
@@ -9377,12 +13593,35 @@ func (p *DevicePolicyManagerProxy) SetAutoTimeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetAutoTimeEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteBool(enabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetAutoTimeEnabled)
 	if _err != nil {
@@ -9411,11 +13650,31 @@ func (p *DevicePolicyManagerProxy) GetAutoTimeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAutoTimeEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAutoTimeEnabled)
 	if _err != nil {
@@ -9448,12 +13707,35 @@ func (p *DevicePolicyManagerProxy) SetAutoTimeZoneEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetAutoTimeZoneEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteBool(enabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetAutoTimeZoneEnabled)
 	if _err != nil {
@@ -9482,11 +13764,31 @@ func (p *DevicePolicyManagerProxy) GetAutoTimeZoneEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAutoTimeZoneEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAutoTimeZoneEnabled)
 	if _err != nil {
@@ -9518,11 +13820,31 @@ func (p *DevicePolicyManagerProxy) SetForceEphemeralUsers(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetForceEphemeralUsers)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(forceEpehemeralUsers)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(forceEpehemeralUsers)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(forceEpehemeralUsers)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetForceEphemeralUsers)
 	if _err != nil {
@@ -9550,9 +13872,26 @@ func (p *DevicePolicyManagerProxy) GetForceEphemeralUsers(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetForceEphemeralUsers)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetForceEphemeralUsers)
@@ -9586,11 +13925,31 @@ func (p *DevicePolicyManagerProxy) IsRemovingAdmin(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := adminReceiver.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsRemovingAdmin)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := adminReceiver.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := adminReceiver.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsRemovingAdmin)
 	if _err != nil {
@@ -9622,13 +13981,36 @@ func (p *DevicePolicyManagerProxy) SetUserIcon(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetUserIcon)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/graphics/Bitmap;",
 	}
-	_data.WriteInt32(1)
-	if _err := icon.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := icon.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := icon.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetUserIcon)
@@ -9658,14 +14040,40 @@ func (p *DevicePolicyManagerProxy) SetSystemUpdatePolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetSystemUpdatePolicy)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Landroid/app/admin/SystemUpdatePolicy;",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(1)
-	if _err := policy.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(1)
+		if _err := policy.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := policy.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetSystemUpdatePolicy)
@@ -9755,11 +14163,31 @@ func (p *DevicePolicyManagerProxy) SetKeyguardDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetKeyguardDisabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(disabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(disabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteBool(disabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetKeyguardDisabled)
 	if _err != nil {
@@ -9793,12 +14221,35 @@ func (p *DevicePolicyManagerProxy) SetStatusBarDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetStatusBarDisabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteBool(disabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteBool(disabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteBool(disabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetStatusBarDisabled)
 	if _err != nil {
@@ -9830,7 +14281,21 @@ func (p *DevicePolicyManagerProxy) IsStatusBarDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsStatusBarDisabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsStatusBarDisabled)
 	if _err != nil {
@@ -9891,9 +14356,26 @@ func (p *DevicePolicyManagerProxy) NotifyPendingSystemUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerNotifyPendingSystemUpdate)
+	_compiledDescs := []string{
+		"Landroid/app/admin/SystemUpdateInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerNotifyPendingSystemUpdate)
@@ -9923,11 +14405,31 @@ func (p *DevicePolicyManagerProxy) GetPendingSystemUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPendingSystemUpdate)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackage)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPendingSystemUpdate)
 	if _err != nil {
@@ -9965,12 +14467,35 @@ func (p *DevicePolicyManagerProxy) SetPermissionPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPermissionPolicy)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteInt32(policy)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteInt32(policy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteInt32(policy)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPermissionPolicy)
 	if _err != nil {
@@ -9998,9 +14523,26 @@ func (p *DevicePolicyManagerProxy) GetPermissionPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPermissionPolicy)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPermissionPolicy)
@@ -10037,17 +14579,52 @@ func (p *DevicePolicyManagerProxy) SetPermissionGrantState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPermissionGrantState)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(packageName)
-	_data.WriteString16(permission)
-	_data.WriteInt32(grantState)
-	_data.WriteInt32(1)
-	if _err := resultReceiver.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(packageName)
+		_data.WriteString16(permission)
+		_data.WriteInt32(grantState)
+		_data.WriteInt32(1)
+		if _err := resultReceiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteString16(permission)
+			case 4:
+				_data.WriteInt32(grantState)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := resultReceiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPermissionGrantState)
@@ -10079,13 +14656,39 @@ func (p *DevicePolicyManagerProxy) GetPermissionGrantState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPermissionGrantState)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(packageName)
-	_data.WriteString16(permission)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(packageName)
+		_data.WriteString16(permission)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(packageName)
+			case 3:
+				_data.WriteString16(permission)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPermissionGrantState)
 	if _err != nil {
@@ -10118,8 +14721,25 @@ func (p *DevicePolicyManagerProxy) IsProvisioningAllowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(action)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsProvisioningAllowed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(action)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(action)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsProvisioningAllowed)
 	if _err != nil {
@@ -10152,8 +14772,25 @@ func (p *DevicePolicyManagerProxy) CheckProvisioningPrecondition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(action)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCheckProvisioningPrecondition)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(action)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(action)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCheckProvisioningPrecondition)
 	if _err != nil {
@@ -10186,17 +14823,47 @@ func (p *DevicePolicyManagerProxy) SetKeepUninstalledPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetKeepUninstalledPackages)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
 	}
-	_data.WriteString16(callerPackage)
-	if packageList == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackage)
+		if packageList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageList)))
+			for _, _item := range packageList {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(packageList)))
-		for _, _item := range packageList {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				if packageList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageList)))
+					for _, _item := range packageList {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -10227,11 +14894,31 @@ func (p *DevicePolicyManagerProxy) GetKeepUninstalledPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetKeepUninstalledPackages)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackage)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetKeepUninstalledPackages)
 	if _err != nil {
@@ -10276,9 +14963,26 @@ func (p *DevicePolicyManagerProxy) IsManagedProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsManagedProfile)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsManagedProfile)
@@ -10312,11 +15016,31 @@ func (p *DevicePolicyManagerProxy) GetWifiMacAddress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetWifiMacAddress)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetWifiMacAddress)
 	if _err != nil {
@@ -10347,9 +15071,26 @@ func (p *DevicePolicyManagerProxy) Reboot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReboot)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerReboot)
@@ -10379,12 +15120,35 @@ func (p *DevicePolicyManagerProxy) SetShortSupportMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetShortSupportMessage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/CharSequence;",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteString16(message)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetShortSupportMessage)
 	if _err != nil {
@@ -10413,11 +15177,31 @@ func (p *DevicePolicyManagerProxy) GetShortSupportMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetShortSupportMessage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetShortSupportMessage)
 	if _err != nil {
@@ -10449,11 +15233,31 @@ func (p *DevicePolicyManagerProxy) SetLongSupportMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetLongSupportMessage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/CharSequence;",
 	}
-	_data.WriteString16(message)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetLongSupportMessage)
 	if _err != nil {
@@ -10481,9 +15285,26 @@ func (p *DevicePolicyManagerProxy) GetLongSupportMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetLongSupportMessage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetLongSupportMessage)
@@ -10517,11 +15338,31 @@ func (p *DevicePolicyManagerProxy) GetShortSupportMessageForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetShortSupportMessageForUser)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetShortSupportMessageForUser)
 	if _err != nil {
@@ -10554,11 +15395,31 @@ func (p *DevicePolicyManagerProxy) GetLongSupportMessageForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetLongSupportMessageForUser)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetLongSupportMessageForUser)
 	if _err != nil {
@@ -10590,11 +15451,31 @@ func (p *DevicePolicyManagerProxy) SetOrganizationColor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetOrganizationColor)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(color)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(color)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(color)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetOrganizationColor)
 	if _err != nil {
@@ -10622,8 +15503,25 @@ func (p *DevicePolicyManagerProxy) SetOrganizationColorForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(color)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetOrganizationColorForUser)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(color)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(color)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetOrganizationColorForUser)
 	if _err != nil {
@@ -10650,7 +15548,21 @@ func (p *DevicePolicyManagerProxy) ClearOrganizationIdForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearOrganizationIdForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearOrganizationIdForUser)
 	if _err != nil {
@@ -10678,9 +15590,26 @@ func (p *DevicePolicyManagerProxy) GetOrganizationColor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetOrganizationColor)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetOrganizationColor)
@@ -10713,7 +15642,21 @@ func (p *DevicePolicyManagerProxy) GetOrganizationColorForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetOrganizationColorForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetOrganizationColorForUser)
 	if _err != nil {
@@ -10746,12 +15689,35 @@ func (p *DevicePolicyManagerProxy) SetOrganizationName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetOrganizationName)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/CharSequence;",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteString16(title)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteString16(title)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteString16(title)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetOrganizationName)
 	if _err != nil {
@@ -10780,11 +15746,31 @@ func (p *DevicePolicyManagerProxy) GetOrganizationName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetOrganizationName)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetOrganizationName)
 	if _err != nil {
@@ -10846,7 +15832,21 @@ func (p *DevicePolicyManagerProxy) GetOrganizationNameForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetOrganizationNameForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetOrganizationNameForUser)
 	if _err != nil {
@@ -10878,7 +15878,21 @@ func (p *DevicePolicyManagerProxy) GetUserProvisioningState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetUserProvisioningState)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetUserProvisioningState)
 	if _err != nil {
@@ -10910,8 +15924,25 @@ func (p *DevicePolicyManagerProxy) SetUserProvisioningState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(state)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetUserProvisioningState)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(state)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(state)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetUserProvisioningState)
 	if _err != nil {
@@ -10939,16 +15970,43 @@ func (p *DevicePolicyManagerProxy) SetAffiliationIds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetAffiliationIds)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/util/List;",
 	}
-	if ids == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if ids == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ids)))
+			for _, _item := range ids {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(ids)))
-		for _, _item := range ids {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if ids == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ids)))
+					for _, _item := range ids {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -10978,9 +16036,26 @@ func (p *DevicePolicyManagerProxy) GetAffiliationIds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAffiliationIds)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAffiliationIds)
@@ -11056,7 +16131,21 @@ func (p *DevicePolicyManagerProxy) IsAffiliatedUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsAffiliatedUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsAffiliatedUser)
 	if _err != nil {
@@ -11089,12 +16178,35 @@ func (p *DevicePolicyManagerProxy) SetSecurityLoggingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetSecurityLoggingEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteBool(enabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetSecurityLoggingEnabled)
 	if _err != nil {
@@ -11123,11 +16235,31 @@ func (p *DevicePolicyManagerProxy) IsSecurityLoggingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsSecurityLoggingEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsSecurityLoggingEnabled)
 	if _err != nil {
@@ -11160,11 +16292,31 @@ func (p *DevicePolicyManagerProxy) RetrieveSecurityLogs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRetrieveSecurityLogs)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRetrieveSecurityLogs)
 	if _err != nil {
@@ -11202,11 +16354,31 @@ func (p *DevicePolicyManagerProxy) RetrievePreRebootSecurityLogs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRetrievePreRebootSecurityLogs)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRetrievePreRebootSecurityLogs)
 	if _err != nil {
@@ -11303,8 +16475,25 @@ func (p *DevicePolicyManagerProxy) SetAuditLogEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetAuditLogEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetAuditLogEnabled)
 	if _err != nil {
@@ -11332,7 +16521,21 @@ func (p *DevicePolicyManagerProxy) IsAuditLogEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsAuditLogEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsAuditLogEnabled)
 	if _err != nil {
@@ -11364,8 +16567,25 @@ func (p *DevicePolicyManagerProxy) SetAuditLogEventsCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetAuditLogEventsCallback)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/app/admin/IAuditLogEventsCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetAuditLogEventsCallback)
 	if _err != nil {
@@ -11393,7 +16613,21 @@ func (p *DevicePolicyManagerProxy) IsUninstallInQueue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsUninstallInQueue)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsUninstallInQueue)
 	if _err != nil {
@@ -11424,7 +16658,21 @@ func (p *DevicePolicyManagerProxy) UninstallPackageWithActiveAdmins(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerUninstallPackageWithActiveAdmins)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerUninstallPackageWithActiveAdmins)
 	if _err != nil {
@@ -11536,7 +16784,21 @@ func (p *DevicePolicyManagerProxy) ForceUpdateUserSetupComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerForceUpdateUserSetupComplete)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerForceUpdateUserSetupComplete)
 	if _err != nil {
@@ -11564,11 +16826,31 @@ func (p *DevicePolicyManagerProxy) SetBackupServiceEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetBackupServiceEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(enabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetBackupServiceEnabled)
 	if _err != nil {
@@ -11596,9 +16878,26 @@ func (p *DevicePolicyManagerProxy) IsBackupServiceEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsBackupServiceEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsBackupServiceEnabled)
@@ -11632,12 +16931,35 @@ func (p *DevicePolicyManagerProxy) SetNetworkLoggingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetNetworkLoggingEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteBool(enabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetNetworkLoggingEnabled)
 	if _err != nil {
@@ -11666,11 +16988,31 @@ func (p *DevicePolicyManagerProxy) IsNetworkLoggingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsNetworkLoggingEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsNetworkLoggingEnabled)
 	if _err != nil {
@@ -11704,12 +17046,35 @@ func (p *DevicePolicyManagerProxy) RetrieveNetworkLogs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRetrieveNetworkLogs)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"J",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt64(batchToken)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt64(batchToken)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt64(batchToken)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRetrieveNetworkLogs)
 	if _err != nil {
@@ -11779,19 +17144,57 @@ func (p *DevicePolicyManagerProxy) BindDeviceAdminServiceAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerBindDeviceAdminServiceAsUser)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/app/IApplicationThread;",
+		"Landroid/os/IBinder;",
+		"Landroid/content/Intent;",
+		"Landroid/app/IServiceConnection;",
+		"J",
+		"I",
 	}
-	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
+		_data.WriteInt64(flags)
+		_data.WriteInt32(targetUserId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
+			case 5:
+				_data.WriteInt64(flags)
+			case 6:
+				_data.WriteInt32(targetUserId)
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
-	_data.WriteInt64(flags)
-	_data.WriteInt32(targetUserId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerBindDeviceAdminServiceAsUser)
 	if _err != nil {
@@ -11823,9 +17226,26 @@ func (p *DevicePolicyManagerProxy) GetBindDeviceAdminTargetUsers(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetBindDeviceAdminTargetUsers)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetBindDeviceAdminTargetUsers)
@@ -11890,9 +17310,26 @@ func (p *DevicePolicyManagerProxy) IsEphemeralUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsEphemeralUser)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsEphemeralUser)
@@ -12017,12 +17454,35 @@ func (p *DevicePolicyManagerProxy) SetResetPasswordToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetResetPasswordToken)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"[B",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteByteArray(token)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteByteArray(token)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteByteArray(token)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetResetPasswordToken)
 	if _err != nil {
@@ -12055,11 +17515,31 @@ func (p *DevicePolicyManagerProxy) ClearResetPasswordToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearResetPasswordToken)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearResetPasswordToken)
 	if _err != nil {
@@ -12092,11 +17572,31 @@ func (p *DevicePolicyManagerProxy) IsResetPasswordTokenActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsResetPasswordTokenActive)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsResetPasswordTokenActive)
 	if _err != nil {
@@ -12132,14 +17632,43 @@ func (p *DevicePolicyManagerProxy) ResetPasswordWithToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerResetPasswordWithToken)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[B",
+		"I",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteString16(password)
-	_data.WriteByteArray(token)
-	_data.WriteInt32(flags)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteString16(password)
+		_data.WriteByteArray(token)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteString16(password)
+			case 3:
+				_data.WriteByteArray(token)
+			case 4:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerResetPasswordWithToken)
 	if _err != nil {
@@ -12201,9 +17730,26 @@ func (p *DevicePolicyManagerProxy) GetOwnerInstalledCaCerts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetOwnerInstalledCaCerts)
+	_compiledDescs := []string{
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetOwnerInstalledCaCerts)
@@ -12242,12 +17788,35 @@ func (p *DevicePolicyManagerProxy) ClearApplicationUserData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearApplicationUserData)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Landroid/content/pm/IPackageDataObserver;",
 	}
-	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(packageName)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearApplicationUserData)
 	if _err != nil {
@@ -12275,11 +17844,31 @@ func (p *DevicePolicyManagerProxy) SetLogoutEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetLogoutEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(enabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetLogoutEnabled)
 	if _err != nil {
@@ -12339,12 +17928,35 @@ func (p *DevicePolicyManagerProxy) GetDisallowedSystemApps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDisallowedSystemApps)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(provisioningAction)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(provisioningAction)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteString16(provisioningAction)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDisallowedSystemApps)
 	if _err != nil {
@@ -12390,17 +18002,46 @@ func (p *DevicePolicyManagerProxy) TransferOwnership(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerTransferOwnership)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/content/ComponentName;",
+		"Landroid/os/PersistableBundle;",
 	}
-	_data.WriteInt32(1)
-	if _err := target.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := bundle.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := target.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := bundle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := target.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := bundle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerTransferOwnership)
@@ -12464,11 +18105,31 @@ func (p *DevicePolicyManagerProxy) SetStartUserSessionMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetStartUserSessionMessage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/CharSequence;",
 	}
-	_data.WriteString16(startUserSessionMessage)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(startUserSessionMessage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(startUserSessionMessage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetStartUserSessionMessage)
 	if _err != nil {
@@ -12496,11 +18157,31 @@ func (p *DevicePolicyManagerProxy) SetEndUserSessionMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetEndUserSessionMessage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/CharSequence;",
 	}
-	_data.WriteString16(endUserSessionMessage)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(endUserSessionMessage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(endUserSessionMessage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetEndUserSessionMessage)
 	if _err != nil {
@@ -12528,9 +18209,26 @@ func (p *DevicePolicyManagerProxy) GetStartUserSessionMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetStartUserSessionMessage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetStartUserSessionMessage)
@@ -12563,9 +18261,26 @@ func (p *DevicePolicyManagerProxy) GetEndUserSessionMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetEndUserSessionMessage)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetEndUserSessionMessage)
@@ -12599,16 +18314,43 @@ func (p *DevicePolicyManagerProxy) SetMeteredDataDisabledPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetMeteredDataDisabledPackages)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/util/List;",
 	}
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -12655,9 +18397,26 @@ func (p *DevicePolicyManagerProxy) GetMeteredDataDisabledPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetMeteredDataDisabledPackages)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetMeteredDataDisabledPackages)
@@ -12704,13 +18463,36 @@ func (p *DevicePolicyManagerProxy) AddOverrideApn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerAddOverrideApn)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/telephony/data/ApnSetting;",
 	}
-	_data.WriteInt32(1)
-	if _err := apnSetting.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := apnSetting.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := apnSetting.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerAddOverrideApn)
@@ -12745,14 +18527,40 @@ func (p *DevicePolicyManagerProxy) UpdateOverrideApn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerUpdateOverrideApn)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Landroid/telephony/data/ApnSetting;",
 	}
-	_data.WriteInt32(apnId)
-	_data.WriteInt32(1)
-	if _err := apnSetting.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(apnId)
+		_data.WriteInt32(1)
+		if _err := apnSetting.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(apnId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := apnSetting.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerUpdateOverrideApn)
@@ -12786,11 +18594,31 @@ func (p *DevicePolicyManagerProxy) RemoveOverrideApn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRemoveOverrideApn)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(apnId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(apnId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(apnId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerRemoveOverrideApn)
 	if _err != nil {
@@ -12822,9 +18650,26 @@ func (p *DevicePolicyManagerProxy) GetOverrideApns(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetOverrideApns)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetOverrideApns)
@@ -12889,11 +18734,31 @@ func (p *DevicePolicyManagerProxy) SetOverrideApnsEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetOverrideApnsEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(enabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetOverrideApnsEnabled)
 	if _err != nil {
@@ -12921,9 +18786,26 @@ func (p *DevicePolicyManagerProxy) IsOverrideApnEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsOverrideApnEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsOverrideApnEnabled)
@@ -12958,12 +18840,35 @@ func (p *DevicePolicyManagerProxy) IsMeteredDataDisabledPackageForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsMeteredDataDisabledPackageForUser)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsMeteredDataDisabledPackageForUser)
 	if _err != nil {
@@ -12997,12 +18902,35 @@ func (p *DevicePolicyManagerProxy) SetGlobalPrivateDns(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetGlobalPrivateDns)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(mode)
-	_data.WriteString16(privateDnsHost)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(mode)
+		_data.WriteString16(privateDnsHost)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(mode)
+			case 2:
+				_data.WriteString16(privateDnsHost)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetGlobalPrivateDns)
 	if _err != nil {
@@ -13034,9 +18962,26 @@ func (p *DevicePolicyManagerProxy) GetGlobalPrivateDnsMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetGlobalPrivateDnsMode)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetGlobalPrivateDnsMode)
@@ -13069,9 +19014,26 @@ func (p *DevicePolicyManagerProxy) GetGlobalPrivateDnsHost(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetGlobalPrivateDnsHost)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetGlobalPrivateDnsHost)
@@ -13105,12 +19067,35 @@ func (p *DevicePolicyManagerProxy) SetProfileOwnerOnOrganizationOwnedDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetProfileOwnerOnOrganizationOwnedDevice)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(isProfileOwnerOnOrganizationOwnedDevice)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(isProfileOwnerOnOrganizationOwnedDevice)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(isProfileOwnerOnOrganizationOwnedDevice)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetProfileOwnerOnOrganizationOwnedDevice)
 	if _err != nil {
@@ -13140,13 +19125,39 @@ func (p *DevicePolicyManagerProxy) InstallUpdateFromFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerInstallUpdateFromFile)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/app/admin/StartInstallingUpdateCallback;",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteParcelFileDescriptor(updateFileDescriptor)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteParcelFileDescriptor(updateFileDescriptor)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteParcelFileDescriptor(updateFileDescriptor)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerInstallUpdateFromFile)
 	if _err != nil {
@@ -13174,16 +19185,43 @@ func (p *DevicePolicyManagerProxy) SetCrossProfileCalendarPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetCrossProfileCalendarPackages)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/util/List;",
 	}
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -13213,9 +19251,26 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileCalendarPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfileCalendarPackages)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfileCalendarPackages)
@@ -13262,8 +19317,25 @@ func (p *DevicePolicyManagerProxy) IsPackageAllowedToAccessCalendarForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsPackageAllowedToAccessCalendarForUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsPackageAllowedToAccessCalendarForUser)
 	if _err != nil {
@@ -13295,7 +19367,21 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileCalendarPackagesForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfileCalendarPackagesForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfileCalendarPackagesForUser)
 	if _err != nil {
@@ -13340,16 +19426,43 @@ func (p *DevicePolicyManagerProxy) SetCrossProfilePackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetCrossProfilePackages)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/util/List;",
 	}
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -13379,9 +19492,26 @@ func (p *DevicePolicyManagerProxy) GetCrossProfilePackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfilePackages)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetCrossProfilePackages)
@@ -13427,7 +19557,21 @@ func (p *DevicePolicyManagerProxy) GetAllCrossProfilePackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAllCrossProfilePackages)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAllCrossProfilePackages)
 	if _err != nil {
@@ -13580,12 +19724,41 @@ func (p *DevicePolicyManagerProxy) StartViewCalendarEventInManagedProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt64(eventId)
-	_data.WriteInt64(start)
-	_data.WriteInt64(end)
-	_data.WriteBool(allDay)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerStartViewCalendarEventInManagedProfile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"J",
+		"J",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt64(eventId)
+		_data.WriteInt64(start)
+		_data.WriteInt64(end)
+		_data.WriteBool(allDay)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt64(eventId)
+			case 2:
+				_data.WriteInt64(start)
+			case 3:
+				_data.WriteInt64(end)
+			case 4:
+				_data.WriteBool(allDay)
+			case 5:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerStartViewCalendarEventInManagedProfile)
 	if _err != nil {
@@ -13621,14 +19794,43 @@ func (p *DevicePolicyManagerProxy) SetKeyGrantForApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetKeyGrantForApp)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(alias)
-	_data.WriteString16(packageName)
-	_data.WriteBool(hasGrant)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(alias)
+		_data.WriteString16(packageName)
+		_data.WriteBool(hasGrant)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			case 2:
+				_data.WriteString16(alias)
+			case 3:
+				_data.WriteString16(packageName)
+			case 4:
+				_data.WriteBool(hasGrant)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetKeyGrantForApp)
 	if _err != nil {
@@ -13661,8 +19863,25 @@ func (p *DevicePolicyManagerProxy) GetKeyPairGrants(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetKeyPairGrants)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			case 1:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetKeyPairGrants)
 	if _err != nil {
@@ -13701,9 +19920,29 @@ func (p *DevicePolicyManagerProxy) SetKeyGrantToWifiAuth(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(alias)
-	_data.WriteBool(hasGrant)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetKeyGrantToWifiAuth)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(alias)
+		_data.WriteBool(hasGrant)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			case 1:
+				_data.WriteString16(alias)
+			case 2:
+				_data.WriteBool(hasGrant)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetKeyGrantToWifiAuth)
 	if _err != nil {
@@ -13736,8 +19975,25 @@ func (p *DevicePolicyManagerProxy) IsKeyPairGrantedToWifiAuth(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(alias)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsKeyPairGrantedToWifiAuth)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(alias)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			case 1:
+				_data.WriteString16(alias)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsKeyPairGrantedToWifiAuth)
 	if _err != nil {
@@ -13770,17 +20026,47 @@ func (p *DevicePolicyManagerProxy) SetUserControlDisabledPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetUserControlDisabledPackages)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
 	}
-	_data.WriteString16(callerPackageName)
-	if packages == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		if packages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packages)))
+			for _, _item := range packages {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(packages)))
-		for _, _item := range packages {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				if packages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packages)))
+					for _, _item := range packages {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -13811,11 +20097,31 @@ func (p *DevicePolicyManagerProxy) GetUserControlDisabledPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetUserControlDisabledPackages)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetUserControlDisabledPackages)
 	if _err != nil {
@@ -13861,12 +20167,35 @@ func (p *DevicePolicyManagerProxy) SetCommonCriteriaModeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetCommonCriteriaModeEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteBool(enabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetCommonCriteriaModeEnabled)
 	if _err != nil {
@@ -13894,9 +20223,26 @@ func (p *DevicePolicyManagerProxy) IsCommonCriteriaModeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsCommonCriteriaModeEnabled)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsCommonCriteriaModeEnabled)
@@ -13929,9 +20275,26 @@ func (p *DevicePolicyManagerProxy) GetPersonalAppsSuspendedReasons(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPersonalAppsSuspendedReasons)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPersonalAppsSuspendedReasons)
@@ -13964,11 +20327,31 @@ func (p *DevicePolicyManagerProxy) SetPersonalAppsSuspended(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPersonalAppsSuspended)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(suspended)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(suspended)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(suspended)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetPersonalAppsSuspended)
 	if _err != nil {
@@ -13996,9 +20379,26 @@ func (p *DevicePolicyManagerProxy) GetManagedProfileMaximumTimeOff(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetManagedProfileMaximumTimeOff)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetManagedProfileMaximumTimeOff)
@@ -14031,11 +20431,31 @@ func (p *DevicePolicyManagerProxy) SetManagedProfileMaximumTimeOff(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetManagedProfileMaximumTimeOff)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"J",
 	}
-	_data.WriteInt64(timeoutMs)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt64(timeoutMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt64(timeoutMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetManagedProfileMaximumTimeOff)
 	if _err != nil {
@@ -14118,7 +20538,21 @@ func (p *DevicePolicyManagerProxy) CanProfileOwnerResetPasswordWhenLocked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCanProfileOwnerResetPasswordWhenLocked)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCanProfileOwnerResetPasswordWhenLocked)
 	if _err != nil {
@@ -14150,8 +20584,25 @@ func (p *DevicePolicyManagerProxy) SetNextOperationSafety(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(operation)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetNextOperationSafety)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(operation)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(operation)
+			case 1:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetNextOperationSafety)
 	if _err != nil {
@@ -14179,7 +20630,21 @@ func (p *DevicePolicyManagerProxy) IsSafeOperation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsSafeOperation)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsSafeOperation)
 	if _err != nil {
@@ -14211,7 +20676,21 @@ func (p *DevicePolicyManagerProxy) GetEnrollmentSpecificId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetEnrollmentSpecificId)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetEnrollmentSpecificId)
 	if _err != nil {
@@ -14244,9 +20723,29 @@ func (p *DevicePolicyManagerProxy) SetOrganizationIdForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(enterpriseId)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetOrganizationIdForUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(enterpriseId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			case 1:
+				_data.WriteString16(enterpriseId)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetOrganizationIdForUser)
 	if _err != nil {
@@ -14275,11 +20774,31 @@ func (p *DevicePolicyManagerProxy) CreateAndProvisionManagedProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := provisioningParams.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCreateAndProvisionManagedProfile)
+	_compiledDescs := []string{
+		"Landroid/app/admin/ManagedProfileProvisioningParams;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackage)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := provisioningParams.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := provisioningParams.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCreateAndProvisionManagedProfile)
 	if _err != nil {
@@ -14316,11 +20835,31 @@ func (p *DevicePolicyManagerProxy) ProvisionFullyManagedDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := provisioningParams.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerProvisionFullyManagedDevice)
+	_compiledDescs := []string{
+		"Landroid/app/admin/FullyManagedDeviceProvisioningParams;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackage)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := provisioningParams.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := provisioningParams.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerProvisionFullyManagedDevice)
 	if _err != nil {
@@ -14348,13 +20887,36 @@ func (p *DevicePolicyManagerProxy) FinalizeWorkProfileProvisioning(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := managedProfileUser.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerFinalizeWorkProfileProvisioning)
+	_compiledDescs := []string{
+		"Landroid/os/UserHandle;",
+		"Landroid/accounts/Account;",
 	}
-	_data.WriteInt32(1)
-	if _err := migratedAccount.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := managedProfileUser.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := migratedAccount.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := managedProfileUser.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := migratedAccount.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerFinalizeWorkProfileProvisioning)
@@ -14383,11 +20945,31 @@ func (p *DevicePolicyManagerProxy) SetDeviceOwnerType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDeviceOwnerType)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(deviceOwnerType)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(deviceOwnerType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(deviceOwnerType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDeviceOwnerType)
 	if _err != nil {
@@ -14415,9 +20997,26 @@ func (p *DevicePolicyManagerProxy) GetDeviceOwnerType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := admin.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDeviceOwnerType)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := admin.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := admin.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDeviceOwnerType)
@@ -14449,7 +21048,21 @@ func (p *DevicePolicyManagerProxy) ResetDefaultCrossProfileIntentFilters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerResetDefaultCrossProfileIntentFilters)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerResetDefaultCrossProfileIntentFilters)
 	if _err != nil {
@@ -14507,8 +21120,25 @@ func (p *DevicePolicyManagerProxy) SetUsbDataSignalingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetUsbDataSignalingEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetUsbDataSignalingEnabled)
 	if _err != nil {
@@ -14536,7 +21166,21 @@ func (p *DevicePolicyManagerProxy) IsUsbDataSignalingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsUsbDataSignalingEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsUsbDataSignalingEnabled)
 	if _err != nil {
@@ -14598,8 +21242,25 @@ func (p *DevicePolicyManagerProxy) SetMinimumRequiredWifiSecurityLevel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(level)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetMinimumRequiredWifiSecurityLevel)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(level)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			case 1:
+				_data.WriteInt32(level)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetMinimumRequiredWifiSecurityLevel)
 	if _err != nil {
@@ -14657,10 +21318,30 @@ func (p *DevicePolicyManagerProxy) SetWifiSsidPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(1)
-	if _err := policy.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetWifiSsidPolicy)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/app/admin/WifiSsidPolicy;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(1)
+		if _err := policy.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := policy.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetWifiSsidPolicy)
@@ -14689,7 +21370,21 @@ func (p *DevicePolicyManagerProxy) GetWifiSsidPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetWifiSsidPolicy)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetWifiSsidPolicy)
 	if _err != nil {
@@ -14726,7 +21421,21 @@ func (p *DevicePolicyManagerProxy) IsTheftDetectionTriggered(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsTheftDetectionTriggered)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsTheftDetectionTriggered)
 	if _err != nil {
@@ -14819,14 +21528,38 @@ func (p *DevicePolicyManagerProxy) SetDrawables(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	if drawables == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDrawables)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if drawables == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(drawables)))
+			for _, _item := range drawables {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(drawables)))
-		for _, _item := range drawables {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if drawables == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(drawables)))
+					for _, _item := range drawables {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -14856,12 +21589,33 @@ func (p *DevicePolicyManagerProxy) ResetDrawables(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	if drawableIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerResetDrawables)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if drawableIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(drawableIds)))
+			for _, _item := range drawableIds {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(drawableIds)))
-		for _, _item := range drawableIds {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if drawableIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(drawableIds)))
+					for _, _item := range drawableIds {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -14893,9 +21647,29 @@ func (p *DevicePolicyManagerProxy) GetDrawable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(drawableId)
-	_data.WriteString16(drawableStyle)
-	_data.WriteString16(drawableSource)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDrawable)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(drawableId)
+		_data.WriteString16(drawableStyle)
+		_data.WriteString16(drawableSource)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(drawableId)
+			case 1:
+				_data.WriteString16(drawableStyle)
+			case 2:
+				_data.WriteString16(drawableSource)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDrawable)
 	if _err != nil {
@@ -14961,7 +21735,21 @@ func (p *DevicePolicyManagerProxy) SetDpcDownloaded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteBool(downloaded)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDpcDownloaded)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(downloaded)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(downloaded)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDpcDownloaded)
 	if _err != nil {
@@ -14988,14 +21776,38 @@ func (p *DevicePolicyManagerProxy) SetStrings(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	if strings == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetStrings)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if strings == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(strings)))
+			for _, _item := range strings {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(strings)))
-		for _, _item := range strings {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if strings == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(strings)))
+					for _, _item := range strings {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -15025,12 +21837,33 @@ func (p *DevicePolicyManagerProxy) ResetStrings(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	if stringIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerResetStrings)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if stringIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(stringIds)))
+			for _, _item := range stringIds {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(stringIds)))
-		for _, _item := range stringIds {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if stringIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(stringIds)))
+					for _, _item := range stringIds {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -15060,7 +21893,21 @@ func (p *DevicePolicyManagerProxy) GetString(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(stringId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetString)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(stringId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(stringId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetString)
 	if _err != nil {
@@ -15152,9 +21999,26 @@ func (p *DevicePolicyManagerProxy) GetPolicyManagedProfiles(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPolicyManagedProfiles)
+	_compiledDescs := []string{
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := userHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := userHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPolicyManagedProfiles)
@@ -15220,14 +22084,41 @@ func (p *DevicePolicyManagerProxy) SetApplicationExemptions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackage)
-	_data.WriteString16(packageName)
-	if exemptions == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetApplicationExemptions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackage)
+		_data.WriteString16(packageName)
+		if exemptions == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(exemptions)))
+			for _, _item := range exemptions {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(exemptions)))
-		for _, _item := range exemptions {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackage)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				if exemptions == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(exemptions)))
+					for _, _item := range exemptions {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -15257,7 +22148,21 @@ func (p *DevicePolicyManagerProxy) GetApplicationExemptions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetApplicationExemptions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetApplicationExemptions)
 	if _err != nil {
@@ -15302,8 +22207,25 @@ func (p *DevicePolicyManagerProxy) SetMtePolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(flag)
-	_data.WriteString16(callerPackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetMtePolicy)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(flag)
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(flag)
+			case 1:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetMtePolicy)
 	if _err != nil {
@@ -15331,7 +22253,21 @@ func (p *DevicePolicyManagerProxy) GetMtePolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetMtePolicy)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetMtePolicy)
 	if _err != nil {
@@ -15362,9 +22298,26 @@ func (p *DevicePolicyManagerProxy) SetManagedSubscriptionsPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := policy.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetManagedSubscriptionsPolicy)
+	_compiledDescs := []string{
+		"Landroid/app/admin/ManagedSubscriptionsPolicy;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := policy.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := policy.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetManagedSubscriptionsPolicy)
@@ -15463,7 +22416,21 @@ func (p *DevicePolicyManagerProxy) TriggerDevicePolicyEngineMigration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteBool(forceMigration)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerTriggerDevicePolicyEngineMigration)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(forceMigration)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(forceMigration)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerTriggerDevicePolicyEngineMigration)
 	if _err != nil {
@@ -15495,7 +22462,21 @@ func (p *DevicePolicyManagerProxy) IsDeviceFinanced(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsDeviceFinanced)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsDeviceFinanced)
 	if _err != nil {
@@ -15527,7 +22508,21 @@ func (p *DevicePolicyManagerProxy) GetFinancedDeviceKioskRoleHolder(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetFinancedDeviceKioskRoleHolder)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetFinancedDeviceKioskRoleHolder)
 	if _err != nil {
@@ -15585,12 +22580,35 @@ func (p *DevicePolicyManagerProxy) SetContentProtectionPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetContentProtectionPolicy)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(policy)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(policy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			case 2:
+				_data.WriteInt32(policy)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetContentProtectionPolicy)
 	if _err != nil {
@@ -15619,11 +22637,31 @@ func (p *DevicePolicyManagerProxy) GetContentProtectionPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteInt32(1)
-	if _err := who.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetContentProtectionPolicy)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callerPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := who.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := who.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetContentProtectionPolicy)
 	if _err != nil {
@@ -15655,7 +22693,21 @@ func (p *DevicePolicyManagerProxy) GetSubscriptionIds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(callerPackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetSubscriptionIds)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callerPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callerPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetSubscriptionIds)
 	if _err != nil {
@@ -15700,8 +22752,25 @@ func (p *DevicePolicyManagerProxy) SetMaxPolicyStorageLimit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(storageLimit)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetMaxPolicyStorageLimit)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(storageLimit)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(storageLimit)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetMaxPolicyStorageLimit)
 	if _err != nil {
@@ -15729,7 +22798,21 @@ func (p *DevicePolicyManagerProxy) GetMaxPolicyStorageLimit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetMaxPolicyStorageLimit)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetMaxPolicyStorageLimit)
 	if _err != nil {

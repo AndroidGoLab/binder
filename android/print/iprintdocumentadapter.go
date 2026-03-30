@@ -63,7 +63,21 @@ func (p *PrintDocumentAdapterProxy) SetObserver(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterSetObserver)
+	_compiledDescs := []string{
+		"Landroid/print/IPrintDocumentAdapterObserver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterSetObserver)
 	if _err != nil {
@@ -101,20 +115,55 @@ func (p *PrintDocumentAdapterProxy) Layout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
-	_data.WriteInt32(1)
-	if _err := oldAttributes.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterLayout)
+	_compiledDescs := []string{
+		"Landroid/print/PrintAttributes;",
+		"Landroid/print/PrintAttributes;",
+		"Landroid/print/ILayoutResultCallback;",
+		"Landroid/os/Bundle;",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := newAttributes.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := oldAttributes.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := newAttributes.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := metadata.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := oldAttributes.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := newAttributes.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(1)
+				if _err := metadata.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(sequence)
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := metadata.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(sequence)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterLayout)
 	if _err != nil {
@@ -135,20 +184,53 @@ func (p *PrintDocumentAdapterProxy) Write(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
-	if pages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterWrite)
+	_compiledDescs := []string{
+		"[Landroid/print/PageRange;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/print/IWriteResultCallback;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if pages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(pages)))
+			for _, _item := range pages {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteParcelFileDescriptor(fd)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(sequence)
 	} else {
-		_data.WriteInt32(int32(len(pages)))
-		for _, _item := range pages {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if pages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(pages)))
+					for _, _item := range pages {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteParcelFileDescriptor(fd)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(sequence)
 			}
 		}
 	}
-	_data.WriteParcelFileDescriptor(fd)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(sequence)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterWrite)
 	if _err != nil {
@@ -182,7 +264,21 @@ func (p *PrintDocumentAdapterProxy) Kill(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
-	_data.WriteString16(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterKill)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterKill)
 	if _err != nil {

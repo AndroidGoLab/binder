@@ -63,8 +63,25 @@ func (p *BiometricSysuiReceiverProxy) OnDialogDismissed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
-	_data.WriteInt32(reason)
-	_data.WriteByteArray(credentialAttestation)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnDialogDismissed)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+		_data.WriteByteArray(credentialAttestation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			case 1:
+				_data.WriteByteArray(credentialAttestation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnDialogDismissed)
 	if _err != nil {
@@ -114,7 +131,21 @@ func (p *BiometricSysuiReceiverProxy) OnSystemEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
-	_data.WriteInt32(event)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnSystemEvent)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(event)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(event)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnSystemEvent)
 	if _err != nil {
@@ -132,7 +163,21 @@ func (p *BiometricSysuiReceiverProxy) OnDialogAnimatedIn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
-	_data.WriteBool(startFingerprintNow)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnDialogAnimatedIn)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(startFingerprintNow)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(startFingerprintNow)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnDialogAnimatedIn)
 	if _err != nil {

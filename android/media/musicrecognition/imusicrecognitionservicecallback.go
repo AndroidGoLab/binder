@@ -53,13 +53,36 @@ func (p *MusicRecognitionServiceCallbackProxy) OnRecognitionSucceeded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionServiceCallback)
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMusicRecognitionServiceCallback, MethodIMusicRecognitionServiceCallbackOnRecognitionSucceeded)
+	_compiledDescs := []string{
+		"Landroid/media/MediaMetadata;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMusicRecognitionServiceCallback, MethodIMusicRecognitionServiceCallbackOnRecognitionSucceeded)
@@ -78,7 +101,21 @@ func (p *MusicRecognitionServiceCallbackProxy) OnRecognitionFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionServiceCallback)
-	_data.WriteInt32(failureCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMusicRecognitionServiceCallback, MethodIMusicRecognitionServiceCallbackOnRecognitionFailed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(failureCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(failureCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMusicRecognitionServiceCallback, MethodIMusicRecognitionServiceCallbackOnRecognitionFailed)
 	if _err != nil {

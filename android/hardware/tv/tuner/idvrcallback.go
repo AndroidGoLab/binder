@@ -50,7 +50,21 @@ func (p *DvrCallbackProxy) OnPlaybackStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDvrCallback)
-	_data.WriteInt32(int32(status))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDvrCallback, MethodIDvrCallbackOnPlaybackStatus)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/PlaybackStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(status))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(status))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvrCallback, MethodIDvrCallbackOnPlaybackStatus)
 	if _err != nil {
@@ -68,7 +82,21 @@ func (p *DvrCallbackProxy) OnRecordStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDvrCallback)
-	_data.WritePaddedByte(byte(status))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDvrCallback, MethodIDvrCallbackOnRecordStatus)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/RecordStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(status))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(status))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvrCallback, MethodIDvrCallbackOnRecordStatus)
 	if _err != nil {

@@ -70,7 +70,21 @@ func (p *DumpstateProxy) PreDumpUiData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstate)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDumpstate, MethodIDumpstatePreDumpUiData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstate, MethodIDumpstatePreDumpUiData)
 	if _err != nil {
@@ -103,14 +117,49 @@ func (p *DumpstateProxy) StartBugreport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstate)
-	_data.WriteInt32(_identity.UID)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteFileDescriptor(bugreportFd)
-	_data.WriteFileDescriptor(screenshotFd)
-	_data.WriteInt32(bugreportMode)
-	_data.WriteInt32(bugreportFlags)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteBool(isScreenshotRequested)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDumpstate, MethodIDumpstateStartBugreport)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/io/FileDescriptor;",
+		"Ljava/io/FileDescriptor;",
+		"I",
+		"I",
+		"Landroid/os/IDumpstateListener;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UID)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteFileDescriptor(bugreportFd)
+		_data.WriteFileDescriptor(screenshotFd)
+		_data.WriteInt32(bugreportMode)
+		_data.WriteInt32(bugreportFlags)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteBool(isScreenshotRequested)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UID)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteFileDescriptor(bugreportFd)
+			case 3:
+				_data.WriteFileDescriptor(screenshotFd)
+			case 4:
+				_data.WriteInt32(bugreportMode)
+			case 5:
+				_data.WriteInt32(bugreportFlags)
+			case 6:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 7:
+				_data.WriteBool(isScreenshotRequested)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstate, MethodIDumpstateStartBugreport)
 	if _err != nil {
@@ -137,8 +186,25 @@ func (p *DumpstateProxy) CancelBugreport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstate)
-	_data.WriteInt32(_identity.UID)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDumpstate, MethodIDumpstateCancelBugreport)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UID)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UID)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstate, MethodIDumpstateCancelBugreport)
 	if _err != nil {
@@ -169,13 +235,45 @@ func (p *DumpstateProxy) RetrieveBugreport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstate)
-	_data.WriteInt32(_identity.UID)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteFileDescriptor(bugreportFd)
-	_data.WriteString16(bugreportFile)
-	_data.WriteBool(keepBugreportOnRetrieval)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDumpstate, MethodIDumpstateRetrieveBugreport)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/io/FileDescriptor;",
+		"Ljava/lang/String;",
+		"Z",
+		"Landroid/os/IDumpstateListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UID)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteFileDescriptor(bugreportFd)
+		_data.WriteString16(bugreportFile)
+		_data.WriteBool(keepBugreportOnRetrieval)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UID)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteFileDescriptor(bugreportFd)
+			case 4:
+				_data.WriteString16(bugreportFile)
+			case 5:
+				_data.WriteBool(keepBugreportOnRetrieval)
+			case 6:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstate, MethodIDumpstateRetrieveBugreport)
 	if _err != nil {

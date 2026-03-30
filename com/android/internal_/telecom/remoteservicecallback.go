@@ -68,23 +68,57 @@ func (p *RemoteServiceCallbackProxy) OnResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorRemoteServiceCallback)
-	if components == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(components)))
-		for _, _item := range components {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorRemoteServiceCallback, MethodRemoteServiceCallbackOnResult)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if components == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(components)))
+			for _, _item := range components {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
 			}
 		}
-	}
-	if callServices == nil {
-		_data.WriteInt32(-1)
+		if callServices == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(callServices)))
+			for _, _item := range callServices {
+				binder.WriteBinderToParcel(ctx, _data, _item, p.Remote.Transport())
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(callServices)))
-		for _, _item := range callServices {
-			binder.WriteBinderToParcel(ctx, _data, _item, p.Remote.Transport())
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if components == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(components)))
+					for _, _item := range components {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				if callServices == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(callServices)))
+					for _, _item := range callServices {
+						binder.WriteBinderToParcel(ctx, _data, _item, p.Remote.Transport())
+					}
+				}
+			}
 		}
 	}
 

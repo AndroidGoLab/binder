@@ -81,7 +81,21 @@ func (p *ThermalServiceProxy) RegisterThermalEventListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIThermalService, MethodIThermalServiceRegisterThermalEventListener)
+	_compiledDescs := []string{
+		"Landroid/os/IThermalEventListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalService, MethodIThermalServiceRegisterThermalEventListener)
 	if _err != nil {
@@ -114,8 +128,25 @@ func (p *ThermalServiceProxy) RegisterThermalEventListenerWithType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(type_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIThermalService, MethodIThermalServiceRegisterThermalEventListenerWithType)
+	_compiledDescs := []string{
+		"Landroid/os/IThermalEventListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(type_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(type_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalService, MethodIThermalServiceRegisterThermalEventListenerWithType)
 	if _err != nil {
@@ -147,7 +178,21 @@ func (p *ThermalServiceProxy) UnregisterThermalEventListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIThermalService, MethodIThermalServiceUnregisterThermalEventListener)
+	_compiledDescs := []string{
+		"Landroid/os/IThermalEventListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalService, MethodIThermalServiceUnregisterThermalEventListener)
 	if _err != nil {
@@ -241,7 +286,21 @@ func (p *ThermalServiceProxy) GetCurrentTemperaturesWithType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
-	_data.WriteInt32(type_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIThermalService, MethodIThermalServiceGetCurrentTemperaturesWithType)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(type_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(type_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalService, MethodIThermalServiceGetCurrentTemperaturesWithType)
 	if _err != nil {
@@ -305,7 +364,21 @@ func (p *ThermalServiceProxy) RegisterThermalStatusListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIThermalService, MethodIThermalServiceRegisterThermalStatusListener)
+	_compiledDescs := []string{
+		"Landroid/os/IThermalStatusListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalService, MethodIThermalServiceRegisterThermalStatusListener)
 	if _err != nil {
@@ -337,7 +410,21 @@ func (p *ThermalServiceProxy) UnregisterThermalStatusListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIThermalService, MethodIThermalServiceUnregisterThermalStatusListener)
+	_compiledDescs := []string{
+		"Landroid/os/IThermalStatusListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalService, MethodIThermalServiceUnregisterThermalStatusListener)
 	if _err != nil {
@@ -461,7 +548,21 @@ func (p *ThermalServiceProxy) GetCurrentCoolingDevicesWithType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
-	_data.WriteInt32(type_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIThermalService, MethodIThermalServiceGetCurrentCoolingDevicesWithType)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(type_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(type_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalService, MethodIThermalServiceGetCurrentCoolingDevicesWithType)
 	if _err != nil {
@@ -525,7 +626,21 @@ func (p *ThermalServiceProxy) GetThermalHeadroom(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
-	_data.WriteInt32(forecastSeconds)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIThermalService, MethodIThermalServiceGetThermalHeadroom)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(forecastSeconds)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(forecastSeconds)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalService, MethodIThermalServiceGetThermalHeadroom)
 	if _err != nil {

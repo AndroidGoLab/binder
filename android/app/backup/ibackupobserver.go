@@ -54,10 +54,30 @@ func (p *BackupObserverProxy) OnUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupObserver)
-	_data.WriteString16(currentPackage)
-	_data.WriteInt32(1)
-	if _err := backupProgress.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupObserver, MethodIBackupObserverOnUpdate)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/app/backup/BackupProgress;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(currentPackage)
+		_data.WriteInt32(1)
+		if _err := backupProgress.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(currentPackage)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := backupProgress.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupObserver, MethodIBackupObserverOnUpdate)
@@ -77,8 +97,25 @@ func (p *BackupObserverProxy) OnResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupObserver)
-	_data.WriteString16(target)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupObserver, MethodIBackupObserverOnResult)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(target)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(target)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupObserver, MethodIBackupObserverOnResult)
 	if _err != nil {
@@ -96,7 +133,21 @@ func (p *BackupObserverProxy) BackupFinished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupObserver)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupObserver, MethodIBackupObserverBackupFinished)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupObserver, MethodIBackupObserverBackupFinished)
 	if _err != nil {

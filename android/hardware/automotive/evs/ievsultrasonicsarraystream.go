@@ -50,9 +50,26 @@ func (p *EvsUltrasonicsArrayStreamProxy) DeliverDataFrame(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArrayStream)
-	_data.WriteInt32(1)
-	if _err := dataFrameDesc.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsUltrasonicsArrayStream, MethodIEvsUltrasonicsArrayStreamDeliverDataFrame)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/UltrasonicsDataFrameDesc;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := dataFrameDesc.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := dataFrameDesc.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsUltrasonicsArrayStream, MethodIEvsUltrasonicsArrayStreamDeliverDataFrame)
@@ -71,9 +88,26 @@ func (p *EvsUltrasonicsArrayStreamProxy) Notify(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArrayStream)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsUltrasonicsArrayStream, MethodIEvsUltrasonicsArrayStreamNotify)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/EvsEventDesc;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsUltrasonicsArrayStream, MethodIEvsUltrasonicsArrayStreamNotify)

@@ -61,9 +61,26 @@ func (p *SoundTriggerMiddlewareServiceProxy) ListModulesAsOriginator(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerMiddlewareService)
-	_data.WriteInt32(1)
-	if _err := identity.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerMiddlewareService, MethodISoundTriggerMiddlewareServiceListModulesAsOriginator)
+	_compiledDescs := []string{
+		"Landroid/media/permission/Identity;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := identity.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := identity.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerMiddlewareService, MethodISoundTriggerMiddlewareServiceListModulesAsOriginator)
@@ -129,13 +146,36 @@ func (p *SoundTriggerMiddlewareServiceProxy) ListModulesAsMiddleman(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerMiddlewareService)
-	_data.WriteInt32(1)
-	if _err := middlemanIdentity.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerMiddlewareService, MethodISoundTriggerMiddlewareServiceListModulesAsMiddleman)
+	_compiledDescs := []string{
+		"Landroid/media/permission/Identity;",
+		"Landroid/media/permission/Identity;",
 	}
-	_data.WriteInt32(1)
-	if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := middlemanIdentity.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := middlemanIdentity.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerMiddlewareService, MethodISoundTriggerMiddlewareServiceListModulesAsMiddleman)
@@ -202,12 +242,35 @@ func (p *SoundTriggerMiddlewareServiceProxy) AttachAsOriginator(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerMiddlewareService)
-	_data.WriteInt32(handle)
-	_data.WriteInt32(1)
-	if _err := identity.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerMiddlewareService, MethodISoundTriggerMiddlewareServiceAttachAsOriginator)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/permission/Identity;",
+		"Landroid/media/soundtrigger_middleware/ISoundTriggerCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(handle)
+		_data.WriteInt32(1)
+		if _err := identity.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(handle)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := identity.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerMiddlewareService, MethodISoundTriggerMiddlewareServiceAttachAsOriginator)
 	if _err != nil {
@@ -244,17 +307,49 @@ func (p *SoundTriggerMiddlewareServiceProxy) AttachAsMiddleman(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerMiddlewareService)
-	_data.WriteInt32(handle)
-	_data.WriteInt32(1)
-	if _err := middlemanIdentity.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerMiddlewareService, MethodISoundTriggerMiddlewareServiceAttachAsMiddleman)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/permission/Identity;",
+		"Landroid/media/permission/Identity;",
+		"Landroid/media/soundtrigger_middleware/ISoundTriggerCallback;",
+		"Z",
 	}
-	_data.WriteInt32(1)
-	if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(handle)
+		_data.WriteInt32(1)
+		if _err := middlemanIdentity.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteBool(isTrusted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(handle)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := middlemanIdentity.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 4:
+				_data.WriteBool(isTrusted)
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteBool(isTrusted)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerMiddlewareService, MethodISoundTriggerMiddlewareServiceAttachAsMiddleman)
 	if _err != nil {
@@ -286,7 +381,21 @@ func (p *SoundTriggerMiddlewareServiceProxy) AttachFakeHalInjection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerMiddlewareService)
-	binder.WriteBinderToParcel(ctx, _data, injection.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerMiddlewareService, MethodISoundTriggerMiddlewareServiceAttachFakeHalInjection)
+	_compiledDescs := []string{
+		"Landroid/media/soundtrigger_middleware/ISoundTriggerInjection;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, injection.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, injection.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerMiddlewareService, MethodISoundTriggerMiddlewareServiceAttachFakeHalInjection)
 	if _err != nil {

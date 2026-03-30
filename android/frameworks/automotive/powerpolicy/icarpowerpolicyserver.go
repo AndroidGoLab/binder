@@ -98,7 +98,21 @@ func (p *CarPowerPolicyServerProxy) GetPowerComponentState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
-	_data.WriteInt32(int32(componentId))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerGetPowerComponentState)
+	_compiledDescs := []string{
+		"Landroid/frameworks/automotive/powerpolicy/PowerComponent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(componentId))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(componentId))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerGetPowerComponentState)
 	if _err != nil {
@@ -130,10 +144,30 @@ func (p *CarPowerPolicyServerProxy) RegisterPowerPolicyChangeCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := filter.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerRegisterPowerPolicyChangeCallback)
+	_compiledDescs := []string{
+		"Landroid/frameworks/automotive/powerpolicy/ICarPowerPolicyChangeCallback;",
+		"Landroid/frameworks/automotive/powerpolicy/CarPowerPolicyFilter;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := filter.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := filter.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerRegisterPowerPolicyChangeCallback)
@@ -161,7 +195,21 @@ func (p *CarPowerPolicyServerProxy) UnregisterPowerPolicyChangeCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerUnregisterPowerPolicyChangeCallback)
+	_compiledDescs := []string{
+		"Landroid/frameworks/automotive/powerpolicy/ICarPowerPolicyChangeCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerUnregisterPowerPolicyChangeCallback)
 	if _err != nil {
@@ -188,7 +236,21 @@ func (p *CarPowerPolicyServerProxy) ApplyPowerPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
-	_data.WriteString16(policyId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerApplyPowerPolicy)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(policyId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(policyId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerApplyPowerPolicy)
 	if _err != nil {
@@ -215,7 +277,21 @@ func (p *CarPowerPolicyServerProxy) SetPowerPolicyGroup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
-	_data.WriteString16(policyGroupId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerSetPowerPolicyGroup)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(policyGroupId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(policyGroupId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerSetPowerPolicyGroup)
 	if _err != nil {

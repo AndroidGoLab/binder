@@ -59,7 +59,21 @@ func (p *BluetoothHciCallbacksProxy) AclDataReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHciCallbacks)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksAclDataReceived)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksAclDataReceived)
 	if _err != nil {
@@ -86,7 +100,21 @@ func (p *BluetoothHciCallbacksProxy) HciEventReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHciCallbacks)
-	_data.WriteByteArray(event)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksHciEventReceived)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(event)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(event)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksHciEventReceived)
 	if _err != nil {
@@ -113,7 +141,21 @@ func (p *BluetoothHciCallbacksProxy) InitializationComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHciCallbacks)
-	_data.WriteInt32(int32(status))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksInitializationComplete)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/Status;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(status))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(status))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksInitializationComplete)
 	if _err != nil {
@@ -140,7 +182,21 @@ func (p *BluetoothHciCallbacksProxy) IsoDataReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHciCallbacks)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksIsoDataReceived)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksIsoDataReceived)
 	if _err != nil {
@@ -167,7 +223,21 @@ func (p *BluetoothHciCallbacksProxy) ScoDataReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHciCallbacks)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksScoDataReceived)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksScoDataReceived)
 	if _err != nil {

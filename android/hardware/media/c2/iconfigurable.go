@@ -64,11 +64,31 @@ func (p *ConfigurableProxy) Config(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
-	_data.WriteInt32(1)
-	if _err := inParams.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConfigurable, MethodIConfigurableConfig)
+	_compiledDescs := []string{
+		"Landroid/hardware/media/c2/Params;",
+		"Z",
 	}
-	_data.WriteBool(mayBlock)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := inParams.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(mayBlock)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := inParams.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteBool(mayBlock)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfigurable, MethodIConfigurableConfig)
 	if _err != nil {
@@ -166,15 +186,39 @@ func (p *ConfigurableProxy) Query(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
-	if indices == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConfigurable, MethodIConfigurableQuery)
+	_compiledDescs := []string{
+		"[I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if indices == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(indices)))
+			for _, _item := range indices {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteBool(mayBlock)
 	} else {
-		_data.WriteInt32(int32(len(indices)))
-		for _, _item := range indices {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if indices == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(indices)))
+					for _, _item := range indices {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				_data.WriteBool(mayBlock)
+			}
 		}
 	}
-	_data.WriteBool(mayBlock)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfigurable, MethodIConfigurableQuery)
 	if _err != nil {
@@ -212,8 +256,25 @@ func (p *ConfigurableProxy) QuerySupportedParams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
-	_data.WriteInt32(start)
-	_data.WriteInt32(count)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConfigurable, MethodIConfigurableQuerySupportedParams)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(start)
+		_data.WriteInt32(count)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(start)
+			case 1:
+				_data.WriteInt32(count)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfigurable, MethodIConfigurableQuerySupportedParams)
 	if _err != nil {
@@ -278,18 +339,45 @@ func (p *ConfigurableProxy) QuerySupportedValues(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
-	if inFields == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConfigurable, MethodIConfigurableQuerySupportedValues)
+	_compiledDescs := []string{
+		"[Landroid/hardware/media/c2/FieldSupportedValuesQuery;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if inFields == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(inFields)))
+			for _, _item := range inFields {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+		_data.WriteBool(mayBlock)
 	} else {
-		_data.WriteInt32(int32(len(inFields)))
-		for _, _item := range inFields {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if inFields == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(inFields)))
+					for _, _item := range inFields {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteBool(mayBlock)
 			}
 		}
 	}
-	_data.WriteBool(mayBlock)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfigurable, MethodIConfigurableQuerySupportedValues)
 	if _err != nil {

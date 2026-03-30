@@ -96,7 +96,21 @@ func (p *RadioModemResponseProxy) AcknowledgeRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseAcknowledgeRequest)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseAcknowledgeRequest)
 	if _err != nil {
@@ -114,9 +128,26 @@ func (p *RadioModemResponseProxy) EnableModemResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseEnableModemResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseEnableModemResponse)
@@ -136,11 +167,31 @@ func (p *RadioModemResponseProxy) GetBasebandVersionResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseGetBasebandVersionResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(version)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(version)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(version)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseGetBasebandVersionResponse)
 	if _err != nil {
@@ -162,14 +213,43 @@ func (p *RadioModemResponseProxy) GetDeviceIdentityResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseGetDeviceIdentityResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(imei)
-	_data.WriteString16(imeisv)
-	_data.WriteString16(esn)
-	_data.WriteString16(meid)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(imei)
+		_data.WriteString16(imeisv)
+		_data.WriteString16(esn)
+		_data.WriteString16(meid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(imei)
+			case 2:
+				_data.WriteString16(imeisv)
+			case 3:
+				_data.WriteString16(esn)
+			case 4:
+				_data.WriteString16(meid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseGetDeviceIdentityResponse)
 	if _err != nil {
@@ -188,18 +268,48 @@ func (p *RadioModemResponseProxy) GetHardwareConfigResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseGetHardwareConfigResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+		"[Landroid/hardware/radio/modem/HardwareConfig;",
 	}
-	if config == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if config == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(config)))
+			for _, _item := range config {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(config)))
-		for _, _item := range config {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if config == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(config)))
+					for _, _item := range config {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -221,13 +331,36 @@ func (p *RadioModemResponseProxy) GetModemActivityInfoResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseGetModemActivityInfoResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+		"Landroid/hardware/radio/modem/ActivityStatsInfo;",
 	}
-	_data.WriteInt32(1)
-	if _err := activityInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := activityInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := activityInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseGetModemActivityInfoResponse)
@@ -247,11 +380,31 @@ func (p *RadioModemResponseProxy) GetModemStackStatusResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseGetModemStackStatusResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+		"Z",
 	}
-	_data.WriteBool(isEnabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(isEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(isEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseGetModemStackStatusResponse)
 	if _err != nil {
@@ -270,13 +423,36 @@ func (p *RadioModemResponseProxy) GetRadioCapabilityResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseGetRadioCapabilityResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+		"Landroid/hardware/radio/modem/RadioCapability;",
 	}
-	_data.WriteInt32(1)
-	if _err := rc.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := rc.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := rc.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseGetRadioCapabilityResponse)
@@ -296,11 +472,31 @@ func (p *RadioModemResponseProxy) NvReadItemResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseNvReadItemResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(result)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseNvReadItemResponse)
 	if _err != nil {
@@ -318,9 +514,26 @@ func (p *RadioModemResponseProxy) NvResetConfigResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseNvResetConfigResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseNvResetConfigResponse)
@@ -339,9 +552,26 @@ func (p *RadioModemResponseProxy) NvWriteCdmaPrlResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseNvWriteCdmaPrlResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseNvWriteCdmaPrlResponse)
@@ -360,9 +590,26 @@ func (p *RadioModemResponseProxy) NvWriteItemResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseNvWriteItemResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseNvWriteItemResponse)
@@ -381,9 +628,26 @@ func (p *RadioModemResponseProxy) RequestShutdownResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseRequestShutdownResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseRequestShutdownResponse)
@@ -402,9 +666,26 @@ func (p *RadioModemResponseProxy) SendDeviceStateResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseSendDeviceStateResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseSendDeviceStateResponse)
@@ -424,13 +705,36 @@ func (p *RadioModemResponseProxy) SetRadioCapabilityResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseSetRadioCapabilityResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+		"Landroid/hardware/radio/modem/RadioCapability;",
 	}
-	_data.WriteInt32(1)
-	if _err := rc.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := rc.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := rc.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseSetRadioCapabilityResponse)
@@ -449,9 +753,26 @@ func (p *RadioModemResponseProxy) SetRadioPowerResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseSetRadioPowerResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseSetRadioPowerResponse)
@@ -471,17 +792,44 @@ func (p *RadioModemResponseProxy) GetImeiResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
-	_data.WriteInt32(1)
-	if _err := responseInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseGetImeiResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioResponseInfo;",
+		"Landroid/hardware/radio/modem/ImeiInfo;",
 	}
-	if imeiInfo != nil {
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
 		_data.WriteInt32(1)
-		if _err := (*imeiInfo).MarshalParcel(_data); _err != nil {
+		if _err := responseInfo.MarshalParcel(_data); _err != nil {
 			return _err
 		}
+		if imeiInfo != nil {
+			_data.WriteInt32(1)
+			if _err := (*imeiInfo).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := responseInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if imeiInfo != nil {
+					_data.WriteInt32(1)
+					if _err := (*imeiInfo).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemResponse, MethodIRadioModemResponseGetImeiResponse)

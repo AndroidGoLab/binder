@@ -77,17 +77,49 @@ func (p *RingtonePlayerProxy) Play(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerPlay)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/net/Uri;",
+		"Landroid/media/AudioAttributes;",
+		"F",
+		"Z",
 	}
-	_data.WriteInt32(1)
-	if _err := aa.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := aa.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteFloat32(volume)
+		_data.WriteBool(looping)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := aa.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteFloat32(volume)
+			case 4:
+				_data.WriteBool(looping)
+			}
+		}
 	}
-	_data.WriteFloat32(volume)
-	_data.WriteBool(looping)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerPlay)
 	if _err != nil {
@@ -110,24 +142,66 @@ func (p *RingtonePlayerProxy) PlayWithVolumeShaping(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerPlayWithVolumeShaping)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/net/Uri;",
+		"Landroid/media/AudioAttributes;",
+		"F",
+		"Z",
+		"LVolumeShaper/Configuration;",
 	}
-	_data.WriteInt32(1)
-	if _err := aa.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteFloat32(volume)
-	_data.WriteBool(looping)
-	if volumeShaperConfig != nil {
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 		_data.WriteInt32(1)
-		if _err := (*volumeShaperConfig).MarshalParcel(_data); _err != nil {
+		if _err := uri.MarshalParcel(_data); _err != nil {
 			return _err
 		}
+		_data.WriteInt32(1)
+		if _err := aa.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteFloat32(volume)
+		_data.WriteBool(looping)
+		if volumeShaperConfig != nil {
+			_data.WriteInt32(1)
+			if _err := (*volumeShaperConfig).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := aa.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteFloat32(volume)
+			case 4:
+				_data.WriteBool(looping)
+			case 5:
+				if volumeShaperConfig != nil {
+					_data.WriteInt32(1)
+					if _err := (*volumeShaperConfig).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerPlayWithVolumeShaping)
@@ -146,7 +220,21 @@ func (p *RingtonePlayerProxy) Stop(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerStop)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerStop)
 	if _err != nil {
@@ -165,7 +253,21 @@ func (p *RingtonePlayerProxy) IsPlaying(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerIsPlaying)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerIsPlaying)
 	if _err != nil {
@@ -199,10 +301,33 @@ func (p *RingtonePlayerProxy) SetPlaybackProperties(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteFloat32(volume)
-	_data.WriteBool(looping)
-	_data.WriteBool(hapticGeneratorEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerSetPlaybackProperties)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"F",
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteFloat32(volume)
+		_data.WriteBool(looping)
+		_data.WriteBool(hapticGeneratorEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteFloat32(volume)
+			case 2:
+				_data.WriteBool(looping)
+			case 3:
+				_data.WriteBool(hapticGeneratorEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerSetPlaybackProperties)
 	if _err != nil {
@@ -224,20 +349,55 @@ func (p *RingtonePlayerProxy) PlayAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerPlayAsync)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"Landroid/os/UserHandle;",
+		"Z",
+		"Landroid/media/AudioAttributes;",
+		"F",
 	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(looping)
+		_data.WriteInt32(1)
+		if _err := aa.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteFloat32(volume)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteBool(looping)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := aa.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteFloat32(volume)
+			}
+		}
 	}
-	_data.WriteBool(looping)
-	_data.WriteInt32(1)
-	if _err := aa.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteFloat32(volume)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerPlayAsync)
 	if _err != nil {
@@ -272,9 +432,26 @@ func (p *RingtonePlayerProxy) GetTitle(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerGetTitle)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerGetTitle)
@@ -307,9 +484,26 @@ func (p *RingtonePlayerProxy) OpenRingtone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerOpenRingtone)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerOpenRingtone)

@@ -78,7 +78,21 @@ func (p *RadioSimIndicationProxy) CarrierInfoForImsiEncryption(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSimIndication)
-	_data.WriteInt32(int32(info))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationCarrierInfoForImsiEncryption)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(info))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(info))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationCarrierInfoForImsiEncryption)
 	if _err != nil {
@@ -97,8 +111,25 @@ func (p *RadioSimIndicationProxy) CdmaSubscriptionSourceChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSimIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(int32(cdmaSource))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationCdmaSubscriptionSourceChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Landroid/hardware/radio/sim/CdmaSubscriptionSource;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(int32(cdmaSource))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(int32(cdmaSource))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationCdmaSubscriptionSourceChanged)
 	if _err != nil {
@@ -116,7 +147,21 @@ func (p *RadioSimIndicationProxy) SimPhonebookChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSimIndication)
-	_data.WriteInt32(int32(type_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationSimPhonebookChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationSimPhonebookChanged)
 	if _err != nil {
@@ -136,16 +181,46 @@ func (p *RadioSimIndicationProxy) SimPhonebookRecordsReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSimIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WritePaddedByte(byte(status))
-	if records == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationSimPhonebookRecordsReceived)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Landroid/hardware/radio/sim/PbReceivedStatus;",
+		"[Landroid/hardware/radio/sim/PhonebookRecordInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WritePaddedByte(byte(status))
+		if records == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(records)))
+			for _, _item := range records {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(records)))
-		for _, _item := range records {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WritePaddedByte(byte(status))
+			case 2:
+				if records == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(records)))
+					for _, _item := range records {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -167,10 +242,30 @@ func (p *RadioSimIndicationProxy) SimRefresh(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSimIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(1)
-	if _err := refreshResult.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationSimRefresh)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Landroid/hardware/radio/sim/SimRefreshResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(1)
+		if _err := refreshResult.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := refreshResult.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationSimRefresh)
@@ -189,7 +284,21 @@ func (p *RadioSimIndicationProxy) SimStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSimIndication)
-	_data.WriteInt32(int32(type_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationSimStatusChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationSimStatusChanged)
 	if _err != nil {
@@ -208,8 +317,25 @@ func (p *RadioSimIndicationProxy) StkEventNotify(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSimIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteString16(cmd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationStkEventNotify)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteString16(cmd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteString16(cmd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationStkEventNotify)
 	if _err != nil {
@@ -228,8 +354,25 @@ func (p *RadioSimIndicationProxy) StkProactiveCommand(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSimIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteString16(cmd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationStkProactiveCommand)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteString16(cmd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteString16(cmd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationStkProactiveCommand)
 	if _err != nil {
@@ -247,7 +390,21 @@ func (p *RadioSimIndicationProxy) StkSessionEnd(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSimIndication)
-	_data.WriteInt32(int32(type_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationStkSessionEnd)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationStkSessionEnd)
 	if _err != nil {
@@ -266,8 +423,25 @@ func (p *RadioSimIndicationProxy) SubscriptionStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSimIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteBool(activate)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationSubscriptionStatusChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteBool(activate)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteBool(activate)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationSubscriptionStatusChanged)
 	if _err != nil {
@@ -286,8 +460,25 @@ func (p *RadioSimIndicationProxy) UiccApplicationsEnablementChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSimIndication)
-	_data.WriteInt32(int32(type_))
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationUiccApplicationsEnablementChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioSimIndication, MethodIRadioSimIndicationUiccApplicationsEnablementChanged)
 	if _err != nil {

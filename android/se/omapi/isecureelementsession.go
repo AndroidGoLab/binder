@@ -175,9 +175,29 @@ func (p *SecureElementSessionProxy) OpenBasicChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementSession)
-	_data.WriteByteArray(aid)
-	_data.WritePaddedByte(p2)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISecureElementSession, MethodISecureElementSessionOpenBasicChannel)
+	_compiledDescs := []string{
+		"[B",
+		"B",
+		"Landroid/se/omapi/ISecureElementListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(aid)
+		_data.WritePaddedByte(p2)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(aid)
+			case 1:
+				_data.WritePaddedByte(p2)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementSession, MethodISecureElementSessionOpenBasicChannel)
 	if _err != nil {
@@ -212,9 +232,29 @@ func (p *SecureElementSessionProxy) OpenLogicalChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementSession)
-	_data.WriteByteArray(aid)
-	_data.WritePaddedByte(p2)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISecureElementSession, MethodISecureElementSessionOpenLogicalChannel)
+	_compiledDescs := []string{
+		"[B",
+		"B",
+		"Landroid/se/omapi/ISecureElementListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(aid)
+		_data.WritePaddedByte(p2)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(aid)
+			case 1:
+				_data.WritePaddedByte(p2)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementSession, MethodISecureElementSessionOpenLogicalChannel)
 	if _err != nil {

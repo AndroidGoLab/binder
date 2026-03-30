@@ -59,7 +59,21 @@ func (p *AGnssProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnss)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAGnss, MethodIAGnssSetCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/IAGnssCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnss, MethodIAGnssSetCallback)
 	if _err != nil {
@@ -138,9 +152,29 @@ func (p *AGnssProxy) SetServer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnss)
-	_data.WriteInt32(int32(type_))
-	_data.WriteString16(hostname)
-	_data.WriteInt32(port)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAGnss, MethodIAGnssSetServer)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/IAGnssCallback/AGnssType;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteString16(hostname)
+		_data.WriteInt32(port)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteString16(hostname)
+			case 2:
+				_data.WriteInt32(port)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnss, MethodIAGnssSetServer)
 	if _err != nil {
@@ -169,9 +203,29 @@ func (p *AGnssProxy) DataConnOpen(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnss)
-	_data.WriteInt64(networkHandle)
-	_data.WriteString16(apn)
-	_data.WriteInt32(int32(apnIpType))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAGnss, MethodIAGnssDataConnOpen)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"Landroid/hardware/gnss/IAGnss/ApnIpType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(networkHandle)
+		_data.WriteString16(apn)
+		_data.WriteInt32(int32(apnIpType))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(networkHandle)
+			case 1:
+				_data.WriteString16(apn)
+			case 2:
+				_data.WriteInt32(int32(apnIpType))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnss, MethodIAGnssDataConnOpen)
 	if _err != nil {

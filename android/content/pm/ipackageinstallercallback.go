@@ -59,7 +59,21 @@ func (p *PackageInstallerCallbackProxy) OnSessionCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerCallback)
-	_data.WriteInt32(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionCreated)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionCreated)
 	if _err != nil {
@@ -77,7 +91,21 @@ func (p *PackageInstallerCallbackProxy) OnSessionBadgingChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerCallback)
-	_data.WriteInt32(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionBadgingChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionBadgingChanged)
 	if _err != nil {
@@ -96,8 +124,25 @@ func (p *PackageInstallerCallbackProxy) OnSessionActiveChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerCallback)
-	_data.WriteInt32(sessionId)
-	_data.WriteBool(active)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionActiveChanged)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		_data.WriteBool(active)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				_data.WriteBool(active)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionActiveChanged)
 	if _err != nil {
@@ -116,8 +161,25 @@ func (p *PackageInstallerCallbackProxy) OnSessionProgressChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerCallback)
-	_data.WriteInt32(sessionId)
-	_data.WriteFloat32(progress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionProgressChanged)
+	_compiledDescs := []string{
+		"I",
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		_data.WriteFloat32(progress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				_data.WriteFloat32(progress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionProgressChanged)
 	if _err != nil {
@@ -136,8 +198,25 @@ func (p *PackageInstallerCallbackProxy) OnSessionFinished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerCallback)
-	_data.WriteInt32(sessionId)
-	_data.WriteBool(success)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionFinished)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		_data.WriteBool(success)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				_data.WriteBool(success)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionFinished)
 	if _err != nil {

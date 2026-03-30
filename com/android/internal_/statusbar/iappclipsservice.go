@@ -51,7 +51,21 @@ func (p *AppClipsServiceProxy) CanLaunchCaptureContentActivityForNote(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppClipsService)
-	_data.WriteInt32(taskId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppClipsService, MethodIAppClipsServiceCanLaunchCaptureContentActivityForNote)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppClipsService, MethodIAppClipsServiceCanLaunchCaptureContentActivityForNote)
 	if _err != nil {
@@ -83,7 +97,21 @@ func (p *AppClipsServiceProxy) CanLaunchCaptureContentActivityForNoteInternal(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppClipsService)
-	_data.WriteInt32(taskId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppClipsService, MethodIAppClipsServiceCanLaunchCaptureContentActivityForNoteInternal)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppClipsService, MethodIAppClipsServiceCanLaunchCaptureContentActivityForNoteInternal)
 	if _err != nil {

@@ -89,7 +89,21 @@ func (p *VoiceInteractionSessionListenerProxy) OnVoiceSessionWindowVisibilityCha
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSessionListener)
-	_data.WriteBool(visible)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionSessionListener, MethodIVoiceInteractionSessionListenerOnVoiceSessionWindowVisibilityChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(visible)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(visible)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSessionListener, MethodIVoiceInteractionSessionListenerOnVoiceSessionWindowVisibilityChanged)
 	if _err != nil {
@@ -107,9 +121,26 @@ func (p *VoiceInteractionSessionListenerProxy) OnSetUiHints(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSessionListener)
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionSessionListener, MethodIVoiceInteractionSessionListenerOnSetUiHints)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := args.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := args.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSessionListener, MethodIVoiceInteractionSessionListenerOnSetUiHints)

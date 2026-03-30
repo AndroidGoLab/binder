@@ -59,7 +59,21 @@ func (p *CarrierMessagingCallbackProxy) OnFilterComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingCallback)
-	_data.WriteInt32(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnFilterComplete)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnFilterComplete)
 	if _err != nil {
@@ -78,8 +92,25 @@ func (p *CarrierMessagingCallbackProxy) OnSendSmsComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingCallback)
-	_data.WriteInt32(result)
-	_data.WriteInt32(messageRef)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnSendSmsComplete)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+		_data.WriteInt32(messageRef)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			case 1:
+				_data.WriteInt32(messageRef)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnSendSmsComplete)
 	if _err != nil {
@@ -98,13 +129,37 @@ func (p *CarrierMessagingCallbackProxy) OnSendMultipartSmsComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingCallback)
-	_data.WriteInt32(result)
-	if messageRefs == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnSendMultipartSmsComplete)
+	_compiledDescs := []string{
+		"I",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+		if messageRefs == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(messageRefs)))
+			for _, _item := range messageRefs {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(messageRefs)))
-		for _, _item := range messageRefs {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			case 1:
+				if messageRefs == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(messageRefs)))
+					for _, _item := range messageRefs {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -125,8 +180,25 @@ func (p *CarrierMessagingCallbackProxy) OnSendMmsComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingCallback)
-	_data.WriteInt32(result)
-	_data.WriteByteArray(sendConfPdu)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnSendMmsComplete)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+		_data.WriteByteArray(sendConfPdu)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			case 1:
+				_data.WriteByteArray(sendConfPdu)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnSendMmsComplete)
 	if _err != nil {
@@ -144,7 +216,21 @@ func (p *CarrierMessagingCallbackProxy) OnDownloadMmsComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingCallback)
-	_data.WriteInt32(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnDownloadMmsComplete)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnDownloadMmsComplete)
 	if _err != nil {

@@ -60,13 +60,39 @@ func (p *VirtualSensorCallbackProxy) OnConfigurationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualSensorCallback)
-	_data.WriteInt32(1)
-	if _err := sensor.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnConfigurationChanged)
+	_compiledDescs := []string{
+		"Landroid/companion/virtual/sensor/VirtualSensor;",
+		"Z",
+		"I",
+		"I",
 	}
-	_data.WriteBool(enabled)
-	_data.WriteInt32(samplingPeriodMicros)
-	_data.WriteInt32(batchReportLatencyMicros)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sensor.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(enabled)
+		_data.WriteInt32(samplingPeriodMicros)
+		_data.WriteInt32(batchReportLatencyMicros)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sensor.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(enabled)
+			case 2:
+				_data.WriteInt32(samplingPeriodMicros)
+			case 3:
+				_data.WriteInt32(batchReportLatencyMicros)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnConfigurationChanged)
 	if _err != nil {
@@ -85,10 +111,30 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualSensorCallback)
-	_data.WriteInt32(channelHandle)
-	_data.WriteInt32(1)
-	if _err := sharedMemory.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnDirectChannelCreated)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/SharedMemory;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(channelHandle)
+		_data.WriteInt32(1)
+		if _err := sharedMemory.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(channelHandle)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := sharedMemory.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnDirectChannelCreated)
@@ -107,7 +153,21 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelDestroyed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualSensorCallback)
-	_data.WriteInt32(channelHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnDirectChannelDestroyed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(channelHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(channelHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnDirectChannelDestroyed)
 	if _err != nil {
@@ -128,13 +188,39 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelConfigured(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualSensorCallback)
-	_data.WriteInt32(channelHandle)
-	_data.WriteInt32(1)
-	if _err := sensor.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnDirectChannelConfigured)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/companion/virtual/sensor/VirtualSensor;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(rateLevel)
-	_data.WriteInt32(reportToken)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(channelHandle)
+		_data.WriteInt32(1)
+		if _err := sensor.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(rateLevel)
+		_data.WriteInt32(reportToken)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(channelHandle)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := sensor.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(rateLevel)
+			case 3:
+				_data.WriteInt32(reportToken)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnDirectChannelConfigured)
 	if _err != nil {

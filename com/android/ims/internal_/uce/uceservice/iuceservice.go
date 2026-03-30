@@ -90,7 +90,21 @@ func (p *UceServiceProxy) StartService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
-	binder.WriteBinderToParcel(ctx, _data, uceListener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUceService, MethodIUceServiceStartService)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/uce/uceservice/IUceListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, uceListener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, uceListener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceStartService)
 	if _err != nil {
@@ -183,10 +197,30 @@ func (p *UceServiceProxy) CreateOptionsService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
-	binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := optionsServiceListenerHdl.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUceService, MethodIUceServiceCreateOptionsService)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/uce/options/IOptionsListener;",
+		"Lcom/android/ims/internal/uce/common/UceLong;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := optionsServiceListenerHdl.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := optionsServiceListenerHdl.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceCreateOptionsService)
@@ -232,12 +266,35 @@ func (p *UceServiceProxy) CreateOptionsServiceForSubscription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
-	binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := optionsServiceListenerHdl.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUceService, MethodIUceServiceCreateOptionsServiceForSubscription)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/uce/options/IOptionsListener;",
+		"Lcom/android/ims/internal/uce/common/UceLong;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(iccId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := optionsServiceListenerHdl.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(iccId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := optionsServiceListenerHdl.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(iccId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceCreateOptionsServiceForSubscription)
 	if _err != nil {
@@ -279,7 +336,21 @@ func (p *UceServiceProxy) DestroyOptionsService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
-	_data.WriteInt32(optionsServiceHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUceService, MethodIUceServiceDestroyOptionsService)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(optionsServiceHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(optionsServiceHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceDestroyOptionsService)
 	if _err != nil {
@@ -308,10 +379,30 @@ func (p *UceServiceProxy) CreatePresenceService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
-	binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUceService, MethodIUceServiceCreatePresenceService)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/uce/presence/IPresenceListener;",
+		"Lcom/android/ims/internal/uce/common/UceLong;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceCreatePresenceService)
@@ -357,12 +448,35 @@ func (p *UceServiceProxy) CreatePresenceServiceForSubscription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
-	binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUceService, MethodIUceServiceCreatePresenceServiceForSubscription)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/uce/presence/IPresenceListener;",
+		"Lcom/android/ims/internal/uce/common/UceLong;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(iccId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(iccId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(iccId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceCreatePresenceServiceForSubscription)
 	if _err != nil {
@@ -404,7 +518,21 @@ func (p *UceServiceProxy) DestroyPresenceService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
-	_data.WriteInt32(presenceServiceHdl)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUceService, MethodIUceServiceDestroyPresenceService)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(presenceServiceHdl)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(presenceServiceHdl)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceDestroyPresenceService)
 	if _err != nil {
@@ -493,7 +621,21 @@ func (p *UceServiceProxy) GetPresenceServiceForSubscription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
-	_data.WriteString16(iccId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUceService, MethodIUceServiceGetPresenceServiceForSubscription)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iccId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iccId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceGetPresenceServiceForSubscription)
 	if _err != nil {
@@ -557,7 +699,21 @@ func (p *UceServiceProxy) GetOptionsServiceForSubscription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
-	_data.WriteString16(iccId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUceService, MethodIUceServiceGetOptionsServiceForSubscription)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iccId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iccId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceGetOptionsServiceForSubscription)
 	if _err != nil {

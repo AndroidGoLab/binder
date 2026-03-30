@@ -64,7 +64,21 @@ func (p *RecentTasksProxy) RegisterRecentTasksListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentTasks, MethodIRecentTasksRegisterRecentTasksListener)
+	_compiledDescs := []string{
+		"Lcom/android/wm/shell/recents/IRecentTasksListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasks, MethodIRecentTasksRegisterRecentTasksListener)
 	if _err != nil {
@@ -82,7 +96,21 @@ func (p *RecentTasksProxy) UnregisterRecentTasksListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentTasks, MethodIRecentTasksUnregisterRecentTasksListener)
+	_compiledDescs := []string{
+		"Lcom/android/wm/shell/recents/IRecentTasksListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasks, MethodIRecentTasksUnregisterRecentTasksListener)
 	if _err != nil {
@@ -103,9 +131,29 @@ func (p *RecentTasksProxy) GetRecentTasks(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
-	_data.WriteInt32(maxNum)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentTasks, MethodIRecentTasksGetRecentTasks)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(maxNum)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(maxNum)
+			case 1:
+				_data.WriteInt32(flags)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasks, MethodIRecentTasksGetRecentTasks)
 	if _err != nil {
@@ -169,7 +217,21 @@ func (p *RecentTasksProxy) GetRunningTasks(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
-	_data.WriteInt32(maxNum)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentTasks, MethodIRecentTasksGetRunningTasks)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(maxNum)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(maxNum)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasks, MethodIRecentTasksGetRunningTasks)
 	if _err != nil {
@@ -236,20 +298,55 @@ func (p *RecentTasksProxy) StartRecentsTransition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentTasks, MethodIRecentTasksStartRecentsTransition)
+	_compiledDescs := []string{
+		"Landroid/app/PendingIntent;",
+		"Landroid/content/Intent;",
+		"Landroid/os/Bundle;",
+		"Landroid/app/IApplicationThread;",
+		"Landroid/view/IRecentsAnimationRunner;",
 	}
-	_data.WriteInt32(1)
-	if _err := fillIn.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := fillIn.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, appThread.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := fillIn.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, appThread.AsBinder(), p.Remote.Transport())
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, appThread.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasks, MethodIRecentTasksStartRecentsTransition)
 	if _err != nil {

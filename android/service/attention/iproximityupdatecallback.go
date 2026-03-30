@@ -47,7 +47,21 @@ func (p *ProximityUpdateCallbackProxy) OnProximityUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProximityUpdateCallback)
-	_data.WriteFloat64(distance)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIProximityUpdateCallback, MethodIProximityUpdateCallbackOnProximityUpdate)
+	_compiledDescs := []string{
+		"D",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat64(distance)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat64(distance)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProximityUpdateCallback, MethodIProximityUpdateCallbackOnProximityUpdate)
 	if _err != nil {

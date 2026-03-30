@@ -77,9 +77,26 @@ func (p *InputMethodClientProxy) OnBindMethod(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
-	_data.WriteInt32(1)
-	if _err := res.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodClient, MethodIInputMethodClientOnBindMethod)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/InputBindResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := res.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := res.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodClient, MethodIInputMethodClientOnBindMethod)
@@ -99,11 +116,31 @@ func (p *InputMethodClientProxy) OnStartInputResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
-	_data.WriteInt32(1)
-	if _err := res.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodClient, MethodIInputMethodClientOnStartInputResult)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/InputBindResult;",
+		"I",
 	}
-	_data.WriteInt32(startInputSeq)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := res.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(startInputSeq)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := res.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(startInputSeq)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodClient, MethodIInputMethodClientOnStartInputResult)
 	if _err != nil {
@@ -122,11 +159,31 @@ func (p *InputMethodClientProxy) OnBindAccessibilityService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
-	_data.WriteInt32(1)
-	if _err := res.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodClient, MethodIInputMethodClientOnBindAccessibilityService)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/InputBindResult;",
+		"I",
 	}
-	_data.WriteInt32(id)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := res.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := res.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodClient, MethodIInputMethodClientOnBindAccessibilityService)
 	if _err != nil {
@@ -145,8 +202,25 @@ func (p *InputMethodClientProxy) OnUnbindMethod(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
-	_data.WriteInt32(sequence)
-	_data.WriteInt32(unbindReason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodClient, MethodIInputMethodClientOnUnbindMethod)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sequence)
+		_data.WriteInt32(unbindReason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sequence)
+			case 1:
+				_data.WriteInt32(unbindReason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodClient, MethodIInputMethodClientOnUnbindMethod)
 	if _err != nil {
@@ -165,8 +239,25 @@ func (p *InputMethodClientProxy) OnUnbindAccessibilityService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
-	_data.WriteInt32(sequence)
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodClient, MethodIInputMethodClientOnUnbindAccessibilityService)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sequence)
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sequence)
+			case 1:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodClient, MethodIInputMethodClientOnUnbindAccessibilityService)
 	if _err != nil {
@@ -185,8 +276,25 @@ func (p *InputMethodClientProxy) SetActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
-	_data.WriteBool(active)
-	_data.WriteBool(fullscreen)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodClient, MethodIInputMethodClientSetActive)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(active)
+		_data.WriteBool(fullscreen)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(active)
+			case 1:
+				_data.WriteBool(fullscreen)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodClient, MethodIInputMethodClientSetActive)
 	if _err != nil {
@@ -205,8 +313,25 @@ func (p *InputMethodClientProxy) SetInteractive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
-	_data.WriteBool(active)
-	_data.WriteBool(fullscreen)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodClient, MethodIInputMethodClientSetInteractive)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(active)
+		_data.WriteBool(fullscreen)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(active)
+			case 1:
+				_data.WriteBool(fullscreen)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodClient, MethodIInputMethodClientSetInteractive)
 	if _err != nil {
@@ -224,7 +349,21 @@ func (p *InputMethodClientProxy) ScheduleStartInputIfNecessary(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
-	_data.WriteBool(fullscreen)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodClient, MethodIInputMethodClientScheduleStartInputIfNecessary)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(fullscreen)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(fullscreen)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodClient, MethodIInputMethodClientScheduleStartInputIfNecessary)
 	if _err != nil {
@@ -242,7 +381,21 @@ func (p *InputMethodClientProxy) ReportFullscreenMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
-	_data.WriteBool(fullscreen)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodClient, MethodIInputMethodClientReportFullscreenMode)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(fullscreen)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(fullscreen)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodClient, MethodIInputMethodClientReportFullscreenMode)
 	if _err != nil {
@@ -260,7 +413,21 @@ func (p *InputMethodClientProxy) SetImeTraceEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodClient, MethodIInputMethodClientSetImeTraceEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodClient, MethodIInputMethodClientSetImeTraceEnabled)
 	if _err != nil {
@@ -278,7 +445,21 @@ func (p *InputMethodClientProxy) ThrowExceptionFromSystem(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputMethodClient, MethodIInputMethodClientThrowExceptionFromSystem)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodClient, MethodIInputMethodClientThrowExceptionFromSystem)
 	if _err != nil {

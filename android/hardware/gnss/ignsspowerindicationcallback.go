@@ -59,7 +59,21 @@ func (p *GnssPowerIndicationCallbackProxy) SetCapabilitiesCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssPowerIndicationCallback)
-	_data.WriteInt32(capabilities)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssPowerIndicationCallback, MethodIGnssPowerIndicationCallbackSetCapabilitiesCb)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(capabilities)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(capabilities)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssPowerIndicationCallback, MethodIGnssPowerIndicationCallbackSetCapabilitiesCb)
 	if _err != nil {
@@ -86,9 +100,26 @@ func (p *GnssPowerIndicationCallbackProxy) GnssPowerStatsCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssPowerIndicationCallback)
-	_data.WriteInt32(1)
-	if _err := gnssPowerStats.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssPowerIndicationCallback, MethodIGnssPowerIndicationCallbackGnssPowerStatsCb)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/GnssPowerStats;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := gnssPowerStats.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := gnssPowerStats.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssPowerIndicationCallback, MethodIGnssPowerIndicationCallbackGnssPowerStatsCb)

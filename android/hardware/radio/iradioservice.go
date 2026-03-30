@@ -119,13 +119,39 @@ func (p *RadioServiceProxy) OpenTuner(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioService)
-	_data.WriteInt32(moduleId)
-	_data.WriteInt32(1)
-	if _err := bandConfig.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioService, MethodIRadioServiceOpenTuner)
+	_compiledDescs := []string{
+		"I",
+		"LRadioManager/BandConfig;",
+		"Z",
+		"Landroid/hardware/radio/ITunerCallback;",
 	}
-	_data.WriteBool(withAudio)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(moduleId)
+		_data.WriteInt32(1)
+		if _err := bandConfig.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(withAudio)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(moduleId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := bandConfig.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteBool(withAudio)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioService, MethodIRadioServiceOpenTuner)
 	if _err != nil {
@@ -159,15 +185,39 @@ func (p *RadioServiceProxy) AddAnnouncementListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioService)
-	if enabledTypes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioService, MethodIRadioServiceAddAnnouncementListener)
+	_compiledDescs := []string{
+		"[I",
+		"Landroid/hardware/radio/IAnnouncementListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if enabledTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(enabledTypes)))
+			for _, _item := range enabledTypes {
+				_data.WriteInt32(_item)
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(enabledTypes)))
-		for _, _item := range enabledTypes {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if enabledTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(enabledTypes)))
+					for _, _item := range enabledTypes {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioService, MethodIRadioServiceAddAnnouncementListener)
 	if _err != nil {

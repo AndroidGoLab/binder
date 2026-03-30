@@ -51,8 +51,25 @@ func (p *SysuiUnlockAnimationControllerProxy) SetLauncherUnlockController(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISysuiUnlockAnimationController)
-	_data.WriteString16(activityClass)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISysuiUnlockAnimationController, MethodISysuiUnlockAnimationControllerSetLauncherUnlockController)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/systemui/shared/system/smartspace/ILauncherUnlockAnimationController;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(activityClass)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(activityClass)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISysuiUnlockAnimationController, MethodISysuiUnlockAnimationControllerSetLauncherUnlockController)
 	if _err != nil {
@@ -70,9 +87,26 @@ func (p *SysuiUnlockAnimationControllerProxy) OnLauncherSmartspaceStateUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISysuiUnlockAnimationController)
-	_data.WriteInt32(1)
-	if _err := state.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISysuiUnlockAnimationController, MethodISysuiUnlockAnimationControllerOnLauncherSmartspaceStateUpdated)
+	_compiledDescs := []string{
+		"Lcom/android/systemui/shared/system/smartspace/SmartspaceState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := state.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := state.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISysuiUnlockAnimationController, MethodISysuiUnlockAnimationControllerOnLauncherSmartspaceStateUpdated)

@@ -52,15 +52,42 @@ func (p *RadioConfigIndicationProxy) SimSlotsStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigIndication)
-	_data.WriteInt32(int32(type_))
-	if slotStatus == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioConfigIndication, MethodIRadioConfigIndicationSimSlotsStatusChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/RadioIndicationType;",
+		"[Landroid/hardware/radio/config/SimSlotStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		if slotStatus == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(slotStatus)))
+			for _, _item := range slotStatus {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(slotStatus)))
-		for _, _item := range slotStatus {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				if slotStatus == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(slotStatus)))
+					for _, _item := range slotStatus {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -81,12 +108,33 @@ func (p *RadioConfigIndicationProxy) OnSimultaneousCallingSupportChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigIndication)
-	if enabledLogicalSlots == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioConfigIndication, MethodIRadioConfigIndicationOnSimultaneousCallingSupportChanged)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if enabledLogicalSlots == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(enabledLogicalSlots)))
+			for _, _item := range enabledLogicalSlots {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(enabledLogicalSlots)))
-		for _, _item := range enabledLogicalSlots {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if enabledLogicalSlots == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(enabledLogicalSlots)))
+					for _, _item := range enabledLogicalSlots {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 

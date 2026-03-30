@@ -49,19 +49,52 @@ func (p *DevicesForAttributesCallbackProxy) OnDevicesForAttributesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicesForAttributesCallback)
-	_data.WriteInt32(1)
-	if _err := attributes.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevicesForAttributesCallback, MethodIDevicesForAttributesCallbackOnDevicesForAttributesChanged)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+		"Z",
+		"Ljava/util/List;",
 	}
-	_data.WriteBool(forVolume)
-	if devices == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attributes.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(forVolume)
+		if devices == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(devices)))
+			for _, _item := range devices {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attributes.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(forVolume)
+			case 2:
+				if devices == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(devices)))
+					for _, _item := range devices {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

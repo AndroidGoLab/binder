@@ -50,9 +50,26 @@ func (p *MeasurementCorrectionsInterfaceProxy) SetCorrections(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMeasurementCorrectionsInterface)
-	_data.WriteInt32(1)
-	if _err := corrections.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMeasurementCorrectionsInterface, MethodIMeasurementCorrectionsInterfaceSetCorrections)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/measurement_corrections/MeasurementCorrections;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := corrections.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := corrections.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMeasurementCorrectionsInterface, MethodIMeasurementCorrectionsInterfaceSetCorrections)
@@ -80,7 +97,21 @@ func (p *MeasurementCorrectionsInterfaceProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMeasurementCorrectionsInterface)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMeasurementCorrectionsInterface, MethodIMeasurementCorrectionsInterfaceSetCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/measurement_corrections/IMeasurementCorrectionsCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMeasurementCorrectionsInterface, MethodIMeasurementCorrectionsInterfaceSetCallback)
 	if _err != nil {

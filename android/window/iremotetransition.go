@@ -57,16 +57,45 @@ func (p *RemoteTransitionProxy) StartAnimation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteTransition)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteTransition, MethodIRemoteTransitionStartAnimation)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/window/TransitionInfo;",
+		"LSurfaceControl/Transaction;",
+		"Landroid/window/IRemoteTransitionFinishedCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := t.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := t.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, finishCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := t.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, finishCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, finishCallback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteTransition, MethodIRemoteTransitionStartAnimation)
 	if _err != nil {
@@ -88,17 +117,49 @@ func (p *RemoteTransitionProxy) MergeAnimation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteTransition)
-	binder.WriteBinderToParcel(ctx, _data, transition, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteTransition, MethodIRemoteTransitionMergeAnimation)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/window/TransitionInfo;",
+		"LSurfaceControl/Transaction;",
+		"Landroid/os/IBinder;",
+		"Landroid/window/IRemoteTransitionFinishedCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := t.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, transition, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := t.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, mergeTarget, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, finishCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, transition, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := t.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, mergeTarget, p.Remote.Transport())
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, finishCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, mergeTarget, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, finishCallback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteTransition, MethodIRemoteTransitionMergeAnimation)
 	if _err != nil {
@@ -117,8 +178,25 @@ func (p *RemoteTransitionProxy) OnTransitionConsumed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteTransition)
-	binder.WriteBinderToParcel(ctx, _data, transition, p.Remote.Transport())
-	_data.WriteBool(aborted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteTransition, MethodIRemoteTransitionOnTransitionConsumed)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, transition, p.Remote.Transport())
+		_data.WriteBool(aborted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, transition, p.Remote.Transport())
+			case 1:
+				_data.WriteBool(aborted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteTransition, MethodIRemoteTransitionOnTransitionConsumed)
 	if _err != nil {

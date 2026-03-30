@@ -87,7 +87,21 @@ func (p *DataServiceProxy) CreateDataServiceProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
-	_data.WriteInt32(slotId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataService, MethodIDataServiceCreateDataServiceProvider)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceCreateDataServiceProvider)
 	if _err != nil {
@@ -105,7 +119,21 @@ func (p *DataServiceProxy) RemoveDataServiceProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
-	_data.WriteInt32(slotId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataService, MethodIDataServiceRemoveDataServiceProvider)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceRemoveDataServiceProvider)
 	if _err != nil {
@@ -175,10 +203,33 @@ func (p *DataServiceProxy) DeactivateDataCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(cid)
-	_data.WriteInt32(reason)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataService, MethodIDataServiceDeactivateDataCall)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Landroid/telephony/data/IDataServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(cid)
+		_data.WriteInt32(reason)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(cid)
+			case 2:
+				_data.WriteInt32(reason)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceDeactivateDataCall)
 	if _err != nil {
@@ -199,13 +250,39 @@ func (p *DataServiceProxy) SetInitialAttachApn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(1)
-	if _err := dataProfile.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataService, MethodIDataServiceSetInitialAttachApn)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/data/DataProfile;",
+		"Z",
+		"Landroid/telephony/data/IDataServiceCallback;",
 	}
-	_data.WriteBool(isRoaming)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(1)
+		if _err := dataProfile.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(isRoaming)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := dataProfile.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteBool(isRoaming)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceSetInitialAttachApn)
 	if _err != nil {
@@ -226,20 +303,53 @@ func (p *DataServiceProxy) SetDataProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
-	_data.WriteInt32(slotId)
-	if dps == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataService, MethodIDataServiceSetDataProfile)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+		"Z",
+		"Landroid/telephony/data/IDataServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		if dps == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(dps)))
+			for _, _item := range dps {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteBool(isRoaming)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(dps)))
-		for _, _item := range dps {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				if dps == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(dps)))
+					for _, _item := range dps {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				_data.WriteBool(isRoaming)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 			}
 		}
 	}
-	_data.WriteBool(isRoaming)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceSetDataProfile)
 	if _err != nil {
@@ -258,8 +368,25 @@ func (p *DataServiceProxy) RequestDataCallList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataService, MethodIDataServiceRequestDataCallList)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/data/IDataServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceRequestDataCallList)
 	if _err != nil {
@@ -278,8 +405,25 @@ func (p *DataServiceProxy) RegisterForDataCallListChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataService, MethodIDataServiceRegisterForDataCallListChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/data/IDataServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceRegisterForDataCallListChanged)
 	if _err != nil {
@@ -298,8 +442,25 @@ func (p *DataServiceProxy) UnregisterForDataCallListChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataService, MethodIDataServiceUnregisterForDataCallListChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/data/IDataServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceUnregisterForDataCallListChanged)
 	if _err != nil {
@@ -319,9 +480,29 @@ func (p *DataServiceProxy) StartHandover(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(cid)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataService, MethodIDataServiceStartHandover)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/telephony/data/IDataServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(cid)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(cid)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceStartHandover)
 	if _err != nil {
@@ -341,9 +522,29 @@ func (p *DataServiceProxy) CancelHandover(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(cid)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataService, MethodIDataServiceCancelHandover)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/telephony/data/IDataServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(cid)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(cid)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceCancelHandover)
 	if _err != nil {
@@ -362,8 +563,25 @@ func (p *DataServiceProxy) RegisterForUnthrottleApn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
-	_data.WriteInt32(slotIndex)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataService, MethodIDataServiceRegisterForUnthrottleApn)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/data/IDataServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceRegisterForUnthrottleApn)
 	if _err != nil {
@@ -382,8 +600,25 @@ func (p *DataServiceProxy) UnregisterForUnthrottleApn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
-	_data.WriteInt32(slotIndex)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataService, MethodIDataServiceUnregisterForUnthrottleApn)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/data/IDataServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceUnregisterForUnthrottleApn)
 	if _err != nil {
@@ -403,9 +638,29 @@ func (p *DataServiceProxy) RequestNetworkValidation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(cid)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataService, MethodIDataServiceRequestNetworkValidation)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(cid)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(cid)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceRequestNetworkValidation)
 	if _err != nil {

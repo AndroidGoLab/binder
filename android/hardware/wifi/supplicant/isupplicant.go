@@ -91,7 +91,21 @@ func (p *SupplicantProxy) AddP2pInterface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
-	_data.WriteString16(ifName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicant, MethodISupplicantAddP2pInterface)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(ifName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(ifName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantAddP2pInterface)
 	if _err != nil {
@@ -124,7 +138,21 @@ func (p *SupplicantProxy) AddStaInterface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
-	_data.WriteString16(ifName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicant, MethodISupplicantAddStaInterface)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(ifName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(ifName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantAddStaInterface)
 	if _err != nil {
@@ -188,7 +216,21 @@ func (p *SupplicantProxy) GetP2pInterface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
-	_data.WriteString16(ifName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicant, MethodISupplicantGetP2pInterface)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(ifName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(ifName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantGetP2pInterface)
 	if _err != nil {
@@ -221,7 +263,21 @@ func (p *SupplicantProxy) GetStaInterface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
-	_data.WriteString16(ifName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicant, MethodISupplicantGetStaInterface)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(ifName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(ifName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantGetStaInterface)
 	if _err != nil {
@@ -375,7 +431,21 @@ func (p *SupplicantProxy) RegisterCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicant, MethodISupplicantRegisterCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/ISupplicantCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantRegisterCallback)
 	if _err != nil {
@@ -402,9 +472,26 @@ func (p *SupplicantProxy) RemoveInterface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
-	_data.WriteInt32(1)
-	if _err := ifaceInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicant, MethodISupplicantRemoveInterface)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/IfaceInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := ifaceInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := ifaceInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantRemoveInterface)
@@ -432,7 +519,21 @@ func (p *SupplicantProxy) SetConcurrencyPriority(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
-	_data.WriteInt32(int32(type_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicant, MethodISupplicantSetConcurrencyPriority)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/IfaceType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantSetConcurrencyPriority)
 	if _err != nil {
@@ -461,9 +562,29 @@ func (p *SupplicantProxy) SetDebugParams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
-	_data.WriteInt32(int32(level))
-	_data.WriteBool(showTimestamp)
-	_data.WriteBool(showKeys)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicant, MethodISupplicantSetDebugParams)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/DebugLevel;",
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(level))
+		_data.WriteBool(showTimestamp)
+		_data.WriteBool(showKeys)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(level))
+			case 1:
+				_data.WriteBool(showTimestamp)
+			case 2:
+				_data.WriteBool(showKeys)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantSetDebugParams)
 	if _err != nil {
@@ -506,7 +627,21 @@ func (p *SupplicantProxy) RegisterNonStandardCertCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicant, MethodISupplicantRegisterNonStandardCertCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/INonStandardCertCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantRegisterNonStandardCertCallback)
 	if _err != nil {

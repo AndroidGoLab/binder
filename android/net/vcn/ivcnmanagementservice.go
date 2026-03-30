@@ -71,15 +71,41 @@ func (p *VcnManagementServiceProxy) SetVcnConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
-	_data.WriteInt32(1)
-	if _err := subscriptionGroup.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceSetVcnConfig)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelUuid;",
+		"Landroid/net/vcn/VcnConfig;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := subscriptionGroup.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(opPkgName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := subscriptionGroup.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(opPkgName)
+			}
+		}
 	}
-	_data.WriteString16(opPkgName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceSetVcnConfig)
 	if _err != nil {
@@ -107,11 +133,31 @@ func (p *VcnManagementServiceProxy) ClearVcnConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
-	_data.WriteInt32(1)
-	if _err := subscriptionGroup.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceClearVcnConfig)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelUuid;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(opPkgName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := subscriptionGroup.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(opPkgName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := subscriptionGroup.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(opPkgName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceClearVcnConfig)
 	if _err != nil {
@@ -139,7 +185,21 @@ func (p *VcnManagementServiceProxy) GetConfiguredSubscriptionGroups(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
-	_data.WriteString16(opPkgName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceGetConfiguredSubscriptionGroups)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(opPkgName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(opPkgName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceGetConfiguredSubscriptionGroups)
 	if _err != nil {
@@ -202,7 +262,21 @@ func (p *VcnManagementServiceProxy) AddVcnUnderlyingNetworkPolicyListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceAddVcnUnderlyingNetworkPolicyListener)
+	_compiledDescs := []string{
+		"Landroid/net/vcn/IVcnUnderlyingNetworkPolicyListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceAddVcnUnderlyingNetworkPolicyListener)
 	if _err != nil {
@@ -229,7 +303,21 @@ func (p *VcnManagementServiceProxy) RemoveVcnUnderlyingNetworkPolicyListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceRemoveVcnUnderlyingNetworkPolicyListener)
+	_compiledDescs := []string{
+		"Landroid/net/vcn/IVcnUnderlyingNetworkPolicyListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceRemoveVcnUnderlyingNetworkPolicyListener)
 	if _err != nil {
@@ -297,12 +385,35 @@ func (p *VcnManagementServiceProxy) RegisterVcnStatusCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
-	_data.WriteInt32(1)
-	if _err := subscriptionGroup.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceRegisterVcnStatusCallback)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelUuid;",
+		"Landroid/net/vcn/IVcnStatusCallback;",
+		"Ljava/lang/String;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(opPkgName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := subscriptionGroup.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(opPkgName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := subscriptionGroup.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteString16(opPkgName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceRegisterVcnStatusCallback)
 	if _err != nil {
@@ -329,7 +440,21 @@ func (p *VcnManagementServiceProxy) UnregisterVcnStatusCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceUnregisterVcnStatusCallback)
+	_compiledDescs := []string{
+		"Landroid/net/vcn/IVcnStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceUnregisterVcnStatusCallback)
 	if _err != nil {

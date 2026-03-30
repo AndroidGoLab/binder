@@ -62,7 +62,21 @@ func (p *BiometricServiceReceiverProxy) OnAuthenticationSucceeded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricServiceReceiver)
-	_data.WriteInt32(authenticationType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricServiceReceiver, MethodIBiometricServiceReceiverOnAuthenticationSucceeded)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(authenticationType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(authenticationType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricServiceReceiver, MethodIBiometricServiceReceiverOnAuthenticationSucceeded)
 	if _err != nil {
@@ -98,9 +112,29 @@ func (p *BiometricServiceReceiverProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricServiceReceiver)
-	_data.WriteInt32(modality)
-	_data.WriteInt32(error_)
-	_data.WriteInt32(vendorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricServiceReceiver, MethodIBiometricServiceReceiverOnError)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(modality)
+		_data.WriteInt32(error_)
+		_data.WriteInt32(vendorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(modality)
+			case 1:
+				_data.WriteInt32(error_)
+			case 2:
+				_data.WriteInt32(vendorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricServiceReceiver, MethodIBiometricServiceReceiverOnError)
 	if _err != nil {
@@ -119,8 +153,25 @@ func (p *BiometricServiceReceiverProxy) OnAcquired(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricServiceReceiver)
-	_data.WriteInt32(acquiredInfo)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricServiceReceiver, MethodIBiometricServiceReceiverOnAcquired)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(acquiredInfo)
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(acquiredInfo)
+			case 1:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricServiceReceiver, MethodIBiometricServiceReceiverOnAcquired)
 	if _err != nil {
@@ -138,7 +189,21 @@ func (p *BiometricServiceReceiverProxy) OnDialogDismissed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricServiceReceiver)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricServiceReceiver, MethodIBiometricServiceReceiverOnDialogDismissed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricServiceReceiver, MethodIBiometricServiceReceiverOnDialogDismissed)
 	if _err != nil {
@@ -156,7 +221,21 @@ func (p *BiometricServiceReceiverProxy) OnSystemEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricServiceReceiver)
-	_data.WriteInt32(event)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricServiceReceiver, MethodIBiometricServiceReceiverOnSystemEvent)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(event)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(event)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricServiceReceiver, MethodIBiometricServiceReceiverOnSystemEvent)
 	if _err != nil {

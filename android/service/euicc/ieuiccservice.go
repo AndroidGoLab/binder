@@ -100,19 +100,57 @@ func (p *EuiccServiceProxy) DownloadSubscription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(portIndex)
-	_data.WriteInt32(1)
-	if _err := subscription.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceDownloadSubscription)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/telephony/euicc/DownloadableSubscription;",
+		"Z",
+		"Z",
+		"Landroid/os/Bundle;",
+		"Landroid/service/euicc/IDownloadSubscriptionCallback;",
 	}
-	_data.WriteBool(switchAfterDownload)
-	_data.WriteBool(forceDeactivateSim)
-	_data.WriteInt32(1)
-	if _err := resolvedBundle.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(portIndex)
+		_data.WriteInt32(1)
+		if _err := subscription.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(switchAfterDownload)
+		_data.WriteBool(forceDeactivateSim)
+		_data.WriteInt32(1)
+		if _err := resolvedBundle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(portIndex)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := subscription.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteBool(switchAfterDownload)
+			case 4:
+				_data.WriteBool(forceDeactivateSim)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := resolvedBundle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceDownloadSubscription)
 	if _err != nil {
@@ -135,15 +173,47 @@ func (p *EuiccServiceProxy) GetDownloadableSubscriptionMetadata(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(portIndex)
-	_data.WriteInt32(1)
-	if _err := subscription.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceGetDownloadableSubscriptionMetadata)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/telephony/euicc/DownloadableSubscription;",
+		"Z",
+		"Z",
+		"Landroid/service/euicc/IGetDownloadableSubscriptionMetadataCallback;",
 	}
-	_data.WriteBool(switchAfterDownload)
-	_data.WriteBool(forceDeactivateSim)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(portIndex)
+		_data.WriteInt32(1)
+		if _err := subscription.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(switchAfterDownload)
+		_data.WriteBool(forceDeactivateSim)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(portIndex)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := subscription.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteBool(switchAfterDownload)
+			case 4:
+				_data.WriteBool(forceDeactivateSim)
+			case 5:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceGetDownloadableSubscriptionMetadata)
 	if _err != nil {
@@ -162,8 +232,25 @@ func (p *EuiccServiceProxy) GetEid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceGetEid)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/service/euicc/IGetEidCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceGetEid)
 	if _err != nil {
@@ -182,8 +269,25 @@ func (p *EuiccServiceProxy) GetOtaStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceGetOtaStatus)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/service/euicc/IGetOtaStatusCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceGetOtaStatus)
 	if _err != nil {
@@ -202,8 +306,25 @@ func (p *EuiccServiceProxy) StartOtaIfNecessary(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, statusChangedCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceStartOtaIfNecessary)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/service/euicc/IOtaStatusChangedCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, statusChangedCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, statusChangedCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceStartOtaIfNecessary)
 	if _err != nil {
@@ -222,8 +343,25 @@ func (p *EuiccServiceProxy) GetEuiccProfileInfoList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceGetEuiccProfileInfoList)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/service/euicc/IGetEuiccProfileInfoListCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceGetEuiccProfileInfoList)
 	if _err != nil {
@@ -243,9 +381,29 @@ func (p *EuiccServiceProxy) GetDefaultDownloadableSubscriptionList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotId)
-	_data.WriteBool(forceDeactivateSim)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceGetDefaultDownloadableSubscriptionList)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Landroid/service/euicc/IGetDefaultDownloadableSubscriptionListCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteBool(forceDeactivateSim)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteBool(forceDeactivateSim)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceGetDefaultDownloadableSubscriptionList)
 	if _err != nil {
@@ -264,8 +422,25 @@ func (p *EuiccServiceProxy) GetEuiccInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceGetEuiccInfo)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/service/euicc/IGetEuiccInfoCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceGetEuiccInfo)
 	if _err != nil {
@@ -285,9 +460,29 @@ func (p *EuiccServiceProxy) DeleteSubscription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotId)
-	_data.WriteString16(iccid)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceDeleteSubscription)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/service/euicc/IDeleteSubscriptionCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteString16(iccid)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteString16(iccid)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceDeleteSubscription)
 	if _err != nil {
@@ -310,12 +505,41 @@ func (p *EuiccServiceProxy) SwitchToSubscription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(portIndex)
-	_data.WriteString16(iccid)
-	_data.WriteBool(forceDeactivateSim)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteBool(useLegacyApi)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceSwitchToSubscription)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Z",
+		"Landroid/service/euicc/ISwitchToSubscriptionCallback;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(portIndex)
+		_data.WriteString16(iccid)
+		_data.WriteBool(forceDeactivateSim)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteBool(useLegacyApi)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(portIndex)
+			case 2:
+				_data.WriteString16(iccid)
+			case 3:
+				_data.WriteBool(forceDeactivateSim)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 5:
+				_data.WriteBool(useLegacyApi)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceSwitchToSubscription)
 	if _err != nil {
@@ -336,10 +560,33 @@ func (p *EuiccServiceProxy) UpdateSubscriptionNickname(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotId)
-	_data.WriteString16(iccid)
-	_data.WriteString16(nickname)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceUpdateSubscriptionNickname)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/service/euicc/IUpdateSubscriptionNicknameCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteString16(iccid)
+		_data.WriteString16(nickname)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteString16(iccid)
+			case 2:
+				_data.WriteString16(nickname)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceUpdateSubscriptionNickname)
 	if _err != nil {
@@ -358,8 +605,25 @@ func (p *EuiccServiceProxy) EraseSubscriptions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceEraseSubscriptions)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/service/euicc/IEraseSubscriptionsCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceEraseSubscriptions)
 	if _err != nil {
@@ -379,9 +643,29 @@ func (p *EuiccServiceProxy) EraseSubscriptionsWithOptions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotIndex)
-	_data.WriteInt32(options)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceEraseSubscriptionsWithOptions)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/service/euicc/IEraseSubscriptionsCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteInt32(options)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteInt32(options)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceEraseSubscriptionsWithOptions)
 	if _err != nil {
@@ -400,8 +684,25 @@ func (p *EuiccServiceProxy) RetainSubscriptionsForFactoryReset(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceRetainSubscriptionsForFactoryReset)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/service/euicc/IRetainSubscriptionsForFactoryResetCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceRetainSubscriptionsForFactoryReset)
 	if _err != nil {
@@ -419,7 +720,21 @@ func (p *EuiccServiceProxy) Dump(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceDump)
+	_compiledDescs := []string{
+		"Landroid/service/euicc/IEuiccServiceDumpResultCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceDump)
 	if _err != nil {
@@ -438,8 +753,25 @@ func (p *EuiccServiceProxy) GetAvailableMemoryInBytes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccService, MethodIEuiccServiceGetAvailableMemoryInBytes)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/service/euicc/IGetAvailableMemoryInBytesCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceGetAvailableMemoryInBytes)
 	if _err != nil {

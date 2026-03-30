@@ -49,9 +49,29 @@ func (p *SensitiveContentProtectionManagerProxy) SetSensitiveContentProtection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensitiveContentProtectionManager)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
-	_data.WriteString16(packageName)
-	_data.WriteBool(isShowingSensitiveContent)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensitiveContentProtectionManager, MethodISensitiveContentProtectionManagerSetSensitiveContentProtection)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+		_data.WriteString16(packageName)
+		_data.WriteBool(isShowingSensitiveContent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteBool(isShowingSensitiveContent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensitiveContentProtectionManager, MethodISensitiveContentProtectionManagerSetSensitiveContentProtection)
 	if _err != nil {

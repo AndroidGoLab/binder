@@ -61,8 +61,25 @@ func (p *RestoreSessionProxy) GetAvailableRestoreSets(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreSession)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRestoreSession, MethodIRestoreSessionGetAvailableRestoreSets)
+	_compiledDescs := []string{
+		"Landroid/app/backup/IRestoreObserver;",
+		"Landroid/app/backup/IBackupManagerMonitor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreSession, MethodIRestoreSessionGetAvailableRestoreSets)
 	if _err != nil {
@@ -96,9 +113,29 @@ func (p *RestoreSessionProxy) RestoreAll(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreSession)
-	_data.WriteInt64(token)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRestoreSession, MethodIRestoreSessionRestoreAll)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/app/backup/IRestoreObserver;",
+		"Landroid/app/backup/IBackupManagerMonitor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(token)
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(token)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreSession, MethodIRestoreSessionRestoreAll)
 	if _err != nil {
@@ -133,17 +170,47 @@ func (p *RestoreSessionProxy) RestorePackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreSession)
-	_data.WriteInt64(token)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
-	if packages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRestoreSession, MethodIRestoreSessionRestorePackages)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/app/backup/IRestoreObserver;",
+		"[Ljava/lang/String;",
+		"Landroid/app/backup/IBackupManagerMonitor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(token)
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+		if packages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packages)))
+			for _, _item := range packages {
+				_data.WriteString16(_item)
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(packages)))
-		for _, _item := range packages {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(token)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			case 2:
+				if packages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packages)))
+					for _, _item := range packages {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreSession, MethodIRestoreSessionRestorePackages)
 	if _err != nil {
@@ -177,9 +244,29 @@ func (p *RestoreSessionProxy) RestorePackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreSession)
-	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRestoreSession, MethodIRestoreSessionRestorePackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/app/backup/IRestoreObserver;",
+		"Landroid/app/backup/IBackupManagerMonitor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreSession, MethodIRestoreSessionRestorePackage)
 	if _err != nil {

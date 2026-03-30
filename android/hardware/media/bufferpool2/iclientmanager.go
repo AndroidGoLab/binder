@@ -51,7 +51,21 @@ func (p *ClientManagerProxy) RegisterSender(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClientManager)
-	binder.WriteBinderToParcel(ctx, _data, bufferPool.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClientManager, MethodIClientManagerRegisterSender)
+	_compiledDescs := []string{
+		"Landroid/hardware/media/bufferpool2/IAccessor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, bufferPool.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, bufferPool.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientManager, MethodIClientManagerRegisterSender)
 	if _err != nil {
@@ -88,7 +102,21 @@ func (p *ClientManagerProxy) RegisterPassiveSender(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClientManager)
-	binder.WriteBinderToParcel(ctx, _data, bufferPool.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClientManager, MethodIClientManagerRegisterPassiveSender)
+	_compiledDescs := []string{
+		"Landroid/hardware/media/bufferpool2/IAccessor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, bufferPool.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, bufferPool.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientManager, MethodIClientManagerRegisterPassiveSender)
 	if _err != nil {

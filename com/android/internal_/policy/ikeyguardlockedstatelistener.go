@@ -47,7 +47,21 @@ func (p *KeyguardLockedStateListenerProxy) OnKeyguardLockedStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardLockedStateListener)
-	_data.WriteBool(isKeyguardLocked)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardLockedStateListener, MethodIKeyguardLockedStateListenerOnKeyguardLockedStateChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isKeyguardLocked)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isKeyguardLocked)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardLockedStateListener, MethodIKeyguardLockedStateListenerOnKeyguardLockedStateChanged)
 	if _err != nil {

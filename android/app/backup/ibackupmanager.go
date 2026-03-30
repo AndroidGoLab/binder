@@ -233,8 +233,25 @@ func (p *BackupManagerProxy) DataChangedForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerDataChangedForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerDataChangedForUser)
 	if _err != nil {
@@ -261,7 +278,21 @@ func (p *BackupManagerProxy) DataChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerDataChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerDataChanged)
 	if _err != nil {
@@ -290,9 +321,29 @@ func (p *BackupManagerProxy) ClearBackupDataForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(transportName)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerClearBackupDataForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(transportName)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(transportName)
+			case 2:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerClearBackupDataForUser)
 	if _err != nil {
@@ -320,8 +371,25 @@ func (p *BackupManagerProxy) ClearBackupData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteString16(transportName)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerClearBackupData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(transportName)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(transportName)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerClearBackupData)
 	if _err != nil {
@@ -350,16 +418,43 @@ func (p *BackupManagerProxy) InitializeTransportsForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	if transportNames == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerInitializeTransportsForUser)
+	_compiledDescs := []string{
+		"I",
+		"[Ljava/lang/String;",
+		"Landroid/app/backup/IBackupObserver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		if transportNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(transportNames)))
+			for _, _item := range transportNames {
+				_data.WriteString16(_item)
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(transportNames)))
-		for _, _item := range transportNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				if transportNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(transportNames)))
+					for _, _item := range transportNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerInitializeTransportsForUser)
 	if _err != nil {
@@ -388,9 +483,29 @@ func (p *BackupManagerProxy) AgentConnectedForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, agent, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerAgentConnectedForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(packageName)
+		binder.WriteBinderToParcel(ctx, _data, agent, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, agent, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAgentConnectedForUser)
 	if _err != nil {
@@ -418,8 +533,25 @@ func (p *BackupManagerProxy) AgentConnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, agent, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerAgentConnected)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		binder.WriteBinderToParcel(ctx, _data, agent, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, agent, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAgentConnected)
 	if _err != nil {
@@ -447,8 +579,25 @@ func (p *BackupManagerProxy) AgentDisconnectedForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerAgentDisconnectedForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAgentDisconnectedForUser)
 	if _err != nil {
@@ -475,7 +624,21 @@ func (p *BackupManagerProxy) AgentDisconnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerAgentDisconnected)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAgentDisconnected)
 	if _err != nil {
@@ -504,9 +667,29 @@ func (p *BackupManagerProxy) RestoreAtInstallForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(token)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerRestoreAtInstallForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(token)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(token)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerRestoreAtInstallForUser)
 	if _err != nil {
@@ -534,8 +717,25 @@ func (p *BackupManagerProxy) RestoreAtInstall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(token)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerRestoreAtInstall)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(token)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(token)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerRestoreAtInstall)
 	if _err != nil {
@@ -563,8 +763,25 @@ func (p *BackupManagerProxy) SetBackupEnabledForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(isEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerSetBackupEnabledForUser)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(isEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(isEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetBackupEnabledForUser)
 	if _err != nil {
@@ -592,8 +809,25 @@ func (p *BackupManagerProxy) SetFrameworkSchedulingEnabledForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(isEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerSetFrameworkSchedulingEnabledForUser)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(isEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(isEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetFrameworkSchedulingEnabledForUser)
 	if _err != nil {
@@ -620,7 +854,21 @@ func (p *BackupManagerProxy) SetBackupEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteBool(isEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerSetBackupEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetBackupEnabled)
 	if _err != nil {
@@ -648,8 +896,25 @@ func (p *BackupManagerProxy) SetAutoRestoreForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(doAutoRestore)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerSetAutoRestoreForUser)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(doAutoRestore)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(doAutoRestore)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetAutoRestoreForUser)
 	if _err != nil {
@@ -676,7 +941,21 @@ func (p *BackupManagerProxy) SetAutoRestore(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteBool(doAutoRestore)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerSetAutoRestore)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(doAutoRestore)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(doAutoRestore)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetAutoRestore)
 	if _err != nil {
@@ -704,7 +983,21 @@ func (p *BackupManagerProxy) IsBackupEnabledForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerIsBackupEnabledForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerIsBackupEnabledForUser)
 	if _err != nil {
@@ -767,8 +1060,25 @@ func (p *BackupManagerProxy) SetBackupPassword(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteString16(currentPw)
-	_data.WriteString16(newPw)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerSetBackupPassword)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(currentPw)
+		_data.WriteString16(newPw)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(currentPw)
+			case 1:
+				_data.WriteString16(newPw)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetBackupPassword)
 	if _err != nil {
@@ -829,7 +1139,21 @@ func (p *BackupManagerProxy) BackupNowForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerBackupNowForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerBackupNowForUser)
 	if _err != nil {
@@ -891,22 +1215,73 @@ func (p *BackupManagerProxy) AdbBackup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteParcelFileDescriptor(fd)
-	_data.WriteBool(includeApks)
-	_data.WriteBool(includeObbs)
-	_data.WriteBool(includeShared)
-	_data.WriteBool(doWidgets)
-	_data.WriteBool(allApps)
-	_data.WriteBool(allIncludesSystem)
-	_data.WriteBool(doCompress)
-	_data.WriteBool(doKeyValue)
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerAdbBackup)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/ParcelFileDescriptor;",
+		"Z",
+		"Z",
+		"Z",
+		"Z",
+		"Z",
+		"Z",
+		"Z",
+		"Z",
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteParcelFileDescriptor(fd)
+		_data.WriteBool(includeApks)
+		_data.WriteBool(includeObbs)
+		_data.WriteBool(includeShared)
+		_data.WriteBool(doWidgets)
+		_data.WriteBool(allApps)
+		_data.WriteBool(allIncludesSystem)
+		_data.WriteBool(doCompress)
+		_data.WriteBool(doKeyValue)
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteParcelFileDescriptor(fd)
+			case 2:
+				_data.WriteBool(includeApks)
+			case 3:
+				_data.WriteBool(includeObbs)
+			case 4:
+				_data.WriteBool(includeShared)
+			case 5:
+				_data.WriteBool(doWidgets)
+			case 6:
+				_data.WriteBool(allApps)
+			case 7:
+				_data.WriteBool(allIncludesSystem)
+			case 8:
+				_data.WriteBool(doCompress)
+			case 9:
+				_data.WriteBool(doKeyValue)
+			case 10:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -936,13 +1311,37 @@ func (p *BackupManagerProxy) FullTransportBackupForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	if packageNames == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerFullTransportBackupForUser)
+	_compiledDescs := []string{
+		"I",
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		if packageNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packageNames)))
+			for _, _item := range packageNames {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				if packageNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packageNames)))
+					for _, _item := range packageNames {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -972,8 +1371,25 @@ func (p *BackupManagerProxy) AdbRestore(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteParcelFileDescriptor(fd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerAdbRestore)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/ParcelFileDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteParcelFileDescriptor(fd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteParcelFileDescriptor(fd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAdbRestore)
 	if _err != nil {
@@ -1005,12 +1421,41 @@ func (p *BackupManagerProxy) AcknowledgeFullBackupOrRestoreForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(token)
-	_data.WriteBool(allow)
-	_data.WriteString16(curPassword)
-	_data.WriteString16(encryptionPassword)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerAcknowledgeFullBackupOrRestoreForUser)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/app/backup/IFullBackupRestoreObserver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(token)
+		_data.WriteBool(allow)
+		_data.WriteString16(curPassword)
+		_data.WriteString16(encryptionPassword)
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(token)
+			case 2:
+				_data.WriteBool(allow)
+			case 3:
+				_data.WriteString16(curPassword)
+			case 4:
+				_data.WriteString16(encryptionPassword)
+			case 5:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAcknowledgeFullBackupOrRestoreForUser)
 	if _err != nil {
@@ -1041,11 +1486,37 @@ func (p *BackupManagerProxy) AcknowledgeFullBackupOrRestore(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(token)
-	_data.WriteBool(allow)
-	_data.WriteString16(curPassword)
-	_data.WriteString16(encryptionPassword)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerAcknowledgeFullBackupOrRestore)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/app/backup/IFullBackupRestoreObserver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(token)
+		_data.WriteBool(allow)
+		_data.WriteString16(curPassword)
+		_data.WriteString16(encryptionPassword)
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(token)
+			case 1:
+				_data.WriteBool(allow)
+			case 2:
+				_data.WriteString16(curPassword)
+			case 3:
+				_data.WriteString16(encryptionPassword)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAcknowledgeFullBackupOrRestore)
 	if _err != nil {
@@ -1078,22 +1549,63 @@ func (p *BackupManagerProxy) UpdateTransportAttributesForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := transportComponent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerUpdateTransportAttributesForUser)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Landroid/content/Intent;",
+		"Ljava/lang/String;",
+		"Landroid/content/Intent;",
+		"Ljava/lang/CharSequence;",
 	}
-	_data.WriteString16(name)
-	_data.WriteInt32(1)
-	if _err := configurationIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := transportComponent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(name)
+		_data.WriteInt32(1)
+		if _err := configurationIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(currentDestinationString)
+		_data.WriteInt32(1)
+		if _err := dataManagementIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(dataManagementLabel)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := transportComponent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(name)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := configurationIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteString16(currentDestinationString)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := dataManagementIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				_data.WriteString16(dataManagementLabel)
+			}
+		}
 	}
-	_data.WriteString16(currentDestinationString)
-	_data.WriteInt32(1)
-	if _err := dataManagementIntent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteString16(dataManagementLabel)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerUpdateTransportAttributesForUser)
 	if _err != nil {
@@ -1121,7 +1633,21 @@ func (p *BackupManagerProxy) GetCurrentTransportForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerGetCurrentTransportForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetCurrentTransportForUser)
 	if _err != nil {
@@ -1183,7 +1709,21 @@ func (p *BackupManagerProxy) GetCurrentTransportComponentForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerGetCurrentTransportComponentForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetCurrentTransportComponentForUser)
 	if _err != nil {
@@ -1220,7 +1760,21 @@ func (p *BackupManagerProxy) ListAllTransportsForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerListAllTransportsForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerListAllTransportsForUser)
 	if _err != nil {
@@ -1308,7 +1862,21 @@ func (p *BackupManagerProxy) ListAllTransportComponentsForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerListAllTransportComponentsForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerListAllTransportComponentsForUser)
 	if _err != nil {
@@ -1416,8 +1984,25 @@ func (p *BackupManagerProxy) SelectBackupTransportForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(transport)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerSelectBackupTransportForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(transport)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(transport)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSelectBackupTransportForUser)
 	if _err != nil {
@@ -1449,7 +2034,21 @@ func (p *BackupManagerProxy) SelectBackupTransport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteString16(transport)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerSelectBackupTransport)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(transport)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(transport)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSelectBackupTransport)
 	if _err != nil {
@@ -1482,12 +2081,35 @@ func (p *BackupManagerProxy) SelectBackupTransportAsyncForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := transport.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerSelectBackupTransportAsyncForUser)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"Landroid/app/backup/ISelectBackupTransportCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := transport.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := transport.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSelectBackupTransportAsyncForUser)
 	if _err != nil {
@@ -1516,8 +2138,25 @@ func (p *BackupManagerProxy) GetConfigurationIntentForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(transport)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerGetConfigurationIntentForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(transport)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(transport)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetConfigurationIntentForUser)
 	if _err != nil {
@@ -1554,7 +2193,21 @@ func (p *BackupManagerProxy) GetConfigurationIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteString16(transport)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerGetConfigurationIntent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(transport)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(transport)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetConfigurationIntent)
 	if _err != nil {
@@ -1592,8 +2245,25 @@ func (p *BackupManagerProxy) GetDestinationStringForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(transport)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerGetDestinationStringForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(transport)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(transport)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetDestinationStringForUser)
 	if _err != nil {
@@ -1625,7 +2295,21 @@ func (p *BackupManagerProxy) GetDestinationString(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteString16(transport)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerGetDestinationString)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(transport)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(transport)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetDestinationString)
 	if _err != nil {
@@ -1658,8 +2342,25 @@ func (p *BackupManagerProxy) GetDataManagementIntentForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(transport)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerGetDataManagementIntentForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(transport)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(transport)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetDataManagementIntentForUser)
 	if _err != nil {
@@ -1696,7 +2397,21 @@ func (p *BackupManagerProxy) GetDataManagementIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteString16(transport)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerGetDataManagementIntent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(transport)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(transport)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetDataManagementIntent)
 	if _err != nil {
@@ -1734,8 +2449,25 @@ func (p *BackupManagerProxy) GetDataManagementLabelForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(transport)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerGetDataManagementLabelForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(transport)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(transport)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetDataManagementLabelForUser)
 	if _err != nil {
@@ -1769,9 +2501,29 @@ func (p *BackupManagerProxy) BeginRestoreSessionForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(packageName)
-	_data.WriteString16(transportID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerBeginRestoreSessionForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(packageName)
+		_data.WriteString16(transportID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteString16(transportID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerBeginRestoreSessionForUser)
 	if _err != nil {
@@ -1805,9 +2557,29 @@ func (p *BackupManagerProxy) OpCompleteForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(token)
-	_data.WriteInt64(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerOpCompleteForUser)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(token)
+		_data.WriteInt64(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(token)
+			case 2:
+				_data.WriteInt64(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerOpCompleteForUser)
 	if _err != nil {
@@ -1835,8 +2607,25 @@ func (p *BackupManagerProxy) OpComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(token)
-	_data.WriteInt64(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerOpComplete)
+	_compiledDescs := []string{
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(token)
+		_data.WriteInt64(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(token)
+			case 1:
+				_data.WriteInt64(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerOpComplete)
 	if _err != nil {
@@ -1864,8 +2653,25 @@ func (p *BackupManagerProxy) SetBackupServiceActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(whichUser)
-	_data.WriteBool(makeActive)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerSetBackupServiceActive)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(whichUser)
+		_data.WriteBool(makeActive)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(whichUser)
+			case 1:
+				_data.WriteBool(makeActive)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetBackupServiceActive)
 	if _err != nil {
@@ -1893,7 +2699,21 @@ func (p *BackupManagerProxy) IsBackupServiceActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(whichUser)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerIsBackupServiceActive)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(whichUser)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(whichUser)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerIsBackupServiceActive)
 	if _err != nil {
@@ -1925,7 +2745,21 @@ func (p *BackupManagerProxy) IsUserReadyForBackup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerIsUserReadyForBackup)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerIsUserReadyForBackup)
 	if _err != nil {
@@ -1958,8 +2792,25 @@ func (p *BackupManagerProxy) GetAvailableRestoreTokenForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerGetAvailableRestoreTokenForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetAvailableRestoreTokenForUser)
 	if _err != nil {
@@ -1992,8 +2843,25 @@ func (p *BackupManagerProxy) IsAppEligibleForBackupForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerIsAppEligibleForBackupForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerIsAppEligibleForBackupForUser)
 	if _err != nil {
@@ -2026,13 +2894,37 @@ func (p *BackupManagerProxy) FilterAppsEligibleForBackupForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	if packages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerFilterAppsEligibleForBackupForUser)
+	_compiledDescs := []string{
+		"I",
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		if packages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packages)))
+			for _, _item := range packages {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(packages)))
-		for _, _item := range packages {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				if packages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packages)))
+					for _, _item := range packages {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -2083,18 +2975,51 @@ func (p *BackupManagerProxy) RequestBackupForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
-	if packages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerRequestBackupForUser)
+	_compiledDescs := []string{
+		"I",
+		"[Ljava/lang/String;",
+		"Landroid/app/backup/IBackupObserver;",
+		"Landroid/app/backup/IBackupManagerMonitor;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		if packages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packages)))
+			for _, _item := range packages {
+				_data.WriteString16(_item)
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(flags)
 	} else {
-		_data.WriteInt32(int32(len(packages)))
-		for _, _item := range packages {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				if packages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packages)))
+					for _, _item := range packages {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
+			case 4:
+				_data.WriteInt32(flags)
+			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(flags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerRequestBackupForUser)
 	if _err != nil {
@@ -2129,17 +3054,47 @@ func (p *BackupManagerProxy) RequestBackup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	if packages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerRequestBackup)
+	_compiledDescs := []string{
+		"[Ljava/lang/String;",
+		"Landroid/app/backup/IBackupObserver;",
+		"Landroid/app/backup/IBackupManagerMonitor;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if packages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packages)))
+			for _, _item := range packages {
+				_data.WriteString16(_item)
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(flags)
 	} else {
-		_data.WriteInt32(int32(len(packages)))
-		for _, _item := range packages {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if packages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packages)))
+					for _, _item := range packages {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(flags)
+			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(flags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerRequestBackup)
 	if _err != nil {
@@ -2170,7 +3125,21 @@ func (p *BackupManagerProxy) CancelBackupsForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerCancelBackupsForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerCancelBackupsForUser)
 	if _err != nil {
@@ -2223,7 +3192,21 @@ func (p *BackupManagerProxy) GetUserForAncestralSerialNumber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt64(ancestralSerialNumber)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerGetUserForAncestralSerialNumber)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(ancestralSerialNumber)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(ancestralSerialNumber)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetUserForAncestralSerialNumber)
 	if _err != nil {
@@ -2259,7 +3242,21 @@ func (p *BackupManagerProxy) SetAncestralSerialNumber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteInt64(ancestralSerialNumber)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerSetAncestralSerialNumber)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(ancestralSerialNumber)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(ancestralSerialNumber)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetAncestralSerialNumber)
 	if _err != nil {
@@ -2287,13 +3284,37 @@ func (p *BackupManagerProxy) ExcludeKeysFromRestore(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteString16(packageName)
-	if keys == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerExcludeKeysFromRestore)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		if keys == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(keys)))
+			for _, _item := range keys {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(keys)))
-		for _, _item := range keys {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				if keys == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(keys)))
+					for _, _item := range keys {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -2323,15 +3344,42 @@ func (p *BackupManagerProxy) ReportDelayedRestoreResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
-	_data.WriteString16(packageName)
-	if results == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackupManager, MethodIBackupManagerReportDelayedRestoreResult)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		if results == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(results)))
+			for _, _item := range results {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(results)))
-		for _, _item := range results {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				if results == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(results)))
+					for _, _item := range results {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

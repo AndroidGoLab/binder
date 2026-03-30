@@ -77,10 +77,33 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingSetStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
-	binder.WriteBinderToParcel(ctx, _data, advertiseBinder, p.Remote.Transport())
-	_data.WriteInt32(advertiserId)
-	_data.WriteInt32(tx_power)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingSetStarted)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, advertiseBinder, p.Remote.Transport())
+		_data.WriteInt32(advertiserId)
+		_data.WriteInt32(tx_power)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, advertiseBinder, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(advertiserId)
+			case 2:
+				_data.WriteInt32(tx_power)
+			case 3:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingSetStarted)
 	if _err != nil {
@@ -100,9 +123,29 @@ func (p *AdvertisingSetCallbackProxy) OnOwnAddressRead(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
-	_data.WriteInt32(advertiserId)
-	_data.WriteInt32(addressType)
-	_data.WriteString16(address)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnOwnAddressRead)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteInt32(addressType)
+		_data.WriteString16(address)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteInt32(addressType)
+			case 2:
+				_data.WriteString16(address)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnOwnAddressRead)
 	if _err != nil {
@@ -120,7 +163,21 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingSetStopped(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
-	_data.WriteInt32(advertiserId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingSetStopped)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingSetStopped)
 	if _err != nil {
@@ -140,9 +197,29 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
-	_data.WriteInt32(advertiserId)
-	_data.WriteBool(enable)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteBool(enable)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteBool(enable)
+			case 2:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingEnabled)
 	if _err != nil {
@@ -161,8 +238,25 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingDataSet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
-	_data.WriteInt32(advertiserId)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingDataSet)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingDataSet)
 	if _err != nil {
@@ -181,8 +275,25 @@ func (p *AdvertisingSetCallbackProxy) OnScanResponseDataSet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
-	_data.WriteInt32(advertiserId)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnScanResponseDataSet)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnScanResponseDataSet)
 	if _err != nil {
@@ -202,9 +313,29 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingParametersUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
-	_data.WriteInt32(advertiserId)
-	_data.WriteInt32(tx_power)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingParametersUpdated)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteInt32(tx_power)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteInt32(tx_power)
+			case 2:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingParametersUpdated)
 	if _err != nil {
@@ -223,8 +354,25 @@ func (p *AdvertisingSetCallbackProxy) OnPeriodicAdvertisingParametersUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
-	_data.WriteInt32(advertiserId)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnPeriodicAdvertisingParametersUpdated)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnPeriodicAdvertisingParametersUpdated)
 	if _err != nil {
@@ -243,8 +391,25 @@ func (p *AdvertisingSetCallbackProxy) OnPeriodicAdvertisingDataSet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
-	_data.WriteInt32(advertiserId)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnPeriodicAdvertisingDataSet)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnPeriodicAdvertisingDataSet)
 	if _err != nil {
@@ -264,9 +429,29 @@ func (p *AdvertisingSetCallbackProxy) OnPeriodicAdvertisingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
-	_data.WriteInt32(advertiserId)
-	_data.WriteBool(enable)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnPeriodicAdvertisingEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteBool(enable)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteBool(enable)
+			case 2:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnPeriodicAdvertisingEnabled)
 	if _err != nil {

@@ -121,13 +121,39 @@ func (p *AutoFillManagerProxy) AddClient(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerAddClient)
+	_compiledDescs := []string{
+		"Landroid/view/autofill/IAutoFillManagerClient;",
+		"Landroid/content/ComponentName;",
+		"I",
+		"Lcom/android/internal/os/IResultReceiver;",
 	}
-	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := componentName.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := componentName.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerAddClient)
 	if _err != nil {
@@ -146,8 +172,25 @@ func (p *AutoFillManagerProxy) RemoveClient(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerRemoveClient)
+	_compiledDescs := []string{
+		"Landroid/view/autofill/IAutoFillManagerClient;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerRemoveClient)
 	if _err != nil {
@@ -175,29 +218,85 @@ func (p *AutoFillManagerProxy) StartSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, appCallback, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := autoFillId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerStartSession)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/os/IBinder;",
+		"Landroid/view/autofill/AutofillId;",
+		"Landroid/graphics/Rect;",
+		"Landroid/view/autofill/AutofillValue;",
+		"I",
+		"Z",
+		"I",
+		"Landroid/content/ComponentName;",
+		"Z",
+		"Lcom/android/internal/os/IResultReceiver;",
 	}
-	_data.WriteInt32(1)
-	if _err := bounds.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, appCallback, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := autoFillId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := bounds.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := value.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(hasCallback)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(1)
+		if _err := componentName.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(compatMode)
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, appCallback, p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(1)
+				if _err := autoFillId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := bounds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := value.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(_identity.UserID)
+			case 6:
+				_data.WriteBool(hasCallback)
+			case 7:
+				_data.WriteInt32(flags)
+			case 8:
+				_data.WriteInt32(1)
+				if _err := componentName.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 9:
+				_data.WriteBool(compatMode)
+			case 10:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := value.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(hasCallback)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteBool(compatMode)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerStartSession)
 	if _err != nil {
@@ -215,7 +314,21 @@ func (p *AutoFillManagerProxy) GetFillEventHistory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetFillEventHistory)
+	_compiledDescs := []string{
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetFillEventHistory)
 	if _err != nil {
@@ -236,10 +349,33 @@ func (p *AutoFillManagerProxy) RestoreSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(sessionId)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, appCallback, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerRestoreSession)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IBinder;",
+		"Landroid/os/IBinder;",
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, appCallback, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, appCallback, p.Remote.Transport())
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerRestoreSession)
 	if _err != nil {
@@ -263,22 +399,63 @@ func (p *AutoFillManagerProxy) UpdateSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(1)
-	if _err := id.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerUpdateSession)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/view/autofill/AutofillId;",
+		"Landroid/graphics/Rect;",
+		"Landroid/view/autofill/AutofillValue;",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := bounds.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		_data.WriteInt32(1)
+		if _err := id.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := bounds.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := value.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(action)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := id.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := bounds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := value.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(action)
+			case 5:
+				_data.WriteInt32(flags)
+			case 6:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := value.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(action)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerUpdateSession)
 	if _err != nil {
@@ -298,19 +475,49 @@ func (p *AutoFillManagerProxy) SetAutofillFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(sessionId)
-	if ids == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetAutofillFailure)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		if ids == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ids)))
+			for _, _item := range ids {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(_identity.UserID)
 	} else {
-		_data.WriteInt32(int32(len(ids)))
-		for _, _item := range ids {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				if ids == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ids)))
+					for _, _item := range ids {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
 			}
 		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetAutofillFailure)
 	if _err != nil {
@@ -330,9 +537,29 @@ func (p *AutoFillManagerProxy) FinishSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(commitReason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerFinishSession)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(commitReason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(commitReason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerFinishSession)
 	if _err != nil {
@@ -351,8 +578,25 @@ func (p *AutoFillManagerProxy) CancelSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerCancelSession)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerCancelSession)
 	if _err != nil {
@@ -373,13 +617,39 @@ func (p *AutoFillManagerProxy) SetAuthenticationResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(1)
-	if _err := data.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetAuthenticationResult)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(authenticationId)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := data.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(sessionId)
+		_data.WriteInt32(authenticationId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := data.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(sessionId)
+			case 2:
+				_data.WriteInt32(authenticationId)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetAuthenticationResult)
 	if _err != nil {
@@ -399,9 +669,29 @@ func (p *AutoFillManagerProxy) SetHasCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(hasIt)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetHasCallback)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(hasIt)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(hasIt)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetHasCallback)
 	if _err != nil {
@@ -419,7 +709,21 @@ func (p *AutoFillManagerProxy) DisableOwnedAutofillServices(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerDisableOwnedAutofillServices)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerDisableOwnedAutofillServices)
 	if _err != nil {
@@ -438,8 +742,25 @@ func (p *AutoFillManagerProxy) IsServiceSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerIsServiceSupported)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerIsServiceSupported)
 	if _err != nil {
@@ -459,9 +780,29 @@ func (p *AutoFillManagerProxy) IsServiceEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerIsServiceEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(packageName)
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerIsServiceEnabled)
 	if _err != nil {
@@ -480,8 +821,25 @@ func (p *AutoFillManagerProxy) OnPendingSaveUi(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(operation)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerOnPendingSaveUi)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(operation)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(operation)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerOnPendingSaveUi)
 	if _err != nil {
@@ -499,7 +857,21 @@ func (p *AutoFillManagerProxy) GetUserData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetUserData)
+	_compiledDescs := []string{
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetUserData)
 	if _err != nil {
@@ -517,7 +889,21 @@ func (p *AutoFillManagerProxy) GetUserDataId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetUserDataId)
+	_compiledDescs := []string{
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetUserDataId)
 	if _err != nil {
@@ -535,9 +921,26 @@ func (p *AutoFillManagerProxy) SetUserData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(1)
-	if _err := userData.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetUserData)
+	_compiledDescs := []string{
+		"Landroid/service/autofill/UserData;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := userData.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := userData.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetUserData)
@@ -556,7 +959,21 @@ func (p *AutoFillManagerProxy) IsFieldClassificationEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerIsFieldClassificationEnabled)
+	_compiledDescs := []string{
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerIsFieldClassificationEnabled)
 	if _err != nil {
@@ -574,7 +991,21 @@ func (p *AutoFillManagerProxy) GetAutofillServiceComponentName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetAutofillServiceComponentName)
+	_compiledDescs := []string{
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetAutofillServiceComponentName)
 	if _err != nil {
@@ -592,7 +1023,21 @@ func (p *AutoFillManagerProxy) GetAvailableFieldClassificationAlgorithms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetAvailableFieldClassificationAlgorithms)
+	_compiledDescs := []string{
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetAvailableFieldClassificationAlgorithms)
 	if _err != nil {
@@ -610,7 +1055,21 @@ func (p *AutoFillManagerProxy) GetDefaultFieldClassificationAlgorithm(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetDefaultFieldClassificationAlgorithm)
+	_compiledDescs := []string{
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetDefaultFieldClassificationAlgorithm)
 	if _err != nil {
@@ -630,26 +1089,63 @@ func (p *AutoFillManagerProxy) SetAugmentedAutofillWhitelist(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	if packages == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(packages)))
-		for _, _item := range packages {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetAugmentedAutofillWhitelist)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Ljava/util/List;",
+		"Lcom/android/internal/os/IResultReceiver;",
 	}
-	if activities == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if packages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packages)))
+			for _, _item := range packages {
+				_data.WriteString16(_item)
+			}
+		}
+		if activities == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(activities)))
+			for _, _item := range activities {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(activities)))
-		for _, _item := range activities {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if packages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packages)))
+					for _, _item := range packages {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				if activities == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(activities)))
+					for _, _item := range activities {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetAugmentedAutofillWhitelist)
 	if _err != nil {

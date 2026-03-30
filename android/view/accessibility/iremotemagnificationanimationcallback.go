@@ -47,7 +47,21 @@ func (p *RemoteMagnificationAnimationCallbackProxy) OnResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteMagnificationAnimationCallback)
-	_data.WriteBool(success)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteMagnificationAnimationCallback, MethodIRemoteMagnificationAnimationCallbackOnResult)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(success)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(success)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteMagnificationAnimationCallback, MethodIRemoteMagnificationAnimationCallbackOnResult)
 	if _err != nil {

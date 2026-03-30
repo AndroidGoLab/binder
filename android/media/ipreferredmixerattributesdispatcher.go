@@ -49,18 +49,48 @@ func (p *PreferredMixerAttributesDispatcherProxy) DispatchPrefMixerAttributesCha
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreferredMixerAttributesDispatcher)
-	_data.WriteInt32(1)
-	if _err := attributes.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPreferredMixerAttributesDispatcher, MethodIPreferredMixerAttributesDispatcherDispatchPrefMixerAttributesChanged)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+		"I",
+		"Landroid/media/AudioMixerAttributes;",
 	}
-	_data.WriteInt32(deviceId)
-	if mixerAttributes != nil {
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
 		_data.WriteInt32(1)
-		if _err := (*mixerAttributes).MarshalParcel(_data); _err != nil {
+		if _err := attributes.MarshalParcel(_data); _err != nil {
 			return _err
 		}
+		_data.WriteInt32(deviceId)
+		if mixerAttributes != nil {
+			_data.WriteInt32(1)
+			if _err := (*mixerAttributes).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attributes.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(deviceId)
+			case 2:
+				if mixerAttributes != nil {
+					_data.WriteInt32(1)
+					if _err := (*mixerAttributes).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreferredMixerAttributesDispatcher, MethodIPreferredMixerAttributesDispatcherDispatchPrefMixerAttributesChanged)

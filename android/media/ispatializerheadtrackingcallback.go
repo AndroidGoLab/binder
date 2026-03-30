@@ -51,7 +51,21 @@ func (p *SpatializerHeadTrackingCallbackProxy) OnHeadTrackingModeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackingCallback)
-	_data.WritePaddedByte(byte(mode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializerHeadTrackingCallback, MethodISpatializerHeadTrackingCallbackOnHeadTrackingModeChanged)
+	_compiledDescs := []string{
+		"LHeadTracking/Mode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(mode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(mode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializerHeadTrackingCallback, MethodISpatializerHeadTrackingCallbackOnHeadTrackingModeChanged)
 	if _err != nil {
@@ -69,12 +83,33 @@ func (p *SpatializerHeadTrackingCallbackProxy) OnHeadToSoundStagePoseUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackingCallback)
-	if headToStage == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializerHeadTrackingCallback, MethodISpatializerHeadTrackingCallbackOnHeadToSoundStagePoseUpdated)
+	_compiledDescs := []string{
+		"[F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if headToStage == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(headToStage)))
+			for _, _item := range headToStage {
+				_data.WriteFloat32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(headToStage)))
-		for _, _item := range headToStage {
-			_data.WriteFloat32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if headToStage == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(headToStage)))
+					for _, _item := range headToStage {
+						_data.WriteFloat32(_item)
+					}
+				}
+			}
 		}
 	}
 

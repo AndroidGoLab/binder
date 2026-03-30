@@ -53,7 +53,21 @@ func (p *DataShareReadAdapterProxy) Start(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataShareReadAdapter)
-	_data.WriteParcelFileDescriptor(fd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataShareReadAdapter, MethodIDataShareReadAdapterStart)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(fd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(fd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareReadAdapter, MethodIDataShareReadAdapterStart)
 	if _err != nil {
@@ -71,7 +85,21 @@ func (p *DataShareReadAdapterProxy) Error(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataShareReadAdapter)
-	_data.WriteInt32(errorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataShareReadAdapter, MethodIDataShareReadAdapterError)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareReadAdapter, MethodIDataShareReadAdapterError)
 	if _err != nil {

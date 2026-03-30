@@ -59,7 +59,21 @@ func (p *DescramblerProxy) SetDemuxSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
-	_data.WriteInt32(demuxId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDescrambler, MethodIDescramblerSetDemuxSource)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(demuxId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(demuxId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerSetDemuxSource)
 	if _err != nil {
@@ -86,7 +100,21 @@ func (p *DescramblerProxy) SetKeyToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
-	_data.WriteByteArray(keyToken)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDescrambler, MethodIDescramblerSetKeyToken)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(keyToken)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(keyToken)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerSetKeyToken)
 	if _err != nil {
@@ -114,11 +142,31 @@ func (p *DescramblerProxy) AddPid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
-	_data.WriteInt32(1)
-	if _err := pid.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDescrambler, MethodIDescramblerAddPid)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/DemuxPid;",
+		"Landroid/hardware/tv/tuner/IFilter;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, optionalSourceFilter.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pid.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, optionalSourceFilter.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pid.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, optionalSourceFilter.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerAddPid)
 	if _err != nil {
@@ -146,11 +194,31 @@ func (p *DescramblerProxy) RemovePid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
-	_data.WriteInt32(1)
-	if _err := pid.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDescrambler, MethodIDescramblerRemovePid)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/DemuxPid;",
+		"Landroid/hardware/tv/tuner/IFilter;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, optionalSourceFilter.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pid.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, optionalSourceFilter.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pid.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, optionalSourceFilter.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerRemovePid)
 	if _err != nil {

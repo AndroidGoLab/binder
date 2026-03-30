@@ -52,9 +52,29 @@ func (p *NfcVendorNciCallbackProxy) OnVendorResponseReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcVendorNciCallback)
-	_data.WriteInt32(gid)
-	_data.WriteInt32(oid)
-	_data.WriteByteArray(payload)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcVendorNciCallback, MethodINfcVendorNciCallbackOnVendorResponseReceived)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(gid)
+		_data.WriteInt32(oid)
+		_data.WriteByteArray(payload)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(gid)
+			case 1:
+				_data.WriteInt32(oid)
+			case 2:
+				_data.WriteByteArray(payload)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcVendorNciCallback, MethodINfcVendorNciCallbackOnVendorResponseReceived)
 	if _err != nil {
@@ -74,9 +94,29 @@ func (p *NfcVendorNciCallbackProxy) OnVendorNotificationReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcVendorNciCallback)
-	_data.WriteInt32(gid)
-	_data.WriteInt32(oid)
-	_data.WriteByteArray(payload)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcVendorNciCallback, MethodINfcVendorNciCallbackOnVendorNotificationReceived)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(gid)
+		_data.WriteInt32(oid)
+		_data.WriteByteArray(payload)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(gid)
+			case 1:
+				_data.WriteInt32(oid)
+			case 2:
+				_data.WriteByteArray(payload)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcVendorNciCallback, MethodINfcVendorNciCallbackOnVendorNotificationReceived)
 	if _err != nil {

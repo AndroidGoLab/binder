@@ -51,9 +51,26 @@ func (p *PackageDeleteObserver2Proxy) OnUserActionRequired(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageDeleteObserver2)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageDeleteObserver2, MethodIPackageDeleteObserver2OnUserActionRequired)
+	_compiledDescs := []string{
+		"Landroid/content/Intent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageDeleteObserver2, MethodIPackageDeleteObserver2OnUserActionRequired)
@@ -74,9 +91,29 @@ func (p *PackageDeleteObserver2Proxy) OnPackageDeleted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageDeleteObserver2)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(returnCode)
-	_data.WriteString16(msg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageDeleteObserver2, MethodIPackageDeleteObserver2OnPackageDeleted)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(returnCode)
+		_data.WriteString16(msg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(returnCode)
+			case 2:
+				_data.WriteString16(msg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageDeleteObserver2, MethodIPackageDeleteObserver2OnPackageDeleted)
 	if _err != nil {

@@ -49,15 +49,42 @@ func (p *GetAllProfilesCallbackProxy) OnComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetAllProfilesCallback)
-	_data.WriteInt32(resultCode)
-	if profiles == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGetAllProfilesCallback, MethodIGetAllProfilesCallbackOnComplete)
+	_compiledDescs := []string{
+		"I",
+		"[Landroid/service/euicc/EuiccProfileInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(resultCode)
+		if profiles == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(profiles)))
+			for _, _item := range profiles {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(profiles)))
-		for _, _item := range profiles {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(resultCode)
+			case 1:
+				if profiles == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(profiles)))
+					for _, _item := range profiles {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

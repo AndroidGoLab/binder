@@ -87,40 +87,96 @@ func (p *DeviceProxy) Allocate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
-	_data.WriteInt32(1)
-	if _err := desc.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevice, MethodIDeviceAllocate)
+	_compiledDescs := []string{
+		"Landroid/hardware/neuralnetworks/BufferDesc;",
+		"[Landroid/hardware/neuralnetworks/IPreparedModelParcel;",
+		"[Landroid/hardware/neuralnetworks/BufferRole;",
+		"[Landroid/hardware/neuralnetworks/BufferRole;",
 	}
-	if preparedModels == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(preparedModels)))
-		for _, _item := range preparedModels {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := desc.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		if preparedModels == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(preparedModels)))
+			for _, _item := range preparedModels {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
 			}
 		}
-	}
-	if inputRoles == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(inputRoles)))
-		for _, _item := range inputRoles {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		if inputRoles == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(inputRoles)))
+			for _, _item := range inputRoles {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
 			}
 		}
-	}
-	if outputRoles == nil {
-		_data.WriteInt32(-1)
+		if outputRoles == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(outputRoles)))
+			for _, _item := range outputRoles {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(outputRoles)))
-		for _, _item := range outputRoles {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := desc.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				if preparedModels == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(preparedModels)))
+					for _, _item := range preparedModels {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 2:
+				if inputRoles == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(inputRoles)))
+					for _, _item := range inputRoles {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 3:
+				if outputRoles == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(outputRoles)))
+					for _, _item := range outputRoles {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -292,9 +348,26 @@ func (p *DeviceProxy) GetSupportedOperations(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
-	_data.WriteInt32(1)
-	if _err := model.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevice, MethodIDeviceGetSupportedOperations)
+	_compiledDescs := []string{
+		"Landroid/hardware/neuralnetworks/Model;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := model.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := model.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevice, MethodIDeviceGetSupportedOperations)
@@ -407,31 +480,83 @@ func (p *DeviceProxy) PrepareModel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
-	_data.WriteInt32(1)
-	if _err := model.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevice, MethodIDevicePrepareModel)
+	_compiledDescs := []string{
+		"Landroid/hardware/neuralnetworks/Model;",
+		"Landroid/hardware/neuralnetworks/ExecutionPreference;",
+		"Landroid/hardware/neuralnetworks/Priority;",
+		"J",
+		"[Landroid/os/ParcelFileDescriptor;",
+		"[Landroid/os/ParcelFileDescriptor;",
+		"[B",
+		"Landroid/hardware/neuralnetworks/IPreparedModelCallback;",
 	}
-	_data.WriteInt32(int32(preference))
-	_data.WriteInt32(int32(priority))
-	_data.WriteInt64(deadlineNs)
-	if modelCache == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := model.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(int32(preference))
+		_data.WriteInt32(int32(priority))
+		_data.WriteInt64(deadlineNs)
+		if modelCache == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(modelCache)))
+			for _, _item := range modelCache {
+				_data.WriteParcelFileDescriptor(_item)
+			}
+		}
+		if dataCache == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(dataCache)))
+			for _, _item := range dataCache {
+				_data.WriteParcelFileDescriptor(_item)
+			}
+		}
+		_data.WriteByteArray(token)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(modelCache)))
-		for _, _item := range modelCache {
-			_data.WriteParcelFileDescriptor(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := model.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(int32(preference))
+			case 2:
+				_data.WriteInt32(int32(priority))
+			case 3:
+				_data.WriteInt64(deadlineNs)
+			case 4:
+				if modelCache == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(modelCache)))
+					for _, _item := range modelCache {
+						_data.WriteParcelFileDescriptor(_item)
+					}
+				}
+			case 5:
+				if dataCache == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(dataCache)))
+					for _, _item := range dataCache {
+						_data.WriteParcelFileDescriptor(_item)
+					}
+				}
+			case 6:
+				_data.WriteByteArray(token)
+			case 7:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	if dataCache == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(dataCache)))
-		for _, _item := range dataCache {
-			_data.WriteParcelFileDescriptor(_item)
-		}
-	}
-	_data.WriteByteArray(token)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevice, MethodIDevicePrepareModel)
 	if _err != nil {
@@ -462,25 +587,65 @@ func (p *DeviceProxy) PrepareModelFromCache(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
-	_data.WriteInt64(deadlineNs)
-	if modelCache == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevice, MethodIDevicePrepareModelFromCache)
+	_compiledDescs := []string{
+		"J",
+		"[Landroid/os/ParcelFileDescriptor;",
+		"[Landroid/os/ParcelFileDescriptor;",
+		"[B",
+		"Landroid/hardware/neuralnetworks/IPreparedModelCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(deadlineNs)
+		if modelCache == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(modelCache)))
+			for _, _item := range modelCache {
+				_data.WriteParcelFileDescriptor(_item)
+			}
+		}
+		if dataCache == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(dataCache)))
+			for _, _item := range dataCache {
+				_data.WriteParcelFileDescriptor(_item)
+			}
+		}
+		_data.WriteByteArray(token)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(modelCache)))
-		for _, _item := range modelCache {
-			_data.WriteParcelFileDescriptor(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(deadlineNs)
+			case 1:
+				if modelCache == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(modelCache)))
+					for _, _item := range modelCache {
+						_data.WriteParcelFileDescriptor(_item)
+					}
+				}
+			case 2:
+				if dataCache == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(dataCache)))
+					for _, _item := range dataCache {
+						_data.WriteParcelFileDescriptor(_item)
+					}
+				}
+			case 3:
+				_data.WriteByteArray(token)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	if dataCache == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(dataCache)))
-		for _, _item := range dataCache {
-			_data.WriteParcelFileDescriptor(_item)
-		}
-	}
-	_data.WriteByteArray(token)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevice, MethodIDevicePrepareModelFromCache)
 	if _err != nil {
@@ -509,15 +674,41 @@ func (p *DeviceProxy) PrepareModelWithConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
-	_data.WriteInt32(1)
-	if _err := model.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDevice, MethodIDevicePrepareModelWithConfig)
+	_compiledDescs := []string{
+		"Landroid/hardware/neuralnetworks/Model;",
+		"Landroid/hardware/neuralnetworks/PrepareModelConfig;",
+		"Landroid/hardware/neuralnetworks/IPreparedModelCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := model.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := model.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevice, MethodIDevicePrepareModelWithConfig)
 	if _err != nil {

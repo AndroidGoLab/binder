@@ -51,16 +51,43 @@ func (p *BufferProxy) CopyFrom(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBuffer)
-	_data.WriteInt32(1)
-	if _err := src.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBuffer, MethodIBufferCopyFrom)
+	_compiledDescs := []string{
+		"Landroid/hardware/neuralnetworks/Memory;",
+		"[I",
 	}
-	if dimensions == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := src.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if dimensions == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(dimensions)))
+			for _, _item := range dimensions {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(dimensions)))
-		for _, _item := range dimensions {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := src.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if dimensions == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(dimensions)))
+					for _, _item := range dimensions {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -89,9 +116,26 @@ func (p *BufferProxy) CopyTo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBuffer)
-	_data.WriteInt32(1)
-	if _err := dst.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBuffer, MethodIBufferCopyTo)
+	_compiledDescs := []string{
+		"Landroid/hardware/neuralnetworks/Memory;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := dst.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := dst.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBuffer, MethodIBufferCopyTo)

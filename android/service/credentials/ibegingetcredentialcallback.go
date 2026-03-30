@@ -54,9 +54,26 @@ func (p *BeginGetCredentialCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBeginGetCredentialCallback)
-	_data.WriteInt32(1)
-	if _err := response.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBeginGetCredentialCallback, MethodIBeginGetCredentialCallbackOnSuccess)
+	_compiledDescs := []string{
+		"Landroid/service/credentials/BeginGetCredentialResponse;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := response.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := response.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBeginGetCredentialCallback, MethodIBeginGetCredentialCallbackOnSuccess)
@@ -76,8 +93,25 @@ func (p *BeginGetCredentialCallbackProxy) OnFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBeginGetCredentialCallback)
-	_data.WriteString16(errorType)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBeginGetCredentialCallback, MethodIBeginGetCredentialCallbackOnFailure)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/CharSequence;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(errorType)
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(errorType)
+			case 1:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBeginGetCredentialCallback, MethodIBeginGetCredentialCallbackOnFailure)
 	if _err != nil {
@@ -95,7 +129,21 @@ func (p *BeginGetCredentialCallbackProxy) OnCancellable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBeginGetCredentialCallback)
-	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBeginGetCredentialCallback, MethodIBeginGetCredentialCallbackOnCancellable)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/common/ICancellationSignal;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBeginGetCredentialCallback, MethodIBeginGetCredentialCallbackOnCancellable)
 	if _err != nil {

@@ -79,9 +79,29 @@ func (p *SapCallbackProxy) ApduResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(int32(resultCode))
-	_data.WriteByteArray(apduRsp)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISapCallback, MethodISapCallbackApduResponse)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/sap/SapResultCode;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(int32(resultCode))
+		_data.WriteByteArray(apduRsp)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(int32(resultCode))
+			case 2:
+				_data.WriteByteArray(apduRsp)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackApduResponse)
 	if _err != nil {
@@ -101,9 +121,29 @@ func (p *SapCallbackProxy) ConnectResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(int32(sapConnectRsp))
-	_data.WriteInt32(maxMsgSizeBytes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISapCallback, MethodISapCallbackConnectResponse)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/sap/SapConnectRsp;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(int32(sapConnectRsp))
+		_data.WriteInt32(maxMsgSizeBytes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(int32(sapConnectRsp))
+			case 2:
+				_data.WriteInt32(maxMsgSizeBytes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackConnectResponse)
 	if _err != nil {
@@ -122,8 +162,25 @@ func (p *SapCallbackProxy) DisconnectIndication(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(int32(disconnectType))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISapCallback, MethodISapCallbackDisconnectIndication)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/sap/SapDisconnectType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(int32(disconnectType))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(int32(disconnectType))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackDisconnectIndication)
 	if _err != nil {
@@ -141,7 +198,21 @@ func (p *SapCallbackProxy) DisconnectResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISapCallback, MethodISapCallbackDisconnectResponse)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackDisconnectResponse)
 	if _err != nil {
@@ -159,7 +230,21 @@ func (p *SapCallbackProxy) ErrorResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISapCallback, MethodISapCallbackErrorResponse)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackErrorResponse)
 	if _err != nil {
@@ -178,8 +263,25 @@ func (p *SapCallbackProxy) PowerResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(int32(resultCode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISapCallback, MethodISapCallbackPowerResponse)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/sap/SapResultCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(int32(resultCode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(int32(resultCode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackPowerResponse)
 	if _err != nil {
@@ -198,8 +300,25 @@ func (p *SapCallbackProxy) ResetSimResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(int32(resultCode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISapCallback, MethodISapCallbackResetSimResponse)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/sap/SapResultCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(int32(resultCode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(int32(resultCode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackResetSimResponse)
 	if _err != nil {
@@ -218,8 +337,25 @@ func (p *SapCallbackProxy) StatusIndication(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(int32(status))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISapCallback, MethodISapCallbackStatusIndication)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/sap/SapStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(int32(status))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(int32(status))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackStatusIndication)
 	if _err != nil {
@@ -239,9 +375,29 @@ func (p *SapCallbackProxy) TransferAtrResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(int32(resultCode))
-	_data.WriteByteArray(atr)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISapCallback, MethodISapCallbackTransferAtrResponse)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/sap/SapResultCode;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(int32(resultCode))
+		_data.WriteByteArray(atr)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(int32(resultCode))
+			case 2:
+				_data.WriteByteArray(atr)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackTransferAtrResponse)
 	if _err != nil {
@@ -261,9 +417,29 @@ func (p *SapCallbackProxy) TransferCardReaderStatusResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(int32(resultCode))
-	_data.WriteInt32(cardReaderStatus)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISapCallback, MethodISapCallbackTransferCardReaderStatusResponse)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/sap/SapResultCode;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(int32(resultCode))
+		_data.WriteInt32(cardReaderStatus)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(int32(resultCode))
+			case 2:
+				_data.WriteInt32(cardReaderStatus)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackTransferCardReaderStatusResponse)
 	if _err != nil {
@@ -282,8 +458,25 @@ func (p *SapCallbackProxy) TransferProtocolResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(int32(resultCode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISapCallback, MethodISapCallbackTransferProtocolResponse)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/sap/SapResultCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(int32(resultCode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(int32(resultCode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackTransferProtocolResponse)
 	if _err != nil {

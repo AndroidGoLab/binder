@@ -115,9 +115,29 @@ func (p *EuiccCardControllerProxy) GetAllProfiles(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetAllProfiles)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/euicc/IGetAllProfilesCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetAllProfiles)
 	if _err != nil {
@@ -138,10 +158,33 @@ func (p *EuiccCardControllerProxy) GetProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteString16(iccid)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetProfile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/euicc/IGetProfileCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteString16(iccid)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteString16(iccid)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetProfile)
 	if _err != nil {
@@ -162,10 +205,33 @@ func (p *EuiccCardControllerProxy) GetEnabledProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteInt32(portIndex)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetEnabledProfile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Lcom/android/internal/telephony/euicc/IGetProfileCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteInt32(portIndex)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteInt32(portIndex)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetEnabledProfile)
 	if _err != nil {
@@ -187,11 +253,37 @@ func (p *EuiccCardControllerProxy) DisableProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteString16(iccid)
-	_data.WriteBool(refresh)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerDisableProfile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+		"Lcom/android/internal/telephony/euicc/IDisableProfileCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteString16(iccid)
+		_data.WriteBool(refresh)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteString16(iccid)
+			case 3:
+				_data.WriteBool(refresh)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerDisableProfile)
 	if _err != nil {
@@ -214,12 +306,41 @@ func (p *EuiccCardControllerProxy) SwitchToProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteString16(iccid)
-	_data.WriteInt32(portIndex)
-	_data.WriteBool(refresh)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerSwitchToProfile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+		"Lcom/android/internal/telephony/euicc/ISwitchToProfileCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteString16(iccid)
+		_data.WriteInt32(portIndex)
+		_data.WriteBool(refresh)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteString16(iccid)
+			case 3:
+				_data.WriteInt32(portIndex)
+			case 4:
+				_data.WriteBool(refresh)
+			case 5:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerSwitchToProfile)
 	if _err != nil {
@@ -241,11 +362,37 @@ func (p *EuiccCardControllerProxy) SetNickname(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteString16(iccid)
-	_data.WriteString16(nickname)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerSetNickname)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/euicc/ISetNicknameCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteString16(iccid)
+		_data.WriteString16(nickname)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteString16(iccid)
+			case 3:
+				_data.WriteString16(nickname)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerSetNickname)
 	if _err != nil {
@@ -266,10 +413,33 @@ func (p *EuiccCardControllerProxy) DeleteProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteString16(iccid)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerDeleteProfile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/euicc/IDeleteProfileCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteString16(iccid)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteString16(iccid)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerDeleteProfile)
 	if _err != nil {
@@ -290,10 +460,33 @@ func (p *EuiccCardControllerProxy) ResetMemory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteInt32(options)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerResetMemory)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Lcom/android/internal/telephony/euicc/IResetMemoryCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteInt32(options)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteInt32(options)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerResetMemory)
 	if _err != nil {
@@ -313,9 +506,29 @@ func (p *EuiccCardControllerProxy) GetDefaultSmdpAddress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetDefaultSmdpAddress)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/euicc/IGetDefaultSmdpAddressCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetDefaultSmdpAddress)
 	if _err != nil {
@@ -335,9 +548,29 @@ func (p *EuiccCardControllerProxy) GetSmdsAddress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetSmdsAddress)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/euicc/IGetSmdsAddressCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetSmdsAddress)
 	if _err != nil {
@@ -358,10 +591,33 @@ func (p *EuiccCardControllerProxy) SetDefaultSmdpAddress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteString16(address)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerSetDefaultSmdpAddress)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/euicc/ISetDefaultSmdpAddressCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteString16(address)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteString16(address)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerSetDefaultSmdpAddress)
 	if _err != nil {
@@ -381,9 +637,29 @@ func (p *EuiccCardControllerProxy) GetRulesAuthTable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetRulesAuthTable)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/euicc/IGetRulesAuthTableCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetRulesAuthTable)
 	if _err != nil {
@@ -403,9 +679,29 @@ func (p *EuiccCardControllerProxy) GetEuiccChallenge(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetEuiccChallenge)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/euicc/IGetEuiccChallengeCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetEuiccChallenge)
 	if _err != nil {
@@ -425,9 +721,29 @@ func (p *EuiccCardControllerProxy) GetEuiccInfo1(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetEuiccInfo1)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/euicc/IGetEuiccInfo1Callback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetEuiccInfo1)
 	if _err != nil {
@@ -447,9 +763,29 @@ func (p *EuiccCardControllerProxy) GetEuiccInfo2(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetEuiccInfo2)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/euicc/IGetEuiccInfo2Callback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerGetEuiccInfo2)
 	if _err != nil {
@@ -474,14 +810,49 @@ func (p *EuiccCardControllerProxy) AuthenticateServer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteString16(matchingId)
-	_data.WriteByteArray(serverSigned1)
-	_data.WriteByteArray(serverSignature1)
-	_data.WriteByteArray(euiccCiPkIdToBeUsed)
-	_data.WriteByteArray(serverCertificatein)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerAuthenticateServer)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[B",
+		"[B",
+		"[B",
+		"[B",
+		"Lcom/android/internal/telephony/euicc/IAuthenticateServerCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteString16(matchingId)
+		_data.WriteByteArray(serverSigned1)
+		_data.WriteByteArray(serverSignature1)
+		_data.WriteByteArray(euiccCiPkIdToBeUsed)
+		_data.WriteByteArray(serverCertificatein)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteString16(matchingId)
+			case 3:
+				_data.WriteByteArray(serverSigned1)
+			case 4:
+				_data.WriteByteArray(serverSignature1)
+			case 5:
+				_data.WriteByteArray(euiccCiPkIdToBeUsed)
+			case 6:
+				_data.WriteByteArray(serverCertificatein)
+			case 7:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerAuthenticateServer)
 	if _err != nil {
@@ -505,13 +876,45 @@ func (p *EuiccCardControllerProxy) PrepareDownload(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteByteArray(hashCc)
-	_data.WriteByteArray(smdpSigned2)
-	_data.WriteByteArray(smdpSignature2)
-	_data.WriteByteArray(smdpCertificate)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerPrepareDownload)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[B",
+		"[B",
+		"[B",
+		"[B",
+		"Lcom/android/internal/telephony/euicc/IPrepareDownloadCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteByteArray(hashCc)
+		_data.WriteByteArray(smdpSigned2)
+		_data.WriteByteArray(smdpSignature2)
+		_data.WriteByteArray(smdpCertificate)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteByteArray(hashCc)
+			case 3:
+				_data.WriteByteArray(smdpSigned2)
+			case 4:
+				_data.WriteByteArray(smdpSignature2)
+			case 5:
+				_data.WriteByteArray(smdpCertificate)
+			case 6:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerPrepareDownload)
 	if _err != nil {
@@ -532,10 +935,33 @@ func (p *EuiccCardControllerProxy) LoadBoundProfilePackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteByteArray(boundProfilePackage)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerLoadBoundProfilePackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[B",
+		"Lcom/android/internal/telephony/euicc/ILoadBoundProfilePackageCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteByteArray(boundProfilePackage)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteByteArray(boundProfilePackage)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerLoadBoundProfilePackage)
 	if _err != nil {
@@ -557,11 +983,37 @@ func (p *EuiccCardControllerProxy) CancelSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteByteArray(transactionId)
-	_data.WriteInt32(reason)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerCancelSession)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[B",
+		"I",
+		"Lcom/android/internal/telephony/euicc/ICancelSessionCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteByteArray(transactionId)
+		_data.WriteInt32(reason)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteByteArray(transactionId)
+			case 3:
+				_data.WriteInt32(reason)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerCancelSession)
 	if _err != nil {
@@ -582,10 +1034,33 @@ func (p *EuiccCardControllerProxy) ListNotifications(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteInt32(events)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerListNotifications)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Lcom/android/internal/telephony/euicc/IListNotificationsCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteInt32(events)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteInt32(events)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerListNotifications)
 	if _err != nil {
@@ -606,10 +1081,33 @@ func (p *EuiccCardControllerProxy) RetrieveNotificationList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteInt32(events)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerRetrieveNotificationList)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Lcom/android/internal/telephony/euicc/IRetrieveNotificationListCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteInt32(events)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteInt32(events)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerRetrieveNotificationList)
 	if _err != nil {
@@ -630,10 +1128,33 @@ func (p *EuiccCardControllerProxy) RetrieveNotification(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteInt32(seqNumber)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerRetrieveNotification)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Lcom/android/internal/telephony/euicc/IRetrieveNotificationCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteInt32(seqNumber)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteInt32(seqNumber)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerRetrieveNotification)
 	if _err != nil {
@@ -654,10 +1175,33 @@ func (p *EuiccCardControllerProxy) RemoveNotificationFromList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(cardId)
-	_data.WriteInt32(seqNumber)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerRemoveNotificationFromList)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Lcom/android/internal/telephony/euicc/IRemoveNotificationFromListCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(cardId)
+		_data.WriteInt32(seqNumber)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(cardId)
+			case 2:
+				_data.WriteInt32(seqNumber)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerRemoveNotificationFromList)
 	if _err != nil {

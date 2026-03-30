@@ -48,8 +48,25 @@ func (p *HdmiConnectionCallbackProxy) OnHotplugEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiConnectionCallback)
-	_data.WriteBool(connected)
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiConnectionCallback, MethodIHdmiConnectionCallbackOnHotplugEvent)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(connected)
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(connected)
+			case 1:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiConnectionCallback, MethodIHdmiConnectionCallbackOnHotplugEvent)
 	if _err != nil {

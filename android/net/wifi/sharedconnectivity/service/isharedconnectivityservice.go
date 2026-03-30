@@ -78,7 +78,21 @@ func (p *SharedConnectivityServiceProxy) RegisterCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceRegisterCallback)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/sharedconnectivity/service/ISharedConnectivityCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceRegisterCallback)
 	if _err != nil {
@@ -105,7 +119,21 @@ func (p *SharedConnectivityServiceProxy) UnregisterCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceUnregisterCallback)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/sharedconnectivity/service/ISharedConnectivityCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceUnregisterCallback)
 	if _err != nil {
@@ -132,9 +160,26 @@ func (p *SharedConnectivityServiceProxy) ConnectHotspotNetwork(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
-	_data.WriteInt32(1)
-	if _err := network.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceConnectHotspotNetwork)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/sharedconnectivity/app/HotspotNetwork;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := network.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := network.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceConnectHotspotNetwork)
@@ -162,9 +207,26 @@ func (p *SharedConnectivityServiceProxy) DisconnectHotspotNetwork(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
-	_data.WriteInt32(1)
-	if _err := network.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceDisconnectHotspotNetwork)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/sharedconnectivity/app/HotspotNetwork;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := network.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := network.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceDisconnectHotspotNetwork)
@@ -192,9 +254,26 @@ func (p *SharedConnectivityServiceProxy) ConnectKnownNetwork(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
-	_data.WriteInt32(1)
-	if _err := network.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceConnectKnownNetwork)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/sharedconnectivity/app/KnownNetwork;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := network.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := network.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceConnectKnownNetwork)
@@ -222,9 +301,26 @@ func (p *SharedConnectivityServiceProxy) ForgetKnownNetwork(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
-	_data.WriteInt32(1)
-	if _err := network.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceForgetKnownNetwork)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/sharedconnectivity/app/KnownNetwork;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := network.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := network.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceForgetKnownNetwork)

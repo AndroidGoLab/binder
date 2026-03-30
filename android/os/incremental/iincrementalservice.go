@@ -143,7 +143,21 @@ func (p *IncrementalServiceProxy) OpenStorage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteString16(path)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceOpenStorage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(path)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(path)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceOpenStorage)
 	if _err != nil {
@@ -177,12 +191,35 @@ func (p *IncrementalServiceProxy) CreateStorage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteString16(path)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceCreateStorage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/DataLoaderParamsParcel;",
+		"I",
 	}
-	_data.WriteInt32(createMode)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(path)
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(createMode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(path)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(createMode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceCreateStorage)
 	if _err != nil {
@@ -216,9 +253,29 @@ func (p *IncrementalServiceProxy) CreateLinkedStorage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteString16(path)
-	_data.WriteInt32(otherStorageId)
-	_data.WriteInt32(createMode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceCreateLinkedStorage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(path)
+		_data.WriteInt32(otherStorageId)
+		_data.WriteInt32(createMode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(path)
+			case 1:
+				_data.WriteInt32(otherStorageId)
+			case 2:
+				_data.WriteInt32(createMode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceCreateLinkedStorage)
 	if _err != nil {
@@ -255,25 +312,70 @@ func (p *IncrementalServiceProxy) StartLoading(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceStartLoading)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/pm/DataLoaderParamsParcel;",
+		"Landroid/content/pm/IDataLoaderStatusListener;",
+		"Landroid/os/incremental/StorageHealthCheckParams;",
+		"Landroid/os/incremental/IStorageHealthListener;",
+		"[Landroid/os/incremental/PerUidReadTimeouts;",
 	}
-	// WARNING: param statusListener (type types.IDataLoaderStatusListener) cannot be serialized — type not resolved
-	_data.WriteInt32(1)
-	if _err := healthCheckParams.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, healthListener.AsBinder(), p.Remote.Transport())
-	if perUidReadTimeouts == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		// WARNING: param statusListener (type types.IDataLoaderStatusListener) cannot be serialized — type not resolved
+		_data.WriteInt32(1)
+		if _err := healthCheckParams.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, healthListener.AsBinder(), p.Remote.Transport())
+		if perUidReadTimeouts == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(perUidReadTimeouts)))
+			for _, _item := range perUidReadTimeouts {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(perUidReadTimeouts)))
-		for _, _item := range perUidReadTimeouts {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				// WARNING: param statusListener (type types.IDataLoaderStatusListener) cannot be serialized — type not resolved
+			case 3:
+				_data.WriteInt32(1)
+				if _err := healthCheckParams.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, healthListener.AsBinder(), p.Remote.Transport())
+			case 5:
+				if perUidReadTimeouts == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(perUidReadTimeouts)))
+					for _, _item := range perUidReadTimeouts {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -307,7 +409,21 @@ func (p *IncrementalServiceProxy) OnInstallationComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceOnInstallationComplete)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceOnInstallationComplete)
 	if _err != nil {
@@ -338,10 +454,33 @@ func (p *IncrementalServiceProxy) MakeBindMount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
-	_data.WriteString16(sourcePath)
-	_data.WriteString16(targetFullPath)
-	_data.WriteInt32(bindType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceMakeBindMount)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+		_data.WriteString16(sourcePath)
+		_data.WriteString16(targetFullPath)
+		_data.WriteInt32(bindType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			case 1:
+				_data.WriteString16(sourcePath)
+			case 2:
+				_data.WriteString16(targetFullPath)
+			case 3:
+				_data.WriteInt32(bindType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceMakeBindMount)
 	if _err != nil {
@@ -374,8 +513,25 @@ func (p *IncrementalServiceProxy) DeleteBindMount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
-	_data.WriteString16(targetFullPath)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceDeleteBindMount)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+		_data.WriteString16(targetFullPath)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			case 1:
+				_data.WriteString16(targetFullPath)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceDeleteBindMount)
 	if _err != nil {
@@ -408,8 +564,25 @@ func (p *IncrementalServiceProxy) MakeDirectory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
-	_data.WriteString16(path)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceMakeDirectory)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+		_data.WriteString16(path)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			case 1:
+				_data.WriteString16(path)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceMakeDirectory)
 	if _err != nil {
@@ -442,8 +615,25 @@ func (p *IncrementalServiceProxy) MakeDirectories(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
-	_data.WriteString16(path)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceMakeDirectories)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+		_data.WriteString16(path)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			case 1:
+				_data.WriteString16(path)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceMakeDirectories)
 	if _err != nil {
@@ -479,14 +669,43 @@ func (p *IncrementalServiceProxy) MakeFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
-	_data.WriteString16(path)
-	_data.WriteInt32(mode)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceMakeFile)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/os/incremental/IncrementalNewFileParams;",
+		"[B",
 	}
-	_data.WriteByteArray(content)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+		_data.WriteString16(path)
+		_data.WriteInt32(mode)
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteByteArray(content)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			case 1:
+				_data.WriteString16(path)
+			case 2:
+				_data.WriteInt32(mode)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				_data.WriteByteArray(content)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceMakeFile)
 	if _err != nil {
@@ -522,11 +741,37 @@ func (p *IncrementalServiceProxy) MakeFileFromRange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
-	_data.WriteString16(targetPath)
-	_data.WriteString16(sourcePath)
-	_data.WriteInt64(start)
-	_data.WriteInt64(end)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceMakeFileFromRange)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+		_data.WriteString16(targetPath)
+		_data.WriteString16(sourcePath)
+		_data.WriteInt64(start)
+		_data.WriteInt64(end)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			case 1:
+				_data.WriteString16(targetPath)
+			case 2:
+				_data.WriteString16(sourcePath)
+			case 3:
+				_data.WriteInt64(start)
+			case 4:
+				_data.WriteInt64(end)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceMakeFileFromRange)
 	if _err != nil {
@@ -561,10 +806,33 @@ func (p *IncrementalServiceProxy) MakeLink(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(sourceStorageId)
-	_data.WriteString16(sourcePath)
-	_data.WriteInt32(destStorageId)
-	_data.WriteString16(destPath)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceMakeLink)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sourceStorageId)
+		_data.WriteString16(sourcePath)
+		_data.WriteInt32(destStorageId)
+		_data.WriteString16(destPath)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sourceStorageId)
+			case 1:
+				_data.WriteString16(sourcePath)
+			case 2:
+				_data.WriteInt32(destStorageId)
+			case 3:
+				_data.WriteString16(destPath)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceMakeLink)
 	if _err != nil {
@@ -597,8 +865,25 @@ func (p *IncrementalServiceProxy) Unlink(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
-	_data.WriteString16(path)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceUnlink)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+		_data.WriteString16(path)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			case 1:
+				_data.WriteString16(path)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceUnlink)
 	if _err != nil {
@@ -631,8 +916,25 @@ func (p *IncrementalServiceProxy) IsFileFullyLoaded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
-	_data.WriteString16(path)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceIsFileFullyLoaded)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+		_data.WriteString16(path)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			case 1:
+				_data.WriteString16(path)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceIsFileFullyLoaded)
 	if _err != nil {
@@ -664,7 +966,21 @@ func (p *IncrementalServiceProxy) IsFullyLoaded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceIsFullyLoaded)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceIsFullyLoaded)
 	if _err != nil {
@@ -696,7 +1012,21 @@ func (p *IncrementalServiceProxy) GetLoadingProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceGetLoadingProgress)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceGetLoadingProgress)
 	if _err != nil {
@@ -729,8 +1059,25 @@ func (p *IncrementalServiceProxy) GetMetadataByPath(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
-	_data.WriteString16(path)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceGetMetadataByPath)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+		_data.WriteString16(path)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			case 1:
+				_data.WriteString16(path)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceGetMetadataByPath)
 	if _err != nil {
@@ -763,8 +1110,25 @@ func (p *IncrementalServiceProxy) GetMetadataById(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
-	_data.WriteByteArray(fileId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceGetMetadataById)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+		_data.WriteByteArray(fileId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			case 1:
+				_data.WriteByteArray(fileId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceGetMetadataById)
 	if _err != nil {
@@ -795,7 +1159,21 @@ func (p *IncrementalServiceProxy) DeleteStorage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceDeleteStorage)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceDeleteStorage)
 	if _err != nil {
@@ -822,7 +1200,21 @@ func (p *IncrementalServiceProxy) DisallowReadLogs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceDisallowReadLogs)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceDisallowReadLogs)
 	if _err != nil {
@@ -854,11 +1246,37 @@ func (p *IncrementalServiceProxy) ConfigureNativeBinaries(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
-	_data.WriteString16(apkFullPath)
-	_data.WriteString16(libDirRelativePath)
-	_data.WriteString16(abi)
-	_data.WriteBool(extractNativeLibs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceConfigureNativeBinaries)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+		_data.WriteString16(apkFullPath)
+		_data.WriteString16(libDirRelativePath)
+		_data.WriteString16(abi)
+		_data.WriteBool(extractNativeLibs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			case 1:
+				_data.WriteString16(apkFullPath)
+			case 2:
+				_data.WriteString16(libDirRelativePath)
+			case 3:
+				_data.WriteString16(abi)
+			case 4:
+				_data.WriteBool(extractNativeLibs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceConfigureNativeBinaries)
 	if _err != nil {
@@ -890,7 +1308,21 @@ func (p *IncrementalServiceProxy) WaitForNativeBinariesExtraction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceWaitForNativeBinariesExtraction)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceWaitForNativeBinariesExtraction)
 	if _err != nil {
@@ -923,8 +1355,25 @@ func (p *IncrementalServiceProxy) RegisterLoadingProgressListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceRegisterLoadingProgressListener)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/incremental/IStorageLoadingProgressListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceRegisterLoadingProgressListener)
 	if _err != nil {
@@ -956,7 +1405,21 @@ func (p *IncrementalServiceProxy) UnregisterLoadingProgressListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceUnregisterLoadingProgressListener)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceUnregisterLoadingProgressListener)
 	if _err != nil {
@@ -988,7 +1451,21 @@ func (p *IncrementalServiceProxy) GetMetrics(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
-	_data.WriteInt32(storageId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalService, MethodIIncrementalServiceGetMetrics)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceGetMetrics)
 	if _err != nil {

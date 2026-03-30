@@ -68,7 +68,21 @@ func (p *DumpstateListenerProxy) OnProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
-	_data.WriteInt32(progress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDumpstateListener, MethodIDumpstateListenerOnProgress)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(progress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(progress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateListener, MethodIDumpstateListenerOnProgress)
 	if _err != nil {
@@ -86,7 +100,21 @@ func (p *DumpstateListenerProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
-	_data.WriteInt32(errorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDumpstateListener, MethodIDumpstateListenerOnError)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateListener, MethodIDumpstateListenerOnError)
 	if _err != nil {
@@ -104,7 +132,21 @@ func (p *DumpstateListenerProxy) OnFinished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
-	_data.WriteString16(bugreportFile)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDumpstateListener, MethodIDumpstateListenerOnFinished)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(bugreportFile)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(bugreportFile)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateListener, MethodIDumpstateListenerOnFinished)
 	if _err != nil {
@@ -122,7 +164,21 @@ func (p *DumpstateListenerProxy) OnScreenshotTaken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
-	_data.WriteBool(success)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDumpstateListener, MethodIDumpstateListenerOnScreenshotTaken)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(success)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(success)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateListener, MethodIDumpstateListenerOnScreenshotTaken)
 	if _err != nil {

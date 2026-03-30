@@ -73,11 +73,31 @@ func (p *SensorManagerProxy) CreateAshmemDirectChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorManager)
-	_data.WriteInt32(1)
-	if _err := mem.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorManager, MethodISensorManagerCreateAshmemDirectChannel)
+	_compiledDescs := []string{
+		"Landroid/hardware/common/Ashmem;",
+		"J",
 	}
-	_data.WriteInt64(size)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := mem.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt64(size)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := mem.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt64(size)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorManager, MethodISensorManagerCreateAshmemDirectChannel)
 	if _err != nil {
@@ -110,7 +130,21 @@ func (p *SensorManagerProxy) CreateEventQueue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorManager, MethodISensorManagerCreateEventQueue)
+	_compiledDescs := []string{
+		"Landroid/frameworks/sensorservice/IEventQueueCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorManager, MethodISensorManagerCreateEventQueue)
 	if _err != nil {
@@ -144,8 +178,25 @@ func (p *SensorManagerProxy) CreateGrallocDirectChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorManager)
-	_data.WriteParcelFileDescriptor(buffer)
-	_data.WriteInt64(size)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorManager, MethodISensorManagerCreateGrallocDirectChannel)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(buffer)
+		_data.WriteInt64(size)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(buffer)
+			case 1:
+				_data.WriteInt64(size)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorManager, MethodISensorManagerCreateGrallocDirectChannel)
 	if _err != nil {
@@ -178,7 +229,21 @@ func (p *SensorManagerProxy) GetDefaultSensor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorManager)
-	_data.WriteInt32(int32(type_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensorManager, MethodISensorManagerGetDefaultSensor)
+	_compiledDescs := []string{
+		"Landroid/hardware/sensors/SensorType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorManager, MethodISensorManagerGetDefaultSensor)
 	if _err != nil {

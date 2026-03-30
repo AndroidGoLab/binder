@@ -85,7 +85,21 @@ func (p *BpcTestServiceCmdServiceProxy) GetBinderProxyCount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceGetBinderProxyCount)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceGetBinderProxyCount)
 	if _err != nil {
@@ -117,8 +131,25 @@ func (p *BpcTestServiceCmdServiceProxy) SetBinderProxyWatermarks(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
-	_data.WriteInt32(high)
-	_data.WriteInt32(low)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceSetBinderProxyWatermarks)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(high)
+		_data.WriteInt32(low)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(high)
+			case 1:
+				_data.WriteInt32(low)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceSetBinderProxyWatermarks)
 	if _err != nil {
@@ -145,7 +176,21 @@ func (p *BpcTestServiceCmdServiceProxy) EnableBinderProxyLimit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceEnableBinderProxyLimit)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceEnableBinderProxyLimit)
 	if _err != nil {
@@ -172,7 +217,21 @@ func (p *BpcTestServiceCmdServiceProxy) SetBinderProxyCountCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceSetBinderProxyCountCallback)
+	_compiledDescs := []string{
+		"Lcom/android/frameworks/coretests/aidl/IBpcCallbackObserver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceSetBinderProxyCountCallback)
 	if _err != nil {

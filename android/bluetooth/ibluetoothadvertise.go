@@ -85,33 +85,92 @@ func (p *BluetoothAdvertiseProxy) StartAdvertisingSet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
-	_data.WriteInt32(1)
-	if _err := parameters.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseStartAdvertisingSet)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/le/AdvertisingSetParameters;",
+		"Landroid/bluetooth/le/AdvertiseData;",
+		"Landroid/bluetooth/le/AdvertiseData;",
+		"Landroid/bluetooth/le/PeriodicAdvertisingParameters;",
+		"Landroid/bluetooth/le/AdvertiseData;",
+		"I",
+		"I",
+		"Landroid/bluetooth/IBluetoothGattServerCallback;",
+		"Landroid/bluetooth/le/IAdvertisingSetCallback;",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(1)
-	if _err := advertiseData.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := scanResponse.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := periodicParameters.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := periodicData.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(duration)
-	_data.WriteInt32(maxExtAdvEvents)
-	binder.WriteBinderToParcel(ctx, _data, gattServerCallback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := parameters.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := advertiseData.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := scanResponse.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := periodicParameters.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := periodicData.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(duration)
+		_data.WriteInt32(maxExtAdvEvents)
+		binder.WriteBinderToParcel(ctx, _data, gattServerCallback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := parameters.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := advertiseData.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := scanResponse.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := periodicParameters.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := periodicData.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(duration)
+			case 6:
+				_data.WriteInt32(maxExtAdvEvents)
+			case 7:
+				binder.WriteBinderToParcel(ctx, _data, gattServerCallback.AsBinder(), p.Remote.Transport())
+			case 8:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 9:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseStartAdvertisingSet)
@@ -140,10 +199,30 @@ func (p *BluetoothAdvertiseProxy) StopAdvertisingSet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseStopAdvertisingSet)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/le/IAdvertisingSetCallback;",
+		"Landroid/content/AttributionSource;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseStopAdvertisingSet)
@@ -172,10 +251,30 @@ func (p *BluetoothAdvertiseProxy) GetOwnAddress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
-	_data.WriteInt32(advertiserId)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseGetOwnAddress)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/AttributionSource;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseGetOwnAddress)
@@ -207,13 +306,42 @@ func (p *BluetoothAdvertiseProxy) EnableAdvertisingSet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
-	_data.WriteInt32(advertiserId)
-	_data.WriteBool(enable)
-	_data.WriteInt32(duration)
-	_data.WriteInt32(maxExtAdvEvents)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseEnableAdvertisingSet)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"I",
+		"I",
+		"Landroid/content/AttributionSource;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteBool(enable)
+		_data.WriteInt32(duration)
+		_data.WriteInt32(maxExtAdvEvents)
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteBool(enable)
+			case 2:
+				_data.WriteInt32(duration)
+			case 3:
+				_data.WriteInt32(maxExtAdvEvents)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseEnableAdvertisingSet)
@@ -243,14 +371,40 @@ func (p *BluetoothAdvertiseProxy) SetAdvertisingData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
-	_data.WriteInt32(advertiserId)
-	_data.WriteInt32(1)
-	if _err := data.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetAdvertisingData)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/bluetooth/le/AdvertiseData;",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteInt32(1)
+		if _err := data.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := data.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetAdvertisingData)
@@ -280,14 +434,40 @@ func (p *BluetoothAdvertiseProxy) SetScanResponseData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
-	_data.WriteInt32(advertiserId)
-	_data.WriteInt32(1)
-	if _err := data.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetScanResponseData)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/bluetooth/le/AdvertiseData;",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteInt32(1)
+		if _err := data.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := data.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetScanResponseData)
@@ -317,14 +497,40 @@ func (p *BluetoothAdvertiseProxy) SetAdvertisingParameters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
-	_data.WriteInt32(advertiserId)
-	_data.WriteInt32(1)
-	if _err := parameters.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetAdvertisingParameters)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/bluetooth/le/AdvertisingSetParameters;",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteInt32(1)
+		if _err := parameters.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := parameters.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetAdvertisingParameters)
@@ -354,14 +560,40 @@ func (p *BluetoothAdvertiseProxy) SetPeriodicAdvertisingParameters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
-	_data.WriteInt32(advertiserId)
-	_data.WriteInt32(1)
-	if _err := parameters.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetPeriodicAdvertisingParameters)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/bluetooth/le/PeriodicAdvertisingParameters;",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteInt32(1)
+		if _err := parameters.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := parameters.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetPeriodicAdvertisingParameters)
@@ -391,14 +623,40 @@ func (p *BluetoothAdvertiseProxy) SetPeriodicAdvertisingData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
-	_data.WriteInt32(advertiserId)
-	_data.WriteInt32(1)
-	if _err := data.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetPeriodicAdvertisingData)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/bluetooth/le/AdvertiseData;",
+		"Landroid/content/AttributionSource;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteInt32(1)
+		if _err := data.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := data.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetPeriodicAdvertisingData)
@@ -428,11 +686,34 @@ func (p *BluetoothAdvertiseProxy) SetPeriodicAdvertisingEnable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
-	_data.WriteInt32(advertiserId)
-	_data.WriteBool(enable)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetPeriodicAdvertisingEnable)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Landroid/content/AttributionSource;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(advertiserId)
+		_data.WriteBool(enable)
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(advertiserId)
+			case 1:
+				_data.WriteBool(enable)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetPeriodicAdvertisingEnable)

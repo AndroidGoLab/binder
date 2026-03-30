@@ -50,9 +50,29 @@ func (p *ShellCallbackProxy) OpenFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShellCallback)
-	_data.WriteString16(path)
-	_data.WriteString16(seLinuxContext)
-	_data.WriteString16(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShellCallback, MethodIShellCallbackOpenFile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(path)
+		_data.WriteString16(seLinuxContext)
+		_data.WriteString16(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(path)
+			case 1:
+				_data.WriteString16(seLinuxContext)
+			case 2:
+				_data.WriteString16(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShellCallback, MethodIShellCallbackOpenFile)
 	if _err != nil {

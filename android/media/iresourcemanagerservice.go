@@ -88,14 +88,38 @@ func (p *ResourceManagerServiceProxy) Config(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	if policies == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceConfig)
+	_compiledDescs := []string{
+		"[Landroid/media/MediaResourcePolicyParcel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if policies == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(policies)))
+			for _, _item := range policies {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(policies)))
-		for _, _item := range policies {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if policies == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(policies)))
+					for _, _item := range policies {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -127,19 +151,52 @@ func (p *ResourceManagerServiceProxy) AddResource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	_data.WriteInt32(1)
-	if _err := clientInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceAddResource)
+	_compiledDescs := []string{
+		"Landroid/media/ClientInfoParcel;",
+		"Landroid/media/IResourceManagerClient;",
+		"[Landroid/media/MediaResourceParcel;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
-	if resources == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := clientInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+		if resources == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(resources)))
+			for _, _item := range resources {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(resources)))
-		for _, _item := range resources {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := clientInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+			case 2:
+				if resources == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(resources)))
+					for _, _item := range resources {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -170,18 +227,48 @@ func (p *ResourceManagerServiceProxy) RemoveResource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	_data.WriteInt32(1)
-	if _err := clientInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceRemoveResource)
+	_compiledDescs := []string{
+		"Landroid/media/ClientInfoParcel;",
+		"[Landroid/media/MediaResourceParcel;",
 	}
-	if resources == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := clientInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if resources == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(resources)))
+			for _, _item := range resources {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(resources)))
-		for _, _item := range resources {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := clientInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if resources == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(resources)))
+					for _, _item := range resources {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -211,9 +298,26 @@ func (p *ResourceManagerServiceProxy) RemoveClient(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	_data.WriteInt32(1)
-	if _err := clientInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceRemoveClient)
+	_compiledDescs := []string{
+		"Landroid/media/ClientInfoParcel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := clientInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := clientInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceRemoveClient)
@@ -243,18 +347,48 @@ func (p *ResourceManagerServiceProxy) ReclaimResource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	_data.WriteInt32(1)
-	if _err := clientInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceReclaimResource)
+	_compiledDescs := []string{
+		"Landroid/media/ClientInfoParcel;",
+		"[Landroid/media/MediaResourceParcel;",
 	}
-	if resources == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := clientInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		if resources == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(resources)))
+			for _, _item := range resources {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(resources)))
-		for _, _item := range resources {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := clientInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				if resources == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(resources)))
+					for _, _item := range resources {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -289,8 +423,25 @@ func (p *ResourceManagerServiceProxy) OverridePid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	_data.WriteInt32(originalPid)
-	_data.WriteInt32(newPid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceOverridePid)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(originalPid)
+		_data.WriteInt32(newPid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(originalPid)
+			case 1:
+				_data.WriteInt32(newPid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceOverridePid)
 	if _err != nil {
@@ -320,10 +471,33 @@ func (p *ResourceManagerServiceProxy) OverrideProcessInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(pid)
-	_data.WriteInt32(procState)
-	_data.WriteInt32(oomScore)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceOverrideProcessInfo)
+	_compiledDescs := []string{
+		"Landroid/media/IResourceManagerClient;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(pid)
+		_data.WriteInt32(procState)
+		_data.WriteInt32(oomScore)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteInt32(procState)
+			case 3:
+				_data.WriteInt32(oomScore)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceOverrideProcessInfo)
 	if _err != nil {
@@ -350,9 +524,26 @@ func (p *ResourceManagerServiceProxy) MarkClientForPendingRemoval(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	_data.WriteInt32(1)
-	if _err := clientInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceMarkClientForPendingRemoval)
+	_compiledDescs := []string{
+		"Landroid/media/ClientInfoParcel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := clientInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := clientInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceMarkClientForPendingRemoval)
@@ -380,7 +571,21 @@ func (p *ResourceManagerServiceProxy) ReclaimResourcesFromClientsPendingRemoval(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	_data.WriteInt32(pid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceReclaimResourcesFromClientsPendingRemoval)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(pid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(pid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceReclaimResourcesFromClientsPendingRemoval)
 	if _err != nil {
@@ -407,9 +612,26 @@ func (p *ResourceManagerServiceProxy) NotifyClientCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	_data.WriteInt32(1)
-	if _err := clientInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientCreated)
+	_compiledDescs := []string{
+		"Landroid/media/ClientInfoParcel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := clientInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := clientInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientCreated)
@@ -437,9 +659,26 @@ func (p *ResourceManagerServiceProxy) NotifyClientStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	_data.WriteInt32(1)
-	if _err := clientConfig.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientStarted)
+	_compiledDescs := []string{
+		"Landroid/media/ClientConfigParcel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := clientConfig.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := clientConfig.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientStarted)
@@ -467,9 +706,26 @@ func (p *ResourceManagerServiceProxy) NotifyClientStopped(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	_data.WriteInt32(1)
-	if _err := clientConfig.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientStopped)
+	_compiledDescs := []string{
+		"Landroid/media/ClientConfigParcel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := clientConfig.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := clientConfig.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientStopped)
@@ -497,9 +753,26 @@ func (p *ResourceManagerServiceProxy) NotifyClientConfigChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	_data.WriteInt32(1)
-	if _err := clientConfig.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientConfigChanged)
+	_compiledDescs := []string{
+		"Landroid/media/ClientConfigParcel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := clientConfig.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := clientConfig.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientConfigChanged)

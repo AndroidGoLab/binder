@@ -81,11 +81,31 @@ func (p *FaceServiceReceiverProxy) OnEnrollResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
-	_data.WriteInt32(1)
-	if _err := face.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnEnrollResult)
+	_compiledDescs := []string{
+		"Landroid/hardware/face/Face;",
+		"I",
 	}
-	_data.WriteInt32(remaining)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := face.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(remaining)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := face.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(remaining)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnEnrollResult)
 	if _err != nil {
@@ -104,8 +124,25 @@ func (p *FaceServiceReceiverProxy) OnAcquired(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
-	_data.WriteInt32(acquiredInfo)
-	_data.WriteInt32(vendorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnAcquired)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(acquiredInfo)
+		_data.WriteInt32(vendorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(acquiredInfo)
+			case 1:
+				_data.WriteInt32(vendorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnAcquired)
 	if _err != nil {
@@ -125,12 +162,35 @@ func (p *FaceServiceReceiverProxy) OnAuthenticationSucceeded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
-	_data.WriteInt32(1)
-	if _err := face.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnAuthenticationSucceeded)
+	_compiledDescs := []string{
+		"Landroid/hardware/face/Face;",
+		"I",
+		"Z",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(isStrongBiometric)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := face.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(isStrongBiometric)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := face.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(isStrongBiometric)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnAuthenticationSucceeded)
 	if _err != nil {
@@ -150,9 +210,29 @@ func (p *FaceServiceReceiverProxy) OnFaceDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
-	_data.WriteInt32(sensorId)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(isStrongBiometric)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnFaceDetected)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(isStrongBiometric)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteBool(isStrongBiometric)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnFaceDetected)
 	if _err != nil {
@@ -187,8 +267,25 @@ func (p *FaceServiceReceiverProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
-	_data.WriteInt32(error_)
-	_data.WriteInt32(vendorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnError)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(error_)
+		_data.WriteInt32(vendorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(error_)
+			case 1:
+				_data.WriteInt32(vendorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnError)
 	if _err != nil {
@@ -207,11 +304,31 @@ func (p *FaceServiceReceiverProxy) OnRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
-	_data.WriteInt32(1)
-	if _err := face.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnRemoved)
+	_compiledDescs := []string{
+		"Landroid/hardware/face/Face;",
+		"I",
 	}
-	_data.WriteInt32(remaining)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := face.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(remaining)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := face.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(remaining)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnRemoved)
 	if _err != nil {
@@ -230,8 +347,25 @@ func (p *FaceServiceReceiverProxy) OnFeatureSet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
-	_data.WriteBool(success)
-	_data.WriteInt32(feature)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnFeatureSet)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(success)
+		_data.WriteInt32(feature)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(success)
+			case 1:
+				_data.WriteInt32(feature)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnFeatureSet)
 	if _err != nil {
@@ -251,21 +385,55 @@ func (p *FaceServiceReceiverProxy) OnFeatureGet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
-	_data.WriteBool(success)
-	if features == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(features)))
-		for _, _item := range features {
-			_data.WriteInt32(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnFeatureGet)
+	_compiledDescs := []string{
+		"Z",
+		"[I",
+		"[Z",
 	}
-	if featureState == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(success)
+		if features == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(features)))
+			for _, _item := range features {
+				_data.WriteInt32(_item)
+			}
+		}
+		if featureState == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(featureState)))
+			for _, _item := range featureState {
+				_data.WriteBool(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(featureState)))
-		for _, _item := range featureState {
-			_data.WriteBool(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(success)
+			case 1:
+				if features == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(features)))
+					for _, _item := range features {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 2:
+				if featureState == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(featureState)))
+					for _, _item := range featureState {
+						_data.WriteBool(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -287,9 +455,29 @@ func (p *FaceServiceReceiverProxy) OnChallengeGenerated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
-	_data.WriteInt32(sensorId)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt64(challenge)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnChallengeGenerated)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt64(challenge)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt64(challenge)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnChallengeGenerated)
 	if _err != nil {
@@ -307,9 +495,26 @@ func (p *FaceServiceReceiverProxy) OnAuthenticationFrame(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
-	_data.WriteInt32(1)
-	if _err := frame.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnAuthenticationFrame)
+	_compiledDescs := []string{
+		"Landroid/hardware/face/FaceAuthenticationFrame;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := frame.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := frame.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnAuthenticationFrame)
@@ -328,9 +533,26 @@ func (p *FaceServiceReceiverProxy) OnEnrollmentFrame(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
-	_data.WriteInt32(1)
-	if _err := frame.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnEnrollmentFrame)
+	_compiledDescs := []string{
+		"Landroid/hardware/face/FaceEnrollFrame;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := frame.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := frame.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnEnrollmentFrame)

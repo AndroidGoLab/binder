@@ -122,7 +122,21 @@ func (p *HdmiConnectionProxy) IsConnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiConnection, MethodIHdmiConnectionIsConnected)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiConnection, MethodIHdmiConnectionIsConnected)
 	if _err != nil {
@@ -153,7 +167,21 @@ func (p *HdmiConnectionProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiConnection, MethodIHdmiConnectionSetCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/hdmi/connection/IHdmiConnectionCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiConnection, MethodIHdmiConnectionSetCallback)
 	if _err != nil {
@@ -181,8 +209,25 @@ func (p *HdmiConnectionProxy) SetHpdSignal(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
-	_data.WritePaddedByte(byte(signal))
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiConnection, MethodIHdmiConnectionSetHpdSignal)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/hdmi/connection/HpdSignal;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(signal))
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(signal))
+			case 1:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiConnection, MethodIHdmiConnectionSetHpdSignal)
 	if _err != nil {
@@ -210,7 +255,21 @@ func (p *HdmiConnectionProxy) GetHpdSignal(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiConnection, MethodIHdmiConnectionGetHpdSignal)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiConnection, MethodIHdmiConnectionGetHpdSignal)
 	if _err != nil {

@@ -59,22 +59,56 @@ func (p *KeyMintOperationProxy) UpdateAad(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintOperation)
-	_data.WriteByteArray(input)
-	if authToken != nil {
-		_data.WriteInt32(1)
-		if _err := (*authToken).MarshalParcel(_data); _err != nil {
-			return _err
-		}
-	} else {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintOperation, MethodIKeyMintOperationUpdateAad)
+	_compiledDescs := []string{
+		"[B",
+		"Landroid/hardware/security/keymint/HardwareAuthToken;",
+		"Landroid/hardware/security/secureclock/TimeStampToken;",
 	}
-	if timeStampToken != nil {
-		_data.WriteInt32(1)
-		if _err := (*timeStampToken).MarshalParcel(_data); _err != nil {
-			return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(input)
+		if authToken != nil {
+			_data.WriteInt32(1)
+			if _err := (*authToken).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		if timeStampToken != nil {
+			_data.WriteInt32(1)
+			if _err := (*timeStampToken).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(input)
+			case 1:
+				if authToken != nil {
+					_data.WriteInt32(1)
+					if _err := (*authToken).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 2:
+				if timeStampToken != nil {
+					_data.WriteInt32(1)
+					if _err := (*timeStampToken).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintOperation, MethodIKeyMintOperationUpdateAad)
@@ -105,22 +139,56 @@ func (p *KeyMintOperationProxy) Update(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintOperation)
-	_data.WriteByteArray(input)
-	if authToken != nil {
-		_data.WriteInt32(1)
-		if _err := (*authToken).MarshalParcel(_data); _err != nil {
-			return _result, _err
-		}
-	} else {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintOperation, MethodIKeyMintOperationUpdate)
+	_compiledDescs := []string{
+		"[B",
+		"Landroid/hardware/security/keymint/HardwareAuthToken;",
+		"Landroid/hardware/security/secureclock/TimeStampToken;",
 	}
-	if timeStampToken != nil {
-		_data.WriteInt32(1)
-		if _err := (*timeStampToken).MarshalParcel(_data); _err != nil {
-			return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(input)
+		if authToken != nil {
+			_data.WriteInt32(1)
+			if _err := (*authToken).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		if timeStampToken != nil {
+			_data.WriteInt32(1)
+			if _err := (*timeStampToken).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(input)
+			case 1:
+				if authToken != nil {
+					_data.WriteInt32(1)
+					if _err := (*authToken).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 2:
+				if timeStampToken != nil {
+					_data.WriteInt32(1)
+					if _err := (*timeStampToken).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintOperation, MethodIKeyMintOperationUpdate)
@@ -157,25 +225,65 @@ func (p *KeyMintOperationProxy) Finish(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintOperation)
-	_data.WriteByteArray(input)
-	_data.WriteByteArray(signature)
-	if authToken != nil {
-		_data.WriteInt32(1)
-		if _err := (*authToken).MarshalParcel(_data); _err != nil {
-			return _result, _err
-		}
-	} else {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintOperation, MethodIKeyMintOperationFinish)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"Landroid/hardware/security/keymint/HardwareAuthToken;",
+		"Landroid/hardware/security/secureclock/TimeStampToken;",
+		"[B",
 	}
-	if timestampToken != nil {
-		_data.WriteInt32(1)
-		if _err := (*timestampToken).MarshalParcel(_data); _err != nil {
-			return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(input)
+		_data.WriteByteArray(signature)
+		if authToken != nil {
+			_data.WriteInt32(1)
+			if _err := (*authToken).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
+		if timestampToken != nil {
+			_data.WriteInt32(1)
+			if _err := (*timestampToken).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		_data.WriteByteArray(confirmationToken)
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(input)
+			case 1:
+				_data.WriteByteArray(signature)
+			case 2:
+				if authToken != nil {
+					_data.WriteInt32(1)
+					if _err := (*authToken).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 3:
+				if timestampToken != nil {
+					_data.WriteInt32(1)
+					if _err := (*timestampToken).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 4:
+				_data.WriteByteArray(confirmationToken)
+			}
+		}
 	}
-	_data.WriteByteArray(confirmationToken)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintOperation, MethodIKeyMintOperationFinish)
 	if _err != nil {

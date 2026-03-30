@@ -272,9 +272,29 @@ func (p *TelecomServiceProxy) ShowInCallScreen(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteBool(showDialpad)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceShowInCallScreen)
+	_compiledDescs := []string{
+		"Z",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(showDialpad)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(showDialpad)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceShowInCallScreen)
 	if _err != nil {
@@ -303,9 +323,29 @@ func (p *TelecomServiceProxy) GetDefaultOutgoingPhoneAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(uriScheme)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetDefaultOutgoingPhoneAccount)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uriScheme)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uriScheme)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetDefaultOutgoingPhoneAccount)
 	if _err != nil {
@@ -342,7 +382,21 @@ func (p *TelecomServiceProxy) GetUserSelectedOutgoingPhoneAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetUserSelectedOutgoingPhoneAccount)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetUserSelectedOutgoingPhoneAccount)
 	if _err != nil {
@@ -378,9 +432,26 @@ func (p *TelecomServiceProxy) SetUserSelectedOutgoingPhoneAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceSetUserSelectedOutgoingPhoneAccount)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceSetUserSelectedOutgoingPhoneAccount)
@@ -411,10 +482,33 @@ func (p *TelecomServiceProxy) GetCallCapablePhoneAccounts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteBool(includeDisabledAccounts)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteBool(acrossProfiles)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetCallCapablePhoneAccounts)
+	_compiledDescs := []string{
+		"Z",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(includeDisabledAccounts)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteBool(acrossProfiles)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(includeDisabledAccounts)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				_data.WriteBool(acrossProfiles)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetCallCapablePhoneAccounts)
 	if _err != nil {
@@ -451,8 +545,25 @@ func (p *TelecomServiceProxy) GetSelfManagedPhoneAccounts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetSelfManagedPhoneAccounts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetSelfManagedPhoneAccounts)
 	if _err != nil {
@@ -489,8 +600,25 @@ func (p *TelecomServiceProxy) GetOwnSelfManagedPhoneAccounts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetOwnSelfManagedPhoneAccounts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetOwnSelfManagedPhoneAccounts)
 	if _err != nil {
@@ -528,8 +656,25 @@ func (p *TelecomServiceProxy) GetPhoneAccountsSupportingScheme(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(uriScheme)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetPhoneAccountsSupportingScheme)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(uriScheme)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(uriScheme)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetPhoneAccountsSupportingScheme)
 	if _err != nil {
@@ -566,7 +711,21 @@ func (p *TelecomServiceProxy) GetPhoneAccountsForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetPhoneAccountsForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetPhoneAccountsForPackage)
 	if _err != nil {
@@ -604,11 +763,31 @@ func (p *TelecomServiceProxy) GetPhoneAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetPhoneAccount)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetPhoneAccount)
 	if _err != nil {
@@ -645,8 +824,25 @@ func (p *TelecomServiceProxy) GetRegisteredPhoneAccounts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetRegisteredPhoneAccounts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetRegisteredPhoneAccounts)
 	if _err != nil {
@@ -784,8 +980,25 @@ func (p *TelecomServiceProxy) GetSimCallManager(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetSimCallManager)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetSimCallManager)
 	if _err != nil {
@@ -822,8 +1035,25 @@ func (p *TelecomServiceProxy) GetSimCallManagerForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetSimCallManagerForUser)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetSimCallManagerForUser)
 	if _err != nil {
@@ -860,11 +1090,31 @@ func (p *TelecomServiceProxy) RegisterPhoneAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := metadata.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceRegisterPhoneAccount)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccount;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := metadata.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := metadata.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceRegisterPhoneAccount)
 	if _err != nil {
@@ -892,11 +1142,31 @@ func (p *TelecomServiceProxy) UnregisterPhoneAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceUnregisterPhoneAccount)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceUnregisterPhoneAccount)
 	if _err != nil {
@@ -923,7 +1193,21 @@ func (p *TelecomServiceProxy) ClearAccounts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceClearAccounts)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceClearAccounts)
 	if _err != nil {
@@ -953,13 +1237,39 @@ func (p *TelecomServiceProxy) IsVoiceMailNumber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := accountHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceIsVoiceMailNumber)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(number)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := accountHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(number)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := accountHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(number)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			case 3:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceIsVoiceMailNumber)
 	if _err != nil {
@@ -992,12 +1302,35 @@ func (p *TelecomServiceProxy) GetVoiceMailNumber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := accountHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetVoiceMailNumber)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := accountHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := accountHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetVoiceMailNumber)
 	if _err != nil {
@@ -1030,12 +1363,35 @@ func (p *TelecomServiceProxy) GetLine1Number(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := accountHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetLine1Number)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := accountHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := accountHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetLine1Number)
 	if _err != nil {
@@ -1102,7 +1458,21 @@ func (p *TelecomServiceProxy) GetDefaultDialerPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetDefaultDialerPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetDefaultDialerPackage)
 	if _err != nil {
@@ -1134,7 +1504,21 @@ func (p *TelecomServiceProxy) GetDefaultDialerPackageForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetDefaultDialerPackageForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetDefaultDialerPackageForUser)
 	if _err != nil {
@@ -1166,7 +1550,21 @@ func (p *TelecomServiceProxy) GetSystemDialerPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetSystemDialerPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetSystemDialerPackage)
 	if _err != nil {
@@ -1232,7 +1630,21 @@ func (p *TelecomServiceProxy) SilenceRinger(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceSilenceRinger)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceSilenceRinger)
 	if _err != nil {
@@ -1260,8 +1672,25 @@ func (p *TelecomServiceProxy) IsInCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceIsInCall)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceIsInCall)
 	if _err != nil {
@@ -1293,7 +1722,21 @@ func (p *TelecomServiceProxy) HasManageOngoingCallsPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceHasManageOngoingCallsPermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceHasManageOngoingCallsPermission)
 	if _err != nil {
@@ -1325,8 +1768,25 @@ func (p *TelecomServiceProxy) IsInManagedCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceIsInManagedCall)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceIsInManagedCall)
 	if _err != nil {
@@ -1358,7 +1818,21 @@ func (p *TelecomServiceProxy) IsRinging(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceIsRinging)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceIsRinging)
 	if _err != nil {
@@ -1420,8 +1894,25 @@ func (p *TelecomServiceProxy) GetCallStateUsingPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetCallStateUsingPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetCallStateUsingPackage)
 	if _err != nil {
@@ -1453,7 +1944,21 @@ func (p *TelecomServiceProxy) EndCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceEndCall)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceEndCall)
 	if _err != nil {
@@ -1484,7 +1989,21 @@ func (p *TelecomServiceProxy) AcceptRingingCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceAcceptRingingCall)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceAcceptRingingCall)
 	if _err != nil {
@@ -1512,8 +2031,25 @@ func (p *TelecomServiceProxy) AcceptRingingCallWithVideoState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(videoState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceAcceptRingingCallWithVideoState)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(videoState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(videoState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceAcceptRingingCallWithVideoState)
 	if _err != nil {
@@ -1540,7 +2076,21 @@ func (p *TelecomServiceProxy) CancelMissedCallsNotification(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceCancelMissedCallsNotification)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceCancelMissedCallsNotification)
 	if _err != nil {
@@ -1569,8 +2119,25 @@ func (p *TelecomServiceProxy) HandlePinMmi(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(dialString)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceHandlePinMmi)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(dialString)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(dialString)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceHandlePinMmi)
 	if _err != nil {
@@ -1604,12 +2171,35 @@ func (p *TelecomServiceProxy) HandlePinMmiForPhoneAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := accountHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceHandlePinMmiForPhoneAccount)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(dialString)
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := accountHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(dialString)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := accountHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(dialString)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceHandlePinMmiForPhoneAccount)
 	if _err != nil {
@@ -1642,11 +2232,31 @@ func (p *TelecomServiceProxy) GetAdnUriForPhoneAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := accountHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetAdnUriForPhoneAccount)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := accountHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := accountHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetAdnUriForPhoneAccount)
 	if _err != nil {
@@ -1683,8 +2293,25 @@ func (p *TelecomServiceProxy) IsTtySupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceIsTtySupported)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceIsTtySupported)
 	if _err != nil {
@@ -1716,8 +2343,25 @@ func (p *TelecomServiceProxy) GetCurrentTtyMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceGetCurrentTtyMode)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceGetCurrentTtyMode)
 	if _err != nil {
@@ -1750,15 +2394,41 @@ func (p *TelecomServiceProxy) AddNewIncomingCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := phoneAccount.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceAddNewIncomingCall)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Landroid/os/Bundle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := phoneAccount.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := phoneAccount.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
 	}
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceAddNewIncomingCall)
 	if _err != nil {
@@ -1787,15 +2457,41 @@ func (p *TelecomServiceProxy) AddNewIncomingConference(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := phoneAccount.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceAddNewIncomingConference)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Landroid/os/Bundle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := phoneAccount.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := phoneAccount.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
 	}
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceAddNewIncomingConference)
 	if _err != nil {
@@ -1823,13 +2519,36 @@ func (p *TelecomServiceProxy) AddNewUnknownCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := phoneAccount.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceAddNewUnknownCall)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := phoneAccount.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := phoneAccount.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceAddNewUnknownCall)
@@ -1859,22 +2578,55 @@ func (p *TelecomServiceProxy) StartConference(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	if participants == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceStartConference)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Landroid/os/Bundle;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if participants == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(participants)))
+			for _, _item := range participants {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
 	} else {
-		_data.WriteInt32(int32(len(participants)))
-		for _, _item := range participants {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if participants == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(participants)))
+					for _, _item := range participants {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(_identity.PackageName)
 			}
 		}
 	}
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceStartConference)
 	if _err != nil {
@@ -1903,16 +2655,45 @@ func (p *TelecomServiceProxy) PlaceCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := handle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServicePlaceCall)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"Landroid/os/Bundle;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := handle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := handle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			case 3:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
 	}
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServicePlaceCall)
 	if _err != nil {
@@ -1941,11 +2722,31 @@ func (p *TelecomServiceProxy) EnablePhoneAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := accountHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceEnablePhoneAccount)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Z",
 	}
-	_data.WriteBool(isEnabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := accountHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(isEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := accountHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteBool(isEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceEnablePhoneAccount)
 	if _err != nil {
@@ -1977,7 +2778,21 @@ func (p *TelecomServiceProxy) SetDefaultDialer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceSetDefaultDialer)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceSetDefaultDialer)
 	if _err != nil {
@@ -2034,7 +2849,21 @@ func (p *TelecomServiceProxy) CreateManageBlockedNumbersIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceCreateManageBlockedNumbersIntent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceCreateManageBlockedNumbersIntent)
 	if _err != nil {
@@ -2071,7 +2900,21 @@ func (p *TelecomServiceProxy) CreateLaunchEmergencyDialerIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(number)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceCreateLaunchEmergencyDialerIntent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(number)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(number)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceCreateLaunchEmergencyDialerIntent)
 	if _err != nil {
@@ -2109,11 +2952,31 @@ func (p *TelecomServiceProxy) IsIncomingCallPermitted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceIsIncomingCallPermitted)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceIsIncomingCallPermitted)
 	if _err != nil {
@@ -2146,11 +3009,31 @@ func (p *TelecomServiceProxy) IsOutgoingCallPermitted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceIsOutgoingCallPermitted)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceIsOutgoingCallPermitted)
 	if _err != nil {
@@ -2209,16 +3092,45 @@ func (p *TelecomServiceProxy) AcceptHandover(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := srcAddr.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceAcceptHandover)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"I",
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(videoState)
-	_data.WriteInt32(1)
-	if _err := destAcct.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := srcAddr.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(videoState)
+		_data.WriteInt32(1)
+		if _err := destAcct.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := srcAddr.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(videoState)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := destAcct.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
 	}
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceAcceptHandover)
 	if _err != nil {
@@ -2245,7 +3157,21 @@ func (p *TelecomServiceProxy) SetTestEmergencyPhoneAccountPackageNameFilter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceSetTestEmergencyPhoneAccountPackageNameFilter)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceSetTestEmergencyPhoneAccountPackageNameFilter)
 	if _err != nil {
@@ -2303,11 +3229,31 @@ func (p *TelecomServiceProxy) HandleCallIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceHandleCallIntent)
+	_compiledDescs := []string{
+		"Landroid/content/Intent;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(callingPackageProxy)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callingPackageProxy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callingPackageProxy)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceHandleCallIntent)
 	if _err != nil {
@@ -2390,7 +3336,21 @@ func (p *TelecomServiceProxy) IsNonUiInCallServiceBound(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceIsNonUiInCallServiceBound)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceIsNonUiInCallServiceBound)
 	if _err != nil {
@@ -2446,7 +3406,21 @@ func (p *TelecomServiceProxy) SetTestDefaultCallRedirectionApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceSetTestDefaultCallRedirectionApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceSetTestDefaultCallRedirectionApp)
 	if _err != nil {
@@ -2473,7 +3447,21 @@ func (p *TelecomServiceProxy) RequestLogMark(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceRequestLogMark)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceRequestLogMark)
 	if _err != nil {
@@ -2500,7 +3488,21 @@ func (p *TelecomServiceProxy) SetTestPhoneAcctSuggestionComponent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(flattenedComponentName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceSetTestPhoneAcctSuggestionComponent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(flattenedComponentName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(flattenedComponentName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceSetTestPhoneAcctSuggestionComponent)
 	if _err != nil {
@@ -2527,7 +3529,21 @@ func (p *TelecomServiceProxy) SetTestDefaultCallScreeningApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceSetTestDefaultCallScreeningApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceSetTestDefaultCallScreeningApp)
 	if _err != nil {
@@ -2555,8 +3571,25 @@ func (p *TelecomServiceProxy) AddOrRemoveTestCallCompanionApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(packageName)
-	_data.WriteBool(isAdded)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceAddOrRemoveTestCallCompanionApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteBool(isAdded)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteBool(isAdded)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceAddOrRemoveTestCallCompanionApp)
 	if _err != nil {
@@ -2583,9 +3616,26 @@ func (p *TelecomServiceProxy) SetSystemDialer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := testComponentName.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceSetSystemDialer)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := testComponentName.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := testComponentName.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceSetSystemDialer)
@@ -2613,7 +3663,21 @@ func (p *TelecomServiceProxy) SetTestDefaultDialer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceSetTestDefaultDialer)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceSetTestDefaultDialer)
 	if _err != nil {
@@ -2640,7 +3704,21 @@ func (p *TelecomServiceProxy) SetTestCallDiagnosticService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceSetTestCallDiagnosticService)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceSetTestCallDiagnosticService)
 	if _err != nil {
@@ -2671,13 +3749,39 @@ func (p *TelecomServiceProxy) IsInSelfManagedCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceIsInSelfManagedCall)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/UserHandle;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteBool(detectForAllUsers)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := userHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteBool(detectForAllUsers)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := userHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			case 3:
+				_data.WriteBool(detectForAllUsers)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceIsInSelfManagedCall)
 	if _err != nil {
@@ -2711,13 +3815,39 @@ func (p *TelecomServiceProxy) AddCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
-	_data.WriteInt32(1)
-	if _err := callAttributes.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelecomService, MethodITelecomServiceAddCall)
+	_compiledDescs := []string{
+		"Landroid/telecom/CallAttributes;",
+		"Lcom/android/internal/telecom/ICallEventCallback;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(callId)
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := callAttributes.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(callId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := callAttributes.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteString16(callId)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelecomService, MethodITelecomServiceAddCall)
 	if _err != nil {

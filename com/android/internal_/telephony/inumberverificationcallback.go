@@ -50,7 +50,21 @@ func (p *NumberVerificationCallbackProxy) OnCallReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINumberVerificationCallback)
-	_data.WriteString16(phoneNumber)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINumberVerificationCallback, MethodINumberVerificationCallbackOnCallReceived)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(phoneNumber)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(phoneNumber)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINumberVerificationCallback, MethodINumberVerificationCallbackOnCallReceived)
 	if _err != nil {
@@ -68,7 +82,21 @@ func (p *NumberVerificationCallbackProxy) OnVerificationFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINumberVerificationCallback)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINumberVerificationCallback, MethodINumberVerificationCallbackOnVerificationFailed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINumberVerificationCallback, MethodINumberVerificationCallbackOnVerificationFailed)
 	if _err != nil {

@@ -51,9 +51,26 @@ func (p *FeatureDetailsCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureDetailsCallback)
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFeatureDetailsCallback, MethodIFeatureDetailsCallbackOnSuccess)
+	_compiledDescs := []string{
+		"Landroid/app/ondeviceintelligence/FeatureDetails;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureDetailsCallback, MethodIFeatureDetailsCallbackOnSuccess)
@@ -83,11 +100,34 @@ func (p *FeatureDetailsCallbackProxy) OnFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureDetailsCallback)
-	_data.WriteInt32(errorCode)
-	_data.WriteString16(errorMessage)
-	_data.WriteInt32(1)
-	if _err := errorParams.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFeatureDetailsCallback, MethodIFeatureDetailsCallbackOnFailure)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/PersistableBundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+		_data.WriteString16(errorMessage)
+		_data.WriteInt32(1)
+		if _err := errorParams.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			case 1:
+				_data.WriteString16(errorMessage)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := errorParams.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureDetailsCallback, MethodIFeatureDetailsCallbackOnFailure)

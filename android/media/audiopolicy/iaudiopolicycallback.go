@@ -67,11 +67,31 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusGrant(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
-	_data.WriteInt32(1)
-	if _err := afi.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusGrant)
+	_compiledDescs := []string{
+		"Landroid/media/AudioFocusInfo;",
+		"I",
 	}
-	_data.WriteInt32(requestResult)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := afi.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(requestResult)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := afi.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(requestResult)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusGrant)
 	if _err != nil {
@@ -90,11 +110,31 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusLoss(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
-	_data.WriteInt32(1)
-	if _err := afi.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusLoss)
+	_compiledDescs := []string{
+		"Landroid/media/AudioFocusInfo;",
+		"Z",
 	}
-	_data.WriteBool(wasNotified)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := afi.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(wasNotified)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := afi.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(wasNotified)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusLoss)
 	if _err != nil {
@@ -113,11 +153,31 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
-	_data.WriteInt32(1)
-	if _err := afi.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusRequest)
+	_compiledDescs := []string{
+		"Landroid/media/AudioFocusInfo;",
+		"I",
 	}
-	_data.WriteInt32(requestResult)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := afi.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(requestResult)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := afi.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(requestResult)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusRequest)
 	if _err != nil {
@@ -135,9 +195,26 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusAbandon(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
-	_data.WriteInt32(1)
-	if _err := afi.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusAbandon)
+	_compiledDescs := []string{
+		"Landroid/media/AudioFocusInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := afi.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := afi.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusAbandon)
@@ -157,8 +234,25 @@ func (p *AudioPolicyCallbackProxy) NotifyMixStateUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
-	_data.WriteString16(regId)
-	_data.WriteInt32(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyMixStateUpdate)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(regId)
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(regId)
+			case 1:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyMixStateUpdate)
 	if _err != nil {
@@ -176,7 +270,21 @@ func (p *AudioPolicyCallbackProxy) NotifyVolumeAdjust(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
-	_data.WriteInt32(adjustment)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyVolumeAdjust)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(adjustment)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(adjustment)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyVolumeAdjust)
 	if _err != nil {

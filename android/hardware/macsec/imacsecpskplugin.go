@@ -61,9 +61,29 @@ func (p *MacsecPskPluginProxy) AddTestKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMacsecPskPlugin)
-	_data.WriteByteArray(keyId)
-	_data.WriteByteArray(CAK)
-	_data.WriteByteArray(CKN)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginAddTestKey)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(keyId)
+		_data.WriteByteArray(CAK)
+		_data.WriteByteArray(CKN)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(keyId)
+			case 1:
+				_data.WriteByteArray(CAK)
+			case 2:
+				_data.WriteByteArray(CKN)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginAddTestKey)
 	if _err != nil {
@@ -92,8 +112,25 @@ func (p *MacsecPskPluginProxy) CalcIcv(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMacsecPskPlugin)
-	_data.WriteByteArray(keyId)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginCalcIcv)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(keyId)
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(keyId)
+			case 1:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginCalcIcv)
 	if _err != nil {
@@ -127,9 +164,29 @@ func (p *MacsecPskPluginProxy) GenerateSak(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMacsecPskPlugin)
-	_data.WriteByteArray(keyId)
-	_data.WriteByteArray(data)
-	_data.WriteInt32(sakLength)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginGenerateSak)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(keyId)
+		_data.WriteByteArray(data)
+		_data.WriteInt32(sakLength)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(keyId)
+			case 1:
+				_data.WriteByteArray(data)
+			case 2:
+				_data.WriteInt32(sakLength)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginGenerateSak)
 	if _err != nil {
@@ -162,8 +219,25 @@ func (p *MacsecPskPluginProxy) WrapSak(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMacsecPskPlugin)
-	_data.WriteByteArray(keyId)
-	_data.WriteByteArray(sak)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginWrapSak)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(keyId)
+		_data.WriteByteArray(sak)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(keyId)
+			case 1:
+				_data.WriteByteArray(sak)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginWrapSak)
 	if _err != nil {
@@ -196,8 +270,25 @@ func (p *MacsecPskPluginProxy) UnwrapSak(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMacsecPskPlugin)
-	_data.WriteByteArray(keyId)
-	_data.WriteByteArray(sak)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginUnwrapSak)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(keyId)
+		_data.WriteByteArray(sak)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(keyId)
+			case 1:
+				_data.WriteByteArray(sak)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginUnwrapSak)
 	if _err != nil {

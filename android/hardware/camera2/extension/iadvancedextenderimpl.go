@@ -83,16 +83,44 @@ func (p *AdvancedExtenderImplProxy) IsExtensionAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
-	_data.WriteString16(cameraId)
-	if charsMap == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplIsExtensionAvailable)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/util/Map;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+		if charsMap == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(charsMap)))
+			for _k, _v := range charsMap {
+				_data.WriteString16(_k)
+				_data.WriteInt32(1)
+				if _err := _v.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(charsMap)))
-		for _k, _v := range charsMap {
-			_data.WriteString16(_k)
-			_data.WriteInt32(1)
-			if _err := _v.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			case 1:
+				if charsMap == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(charsMap)))
+					for _k, _v := range charsMap {
+						_data.WriteString16(_k)
+						_data.WriteInt32(1)
+						if _err := _v.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -127,16 +155,44 @@ func (p *AdvancedExtenderImplProxy) Init(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
-	_data.WriteString16(cameraId)
-	if charsMap == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplInit)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/util/Map;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+		if charsMap == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(charsMap)))
+			for _k, _v := range charsMap {
+				_data.WriteString16(_k)
+				_data.WriteInt32(1)
+				if _err := _v.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(charsMap)))
-		for _k, _v := range charsMap {
-			_data.WriteString16(_k)
-			_data.WriteInt32(1)
-			if _err := _v.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			case 1:
+				if charsMap == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(charsMap)))
+					for _k, _v := range charsMap {
+						_data.WriteString16(_k)
+						_data.WriteInt32(1)
+						if _err := _v.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -169,12 +225,35 @@ func (p *AdvancedExtenderImplProxy) GetEstimatedCaptureLatencyRange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
-	_data.WriteString16(cameraId)
-	_data.WriteInt32(1)
-	if _err := outputSize.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetEstimatedCaptureLatencyRange)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/camera2/extension/Size;",
+		"I",
 	}
-	_data.WriteInt32(format)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+		_data.WriteInt32(1)
+		if _err := outputSize.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(format)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := outputSize.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(format)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetEstimatedCaptureLatencyRange)
 	if _err != nil {
@@ -211,7 +290,21 @@ func (p *AdvancedExtenderImplProxy) GetSupportedPreviewOutputResolutions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
-	_data.WriteString16(cameraId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetSupportedPreviewOutputResolutions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetSupportedPreviewOutputResolutions)
 	if _err != nil {
@@ -275,7 +368,21 @@ func (p *AdvancedExtenderImplProxy) GetSupportedCaptureOutputResolutions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
-	_data.WriteString16(cameraId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetSupportedCaptureOutputResolutions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetSupportedCaptureOutputResolutions)
 	if _err != nil {
@@ -339,9 +446,26 @@ func (p *AdvancedExtenderImplProxy) GetSupportedPostviewResolutions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
-	_data.WriteInt32(1)
-	if _err := captureSize.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetSupportedPostviewResolutions)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera2/extension/Size;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := captureSize.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := captureSize.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetSupportedPostviewResolutions)
@@ -437,7 +561,21 @@ func (p *AdvancedExtenderImplProxy) GetAvailableCaptureRequestKeys(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
-	_data.WriteString16(cameraId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetAvailableCaptureRequestKeys)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetAvailableCaptureRequestKeys)
 	if _err != nil {
@@ -474,7 +612,21 @@ func (p *AdvancedExtenderImplProxy) GetAvailableCaptureResultKeys(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
-	_data.WriteString16(cameraId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetAvailableCaptureResultKeys)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetAvailableCaptureResultKeys)
 	if _err != nil {
@@ -571,7 +723,21 @@ func (p *AdvancedExtenderImplProxy) GetAvailableCharacteristicsKeyValues(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
-	_data.WriteString16(cameraId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetAvailableCharacteristicsKeyValues)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetAvailableCharacteristicsKeyValues)
 	if _err != nil {

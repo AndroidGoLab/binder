@@ -56,7 +56,21 @@ func (p *EffectClientProxy) ControlStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffectClient)
-	_data.WriteBool(controlGranted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEffectClient, MethodIEffectClientControlStatusChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(controlGranted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(controlGranted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffectClient, MethodIEffectClientControlStatusChanged)
 	if _err != nil {
@@ -74,7 +88,21 @@ func (p *EffectClientProxy) EnableStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffectClient)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEffectClient, MethodIEffectClientEnableStatusChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffectClient, MethodIEffectClientEnableStatusChanged)
 	if _err != nil {
@@ -94,9 +122,29 @@ func (p *EffectClientProxy) CommandExecuted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffectClient)
-	_data.WriteInt32(cmdCode)
-	_data.WriteByteArray(cmdData)
-	_data.WriteByteArray(replyData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEffectClient, MethodIEffectClientCommandExecuted)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdCode)
+		_data.WriteByteArray(cmdData)
+		_data.WriteByteArray(replyData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdCode)
+			case 1:
+				_data.WriteByteArray(cmdData)
+			case 2:
+				_data.WriteByteArray(replyData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffectClient, MethodIEffectClientCommandExecuted)
 	if _err != nil {
@@ -114,7 +162,21 @@ func (p *EffectClientProxy) FramesProcessed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffectClient)
-	_data.WriteInt32(frames)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEffectClient, MethodIEffectClientFramesProcessed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(frames)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(frames)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffectClient, MethodIEffectClientFramesProcessed)
 	if _err != nil {

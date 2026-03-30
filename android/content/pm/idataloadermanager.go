@@ -57,13 +57,39 @@ func (p *DataLoaderManagerProxy) BindToDataLoader(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataLoaderManager)
-	_data.WriteInt32(id)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataLoaderManager, MethodIDataLoaderManagerBindToDataLoader)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/pm/DataLoaderParamsParcel;",
+		"J",
+		"Landroid/content/pm/IDataLoaderStatusListener;",
 	}
-	_data.WriteInt64(bindDelayMs)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt64(bindDelayMs)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt64(bindDelayMs)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataLoaderManager, MethodIDataLoaderManagerBindToDataLoader)
 	if _err != nil {
@@ -95,7 +121,21 @@ func (p *DataLoaderManagerProxy) GetDataLoader(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataLoaderManager)
-	_data.WriteInt32(dataLoaderId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataLoaderManager, MethodIDataLoaderManagerGetDataLoader)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(dataLoaderId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(dataLoaderId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataLoaderManager, MethodIDataLoaderManagerGetDataLoader)
 	if _err != nil {
@@ -127,7 +167,21 @@ func (p *DataLoaderManagerProxy) UnbindFromDataLoader(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataLoaderManager)
-	_data.WriteInt32(dataLoaderId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataLoaderManager, MethodIDataLoaderManagerUnbindFromDataLoader)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(dataLoaderId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(dataLoaderId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataLoaderManager, MethodIDataLoaderManagerUnbindFromDataLoader)
 	if _err != nil {

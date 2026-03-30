@@ -85,7 +85,21 @@ func (p *MediaRouterClientProxy) OnGroupRouteSelected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterClient)
-	_data.WriteString16(routeId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRouterClient, MethodIMediaRouterClientOnGroupRouteSelected)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(routeId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(routeId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouterClient, MethodIMediaRouterClientOnGroupRouteSelected)
 	if _err != nil {

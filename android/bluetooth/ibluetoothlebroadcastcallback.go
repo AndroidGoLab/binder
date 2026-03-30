@@ -72,8 +72,25 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnBroadcastStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastCallback)
-	_data.WriteInt32(reason)
-	_data.WriteInt32(broadcastId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStarted)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+		_data.WriteInt32(broadcastId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			case 1:
+				_data.WriteInt32(broadcastId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStarted)
 	if _err != nil {
@@ -91,7 +108,21 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnBroadcastStartFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastCallback)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStartFailed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStartFailed)
 	if _err != nil {
@@ -110,8 +141,25 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnBroadcastStopped(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastCallback)
-	_data.WriteInt32(reason)
-	_data.WriteInt32(broadcastId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStopped)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+		_data.WriteInt32(broadcastId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			case 1:
+				_data.WriteInt32(broadcastId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStopped)
 	if _err != nil {
@@ -129,7 +177,21 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnBroadcastStopFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastCallback)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStopFailed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStopFailed)
 	if _err != nil {
@@ -148,8 +210,25 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnPlaybackStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastCallback)
-	_data.WriteInt32(reason)
-	_data.WriteInt32(broadcastId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnPlaybackStarted)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+		_data.WriteInt32(broadcastId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			case 1:
+				_data.WriteInt32(broadcastId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnPlaybackStarted)
 	if _err != nil {
@@ -168,8 +247,25 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnPlaybackStopped(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastCallback)
-	_data.WriteInt32(reason)
-	_data.WriteInt32(broadcastId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnPlaybackStopped)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+		_data.WriteInt32(broadcastId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			case 1:
+				_data.WriteInt32(broadcastId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnPlaybackStopped)
 	if _err != nil {
@@ -188,8 +284,25 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnBroadcastUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastCallback)
-	_data.WriteInt32(reason)
-	_data.WriteInt32(broadcastId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastUpdated)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+		_data.WriteInt32(broadcastId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			case 1:
+				_data.WriteInt32(broadcastId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastUpdated)
 	if _err != nil {
@@ -208,8 +321,25 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnBroadcastUpdateFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastCallback)
-	_data.WriteInt32(reason)
-	_data.WriteInt32(broadcastId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastUpdateFailed)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+		_data.WriteInt32(broadcastId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			case 1:
+				_data.WriteInt32(broadcastId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastUpdateFailed)
 	if _err != nil {
@@ -228,10 +358,30 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnBroadcastMetadataChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastCallback)
-	_data.WriteInt32(broadcastId)
-	_data.WriteInt32(1)
-	if _err := metadata.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastMetadataChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/bluetooth/BluetoothLeBroadcastMetadata;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(broadcastId)
+		_data.WriteInt32(1)
+		if _err := metadata.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(broadcastId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := metadata.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastMetadataChanged)

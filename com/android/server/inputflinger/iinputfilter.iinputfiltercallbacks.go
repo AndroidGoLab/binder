@@ -53,9 +53,26 @@ func (p *InputFilterIInputFilterCallbacksProxy) SendKeyEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilterIInputFilterCallbacks)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputFilterIInputFilterCallbacks, MethodIInputFilterIInputFilterCallbacksSendKeyEvent)
+	_compiledDescs := []string{
+		"Lcom/android/server/inputflinger/KeyEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilterIInputFilterCallbacks, MethodIInputFilterIInputFilterCallbacksSendKeyEvent)
@@ -84,8 +101,25 @@ func (p *InputFilterIInputFilterCallbacksProxy) OnModifierStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilterIInputFilterCallbacks)
-	_data.WriteInt32(modifierState)
-	_data.WriteInt32(lockedModifierState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputFilterIInputFilterCallbacks, MethodIInputFilterIInputFilterCallbacksOnModifierStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(modifierState)
+		_data.WriteInt32(lockedModifierState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(modifierState)
+			case 1:
+				_data.WriteInt32(lockedModifierState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilterIInputFilterCallbacks, MethodIInputFilterIInputFilterCallbacksOnModifierStateChanged)
 	if _err != nil {
@@ -113,7 +147,21 @@ func (p *InputFilterIInputFilterCallbacksProxy) CreateInputFilterThread(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilterIInputFilterCallbacks)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputFilterIInputFilterCallbacks, MethodIInputFilterIInputFilterCallbacksCreateInputFilterThread)
+	_compiledDescs := []string{
+		"Lcom/android/server/inputflinger/IInputThread/IInputThreadCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilterIInputFilterCallbacks, MethodIInputFilterIInputFilterCallbacksCreateInputFilterThread)
 	if _err != nil {

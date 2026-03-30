@@ -78,12 +78,38 @@ func (p *TrustAgentServiceCallbackProxy) GrantTrust(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
-	_data.WriteString16(message)
-	_data.WriteInt64(durationMs)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := resultCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackGrantTrust)
+	_compiledDescs := []string{
+		"Ljava/lang/CharSequence;",
+		"J",
+		"I",
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(message)
+		_data.WriteInt64(durationMs)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(1)
+		if _err := resultCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(message)
+			case 1:
+				_data.WriteInt64(durationMs)
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := resultCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackGrantTrust)
@@ -134,7 +160,21 @@ func (p *TrustAgentServiceCallbackProxy) SetManagingTrust(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
-	_data.WriteBool(managingTrust)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackSetManagingTrust)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(managingTrust)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(managingTrust)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackSetManagingTrust)
 	if _err != nil {
@@ -153,8 +193,25 @@ func (p *TrustAgentServiceCallbackProxy) OnConfigureCompleted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
-	_data.WriteBool(result)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackOnConfigureCompleted)
+	_compiledDescs := []string{
+		"Z",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(result)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(result)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackOnConfigureCompleted)
 	if _err != nil {
@@ -173,8 +230,25 @@ func (p *TrustAgentServiceCallbackProxy) AddEscrowToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
-	_data.WriteByteArray(token)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackAddEscrowToken)
+	_compiledDescs := []string{
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(token)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(token)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackAddEscrowToken)
 	if _err != nil {
@@ -193,8 +267,25 @@ func (p *TrustAgentServiceCallbackProxy) IsEscrowTokenActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
-	_data.WriteInt64(handle)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackIsEscrowTokenActive)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(handle)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(handle)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackIsEscrowTokenActive)
 	if _err != nil {
@@ -213,8 +304,25 @@ func (p *TrustAgentServiceCallbackProxy) RemoveEscrowToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
-	_data.WriteInt64(handle)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackRemoveEscrowToken)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(handle)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(handle)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackRemoveEscrowToken)
 	if _err != nil {
@@ -234,9 +342,29 @@ func (p *TrustAgentServiceCallbackProxy) UnlockUserWithToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
-	_data.WriteInt64(handle)
-	_data.WriteByteArray(token)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackUnlockUserWithToken)
+	_compiledDescs := []string{
+		"J",
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(handle)
+		_data.WriteByteArray(token)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(handle)
+			case 1:
+				_data.WriteByteArray(token)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackUnlockUserWithToken)
 	if _err != nil {
@@ -254,7 +382,21 @@ func (p *TrustAgentServiceCallbackProxy) ShowKeyguardErrorMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackShowKeyguardErrorMessage)
+	_compiledDescs := []string{
+		"Ljava/lang/CharSequence;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackShowKeyguardErrorMessage)
 	if _err != nil {

@@ -116,7 +116,21 @@ func (p *DomainVerificationManagerProxy) GetDomainVerificationInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetDomainVerificationInfo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetDomainVerificationInfo)
 	if _err != nil {
@@ -154,8 +168,25 @@ func (p *DomainVerificationManagerProxy) GetDomainVerificationUserState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetDomainVerificationUserState)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetDomainVerificationUserState)
 	if _err != nil {
@@ -193,8 +224,25 @@ func (p *DomainVerificationManagerProxy) GetOwnersForDomain(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
-	_data.WriteString16(domain)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetOwnersForDomain)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(domain)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(domain)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetOwnersForDomain)
 	if _err != nil {
@@ -260,12 +308,35 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
-	_data.WriteString16(domainSetId)
-	_data.WriteInt32(1)
-	if _err := domains.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetDomainVerificationStatus)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/verify/domain/DomainSet;",
+		"I",
 	}
-	_data.WriteInt32(state)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(domainSetId)
+		_data.WriteInt32(1)
+		if _err := domains.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(domainSetId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := domains.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetDomainVerificationStatus)
 	if _err != nil {
@@ -298,9 +369,29 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationLinkHandlingAllowe
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
-	_data.WriteString16(packageName)
-	_data.WriteBool(allowed)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetDomainVerificationLinkHandlingAllowed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteBool(allowed)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteBool(allowed)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetDomainVerificationLinkHandlingAllowed)
 	if _err != nil {
@@ -331,13 +422,39 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationUserSelection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
-	_data.WriteString16(domainSetId)
-	_data.WriteInt32(1)
-	if _err := domains.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetDomainVerificationUserSelection)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/verify/domain/DomainSet;",
+		"Z",
+		"I",
 	}
-	_data.WriteBool(enabled)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(domainSetId)
+		_data.WriteInt32(1)
+		if _err := domains.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(enabled)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(domainSetId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := domains.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteBool(enabled)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetDomainVerificationUserSelection)
 	if _err != nil {
@@ -369,10 +486,30 @@ func (p *DomainVerificationManagerProxy) SetUriRelativeFilterGroups(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := domainToGroupsBundle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetUriRelativeFilterGroups)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := domainToGroupsBundle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := domainToGroupsBundle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetUriRelativeFilterGroups)
@@ -402,13 +539,37 @@ func (p *DomainVerificationManagerProxy) GetUriRelativeFilterGroups(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
-	_data.WriteString16(packageName)
-	if domains == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetUriRelativeFilterGroups)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		if domains == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(domains)))
+			for _, _item := range domains {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(domains)))
-		for _, _item := range domains {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				if domains == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(domains)))
+					for _, _item := range domains {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 

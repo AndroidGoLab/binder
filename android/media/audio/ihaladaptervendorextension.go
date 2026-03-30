@@ -62,8 +62,25 @@ func (p *HalAdapterVendorExtensionProxy) ParseVendorParameterIds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHalAdapterVendorExtension)
-	_data.WriteInt32(int32(scope))
-	_data.WriteString16(rawKeys)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseVendorParameterIds)
+	_compiledDescs := []string{
+		"Landroid/media/audio/IHalAdapterVendorExtension/ParameterScope;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(scope))
+		_data.WriteString16(rawKeys)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(scope))
+			case 1:
+				_data.WriteString16(rawKeys)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseVendorParameterIds)
 	if _err != nil {
@@ -110,8 +127,25 @@ func (p *HalAdapterVendorExtensionProxy) ParseVendorParameters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHalAdapterVendorExtension)
-	_data.WriteInt32(int32(scope))
-	_data.WriteString16(rawKeysAndValues)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseVendorParameters)
+	_compiledDescs := []string{
+		"Landroid/media/audio/IHalAdapterVendorExtension/ParameterScope;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(scope))
+		_data.WriteString16(rawKeysAndValues)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(scope))
+			case 1:
+				_data.WriteString16(rawKeysAndValues)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseVendorParameters)
 	if _err != nil {
@@ -175,7 +209,21 @@ func (p *HalAdapterVendorExtensionProxy) ParseBluetoothA2dpReconfigureOffload(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHalAdapterVendorExtension)
-	_data.WriteString16(rawValue)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseBluetoothA2dpReconfigureOffload)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(rawValue)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(rawValue)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseBluetoothA2dpReconfigureOffload)
 	if _err != nil {
@@ -239,7 +287,21 @@ func (p *HalAdapterVendorExtensionProxy) ParseBluetoothLeReconfigureOffload(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHalAdapterVendorExtension)
-	_data.WriteString16(rawValue)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseBluetoothLeReconfigureOffload)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(rawValue)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(rawValue)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseBluetoothLeReconfigureOffload)
 	if _err != nil {
@@ -304,15 +366,42 @@ func (p *HalAdapterVendorExtensionProxy) ProcessVendorParameters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHalAdapterVendorExtension)
-	_data.WriteInt32(int32(scope))
-	if parameters == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionProcessVendorParameters)
+	_compiledDescs := []string{
+		"Landroid/media/audio/IHalAdapterVendorExtension/ParameterScope;",
+		"[Landroid/hardware/audio/core/VendorParameter;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(scope))
+		if parameters == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(parameters)))
+			for _, _item := range parameters {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(parameters)))
-		for _, _item := range parameters {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(scope))
+			case 1:
+				if parameters == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(parameters)))
+					for _, _item := range parameters {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}

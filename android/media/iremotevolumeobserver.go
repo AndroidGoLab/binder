@@ -48,8 +48,25 @@ func (p *RemoteVolumeObserverProxy) DispatchRemoteVolumeUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteVolumeObserver)
-	_data.WriteInt32(direction)
-	_data.WriteInt32(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteVolumeObserver, MethodIRemoteVolumeObserverDispatchRemoteVolumeUpdate)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(direction)
+		_data.WriteInt32(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(direction)
+			case 1:
+				_data.WriteInt32(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteVolumeObserver, MethodIRemoteVolumeObserverDispatchRemoteVolumeUpdate)
 	if _err != nil {

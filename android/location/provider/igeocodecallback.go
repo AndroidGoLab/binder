@@ -51,7 +51,21 @@ func (p *GeocodeCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeocodeCallback)
-	_data.WriteString16(error_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGeocodeCallback, MethodIGeocodeCallbackOnError)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(error_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(error_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeocodeCallback, MethodIGeocodeCallbackOnError)
 	if _err != nil {
@@ -69,14 +83,38 @@ func (p *GeocodeCallbackProxy) OnResults(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeocodeCallback)
-	if results == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGeocodeCallback, MethodIGeocodeCallbackOnResults)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if results == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(results)))
+			for _, _item := range results {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(results)))
-		for _, _item := range results {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if results == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(results)))
+					for _, _item := range results {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

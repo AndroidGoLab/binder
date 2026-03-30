@@ -49,8 +49,25 @@ func (p *SystemSuspendProxy) AcquireWakeLock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemSuspend)
-	_data.WriteInt32(int32(type_))
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemSuspend, MethodISystemSuspendAcquireWakeLock)
+	_compiledDescs := []string{
+		"Landroid/system/suspend/WakeLockType;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(type_))
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(type_))
+			case 1:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemSuspend, MethodISystemSuspendAcquireWakeLock)
 	if _err != nil {

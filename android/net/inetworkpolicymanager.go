@@ -124,8 +124,25 @@ func (p *NetworkPolicyManagerProxy) SetUidPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(policy)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSetUidPolicy)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(policy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(policy)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSetUidPolicy)
 	if _err != nil {
@@ -153,8 +170,25 @@ func (p *NetworkPolicyManagerProxy) AddUidPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(policy)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerAddUidPolicy)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(policy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(policy)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerAddUidPolicy)
 	if _err != nil {
@@ -182,8 +216,25 @@ func (p *NetworkPolicyManagerProxy) RemoveUidPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(policy)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerRemoveUidPolicy)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(policy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(policy)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerRemoveUidPolicy)
 	if _err != nil {
@@ -211,7 +262,21 @@ func (p *NetworkPolicyManagerProxy) GetUidPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetUidPolicy)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetUidPolicy)
 	if _err != nil {
@@ -243,7 +308,21 @@ func (p *NetworkPolicyManagerProxy) GetUidsWithPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(policy)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetUidsWithPolicy)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(policy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(policy)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetUidsWithPolicy)
 	if _err != nil {
@@ -287,7 +366,21 @@ func (p *NetworkPolicyManagerProxy) RegisterListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerRegisterListener)
+	_compiledDescs := []string{
+		"Landroid/net/INetworkPolicyListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerRegisterListener)
 	if _err != nil {
@@ -314,7 +407,21 @@ func (p *NetworkPolicyManagerProxy) UnregisterListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerUnregisterListener)
+	_compiledDescs := []string{
+		"Landroid/net/INetworkPolicyListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerUnregisterListener)
 	if _err != nil {
@@ -341,14 +448,38 @@ func (p *NetworkPolicyManagerProxy) SetNetworkPolicies(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	if policies == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSetNetworkPolicies)
+	_compiledDescs := []string{
+		"[Landroid/net/NetworkPolicy;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if policies == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(policies)))
+			for _, _item := range policies {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(policies)))
-		for _, _item := range policies {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if policies == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(policies)))
+					for _, _item := range policies {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -379,7 +510,21 @@ func (p *NetworkPolicyManagerProxy) GetNetworkPolicies(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetNetworkPolicies)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetNetworkPolicies)
 	if _err != nil {
@@ -469,7 +614,21 @@ func (p *NetworkPolicyManagerProxy) SetRestrictBackground(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteBool(restrictBackground)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSetRestrictBackground)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(restrictBackground)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(restrictBackground)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSetRestrictBackground)
 	if _err != nil {
@@ -557,7 +716,21 @@ func (p *NetworkPolicyManagerProxy) GetRestrictBackgroundStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetRestrictBackgroundStatus)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetRestrictBackgroundStatus)
 	if _err != nil {
@@ -588,7 +761,21 @@ func (p *NetworkPolicyManagerProxy) SetDeviceIdleMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSetDeviceIdleMode)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSetDeviceIdleMode)
 	if _err != nil {
@@ -616,8 +803,25 @@ func (p *NetworkPolicyManagerProxy) SetWifiMeteredOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteString16(networkId)
-	_data.WriteInt32(meteredOverride)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSetWifiMeteredOverride)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(networkId)
+		_data.WriteInt32(meteredOverride)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(networkId)
+			case 1:
+				_data.WriteInt32(meteredOverride)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSetWifiMeteredOverride)
 	if _err != nil {
@@ -740,8 +944,25 @@ func (p *NetworkPolicyManagerProxy) GetSubscriptionPlans(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetSubscriptionPlans)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetSubscriptionPlans)
 	if _err != nil {
@@ -807,20 +1028,53 @@ func (p *NetworkPolicyManagerProxy) SetSubscriptionPlans(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(subId)
-	if plans == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSetSubscriptionPlans)
+	_compiledDescs := []string{
+		"I",
+		"[Landroid/telephony/SubscriptionPlan;",
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		if plans == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(plans)))
+			for _, _item := range plans {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt64(expirationDurationMillis)
+		_data.WriteString16(_identity.PackageName)
 	} else {
-		_data.WriteInt32(int32(len(plans)))
-		for _, _item := range plans {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				if plans == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(plans)))
+					for _, _item := range plans {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				_data.WriteInt64(expirationDurationMillis)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
 			}
 		}
 	}
-	_data.WriteInt64(expirationDurationMillis)
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSetSubscriptionPlans)
 	if _err != nil {
@@ -848,7 +1102,21 @@ func (p *NetworkPolicyManagerProxy) GetSubscriptionPlansOwner(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetSubscriptionPlansOwner)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetSubscriptionPlansOwner)
 	if _err != nil {
@@ -884,19 +1152,55 @@ func (p *NetworkPolicyManagerProxy) SetSubscriptionOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(overrideMask)
-	_data.WriteInt32(overrideValue)
-	if networkTypes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSetSubscriptionOverride)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"[I",
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(overrideMask)
+		_data.WriteInt32(overrideValue)
+		if networkTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(networkTypes)))
+			for _, _item := range networkTypes {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteInt64(expirationDurationMillis)
+		_data.WriteString16(_identity.PackageName)
 	} else {
-		_data.WriteInt32(int32(len(networkTypes)))
-		for _, _item := range networkTypes {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(overrideMask)
+			case 2:
+				_data.WriteInt32(overrideValue)
+			case 3:
+				if networkTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(networkTypes)))
+					for _, _item := range networkTypes {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 4:
+				_data.WriteInt64(expirationDurationMillis)
+			case 5:
+				_data.WriteString16(_identity.PackageName)
+			}
 		}
 	}
-	_data.WriteInt64(expirationDurationMillis)
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSetSubscriptionOverride)
 	if _err != nil {
@@ -923,7 +1227,21 @@ func (p *NetworkPolicyManagerProxy) FactoryReset(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteString16(subscriber)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerFactoryReset)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(subscriber)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(subscriber)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerFactoryReset)
 	if _err != nil {
@@ -952,8 +1270,25 @@ func (p *NetworkPolicyManagerProxy) IsUidNetworkingBlocked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(uid)
-	_data.WriteBool(meteredNetwork)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerIsUidNetworkingBlocked)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteBool(meteredNetwork)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteBool(meteredNetwork)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerIsUidNetworkingBlocked)
 	if _err != nil {
@@ -985,7 +1320,21 @@ func (p *NetworkPolicyManagerProxy) IsUidRestrictedOnMeteredNetworks(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerIsUidRestrictedOnMeteredNetworks)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerIsUidRestrictedOnMeteredNetworks)
 	if _err != nil {

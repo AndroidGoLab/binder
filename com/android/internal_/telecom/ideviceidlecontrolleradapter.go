@@ -50,10 +50,33 @@ func (p *DeviceIdleControllerAdapterProxy) ExemptAppTemporarilyForEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleControllerAdapter)
-	_data.WriteString16(packageName)
-	_data.WriteInt64(duration)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceIdleControllerAdapter, MethodIDeviceIdleControllerAdapterExemptAppTemporarilyForEvent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt64(duration)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt64(duration)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteString16(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleControllerAdapter, MethodIDeviceIdleControllerAdapterExemptAppTemporarilyForEvent)
 	if _err != nil {

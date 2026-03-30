@@ -70,9 +70,26 @@ func (p *RecentTasksListenerProxy) OnRunningTaskAppeared(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentTasksListener, MethodIRecentTasksListenerOnRunningTaskAppeared)
+	_compiledDescs := []string{
+		"Landroid/app/ActivityManager/RunningTaskInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := taskInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := taskInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasksListener, MethodIRecentTasksListenerOnRunningTaskAppeared)
@@ -91,9 +108,26 @@ func (p *RecentTasksListenerProxy) OnRunningTaskVanished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecentTasksListener, MethodIRecentTasksListenerOnRunningTaskVanished)
+	_compiledDescs := []string{
+		"Landroid/app/ActivityManager/RunningTaskInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := taskInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := taskInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasksListener, MethodIRecentTasksListenerOnRunningTaskVanished)

@@ -96,14 +96,43 @@ func (p *TextToSpeechServiceProxy) Speak(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
-	_data.WriteString16(text)
-	_data.WriteInt32(queueMode)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceSpeak)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/CharSequence;",
+		"I",
+		"Landroid/os/Bundle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(utteranceId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
+		_data.WriteString16(text)
+		_data.WriteInt32(queueMode)
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(utteranceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(text)
+			case 2:
+				_data.WriteInt32(queueMode)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				_data.WriteString16(utteranceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceSpeak)
 	if _err != nil {
@@ -139,14 +168,43 @@ func (p *TextToSpeechServiceProxy) SynthesizeToFileDescriptor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
-	_data.WriteString16(text)
-	_data.WriteParcelFileDescriptor(fileDescriptor)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceSynthesizeToFileDescriptor)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/CharSequence;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/os/Bundle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(utteranceId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
+		_data.WriteString16(text)
+		_data.WriteParcelFileDescriptor(fileDescriptor)
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(utteranceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(text)
+			case 2:
+				_data.WriteParcelFileDescriptor(fileDescriptor)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				_data.WriteString16(utteranceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceSynthesizeToFileDescriptor)
 	if _err != nil {
@@ -182,17 +240,49 @@ func (p *TextToSpeechServiceProxy) PlayAudio(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := audioUri.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechService, MethodITextToSpeechServicePlayAudio)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/net/Uri;",
+		"I",
+		"Landroid/os/Bundle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(queueMode)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := audioUri.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(queueMode)
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(utteranceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := audioUri.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(queueMode)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				_data.WriteString16(utteranceId)
+			}
+		}
 	}
-	_data.WriteString16(utteranceId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServicePlayAudio)
 	if _err != nil {
@@ -227,10 +317,33 @@ func (p *TextToSpeechServiceProxy) PlaySilence(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
-	_data.WriteInt64(duration)
-	_data.WriteInt32(queueMode)
-	_data.WriteString16(utteranceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechService, MethodITextToSpeechServicePlaySilence)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"J",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
+		_data.WriteInt64(duration)
+		_data.WriteInt32(queueMode)
+		_data.WriteString16(utteranceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
+			case 1:
+				_data.WriteInt64(duration)
+			case 2:
+				_data.WriteInt32(queueMode)
+			case 3:
+				_data.WriteString16(utteranceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServicePlaySilence)
 	if _err != nil {
@@ -292,7 +405,21 @@ func (p *TextToSpeechServiceProxy) Stop(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceStop)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceStop)
 	if _err != nil {
@@ -412,9 +539,29 @@ func (p *TextToSpeechServiceProxy) IsLanguageAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	_data.WriteString16(lang)
-	_data.WriteString16(country)
-	_data.WriteString16(variant)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceIsLanguageAvailable)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(lang)
+		_data.WriteString16(country)
+		_data.WriteString16(variant)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(lang)
+			case 1:
+				_data.WriteString16(country)
+			case 2:
+				_data.WriteString16(variant)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceIsLanguageAvailable)
 	if _err != nil {
@@ -448,9 +595,29 @@ func (p *TextToSpeechServiceProxy) GetFeaturesForLanguage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	_data.WriteString16(lang)
-	_data.WriteString16(country)
-	_data.WriteString16(variant)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceGetFeaturesForLanguage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(lang)
+		_data.WriteString16(country)
+		_data.WriteString16(variant)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(lang)
+			case 1:
+				_data.WriteString16(country)
+			case 2:
+				_data.WriteString16(variant)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceGetFeaturesForLanguage)
 	if _err != nil {
@@ -498,10 +665,33 @@ func (p *TextToSpeechServiceProxy) LoadLanguage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
-	_data.WriteString16(lang)
-	_data.WriteString16(country)
-	_data.WriteString16(variant)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceLoadLanguage)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
+		_data.WriteString16(lang)
+		_data.WriteString16(country)
+		_data.WriteString16(variant)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(lang)
+			case 2:
+				_data.WriteString16(country)
+			case 3:
+				_data.WriteString16(variant)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceLoadLanguage)
 	if _err != nil {
@@ -533,8 +723,25 @@ func (p *TextToSpeechServiceProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceSetCallback)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/speech/tts/ITextToSpeechCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceSetCallback)
 	if _err != nil {
@@ -625,8 +832,25 @@ func (p *TextToSpeechServiceProxy) LoadVoice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
-	_data.WriteString16(voiceName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceLoadVoice)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
+		_data.WriteString16(voiceName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(voiceName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceLoadVoice)
 	if _err != nil {
@@ -660,9 +884,29 @@ func (p *TextToSpeechServiceProxy) GetDefaultVoiceNameFor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	_data.WriteString16(lang)
-	_data.WriteString16(country)
-	_data.WriteString16(variant)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceGetDefaultVoiceNameFor)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(lang)
+		_data.WriteString16(country)
+		_data.WriteString16(variant)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(lang)
+			case 1:
+				_data.WriteString16(country)
+			case 2:
+				_data.WriteString16(variant)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceGetDefaultVoiceNameFor)
 	if _err != nil {

@@ -377,14 +377,38 @@ func (p *SupplicantP2pNetworkProxy) SetClientList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
-	if clients == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkSetClientList)
+	_compiledDescs := []string{
+		"[Landroid/hardware/wifi/supplicant/MacAddress;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if clients == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(clients)))
+			for _, _item := range clients {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(clients)))
-		for _, _item := range clients {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if clients == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(clients)))
+					for _, _item := range clients {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

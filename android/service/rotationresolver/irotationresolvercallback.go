@@ -54,7 +54,21 @@ func (p *RotationResolverCallbackProxy) OnCancellable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRotationResolverCallback)
-	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRotationResolverCallback, MethodIRotationResolverCallbackOnCancellable)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/common/ICancellationSignal;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRotationResolverCallback, MethodIRotationResolverCallbackOnCancellable)
 	if _err != nil {
@@ -72,7 +86,21 @@ func (p *RotationResolverCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRotationResolverCallback)
-	_data.WriteInt32(recommendedRotation)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRotationResolverCallback, MethodIRotationResolverCallbackOnSuccess)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(recommendedRotation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(recommendedRotation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRotationResolverCallback, MethodIRotationResolverCallbackOnSuccess)
 	if _err != nil {
@@ -90,7 +118,21 @@ func (p *RotationResolverCallbackProxy) OnFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRotationResolverCallback)
-	_data.WriteInt32(error_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRotationResolverCallback, MethodIRotationResolverCallbackOnFailure)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(error_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(error_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRotationResolverCallback, MethodIRotationResolverCallbackOnFailure)
 	if _err != nil {

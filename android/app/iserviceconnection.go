@@ -50,12 +50,35 @@ func (p *ServiceConnectionProxy) Connected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceConnection)
-	_data.WriteInt32(1)
-	if _err := name.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceConnection, MethodIServiceConnectionConnected)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/os/IBinder;",
+		"Z",
 	}
-	binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
-	_data.WriteBool(dead)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := name.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
+		_data.WriteBool(dead)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := name.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
+			case 2:
+				_data.WriteBool(dead)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceConnection, MethodIServiceConnectionConnected)
 	if _err != nil {

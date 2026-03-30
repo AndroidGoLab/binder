@@ -53,10 +53,33 @@ func (p *HdmiVendorCommandListenerProxy) OnReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiVendorCommandListener)
-	_data.WriteInt32(logicalAddress)
-	_data.WriteInt32(destAddress)
-	_data.WriteByteArray(operands)
-	_data.WriteBool(hasVendorId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiVendorCommandListener, MethodIHdmiVendorCommandListenerOnReceived)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[B",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(logicalAddress)
+		_data.WriteInt32(destAddress)
+		_data.WriteByteArray(operands)
+		_data.WriteBool(hasVendorId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(logicalAddress)
+			case 1:
+				_data.WriteInt32(destAddress)
+			case 2:
+				_data.WriteByteArray(operands)
+			case 3:
+				_data.WriteBool(hasVendorId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiVendorCommandListener, MethodIHdmiVendorCommandListenerOnReceived)
 	if _err != nil {
@@ -75,8 +98,25 @@ func (p *HdmiVendorCommandListenerProxy) OnControlStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiVendorCommandListener)
-	_data.WriteBool(enabled)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiVendorCommandListener, MethodIHdmiVendorCommandListenerOnControlStateChanged)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			case 1:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiVendorCommandListener, MethodIHdmiVendorCommandListenerOnControlStateChanged)
 	if _err != nil {

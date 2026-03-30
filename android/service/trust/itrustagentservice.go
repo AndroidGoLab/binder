@@ -81,7 +81,21 @@ func (p *TrustAgentServiceProxy) OnUnlockAttempt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
-	_data.WriteBool(successful)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnUnlockAttempt)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(successful)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(successful)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnUnlockAttempt)
 	if _err != nil {
@@ -99,7 +113,21 @@ func (p *TrustAgentServiceProxy) OnUserRequestedUnlock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
-	_data.WriteBool(dismissKeyguard)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnUserRequestedUnlock)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(dismissKeyguard)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(dismissKeyguard)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnUserRequestedUnlock)
 	if _err != nil {
@@ -133,7 +161,21 @@ func (p *TrustAgentServiceProxy) OnUnlockLockout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
-	_data.WriteInt32(timeoutMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnUnlockLockout)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(timeoutMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(timeoutMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnUnlockLockout)
 	if _err != nil {
@@ -200,18 +242,45 @@ func (p *TrustAgentServiceProxy) OnConfigure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
-	if options == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnConfigure)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if options == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(options)))
+			for _, _item := range options {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(options)))
-		for _, _item := range options {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if options == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(options)))
+					for _, _item := range options {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnConfigure)
 	if _err != nil {
@@ -229,7 +298,21 @@ func (p *TrustAgentServiceProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentService, MethodITrustAgentServiceSetCallback)
+	_compiledDescs := []string{
+		"Landroid/service/trust/ITrustAgentServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceSetCallback)
 	if _err != nil {
@@ -249,11 +332,34 @@ func (p *TrustAgentServiceProxy) OnEscrowTokenAdded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
-	_data.WriteByteArray(token)
-	_data.WriteInt64(handle)
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnEscrowTokenAdded)
+	_compiledDescs := []string{
+		"[B",
+		"J",
+		"Landroid/os/UserHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(token)
+		_data.WriteInt64(handle)
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(token)
+			case 1:
+				_data.WriteInt64(handle)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnEscrowTokenAdded)
@@ -273,8 +379,25 @@ func (p *TrustAgentServiceProxy) OnTokenStateReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
-	_data.WriteInt64(handle)
-	_data.WriteInt32(tokenState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnTokenStateReceived)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(handle)
+		_data.WriteInt32(tokenState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(handle)
+			case 1:
+				_data.WriteInt32(tokenState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnTokenStateReceived)
 	if _err != nil {
@@ -293,8 +416,25 @@ func (p *TrustAgentServiceProxy) OnEscrowTokenRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
-	_data.WriteInt64(handle)
-	_data.WriteBool(successful)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnEscrowTokenRemoved)
+	_compiledDescs := []string{
+		"J",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(handle)
+		_data.WriteBool(successful)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(handle)
+			case 1:
+				_data.WriteBool(successful)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnEscrowTokenRemoved)
 	if _err != nil {

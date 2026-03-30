@@ -47,7 +47,21 @@ func (p *SpatializerOutputCallbackProxy) DispatchSpatializerOutputChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializerOutputCallback)
-	_data.WriteInt32(output)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializerOutputCallback, MethodISpatializerOutputCallbackDispatchSpatializerOutputChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(output)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(output)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializerOutputCallback, MethodISpatializerOutputCallbackDispatchSpatializerOutputChanged)
 	if _err != nil {

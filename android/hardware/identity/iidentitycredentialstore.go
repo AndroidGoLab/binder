@@ -113,8 +113,25 @@ func (p *IdentityCredentialStoreProxy) CreateCredential(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredentialStore)
-	_data.WriteString16(docType)
-	_data.WriteBool(testCredential)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreCreateCredential)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(docType)
+		_data.WriteBool(testCredential)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(docType)
+			case 1:
+				_data.WriteBool(testCredential)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreCreateCredential)
 	if _err != nil {
@@ -148,8 +165,25 @@ func (p *IdentityCredentialStoreProxy) GetCredential(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredentialStore)
-	_data.WriteInt32(int32(cipherSuite))
-	_data.WriteByteArray(credentialData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreGetCredential)
+	_compiledDescs := []string{
+		"Landroid/hardware/identity/CipherSuite;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cipherSuite))
+		_data.WriteByteArray(credentialData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cipherSuite))
+			case 1:
+				_data.WriteByteArray(credentialData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreGetCredential)
 	if _err != nil {
@@ -182,7 +216,21 @@ func (p *IdentityCredentialStoreProxy) CreatePresentationSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredentialStore)
-	_data.WriteInt32(int32(cipherSuite))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreCreatePresentationSession)
+	_compiledDescs := []string{
+		"Landroid/hardware/identity/CipherSuite;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(cipherSuite))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(cipherSuite))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreCreatePresentationSession)
 	if _err != nil {

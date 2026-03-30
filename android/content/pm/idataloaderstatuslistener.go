@@ -61,8 +61,25 @@ func (p *DataLoaderStatusListenerProxy) OnStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataLoaderStatusListener)
-	_data.WriteInt32(dataLoaderId)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataLoaderStatusListener, MethodIDataLoaderStatusListenerOnStatusChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(dataLoaderId)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(dataLoaderId)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataLoaderStatusListener, MethodIDataLoaderStatusListenerOnStatusChanged)
 	if _err != nil {

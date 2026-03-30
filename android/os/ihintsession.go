@@ -62,7 +62,21 @@ func (p *HintSessionProxy) UpdateTargetWorkDuration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintSession)
-	_data.WriteInt64(targetDurationNanos)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHintSession, MethodIHintSessionUpdateTargetWorkDuration)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(targetDurationNanos)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(targetDurationNanos)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintSession, MethodIHintSessionUpdateTargetWorkDuration)
 	if _err != nil {
@@ -81,20 +95,51 @@ func (p *HintSessionProxy) ReportActualWorkDuration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintSession)
-	if actualDurationNanos == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(actualDurationNanos)))
-		for _, _item := range actualDurationNanos {
-			_data.WriteInt64(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHintSession, MethodIHintSessionReportActualWorkDuration)
+	_compiledDescs := []string{
+		"[J",
+		"[J",
 	}
-	if timeStampNanos == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if actualDurationNanos == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(actualDurationNanos)))
+			for _, _item := range actualDurationNanos {
+				_data.WriteInt64(_item)
+			}
+		}
+		if timeStampNanos == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(timeStampNanos)))
+			for _, _item := range timeStampNanos {
+				_data.WriteInt64(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(timeStampNanos)))
-		for _, _item := range timeStampNanos {
-			_data.WriteInt64(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if actualDurationNanos == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(actualDurationNanos)))
+					for _, _item := range actualDurationNanos {
+						_data.WriteInt64(_item)
+					}
+				}
+			case 1:
+				if timeStampNanos == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(timeStampNanos)))
+					for _, _item := range timeStampNanos {
+						_data.WriteInt64(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -130,7 +175,21 @@ func (p *HintSessionProxy) SendHint(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintSession)
-	_data.WriteInt32(hint)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHintSession, MethodIHintSessionSendHint)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(hint)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(hint)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintSession, MethodIHintSessionSendHint)
 	if _err != nil {
@@ -149,8 +208,25 @@ func (p *HintSessionProxy) SetMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintSession)
-	_data.WriteInt32(mode)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHintSession, MethodIHintSessionSetMode)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mode)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mode)
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintSession, MethodIHintSessionSetMode)
 	if _err != nil {
@@ -168,14 +244,38 @@ func (p *HintSessionProxy) ReportActualWorkDuration2(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintSession)
-	if workDurations == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHintSession, MethodIHintSessionReportActualWorkDuration2)
+	_compiledDescs := []string{
+		"[Landroid/os/WorkDuration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if workDurations == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(workDurations)))
+			for _, _item := range workDurations {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(workDurations)))
-		for _, _item := range workDurations {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if workDurations == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(workDurations)))
+					for _, _item := range workDurations {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

@@ -102,7 +102,21 @@ func (p *RemotelyProvisionedComponentProxy) GenerateEcdsaP256KeyPair(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemotelyProvisionedComponent)
-	_data.WriteBool(testMode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGenerateEcdsaP256KeyPair)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(testMode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(testMode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGenerateEcdsaP256KeyPair)
 	if _err != nil {
@@ -150,20 +164,53 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemotelyProvisionedComponent)
-	_data.WriteBool(testMode)
-	if keysToSign == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGenerateCertificateRequest)
+	_compiledDescs := []string{
+		"Z",
+		"[Landroid/hardware/security/keymint/MacedPublicKey;",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(testMode)
+		if keysToSign == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(keysToSign)))
+			for _, _item := range keysToSign {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+		_data.WriteByteArray(endpointEncryptionCertChain)
+		_data.WriteByteArray(challenge)
 	} else {
-		_data.WriteInt32(int32(len(keysToSign)))
-		for _, _item := range keysToSign {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(testMode)
+			case 1:
+				if keysToSign == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(keysToSign)))
+					for _, _item := range keysToSign {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 2:
+				_data.WriteByteArray(endpointEncryptionCertChain)
+			case 3:
+				_data.WriteByteArray(challenge)
 			}
 		}
 	}
-	_data.WriteByteArray(endpointEncryptionCertChain)
-	_data.WriteByteArray(challenge)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGenerateCertificateRequest)
 	if _err != nil {
@@ -218,18 +265,45 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequestV2(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemotelyProvisionedComponent)
-	if keysToSign == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGenerateCertificateRequestV2)
+	_compiledDescs := []string{
+		"[Landroid/hardware/security/keymint/MacedPublicKey;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if keysToSign == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(keysToSign)))
+			for _, _item := range keysToSign {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+		_data.WriteByteArray(challenge)
 	} else {
-		_data.WriteInt32(int32(len(keysToSign)))
-		for _, _item := range keysToSign {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if keysToSign == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(keysToSign)))
+					for _, _item := range keysToSign {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteByteArray(challenge)
 			}
 		}
 	}
-	_data.WriteByteArray(challenge)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGenerateCertificateRequestV2)
 	if _err != nil {

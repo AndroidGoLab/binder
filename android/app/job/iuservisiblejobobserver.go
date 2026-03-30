@@ -48,11 +48,31 @@ func (p *UserVisibleJobObserverProxy) OnUserVisibleJobStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserVisibleJobObserver)
-	_data.WriteInt32(1)
-	if _err := summary.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUserVisibleJobObserver, MethodIUserVisibleJobObserverOnUserVisibleJobStateChanged)
+	_compiledDescs := []string{
+		"Landroid/app/job/UserVisibleJobSummary;",
+		"Z",
 	}
-	_data.WriteBool(isRunning)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := summary.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(isRunning)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := summary.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(isRunning)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserVisibleJobObserver, MethodIUserVisibleJobObserverOnUserVisibleJobStateChanged)
 	if _err != nil {

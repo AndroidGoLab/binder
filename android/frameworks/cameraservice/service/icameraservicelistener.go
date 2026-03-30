@@ -52,9 +52,29 @@ func (p *CameraServiceListenerProxy) OnPhysicalCameraStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
-	_data.WriteInt32(int32(status))
-	_data.WriteString16(cameraId)
-	_data.WriteString16(physicalCameraId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnPhysicalCameraStatusChanged)
+	_compiledDescs := []string{
+		"Landroid/frameworks/cameraservice/service/CameraDeviceStatus;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(status))
+		_data.WriteString16(cameraId)
+		_data.WriteString16(physicalCameraId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(status))
+			case 1:
+				_data.WriteString16(cameraId)
+			case 2:
+				_data.WriteString16(physicalCameraId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnPhysicalCameraStatusChanged)
 	if _err != nil {
@@ -73,8 +93,25 @@ func (p *CameraServiceListenerProxy) OnStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
-	_data.WriteInt32(int32(status))
-	_data.WriteString16(cameraId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnStatusChanged)
+	_compiledDescs := []string{
+		"Landroid/frameworks/cameraservice/service/CameraDeviceStatus;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(status))
+		_data.WriteString16(cameraId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(status))
+			case 1:
+				_data.WriteString16(cameraId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnStatusChanged)
 	if _err != nil {

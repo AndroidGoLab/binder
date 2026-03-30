@@ -54,14 +54,19 @@ type Transport struct {
 	// Set during NewTransport when libbinder.so symbol inspection
 	// narrows the candidates to exactly one. Empty if ambiguous.
 	Revision Revision
+	// signatures maps interface descriptors to their method signatures
+	// (parameter type descriptor lists). Populated alongside table
+	// during lazy JAR extraction.
+	signatures map[string]dex.MethodSignatures
 	// ScannedJARs tracks which framework JARs have been fully scanned
 	// for $Stub classes. Keyed by JAR filename (e.g. "framework.jar").
 	// Persisted in the cache to avoid re-scanning across runs.
 	ScannedJARs map[string]bool
-	// mu protects table and ScannedJARs from concurrent read+write
-	// during lazy descriptor extraction. RLock for reads (ResolveCode
-	// fast path), Lock for writes (lazyExtractDescriptor). Required
-	// because Go maps are not safe for concurrent access.
+	// mu protects table, signatures, and ScannedJARs from concurrent
+	// read+write during lazy descriptor extraction. RLock for reads
+	// (ResolveCode/ResolveMethodSignature fast path), Lock for writes
+	// (lazyExtractDescriptor). Required because Go maps are not safe
+	// for concurrent access.
 	mu sync.RWMutex
 }
 
@@ -138,6 +143,7 @@ func NewTransport(
 				version:     fmt.Sprintf("%d.cached", targetAPI),
 				cachePath:   cfg.CachePath,
 				Revision:    revision,
+				signatures:  map[string]dex.MethodSignatures{},
 				ScannedJARs: scannedJARs,
 			}, nil
 		}
@@ -157,6 +163,7 @@ func NewTransport(
 			version:     version,
 			cachePath:   cfg.CachePath,
 			Revision:    revision,
+			signatures:  map[string]dex.MethodSignatures{},
 			ScannedJARs: map[string]bool{},
 		}, nil
 	}
@@ -182,6 +189,7 @@ func NewTransport(
 		version:     version,
 		cachePath:   cfg.CachePath,
 		Revision:    revision,
+		signatures:  map[string]dex.MethodSignatures{},
 		ScannedJARs: map[string]bool{},
 	}, nil
 }
@@ -296,6 +304,41 @@ func (t *Transport) ResolveCode(
 	return 0, fmt.Errorf("versionaware: method %s.%s not found in version %s", descriptor, method, t.version)
 }
 
+// ResolveMethodSignature returns the parameter type descriptor list
+// (DEX format) for the given method on the target device. Returns nil
+// if the signature is unknown or cannot be extracted.
+//
+// The signatures are extracted from the device's framework JARs during
+// the same lazy extraction pass used by ResolveCode.
+func (t *Transport) ResolveMethodSignature(
+	ctx context.Context,
+	descriptor string,
+	method string,
+) []string {
+	// Fast path: check if signatures are already loaded.
+	t.mu.RLock()
+	sigs, loaded := t.signatures[descriptor]
+	t.mu.RUnlock()
+
+	if loaded {
+		return sigs[method]
+	}
+
+	// Descriptor not in the signatures map yet — trigger lazy
+	// extraction (which populates both table and signatures).
+	t.lazyExtractDescriptor(ctx, descriptor, method)
+
+	t.mu.RLock()
+	sigs = t.signatures[descriptor]
+	t.mu.RUnlock()
+
+	if sigs != nil {
+		return sigs[method]
+	}
+
+	return nil
+}
+
 // lazyExtractDescriptor attempts on-demand extraction of a single
 // interface descriptor. Uses a two-phase procedure:
 //
@@ -329,6 +372,8 @@ func (t *Transport) lazyExtractDescriptor(
 	// Phase 1: scan all unscanned JARs in /system/framework/ and APEX
 	// javalib directories. APEX modules (Bluetooth, WiFi, Tethering, …)
 	// ship framework JARs outside /system/framework/ starting with Android 10.
+	// Uses ExtractAllFromJAR to extract both transaction codes and method
+	// signatures in a single pass over each JAR's DEX data.
 	for _, dir := range jarDirectories() {
 		entries, readErr := os.ReadDir(dir)
 		if readErr != nil {
@@ -344,7 +389,7 @@ func (t *Transport) lazyExtractDescriptor(
 				continue
 			}
 
-			allCodes, err := dex.ExtractFromJAR(jarPath)
+			contents, err := dex.ExtractAllFromJAR(jarPath)
 			if err != nil {
 				logger.Debugf(ctx, "versionaware: extracting from %s: %v", jarPath, err)
 				t.ScannedJARs[jarPath] = true
@@ -352,12 +397,17 @@ func (t *Transport) lazyExtractDescriptor(
 				continue
 			}
 
-			for iface, codes := range allCodes {
-				if t.table[iface] == nil {
-					t.table[iface] = make(map[string]binder.TransactionCode, len(codes))
+			if contents != nil {
+				for iface, codes := range contents.Codes {
+					if t.table[iface] == nil {
+						t.table[iface] = make(map[string]binder.TransactionCode, len(codes))
+					}
+					for m, c := range codes {
+						t.table[iface][m] = binder.TransactionCode(c)
+					}
 				}
-				for m, c := range codes {
-					t.table[iface][m] = binder.TransactionCode(c)
+				for iface, sigs := range contents.Signatures {
+					t.signatures[iface] = sigs
 				}
 			}
 			t.ScannedJARs[jarPath] = true

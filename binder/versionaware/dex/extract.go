@@ -14,6 +14,7 @@ const transactionFieldPrefix = "TRANSACTION_"
 
 var (
 	stubSuffixBytes             = []byte("$Stub;")
+	stubProxySuffixBytes        = []byte("$Stub$Proxy;")
 	transactionFieldPrefixBytes = []byte(transactionFieldPrefix)
 )
 
@@ -384,5 +385,414 @@ func extractStubTransactions(
 	}
 
 	return codes, nil
+}
+
+// ExtractSignaturesFromJAR opens a JAR (ZIP) file, finds all DEX files
+// inside, and extracts method signatures from all $Stub$Proxy inner
+// classes. Returns a map of fully qualified interface name to
+// MethodSignatures.
+func ExtractSignaturesFromJAR(path string) (map[string]MethodSignatures, error) {
+	zr, err := zip.OpenReader(path)
+	if err != nil {
+		return nil, fmt.Errorf("opening JAR %q: %w", path, err)
+	}
+	defer zr.Close()
+
+	hasDEX := false
+	for _, zf := range zr.File {
+		if strings.HasSuffix(zf.Name, ".dex") {
+			hasDEX = true
+			break
+		}
+	}
+	if !hasDEX {
+		return nil, nil
+	}
+
+	result := map[string]MethodSignatures{}
+	var buf []byte
+
+	for _, zf := range zr.File {
+		if !strings.HasSuffix(zf.Name, ".dex") {
+			continue
+		}
+
+		rc, err := zf.Open()
+		if err != nil {
+			return nil, fmt.Errorf("opening %q in JAR: %w", zf.Name, err)
+		}
+
+		needed := int(zf.UncompressedSize64)
+		if needed > len(buf) {
+			buf = make([]byte, needed)
+		}
+		data := buf[:needed]
+		n, err := readFull(rc, data)
+		rc.Close()
+		if err != nil {
+			return nil, fmt.Errorf("reading %q from JAR: %w", zf.Name, err)
+		}
+		data = data[:n]
+
+		dexResult, err := extractSignaturesFromDEX(data)
+		if err != nil {
+			return nil, fmt.Errorf("parsing %q: %w", zf.Name, err)
+		}
+
+		for iface, sigs := range dexResult {
+			existing, ok := result[iface]
+			if !ok {
+				result[iface] = sigs
+				continue
+			}
+			for method, params := range sigs {
+				existing[method] = params
+			}
+		}
+	}
+
+	return result, nil
+}
+
+// extractSignaturesFromDEX parses a single DEX file and extracts method
+// signatures from all $Stub$Proxy classes.
+func extractSignaturesFromDEX(data []byte) (map[string]MethodSignatures, error) {
+	f, err := parseDEXFile(data)
+	if err != nil {
+		return nil, err
+	}
+
+	result := map[string]MethodSignatures{}
+
+	for ci := uint32(0); ci < f.classDefsSize; ci++ {
+		off := f.classDefsOff + ci*classDefItemSize
+		if off+classDefItemSize > uint32(len(data)) {
+			return nil, fmt.Errorf("class_def[%d] at offset 0x%x out of bounds", ci, off)
+		}
+
+		classIdx := binary.LittleEndian.Uint32(data[off:])
+
+		isProxy, err := f.typeDescriptorHasSuffix(classIdx, stubProxySuffixBytes)
+		if err != nil {
+			return nil, fmt.Errorf("class_def[%d]: reading descriptor: %w", ci, err)
+		}
+		if !isProxy {
+			continue
+		}
+
+		sigs, err := extractProxyMethodSignatures(f, data, off)
+		if err != nil {
+			descBytes, _ := f.readTypeDescriptorBytes(classIdx)
+			return nil, fmt.Errorf("class %s: %w", descBytes, err)
+		}
+		if len(sigs) == 0 {
+			continue
+		}
+
+		descBytes, err := f.readTypeDescriptorBytes(classIdx)
+		if err != nil {
+			return nil, fmt.Errorf("class_def[%d]: reading descriptor: %w", ci, err)
+		}
+		ifaceName := stubProxyDescriptorBytesToInterface(descBytes)
+		result[ifaceName] = sigs
+	}
+
+	return result, nil
+}
+
+// ExtractDescriptorSignaturesFromJAR extracts method signatures for a
+// single AIDL interface from a JAR file. The descriptor uses dot
+// notation (e.g., "android.app.IActivityManager"). Returns nil, nil if
+// the descriptor is not found.
+func ExtractDescriptorSignaturesFromJAR(
+	path string,
+	descriptor string,
+) (MethodSignatures, error) {
+	zr, err := zip.OpenReader(path)
+	if err != nil {
+		return nil, fmt.Errorf("opening JAR %q: %w", path, err)
+	}
+	defer zr.Close()
+
+	proxyDesc := interfaceToStubProxyDescriptor(descriptor)
+
+	var buf []byte
+	for _, zf := range zr.File {
+		if !strings.HasSuffix(zf.Name, ".dex") {
+			continue
+		}
+
+		rc, err := zf.Open()
+		if err != nil {
+			return nil, fmt.Errorf("opening %q in JAR: %w", zf.Name, err)
+		}
+
+		needed := int(zf.UncompressedSize64)
+		if needed > len(buf) {
+			buf = make([]byte, needed)
+		}
+		data := buf[:needed]
+		n, err := readFull(rc, data)
+		rc.Close()
+		if err != nil {
+			return nil, fmt.Errorf("reading %q from JAR: %w", zf.Name, err)
+		}
+		data = data[:n]
+
+		sigs, err := extractDescriptorSignaturesFromDEX(data, proxyDesc)
+		if err != nil {
+			return nil, fmt.Errorf("parsing %q: %w", zf.Name, err)
+		}
+		if sigs != nil {
+			return sigs, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// extractDescriptorSignaturesFromDEX extracts method signatures for a
+// single $Stub$Proxy class matching proxyDesc from DEX data.
+func extractDescriptorSignaturesFromDEX(
+	data []byte,
+	proxyDesc []byte,
+) (MethodSignatures, error) {
+	f, err := parseDEXFile(data)
+	if err != nil {
+		return nil, err
+	}
+
+	for ci := uint32(0); ci < f.classDefsSize; ci++ {
+		off := f.classDefsOff + ci*classDefItemSize
+		if off+classDefItemSize > uint32(len(data)) {
+			return nil, fmt.Errorf("class_def[%d] at offset 0x%x out of bounds", ci, off)
+		}
+
+		classIdx := binary.LittleEndian.Uint32(data[off:])
+
+		descBytes, err := f.readTypeDescriptorBytes(classIdx)
+		if err != nil {
+			return nil, fmt.Errorf("class_def[%d]: reading descriptor: %w", ci, err)
+		}
+		if !bytes.Equal(descBytes, proxyDesc) {
+			continue
+		}
+
+		sigs, err := extractProxyMethodSignatures(f, data, off)
+		if err != nil {
+			return nil, fmt.Errorf("class %s: %w", descBytes, err)
+		}
+		return sigs, nil
+	}
+
+	return nil, nil
+}
+
+// interfaceToStubProxyDescriptor converts a dot-notation interface name
+// to a DEX $Stub$Proxy class descriptor byte slice.
+//
+//	"android.app.IActivityManager" → []byte("Landroid/app/IActivityManager$Stub$Proxy;")
+func interfaceToStubProxyDescriptor(descriptor string) []byte {
+	const suffix = "$Stub$Proxy;"
+	buf := make([]byte, 1+len(descriptor)+len(suffix))
+	buf[0] = 'L'
+	for i := range len(descriptor) {
+		if descriptor[i] == '.' {
+			buf[1+i] = '/'
+		} else {
+			buf[1+i] = descriptor[i]
+		}
+	}
+	copy(buf[1+len(descriptor):], suffix)
+	return buf
+}
+
+// stubProxyDescriptorBytesToInterface converts a $Stub$Proxy class
+// descriptor byte slice to the AIDL interface's dot-separated name.
+//
+//	[]byte("Landroid/app/IActivityManager$Stub$Proxy;") → "android.app.IActivityManager"
+func stubProxyDescriptorBytesToInterface(desc []byte) string {
+	start := 0
+	if len(desc) > 0 && desc[0] == 'L' {
+		start = 1
+	}
+
+	end := len(desc)
+	if end-start >= len(stubProxySuffixBytes) && bytes.Equal(desc[end-len(stubProxySuffixBytes):end], stubProxySuffixBytes) {
+		end -= len(stubProxySuffixBytes)
+	}
+
+	body := desc[start:end]
+	if len(body) == 0 {
+		return ""
+	}
+	buf := make([]byte, len(body))
+	for i, b := range body {
+		if b == '/' {
+			buf[i] = '.'
+		} else {
+			buf[i] = b
+		}
+	}
+	return string(buf)
+}
+
+// JARContents holds both transaction codes and method signatures
+// extracted from a single JAR file in one pass.
+type JARContents struct {
+	Codes      map[string]TransactionCodes
+	Signatures map[string]MethodSignatures
+}
+
+// ExtractAllFromJAR opens a JAR (ZIP) file and extracts both
+// TRANSACTION_* constants (from $Stub classes) and method signatures
+// (from $Stub$Proxy classes) in a single pass over the DEX data.
+// This avoids parsing the same JAR twice.
+func ExtractAllFromJAR(path string) (*JARContents, error) {
+	zr, err := zip.OpenReader(path)
+	if err != nil {
+		return nil, fmt.Errorf("opening JAR %q: %w", path, err)
+	}
+	defer zr.Close()
+
+	hasDEX := false
+	for _, zf := range zr.File {
+		if strings.HasSuffix(zf.Name, ".dex") {
+			hasDEX = true
+			break
+		}
+	}
+	if !hasDEX {
+		return nil, nil
+	}
+
+	result := &JARContents{
+		Codes:      map[string]TransactionCodes{},
+		Signatures: map[string]MethodSignatures{},
+	}
+	var buf []byte
+
+	for _, zf := range zr.File {
+		if !strings.HasSuffix(zf.Name, ".dex") {
+			continue
+		}
+
+		rc, err := zf.Open()
+		if err != nil {
+			return nil, fmt.Errorf("opening %q in JAR: %w", zf.Name, err)
+		}
+
+		needed := int(zf.UncompressedSize64)
+		if needed > len(buf) {
+			buf = make([]byte, needed)
+		}
+		data := buf[:needed]
+		n, err := readFull(rc, data)
+		rc.Close()
+		if err != nil {
+			return nil, fmt.Errorf("reading %q from JAR: %w", zf.Name, err)
+		}
+		data = data[:n]
+
+		codes, sigs, err := extractAllFromDEX(data)
+		if err != nil {
+			return nil, fmt.Errorf("parsing %q: %w", zf.Name, err)
+		}
+
+		for iface, c := range codes {
+			existing, ok := result.Codes[iface]
+			if !ok {
+				result.Codes[iface] = c
+			} else {
+				for method, code := range c {
+					existing[method] = code
+				}
+			}
+		}
+
+		for iface, s := range sigs {
+			existing, ok := result.Signatures[iface]
+			if !ok {
+				result.Signatures[iface] = s
+			} else {
+				for method, params := range s {
+					existing[method] = params
+				}
+			}
+		}
+	}
+
+	return result, nil
+}
+
+// extractAllFromDEX parses a single DEX file and extracts both
+// transaction codes (from $Stub classes) and method signatures
+// (from $Stub$Proxy classes).
+func extractAllFromDEX(
+	data []byte,
+) (map[string]TransactionCodes, map[string]MethodSignatures, error) {
+	f, err := parseDEXFile(data)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	codes := map[string]TransactionCodes{}
+	sigs := map[string]MethodSignatures{}
+
+	for ci := uint32(0); ci < f.classDefsSize; ci++ {
+		off := f.classDefsOff + ci*classDefItemSize
+		if off+classDefItemSize > uint32(len(data)) {
+			return nil, nil, fmt.Errorf("class_def[%d] at offset 0x%x out of bounds", ci, off)
+		}
+
+		classIdx := binary.LittleEndian.Uint32(data[off:])
+
+		// Check for $Stub$Proxy first (longer suffix), then $Stub.
+		// A $Stub$Proxy class also ends with $Stub; so order matters.
+		isProxy, err := f.typeDescriptorHasSuffix(classIdx, stubProxySuffixBytes)
+		if err != nil {
+			return nil, nil, fmt.Errorf("class_def[%d]: reading descriptor: %w", ci, err)
+		}
+		if isProxy {
+			methodSigs, err := extractProxyMethodSignatures(f, data, off)
+			if err != nil {
+				descBytes, _ := f.readTypeDescriptorBytes(classIdx)
+				return nil, nil, fmt.Errorf("class %s: %w", descBytes, err)
+			}
+			if len(methodSigs) > 0 {
+				descBytes, err := f.readTypeDescriptorBytes(classIdx)
+				if err != nil {
+					return nil, nil, fmt.Errorf("class_def[%d]: reading descriptor: %w", ci, err)
+				}
+				ifaceName := stubProxyDescriptorBytesToInterface(descBytes)
+				sigs[ifaceName] = methodSigs
+			}
+			continue
+		}
+
+		isStub, err := f.typeDescriptorHasSuffix(classIdx, stubSuffixBytes)
+		if err != nil {
+			return nil, nil, fmt.Errorf("class_def[%d]: reading descriptor: %w", ci, err)
+		}
+		if !isStub {
+			continue
+		}
+
+		txnCodes, err := extractStubTransactions(f, data, off)
+		if err != nil {
+			descBytes, _ := f.readTypeDescriptorBytes(classIdx)
+			return nil, nil, fmt.Errorf("class %s: %w", descBytes, err)
+		}
+		if len(txnCodes) > 0 {
+			descBytes, err := f.readTypeDescriptorBytes(classIdx)
+			if err != nil {
+				return nil, nil, fmt.Errorf("class_def[%d]: reading descriptor: %w", ci, err)
+			}
+			ifaceName := stubDescriptorBytesToInterface(descBytes)
+			codes[ifaceName] = txnCodes
+		}
+	}
+
+	return codes, sigs, nil
 }
 

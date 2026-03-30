@@ -51,7 +51,21 @@ func (p *TunerLnbCallbackProxy) OnEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerLnbCallback)
-	_data.WriteInt32(int32(lnbEventType))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerLnbCallback, MethodITunerLnbCallbackOnEvent)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/LnbEventType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(lnbEventType))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(lnbEventType))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnbCallback, MethodITunerLnbCallbackOnEvent)
 	if _err != nil {
@@ -78,7 +92,21 @@ func (p *TunerLnbCallbackProxy) OnDiseqcMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerLnbCallback)
-	_data.WriteByteArray(diseqcMessage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITunerLnbCallback, MethodITunerLnbCallbackOnDiseqcMessage)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(diseqcMessage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(diseqcMessage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnbCallback, MethodITunerLnbCallbackOnDiseqcMessage)
 	if _err != nil {

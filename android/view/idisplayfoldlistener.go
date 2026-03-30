@@ -48,8 +48,25 @@ func (p *DisplayFoldListenerProxy) OnDisplayFoldChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayFoldListener)
-	_data.WriteInt32(displayId)
-	_data.WriteBool(folded)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayFoldListener, MethodIDisplayFoldListenerOnDisplayFoldChanged)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteBool(folded)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteBool(folded)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayFoldListener, MethodIDisplayFoldListenerOnDisplayFoldChanged)
 	if _err != nil {

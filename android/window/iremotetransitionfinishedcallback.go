@@ -49,13 +49,36 @@ func (p *RemoteTransitionFinishedCallbackProxy) OnTransitionFinished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteTransitionFinishedCallback)
-	_data.WriteInt32(1)
-	if _err := wct.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteTransitionFinishedCallback, MethodIRemoteTransitionFinishedCallbackOnTransitionFinished)
+	_compiledDescs := []string{
+		"Landroid/window/WindowContainerTransaction;",
+		"LSurfaceControl/Transaction;",
 	}
-	_data.WriteInt32(1)
-	if _err := sct.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := wct.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := sct.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := wct.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := sct.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteTransitionFinishedCallback, MethodIRemoteTransitionFinishedCallbackOnTransitionFinished)

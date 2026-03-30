@@ -61,10 +61,33 @@ func (p *AttachEmbeddedWindowProxy) AttachEmbedded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttachEmbeddedWindow)
-	binder.WriteBinderToParcel(ctx, _data, hostToken, p.Remote.Transport())
-	_data.WriteInt32(width)
-	_data.WriteInt32(height)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowAttachEmbedded)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"I",
+		"Lcom/android/test/viewembed/IAttachEmbeddedWindowCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, hostToken, p.Remote.Transport())
+		_data.WriteInt32(width)
+		_data.WriteInt32(height)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, hostToken, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(width)
+			case 2:
+				_data.WriteInt32(height)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowAttachEmbedded)
 	if _err != nil {
@@ -91,9 +114,26 @@ func (p *AttachEmbeddedWindowProxy) Relayout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttachEmbeddedWindow)
-	_data.WriteInt32(1)
-	if _err := lp.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowRelayout)
+	_compiledDescs := []string{
+		"Landroid/view/WindowManager/LayoutParams;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := lp.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := lp.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowRelayout)
@@ -123,14 +163,40 @@ func (p *AttachEmbeddedWindowProxy) AttachEmbeddedSurfaceControl(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttachEmbeddedWindow)
-	_data.WriteInt32(1)
-	if _err := parentSurfaceControl.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowAttachEmbeddedSurfaceControl)
+	_compiledDescs := []string{
+		"Landroid/view/SurfaceControl;",
+		"I",
+		"Landroid/window/InputTransferToken;",
 	}
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(1)
-	if _err := inputTransferToken.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := parentSurfaceControl.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(1)
+		if _err := inputTransferToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := parentSurfaceControl.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(displayId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := inputTransferToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowAttachEmbeddedSurfaceControl)

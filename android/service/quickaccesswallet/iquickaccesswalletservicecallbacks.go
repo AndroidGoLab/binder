@@ -57,9 +57,26 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnGetWalletCardsSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletServiceCallbacks)
-	_data.WriteInt32(1)
-	if _err := response.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnGetWalletCardsSuccess)
+	_compiledDescs := []string{
+		"Landroid/service/quickaccesswallet/GetWalletCardsResponse;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := response.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := response.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnGetWalletCardsSuccess)
@@ -78,9 +95,26 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnGetWalletCardsFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletServiceCallbacks)
-	_data.WriteInt32(1)
-	if _err := error_.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnGetWalletCardsFailure)
+	_compiledDescs := []string{
+		"Landroid/service/quickaccesswallet/GetWalletCardsError;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := error_.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := error_.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnGetWalletCardsFailure)
@@ -99,9 +133,26 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnWalletServiceEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletServiceCallbacks)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnWalletServiceEvent)
+	_compiledDescs := []string{
+		"Landroid/service/quickaccesswallet/WalletServiceEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnWalletServiceEvent)
@@ -120,9 +171,26 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnTargetActivityPendingIntentRe
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletServiceCallbacks)
-	_data.WriteInt32(1)
-	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnTargetActivityPendingIntentReceived)
+	_compiledDescs := []string{
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnTargetActivityPendingIntentReceived)

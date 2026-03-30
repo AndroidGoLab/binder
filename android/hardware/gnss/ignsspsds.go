@@ -51,8 +51,25 @@ func (p *GnssPsdsProxy) InjectPsdsData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssPsds)
-	_data.WriteInt32(int32(psdsType))
-	_data.WriteByteArray(psdsData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssPsds, MethodIGnssPsdsInjectPsdsData)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/PsdsType;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(psdsType))
+		_data.WriteByteArray(psdsData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(psdsType))
+			case 1:
+				_data.WriteByteArray(psdsData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssPsds, MethodIGnssPsdsInjectPsdsData)
 	if _err != nil {
@@ -79,7 +96,21 @@ func (p *GnssPsdsProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssPsds)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssPsds, MethodIGnssPsdsSetCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/IGnssPsdsCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssPsds, MethodIGnssPsdsSetCallback)
 	if _err != nil {

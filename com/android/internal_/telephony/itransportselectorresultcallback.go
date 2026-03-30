@@ -47,7 +47,21 @@ func (p *TransportSelectorResultCallbackProxy) OnCompleted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransportSelectorResultCallback)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITransportSelectorResultCallback, MethodITransportSelectorResultCallbackOnCompleted)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telephony/IWwanSelectorCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransportSelectorResultCallback, MethodITransportSelectorResultCallbackOnCompleted)
 	if _err != nil {

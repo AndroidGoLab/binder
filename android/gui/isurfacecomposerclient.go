@@ -84,12 +84,38 @@ func (p *SurfaceComposerClientProxy) CreateSurface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
-	_data.WriteString16(name)
-	_data.WriteInt32(flags)
-	binder.WriteBinderToParcel(ctx, _data, parent, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := metadata.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientCreateSurface)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/os/IBinder;",
+		"Landroid/gui/LayerMetadata;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteInt32(flags)
+		binder.WriteBinderToParcel(ctx, _data, parent, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := metadata.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteInt32(flags)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, parent, p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(1)
+				if _err := metadata.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientCreateSurface)
@@ -126,7 +152,21 @@ func (p *SurfaceComposerClientProxy) ClearLayerFrameStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
-	binder.WriteBinderToParcel(ctx, _data, handle, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientClearLayerFrameStats)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, handle, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, handle, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientClearLayerFrameStats)
 	if _err != nil {
@@ -154,7 +194,21 @@ func (p *SurfaceComposerClientProxy) GetLayerFrameStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
-	binder.WriteBinderToParcel(ctx, _data, handle, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientGetLayerFrameStats)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, handle, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, handle, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientGetLayerFrameStats)
 	if _err != nil {
@@ -191,7 +245,21 @@ func (p *SurfaceComposerClientProxy) MirrorSurface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
-	binder.WriteBinderToParcel(ctx, _data, mirrorFromHandle, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientMirrorSurface)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, mirrorFromHandle, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, mirrorFromHandle, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientMirrorSurface)
 	if _err != nil {
@@ -228,7 +296,21 @@ func (p *SurfaceComposerClientProxy) MirrorDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
-	_data.WriteInt64(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientMirrorDisplay)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientMirrorDisplay)
 	if _err != nil {

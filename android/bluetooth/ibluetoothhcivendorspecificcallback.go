@@ -54,8 +54,25 @@ func (p *BluetoothHciVendorSpecificCallbackProxy) OnCommandStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHciVendorSpecificCallback)
-	_data.WriteInt32(ocf)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothHciVendorSpecificCallback, MethodIBluetoothHciVendorSpecificCallbackOnCommandStatus)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(ocf)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(ocf)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciVendorSpecificCallback, MethodIBluetoothHciVendorSpecificCallbackOnCommandStatus)
 	if _err != nil {
@@ -74,8 +91,25 @@ func (p *BluetoothHciVendorSpecificCallbackProxy) OnCommandComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHciVendorSpecificCallback)
-	_data.WriteInt32(ocf)
-	_data.WriteByteArray(returnParameters)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothHciVendorSpecificCallback, MethodIBluetoothHciVendorSpecificCallbackOnCommandComplete)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(ocf)
+		_data.WriteByteArray(returnParameters)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(ocf)
+			case 1:
+				_data.WriteByteArray(returnParameters)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciVendorSpecificCallback, MethodIBluetoothHciVendorSpecificCallbackOnCommandComplete)
 	if _err != nil {
@@ -94,8 +128,25 @@ func (p *BluetoothHciVendorSpecificCallbackProxy) OnEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHciVendorSpecificCallback)
-	_data.WriteInt32(code)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothHciVendorSpecificCallback, MethodIBluetoothHciVendorSpecificCallbackOnEvent)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciVendorSpecificCallback, MethodIBluetoothHciVendorSpecificCallbackOnEvent)
 	if _err != nil {

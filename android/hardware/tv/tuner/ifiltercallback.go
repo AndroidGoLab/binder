@@ -50,14 +50,38 @@ func (p *FilterCallbackProxy) OnFilterEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilterCallback)
-	if events == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFilterCallback, MethodIFilterCallbackOnFilterEvent)
+	_compiledDescs := []string{
+		"[Landroid/hardware/tv/tuner/DemuxFilterEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if events == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(events)))
+			for _, _item := range events {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(events)))
-		for _, _item := range events {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if events == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(events)))
+					for _, _item := range events {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -78,7 +102,21 @@ func (p *FilterCallbackProxy) OnFilterStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilterCallback)
-	_data.WritePaddedByte(byte(status))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFilterCallback, MethodIFilterCallbackOnFilterStatus)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/DemuxFilterStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(status))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(status))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilterCallback, MethodIFilterCallbackOnFilterStatus)
 	if _err != nil {

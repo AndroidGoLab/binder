@@ -70,18 +70,45 @@ func (p *PrintSpoolerCallbacksProxy) OnGetPrintJobInfosResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerCallbacks)
-	if printJob == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksOnGetPrintJobInfosResult)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if printJob == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(printJob)))
+			for _, _item := range printJob {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(sequence)
 	} else {
-		_data.WriteInt32(int32(len(printJob)))
-		for _, _item := range printJob {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if printJob == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(printJob)))
+					for _, _item := range printJob {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(sequence)
 			}
 		}
 	}
-	_data.WriteInt32(sequence)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksOnGetPrintJobInfosResult)
 	if _err != nil {
@@ -100,8 +127,25 @@ func (p *PrintSpoolerCallbacksProxy) OnCancelPrintJobResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerCallbacks)
-	_data.WriteBool(canceled)
-	_data.WriteInt32(sequence)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksOnCancelPrintJobResult)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(canceled)
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(canceled)
+			case 1:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksOnCancelPrintJobResult)
 	if _err != nil {
@@ -120,8 +164,25 @@ func (p *PrintSpoolerCallbacksProxy) OnSetPrintJobStateResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerCallbacks)
-	_data.WriteBool(success)
-	_data.WriteInt32(sequence)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksOnSetPrintJobStateResult)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(success)
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(success)
+			case 1:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksOnSetPrintJobStateResult)
 	if _err != nil {
@@ -140,8 +201,25 @@ func (p *PrintSpoolerCallbacksProxy) OnSetPrintJobTagResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerCallbacks)
-	_data.WriteBool(success)
-	_data.WriteInt32(sequence)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksOnSetPrintJobTagResult)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(success)
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(success)
+			case 1:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksOnSetPrintJobTagResult)
 	if _err != nil {
@@ -160,11 +238,31 @@ func (p *PrintSpoolerCallbacksProxy) OnGetPrintJobInfoResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerCallbacks)
-	_data.WriteInt32(1)
-	if _err := printJob.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksOnGetPrintJobInfoResult)
+	_compiledDescs := []string{
+		"Landroid/print/PrintJobInfo;",
+		"I",
 	}
-	_data.WriteInt32(sequence)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := printJob.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := printJob.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksOnGetPrintJobInfoResult)
 	if _err != nil {
@@ -183,11 +281,31 @@ func (p *PrintSpoolerCallbacksProxy) OnGetCustomPrinterIconResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerCallbacks)
-	_data.WriteInt32(1)
-	if _err := icon.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksOnGetCustomPrinterIconResult)
+	_compiledDescs := []string{
+		"Landroid/graphics/drawable/Icon;",
+		"I",
 	}
-	_data.WriteInt32(sequence)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := icon.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := icon.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksOnGetCustomPrinterIconResult)
 	if _err != nil {
@@ -205,7 +323,21 @@ func (p *PrintSpoolerCallbacksProxy) OnCustomPrinterIconCached(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerCallbacks)
-	_data.WriteInt32(sequence)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksOnCustomPrinterIconCached)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksOnCustomPrinterIconCached)
 	if _err != nil {
@@ -223,7 +355,21 @@ func (p *PrintSpoolerCallbacksProxy) CustomPrinterIconCacheCleared(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerCallbacks)
-	_data.WriteInt32(sequence)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksCustomPrinterIconCacheCleared)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpoolerCallbacks, MethodIPrintSpoolerCallbacksCustomPrinterIconCacheCleared)
 	if _err != nil {

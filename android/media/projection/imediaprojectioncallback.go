@@ -70,8 +70,25 @@ func (p *MediaProjectionCallbackProxy) OnCapturedContentResize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionCallback)
-	_data.WriteInt32(width)
-	_data.WriteInt32(height)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionCallback, MethodIMediaProjectionCallbackOnCapturedContentResize)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(width)
+		_data.WriteInt32(height)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(width)
+			case 1:
+				_data.WriteInt32(height)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionCallback, MethodIMediaProjectionCallbackOnCapturedContentResize)
 	if _err != nil {
@@ -89,7 +106,21 @@ func (p *MediaProjectionCallbackProxy) OnCapturedContentVisibilityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionCallback)
-	_data.WriteBool(isVisible)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionCallback, MethodIMediaProjectionCallbackOnCapturedContentVisibilityChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isVisible)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isVisible)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionCallback, MethodIMediaProjectionCallbackOnCapturedContentVisibilityChanged)
 	if _err != nil {

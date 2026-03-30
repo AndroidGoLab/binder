@@ -68,8 +68,25 @@ func (p *NfcAdapterExtrasProxy) Open(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapterExtras)
-	_data.WriteString16(pkg)
-	binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasOpen)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasOpen)
 	if _err != nil {
@@ -107,8 +124,25 @@ func (p *NfcAdapterExtrasProxy) Close(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapterExtras)
-	_data.WriteString16(pkg)
-	binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasClose)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasClose)
 	if _err != nil {
@@ -146,8 +180,25 @@ func (p *NfcAdapterExtrasProxy) Transceive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapterExtras)
-	_data.WriteString16(pkg)
-	_data.WriteByteArray(data_in)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasTransceive)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteByteArray(data_in)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteByteArray(data_in)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasTransceive)
 	if _err != nil {
@@ -184,7 +235,21 @@ func (p *NfcAdapterExtrasProxy) GetCardEmulationRoute(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapterExtras)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasGetCardEmulationRoute)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasGetCardEmulationRoute)
 	if _err != nil {
@@ -216,8 +281,25 @@ func (p *NfcAdapterExtrasProxy) SetCardEmulationRoute(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapterExtras)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(route)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasSetCardEmulationRoute)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(route)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(route)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasSetCardEmulationRoute)
 	if _err != nil {
@@ -245,8 +327,25 @@ func (p *NfcAdapterExtrasProxy) Authenticate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapterExtras)
-	_data.WriteString16(pkg)
-	_data.WriteByteArray(token)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasAuthenticate)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteByteArray(token)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteByteArray(token)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasAuthenticate)
 	if _err != nil {
@@ -274,7 +373,21 @@ func (p *NfcAdapterExtrasProxy) GetDriverName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapterExtras)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasGetDriverName)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasGetDriverName)
 	if _err != nil {

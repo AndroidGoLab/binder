@@ -214,12 +214,35 @@ func (p *VoiceInteractionManagerServiceProxy) ShowSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteInt32(1)
-	if _err := sessionArgs.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceShowSession)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+		"I",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(flags)
-	_data.WriteString16(_identity.AttributionTag)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sessionArgs.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(flags)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sessionArgs.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(flags)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceShowSession)
 	if _err != nil {
@@ -249,9 +272,29 @@ func (p *VoiceInteractionManagerServiceProxy) DeliverNewSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	// WARNING: param session (type types.IVoiceInteractionSession) cannot be serialized — type not resolved
-	binder.WriteBinderToParcel(ctx, _data, interactor.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceDeliverNewSession)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/service/voice/IVoiceInteractionSession;",
+		"Lcom/android/internal/app/IVoiceInteractor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		// WARNING: param session (type types.IVoiceInteractionSession) cannot be serialized — type not resolved
+		binder.WriteBinderToParcel(ctx, _data, interactor.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				// WARNING: param session (type types.IVoiceInteractionSession) cannot be serialized — type not resolved
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, interactor.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceDeliverNewSession)
 	if _err != nil {
@@ -286,13 +329,39 @@ func (p *VoiceInteractionManagerServiceProxy) ShowSessionFromSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := sessionArgs.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceShowSessionFromSession)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/os/Bundle;",
+		"I",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(flags)
-	_data.WriteString16(_identity.AttributionTag)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := sessionArgs.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(flags)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := sessionArgs.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceShowSessionFromSession)
 	if _err != nil {
@@ -324,7 +393,21 @@ func (p *VoiceInteractionManagerServiceProxy) HideSessionFromSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceHideSessionFromSession)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceHideSessionFromSession)
 	if _err != nil {
@@ -359,13 +442,39 @@ func (p *VoiceInteractionManagerServiceProxy) StartVoiceActivity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceStartVoiceActivity)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/content/Intent;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(resolvedType)
-	_data.WriteString16(_identity.AttributionTag)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(resolvedType)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(resolvedType)
+			case 3:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceStartVoiceActivity)
 	if _err != nil {
@@ -401,16 +510,48 @@ func (p *VoiceInteractionManagerServiceProxy) StartAssistantActivity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceStartAssistantActivity)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/content/Intent;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteString16(resolvedType)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(1)
-	if _err := bundle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(resolvedType)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(1)
+		if _err := bundle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(resolvedType)
+			case 3:
+				_data.WriteString16(_identity.AttributionTag)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := bundle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceStartAssistantActivity)
@@ -443,8 +584,25 @@ func (p *VoiceInteractionManagerServiceProxy) SetKeepAwake(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteBool(keepAwake)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceSetKeepAwake)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteBool(keepAwake)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteBool(keepAwake)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceSetKeepAwake)
 	if _err != nil {
@@ -471,7 +629,21 @@ func (p *VoiceInteractionManagerServiceProxy) CloseSystemDialogs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceCloseSystemDialogs)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceCloseSystemDialogs)
 	if _err != nil {
@@ -498,7 +670,21 @@ func (p *VoiceInteractionManagerServiceProxy) Finish(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceFinish)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceFinish)
 	if _err != nil {
@@ -525,7 +711,21 @@ func (p *VoiceInteractionManagerServiceProxy) SetDisabledShowContext(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceSetDisabledShowContext)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceSetDisabledShowContext)
 	if _err != nil {
@@ -614,8 +814,25 @@ func (p *VoiceInteractionManagerServiceProxy) GetKeyphraseSoundModel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteInt32(keyphraseId)
-	_data.WriteString16(bcp47Locale)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceGetKeyphraseSoundModel)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(keyphraseId)
+		_data.WriteString16(bcp47Locale)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(keyphraseId)
+			case 1:
+				_data.WriteString16(bcp47Locale)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceGetKeyphraseSoundModel)
 	if _err != nil {
@@ -652,9 +869,26 @@ func (p *VoiceInteractionManagerServiceProxy) UpdateKeyphraseSoundModel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteInt32(1)
-	if _err := model.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceUpdateKeyphraseSoundModel)
+	_compiledDescs := []string{
+		"LSoundTrigger/KeyphraseSoundModel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := model.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := model.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceUpdateKeyphraseSoundModel)
@@ -688,8 +922,25 @@ func (p *VoiceInteractionManagerServiceProxy) DeleteKeyphraseSoundModel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteInt32(keyphraseId)
-	_data.WriteString16(bcp47Locale)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceDeleteKeyphraseSoundModel)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(keyphraseId)
+		_data.WriteString16(bcp47Locale)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(keyphraseId)
+			case 1:
+				_data.WriteString16(bcp47Locale)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceDeleteKeyphraseSoundModel)
 	if _err != nil {
@@ -721,8 +972,25 @@ func (p *VoiceInteractionManagerServiceProxy) SetModelDatabaseForTestEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteBool(enabled)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceSetModelDatabaseForTestEnabled)
+	_compiledDescs := []string{
+		"Z",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceSetModelDatabaseForTestEnabled)
 	if _err != nil {
@@ -751,8 +1019,25 @@ func (p *VoiceInteractionManagerServiceProxy) IsEnrolledForKeyphrase(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteInt32(keyphraseId)
-	_data.WriteString16(bcp47Locale)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceIsEnrolledForKeyphrase)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(keyphraseId)
+		_data.WriteString16(bcp47Locale)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(keyphraseId)
+			case 1:
+				_data.WriteString16(bcp47Locale)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceIsEnrolledForKeyphrase)
 	if _err != nil {
@@ -785,8 +1070,25 @@ func (p *VoiceInteractionManagerServiceProxy) GetEnrolledKeyphraseMetadata(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteString16(keyphrase)
-	_data.WriteString16(bcp47Locale)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceGetEnrolledKeyphraseMetadata)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(keyphrase)
+		_data.WriteString16(bcp47Locale)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(keyphrase)
+			case 1:
+				_data.WriteString16(bcp47Locale)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceGetEnrolledKeyphraseMetadata)
 	if _err != nil {
@@ -862,14 +1164,43 @@ func (p *VoiceInteractionManagerServiceProxy) ShowSessionForActiveService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceShowSessionForActiveService)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+		"I",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/app/IVoiceInteractionSessionShowCallback;",
+		"Landroid/os/IBinder;",
 	}
-	_data.WriteInt32(sourceFlags)
-	_data.WriteString16(_identity.AttributionTag)
-	binder.WriteBinderToParcel(ctx, _data, showCallback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := args.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(sourceFlags)
+		_data.WriteString16(_identity.AttributionTag)
+		binder.WriteBinderToParcel(ctx, _data, showCallback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := args.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(sourceFlags)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, showCallback.AsBinder(), p.Remote.Transport())
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceShowSessionForActiveService)
 	if _err != nil {
@@ -1065,7 +1396,21 @@ func (p *VoiceInteractionManagerServiceProxy) RegisterVoiceInteractionSessionLis
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceRegisterVoiceInteractionSessionListener)
+	_compiledDescs := []string{
+		"Lcom/android/internal/app/IVoiceInteractionSessionListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceRegisterVoiceInteractionSessionListener)
 	if _err != nil {
@@ -1093,15 +1438,39 @@ func (p *VoiceInteractionManagerServiceProxy) GetActiveServiceSupportedActions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	if voiceActions == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceGetActiveServiceSupportedActions)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"Lcom/android/internal/app/IVoiceActionCheckCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if voiceActions == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(voiceActions)))
+			for _, _item := range voiceActions {
+				_data.WriteString16(_item)
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(voiceActions)))
-		for _, _item := range voiceActions {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if voiceActions == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(voiceActions)))
+					for _, _item := range voiceActions {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceGetActiveServiceSupportedActions)
 	if _err != nil {
@@ -1128,9 +1497,26 @@ func (p *VoiceInteractionManagerServiceProxy) SetUiHints(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteInt32(1)
-	if _err := hints.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceSetUiHints)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := hints.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := hints.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceSetUiHints)
@@ -1162,16 +1548,48 @@ func (p *VoiceInteractionManagerServiceProxy) RequestDirectActions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(taskId)
-	binder.WriteBinderToParcel(ctx, _data, assistToken, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := cancellationCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceRequestDirectActions)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"Landroid/os/IBinder;",
+		"Landroid/os/RemoteCallback;",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(taskId)
+		binder.WriteBinderToParcel(ctx, _data, assistToken, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := cancellationCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(taskId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, assistToken, p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(1)
+				if _err := cancellationCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceRequestDirectActions)
@@ -1205,21 +1623,62 @@ func (p *VoiceInteractionManagerServiceProxy) PerformDirectAction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteString16(actionId)
-	_data.WriteInt32(1)
-	if _err := arguments.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServicePerformDirectAction)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"I",
+		"Landroid/os/IBinder;",
+		"Landroid/os/RemoteCallback;",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteInt32(taskId)
-	binder.WriteBinderToParcel(ctx, _data, assistToken, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := cancellationCallback.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := resultCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteString16(actionId)
+		_data.WriteInt32(1)
+		if _err := arguments.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(taskId)
+		binder.WriteBinderToParcel(ctx, _data, assistToken, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := cancellationCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := resultCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(actionId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := arguments.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(taskId)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, assistToken, p.Remote.Transport())
+			case 5:
+				_data.WriteInt32(1)
+				if _err := cancellationCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				_data.WriteInt32(1)
+				if _err := resultCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServicePerformDirectAction)
@@ -1247,7 +1706,21 @@ func (p *VoiceInteractionManagerServiceProxy) SetDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteBool(disabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceSetDisabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(disabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(disabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceSetDisabled)
 	if _err != nil {
@@ -1277,14 +1750,40 @@ func (p *VoiceInteractionManagerServiceProxy) CreateSoundTriggerSessionAsOrigina
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteInt32(1)
-	if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceCreateSoundTriggerSessionAsOriginator)
+	_compiledDescs := []string{
+		"Landroid/media/permission/Identity;",
+		"Landroid/os/IBinder;",
+		"LSoundTrigger/ModuleProperties;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, client, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := moduleProperties.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, client, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := moduleProperties.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, client, p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(1)
+				if _err := moduleProperties.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceCreateSoundTriggerSessionAsOriginator)
@@ -1318,9 +1817,26 @@ func (p *VoiceInteractionManagerServiceProxy) ListModuleProperties(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteInt32(1)
-	if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceListModuleProperties)
+	_compiledDescs := []string{
+		"Landroid/media/permission/Identity;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceListModuleProperties)
@@ -1386,15 +1902,41 @@ func (p *VoiceInteractionManagerServiceProxy) UpdateState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceUpdateState)
+	_compiledDescs := []string{
+		"Landroid/os/PersistableBundle;",
+		"Landroid/os/SharedMemory;",
+		"Landroid/os/IBinder;",
 	}
-	_data.WriteInt32(1)
-	if _err := sharedMemory.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := sharedMemory.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := sharedMemory.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceUpdateState)
 	if _err != nil {
@@ -1426,21 +1968,59 @@ func (p *VoiceInteractionManagerServiceProxy) InitAndVerifyDetector(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteInt32(1)
-	if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceInitAndVerifyDetector)
+	_compiledDescs := []string{
+		"Landroid/media/permission/Identity;",
+		"Landroid/os/PersistableBundle;",
+		"Landroid/os/SharedMemory;",
+		"Landroid/os/IBinder;",
+		"Lcom/android/internal/app/IHotwordRecognitionStatusCallback;",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := sharedMemory.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(detectorType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := sharedMemory.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 5:
+				_data.WriteInt32(detectorType)
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := sharedMemory.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(detectorType)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceInitAndVerifyDetector)
 	if _err != nil {
@@ -1467,7 +2047,21 @@ func (p *VoiceInteractionManagerServiceProxy) DestroyDetector(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceDestroyDetector)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceDestroyDetector)
 	if _err != nil {
@@ -1519,7 +2113,21 @@ func (p *VoiceInteractionManagerServiceProxy) SubscribeVisualQueryRecognitionSta
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceSubscribeVisualQueryRecognitionStatus)
+	_compiledDescs := []string{
+		"Lcom/android/internal/app/IVisualQueryRecognitionStatusListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceSubscribeVisualQueryRecognitionStatus)
 	if _err != nil {
@@ -1546,7 +2154,21 @@ func (p *VoiceInteractionManagerServiceProxy) EnableVisualQueryDetection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, Listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceEnableVisualQueryDetection)
+	_compiledDescs := []string{
+		"Lcom/android/internal/app/IVisualQueryDetectionAttentionListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, Listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, Listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceEnableVisualQueryDetection)
 	if _err != nil {
@@ -1598,7 +2220,21 @@ func (p *VoiceInteractionManagerServiceProxy) StartPerceiving(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	// WARNING: param callback (type types.IVisualQueryDetectionVoiceInteractionCallback) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceStartPerceiving)
+	_compiledDescs := []string{
+		"Landroid/service/voice/IVisualQueryDetectionVoiceInteractionCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		// WARNING: param callback (type types.IVisualQueryDetectionVoiceInteractionCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				// WARNING: param callback (type types.IVisualQueryDetectionVoiceInteractionCallback) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceStartPerceiving)
 	if _err != nil {
@@ -1651,11 +2287,31 @@ func (p *VoiceInteractionManagerServiceProxy) StartListeningFromMic(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteInt32(1)
-	if _err := audioFormat.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceStartListeningFromMic)
+	_compiledDescs := []string{
+		"Landroid/media/AudioFormat;",
+		"Landroid/service/voice/IMicrophoneHotwordDetectionVoiceInteractionCallback;",
 	}
-	// WARNING: param callback (type types.IMicrophoneHotwordDetectionVoiceInteractionCallback) cannot be serialized — type not resolved
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := audioFormat.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		// WARNING: param callback (type types.IMicrophoneHotwordDetectionVoiceInteractionCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := audioFormat.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				// WARNING: param callback (type types.IMicrophoneHotwordDetectionVoiceInteractionCallback) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceStartListeningFromMic)
 	if _err != nil {
@@ -1711,17 +2367,49 @@ func (p *VoiceInteractionManagerServiceProxy) StartListeningFromExternalSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteParcelFileDescriptor(audioStream)
-	_data.WriteInt32(1)
-	if _err := audioFormat.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceStartListeningFromExternalSource)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/media/AudioFormat;",
+		"Landroid/os/PersistableBundle;",
+		"Landroid/os/IBinder;",
+		"Landroid/service/voice/IMicrophoneHotwordDetectionVoiceInteractionCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(audioStream)
+		_data.WriteInt32(1)
+		if _err := audioFormat.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		// WARNING: param callback (type types.IMicrophoneHotwordDetectionVoiceInteractionCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(audioStream)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := audioFormat.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 4:
+				// WARNING: param callback (type types.IMicrophoneHotwordDetectionVoiceInteractionCallback) cannot be serialized — type not resolved
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	// WARNING: param callback (type types.IMicrophoneHotwordDetectionVoiceInteractionCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceStartListeningFromExternalSource)
 	if _err != nil {
@@ -1749,11 +2437,31 @@ func (p *VoiceInteractionManagerServiceProxy) TriggerHardwareRecognitionEventFor
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceTriggerHardwareRecognitionEventForTest)
+	_compiledDescs := []string{
+		"LSoundTrigger/KeyphraseRecognitionEvent;",
+		"Lcom/android/internal/app/IHotwordRecognitionStatusCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceTriggerHardwareRecognitionEventForTest)
 	if _err != nil {
@@ -1780,7 +2488,21 @@ func (p *VoiceInteractionManagerServiceProxy) StartListeningVisibleActivityChang
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceStartListeningVisibleActivityChanged)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceStartListeningVisibleActivityChanged)
 	if _err != nil {
@@ -1807,7 +2529,21 @@ func (p *VoiceInteractionManagerServiceProxy) StopListeningVisibleActivityChange
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceStopListeningVisibleActivityChanged)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceStopListeningVisibleActivityChanged)
 	if _err != nil {
@@ -1835,8 +2571,25 @@ func (p *VoiceInteractionManagerServiceProxy) SetSessionWindowVisible(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteBool(visible)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceSetSessionWindowVisible)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteBool(visible)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteBool(visible)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceSetSessionWindowVisible)
 	if _err != nil {
@@ -1864,8 +2617,25 @@ func (p *VoiceInteractionManagerServiceProxy) NotifyActivityEventChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
-	_data.WriteInt32(type_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceNotifyActivityEventChanged)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+		_data.WriteInt32(type_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(type_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceNotifyActivityEventChanged)
 	if _err != nil {
@@ -1913,7 +2683,21 @@ func (p *VoiceInteractionManagerServiceProxy) RegisterAccessibilityDetectionSett
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceRegisterAccessibilityDetectionSettingsListener)
+	_compiledDescs := []string{
+		"Lcom/android/internal/app/IVoiceInteractionAccessibilitySettingsListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceRegisterAccessibilityDetectionSettingsListener)
 	if _err != nil {
@@ -1931,7 +2715,21 @@ func (p *VoiceInteractionManagerServiceProxy) UnregisterAccessibilityDetectionSe
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceUnregisterAccessibilityDetectionSettingsListener)
+	_compiledDescs := []string{
+		"Lcom/android/internal/app/IVoiceInteractionAccessibilitySettingsListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionManagerService, MethodIVoiceInteractionManagerServiceUnregisterAccessibilityDetectionSettingsListener)
 	if _err != nil {

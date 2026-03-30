@@ -61,14 +61,40 @@ func (p *MediaBrowserServiceCallbacksProxy) OnConnect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserServiceCallbacks)
-	_data.WriteString16(root)
-	_data.WriteInt32(1)
-	if _err := session.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaBrowserServiceCallbacks, MethodIMediaBrowserServiceCallbacksOnConnect)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LMediaSession/Token;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(root)
+		_data.WriteInt32(1)
+		if _err := session.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(root)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := session.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserServiceCallbacks, MethodIMediaBrowserServiceCallbacksOnConnect)
@@ -105,14 +131,40 @@ func (p *MediaBrowserServiceCallbacksProxy) OnLoadChildren(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserServiceCallbacks)
-	_data.WriteString16(mediaId)
-	_data.WriteInt32(1)
-	if _err := list.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaBrowserServiceCallbacks, MethodIMediaBrowserServiceCallbacksOnLoadChildren)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/content/pm/ParceledListSlice;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(mediaId)
+		_data.WriteInt32(1)
+		if _err := list.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(mediaId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := list.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserServiceCallbacks, MethodIMediaBrowserServiceCallbacksOnLoadChildren)

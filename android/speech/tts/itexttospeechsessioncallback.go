@@ -54,8 +54,25 @@ func (p *TextToSpeechSessionCallbackProxy) OnConnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechSessionCallback)
-	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, serviceBinder, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechSessionCallback, MethodITextToSpeechSessionCallbackOnConnected)
+	_compiledDescs := []string{
+		"Landroid/speech/tts/ITextToSpeechSession;",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, serviceBinder, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, serviceBinder, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechSessionCallback, MethodITextToSpeechSessionCallbackOnConnected)
 	if _err != nil {
@@ -89,7 +106,21 @@ func (p *TextToSpeechSessionCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechSessionCallback)
-	_data.WriteString16(errorInfo)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITextToSpeechSessionCallback, MethodITextToSpeechSessionCallbackOnError)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(errorInfo)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(errorInfo)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechSessionCallback, MethodITextToSpeechSessionCallbackOnError)
 	if _err != nil {

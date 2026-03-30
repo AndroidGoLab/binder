@@ -1103,6 +1103,14 @@ func writeProxyStruct(
 	f.P("")
 }
 
+// wireParam describes a single input parameter that is serialized to
+// the data parcel in a proxy method.
+type wireParam struct {
+	index         int    // index into m.Params
+	identityField string // non-empty for identity-auto-filled params
+	dexDesc       string // DEX type descriptor for signature matching
+}
+
 // writeProxyMethod writes a single proxy method implementation.
 func writeProxyMethod(
 	f *GoFile,
@@ -1153,33 +1161,36 @@ func writeProxyMethod(
 	f.P("\tdefer _data.Recycle()")
 	f.P("\t_data.WriteInterfaceToken(%s)", descriptorConst)
 
+	// Collect "wire params" — input parameters that are serialized
+	// to the data parcel (excluding DirectionOut params).
+	var wireParams []wireParam
 	for i, param := range m.Params {
 		if param.Direction == parser.DirectionOut {
 			continue
 		}
-
-		// Version-dependent params are wrapped in a conditional that
-		// checks the device API level. The == 0 fallback ensures the
-		// param is written when API level is unknown (backward compat).
-		if param.MinAPILevel > 0 {
-			f.P("if binder.APILevelFromBinder(p.Remote) == 0 || binder.APILevelFromBinder(p.Remote) >= %d {", param.MinAPILevel)
-		}
-
-		// Identity params are written from _identity instead of a
-		// method parameter.
+		wp := wireParam{index: i}
 		if field, ok := identityParams[i]; ok {
-			expr := fmt.Sprintf(identityWriteExpr[param.Type.Name], "_identity."+field)
-			f.P("\t%s", expr)
-			if param.MinAPILevel > 0 {
-				f.P("}")
-			}
-			continue
+			wp.identityField = field
 		}
+		wp.dexDesc = AIDLTypeToDexDescriptor(param.Type, opts.Registry, opts.CurrentPkg)
+		wireParams = append(wireParams, wp)
+	}
 
-		writeParamToParcel(f, param, hasReturn, opts, typeRef)
-		if param.MinAPILevel > 0 {
-			f.P("}")
+	// Determine whether signature-aware marshaling is possible.
+	// Requires all wire params to have resolvable DEX descriptors.
+	allResolvable := len(wireParams) > 0
+	for _, wp := range wireParams {
+		if wp.dexDesc == "" {
+			allResolvable = false
+			break
 		}
+	}
+
+	if allResolvable {
+		writeSignatureAwareParams(f, m, wireParams, identityParams, hasReturn, opts, typeRef, descriptorConst, interfaceName)
+	} else {
+		// Fallback: write all params unconditionally (no signature adaptation).
+		writeAllParamsNormally(f, m, wireParams, identityParams, hasReturn, opts, typeRef)
 	}
 
 	// Determine flags.
@@ -1256,6 +1267,229 @@ func writeProxyMethod(
 
 	f.P("}")
 	f.P("")
+}
+
+// writeAllParamsNormally writes all wire params to the parcel in compiled
+// order, without signature adaptation. Used when DEX descriptors cannot
+// be resolved for all params.
+func writeAllParamsNormally(
+	f *GoFile,
+	m *parser.MethodDecl,
+	wireParams []wireParam,
+	identityParams map[int]string,
+	hasReturn bool,
+	opts GenOptions,
+	typeRef *TypeRefResolver,
+) {
+	for _, wp := range wireParams {
+		param := m.Params[wp.index]
+		if wp.identityField != "" {
+			expr := fmt.Sprintf(identityWriteExpr[param.Type.Name], "_identity."+wp.identityField)
+			f.P("\t%s", expr)
+			continue
+		}
+		writeParamToParcel(f, param, hasReturn, opts, typeRef)
+	}
+}
+
+// writeSignatureAwareParams emits code that resolves the device's method
+// signature and adapts parameter marshaling accordingly. If the device
+// signature matches the compiled one (or is unknown), params are written
+// normally. Otherwise, params are reordered/filtered to match the
+// device's expected parameter types.
+func writeSignatureAwareParams(
+	f *GoFile,
+	m *parser.MethodDecl,
+	wireParams []wireParam,
+	identityParams map[int]string,
+	hasReturn bool,
+	opts GenOptions,
+	typeRef *TypeRefResolver,
+	descriptorConst string,
+	interfaceName string,
+) {
+	methodConst := "Method" + interfaceName + AIDLToGoName(m.MethodName)
+
+	// Build the compiled descriptors slice literal.
+	f.P("\t_sig := binder.ResolveMethodSignature(p.Remote, ctx, %s, %s)", descriptorConst, methodConst)
+
+	// Emit _compiledDescs as a var rather than a string slice literal
+	// so the compiler can optimize the common case where _sig is nil.
+	f.P("\t_compiledDescs := []string{")
+	for _, wp := range wireParams {
+		f.P("\t\t%q,", wp.dexDesc)
+	}
+	f.P("\t}")
+
+	f.P("\tif _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {")
+
+	// Normal path: write all params in compiled order.
+	for _, wp := range wireParams {
+		param := m.Params[wp.index]
+		if wp.identityField != "" {
+			expr := fmt.Sprintf(identityWriteExpr[param.Type.Name], "_identity."+wp.identityField)
+			f.P("\t\t%s", expr)
+			continue
+		}
+		writeParamToParcelIndented(f, param, hasReturn, opts, typeRef, "\t\t")
+	}
+
+	f.P("\t} else {")
+
+	// Adapted path: write params matching device signature order.
+	// Uses MatchParamsToSignature to map device param slots to compiled
+	// param indices, then a switch dispatches to the right serializer.
+	f.P("\t\t_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)")
+	f.P("\t\tfor _, _pi := range _paramMap {")
+	f.P("\t\t\tswitch _pi {")
+	for wi, wp := range wireParams {
+		param := m.Params[wp.index]
+		f.P("\t\t\tcase %d:", wi)
+		if wp.identityField != "" {
+			expr := fmt.Sprintf(identityWriteExpr[param.Type.Name], "_identity."+wp.identityField)
+			f.P("\t\t\t\t%s", expr)
+		} else {
+			writeParamToParcelIndented(f, param, hasReturn, opts, typeRef, "\t\t\t\t")
+		}
+	}
+	f.P("\t\t\t}")
+	f.P("\t\t}")
+
+	f.P("\t}")
+}
+
+// writeParamToParcelIndented writes param serialization code at the
+// given indentation level. This is used by the signature-aware code
+// paths where the param writing occurs inside if/else blocks or
+// closure bodies.
+func writeParamToParcelIndented(
+	f *GoFile,
+	param *parser.ParamDecl,
+	hasReturn bool,
+	opts GenOptions,
+	typeRef *TypeRefResolver,
+	indent string,
+) {
+	varName := sanitizeGoIdent(param.ParamName)
+
+	if param.Type.IsArray || param.Type.Name == "List" {
+		writeArrayToParcelWithIndent(f, param.Type, varName, hasReturn, opts, typeRef, indent)
+		return
+	}
+
+	if param.Type.Name == "Map" {
+		writeMapToParcel(f, param.Type, varName, hasReturn, opts, typeRef, "_data", indent, "p.Remote.Transport()")
+		return
+	}
+
+	info := marshalForTypeWithCycleCheck(param.Type, opts, typeRef)
+	if info.WriteExpr == "" {
+		goType := resolveTypeRef(typeRef, param.Type)
+		f.P("%s// WARNING: param %s (type %s) cannot be serialized — type not resolved", indent, varName, goType)
+		return
+	}
+
+	isNullable := hasAnnotation(param.Type.Annots, "nullable")
+
+	if isNullable {
+		goType := resolveTypeRef(typeRef, param.Type)
+		if len(goType) > 0 && goType[0] == '*' {
+			f.P("%sif %s != nil {", indent, varName)
+			writeExpr := fmt.Sprintf(info.WriteExpr, "(*"+varName+")")
+			if strings.Contains(info.WriteExpr, ".MarshalParcel") {
+				f.P("%s\t_data.WriteInt32(1)", indent)
+				f.P("%s\tif _err := %s; _err != nil {", indent, writeExpr)
+				if hasReturn {
+					f.P("%s\t\treturn _result, _err", indent)
+				} else {
+					f.P("%s\t\treturn _err", indent)
+				}
+				f.P("%s\t}", indent)
+			} else {
+				f.P("%s\t%s", indent, writeExpr)
+			}
+			f.P("%s} else {", indent)
+			f.P("%s\t_data.WriteInt32(-1)", indent)
+			f.P("%s}", indent)
+			return
+		}
+	}
+
+	if info.IsInterface {
+		f.P("%sbinder.WriteBinderToParcel(ctx, _data, %s.AsBinder(), p.Remote.Transport())", indent, varName)
+		return
+	}
+	if info.IsIBinder {
+		f.P("%sbinder.WriteBinderToParcel(ctx, _data, %s, p.Remote.Transport())", indent, varName)
+		return
+	}
+
+	writeExpr := fmt.Sprintf(info.WriteExpr, varName)
+
+	if strings.Contains(info.WriteExpr, ".MarshalParcel") {
+		f.P("%s_data.WriteInt32(1)", indent)
+		f.P("%sif _err := %s; _err != nil {", indent, writeExpr)
+		if hasReturn {
+			f.P("%s\treturn _result, _err", indent)
+		} else {
+			f.P("%s\treturn _err", indent)
+		}
+		f.P("%s}", indent)
+		return
+	}
+
+	f.P("%s%s", indent, writeExpr)
+}
+
+// writeArrayToParcelWithIndent writes array/list serialization code
+// at the given indentation level.
+func writeArrayToParcelWithIndent(
+	f *GoFile,
+	ts *parser.TypeSpecifier,
+	varName string,
+	hasReturn bool,
+	opts GenOptions,
+	typeRef *TypeRefResolver,
+	indent string,
+) {
+	elemType := elementTypeSpec(ts)
+
+	if elemType.Name == "byte" {
+		f.P("%s_data.WriteByteArray(%s)", indent, varName)
+		return
+	}
+
+	elemInfo := marshalForTypeWithCycleCheck(elemType, opts, typeRef)
+
+	f.P("%sif %s == nil {", indent, varName)
+	f.P("%s\t_data.WriteInt32(-1)", indent)
+	f.P("%s} else {", indent)
+	f.P("%s\t_data.WriteInt32(int32(len(%s)))", indent, varName)
+
+	if elemInfo.WriteExpr != "" {
+		f.P("%s\tfor _, _item := range %s {", indent, varName)
+		writeExpr := fmt.Sprintf(elemInfo.WriteExpr, "_item")
+		switch {
+		case strings.Contains(elemInfo.WriteExpr, ".MarshalParcel"):
+			f.P("%s\t\t_data.WriteInt32(1)", indent)
+			f.P("%s\t\tif _err := %s; _err != nil {", indent, writeExpr)
+			if hasReturn {
+				f.P("%s\t\t\treturn _result, _err", indent)
+			} else {
+				f.P("%s\t\t\treturn _err", indent)
+			}
+			f.P("%s\t\t}", indent)
+		case elemInfo.IsInterface:
+			f.P("%s\t\tbinder.WriteBinderToParcel(ctx, _data, _item.AsBinder(), p.Remote.Transport())", indent)
+		case elemInfo.IsIBinder:
+			f.P("%s\t\tbinder.WriteBinderToParcel(ctx, _data, _item, p.Remote.Transport())", indent)
+		default:
+			f.P("%s\t\t%s", indent, writeExpr)
+		}
+		f.P("%s\t}", indent)
+	}
+
+	f.P("%s}", indent)
 }
 
 // writeParamToParcel writes the parcel serialization for a single input parameter.

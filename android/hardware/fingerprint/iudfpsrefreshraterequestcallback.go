@@ -53,7 +53,21 @@ func (p *UdfpsRefreshRateRequestCallbackProxy) OnRequestEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsRefreshRateRequestCallback)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUdfpsRefreshRateRequestCallback, MethodIUdfpsRefreshRateRequestCallbackOnRequestEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsRefreshRateRequestCallback, MethodIUdfpsRefreshRateRequestCallbackOnRequestEnabled)
 	if _err != nil {
@@ -71,7 +85,21 @@ func (p *UdfpsRefreshRateRequestCallbackProxy) OnRequestDisabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsRefreshRateRequestCallback)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUdfpsRefreshRateRequestCallback, MethodIUdfpsRefreshRateRequestCallbackOnRequestDisabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsRefreshRateRequestCallback, MethodIUdfpsRefreshRateRequestCallbackOnRequestDisabled)
 	if _err != nil {
@@ -90,8 +118,25 @@ func (p *UdfpsRefreshRateRequestCallbackProxy) OnAuthenticationPossible(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsRefreshRateRequestCallback)
-	_data.WriteInt32(displayId)
-	_data.WriteBool(isPossible)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUdfpsRefreshRateRequestCallback, MethodIUdfpsRefreshRateRequestCallbackOnAuthenticationPossible)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteBool(isPossible)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteBool(isPossible)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsRefreshRateRequestCallback, MethodIUdfpsRefreshRateRequestCallbackOnAuthenticationPossible)
 	if _err != nil {

@@ -86,11 +86,31 @@ func (p *BlobStoreManagerProxy) CreateSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
-	_data.WriteInt32(1)
-	if _err := handle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerCreateSession)
+	_compiledDescs := []string{
+		"Landroid/app/blob/BlobHandle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := handle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := handle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerCreateSession)
 	if _err != nil {
@@ -123,8 +143,25 @@ func (p *BlobStoreManagerProxy) OpenSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
-	_data.WriteInt64(sessionId)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerOpenSession)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(sessionId)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(sessionId)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerOpenSession)
 	if _err != nil {
@@ -158,11 +195,31 @@ func (p *BlobStoreManagerProxy) OpenBlob(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
-	_data.WriteInt32(1)
-	if _err := handle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerOpenBlob)
+	_compiledDescs := []string{
+		"Landroid/app/blob/BlobHandle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := handle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := handle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerOpenBlob)
 	if _err != nil {
@@ -194,8 +251,25 @@ func (p *BlobStoreManagerProxy) AbandonSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
-	_data.WriteInt64(sessionId)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerAbandonSession)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(sessionId)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(sessionId)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerAbandonSession)
 	if _err != nil {
@@ -226,14 +300,43 @@ func (p *BlobStoreManagerProxy) AcquireLease(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
-	_data.WriteInt32(1)
-	if _err := handle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerAcquireLease)
+	_compiledDescs := []string{
+		"Landroid/app/blob/BlobHandle;",
+		"I",
+		"Ljava/lang/CharSequence;",
+		"J",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(descriptionResId)
-	_data.WriteString16(description)
-	_data.WriteInt64(leaseTimeoutMillis)
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := handle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(descriptionResId)
+		_data.WriteString16(description)
+		_data.WriteInt64(leaseTimeoutMillis)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := handle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(descriptionResId)
+			case 2:
+				_data.WriteString16(description)
+			case 3:
+				_data.WriteInt64(leaseTimeoutMillis)
+			case 4:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerAcquireLease)
 	if _err != nil {
@@ -261,11 +364,31 @@ func (p *BlobStoreManagerProxy) ReleaseLease(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
-	_data.WriteInt32(1)
-	if _err := handle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerReleaseLease)
+	_compiledDescs := []string{
+		"Landroid/app/blob/BlobHandle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := handle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := handle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerReleaseLease)
 	if _err != nil {
@@ -292,7 +415,21 @@ func (p *BlobStoreManagerProxy) ReleaseAllLeases(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerReleaseAllLeases)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerReleaseAllLeases)
 	if _err != nil {
@@ -320,7 +457,21 @@ func (p *BlobStoreManagerProxy) GetRemainingLeaseQuotaBytes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerGetRemainingLeaseQuotaBytes)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerGetRemainingLeaseQuotaBytes)
 	if _err != nil {
@@ -351,9 +502,26 @@ func (p *BlobStoreManagerProxy) WaitForIdle(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerWaitForIdle)
+	_compiledDescs := []string{
+		"Landroid/os/RemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerWaitForIdle)
@@ -382,7 +550,21 @@ func (p *BlobStoreManagerProxy) QueryBlobsForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerQueryBlobsForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerQueryBlobsForUser)
 	if _err != nil {
@@ -445,7 +627,21 @@ func (p *BlobStoreManagerProxy) DeleteBlob(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
-	_data.WriteInt64(blobId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerDeleteBlob)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(blobId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(blobId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerDeleteBlob)
 	if _err != nil {
@@ -473,7 +669,21 @@ func (p *BlobStoreManagerProxy) GetLeasedBlobs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerGetLeasedBlobs)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerGetLeasedBlobs)
 	if _err != nil {
@@ -538,11 +748,31 @@ func (p *BlobStoreManagerProxy) GetLeaseInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
-	_data.WriteInt32(1)
-	if _err := blobHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerGetLeaseInfo)
+	_compiledDescs := []string{
+		"Landroid/app/blob/BlobHandle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := blobHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := blobHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreManager, MethodIBlobStoreManagerGetLeaseInfo)
 	if _err != nil {

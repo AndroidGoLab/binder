@@ -68,7 +68,21 @@ func (p *SatelliteListenerProxy) OnSatelliteProvisionStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
-	_data.WriteBool(provisioned)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnSatelliteProvisionStateChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(provisioned)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(provisioned)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnSatelliteProvisionStateChanged)
 	if _err != nil {
@@ -87,11 +101,31 @@ func (p *SatelliteListenerProxy) OnSatelliteDatagramReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
-	_data.WriteInt32(1)
-	if _err := datagram.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnSatelliteDatagramReceived)
+	_compiledDescs := []string{
+		"Landroid/telephony/satellite/stub/SatelliteDatagram;",
+		"I",
 	}
-	_data.WriteInt32(pendingCount)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := datagram.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(pendingCount)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := datagram.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(pendingCount)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnSatelliteDatagramReceived)
 	if _err != nil {
@@ -125,9 +159,26 @@ func (p *SatelliteListenerProxy) OnSatellitePositionChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
-	_data.WriteInt32(1)
-	if _err := pointingInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnSatellitePositionChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/satellite/stub/PointingInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pointingInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pointingInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnSatellitePositionChanged)
@@ -146,7 +197,21 @@ func (p *SatelliteListenerProxy) OnSatelliteModemStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
-	_data.WriteInt32(int32(state))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnSatelliteModemStateChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/satellite/stub/SatelliteModemState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(state))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(state))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnSatelliteModemStateChanged)
 	if _err != nil {
@@ -164,9 +229,26 @@ func (p *SatelliteListenerProxy) OnNtnSignalStrengthChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
-	_data.WriteInt32(1)
-	if _err := ntnSignalStrength.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnNtnSignalStrengthChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/satellite/stub/NtnSignalStrength;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := ntnSignalStrength.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := ntnSignalStrength.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnNtnSignalStrengthChanged)
@@ -185,9 +267,26 @@ func (p *SatelliteListenerProxy) OnSatelliteCapabilitiesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
-	_data.WriteInt32(1)
-	if _err := capabilities.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnSatelliteCapabilitiesChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/satellite/stub/SatelliteCapabilities;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := capabilities.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := capabilities.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnSatelliteCapabilitiesChanged)
@@ -206,7 +305,21 @@ func (p *SatelliteListenerProxy) OnSatelliteSupportedStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
-	_data.WriteBool(supported)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnSatelliteSupportedStateChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(supported)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(supported)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnSatelliteSupportedStateChanged)
 	if _err != nil {

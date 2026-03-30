@@ -50,7 +50,21 @@ func (p *TvRemoteProviderProxy) SetRemoteServiceInputSink(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteProvider)
-	binder.WriteBinderToParcel(ctx, _data, tvServiceInput.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvRemoteProvider, MethodITvRemoteProviderSetRemoteServiceInputSink)
+	_compiledDescs := []string{
+		"Landroid/media/tv/ITvRemoteServiceInput;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, tvServiceInput.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, tvServiceInput.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvRemoteProvider, MethodITvRemoteProviderSetRemoteServiceInputSink)
 	if _err != nil {
@@ -68,7 +82,21 @@ func (p *TvRemoteProviderProxy) OnInputBridgeConnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteProvider)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvRemoteProvider, MethodITvRemoteProviderOnInputBridgeConnected)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvRemoteProvider, MethodITvRemoteProviderOnInputBridgeConnected)
 	if _err != nil {

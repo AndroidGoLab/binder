@@ -47,7 +47,21 @@ func (p *DreamOverlayClientCallbackProxy) OnDreamOverlayClient(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamOverlayClientCallback)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDreamOverlayClientCallback, MethodIDreamOverlayClientCallbackOnDreamOverlayClient)
+	_compiledDescs := []string{
+		"Landroid/service/dreams/IDreamOverlayClient;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamOverlayClientCallback, MethodIDreamOverlayClientCallbackOnDreamOverlayClient)
 	if _err != nil {

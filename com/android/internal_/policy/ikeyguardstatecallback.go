@@ -57,8 +57,25 @@ func (p *KeyguardStateCallbackProxy) OnShowingStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardStateCallback)
-	_data.WriteBool(showing)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnShowingStateChanged)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(showing)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(showing)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnShowingStateChanged)
 	if _err != nil {
@@ -85,7 +102,21 @@ func (p *KeyguardStateCallbackProxy) OnSimSecureStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardStateCallback)
-	_data.WriteBool(simSecure)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnSimSecureStateChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(simSecure)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(simSecure)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnSimSecureStateChanged)
 	if _err != nil {
@@ -112,7 +143,21 @@ func (p *KeyguardStateCallbackProxy) OnInputRestrictedStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardStateCallback)
-	_data.WriteBool(inputRestricted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnInputRestrictedStateChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(inputRestricted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(inputRestricted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnInputRestrictedStateChanged)
 	if _err != nil {
@@ -139,7 +184,21 @@ func (p *KeyguardStateCallbackProxy) OnTrustedChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardStateCallback)
-	_data.WriteBool(trusted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnTrustedChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(trusted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(trusted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnTrustedChanged)
 	if _err != nil {

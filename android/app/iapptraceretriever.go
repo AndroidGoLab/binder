@@ -50,9 +50,29 @@ func (p *AppTraceRetrieverProxy) GetTraceFileDescriptor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppTraceRetriever)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(pid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAppTraceRetriever, MethodIAppTraceRetrieverGetTraceFileDescriptor)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(pid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteInt32(pid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppTraceRetriever, MethodIAppTraceRetrieverGetTraceFileDescriptor)
 	if _err != nil {

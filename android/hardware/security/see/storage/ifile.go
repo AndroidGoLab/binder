@@ -61,8 +61,25 @@ func (p *FileProxy) Read(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFile)
-	_data.WriteInt64(size)
-	_data.WriteInt64(offset)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFile, MethodIFileRead)
+	_compiledDescs := []string{
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(size)
+		_data.WriteInt64(offset)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(size)
+			case 1:
+				_data.WriteInt64(offset)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFile, MethodIFileRead)
 	if _err != nil {
@@ -95,8 +112,25 @@ func (p *FileProxy) Write(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFile)
-	_data.WriteInt64(offset)
-	_data.WriteByteArray(buffer)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFile, MethodIFileWrite)
+	_compiledDescs := []string{
+		"J",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(offset)
+		_data.WriteByteArray(buffer)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(offset)
+			case 1:
+				_data.WriteByteArray(buffer)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFile, MethodIFileWrite)
 	if _err != nil {
@@ -157,7 +191,21 @@ func (p *FileProxy) SetSize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFile)
-	_data.WriteInt64(newSize)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFile, MethodIFileSetSize)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(newSize)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(newSize)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFile, MethodIFileSetSize)
 	if _err != nil {
@@ -185,8 +233,25 @@ func (p *FileProxy) Rename(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFile)
-	_data.WriteString16(destPath)
-	_data.WriteInt32(int32(destCreateMode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFile, MethodIFileRename)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/security/see/storage/CreationMode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(destPath)
+		_data.WriteInt32(int32(destCreateMode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(destPath)
+			case 1:
+				_data.WriteInt32(int32(destCreateMode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFile, MethodIFileRename)
 	if _err != nil {

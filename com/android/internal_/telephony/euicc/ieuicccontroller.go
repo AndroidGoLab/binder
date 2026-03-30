@@ -119,14 +119,40 @@ func (p *EuiccControllerProxy) ContinueOperation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
-	_data.WriteInt32(1)
-	if _err := resolutionIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerContinueOperation)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/Intent;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(1)
-	if _err := resolutionExtras.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+		_data.WriteInt32(1)
+		if _err := resolutionIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := resolutionExtras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := resolutionIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := resolutionExtras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerContinueOperation)
@@ -148,15 +174,44 @@ func (p *EuiccControllerProxy) GetDownloadableSubscriptionMetadata(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
-	_data.WriteInt32(1)
-	if _err := subscription.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerGetDownloadableSubscriptionMetadata)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/euicc/DownloadableSubscription;",
+		"Ljava/lang/String;",
+		"Landroid/app/PendingIntent;",
 	}
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+		_data.WriteInt32(1)
+		if _err := subscription.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := subscription.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerGetDownloadableSubscriptionMetadata)
@@ -177,11 +232,34 @@ func (p *EuiccControllerProxy) GetDefaultDownloadableSubscriptionList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerGetDefaultDownloadableSubscriptionList)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerGetDefaultDownloadableSubscriptionList)
@@ -202,8 +280,25 @@ func (p *EuiccControllerProxy) GetEid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerGetEid)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerGetEid)
 	if _err != nil {
@@ -235,7 +330,21 @@ func (p *EuiccControllerProxy) GetOtaStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerGetOtaStatus)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerGetOtaStatus)
 	if _err != nil {
@@ -271,20 +380,58 @@ func (p *EuiccControllerProxy) DownloadSubscription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
-	_data.WriteInt32(1)
-	if _err := subscription.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerDownloadSubscription)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/euicc/DownloadableSubscription;",
+		"Z",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"Landroid/app/PendingIntent;",
 	}
-	_data.WriteBool(switchAfterDownload)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := resolvedBundle.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+		_data.WriteInt32(1)
+		if _err := subscription.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(switchAfterDownload)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := resolvedBundle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := subscription.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteBool(switchAfterDownload)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := resolvedBundle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerDownloadSubscription)
@@ -304,7 +451,21 @@ func (p *EuiccControllerProxy) GetEuiccInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerGetEuiccInfo)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerGetEuiccInfo)
 	if _err != nil {
@@ -343,12 +504,38 @@ func (p *EuiccControllerProxy) DeleteSubscription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
-	_data.WriteInt32(subscriptionId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerDeleteSubscription)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+		_data.WriteInt32(subscriptionId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			case 1:
+				_data.WriteInt32(subscriptionId)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerDeleteSubscription)
@@ -370,12 +557,38 @@ func (p *EuiccControllerProxy) SwitchToSubscription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
-	_data.WriteInt32(subscriptionId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerSwitchToSubscription)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+		_data.WriteInt32(subscriptionId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			case 1:
+				_data.WriteInt32(subscriptionId)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerSwitchToSubscription)
@@ -398,13 +611,42 @@ func (p *EuiccControllerProxy) SwitchToSubscriptionWithPort(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
-	_data.WriteInt32(subscriptionId)
-	_data.WriteInt32(portIndex)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerSwitchToSubscriptionWithPort)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+		_data.WriteInt32(subscriptionId)
+		_data.WriteInt32(portIndex)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			case 1:
+				_data.WriteInt32(subscriptionId)
+			case 2:
+				_data.WriteInt32(portIndex)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerSwitchToSubscriptionWithPort)
@@ -427,13 +669,42 @@ func (p *EuiccControllerProxy) UpdateSubscriptionNickname(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
-	_data.WriteInt32(subscriptionId)
-	_data.WriteString16(nickname)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerUpdateSubscriptionNickname)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+		_data.WriteInt32(subscriptionId)
+		_data.WriteString16(nickname)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			case 1:
+				_data.WriteInt32(subscriptionId)
+			case 2:
+				_data.WriteString16(nickname)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerUpdateSubscriptionNickname)
@@ -453,10 +724,30 @@ func (p *EuiccControllerProxy) EraseSubscriptions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
-	_data.WriteInt32(1)
-	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerEraseSubscriptions)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+		_data.WriteInt32(1)
+		if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerEraseSubscriptions)
@@ -477,11 +768,34 @@ func (p *EuiccControllerProxy) EraseSubscriptionsWithOptions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
-	_data.WriteInt32(options)
-	_data.WriteInt32(1)
-	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerEraseSubscriptionsWithOptions)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+		_data.WriteInt32(options)
+		_data.WriteInt32(1)
+		if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			case 1:
+				_data.WriteInt32(options)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerEraseSubscriptionsWithOptions)
@@ -501,10 +815,30 @@ func (p *EuiccControllerProxy) RetainSubscriptionsForFactoryReset(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
-	_data.WriteInt32(1)
-	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerRetainSubscriptionsForFactoryReset)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+		_data.WriteInt32(1)
+		if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callbackIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerRetainSubscriptionsForFactoryReset)
@@ -524,13 +858,37 @@ func (p *EuiccControllerProxy) SetSupportedCountries(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteBool(isSupported)
-	if countriesList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerSetSupportedCountries)
+	_compiledDescs := []string{
+		"Z",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isSupported)
+		if countriesList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(countriesList)))
+			for _, _item := range countriesList {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(countriesList)))
-		for _, _item := range countriesList {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isSupported)
+			case 1:
+				if countriesList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(countriesList)))
+					for _, _item := range countriesList {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -560,7 +918,21 @@ func (p *EuiccControllerProxy) GetSupportedCountries(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteBool(isSupported)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerGetSupportedCountries)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isSupported)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isSupported)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerGetSupportedCountries)
 	if _err != nil {
@@ -605,7 +977,21 @@ func (p *EuiccControllerProxy) IsSupportedCountry(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteString16(countryIso)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerIsSupportedCountry)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(countryIso)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(countryIso)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerIsSupportedCountry)
 	if _err != nil {
@@ -639,9 +1025,29 @@ func (p *EuiccControllerProxy) IsSimPortAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
-	_data.WriteInt32(portIndex)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerIsSimPortAvailable)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+		_data.WriteInt32(portIndex)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			case 1:
+				_data.WriteInt32(portIndex)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerIsSimPortAvailable)
 	if _err != nil {
@@ -673,7 +1079,21 @@ func (p *EuiccControllerProxy) HasCarrierPrivilegesForPackageOnAnyPhone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerHasCarrierPrivilegesForPackageOnAnyPhone)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerHasCarrierPrivilegesForPackageOnAnyPhone)
 	if _err != nil {
@@ -706,8 +1126,25 @@ func (p *EuiccControllerProxy) IsCompatChangeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt64(changeId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerIsCompatChangeEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt64(changeId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt64(changeId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerIsCompatChangeEnabled)
 	if _err != nil {
@@ -738,12 +1175,33 @@ func (p *EuiccControllerProxy) SetPsimConversionSupportedCarriers(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	if carrierIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerSetPsimConversionSupportedCarriers)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if carrierIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(carrierIds)))
+			for _, _item := range carrierIds {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(carrierIds)))
-		for _, _item := range carrierIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if carrierIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(carrierIds)))
+					for _, _item := range carrierIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -773,7 +1231,21 @@ func (p *EuiccControllerProxy) IsPsimConversionSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(carrierId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerIsPsimConversionSupported)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(carrierId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(carrierId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerIsPsimConversionSupported)
 	if _err != nil {
@@ -806,8 +1278,25 @@ func (p *EuiccControllerProxy) GetAvailableMemoryInBytes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
-	_data.WriteInt32(cardId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEuiccController, MethodIEuiccControllerGetAvailableMemoryInBytes)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cardId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cardId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerGetAvailableMemoryInBytes)
 	if _err != nil {

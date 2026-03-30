@@ -72,7 +72,21 @@ func (p *MediaRoute2ProviderServiceProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSetCallback)
+	_compiledDescs := []string{
+		"Landroid/media/IMediaRoute2ProviderServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSetCallback)
 	if _err != nil {
@@ -90,9 +104,26 @@ func (p *MediaRoute2ProviderServiceProxy) UpdateDiscoveryPreference(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
-	_data.WriteInt32(1)
-	if _err := discoveryPreference.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceUpdateDiscoveryPreference)
+	_compiledDescs := []string{
+		"Landroid/media/RouteDiscoveryPreference;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := discoveryPreference.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := discoveryPreference.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceUpdateDiscoveryPreference)
@@ -113,9 +144,29 @@ func (p *MediaRoute2ProviderServiceProxy) SetRouteVolume(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
-	_data.WriteInt64(requestId)
-	_data.WriteString16(routeId)
-	_data.WriteInt32(volume)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSetRouteVolume)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(requestId)
+		_data.WriteString16(routeId)
+		_data.WriteInt32(volume)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(requestId)
+			case 1:
+				_data.WriteString16(routeId)
+			case 2:
+				_data.WriteInt32(volume)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSetRouteVolume)
 	if _err != nil {
@@ -136,16 +187,46 @@ func (p *MediaRoute2ProviderServiceProxy) RequestCreateSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
-	_data.WriteInt64(requestId)
-	_data.WriteString16(packageName)
-	_data.WriteString16(routeId)
-	if sessionHints != nil {
-		_data.WriteInt32(1)
-		if _err := (*sessionHints).MarshalParcel(_data); _err != nil {
-			return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceRequestCreateSession)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(requestId)
+		_data.WriteString16(packageName)
+		_data.WriteString16(routeId)
+		if sessionHints != nil {
+			_data.WriteInt32(1)
+			if _err := (*sessionHints).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(requestId)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteString16(routeId)
+			case 3:
+				if sessionHints != nil {
+					_data.WriteInt32(1)
+					if _err := (*sessionHints).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceRequestCreateSession)
@@ -166,9 +247,29 @@ func (p *MediaRoute2ProviderServiceProxy) SelectRoute(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
-	_data.WriteInt64(requestId)
-	_data.WriteString16(sessionId)
-	_data.WriteString16(routeId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSelectRoute)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(requestId)
+		_data.WriteString16(sessionId)
+		_data.WriteString16(routeId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(requestId)
+			case 1:
+				_data.WriteString16(sessionId)
+			case 2:
+				_data.WriteString16(routeId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSelectRoute)
 	if _err != nil {
@@ -188,9 +289,29 @@ func (p *MediaRoute2ProviderServiceProxy) DeselectRoute(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
-	_data.WriteInt64(requestId)
-	_data.WriteString16(sessionId)
-	_data.WriteString16(routeId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceDeselectRoute)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(requestId)
+		_data.WriteString16(sessionId)
+		_data.WriteString16(routeId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(requestId)
+			case 1:
+				_data.WriteString16(sessionId)
+			case 2:
+				_data.WriteString16(routeId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceDeselectRoute)
 	if _err != nil {
@@ -210,9 +331,29 @@ func (p *MediaRoute2ProviderServiceProxy) TransferToRoute(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
-	_data.WriteInt64(requestId)
-	_data.WriteString16(sessionId)
-	_data.WriteString16(routeId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceTransferToRoute)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(requestId)
+		_data.WriteString16(sessionId)
+		_data.WriteString16(routeId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(requestId)
+			case 1:
+				_data.WriteString16(sessionId)
+			case 2:
+				_data.WriteString16(routeId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceTransferToRoute)
 	if _err != nil {
@@ -232,9 +373,29 @@ func (p *MediaRoute2ProviderServiceProxy) SetSessionVolume(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
-	_data.WriteInt64(requestId)
-	_data.WriteString16(sessionId)
-	_data.WriteInt32(volume)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSetSessionVolume)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(requestId)
+		_data.WriteString16(sessionId)
+		_data.WriteInt32(volume)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(requestId)
+			case 1:
+				_data.WriteString16(sessionId)
+			case 2:
+				_data.WriteInt32(volume)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSetSessionVolume)
 	if _err != nil {
@@ -253,8 +414,25 @@ func (p *MediaRoute2ProviderServiceProxy) ReleaseSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
-	_data.WriteInt64(requestId)
-	_data.WriteString16(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceReleaseSession)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(requestId)
+		_data.WriteString16(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(requestId)
+			case 1:
+				_data.WriteString16(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceReleaseSession)
 	if _err != nil {

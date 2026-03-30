@@ -72,8 +72,25 @@ func (p *TvInputProxy) CloseStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInput)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(streamId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInput, MethodITvInputCloseStream)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(streamId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(streamId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInput, MethodITvInputCloseStream)
 	if _err != nil {
@@ -101,7 +118,21 @@ func (p *TvInputProxy) GetStreamConfigurations(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInput)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInput, MethodITvInputGetStreamConfigurations)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInput, MethodITvInputGetStreamConfigurations)
 	if _err != nil {
@@ -166,8 +197,25 @@ func (p *TvInputProxy) OpenStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInput)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(streamId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInput, MethodITvInputOpenStream)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(streamId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(streamId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInput, MethodITvInputOpenStream)
 	if _err != nil {
@@ -203,7 +251,21 @@ func (p *TvInputProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInput)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInput, MethodITvInputSetCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/input/ITvInputCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInput, MethodITvInputSetCallback)
 	if _err != nil {
@@ -233,10 +295,33 @@ func (p *TvInputProxy) SetTvMessageEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInput)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(streamId)
-	_data.WriteInt32(int32(type_))
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInput, MethodITvInputSetTvMessageEnabled)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/hardware/tv/input/TvMessageEventType;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(streamId)
+		_data.WriteInt32(int32(type_))
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(streamId)
+			case 2:
+				_data.WriteInt32(int32(type_))
+			case 3:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInput, MethodITvInputSetTvMessageEnabled)
 	if _err != nil {
@@ -265,8 +350,25 @@ func (p *TvInputProxy) GetTvMessageQueueDesc(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInput)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(streamId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITvInput, MethodITvInputGetTvMessageQueueDesc)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(streamId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(streamId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInput, MethodITvInputGetTvMessageQueueDesc)
 	if _err != nil {

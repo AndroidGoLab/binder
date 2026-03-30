@@ -114,7 +114,21 @@ func (p *SplitScreenProxy) RegisterSplitScreenListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenRegisterSplitScreenListener)
+	_compiledDescs := []string{
+		"Lcom/android/wm/shell/splitscreen/ISplitScreenListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenRegisterSplitScreenListener)
 	if _err != nil {
@@ -132,7 +146,21 @@ func (p *SplitScreenProxy) UnregisterSplitScreenListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenUnregisterSplitScreenListener)
+	_compiledDescs := []string{
+		"Lcom/android/wm/shell/splitscreen/ISplitScreenListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenUnregisterSplitScreenListener)
 	if _err != nil {
@@ -150,7 +178,21 @@ func (p *SplitScreenProxy) RegisterSplitSelectListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenRegisterSplitSelectListener)
+	_compiledDescs := []string{
+		"Lcom/android/wm/shell/splitscreen/ISplitSelectListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenRegisterSplitSelectListener)
 	if _err != nil {
@@ -168,7 +210,21 @@ func (p *SplitScreenProxy) UnregisterSplitSelectListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenUnregisterSplitSelectListener)
+	_compiledDescs := []string{
+		"Lcom/android/wm/shell/splitscreen/ISplitSelectListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenUnregisterSplitSelectListener)
 	if _err != nil {
@@ -186,7 +242,21 @@ func (p *SplitScreenProxy) RemoveFromSideStage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	_data.WriteInt32(taskId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenRemoveFromSideStage)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenRemoveFromSideStage)
 	if _err != nil {
@@ -204,7 +274,21 @@ func (p *SplitScreenProxy) ExitSplitScreen(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	_data.WriteInt32(toTopTaskId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenExitSplitScreen)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(toTopTaskId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(toTopTaskId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenExitSplitScreen)
 	if _err != nil {
@@ -222,7 +306,21 @@ func (p *SplitScreenProxy) ExitSplitScreenOnHide(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	_data.WriteBool(exitSplitScreenOnHide)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenExitSplitScreenOnHide)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(exitSplitScreenOnHide)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(exitSplitScreenOnHide)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenExitSplitScreenOnHide)
 	if _err != nil {
@@ -242,11 +340,34 @@ func (p *SplitScreenProxy) StartTask(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(position)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenStartTask)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(position)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			case 1:
+				_data.WriteInt32(position)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenStartTask)
@@ -270,20 +391,58 @@ func (p *SplitScreenProxy) StartShortcut(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	_data.WriteString16(packageName)
-	_data.WriteString16(shortcutId)
-	_data.WriteInt32(position)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenStartShortcut)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/os/Bundle;",
+		"Landroid/os/UserHandle;",
+		"Lcom/android/internal/logging/InstanceId;",
 	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := instanceId.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(shortcutId)
+		_data.WriteInt32(position)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := instanceId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(shortcutId)
+			case 2:
+				_data.WriteInt32(position)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := instanceId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenStartShortcut)
@@ -307,23 +466,64 @@ func (p *SplitScreenProxy) StartIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenStartIntent)
+	_compiledDescs := []string{
+		"Landroid/app/PendingIntent;",
+		"I",
+		"Landroid/content/Intent;",
+		"I",
+		"Landroid/os/Bundle;",
+		"Lcom/android/internal/logging/InstanceId;",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := fillInIntent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(position)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := instanceId.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := fillInIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(position)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := instanceId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := fillInIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(position)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := instanceId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenStartIntent)
@@ -349,25 +549,72 @@ func (p *SplitScreenProxy) StartTasks(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	_data.WriteInt32(taskId1)
-	_data.WriteInt32(1)
-	if _err := options1.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenStartTasks)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/Bundle;",
+		"I",
+		"Landroid/os/Bundle;",
+		"I",
+		"I",
+		"Landroid/window/RemoteTransition;",
+		"Lcom/android/internal/logging/InstanceId;",
 	}
-	_data.WriteInt32(taskId2)
-	_data.WriteInt32(1)
-	if _err := options2.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(splitPosition)
-	_data.WriteInt32(snapPosition)
-	_data.WriteInt32(1)
-	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := instanceId.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId1)
+		_data.WriteInt32(1)
+		if _err := options1.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(taskId2)
+		_data.WriteInt32(1)
+		if _err := options2.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(splitPosition)
+		_data.WriteInt32(snapPosition)
+		_data.WriteInt32(1)
+		if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := instanceId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId1)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := options1.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(taskId2)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := options2.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(splitPosition)
+			case 5:
+				_data.WriteInt32(snapPosition)
+			case 6:
+				_data.WriteInt32(1)
+				if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 7:
+				_data.WriteInt32(1)
+				if _err := instanceId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenStartTasks)
@@ -394,29 +641,82 @@ func (p *SplitScreenProxy) StartIntentAndTask(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	_data.WriteInt32(1)
-	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenStartIntentAndTask)
+	_compiledDescs := []string{
+		"Landroid/app/PendingIntent;",
+		"I",
+		"Landroid/os/Bundle;",
+		"I",
+		"Landroid/os/Bundle;",
+		"I",
+		"I",
+		"Landroid/window/RemoteTransition;",
+		"Lcom/android/internal/logging/InstanceId;",
 	}
-	_data.WriteInt32(userId1)
-	_data.WriteInt32(1)
-	if _err := options1.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(1)
-	if _err := options2.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(sidePosition)
-	_data.WriteInt32(snapPosition)
-	_data.WriteInt32(1)
-	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := instanceId.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(userId1)
+		_data.WriteInt32(1)
+		if _err := options1.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(1)
+		if _err := options2.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(sidePosition)
+		_data.WriteInt32(snapPosition)
+		_data.WriteInt32(1)
+		if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := instanceId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(userId1)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := options1.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(taskId)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := options2.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(sidePosition)
+			case 6:
+				_data.WriteInt32(snapPosition)
+			case 7:
+				_data.WriteInt32(1)
+				if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 8:
+				_data.WriteInt32(1)
+				if _err := instanceId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenStartIntentAndTask)
@@ -442,28 +742,78 @@ func (p *SplitScreenProxy) StartShortcutAndTask(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	_data.WriteInt32(1)
-	if _err := shortcutInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenStartShortcutAndTask)
+	_compiledDescs := []string{
+		"Landroid/content/pm/ShortcutInfo;",
+		"Landroid/os/Bundle;",
+		"I",
+		"Landroid/os/Bundle;",
+		"I",
+		"I",
+		"Landroid/window/RemoteTransition;",
+		"Lcom/android/internal/logging/InstanceId;",
 	}
-	_data.WriteInt32(1)
-	if _err := options1.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(1)
-	if _err := options2.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(splitPosition)
-	_data.WriteInt32(snapPosition)
-	_data.WriteInt32(1)
-	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := instanceId.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := shortcutInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := options1.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(1)
+		if _err := options2.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(splitPosition)
+		_data.WriteInt32(snapPosition)
+		_data.WriteInt32(1)
+		if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := instanceId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := shortcutInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := options1.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(taskId)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := options2.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(splitPosition)
+			case 5:
+				_data.WriteInt32(snapPosition)
+			case 6:
+				_data.WriteInt32(1)
+				if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 7:
+				_data.WriteInt32(1)
+				if _err := instanceId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenStartShortcutAndTask)
@@ -489,25 +839,72 @@ func (p *SplitScreenProxy) StartTasksWithLegacyTransition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	_data.WriteInt32(taskId1)
-	_data.WriteInt32(1)
-	if _err := options1.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenStartTasksWithLegacyTransition)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/Bundle;",
+		"I",
+		"Landroid/os/Bundle;",
+		"I",
+		"I",
+		"Landroid/view/RemoteAnimationAdapter;",
+		"Lcom/android/internal/logging/InstanceId;",
 	}
-	_data.WriteInt32(taskId2)
-	_data.WriteInt32(1)
-	if _err := options2.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(splitPosition)
-	_data.WriteInt32(snapPosition)
-	_data.WriteInt32(1)
-	if _err := adapter.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := instanceId.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId1)
+		_data.WriteInt32(1)
+		if _err := options1.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(taskId2)
+		_data.WriteInt32(1)
+		if _err := options2.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(splitPosition)
+		_data.WriteInt32(snapPosition)
+		_data.WriteInt32(1)
+		if _err := adapter.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := instanceId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId1)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := options1.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(taskId2)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := options2.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(splitPosition)
+			case 5:
+				_data.WriteInt32(snapPosition)
+			case 6:
+				_data.WriteInt32(1)
+				if _err := adapter.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 7:
+				_data.WriteInt32(1)
+				if _err := instanceId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenStartTasksWithLegacyTransition)
@@ -534,29 +931,82 @@ func (p *SplitScreenProxy) StartIntentAndTaskWithLegacyTransition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	_data.WriteInt32(1)
-	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenStartIntentAndTaskWithLegacyTransition)
+	_compiledDescs := []string{
+		"Landroid/app/PendingIntent;",
+		"I",
+		"Landroid/os/Bundle;",
+		"I",
+		"Landroid/os/Bundle;",
+		"I",
+		"I",
+		"Landroid/view/RemoteAnimationAdapter;",
+		"Lcom/android/internal/logging/InstanceId;",
 	}
-	_data.WriteInt32(userId1)
-	_data.WriteInt32(1)
-	if _err := options1.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(1)
-	if _err := options2.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(splitPosition)
-	_data.WriteInt32(snapPosition)
-	_data.WriteInt32(1)
-	if _err := adapter.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := instanceId.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(userId1)
+		_data.WriteInt32(1)
+		if _err := options1.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(1)
+		if _err := options2.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(splitPosition)
+		_data.WriteInt32(snapPosition)
+		_data.WriteInt32(1)
+		if _err := adapter.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := instanceId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(userId1)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := options1.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(taskId)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := options2.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(splitPosition)
+			case 6:
+				_data.WriteInt32(snapPosition)
+			case 7:
+				_data.WriteInt32(1)
+				if _err := adapter.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 8:
+				_data.WriteInt32(1)
+				if _err := instanceId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenStartIntentAndTaskWithLegacyTransition)
@@ -582,28 +1032,78 @@ func (p *SplitScreenProxy) StartShortcutAndTaskWithLegacyTransition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	_data.WriteInt32(1)
-	if _err := shortcutInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenStartShortcutAndTaskWithLegacyTransition)
+	_compiledDescs := []string{
+		"Landroid/content/pm/ShortcutInfo;",
+		"Landroid/os/Bundle;",
+		"I",
+		"Landroid/os/Bundle;",
+		"I",
+		"I",
+		"Landroid/view/RemoteAnimationAdapter;",
+		"Lcom/android/internal/logging/InstanceId;",
 	}
-	_data.WriteInt32(1)
-	if _err := options1.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(1)
-	if _err := options2.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(splitPosition)
-	_data.WriteInt32(snapPosition)
-	_data.WriteInt32(1)
-	if _err := adapter.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := instanceId.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := shortcutInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := options1.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(1)
+		if _err := options2.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(splitPosition)
+		_data.WriteInt32(snapPosition)
+		_data.WriteInt32(1)
+		if _err := adapter.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := instanceId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := shortcutInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := options1.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(taskId)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := options2.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(splitPosition)
+			case 5:
+				_data.WriteInt32(snapPosition)
+			case 6:
+				_data.WriteInt32(1)
+				if _err := adapter.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 7:
+				_data.WriteInt32(1)
+				if _err := instanceId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenStartShortcutAndTaskWithLegacyTransition)
@@ -633,41 +1133,112 @@ func (p *SplitScreenProxy) StartIntentsWithLegacyTransition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	_data.WriteInt32(1)
-	if _err := pendingIntent1.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenStartIntentsWithLegacyTransition)
+	_compiledDescs := []string{
+		"Landroid/app/PendingIntent;",
+		"I",
+		"Landroid/content/pm/ShortcutInfo;",
+		"Landroid/os/Bundle;",
+		"Landroid/app/PendingIntent;",
+		"I",
+		"Landroid/content/pm/ShortcutInfo;",
+		"Landroid/os/Bundle;",
+		"I",
+		"I",
+		"Landroid/view/RemoteAnimationAdapter;",
+		"Lcom/android/internal/logging/InstanceId;",
 	}
-	_data.WriteInt32(userId1)
-	_data.WriteInt32(1)
-	if _err := shortcutInfo1.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := options1.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := pendingIntent2.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(userId2)
-	_data.WriteInt32(1)
-	if _err := shortcutInfo2.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := options2.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(splitPosition)
-	_data.WriteInt32(snapPosition)
-	_data.WriteInt32(1)
-	if _err := adapter.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := instanceId.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pendingIntent1.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(userId1)
+		_data.WriteInt32(1)
+		if _err := shortcutInfo1.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := options1.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := pendingIntent2.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(userId2)
+		_data.WriteInt32(1)
+		if _err := shortcutInfo2.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := options2.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(splitPosition)
+		_data.WriteInt32(snapPosition)
+		_data.WriteInt32(1)
+		if _err := adapter.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := instanceId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pendingIntent1.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(userId1)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := shortcutInfo1.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := options1.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := pendingIntent2.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(userId2)
+			case 6:
+				_data.WriteInt32(1)
+				if _err := shortcutInfo2.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 7:
+				_data.WriteInt32(1)
+				if _err := options2.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 8:
+				_data.WriteInt32(splitPosition)
+			case 9:
+				_data.WriteInt32(snapPosition)
+			case 10:
+				_data.WriteInt32(1)
+				if _err := adapter.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 11:
+				_data.WriteInt32(1)
+				if _err := instanceId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenStartIntentsWithLegacyTransition)
@@ -697,41 +1268,112 @@ func (p *SplitScreenProxy) StartIntents(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	_data.WriteInt32(1)
-	if _err := pendingIntent1.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenStartIntents)
+	_compiledDescs := []string{
+		"Landroid/app/PendingIntent;",
+		"I",
+		"Landroid/content/pm/ShortcutInfo;",
+		"Landroid/os/Bundle;",
+		"Landroid/app/PendingIntent;",
+		"I",
+		"Landroid/content/pm/ShortcutInfo;",
+		"Landroid/os/Bundle;",
+		"I",
+		"I",
+		"Landroid/window/RemoteTransition;",
+		"Lcom/android/internal/logging/InstanceId;",
 	}
-	_data.WriteInt32(userId1)
-	_data.WriteInt32(1)
-	if _err := shortcutInfo1.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := options1.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := pendingIntent2.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(userId2)
-	_data.WriteInt32(1)
-	if _err := shortcutInfo2.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := options2.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(splitPosition)
-	_data.WriteInt32(snapPosition)
-	_data.WriteInt32(1)
-	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := instanceId.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pendingIntent1.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(userId1)
+		_data.WriteInt32(1)
+		if _err := shortcutInfo1.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := options1.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := pendingIntent2.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(userId2)
+		_data.WriteInt32(1)
+		if _err := shortcutInfo2.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := options2.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(splitPosition)
+		_data.WriteInt32(snapPosition)
+		_data.WriteInt32(1)
+		if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := instanceId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pendingIntent1.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(userId1)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := shortcutInfo1.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := options1.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := pendingIntent2.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(userId2)
+			case 6:
+				_data.WriteInt32(1)
+				if _err := shortcutInfo2.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 7:
+				_data.WriteInt32(1)
+				if _err := options2.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 8:
+				_data.WriteInt32(splitPosition)
+			case 9:
+				_data.WriteInt32(snapPosition)
+			case 10:
+				_data.WriteInt32(1)
+				if _err := remoteTransition.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 11:
+				_data.WriteInt32(1)
+				if _err := instanceId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenStartIntents)
@@ -751,14 +1393,38 @@ func (p *SplitScreenProxy) OnGoingToRecentsLegacy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	if appTargets == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenOnGoingToRecentsLegacy)
+	_compiledDescs := []string{
+		"[Landroid/view/RemoteAnimationTarget;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if appTargets == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(appTargets)))
+			for _, _item := range appTargets {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(appTargets)))
-		for _, _item := range appTargets {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if appTargets == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(appTargets)))
+					for _, _item := range appTargets {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -825,14 +1491,38 @@ func (p *SplitScreenProxy) OnStartingSplitLegacy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
-	if appTargets == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISplitScreen, MethodISplitScreenOnStartingSplitLegacy)
+	_compiledDescs := []string{
+		"[Landroid/view/RemoteAnimationTarget;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if appTargets == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(appTargets)))
+			for _, _item := range appTargets {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(appTargets)))
-		for _, _item := range appTargets {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if appTargets == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(appTargets)))
+					for _, _item := range appTargets {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}

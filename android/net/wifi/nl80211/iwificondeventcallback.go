@@ -47,7 +47,21 @@ func (p *WificondEventCallbackProxy) OnRegDomainChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificondEventCallback)
-	_data.WriteString16(countryCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWificondEventCallback, MethodIWificondEventCallbackOnRegDomainChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(countryCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(countryCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWificondEventCallback, MethodIWificondEventCallbackOnRegDomainChanged)
 	if _err != nil {

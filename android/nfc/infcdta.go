@@ -120,11 +120,37 @@ func (p *NfcDtaProxy) EnableServer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcDta)
-	_data.WriteString16(serviceName)
-	_data.WriteInt32(serviceSap)
-	_data.WriteInt32(miu)
-	_data.WriteInt32(rwSize)
-	_data.WriteInt32(testCaseId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcDta, MethodINfcDtaEnableServer)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(serviceName)
+		_data.WriteInt32(serviceSap)
+		_data.WriteInt32(miu)
+		_data.WriteInt32(rwSize)
+		_data.WriteInt32(testCaseId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(serviceName)
+			case 1:
+				_data.WriteInt32(serviceSap)
+			case 2:
+				_data.WriteInt32(miu)
+			case 3:
+				_data.WriteInt32(rwSize)
+			case 4:
+				_data.WriteInt32(testCaseId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcDta, MethodINfcDtaEnableServer)
 	if _err != nil {
@@ -184,10 +210,33 @@ func (p *NfcDtaProxy) EnableClient(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcDta)
-	_data.WriteString16(serviceName)
-	_data.WriteInt32(miu)
-	_data.WriteInt32(rwSize)
-	_data.WriteInt32(testCaseId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcDta, MethodINfcDtaEnableClient)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(serviceName)
+		_data.WriteInt32(miu)
+		_data.WriteInt32(rwSize)
+		_data.WriteInt32(testCaseId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(serviceName)
+			case 1:
+				_data.WriteInt32(miu)
+			case 2:
+				_data.WriteInt32(rwSize)
+			case 3:
+				_data.WriteInt32(testCaseId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcDta, MethodINfcDtaEnableClient)
 	if _err != nil {
@@ -244,7 +293,21 @@ func (p *NfcDtaProxy) RegisterMessageService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcDta)
-	_data.WriteString16(msgServiceName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcDta, MethodINfcDtaRegisterMessageService)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(msgServiceName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(msgServiceName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcDta, MethodINfcDtaRegisterMessageService)
 	if _err != nil {

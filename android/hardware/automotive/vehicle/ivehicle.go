@@ -106,12 +106,33 @@ func (p *VehicleProxy) GetPropConfigs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
-	if props == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVehicle, MethodIVehicleGetPropConfigs)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if props == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(props)))
+			for _, _item := range props {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(props)))
-		for _, _item := range props {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if props == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(props)))
+					for _, _item := range props {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -150,10 +171,30 @@ func (p *VehicleProxy) GetValues(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := requests.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVehicle, MethodIVehicleGetValues)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/vehicle/IVehicleCallback;",
+		"Landroid/hardware/automotive/vehicle/GetValueRequests;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := requests.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := requests.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicle, MethodIVehicleGetValues)
@@ -182,10 +223,30 @@ func (p *VehicleProxy) SetValues(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := requests.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVehicle, MethodIVehicleSetValues)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/vehicle/IVehicleCallback;",
+		"Landroid/hardware/automotive/vehicle/SetValueRequests;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := requests.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := requests.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicle, MethodIVehicleSetValues)
@@ -215,19 +276,49 @@ func (p *VehicleProxy) Subscribe(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	if options == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVehicle, MethodIVehicleSubscribe)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/vehicle/IVehicleCallback;",
+		"[Landroid/hardware/automotive/vehicle/SubscribeOptions;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		if options == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(options)))
+			for _, _item := range options {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(maxSharedMemoryFileCount)
 	} else {
-		_data.WriteInt32(int32(len(options)))
-		for _, _item := range options {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				if options == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(options)))
+					for _, _item := range options {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				_data.WriteInt32(maxSharedMemoryFileCount)
 			}
 		}
 	}
-	_data.WriteInt32(maxSharedMemoryFileCount)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicle, MethodIVehicleSubscribe)
 	if _err != nil {
@@ -255,13 +346,37 @@ func (p *VehicleProxy) Unsubscribe(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	if propIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVehicle, MethodIVehicleUnsubscribe)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/vehicle/IVehicleCallback;",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		if propIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(propIds)))
+			for _, _item := range propIds {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(propIds)))
-		for _, _item := range propIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				if propIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(propIds)))
+					for _, _item := range propIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -291,8 +406,25 @@ func (p *VehicleProxy) ReturnSharedMemory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt64(sharedMemoryId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVehicle, MethodIVehicleReturnSharedMemory)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/vehicle/IVehicleCallback;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt64(sharedMemoryId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt64(sharedMemoryId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicle, MethodIVehicleReturnSharedMemory)
 	if _err != nil {

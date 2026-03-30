@@ -47,7 +47,21 @@ func (p *CommunicationDeviceDispatcherProxy) DispatchCommunicationDeviceChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICommunicationDeviceDispatcher)
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICommunicationDeviceDispatcher, MethodICommunicationDeviceDispatcherDispatchCommunicationDeviceChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICommunicationDeviceDispatcher, MethodICommunicationDeviceDispatcherDispatchCommunicationDeviceChanged)
 	if _err != nil {

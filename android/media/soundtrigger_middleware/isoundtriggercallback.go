@@ -61,12 +61,35 @@ func (p *SoundTriggerCallbackProxy) OnRecognition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
-	_data.WriteInt32(modelHandle)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnRecognition)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/soundtrigger_middleware/RecognitionEventSys;",
+		"I",
 	}
-	_data.WriteInt32(captureSession)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(modelHandle)
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(captureSession)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(modelHandle)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(captureSession)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnRecognition)
 	if _err != nil {
@@ -86,12 +109,35 @@ func (p *SoundTriggerCallbackProxy) OnPhraseRecognition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
-	_data.WriteInt32(modelHandle)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnPhraseRecognition)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/soundtrigger_middleware/PhraseRecognitionEventSys;",
+		"I",
 	}
-	_data.WriteInt32(captureSession)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(modelHandle)
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(captureSession)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(modelHandle)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(captureSession)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnPhraseRecognition)
 	if _err != nil {
@@ -125,7 +171,21 @@ func (p *SoundTriggerCallbackProxy) OnModelUnloaded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
-	_data.WriteInt32(modelHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnModelUnloaded)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(modelHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(modelHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnModelUnloaded)
 	if _err != nil {

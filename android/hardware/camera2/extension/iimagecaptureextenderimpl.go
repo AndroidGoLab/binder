@@ -104,11 +104,34 @@ func (p *ImageCaptureExtenderImplProxy) OnInit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteString16(cameraId)
-	_data.WriteInt32(1)
-	if _err := cameraCharacteristics.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplOnInit)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"Landroid/hardware/camera2/impl/CameraMetadataNative;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteString16(cameraId)
+		_data.WriteInt32(1)
+		if _err := cameraCharacteristics.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(cameraId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := cameraCharacteristics.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplOnInit)
@@ -136,7 +159,21 @@ func (p *ImageCaptureExtenderImplProxy) OnDeInit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplOnDeInit)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplOnDeInit)
 	if _err != nil {
@@ -300,10 +337,30 @@ func (p *ImageCaptureExtenderImplProxy) IsExtensionAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
-	_data.WriteString16(cameraId)
-	_data.WriteInt32(1)
-	if _err := chars.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplIsExtensionAvailable)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/camera2/impl/CameraMetadataNative;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+		_data.WriteInt32(1)
+		if _err := chars.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := chars.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplIsExtensionAvailable)
@@ -336,10 +393,30 @@ func (p *ImageCaptureExtenderImplProxy) Init(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
-	_data.WriteString16(cameraId)
-	_data.WriteInt32(1)
-	if _err := chars.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplInit)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/camera2/impl/CameraMetadataNative;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+		_data.WriteInt32(1)
+		if _err := chars.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := chars.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplInit)
@@ -553,9 +630,26 @@ func (p *ImageCaptureExtenderImplProxy) GetSupportedPostviewResolutions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
-	_data.WriteInt32(1)
-	if _err := captureSize.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplGetSupportedPostviewResolutions)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera2/extension/Size;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := captureSize.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := captureSize.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplGetSupportedPostviewResolutions)
@@ -620,9 +714,26 @@ func (p *ImageCaptureExtenderImplProxy) GetEstimatedCaptureLatencyRange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
-	_data.WriteInt32(1)
-	if _err := outputSize.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplGetEstimatedCaptureLatencyRange)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera2/extension/Size;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := outputSize.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := outputSize.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplGetEstimatedCaptureLatencyRange)

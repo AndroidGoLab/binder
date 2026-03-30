@@ -54,9 +54,26 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateMessageCallback)
-	_data.WriteInt32(1)
-	if _err := message.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipDelegateMessageCallback, MethodISipDelegateMessageCallbackOnMessageReceived)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/SipMessage;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := message.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := message.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateMessageCallback, MethodISipDelegateMessageCallbackOnMessageReceived)
@@ -75,7 +92,21 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageSent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateMessageCallback)
-	_data.WriteString16(viaTransactionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipDelegateMessageCallback, MethodISipDelegateMessageCallbackOnMessageSent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(viaTransactionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(viaTransactionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateMessageCallback, MethodISipDelegateMessageCallbackOnMessageSent)
 	if _err != nil {
@@ -94,8 +125,25 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageSendFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateMessageCallback)
-	_data.WriteString16(viaTransactionId)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISipDelegateMessageCallback, MethodISipDelegateMessageCallbackOnMessageSendFailure)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(viaTransactionId)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(viaTransactionId)
+			case 1:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateMessageCallback, MethodISipDelegateMessageCallbackOnMessageSendFailure)
 	if _err != nil {

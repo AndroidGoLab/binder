@@ -113,7 +113,21 @@ func (p *PlayerProxy) SetVolume(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayer)
-	_data.WriteFloat32(vol)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlayer, MethodIPlayerSetVolume)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(vol)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(vol)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayer, MethodIPlayerSetVolume)
 	if _err != nil {
@@ -131,7 +145,21 @@ func (p *PlayerProxy) SetPan(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayer)
-	_data.WriteFloat32(pan)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlayer, MethodIPlayerSetPan)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(pan)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(pan)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayer, MethodIPlayerSetPan)
 	if _err != nil {
@@ -149,7 +177,21 @@ func (p *PlayerProxy) SetStartDelayMs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayer)
-	_data.WriteInt32(delayMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlayer, MethodIPlayerSetStartDelayMs)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(delayMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(delayMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayer, MethodIPlayerSetStartDelayMs)
 	if _err != nil {
@@ -168,13 +210,36 @@ func (p *PlayerProxy) ApplyVolumeShaper(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayer)
-	_data.WriteInt32(1)
-	if _err := configuration.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlayer, MethodIPlayerApplyVolumeShaper)
+	_compiledDescs := []string{
+		"Landroid/media/VolumeShaperConfiguration;",
+		"Landroid/media/VolumeShaperOperation;",
 	}
-	_data.WriteInt32(1)
-	if _err := operation.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := configuration.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := operation.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := configuration.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := operation.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayer, MethodIPlayerApplyVolumeShaper)

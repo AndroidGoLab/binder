@@ -186,8 +186,25 @@ func (p *ConnectionServiceProxy) AddConnectionServiceAdapter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceAddConnectionServiceAdapter)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telecom/IConnectionServiceAdapter;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceAddConnectionServiceAdapter)
 	if _err != nil {
@@ -206,8 +223,25 @@ func (p *ConnectionServiceProxy) RemoveConnectionServiceAdapter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceRemoveConnectionServiceAdapter)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telecom/IConnectionServiceAdapter;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceRemoveConnectionServiceAdapter)
 	if _err != nil {
@@ -230,18 +264,53 @@ func (p *ConnectionServiceProxy) CreateConnection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteInt32(1)
-	if _err := connectionManagerPhoneAccount.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceCreateConnection)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
+		"Landroid/telecom/ConnectionRequest;",
+		"Z",
+		"Z",
+		"LSession/Info;",
 	}
-	_data.WriteString16(callId)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := connectionManagerPhoneAccount.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callId)
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(isIncoming)
+		_data.WriteBool(isUnknown)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := connectionManagerPhoneAccount.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteBool(isIncoming)
+			case 4:
+				_data.WriteBool(isUnknown)
+			case 5:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
 	}
-	_data.WriteBool(isIncoming)
-	_data.WriteBool(isUnknown)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceCreateConnection)
 	if _err != nil {
@@ -260,8 +329,25 @@ func (p *ConnectionServiceProxy) CreateConnectionComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceCreateConnectionComplete)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceCreateConnectionComplete)
 	if _err != nil {
@@ -283,17 +369,49 @@ func (p *ConnectionServiceProxy) CreateConnectionFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteInt32(1)
-	if _err := connectionManagerPhoneAccount.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceCreateConnectionFailed)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
+		"Landroid/telecom/ConnectionRequest;",
+		"Z",
+		"LSession/Info;",
 	}
-	_data.WriteString16(callId)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := connectionManagerPhoneAccount.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callId)
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(isIncoming)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := connectionManagerPhoneAccount.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteBool(isIncoming)
+			case 4:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
 	}
-	_data.WriteBool(isIncoming)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceCreateConnectionFailed)
 	if _err != nil {
@@ -316,18 +434,53 @@ func (p *ConnectionServiceProxy) CreateConference(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteInt32(1)
-	if _err := connectionManagerPhoneAccount.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceCreateConference)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
+		"Landroid/telecom/ConnectionRequest;",
+		"Z",
+		"Z",
+		"LSession/Info;",
 	}
-	_data.WriteString16(callId)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := connectionManagerPhoneAccount.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callId)
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(isIncoming)
+		_data.WriteBool(isUnknown)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := connectionManagerPhoneAccount.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteBool(isIncoming)
+			case 4:
+				_data.WriteBool(isUnknown)
+			case 5:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
 	}
-	_data.WriteBool(isIncoming)
-	_data.WriteBool(isUnknown)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceCreateConference)
 	if _err != nil {
@@ -346,8 +499,25 @@ func (p *ConnectionServiceProxy) CreateConferenceComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceCreateConferenceComplete)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceCreateConferenceComplete)
 	if _err != nil {
@@ -369,17 +539,49 @@ func (p *ConnectionServiceProxy) CreateConferenceFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteInt32(1)
-	if _err := connectionManagerPhoneAccount.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceCreateConferenceFailed)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
+		"Landroid/telecom/ConnectionRequest;",
+		"Z",
+		"LSession/Info;",
 	}
-	_data.WriteString16(callId)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := connectionManagerPhoneAccount.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callId)
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(isIncoming)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := connectionManagerPhoneAccount.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(callId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteBool(isIncoming)
+			case 4:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
 	}
-	_data.WriteBool(isIncoming)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceCreateConferenceFailed)
 	if _err != nil {
@@ -398,8 +600,25 @@ func (p *ConnectionServiceProxy) Abort(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceAbort)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceAbort)
 	if _err != nil {
@@ -419,9 +638,29 @@ func (p *ConnectionServiceProxy) AnswerVideo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteInt32(videoState)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceAnswerVideo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteInt32(videoState)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteInt32(videoState)
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceAnswerVideo)
 	if _err != nil {
@@ -440,8 +679,25 @@ func (p *ConnectionServiceProxy) Answer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceAnswer)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceAnswer)
 	if _err != nil {
@@ -461,12 +717,35 @@ func (p *ConnectionServiceProxy) Deflect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteInt32(1)
-	if _err := address.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceDeflect)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"LSession/Info;",
 	}
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteInt32(1)
+		if _err := address.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := address.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceDeflect)
 	if _err != nil {
@@ -485,8 +764,25 @@ func (p *ConnectionServiceProxy) Reject(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceReject)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceReject)
 	if _err != nil {
@@ -506,9 +802,29 @@ func (p *ConnectionServiceProxy) RejectWithReason(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteInt32(rejectReason)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceRejectWithReason)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteInt32(rejectReason)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteInt32(rejectReason)
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceRejectWithReason)
 	if _err != nil {
@@ -528,9 +844,29 @@ func (p *ConnectionServiceProxy) RejectWithMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteString16(message)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceRejectWithMessage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteString16(message)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteString16(message)
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceRejectWithMessage)
 	if _err != nil {
@@ -551,13 +887,39 @@ func (p *ConnectionServiceProxy) Transfer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteInt32(1)
-	if _err := number.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceTransfer)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"Z",
+		"LSession/Info;",
 	}
-	_data.WriteBool(isConfirmationRequired)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteInt32(1)
+		if _err := number.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(isConfirmationRequired)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := number.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteBool(isConfirmationRequired)
+			case 3:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceTransfer)
 	if _err != nil {
@@ -577,9 +939,29 @@ func (p *ConnectionServiceProxy) ConsultativeTransfer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteString16(otherCallId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceConsultativeTransfer)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteString16(otherCallId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteString16(otherCallId)
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceConsultativeTransfer)
 	if _err != nil {
@@ -598,8 +980,25 @@ func (p *ConnectionServiceProxy) Disconnect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceDisconnect)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceDisconnect)
 	if _err != nil {
@@ -618,8 +1017,25 @@ func (p *ConnectionServiceProxy) Silence(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceSilence)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceSilence)
 	if _err != nil {
@@ -638,8 +1054,25 @@ func (p *ConnectionServiceProxy) Hold(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceHold)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceHold)
 	if _err != nil {
@@ -658,8 +1091,25 @@ func (p *ConnectionServiceProxy) Unhold(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceUnhold)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceUnhold)
 	if _err != nil {
@@ -679,12 +1129,35 @@ func (p *ConnectionServiceProxy) OnCallAudioStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(activeCallId)
-	_data.WriteInt32(1)
-	if _err := callAudioState.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceOnCallAudioStateChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/telecom/CallAudioState;",
+		"LSession/Info;",
 	}
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(activeCallId)
+		_data.WriteInt32(1)
+		if _err := callAudioState.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(activeCallId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callAudioState.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceOnCallAudioStateChanged)
 	if _err != nil {
@@ -704,12 +1177,35 @@ func (p *ConnectionServiceProxy) OnCallEndpointChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(activeCallId)
-	_data.WriteInt32(1)
-	if _err := callEndpoint.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceOnCallEndpointChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/telecom/CallEndpoint;",
+		"LSession/Info;",
 	}
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(activeCallId)
+		_data.WriteInt32(1)
+		if _err := callEndpoint.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(activeCallId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callEndpoint.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceOnCallEndpointChanged)
 	if _err != nil {
@@ -729,19 +1225,49 @@ func (p *ConnectionServiceProxy) OnAvailableCallEndpointsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(activeCallId)
-	if availableCallEndpoints == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceOnAvailableCallEndpointsChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(activeCallId)
+		if availableCallEndpoints == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(availableCallEndpoints)))
+			for _, _item := range availableCallEndpoints {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
 	} else {
-		_data.WriteInt32(int32(len(availableCallEndpoints)))
-		for _, _item := range availableCallEndpoints {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(activeCallId)
+			case 1:
+				if availableCallEndpoints == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(availableCallEndpoints)))
+					for _, _item := range availableCallEndpoints {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
 			}
 		}
 	}
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceOnAvailableCallEndpointsChanged)
 	if _err != nil {
@@ -761,9 +1287,29 @@ func (p *ConnectionServiceProxy) OnMuteStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(activeCallId)
-	_data.WriteBool(isMuted)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceOnMuteStateChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(activeCallId)
+		_data.WriteBool(isMuted)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(activeCallId)
+			case 1:
+				_data.WriteBool(isMuted)
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceOnMuteStateChanged)
 	if _err != nil {
@@ -783,9 +1329,29 @@ func (p *ConnectionServiceProxy) PlayDtmfTone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteInt32(int32(digit))
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServicePlayDtmfTone)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"C",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteInt32(int32(digit))
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteInt32(int32(digit))
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServicePlayDtmfTone)
 	if _err != nil {
@@ -804,8 +1370,25 @@ func (p *ConnectionServiceProxy) StopDtmfTone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceStopDtmfTone)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceStopDtmfTone)
 	if _err != nil {
@@ -825,9 +1408,29 @@ func (p *ConnectionServiceProxy) Conference(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(conferenceCallId)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceConference)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(conferenceCallId)
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(conferenceCallId)
+			case 1:
+				_data.WriteString16(callId)
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceConference)
 	if _err != nil {
@@ -846,8 +1449,25 @@ func (p *ConnectionServiceProxy) SplitFromConference(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceSplitFromConference)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceSplitFromConference)
 	if _err != nil {
@@ -866,8 +1486,25 @@ func (p *ConnectionServiceProxy) MergeConference(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(conferenceCallId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceMergeConference)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(conferenceCallId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(conferenceCallId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceMergeConference)
 	if _err != nil {
@@ -886,8 +1523,25 @@ func (p *ConnectionServiceProxy) SwapConference(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(conferenceCallId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceSwapConference)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(conferenceCallId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(conferenceCallId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceSwapConference)
 	if _err != nil {
@@ -907,19 +1561,49 @@ func (p *ConnectionServiceProxy) AddConferenceParticipants(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(CallId)
-	if participants == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceAddConferenceParticipants)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(CallId)
+		if participants == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(participants)))
+			for _, _item := range participants {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
 	} else {
-		_data.WriteInt32(int32(len(participants)))
-		for _, _item := range participants {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(CallId)
+			case 1:
+				if participants == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(participants)))
+					for _, _item := range participants {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
 			}
 		}
 	}
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceAddConferenceParticipants)
 	if _err != nil {
@@ -939,9 +1623,29 @@ func (p *ConnectionServiceProxy) OnPostDialContinue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteBool(proceed)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceOnPostDialContinue)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteBool(proceed)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteBool(proceed)
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceOnPostDialContinue)
 	if _err != nil {
@@ -960,8 +1664,25 @@ func (p *ConnectionServiceProxy) PullExternalCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServicePullExternalCall)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServicePullExternalCall)
 	if _err != nil {
@@ -982,13 +1703,39 @@ func (p *ConnectionServiceProxy) SendCallEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteString16(event)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceSendCallEvent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"LSession/Info;",
 	}
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteString16(event)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteString16(event)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceSendCallEvent)
 	if _err != nil {
@@ -1008,12 +1755,35 @@ func (p *ConnectionServiceProxy) OnCallFilteringCompleted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteInt32(1)
-	if _err := completionInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceOnCallFilteringCompleted)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LConnection/CallFilteringCompletionInfo;",
+		"LSession/Info;",
 	}
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteInt32(1)
+		if _err := completionInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := completionInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceOnCallFilteringCompleted)
 	if _err != nil {
@@ -1033,12 +1803,35 @@ func (p *ConnectionServiceProxy) OnExtrasChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceOnExtrasChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"LSession/Info;",
 	}
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceOnExtrasChanged)
 	if _err != nil {
@@ -1059,10 +1852,33 @@ func (p *ConnectionServiceProxy) StartRtt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteParcelFileDescriptor(fromInCall)
-	_data.WriteParcelFileDescriptor(toInCall)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceStartRtt)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteParcelFileDescriptor(fromInCall)
+		_data.WriteParcelFileDescriptor(toInCall)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteParcelFileDescriptor(fromInCall)
+			case 2:
+				_data.WriteParcelFileDescriptor(toInCall)
+			case 3:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceStartRtt)
 	if _err != nil {
@@ -1081,8 +1897,25 @@ func (p *ConnectionServiceProxy) StopRtt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceStopRtt)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceStopRtt)
 	if _err != nil {
@@ -1103,10 +1936,33 @@ func (p *ConnectionServiceProxy) RespondToRttUpgradeRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteParcelFileDescriptor(fromInCall)
-	_data.WriteParcelFileDescriptor(toInCall)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceRespondToRttUpgradeRequest)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteParcelFileDescriptor(fromInCall)
+		_data.WriteParcelFileDescriptor(toInCall)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteParcelFileDescriptor(fromInCall)
+			case 2:
+				_data.WriteParcelFileDescriptor(toInCall)
+			case 3:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceRespondToRttUpgradeRequest)
 	if _err != nil {
@@ -1124,7 +1980,21 @@ func (p *ConnectionServiceProxy) ConnectionServiceFocusLost(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceConnectionServiceFocusLost)
+	_compiledDescs := []string{
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceConnectionServiceFocusLost)
 	if _err != nil {
@@ -1142,7 +2012,21 @@ func (p *ConnectionServiceProxy) ConnectionServiceFocusGained(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceConnectionServiceFocusGained)
+	_compiledDescs := []string{
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceConnectionServiceFocusGained)
 	if _err != nil {
@@ -1163,13 +2047,39 @@ func (p *ConnectionServiceProxy) HandoverFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceHandoverFailed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/telecom/ConnectionRequest;",
+		"I",
+		"LSession/Info;",
 	}
-	_data.WriteInt32(error_)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(error_)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(error_)
+			case 3:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceHandoverFailed)
 	if _err != nil {
@@ -1188,8 +2098,25 @@ func (p *ConnectionServiceProxy) HandoverComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceHandoverComplete)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceHandoverComplete)
 	if _err != nil {
@@ -1209,9 +2136,29 @@ func (p *ConnectionServiceProxy) OnUsingAlternativeUi(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteBool(isUsingAlternativeUi)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceOnUsingAlternativeUi)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteBool(isUsingAlternativeUi)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteBool(isUsingAlternativeUi)
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceOnUsingAlternativeUi)
 	if _err != nil {
@@ -1231,9 +2178,29 @@ func (p *ConnectionServiceProxy) OnTrackedByNonUiService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionService)
-	_data.WriteString16(callId)
-	_data.WriteBool(isTracked)
-	// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionService, MethodIConnectionServiceOnTrackedByNonUiService)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"LSession/Info;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteBool(isTracked)
+		// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteBool(isTracked)
+			case 2:
+				// WARNING: param sessionInfo (type any) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionService, MethodIConnectionServiceOnTrackedByNonUiService)
 	if _err != nil {

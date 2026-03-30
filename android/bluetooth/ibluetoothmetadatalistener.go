@@ -49,12 +49,35 @@ func (p *BluetoothMetadataListenerProxy) OnMetadataChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMetadataListener)
-	_data.WriteInt32(1)
-	if _err := devices.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothMetadataListener, MethodIBluetoothMetadataListenerOnMetadataChanged)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"I",
+		"[B",
 	}
-	_data.WriteInt32(key)
-	_data.WriteByteArray(value)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := devices.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(key)
+		_data.WriteByteArray(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := devices.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(key)
+			case 2:
+				_data.WriteByteArray(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMetadataListener, MethodIBluetoothMetadataListenerOnMetadataChanged)
 	if _err != nil {

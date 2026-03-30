@@ -101,9 +101,29 @@ func (p *AuthServiceProxy) CreateTestSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	_data.WriteInt32(sensorId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceCreateTestSession)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/biometrics/ITestSessionCallback;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceCreateTestSession)
 	if _err != nil {
@@ -136,7 +156,21 @@ func (p *AuthServiceProxy) GetSensorProperties(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceGetSensorProperties)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceGetSensorProperties)
 	if _err != nil {
@@ -234,14 +268,46 @@ func (p *AuthServiceProxy) Authenticate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt64(sessionId)
-	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := promptInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceAuthenticate)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"J",
+		"I",
+		"Landroid/hardware/biometrics/IBiometricServiceReceiver;",
+		"Ljava/lang/String;",
+		"Landroid/hardware/biometrics/PromptInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt64(sessionId)
+		_data.WriteInt32(_identity.UserID)
+		binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := promptInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteInt64(sessionId)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
+			case 4:
+				_data.WriteString16(_identity.PackageName)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := promptInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceAuthenticate)
@@ -275,9 +341,29 @@ func (p *AuthServiceProxy) CancelAuthentication(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt64(requestId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceCancelAuthentication)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt64(requestId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt64(requestId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceCancelAuthentication)
 	if _err != nil {
@@ -306,9 +392,29 @@ func (p *AuthServiceProxy) CanAuthenticate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(authenticators)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceCanAuthenticate)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(authenticators)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(authenticators)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceCanAuthenticate)
 	if _err != nil {
@@ -341,8 +447,25 @@ func (p *AuthServiceProxy) GetLastAuthenticationTime(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(authenticators)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceGetLastAuthenticationTime)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(authenticators)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(authenticators)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceGetLastAuthenticationTime)
 	if _err != nil {
@@ -374,8 +497,25 @@ func (p *AuthServiceProxy) HasEnrolledBiometrics(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceHasEnrolledBiometrics)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceHasEnrolledBiometrics)
 	if _err != nil {
@@ -406,7 +546,21 @@ func (p *AuthServiceProxy) RegisterEnabledOnKeyguardCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceRegisterEnabledOnKeyguardCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/IBiometricEnabledOnKeyguardCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceRegisterEnabledOnKeyguardCallback)
 	if _err != nil {
@@ -433,7 +587,21 @@ func (p *AuthServiceProxy) RegisterAuthenticationStateListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceRegisterAuthenticationStateListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/AuthenticationStateListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceRegisterAuthenticationStateListener)
 	if _err != nil {
@@ -460,7 +628,21 @@ func (p *AuthServiceProxy) UnregisterAuthenticationStateListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceUnregisterAuthenticationStateListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/AuthenticationStateListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceUnregisterAuthenticationStateListener)
 	if _err != nil {
@@ -489,9 +671,29 @@ func (p *AuthServiceProxy) InvalidateAuthenticatorIds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(fromSensorId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceInvalidateAuthenticatorIds)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/hardware/biometrics/IInvalidationCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(fromSensorId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(fromSensorId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceInvalidateAuthenticatorIds)
 	if _err != nil {
@@ -519,7 +721,21 @@ func (p *AuthServiceProxy) GetAuthenticatorIds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceGetAuthenticatorIds)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceGetAuthenticatorIds)
 	if _err != nil {
@@ -566,11 +782,37 @@ func (p *AuthServiceProxy) ResetLockoutTimeBound(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(fromSensorId)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteByteArray(hardwareAuthToken)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceResetLockoutTimeBound)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(fromSensorId)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteByteArray(hardwareAuthToken)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(fromSensorId)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				_data.WriteByteArray(hardwareAuthToken)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceResetLockoutTimeBound)
 	if _err != nil {
@@ -598,8 +840,25 @@ func (p *AuthServiceProxy) ResetLockout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteByteArray(hardwareAuthToken)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceResetLockout)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteByteArray(hardwareAuthToken)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteByteArray(hardwareAuthToken)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceResetLockout)
 	if _err != nil {
@@ -628,9 +887,29 @@ func (p *AuthServiceProxy) GetButtonLabel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(authenticators)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceGetButtonLabel)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(authenticators)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(authenticators)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceGetButtonLabel)
 	if _err != nil {
@@ -663,9 +942,29 @@ func (p *AuthServiceProxy) GetPromptMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(authenticators)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceGetPromptMessage)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(authenticators)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(authenticators)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceGetPromptMessage)
 	if _err != nil {
@@ -698,9 +997,29 @@ func (p *AuthServiceProxy) GetSettingName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(authenticators)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAuthService, MethodIAuthServiceGetSettingName)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(authenticators)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(authenticators)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceGetSettingName)
 	if _err != nil {

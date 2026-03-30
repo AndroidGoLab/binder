@@ -114,10 +114,30 @@ func (p *StorageSessionProxy) OpenFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
-	_data.WriteString16(filePath)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageSession, MethodIStorageSessionOpenFile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/security/see/storage/OpenOptions;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(filePath)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(filePath)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageSession, MethodIStorageSessionOpenFile)
@@ -151,10 +171,30 @@ func (p *StorageSessionProxy) DeleteFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
-	_data.WriteString16(filePath)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageSession, MethodIStorageSessionDeleteFile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/security/see/storage/DeleteOptions;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(filePath)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(filePath)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageSession, MethodIStorageSessionDeleteFile)
@@ -184,11 +224,34 @@ func (p *StorageSessionProxy) RenameFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
-	_data.WriteString16(currentPath)
-	_data.WriteString16(destPath)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageSession, MethodIStorageSessionRenameFile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/hardware/security/see/storage/RenameOptions;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(currentPath)
+		_data.WriteString16(destPath)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(currentPath)
+			case 1:
+				_data.WriteString16(destPath)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageSession, MethodIStorageSessionRenameFile)
@@ -218,8 +281,25 @@ func (p *StorageSessionProxy) OpenDir(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
-	_data.WriteString16(path)
-	_data.WriteInt32(int32(readIntegrity))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageSession, MethodIStorageSessionOpenDir)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/security/see/storage/ReadIntegrity;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(path)
+		_data.WriteInt32(int32(readIntegrity))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(path)
+			case 1:
+				_data.WriteInt32(int32(readIntegrity))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageSession, MethodIStorageSessionOpenDir)
 	if _err != nil {

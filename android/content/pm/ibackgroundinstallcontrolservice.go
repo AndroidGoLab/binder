@@ -56,8 +56,25 @@ func (p *BackgroundInstallControlServiceProxy) GetBackgroundInstalledPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackgroundInstallControlService)
-	_data.WriteInt64(flags)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackgroundInstallControlService, MethodIBackgroundInstallControlServiceGetBackgroundInstalledPackages)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(flags)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(flags)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackgroundInstallControlService, MethodIBackgroundInstallControlServiceGetBackgroundInstalledPackages)
 	if _err != nil {
@@ -93,7 +110,21 @@ func (p *BackgroundInstallControlServiceProxy) RegisterBackgroundInstallCallback
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackgroundInstallControlService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackgroundInstallControlService, MethodIBackgroundInstallControlServiceRegisterBackgroundInstallCallback)
+	_compiledDescs := []string{
+		"Landroid/os/IRemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackgroundInstallControlService, MethodIBackgroundInstallControlServiceRegisterBackgroundInstallCallback)
 	if _err != nil {
@@ -120,7 +151,21 @@ func (p *BackgroundInstallControlServiceProxy) UnregisterBackgroundInstallCallba
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackgroundInstallControlService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBackgroundInstallControlService, MethodIBackgroundInstallControlServiceUnregisterBackgroundInstallCallback)
+	_compiledDescs := []string{
+		"Landroid/os/IRemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackgroundInstallControlService, MethodIBackgroundInstallControlServiceUnregisterBackgroundInstallCallback)
 	if _err != nil {

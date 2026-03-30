@@ -1298,7 +1298,21 @@ func (p *TelephonyProxy) Dial(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(number)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyDial)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(number)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(number)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyDial)
 	if _err != nil {
@@ -1326,8 +1340,25 @@ func (p *TelephonyProxy) Call(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(number)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyCall)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(number)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(number)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyCall)
 	if _err != nil {
@@ -1355,7 +1386,21 @@ func (p *TelephonyProxy) IsRadioOn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsRadioOn)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsRadioOn)
 	if _err != nil {
@@ -1387,8 +1432,25 @@ func (p *TelephonyProxy) IsRadioOnWithFeature(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsRadioOnWithFeature)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsRadioOnWithFeature)
 	if _err != nil {
@@ -1421,8 +1483,25 @@ func (p *TelephonyProxy) IsRadioOnForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsRadioOnForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsRadioOnForSubscriber)
 	if _err != nil {
@@ -1455,9 +1534,29 @@ func (p *TelephonyProxy) IsRadioOnForSubscriberWithFeature(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsRadioOnForSubscriberWithFeature)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsRadioOnForSubscriberWithFeature)
 	if _err != nil {
@@ -1489,8 +1588,25 @@ func (p *TelephonyProxy) SetCallComposerStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetCallComposerStatus)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetCallComposerStatus)
 	if _err != nil {
@@ -1518,7 +1634,21 @@ func (p *TelephonyProxy) GetCallComposerStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCallComposerStatus)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCallComposerStatus)
 	if _err != nil {
@@ -1551,8 +1681,25 @@ func (p *TelephonyProxy) SupplyPinForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(pin)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySupplyPinForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(pin)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(pin)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySupplyPinForSubscriber)
 	if _err != nil {
@@ -1586,9 +1733,29 @@ func (p *TelephonyProxy) SupplyPukForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(puk)
-	_data.WriteString16(pin)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySupplyPukForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(puk)
+		_data.WriteString16(pin)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(puk)
+			case 2:
+				_data.WriteString16(pin)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySupplyPukForSubscriber)
 	if _err != nil {
@@ -1621,8 +1788,25 @@ func (p *TelephonyProxy) SupplyPinReportResultForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(pin)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySupplyPinReportResultForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(pin)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(pin)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySupplyPinReportResultForSubscriber)
 	if _err != nil {
@@ -1669,9 +1853,29 @@ func (p *TelephonyProxy) SupplyPukReportResultForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(puk)
-	_data.WriteString16(pin)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySupplyPukReportResultForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(puk)
+		_data.WriteString16(pin)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(puk)
+			case 2:
+				_data.WriteString16(pin)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySupplyPukReportResultForSubscriber)
 	if _err != nil {
@@ -1716,7 +1920,21 @@ func (p *TelephonyProxy) HandlePinMmi(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(dialString)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyHandlePinMmi)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(dialString)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(dialString)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyHandlePinMmi)
 	if _err != nil {
@@ -1749,11 +1967,34 @@ func (p *TelephonyProxy) HandleUssdRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(ussdRequest)
-	_data.WriteInt32(1)
-	if _err := wrappedCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyHandleUssdRequest)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(ussdRequest)
+		_data.WriteInt32(1)
+		if _err := wrappedCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(ussdRequest)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := wrappedCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyHandleUssdRequest)
@@ -1783,8 +2024,25 @@ func (p *TelephonyProxy) HandlePinMmiForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(dialString)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyHandlePinMmiForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(dialString)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(dialString)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyHandlePinMmiForSubscriber)
 	if _err != nil {
@@ -1840,7 +2098,21 @@ func (p *TelephonyProxy) ToggleRadioOnOffForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyToggleRadioOnOffForSubscriber)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyToggleRadioOnOffForSubscriber)
 	if _err != nil {
@@ -1868,7 +2140,21 @@ func (p *TelephonyProxy) SetRadio(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(turnOn)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetRadio)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(turnOn)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(turnOn)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetRadio)
 	if _err != nil {
@@ -1901,8 +2187,25 @@ func (p *TelephonyProxy) SetRadioForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(turnOn)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetRadioForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(turnOn)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(turnOn)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetRadioForSubscriber)
 	if _err != nil {
@@ -1934,7 +2237,21 @@ func (p *TelephonyProxy) SetRadioPower(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(turnOn)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetRadioPower)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(turnOn)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(turnOn)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetRadioPower)
 	if _err != nil {
@@ -1967,8 +2284,25 @@ func (p *TelephonyProxy) RequestRadioPowerOffForReason(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestRadioPowerOffForReason)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestRadioPowerOffForReason)
 	if _err != nil {
@@ -2001,8 +2335,25 @@ func (p *TelephonyProxy) ClearRadioPowerOffForReason(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyClearRadioPowerOffForReason)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyClearRadioPowerOffForReason)
 	if _err != nil {
@@ -2035,9 +2386,29 @@ func (p *TelephonyProxy) GetRadioPowerOffReasons(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetRadioPowerOffReasons)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetRadioPowerOffReasons)
 	if _err != nil {
@@ -2102,7 +2473,21 @@ func (p *TelephonyProxy) UpdateServiceLocationWithPackageName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(callingPkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUpdateServiceLocationWithPackageName)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUpdateServiceLocationWithPackageName)
 	if _err != nil {
@@ -2180,7 +2565,21 @@ func (p *TelephonyProxy) EnableDataConnectivity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyEnableDataConnectivity)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyEnableDataConnectivity)
 	if _err != nil {
@@ -2212,7 +2611,21 @@ func (p *TelephonyProxy) DisableDataConnectivity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyDisableDataConnectivity)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyDisableDataConnectivity)
 	if _err != nil {
@@ -2244,7 +2657,21 @@ func (p *TelephonyProxy) IsDataConnectivityPossible(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsDataConnectivityPossible)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsDataConnectivityPossible)
 	if _err != nil {
@@ -2277,8 +2704,25 @@ func (p *TelephonyProxy) GetCellLocation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCellLocation)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCellLocation)
 	if _err != nil {
@@ -2315,7 +2759,21 @@ func (p *TelephonyProxy) GetNetworkCountryIsoForPhone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(phoneId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetNetworkCountryIsoForPhone)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetNetworkCountryIsoForPhone)
 	if _err != nil {
@@ -2348,8 +2806,25 @@ func (p *TelephonyProxy) GetNeighboringCellInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetNeighboringCellInfo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetNeighboringCellInfo)
 	if _err != nil {
@@ -2445,9 +2920,29 @@ func (p *TelephonyProxy) GetCallStateForSubscription(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(featureId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCallStateForSubscription)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(featureId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(featureId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCallStateForSubscription)
 	if _err != nil {
@@ -2509,7 +3004,21 @@ func (p *TelephonyProxy) GetDataActivityForSubId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetDataActivityForSubId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetDataActivityForSubId)
 	if _err != nil {
@@ -2571,7 +3080,21 @@ func (p *TelephonyProxy) GetDataStateForSubId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetDataStateForSubId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetDataStateForSubId)
 	if _err != nil {
@@ -2633,7 +3156,21 @@ func (p *TelephonyProxy) GetActivePhoneTypeForSlot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetActivePhoneTypeForSlot)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetActivePhoneTypeForSlot)
 	if _err != nil {
@@ -2665,8 +3202,25 @@ func (p *TelephonyProxy) GetCdmaEriIconIndex(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCdmaEriIconIndex)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCdmaEriIconIndex)
 	if _err != nil {
@@ -2699,9 +3253,29 @@ func (p *TelephonyProxy) GetCdmaEriIconIndexForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCdmaEriIconIndexForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCdmaEriIconIndexForSubscriber)
 	if _err != nil {
@@ -2733,8 +3307,25 @@ func (p *TelephonyProxy) GetCdmaEriIconMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCdmaEriIconMode)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCdmaEriIconMode)
 	if _err != nil {
@@ -2767,9 +3358,29 @@ func (p *TelephonyProxy) GetCdmaEriIconModeForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCdmaEriIconModeForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCdmaEriIconModeForSubscriber)
 	if _err != nil {
@@ -2801,8 +3412,25 @@ func (p *TelephonyProxy) GetCdmaEriText(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCdmaEriText)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCdmaEriText)
 	if _err != nil {
@@ -2835,9 +3463,29 @@ func (p *TelephonyProxy) GetCdmaEriTextForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCdmaEriTextForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCdmaEriTextForSubscriber)
 	if _err != nil {
@@ -2901,9 +3549,29 @@ func (p *TelephonyProxy) SetVoiceMailNumber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(alphaTag)
-	_data.WriteString16(number)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetVoiceMailNumber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(alphaTag)
+		_data.WriteString16(number)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(alphaTag)
+			case 2:
+				_data.WriteString16(number)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetVoiceMailNumber)
 	if _err != nil {
@@ -2935,8 +3603,25 @@ func (p *TelephonyProxy) SetVoiceActivationState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(activationState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetVoiceActivationState)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(activationState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(activationState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetVoiceActivationState)
 	if _err != nil {
@@ -2964,8 +3649,25 @@ func (p *TelephonyProxy) SetDataActivationState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(activationState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetDataActivationState)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(activationState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(activationState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetDataActivationState)
 	if _err != nil {
@@ -2994,8 +3696,25 @@ func (p *TelephonyProxy) GetVoiceActivationState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetVoiceActivationState)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetVoiceActivationState)
 	if _err != nil {
@@ -3028,8 +3747,25 @@ func (p *TelephonyProxy) GetDataActivationState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetDataActivationState)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetDataActivationState)
 	if _err != nil {
@@ -3062,9 +3798,29 @@ func (p *TelephonyProxy) GetVoiceMessageCountForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetVoiceMessageCountForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetVoiceMessageCountForSubscriber)
 	if _err != nil {
@@ -3096,7 +3852,21 @@ func (p *TelephonyProxy) IsConcurrentVoiceAndDataAllowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsConcurrentVoiceAndDataAllowed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsConcurrentVoiceAndDataAllowed)
 	if _err != nil {
@@ -3129,8 +3899,25 @@ func (p *TelephonyProxy) GetVisualVoicemailSettings(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetVisualVoicemailSettings)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetVisualVoicemailSettings)
 	if _err != nil {
@@ -3168,9 +3955,29 @@ func (p *TelephonyProxy) GetVisualVoicemailPackageName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetVisualVoicemailPackageName)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			case 2:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetVisualVoicemailPackageName)
 	if _err != nil {
@@ -3203,11 +4010,34 @@ func (p *TelephonyProxy) EnableVisualVoicemailSmsFilter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := settings.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyEnableVisualVoicemailSmsFilter)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/telephony/VisualVoicemailSmsFilterSettings;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := settings.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := settings.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyEnableVisualVoicemailSmsFilter)
@@ -3236,8 +4066,25 @@ func (p *TelephonyProxy) DisableVisualVoicemailSmsFilter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyDisableVisualVoicemailSmsFilter)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyDisableVisualVoicemailSmsFilter)
 	if _err != nil {
@@ -3257,8 +4104,25 @@ func (p *TelephonyProxy) GetVisualVoicemailSmsFilterSettings(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetVisualVoicemailSmsFilterSettings)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetVisualVoicemailSmsFilterSettings)
 	if _err != nil {
@@ -3295,7 +4159,21 @@ func (p *TelephonyProxy) GetActiveVisualVoicemailSmsFilterSettings(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetActiveVisualVoicemailSmsFilterSettings)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetActiveVisualVoicemailSmsFilterSettings)
 	if _err != nil {
@@ -3337,15 +4215,50 @@ func (p *TelephonyProxy) SendVisualVoicemailSmsForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(callingAttributeTag)
-	_data.WriteInt32(subId)
-	_data.WriteString16(number)
-	_data.WriteInt32(port)
-	_data.WriteString16(text)
-	_data.WriteInt32(1)
-	if _err := sentIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySendVisualVoicemailSmsForSubscriber)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(callingAttributeTag)
+		_data.WriteInt32(subId)
+		_data.WriteString16(number)
+		_data.WriteInt32(port)
+		_data.WriteString16(text)
+		_data.WriteInt32(1)
+		if _err := sentIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(callingAttributeTag)
+			case 2:
+				_data.WriteInt32(subId)
+			case 3:
+				_data.WriteString16(number)
+			case 4:
+				_data.WriteInt32(port)
+			case 5:
+				_data.WriteString16(text)
+			case 6:
+				_data.WriteInt32(1)
+				if _err := sentIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySendVisualVoicemailSmsForSubscriber)
@@ -3374,8 +4287,25 @@ func (p *TelephonyProxy) SendDialerSpecialCode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(callingPackageName)
-	_data.WriteString16(inputCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySendDialerSpecialCode)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPackageName)
+		_data.WriteString16(inputCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPackageName)
+			case 1:
+				_data.WriteString16(inputCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySendDialerSpecialCode)
 	if _err != nil {
@@ -3404,9 +4334,29 @@ func (p *TelephonyProxy) GetNetworkTypeForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetNetworkTypeForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetNetworkTypeForSubscriber)
 	if _err != nil {
@@ -3438,8 +4388,25 @@ func (p *TelephonyProxy) GetDataNetworkType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetDataNetworkType)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetDataNetworkType)
 	if _err != nil {
@@ -3472,9 +4439,29 @@ func (p *TelephonyProxy) GetDataNetworkTypeForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetDataNetworkTypeForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetDataNetworkTypeForSubscriber)
 	if _err != nil {
@@ -3507,9 +4494,29 @@ func (p *TelephonyProxy) GetVoiceNetworkTypeForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetVoiceNetworkTypeForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetVoiceNetworkTypeForSubscriber)
 	if _err != nil {
@@ -3571,7 +4578,21 @@ func (p *TelephonyProxy) HasIccCardUsingSlotIndex(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyHasIccCardUsingSlotIndex)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyHasIccCardUsingSlotIndex)
 	if _err != nil {
@@ -3603,8 +4624,25 @@ func (p *TelephonyProxy) GetLteOnCdmaMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetLteOnCdmaMode)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetLteOnCdmaMode)
 	if _err != nil {
@@ -3637,9 +4675,29 @@ func (p *TelephonyProxy) GetLteOnCdmaModeForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetLteOnCdmaModeForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetLteOnCdmaModeForSubscriber)
 	if _err != nil {
@@ -3672,8 +4730,25 @@ func (p *TelephonyProxy) GetAllCellInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetAllCellInfo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callingPkg)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetAllCellInfo)
 	if _err != nil {
@@ -3739,10 +4814,33 @@ func (p *TelephonyProxy) RequestCellInfoUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestCellInfoUpdate)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ICellInfoCallback;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteString16(callingPkg)
+			case 3:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestCellInfoUpdate)
 	if _err != nil {
@@ -3773,13 +4871,42 @@ func (p *TelephonyProxy) RequestCellInfoUpdateWithWorkSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(1)
-	if _err := ws.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestCellInfoUpdateWithWorkSource)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ICellInfoCallback;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/WorkSource;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(1)
+		if _err := ws.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteString16(callingPkg)
+			case 3:
+				_data.WriteString16(_identity.AttributionTag)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := ws.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestCellInfoUpdateWithWorkSource)
@@ -3808,8 +4935,25 @@ func (p *TelephonyProxy) SetCellInfoListRate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(rateInMillis)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetCellInfoListRate)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(rateInMillis)
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(rateInMillis)
+			case 1:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetCellInfoListRate)
 	if _err != nil {
@@ -3837,9 +4981,26 @@ func (p *TelephonyProxy) IccOpenLogicalChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIccOpenLogicalChannel)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telephony/IccLogicalChannelRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIccOpenLogicalChannel)
@@ -3877,9 +5038,26 @@ func (p *TelephonyProxy) IccCloseLogicalChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIccCloseLogicalChannel)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telephony/IccLogicalChannelRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIccCloseLogicalChannel)
@@ -3920,15 +5098,53 @@ func (p *TelephonyProxy) IccTransmitApduLogicalChannelByPort(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteInt32(portIndex)
-	_data.WriteInt32(channel)
-	_data.WriteInt32(cla)
-	_data.WriteInt32(instruction)
-	_data.WriteInt32(p1)
-	_data.WriteInt32(p2)
-	_data.WriteInt32(p3)
-	_data.WriteString16(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIccTransmitApduLogicalChannelByPort)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteInt32(portIndex)
+		_data.WriteInt32(channel)
+		_data.WriteInt32(cla)
+		_data.WriteInt32(instruction)
+		_data.WriteInt32(p1)
+		_data.WriteInt32(p2)
+		_data.WriteInt32(p3)
+		_data.WriteString16(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteInt32(portIndex)
+			case 2:
+				_data.WriteInt32(channel)
+			case 3:
+				_data.WriteInt32(cla)
+			case 4:
+				_data.WriteInt32(instruction)
+			case 5:
+				_data.WriteInt32(p1)
+			case 6:
+				_data.WriteInt32(p2)
+			case 7:
+				_data.WriteInt32(p3)
+			case 8:
+				_data.WriteString16(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIccTransmitApduLogicalChannelByPort)
 	if _err != nil {
@@ -3967,14 +5183,49 @@ func (p *TelephonyProxy) IccTransmitApduLogicalChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(channel)
-	_data.WriteInt32(cla)
-	_data.WriteInt32(instruction)
-	_data.WriteInt32(p1)
-	_data.WriteInt32(p2)
-	_data.WriteInt32(p3)
-	_data.WriteString16(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIccTransmitApduLogicalChannel)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(channel)
+		_data.WriteInt32(cla)
+		_data.WriteInt32(instruction)
+		_data.WriteInt32(p1)
+		_data.WriteInt32(p2)
+		_data.WriteInt32(p3)
+		_data.WriteString16(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(channel)
+			case 2:
+				_data.WriteInt32(cla)
+			case 3:
+				_data.WriteInt32(instruction)
+			case 4:
+				_data.WriteInt32(p1)
+			case 5:
+				_data.WriteInt32(p2)
+			case 6:
+				_data.WriteInt32(p3)
+			case 7:
+				_data.WriteString16(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIccTransmitApduLogicalChannel)
 	if _err != nil {
@@ -4014,15 +5265,53 @@ func (p *TelephonyProxy) IccTransmitApduBasicChannelByPort(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteInt32(portIndex)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(cla)
-	_data.WriteInt32(instruction)
-	_data.WriteInt32(p1)
-	_data.WriteInt32(p2)
-	_data.WriteInt32(p3)
-	_data.WriteString16(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIccTransmitApduBasicChannelByPort)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteInt32(portIndex)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(cla)
+		_data.WriteInt32(instruction)
+		_data.WriteInt32(p1)
+		_data.WriteInt32(p2)
+		_data.WriteInt32(p3)
+		_data.WriteString16(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteInt32(portIndex)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			case 3:
+				_data.WriteInt32(cla)
+			case 4:
+				_data.WriteInt32(instruction)
+			case 5:
+				_data.WriteInt32(p1)
+			case 6:
+				_data.WriteInt32(p2)
+			case 7:
+				_data.WriteInt32(p3)
+			case 8:
+				_data.WriteString16(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIccTransmitApduBasicChannelByPort)
 	if _err != nil {
@@ -4061,14 +5350,49 @@ func (p *TelephonyProxy) IccTransmitApduBasicChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(cla)
-	_data.WriteInt32(instruction)
-	_data.WriteInt32(p1)
-	_data.WriteInt32(p2)
-	_data.WriteInt32(p3)
-	_data.WriteString16(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIccTransmitApduBasicChannel)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(cla)
+		_data.WriteInt32(instruction)
+		_data.WriteInt32(p1)
+		_data.WriteInt32(p2)
+		_data.WriteInt32(p3)
+		_data.WriteString16(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(cla)
+			case 3:
+				_data.WriteInt32(instruction)
+			case 4:
+				_data.WriteInt32(p1)
+			case 5:
+				_data.WriteInt32(p2)
+			case 6:
+				_data.WriteInt32(p3)
+			case 7:
+				_data.WriteString16(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIccTransmitApduBasicChannel)
 	if _err != nil {
@@ -4106,13 +5430,45 @@ func (p *TelephonyProxy) IccExchangeSimIO(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(fileID)
-	_data.WriteInt32(command)
-	_data.WriteInt32(p1)
-	_data.WriteInt32(p2)
-	_data.WriteInt32(p3)
-	_data.WriteString16(filePath)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIccExchangeSimIO)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(fileID)
+		_data.WriteInt32(command)
+		_data.WriteInt32(p1)
+		_data.WriteInt32(p2)
+		_data.WriteInt32(p3)
+		_data.WriteString16(filePath)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(fileID)
+			case 2:
+				_data.WriteInt32(command)
+			case 3:
+				_data.WriteInt32(p1)
+			case 4:
+				_data.WriteInt32(p2)
+			case 5:
+				_data.WriteInt32(p3)
+			case 6:
+				_data.WriteString16(filePath)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIccExchangeSimIO)
 	if _err != nil {
@@ -4145,8 +5501,25 @@ func (p *TelephonyProxy) SendEnvelopeWithStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(content)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySendEnvelopeWithStatus)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(content)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(content)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySendEnvelopeWithStatus)
 	if _err != nil {
@@ -4178,7 +5551,21 @@ func (p *TelephonyProxy) NvReadItem(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(itemID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyNvReadItem)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(itemID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(itemID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyNvReadItem)
 	if _err != nil {
@@ -4211,8 +5598,25 @@ func (p *TelephonyProxy) NvWriteItem(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(itemID)
-	_data.WriteString16(itemValue)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyNvWriteItem)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(itemID)
+		_data.WriteString16(itemValue)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(itemID)
+			case 1:
+				_data.WriteString16(itemValue)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyNvWriteItem)
 	if _err != nil {
@@ -4244,7 +5648,21 @@ func (p *TelephonyProxy) NvWriteCdmaPrl(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteByteArray(preferredRoamingList)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyNvWriteCdmaPrl)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(preferredRoamingList)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(preferredRoamingList)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyNvWriteCdmaPrl)
 	if _err != nil {
@@ -4276,7 +5694,21 @@ func (p *TelephonyProxy) ResetModemConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyResetModemConfig)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyResetModemConfig)
 	if _err != nil {
@@ -4308,7 +5740,21 @@ func (p *TelephonyProxy) RebootModem(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRebootModem)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRebootModem)
 	if _err != nil {
@@ -4340,7 +5786,21 @@ func (p *TelephonyProxy) GetAllowedNetworkTypesBitmask(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetAllowedNetworkTypesBitmask)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetAllowedNetworkTypesBitmask)
 	if _err != nil {
@@ -4372,7 +5832,21 @@ func (p *TelephonyProxy) IsTetheringApnRequiredForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsTetheringApnRequiredForSubscriber)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsTetheringApnRequiredForSubscriber)
 	if _err != nil {
@@ -4403,7 +5877,21 @@ func (p *TelephonyProxy) EnableIms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyEnableIms)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyEnableIms)
 	if _err != nil {
@@ -4430,7 +5918,21 @@ func (p *TelephonyProxy) DisableIms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyDisableIms)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyDisableIms)
 	if _err != nil {
@@ -4457,7 +5959,21 @@ func (p *TelephonyProxy) ResetIms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyResetIms)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyResetIms)
 	if _err != nil {
@@ -4485,8 +6001,25 @@ func (p *TelephonyProxy) RegisterMmTelFeatureCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterMmTelFeatureCallback)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/ims/internal/IImsServiceFeatureCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterMmTelFeatureCallback)
 	if _err != nil {
@@ -4513,7 +6046,21 @@ func (p *TelephonyProxy) UnregisterImsFeatureCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterImsFeatureCallback)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/IImsServiceFeatureCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterImsFeatureCallback)
 	if _err != nil {
@@ -4542,8 +6089,25 @@ func (p *TelephonyProxy) GetImsRegistration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(feature)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetImsRegistration)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(feature)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(feature)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetImsRegistration)
 	if _err != nil {
@@ -4583,8 +6147,25 @@ func (p *TelephonyProxy) GetImsConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotId)
-	_data.WriteInt32(feature)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetImsConfig)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotId)
+		_data.WriteInt32(feature)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotId)
+			case 1:
+				_data.WriteInt32(feature)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetImsConfig)
 	if _err != nil {
@@ -4626,17 +6207,47 @@ func (p *TelephonyProxy) SetBoundImsServiceOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteBool(isCarrierService)
-	if featureTypes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetBoundImsServiceOverride)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"[I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteBool(isCarrierService)
+		if featureTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(featureTypes)))
+			for _, _item := range featureTypes {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteString16(packageName)
 	} else {
-		_data.WriteInt32(int32(len(featureTypes)))
-		for _, _item := range featureTypes {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteBool(isCarrierService)
+			case 2:
+				if featureTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(featureTypes)))
+					for _, _item := range featureTypes {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 3:
+				_data.WriteString16(packageName)
+			}
 		}
 	}
-	_data.WriteString16(packageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetBoundImsServiceOverride)
 	if _err != nil {
@@ -4668,7 +6279,21 @@ func (p *TelephonyProxy) ClearCarrierImsServiceOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyClearCarrierImsServiceOverride)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyClearCarrierImsServiceOverride)
 	if _err != nil {
@@ -4702,9 +6327,29 @@ func (p *TelephonyProxy) GetBoundImsServicePackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteBool(isCarrierImsService)
-	_data.WriteInt32(featureType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetBoundImsServicePackage)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteBool(isCarrierImsService)
+		_data.WriteInt32(featureType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteBool(isCarrierImsService)
+			case 2:
+				_data.WriteInt32(featureType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetBoundImsServicePackage)
 	if _err != nil {
@@ -4736,8 +6381,25 @@ func (p *TelephonyProxy) GetImsMmTelFeatureState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetImsMmTelFeatureState)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetImsMmTelFeatureState)
 	if _err != nil {
@@ -4764,7 +6426,21 @@ func (p *TelephonyProxy) SetNetworkSelectionModeAutomatic(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetNetworkSelectionModeAutomatic)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetNetworkSelectionModeAutomatic)
 	if _err != nil {
@@ -4793,9 +6469,29 @@ func (p *TelephonyProxy) GetCellNetworkScanResults(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCellNetworkScanResults)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCellNetworkScanResults)
 	if _err != nil {
@@ -4837,19 +6533,57 @@ func (p *TelephonyProxy) RequestNetworkScan(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(renounceFineLocationAccess)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestNetworkScan)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Landroid/hardware/radio/network/NetworkScanRequest;",
+		"Landroid/os/Messenger;",
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(1)
-	if _err := messenger.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(renounceFineLocationAccess)
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := messenger.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(renounceFineLocationAccess)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := messenger.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
+			case 5:
+				_data.WriteString16(_identity.PackageName)
+			case 6:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestNetworkScan)
 	if _err != nil {
@@ -4881,8 +6615,25 @@ func (p *TelephonyProxy) StopNetworkScan(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(scanId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyStopNetworkScan)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(scanId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(scanId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyStopNetworkScan)
 	if _err != nil {
@@ -4912,12 +6663,35 @@ func (p *TelephonyProxy) SetNetworkSelectionModeManual(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := operatorInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetNetworkSelectionModeManual)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/telephony/OperatorInfo;",
+		"Z",
 	}
-	_data.WriteBool(persisSelection)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := operatorInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(persisSelection)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := operatorInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteBool(persisSelection)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetNetworkSelectionModeManual)
 	if _err != nil {
@@ -4950,8 +6724,25 @@ func (p *TelephonyProxy) GetAllowedNetworkTypesForReason(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetAllowedNetworkTypesForReason)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetAllowedNetworkTypesForReason)
 	if _err != nil {
@@ -4985,9 +6776,29 @@ func (p *TelephonyProxy) SetAllowedNetworkTypesForReason(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(reason)
-	_data.WriteInt64(allowedNetworkTypes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetAllowedNetworkTypesForReason)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(reason)
+		_data.WriteInt64(allowedNetworkTypes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(reason)
+			case 2:
+				_data.WriteInt64(allowedNetworkTypes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetAllowedNetworkTypesForReason)
 	if _err != nil {
@@ -5019,7 +6830,21 @@ func (p *TelephonyProxy) GetDataEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetDataEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetDataEnabled)
 	if _err != nil {
@@ -5051,7 +6876,21 @@ func (p *TelephonyProxy) IsUserDataEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsUserDataEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsUserDataEnabled)
 	if _err != nil {
@@ -5083,7 +6922,21 @@ func (p *TelephonyProxy) IsDataEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsDataEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsDataEnabled)
 	if _err != nil {
@@ -5117,10 +6970,33 @@ func (p *TelephonyProxy) SetDataEnabledForReason(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(reason)
-	_data.WriteBool(enable)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetDataEnabledForReason)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(reason)
+		_data.WriteBool(enable)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(reason)
+			case 2:
+				_data.WriteBool(enable)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetDataEnabledForReason)
 	if _err != nil {
@@ -5149,8 +7025,25 @@ func (p *TelephonyProxy) IsDataEnabledForReason(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsDataEnabledForReason)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsDataEnabledForReason)
 	if _err != nil {
@@ -5182,7 +7075,21 @@ func (p *TelephonyProxy) IsManualNetworkSelectionAllowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsManualNetworkSelectionAllowed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsManualNetworkSelectionAllowed)
 	if _err != nil {
@@ -5213,7 +7120,21 @@ func (p *TelephonyProxy) SetImsRegistrationState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(registered)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetImsRegistrationState)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(registered)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(registered)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetImsRegistrationState)
 	if _err != nil {
@@ -5241,7 +7162,21 @@ func (p *TelephonyProxy) GetCdmaMdn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCdmaMdn)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCdmaMdn)
 	if _err != nil {
@@ -5273,7 +7208,21 @@ func (p *TelephonyProxy) GetCdmaMin(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCdmaMin)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCdmaMin)
 	if _err != nil {
@@ -5307,13 +7256,39 @@ func (p *TelephonyProxy) RequestNumberVerification(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(1)
-	if _err := range_.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestNumberVerification)
+	_compiledDescs := []string{
+		"Landroid/telephony/PhoneNumberRange;",
+		"J",
+		"Lcom/android/internal/telephony/INumberVerificationCallback;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt64(timeoutMillis)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := range_.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt64(timeoutMillis)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := range_.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt64(timeoutMillis)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestNumberVerification)
 	if _err != nil {
@@ -5341,7 +7316,21 @@ func (p *TelephonyProxy) GetCarrierPrivilegeStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCarrierPrivilegeStatus)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCarrierPrivilegeStatus)
 	if _err != nil {
@@ -5374,8 +7363,25 @@ func (p *TelephonyProxy) GetCarrierPrivilegeStatusForUid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCarrierPrivilegeStatusForUid)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCarrierPrivilegeStatusForUid)
 	if _err != nil {
@@ -5408,8 +7414,25 @@ func (p *TelephonyProxy) CheckCarrierPrivilegesForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(pkgName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyCheckCarrierPrivilegesForPackage)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(pkgName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(pkgName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyCheckCarrierPrivilegesForPackage)
 	if _err != nil {
@@ -5441,7 +7464,21 @@ func (p *TelephonyProxy) CheckCarrierPrivilegesForPackageAnyPhone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(pkgName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyCheckCarrierPrivilegesForPackageAnyPhone)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkgName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkgName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyCheckCarrierPrivilegesForPackageAnyPhone)
 	if _err != nil {
@@ -5474,11 +7511,31 @@ func (p *TelephonyProxy) GetCarrierPackageNamesForIntentAndPhone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCarrierPackageNamesForIntentAndPhone)
+	_compiledDescs := []string{
+		"Landroid/content/Intent;",
+		"I",
 	}
-	_data.WriteInt32(phoneId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(phoneId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(phoneId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCarrierPackageNamesForIntentAndPhone)
 	if _err != nil {
@@ -5525,9 +7582,29 @@ func (p *TelephonyProxy) SetLine1NumberForDisplayForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(alphaTag)
-	_data.WriteString16(number)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetLine1NumberForDisplayForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(alphaTag)
+		_data.WriteString16(number)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(alphaTag)
+			case 2:
+				_data.WriteString16(number)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetLine1NumberForDisplayForSubscriber)
 	if _err != nil {
@@ -5560,9 +7637,29 @@ func (p *TelephonyProxy) GetLine1NumberForDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetLine1NumberForDisplay)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetLine1NumberForDisplay)
 	if _err != nil {
@@ -5595,9 +7692,29 @@ func (p *TelephonyProxy) GetLine1AlphaTagForDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetLine1AlphaTagForDisplay)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetLine1AlphaTagForDisplay)
 	if _err != nil {
@@ -5630,9 +7747,29 @@ func (p *TelephonyProxy) GetMergedSubscriberIds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetMergedSubscriberIds)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetMergedSubscriberIds)
 	if _err != nil {
@@ -5678,8 +7815,25 @@ func (p *TelephonyProxy) GetMergedImsisFromGroup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetMergedImsisFromGroup)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetMergedImsisFromGroup)
 	if _err != nil {
@@ -5725,8 +7879,25 @@ func (p *TelephonyProxy) SetOperatorBrandOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(brand)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetOperatorBrandOverride)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(brand)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(brand)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetOperatorBrandOverride)
 	if _err != nil {
@@ -5762,37 +7933,91 @@ func (p *TelephonyProxy) SetRoamingOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	if gsmRoamingList == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(gsmRoamingList)))
-		for _, _item := range gsmRoamingList {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetRoamingOverride)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+		"Ljava/util/List;",
+		"Ljava/util/List;",
+		"Ljava/util/List;",
 	}
-	if gsmNonRoamingList == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(gsmNonRoamingList)))
-		for _, _item := range gsmNonRoamingList {
-			_data.WriteString16(_item)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		if gsmRoamingList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(gsmRoamingList)))
+			for _, _item := range gsmRoamingList {
+				_data.WriteString16(_item)
+			}
 		}
-	}
-	if cdmaRoamingList == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(cdmaRoamingList)))
-		for _, _item := range cdmaRoamingList {
-			_data.WriteString16(_item)
+		if gsmNonRoamingList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(gsmNonRoamingList)))
+			for _, _item := range gsmNonRoamingList {
+				_data.WriteString16(_item)
+			}
 		}
-	}
-	if cdmaNonRoamingList == nil {
-		_data.WriteInt32(-1)
+		if cdmaRoamingList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(cdmaRoamingList)))
+			for _, _item := range cdmaRoamingList {
+				_data.WriteString16(_item)
+			}
+		}
+		if cdmaNonRoamingList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(cdmaNonRoamingList)))
+			for _, _item := range cdmaNonRoamingList {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(cdmaNonRoamingList)))
-		for _, _item := range cdmaNonRoamingList {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				if gsmRoamingList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(gsmRoamingList)))
+					for _, _item := range gsmRoamingList {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				if gsmNonRoamingList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(gsmNonRoamingList)))
+					for _, _item := range gsmNonRoamingList {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				if cdmaRoamingList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(cdmaRoamingList)))
+					for _, _item := range cdmaRoamingList {
+						_data.WriteString16(_item)
+					}
+				}
+			case 4:
+				if cdmaNonRoamingList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(cdmaNonRoamingList)))
+					for _, _item := range cdmaNonRoamingList {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -5882,8 +8107,25 @@ func (p *TelephonyProxy) GetRadioAccessFamily(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(phoneId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetRadioAccessFamily)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetRadioAccessFamily)
 	if _err != nil {
@@ -5918,13 +8160,42 @@ func (p *TelephonyProxy) UploadCallComposerPicture(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subscriptionId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(contentType)
-	_data.WriteParcelFileDescriptor(fd)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUploadCallComposerPicture)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subscriptionId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(contentType)
+		_data.WriteParcelFileDescriptor(fd)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subscriptionId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(contentType)
+			case 3:
+				_data.WriteParcelFileDescriptor(fd)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUploadCallComposerPicture)
@@ -5952,7 +8223,21 @@ func (p *TelephonyProxy) EnableVideoCalling(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyEnableVideoCalling)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyEnableVideoCalling)
 	if _err != nil {
@@ -5980,8 +8265,25 @@ func (p *TelephonyProxy) IsVideoCallingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsVideoCallingEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsVideoCallingEnabled)
 	if _err != nil {
@@ -6014,9 +8316,29 @@ func (p *TelephonyProxy) CanChangeDtmfToneLength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyCanChangeDtmfToneLength)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyCanChangeDtmfToneLength)
 	if _err != nil {
@@ -6049,9 +8371,29 @@ func (p *TelephonyProxy) IsWorldPhone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsWorldPhone)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsWorldPhone)
 	if _err != nil {
@@ -6113,7 +8455,21 @@ func (p *TelephonyProxy) IsRttSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subscriptionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsRttSupported)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subscriptionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subscriptionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsRttSupported)
 	if _err != nil {
@@ -6175,7 +8531,21 @@ func (p *TelephonyProxy) IsImsRegistered(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsImsRegistered)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsImsRegistered)
 	if _err != nil {
@@ -6207,7 +8577,21 @@ func (p *TelephonyProxy) IsWifiCallingAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsWifiCallingAvailable)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsWifiCallingAvailable)
 	if _err != nil {
@@ -6239,7 +8623,21 @@ func (p *TelephonyProxy) IsVideoTelephonyAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsVideoTelephonyAvailable)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsVideoTelephonyAvailable)
 	if _err != nil {
@@ -6271,7 +8669,21 @@ func (p *TelephonyProxy) GetImsRegTechnologyForMmTel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetImsRegTechnologyForMmTel)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetImsRegTechnologyForMmTel)
 	if _err != nil {
@@ -6303,7 +8715,21 @@ func (p *TelephonyProxy) GetDeviceId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetDeviceId)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetDeviceId)
 	if _err != nil {
@@ -6335,8 +8761,25 @@ func (p *TelephonyProxy) GetDeviceIdWithFeature(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetDeviceIdWithFeature)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetDeviceIdWithFeature)
 	if _err != nil {
@@ -6369,9 +8812,29 @@ func (p *TelephonyProxy) GetImeiForSlot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetImeiForSlot)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetImeiForSlot)
 	if _err != nil {
@@ -6403,8 +8866,25 @@ func (p *TelephonyProxy) GetPrimaryImei(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetPrimaryImei)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetPrimaryImei)
 	if _err != nil {
@@ -6436,7 +8916,21 @@ func (p *TelephonyProxy) GetTypeAllocationCodeForSlot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetTypeAllocationCodeForSlot)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetTypeAllocationCodeForSlot)
 	if _err != nil {
@@ -6469,9 +8963,29 @@ func (p *TelephonyProxy) GetMeidForSlot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetMeidForSlot)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetMeidForSlot)
 	if _err != nil {
@@ -6503,7 +9017,21 @@ func (p *TelephonyProxy) GetManufacturerCodeForSlot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetManufacturerCodeForSlot)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetManufacturerCodeForSlot)
 	if _err != nil {
@@ -6536,9 +9064,29 @@ func (p *TelephonyProxy) GetDeviceSoftwareVersionForSlot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetDeviceSoftwareVersionForSlot)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetDeviceSoftwareVersionForSlot)
 	if _err != nil {
@@ -6571,12 +9119,35 @@ func (p *TelephonyProxy) GetSubIdForPhoneAccountHandle(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(1)
-	if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetSubIdForPhoneAccountHandle)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetSubIdForPhoneAccountHandle)
 	if _err != nil {
@@ -6608,7 +9179,21 @@ func (p *TelephonyProxy) GetPhoneAccountHandleForSubscriptionId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subscriptionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetPhoneAccountHandleForSubscriptionId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subscriptionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subscriptionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetPhoneAccountHandleForSubscriptionId)
 	if _err != nil {
@@ -6645,8 +9230,25 @@ func (p *TelephonyProxy) FactoryReset(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyFactoryReset)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyFactoryReset)
 	if _err != nil {
@@ -6674,7 +9276,21 @@ func (p *TelephonyProxy) GetSimLocaleForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetSimLocaleForSubscriber)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetSimLocaleForSubscriber)
 	if _err != nil {
@@ -6705,9 +9321,26 @@ func (p *TelephonyProxy) RequestModemActivityInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestModemActivityInfo)
+	_compiledDescs := []string{
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestModemActivityInfo)
@@ -6730,11 +9363,37 @@ func (p *TelephonyProxy) GetServiceStateForSlot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteBool(renounceFineLocationAccess)
-	_data.WriteBool(renounceCoarseLocationAccess)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetServiceStateForSlot)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Z",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteBool(renounceFineLocationAccess)
+		_data.WriteBool(renounceCoarseLocationAccess)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteBool(renounceFineLocationAccess)
+			case 2:
+				_data.WriteBool(renounceCoarseLocationAccess)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			case 4:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetServiceStateForSlot)
 	if _err != nil {
@@ -6771,9 +9430,26 @@ func (p *TelephonyProxy) GetVoicemailRingtoneUri(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(1)
-	if _err := accountHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetVoicemailRingtoneUri)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := accountHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := accountHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetVoicemailRingtoneUri)
@@ -6812,14 +9488,40 @@ func (p *TelephonyProxy) SetVoicemailRingtoneUri(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetVoicemailRingtoneUri)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Landroid/net/Uri;",
 	}
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetVoicemailRingtoneUri)
@@ -6848,9 +9550,26 @@ func (p *TelephonyProxy) IsVoicemailVibrationEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(1)
-	if _err := accountHandle.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsVoicemailVibrationEnabled)
+	_compiledDescs := []string{
+		"Landroid/telecom/PhoneAccountHandle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := accountHandle.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := accountHandle.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsVoicemailVibrationEnabled)
@@ -6884,12 +9603,35 @@ func (p *TelephonyProxy) SetVoicemailVibrationEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetVoicemailVibrationEnabled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/telecom/PhoneAccountHandle;",
+		"Z",
 	}
-	_data.WriteBool(enabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetVoicemailVibrationEnabled)
 	if _err != nil {
@@ -6917,7 +9659,21 @@ func (p *TelephonyProxy) GetPackagesWithCarrierPrivileges(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(phoneId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetPackagesWithCarrierPrivileges)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetPackagesWithCarrierPrivileges)
 	if _err != nil {
@@ -7006,8 +9762,25 @@ func (p *TelephonyProxy) GetAidForAppType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(appType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetAidForAppType)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(appType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(appType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetAidForAppType)
 	if _err != nil {
@@ -7039,7 +9812,21 @@ func (p *TelephonyProxy) GetEsn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetEsn)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetEsn)
 	if _err != nil {
@@ -7071,7 +9858,21 @@ func (p *TelephonyProxy) GetCdmaPrlVersion(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCdmaPrlVersion)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCdmaPrlVersion)
 	if _err != nil {
@@ -7165,9 +9966,26 @@ func (p *TelephonyProxy) SetAllowedCarriers(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(1)
-	if _err := carrierRestrictionRules.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetAllowedCarriers)
+	_compiledDescs := []string{
+		"Landroid/telephony/CarrierRestrictionRules;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := carrierRestrictionRules.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := carrierRestrictionRules.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetAllowedCarriers)
@@ -7235,7 +10053,21 @@ func (p *TelephonyProxy) GetSubscriptionCarrierId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetSubscriptionCarrierId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetSubscriptionCarrierId)
 	if _err != nil {
@@ -7267,7 +10099,21 @@ func (p *TelephonyProxy) GetSubscriptionCarrierName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetSubscriptionCarrierName)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetSubscriptionCarrierName)
 	if _err != nil {
@@ -7299,7 +10145,21 @@ func (p *TelephonyProxy) GetSubscriptionSpecificCarrierId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetSubscriptionSpecificCarrierId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetSubscriptionSpecificCarrierId)
 	if _err != nil {
@@ -7331,7 +10191,21 @@ func (p *TelephonyProxy) GetSubscriptionSpecificCarrierName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetSubscriptionSpecificCarrierName)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetSubscriptionSpecificCarrierName)
 	if _err != nil {
@@ -7365,9 +10239,29 @@ func (p *TelephonyProxy) GetCarrierIdFromMccMnc(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteString16(mccmnc)
-	_data.WriteBool(isSubscriptionMccMnc)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCarrierIdFromMccMnc)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteString16(mccmnc)
+		_data.WriteBool(isSubscriptionMccMnc)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteString16(mccmnc)
+			case 2:
+				_data.WriteBool(isSubscriptionMccMnc)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCarrierIdFromMccMnc)
 	if _err != nil {
@@ -7399,8 +10293,25 @@ func (p *TelephonyProxy) CarrierActionSetRadioEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyCarrierActionSetRadioEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyCarrierActionSetRadioEnabled)
 	if _err != nil {
@@ -7428,8 +10339,25 @@ func (p *TelephonyProxy) CarrierActionReportDefaultNetworkStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(report)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyCarrierActionReportDefaultNetworkStatus)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(report)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(report)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyCarrierActionReportDefaultNetworkStatus)
 	if _err != nil {
@@ -7456,7 +10384,21 @@ func (p *TelephonyProxy) CarrierActionResetAll(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyCarrierActionResetAll)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyCarrierActionResetAll)
 	if _err != nil {
@@ -7485,9 +10427,29 @@ func (p *TelephonyProxy) GetCallForwarding(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(callForwardingReason)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCallForwarding)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Lcom/android/internal/telephony/ICallForwardingInfoCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(callForwardingReason)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(callForwardingReason)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCallForwarding)
 	if _err != nil {
@@ -7516,12 +10478,35 @@ func (p *TelephonyProxy) SetCallForwarding(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := callForwardingInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetCallForwarding)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/CallForwardingInfo;",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := callForwardingInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callForwardingInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetCallForwarding)
 	if _err != nil {
@@ -7549,8 +10534,25 @@ func (p *TelephonyProxy) GetCallWaitingStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCallWaitingStatus)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCallWaitingStatus)
 	if _err != nil {
@@ -7579,9 +10581,29 @@ func (p *TelephonyProxy) SetCallWaitingStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(enabled)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetCallWaitingStatus)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(enabled)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(enabled)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetCallWaitingStatus)
 	if _err != nil {
@@ -7610,9 +10632,29 @@ func (p *TelephonyProxy) GetClientRequestStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteInt32(subid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetClientRequestStats)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteInt32(subid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			case 2:
+				_data.WriteInt32(subid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetClientRequestStats)
 	if _err != nil {
@@ -7676,8 +10718,25 @@ func (p *TelephonyProxy) SetSimPowerStateForSlot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteInt32(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetSimPowerStateForSlot)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetSimPowerStateForSlot)
 	if _err != nil {
@@ -7706,9 +10765,29 @@ func (p *TelephonyProxy) SetSimPowerStateForSlotWithCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteInt32(state)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetSimPowerStateForSlotWithCallback)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteInt32(state)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteInt32(state)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetSimPowerStateForSlotWithCallback)
 	if _err != nil {
@@ -7738,10 +10817,33 @@ func (p *TelephonyProxy) GetForbiddenPlmns(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(appType)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetForbiddenPlmns)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(appType)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(appType)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			case 3:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetForbiddenPlmns)
 	if _err != nil {
@@ -7789,18 +10891,51 @@ func (p *TelephonyProxy) SetForbiddenPlmns(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(appType)
-	if fplmns == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetForbiddenPlmns)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/util/List;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(appType)
+		if fplmns == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(fplmns)))
+			for _, _item := range fplmns {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
 	} else {
-		_data.WriteInt32(int32(len(fplmns)))
-		for _, _item := range fplmns {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(appType)
+			case 2:
+				if fplmns == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(fplmns)))
+					for _, _item := range fplmns {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			case 4:
+				_data.WriteString16(_identity.AttributionTag)
+			}
 		}
 	}
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetForbiddenPlmns)
 	if _err != nil {
@@ -7832,7 +10967,21 @@ func (p *TelephonyProxy) GetEmergencyCallbackMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetEmergencyCallbackMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetEmergencyCallbackMode)
 	if _err != nil {
@@ -7864,7 +11013,21 @@ func (p *TelephonyProxy) GetSignalStrength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetSignalStrength)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetSignalStrength)
 	if _err != nil {
@@ -7902,8 +11065,25 @@ func (p *TelephonyProxy) GetCardIdForDefaultEuicc(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCardIdForDefaultEuicc)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCardIdForDefaultEuicc)
 	if _err != nil {
@@ -7935,7 +11115,21 @@ func (p *TelephonyProxy) GetUiccCardsInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetUiccCardsInfo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetUiccCardsInfo)
 	if _err != nil {
@@ -7999,7 +11193,21 @@ func (p *TelephonyProxy) GetUiccSlotsInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetUiccSlotsInfo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetUiccSlotsInfo)
 	if _err != nil {
@@ -8063,12 +11271,33 @@ func (p *TelephonyProxy) SwitchSlots(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	if physicalSlots == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySwitchSlots)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if physicalSlots == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(physicalSlots)))
+			for _, _item := range physicalSlots {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(physicalSlots)))
-		for _, _item := range physicalSlots {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if physicalSlots == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(physicalSlots)))
+					for _, _item := range physicalSlots {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -8102,14 +11331,38 @@ func (p *TelephonyProxy) SetSimSlotMapping(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	if slotMapping == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetSimSlotMapping)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if slotMapping == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(slotMapping)))
+			for _, _item := range slotMapping {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(slotMapping)))
-		for _, _item := range slotMapping {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if slotMapping == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(slotMapping)))
+					for _, _item := range slotMapping {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -8144,7 +11397,21 @@ func (p *TelephonyProxy) IsDataRoamingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsDataRoamingEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsDataRoamingEnabled)
 	if _err != nil {
@@ -8176,8 +11443,25 @@ func (p *TelephonyProxy) SetDataRoamingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(isEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetDataRoamingEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(isEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(isEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetDataRoamingEnabled)
 	if _err != nil {
@@ -8205,7 +11489,21 @@ func (p *TelephonyProxy) GetCdmaRoamingMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCdmaRoamingMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCdmaRoamingMode)
 	if _err != nil {
@@ -8238,8 +11536,25 @@ func (p *TelephonyProxy) SetCdmaRoamingMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetCdmaRoamingMode)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetCdmaRoamingMode)
 	if _err != nil {
@@ -8271,7 +11586,21 @@ func (p *TelephonyProxy) GetCdmaSubscriptionMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCdmaSubscriptionMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCdmaSubscriptionMode)
 	if _err != nil {
@@ -8304,8 +11633,25 @@ func (p *TelephonyProxy) SetCdmaSubscriptionMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetCdmaSubscriptionMode)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetCdmaSubscriptionMode)
 	if _err != nil {
@@ -8345,16 +11691,57 @@ func (p *TelephonyProxy) SetCarrierTestOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(mccmnc)
-	_data.WriteString16(imsi)
-	_data.WriteString16(iccid)
-	_data.WriteString16(gid1)
-	_data.WriteString16(gid2)
-	_data.WriteString16(plmn)
-	_data.WriteString16(spn)
-	_data.WriteString16(carrierPrivilegeRules)
-	_data.WriteString16(apn)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetCarrierTestOverride)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(mccmnc)
+		_data.WriteString16(imsi)
+		_data.WriteString16(iccid)
+		_data.WriteString16(gid1)
+		_data.WriteString16(gid2)
+		_data.WriteString16(plmn)
+		_data.WriteString16(spn)
+		_data.WriteString16(carrierPrivilegeRules)
+		_data.WriteString16(apn)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(mccmnc)
+			case 2:
+				_data.WriteString16(imsi)
+			case 3:
+				_data.WriteString16(iccid)
+			case 4:
+				_data.WriteString16(gid1)
+			case 5:
+				_data.WriteString16(gid2)
+			case 6:
+				_data.WriteString16(plmn)
+			case 7:
+				_data.WriteString16(spn)
+			case 8:
+				_data.WriteString16(carrierPrivilegeRules)
+			case 9:
+				_data.WriteString16(apn)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetCarrierTestOverride)
 	if _err != nil {
@@ -8383,9 +11770,29 @@ func (p *TelephonyProxy) SetCarrierServicePackageOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(carrierServicePackage)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetCarrierServicePackageOverride)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(carrierServicePackage)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(carrierServicePackage)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetCarrierServicePackageOverride)
 	if _err != nil {
@@ -8413,7 +11820,21 @@ func (p *TelephonyProxy) GetCarrierIdListVersion(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCarrierIdListVersion)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCarrierIdListVersion)
 	if _err != nil {
@@ -8444,7 +11865,21 @@ func (p *TelephonyProxy) RefreshUiccProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRefreshUiccProfile)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRefreshUiccProfile)
 	if _err != nil {
@@ -8473,9 +11908,29 @@ func (p *TelephonyProxy) GetNumberOfModemsWithSimultaneousDataConnections(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetNumberOfModemsWithSimultaneousDataConnections)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetNumberOfModemsWithSimultaneousDataConnections)
 	if _err != nil {
@@ -8507,7 +11962,21 @@ func (p *TelephonyProxy) GetNetworkSelectionMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetNetworkSelectionMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetNetworkSelectionMode)
 	if _err != nil {
@@ -8570,9 +12039,29 @@ func (p *TelephonyProxy) GetRadioPowerState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetRadioPowerState)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetRadioPowerState)
 	if _err != nil {
@@ -8604,8 +12093,25 @@ func (p *TelephonyProxy) RegisterImsRegistrationCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterImsRegistrationCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/aidl/IImsRegistrationCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterImsRegistrationCallback)
 	if _err != nil {
@@ -8633,8 +12139,25 @@ func (p *TelephonyProxy) UnregisterImsRegistrationCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterImsRegistrationCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/aidl/IImsRegistrationCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterImsRegistrationCallback)
 	if _err != nil {
@@ -8662,8 +12185,25 @@ func (p *TelephonyProxy) RegisterImsEmergencyRegistrationCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterImsEmergencyRegistrationCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/aidl/IImsRegistrationCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterImsEmergencyRegistrationCallback)
 	if _err != nil {
@@ -8691,8 +12231,25 @@ func (p *TelephonyProxy) UnregisterImsEmergencyRegistrationCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterImsEmergencyRegistrationCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/aidl/IImsRegistrationCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterImsEmergencyRegistrationCallback)
 	if _err != nil {
@@ -8720,8 +12277,25 @@ func (p *TelephonyProxy) GetImsMmTelRegistrationState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, consumer.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetImsMmTelRegistrationState)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, consumer.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, consumer.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetImsMmTelRegistrationState)
 	if _err != nil {
@@ -8749,8 +12323,25 @@ func (p *TelephonyProxy) GetImsMmTelRegistrationTransportType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, consumer.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetImsMmTelRegistrationTransportType)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, consumer.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, consumer.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetImsMmTelRegistrationTransportType)
 	if _err != nil {
@@ -8778,8 +12369,25 @@ func (p *TelephonyProxy) RegisterMmTelCapabilityCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	// WARNING: param c (type types.IImsCapabilityCallback) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterMmTelCapabilityCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/aidl/IImsCapabilityCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		// WARNING: param c (type types.IImsCapabilityCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				// WARNING: param c (type types.IImsCapabilityCallback) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterMmTelCapabilityCallback)
 	if _err != nil {
@@ -8807,8 +12415,25 @@ func (p *TelephonyProxy) UnregisterMmTelCapabilityCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	// WARNING: param c (type types.IImsCapabilityCallback) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterMmTelCapabilityCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/aidl/IImsCapabilityCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		// WARNING: param c (type types.IImsCapabilityCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				// WARNING: param c (type types.IImsCapabilityCallback) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterMmTelCapabilityCallback)
 	if _err != nil {
@@ -8838,9 +12463,29 @@ func (p *TelephonyProxy) IsCapable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(capability)
-	_data.WriteInt32(regTech)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsCapable)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(capability)
+		_data.WriteInt32(regTech)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(capability)
+			case 2:
+				_data.WriteInt32(regTech)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsCapable)
 	if _err != nil {
@@ -8874,9 +12519,29 @@ func (p *TelephonyProxy) IsAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(capability)
-	_data.WriteInt32(regTech)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsAvailable)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(capability)
+		_data.WriteInt32(regTech)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(capability)
+			case 2:
+				_data.WriteInt32(regTech)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsAvailable)
 	if _err != nil {
@@ -8910,10 +12575,33 @@ func (p *TelephonyProxy) IsMmTelCapabilitySupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(capability)
-	_data.WriteInt32(transportType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsMmTelCapabilitySupported)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(capability)
+		_data.WriteInt32(transportType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(capability)
+			case 3:
+				_data.WriteInt32(transportType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsMmTelCapabilitySupported)
 	if _err != nil {
@@ -8941,7 +12629,21 @@ func (p *TelephonyProxy) IsAdvancedCallingSettingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsAdvancedCallingSettingEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsAdvancedCallingSettingEnabled)
 	if _err != nil {
@@ -8973,8 +12675,25 @@ func (p *TelephonyProxy) SetAdvancedCallingSettingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(isEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetAdvancedCallingSettingEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(isEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(isEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetAdvancedCallingSettingEnabled)
 	if _err != nil {
@@ -9002,7 +12721,21 @@ func (p *TelephonyProxy) IsVtSettingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsVtSettingEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsVtSettingEnabled)
 	if _err != nil {
@@ -9034,8 +12767,25 @@ func (p *TelephonyProxy) SetVtSettingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(isEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetVtSettingEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(isEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(isEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetVtSettingEnabled)
 	if _err != nil {
@@ -9063,7 +12813,21 @@ func (p *TelephonyProxy) IsVoWiFiSettingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsVoWiFiSettingEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsVoWiFiSettingEnabled)
 	if _err != nil {
@@ -9095,8 +12859,25 @@ func (p *TelephonyProxy) SetVoWiFiSettingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(isEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetVoWiFiSettingEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(isEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(isEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetVoWiFiSettingEnabled)
 	if _err != nil {
@@ -9124,7 +12905,21 @@ func (p *TelephonyProxy) IsCrossSimCallingEnabledByUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsCrossSimCallingEnabledByUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsCrossSimCallingEnabledByUser)
 	if _err != nil {
@@ -9156,8 +12951,25 @@ func (p *TelephonyProxy) SetCrossSimCallingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(isEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetCrossSimCallingEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(isEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(isEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetCrossSimCallingEnabled)
 	if _err != nil {
@@ -9185,7 +12997,21 @@ func (p *TelephonyProxy) IsVoWiFiRoamingSettingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsVoWiFiRoamingSettingEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsVoWiFiRoamingSettingEnabled)
 	if _err != nil {
@@ -9217,8 +13043,25 @@ func (p *TelephonyProxy) SetVoWiFiRoamingSettingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(isEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetVoWiFiRoamingSettingEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(isEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(isEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetVoWiFiRoamingSettingEnabled)
 	if _err != nil {
@@ -9247,9 +13090,29 @@ func (p *TelephonyProxy) SetVoWiFiNonPersistent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(isCapable)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetVoWiFiNonPersistent)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(isCapable)
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(isCapable)
+			case 2:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetVoWiFiNonPersistent)
 	if _err != nil {
@@ -9277,7 +13140,21 @@ func (p *TelephonyProxy) GetVoWiFiModeSetting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetVoWiFiModeSetting)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetVoWiFiModeSetting)
 	if _err != nil {
@@ -9309,8 +13186,25 @@ func (p *TelephonyProxy) SetVoWiFiModeSetting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetVoWiFiModeSetting)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetVoWiFiModeSetting)
 	if _err != nil {
@@ -9338,7 +13232,21 @@ func (p *TelephonyProxy) GetVoWiFiRoamingModeSetting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetVoWiFiRoamingModeSetting)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetVoWiFiRoamingModeSetting)
 	if _err != nil {
@@ -9370,8 +13278,25 @@ func (p *TelephonyProxy) SetVoWiFiRoamingModeSetting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetVoWiFiRoamingModeSetting)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetVoWiFiRoamingModeSetting)
 	if _err != nil {
@@ -9399,8 +13324,25 @@ func (p *TelephonyProxy) SetRttCapabilitySetting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(isEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetRttCapabilitySetting)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(isEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(isEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetRttCapabilitySetting)
 	if _err != nil {
@@ -9428,7 +13370,21 @@ func (p *TelephonyProxy) IsTtyOverVolteEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsTtyOverVolteEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsTtyOverVolteEnabled)
 	if _err != nil {
@@ -9460,8 +13416,25 @@ func (p *TelephonyProxy) GetEmergencyNumberList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetEmergencyNumberList)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetEmergencyNumberList)
 	if _err != nil {
@@ -9510,8 +13483,25 @@ func (p *TelephonyProxy) IsEmergencyNumber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(number)
-	_data.WriteBool(exactMatch)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsEmergencyNumber)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(number)
+		_data.WriteBool(exactMatch)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(number)
+			case 1:
+				_data.WriteBool(exactMatch)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsEmergencyNumber)
 	if _err != nil {
@@ -9543,7 +13533,21 @@ func (p *TelephonyProxy) GetCertsFromCarrierPrivilegeAccessRules(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCertsFromCarrierPrivilegeAccessRules)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCertsFromCarrierPrivilegeAccessRules)
 	if _err != nil {
@@ -9588,8 +13592,25 @@ func (p *TelephonyProxy) RegisterImsProvisioningChangedCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	// WARNING: param callback (type types.IImsConfigCallback) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterImsProvisioningChangedCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/aidl/IImsConfigCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		// WARNING: param callback (type types.IImsConfigCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				// WARNING: param callback (type types.IImsConfigCallback) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterImsProvisioningChangedCallback)
 	if _err != nil {
@@ -9617,8 +13638,25 @@ func (p *TelephonyProxy) UnregisterImsProvisioningChangedCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	// WARNING: param callback (type types.IImsConfigCallback) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterImsProvisioningChangedCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/aidl/IImsConfigCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		// WARNING: param callback (type types.IImsConfigCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				// WARNING: param callback (type types.IImsConfigCallback) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterImsProvisioningChangedCallback)
 	if _err != nil {
@@ -9646,8 +13684,25 @@ func (p *TelephonyProxy) RegisterFeatureProvisioningChangedCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	// WARNING: param callback (type types.IFeatureProvisioningCallback) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterFeatureProvisioningChangedCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/aidl/IFeatureProvisioningCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		// WARNING: param callback (type types.IFeatureProvisioningCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				// WARNING: param callback (type types.IFeatureProvisioningCallback) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterFeatureProvisioningChangedCallback)
 	if _err != nil {
@@ -9675,8 +13730,25 @@ func (p *TelephonyProxy) UnregisterFeatureProvisioningChangedCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	// WARNING: param callback (type types.IFeatureProvisioningCallback) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterFeatureProvisioningChangedCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/aidl/IFeatureProvisioningCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		// WARNING: param callback (type types.IFeatureProvisioningCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				// WARNING: param callback (type types.IFeatureProvisioningCallback) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterFeatureProvisioningChangedCallback)
 	if _err != nil {
@@ -9706,10 +13778,33 @@ func (p *TelephonyProxy) SetImsProvisioningStatusForCapability(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(capability)
-	_data.WriteInt32(tech)
-	_data.WriteBool(isProvisioned)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetImsProvisioningStatusForCapability)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(capability)
+		_data.WriteInt32(tech)
+		_data.WriteBool(isProvisioned)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(capability)
+			case 2:
+				_data.WriteInt32(tech)
+			case 3:
+				_data.WriteBool(isProvisioned)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetImsProvisioningStatusForCapability)
 	if _err != nil {
@@ -9739,9 +13834,29 @@ func (p *TelephonyProxy) GetImsProvisioningStatusForCapability(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(capability)
-	_data.WriteInt32(tech)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetImsProvisioningStatusForCapability)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(capability)
+		_data.WriteInt32(tech)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(capability)
+			case 2:
+				_data.WriteInt32(tech)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetImsProvisioningStatusForCapability)
 	if _err != nil {
@@ -9775,9 +13890,29 @@ func (p *TelephonyProxy) GetRcsProvisioningStatusForCapability(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(capability)
-	_data.WriteInt32(tech)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetRcsProvisioningStatusForCapability)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(capability)
+		_data.WriteInt32(tech)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(capability)
+			case 2:
+				_data.WriteInt32(tech)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetRcsProvisioningStatusForCapability)
 	if _err != nil {
@@ -9811,10 +13946,33 @@ func (p *TelephonyProxy) SetRcsProvisioningStatusForCapability(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(capability)
-	_data.WriteInt32(tech)
-	_data.WriteBool(isProvisioned)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetRcsProvisioningStatusForCapability)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(capability)
+		_data.WriteInt32(tech)
+		_data.WriteBool(isProvisioned)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(capability)
+			case 2:
+				_data.WriteInt32(tech)
+			case 3:
+				_data.WriteBool(isProvisioned)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetRcsProvisioningStatusForCapability)
 	if _err != nil {
@@ -9843,8 +14001,25 @@ func (p *TelephonyProxy) GetImsProvisioningInt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(key)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetImsProvisioningInt)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(key)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(key)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetImsProvisioningInt)
 	if _err != nil {
@@ -9877,8 +14052,25 @@ func (p *TelephonyProxy) GetImsProvisioningString(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(key)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetImsProvisioningString)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(key)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(key)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetImsProvisioningString)
 	if _err != nil {
@@ -9912,9 +14104,29 @@ func (p *TelephonyProxy) SetImsProvisioningInt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(key)
-	_data.WriteInt32(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetImsProvisioningInt)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(key)
+		_data.WriteInt32(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(key)
+			case 2:
+				_data.WriteInt32(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetImsProvisioningInt)
 	if _err != nil {
@@ -9948,9 +14160,29 @@ func (p *TelephonyProxy) SetImsProvisioningString(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(key)
-	_data.WriteString16(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetImsProvisioningString)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(key)
+		_data.WriteString16(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(key)
+			case 2:
+				_data.WriteString16(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetImsProvisioningString)
 	if _err != nil {
@@ -10007,10 +14239,30 @@ func (p *TelephonyProxy) UpdateEmergencyNumberListTestMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(action)
-	_data.WriteInt32(1)
-	if _err := num.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUpdateEmergencyNumberListTestMode)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/voice/EmergencyNumber;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(action)
+		_data.WriteInt32(1)
+		if _err := num.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(action)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := num.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUpdateEmergencyNumberListTestMode)
@@ -10082,7 +14334,21 @@ func (p *TelephonyProxy) GetEmergencyNumberDbVersion(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetEmergencyNumberDbVersion)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetEmergencyNumberDbVersion)
 	if _err != nil {
@@ -10138,7 +14404,21 @@ func (p *TelephonyProxy) UpdateOtaEmergencyNumberDbFilePath(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteParcelFileDescriptor(otaParcelFileDescriptor)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUpdateOtaEmergencyNumberDbFilePath)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(otaParcelFileDescriptor)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(otaParcelFileDescriptor)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUpdateOtaEmergencyNumberDbFilePath)
 	if _err != nil {
@@ -10192,8 +14472,25 @@ func (p *TelephonyProxy) EnableModemForSlot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyEnableModemForSlot)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyEnableModemForSlot)
 	if _err != nil {
@@ -10224,7 +14521,21 @@ func (p *TelephonyProxy) SetMultiSimCarrierRestriction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(isMultiSimCarrierRestricted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetMultiSimCarrierRestriction)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isMultiSimCarrierRestricted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isMultiSimCarrierRestricted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetMultiSimCarrierRestriction)
 	if _err != nil {
@@ -10252,8 +14563,25 @@ func (p *TelephonyProxy) IsMultiSimSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsMultiSimSupported)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsMultiSimSupported)
 	if _err != nil {
@@ -10284,7 +14612,21 @@ func (p *TelephonyProxy) SwitchMultiSimConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(numOfSims)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySwitchMultiSimConfig)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(numOfSims)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(numOfSims)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySwitchMultiSimConfig)
 	if _err != nil {
@@ -10313,9 +14655,29 @@ func (p *TelephonyProxy) DoesSwitchMultiSimConfigTriggerReboot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyDoesSwitchMultiSimConfigTriggerReboot)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyDoesSwitchMultiSimConfigTriggerReboot)
 	if _err != nil {
@@ -10347,7 +14709,21 @@ func (p *TelephonyProxy) GetSlotsMapping(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetSlotsMapping)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetSlotsMapping)
 	if _err != nil {
@@ -10441,7 +14817,21 @@ func (p *TelephonyProxy) GetHalVersion(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(service)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetHalVersion)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(service)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(service)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetHalVersion)
 	if _err != nil {
@@ -10504,8 +14894,25 @@ func (p *TelephonyProxy) IsApplicationOnUicc(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(appType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsApplicationOnUicc)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(appType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(appType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsApplicationOnUicc)
 	if _err != nil {
@@ -10538,9 +14945,29 @@ func (p *TelephonyProxy) IsModemEnabledForSlot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsModemEnabledForSlot)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsModemEnabledForSlot)
 	if _err != nil {
@@ -10574,9 +15001,29 @@ func (p *TelephonyProxy) IsDataEnabledForApn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(apnType)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsDataEnabledForApn)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(apnType)
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(apnType)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsDataEnabledForApn)
 	if _err != nil {
@@ -10609,8 +15056,25 @@ func (p *TelephonyProxy) IsApnMetered(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(apnType)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsApnMetered)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(apnType)
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(apnType)
+			case 1:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsApnMetered)
 	if _err != nil {
@@ -10643,19 +15107,49 @@ func (p *TelephonyProxy) SetSystemSelectionChannels(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	if specifiers == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetSystemSelectionChannels)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"I",
+		"Lcom/android/internal/telephony/IBooleanConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if specifiers == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(specifiers)))
+			for _, _item := range specifiers {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(specifiers)))
-		for _, _item := range specifiers {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if specifiers == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(specifiers)))
+					for _, _item := range specifiers {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 			}
 		}
 	}
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetSystemSelectionChannels)
 	if _err != nil {
@@ -10674,7 +15168,21 @@ func (p *TelephonyProxy) GetSystemSelectionChannels(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetSystemSelectionChannels)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetSystemSelectionChannels)
 	if _err != nil {
@@ -10740,9 +15248,29 @@ func (p *TelephonyProxy) IsMvnoMatched(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
-	_data.WriteInt32(mvnoType)
-	_data.WriteString16(mvnoMatchData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsMvnoMatched)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+		_data.WriteInt32(mvnoType)
+		_data.WriteString16(mvnoMatchData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			case 1:
+				_data.WriteInt32(mvnoType)
+			case 2:
+				_data.WriteString16(mvnoMatchData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsMvnoMatched)
 	if _err != nil {
@@ -10775,9 +15303,29 @@ func (p *TelephonyProxy) EnqueueSmsPickResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(callingAttributeTag)
-	binder.WriteBinderToParcel(ctx, _data, subIdResult.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyEnqueueSmsPickResult)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(callingAttributeTag)
+		binder.WriteBinderToParcel(ctx, _data, subIdResult.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteString16(callingAttributeTag)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, subIdResult.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyEnqueueSmsPickResult)
 	if _err != nil {
@@ -10812,7 +15360,21 @@ func (p *TelephonyProxy) GetMmsUserAgent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetMmsUserAgent)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetMmsUserAgent)
 	if _err != nil {
@@ -10844,7 +15406,21 @@ func (p *TelephonyProxy) GetMmsUAProfUrl(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetMmsUAProfUrl)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetMmsUAProfUrl)
 	if _err != nil {
@@ -10877,9 +15453,29 @@ func (p *TelephonyProxy) SetMobileDataPolicyEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subscriptionId)
-	_data.WriteInt32(policy)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetMobileDataPolicyEnabled)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subscriptionId)
+		_data.WriteInt32(policy)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subscriptionId)
+			case 1:
+				_data.WriteInt32(policy)
+			case 2:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetMobileDataPolicyEnabled)
 	if _err != nil {
@@ -10908,8 +15504,25 @@ func (p *TelephonyProxy) IsMobileDataPolicyEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subscriptionId)
-	_data.WriteInt32(policy)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsMobileDataPolicyEnabled)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subscriptionId)
+		_data.WriteInt32(policy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subscriptionId)
+			case 1:
+				_data.WriteInt32(policy)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsMobileDataPolicyEnabled)
 	if _err != nil {
@@ -10940,7 +15553,21 @@ func (p *TelephonyProxy) SetCepEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(isCepEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetCepEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isCepEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isCepEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetCepEnabled)
 	if _err != nil {
@@ -10960,9 +15587,29 @@ func (p *TelephonyProxy) NotifyRcsAutoConfigurationReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteByteArray(config)
-	_data.WriteBool(isCompressed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyNotifyRcsAutoConfigurationReceived)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteByteArray(config)
+		_data.WriteBool(isCompressed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteByteArray(config)
+			case 2:
+				_data.WriteBool(isCompressed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyNotifyRcsAutoConfigurationReceived)
 	if _err != nil {
@@ -10990,7 +15637,21 @@ func (p *TelephonyProxy) IsIccLockEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsIccLockEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsIccLockEnabled)
 	if _err != nil {
@@ -11024,9 +15685,29 @@ func (p *TelephonyProxy) SetIccLockEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(enabled)
-	_data.WriteString16(password)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetIccLockEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(enabled)
+		_data.WriteString16(password)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(enabled)
+			case 2:
+				_data.WriteString16(password)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetIccLockEnabled)
 	if _err != nil {
@@ -11060,9 +15741,29 @@ func (p *TelephonyProxy) ChangeIccLockPassword(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(oldPassword)
-	_data.WriteString16(newPassword)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyChangeIccLockPassword)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(oldPassword)
+		_data.WriteString16(newPassword)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(oldPassword)
+			case 2:
+				_data.WriteString16(newPassword)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyChangeIccLockPassword)
 	if _err != nil {
@@ -11126,7 +15827,21 @@ func (p *TelephonyProxy) GetManualNetworkSelectionPlmn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetManualNetworkSelectionPlmn)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetManualNetworkSelectionPlmn)
 	if _err != nil {
@@ -11189,9 +15904,29 @@ func (p *TelephonyProxy) GetEquivalentHomePlmns(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetEquivalentHomePlmns)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetEquivalentHomePlmns)
 	if _err != nil {
@@ -11237,8 +15972,25 @@ func (p *TelephonyProxy) SetVoNrEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetVoNrEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetVoNrEnabled)
 	if _err != nil {
@@ -11270,7 +16022,21 @@ func (p *TelephonyProxy) IsVoNrEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsVoNrEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsVoNrEnabled)
 	if _err != nil {
@@ -11303,8 +16069,25 @@ func (p *TelephonyProxy) SetNrDualConnectivityState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(nrDualConnectivityState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetNrDualConnectivityState)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(nrDualConnectivityState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(nrDualConnectivityState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetNrDualConnectivityState)
 	if _err != nil {
@@ -11336,7 +16119,21 @@ func (p *TelephonyProxy) IsNrDualConnectivityEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsNrDualConnectivityEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsNrDualConnectivityEnabled)
 	if _err != nil {
@@ -11368,7 +16165,21 @@ func (p *TelephonyProxy) IsRadioInterfaceCapabilitySupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(capability)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsRadioInterfaceCapabilitySupported)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(capability)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(capability)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsRadioInterfaceCapabilitySupported)
 	if _err != nil {
@@ -11402,12 +16213,35 @@ func (p *TelephonyProxy) SendThermalMitigationRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := thermalMitigationRequest.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySendThermalMitigationRequest)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ThermalMitigationRequest;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := thermalMitigationRequest.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := thermalMitigationRequest.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySendThermalMitigationRequest)
 	if _err != nil {
@@ -11443,18 +16277,53 @@ func (p *TelephonyProxy) BootstrapAuthenticationRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(appType)
-	_data.WriteInt32(1)
-	if _err := nafUrl.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyBootstrapAuthenticationRequest)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/net/Uri;",
+		"Landroid/telephony/gba/UaSecurityProtocolIdentifier;",
+		"Z",
+		"Landroid/telephony/IBootstrapAuthenticationCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := securityProtocol.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(appType)
+		_data.WriteInt32(1)
+		if _err := nafUrl.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := securityProtocol.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(forceBootStrapping)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(appType)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := nafUrl.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := securityProtocol.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteBool(forceBootStrapping)
+			case 5:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	_data.WriteBool(forceBootStrapping)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyBootstrapAuthenticationRequest)
 	if _err != nil {
@@ -11483,8 +16352,25 @@ func (p *TelephonyProxy) SetBoundGbaServiceOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetBoundGbaServiceOverride)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetBoundGbaServiceOverride)
 	if _err != nil {
@@ -11516,7 +16402,21 @@ func (p *TelephonyProxy) GetBoundGbaService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetBoundGbaService)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetBoundGbaService)
 	if _err != nil {
@@ -11549,8 +16449,25 @@ func (p *TelephonyProxy) SetGbaReleaseTimeOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(interval)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetGbaReleaseTimeOverride)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(interval)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(interval)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetGbaReleaseTimeOverride)
 	if _err != nil {
@@ -11582,7 +16499,21 @@ func (p *TelephonyProxy) GetGbaReleaseTime(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetGbaReleaseTime)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetGbaReleaseTime)
 	if _err != nil {
@@ -11614,10 +16545,30 @@ func (p *TelephonyProxy) SetRcsClientConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := rcc.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetRcsClientConfiguration)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/RcsClientConfiguration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := rcc.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := rcc.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetRcsClientConfiguration)
@@ -11646,7 +16597,21 @@ func (p *TelephonyProxy) IsRcsVolteSingleRegistrationCapable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsRcsVolteSingleRegistrationCapable)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsRcsVolteSingleRegistrationCapable)
 	if _err != nil {
@@ -11678,8 +16643,25 @@ func (p *TelephonyProxy) RegisterRcsProvisioningCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	// WARNING: param callback (type types.IRcsConfigCallback) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterRcsProvisioningCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/aidl/IRcsConfigCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		// WARNING: param callback (type types.IRcsConfigCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				// WARNING: param callback (type types.IRcsConfigCallback) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterRcsProvisioningCallback)
 	if _err != nil {
@@ -11707,8 +16689,25 @@ func (p *TelephonyProxy) UnregisterRcsProvisioningCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	// WARNING: param callback (type types.IRcsConfigCallback) cannot be serialized — type not resolved
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterRcsProvisioningCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/aidl/IRcsConfigCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		// WARNING: param callback (type types.IRcsConfigCallback) cannot be serialized — type not resolved
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				// WARNING: param callback (type types.IRcsConfigCallback) cannot be serialized — type not resolved
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterRcsProvisioningCallback)
 	if _err != nil {
@@ -11735,7 +16734,21 @@ func (p *TelephonyProxy) TriggerRcsReconfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyTriggerRcsReconfiguration)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyTriggerRcsReconfiguration)
 	if _err != nil {
@@ -11762,7 +16775,21 @@ func (p *TelephonyProxy) SetRcsSingleRegistrationTestModeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetRcsSingleRegistrationTestModeEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetRcsSingleRegistrationTestModeEnabled)
 	if _err != nil {
@@ -11819,7 +16846,21 @@ func (p *TelephonyProxy) SetDeviceSingleRegistrationEnabledOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetDeviceSingleRegistrationEnabledOverride)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetDeviceSingleRegistrationEnabledOverride)
 	if _err != nil {
@@ -11878,8 +16919,25 @@ func (p *TelephonyProxy) SetCarrierSingleRegistrationEnabledOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetCarrierSingleRegistrationEnabledOverride)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetCarrierSingleRegistrationEnabledOverride)
 	if _err != nil {
@@ -11911,8 +16969,25 @@ func (p *TelephonyProxy) SendDeviceToDeviceMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(message)
-	_data.WriteInt32(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySendDeviceToDeviceMessage)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(message)
+		_data.WriteInt32(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(message)
+			case 1:
+				_data.WriteInt32(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySendDeviceToDeviceMessage)
 	if _err != nil {
@@ -11939,7 +17014,21 @@ func (p *TelephonyProxy) SetActiveDeviceToDeviceTransport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(transport)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetActiveDeviceToDeviceTransport)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(transport)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(transport)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetActiveDeviceToDeviceTransport)
 	if _err != nil {
@@ -11966,7 +17055,21 @@ func (p *TelephonyProxy) SetDeviceToDeviceForceEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(isForceEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetDeviceToDeviceForceEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isForceEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isForceEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetDeviceToDeviceForceEnabled)
 	if _err != nil {
@@ -11994,7 +17097,21 @@ func (p *TelephonyProxy) GetCarrierSingleRegistrationEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCarrierSingleRegistrationEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCarrierSingleRegistrationEnabled)
 	if _err != nil {
@@ -12027,8 +17144,25 @@ func (p *TelephonyProxy) SetImsFeatureValidationOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetImsFeatureValidationOverride)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetImsFeatureValidationOverride)
 	if _err != nil {
@@ -12060,7 +17194,21 @@ func (p *TelephonyProxy) GetImsFeatureValidationOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetImsFeatureValidationOverride)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetImsFeatureValidationOverride)
 	if _err != nil {
@@ -12123,8 +17271,25 @@ func (p *TelephonyProxy) RemoveContactFromEab(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(contacts)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRemoveContactFromEab)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(contacts)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(contacts)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRemoveContactFromEab)
 	if _err != nil {
@@ -12156,7 +17321,21 @@ func (p *TelephonyProxy) GetContactFromEab(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(contact)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetContactFromEab)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(contact)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(contact)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetContactFromEab)
 	if _err != nil {
@@ -12188,7 +17367,21 @@ func (p *TelephonyProxy) GetCapabilityFromEab(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(contact)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCapabilityFromEab)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(contact)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(contact)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCapabilityFromEab)
 	if _err != nil {
@@ -12249,7 +17442,21 @@ func (p *TelephonyProxy) SetDeviceUceEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(isEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetDeviceUceEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetDeviceUceEnabled)
 	if _err != nil {
@@ -12278,13 +17485,37 @@ func (p *TelephonyProxy) AddUceRegistrationOverrideShell(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	if featureTags == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyAddUceRegistrationOverrideShell)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		if featureTags == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(featureTags)))
+			for _, _item := range featureTags {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(featureTags)))
-		for _, _item := range featureTags {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				if featureTags == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(featureTags)))
+					for _, _item := range featureTags {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -12324,13 +17555,37 @@ func (p *TelephonyProxy) RemoveUceRegistrationOverrideShell(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	if featureTags == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRemoveUceRegistrationOverrideShell)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		if featureTags == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(featureTags)))
+			for _, _item := range featureTags {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(featureTags)))
-		for _, _item := range featureTags {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				if featureTags == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(featureTags)))
+					for _, _item := range featureTags {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -12369,7 +17624,21 @@ func (p *TelephonyProxy) ClearUceRegistrationOverrideShell(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyClearUceRegistrationOverrideShell)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyClearUceRegistrationOverrideShell)
 	if _err != nil {
@@ -12406,7 +17675,21 @@ func (p *TelephonyProxy) GetLatestRcsContactUceCapabilityShell(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetLatestRcsContactUceCapabilityShell)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetLatestRcsContactUceCapabilityShell)
 	if _err != nil {
@@ -12443,7 +17726,21 @@ func (p *TelephonyProxy) GetLastUcePidfXmlShell(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetLastUcePidfXmlShell)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetLastUcePidfXmlShell)
 	if _err != nil {
@@ -12475,7 +17772,21 @@ func (p *TelephonyProxy) RemoveUceRequestDisallowedStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRemoveUceRequestDisallowedStatus)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRemoveUceRequestDisallowedStatus)
 	if _err != nil {
@@ -12508,8 +17819,25 @@ func (p *TelephonyProxy) SetCapabilitiesRequestTimeout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt64(timeoutAfterMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetCapabilitiesRequestTimeout)
+	_compiledDescs := []string{
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt64(timeoutAfterMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt64(timeoutAfterMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetCapabilitiesRequestTimeout)
 	if _err != nil {
@@ -12542,12 +17870,35 @@ func (p *TelephonyProxy) SetSignalStrengthUpdateRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetSignalStrengthUpdateRequest)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/SignalStrengthUpdateRequest;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetSignalStrengthUpdateRequest)
 	if _err != nil {
@@ -12576,12 +17927,35 @@ func (p *TelephonyProxy) ClearSignalStrengthUpdateRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyClearSignalStrengthUpdateRequest)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/SignalStrengthUpdateRequest;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyClearSignalStrengthUpdateRequest)
 	if _err != nil {
@@ -12673,9 +18047,26 @@ func (p *TelephonyProxy) GetSlicingConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetSlicingConfig)
+	_compiledDescs := []string{
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetSlicingConfig)
@@ -12705,8 +18096,25 @@ func (p *TelephonyProxy) IsPremiumCapabilityAvailableForPurchase(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(capability)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsPremiumCapabilityAvailableForPurchase)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(capability)
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(capability)
+			case 1:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsPremiumCapabilityAvailableForPurchase)
 	if _err != nil {
@@ -12739,9 +18147,29 @@ func (p *TelephonyProxy) PurchasePremiumCapability(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(capability)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyPurchasePremiumCapability)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(capability)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(capability)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyPurchasePremiumCapability)
 	if _err != nil {
@@ -12771,10 +18199,33 @@ func (p *TelephonyProxy) RegisterImsStateCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(feature)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterImsStateCallback)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Lcom/android/internal/telephony/IImsStateCallback;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(feature)
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(feature)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterImsStateCallback)
 	if _err != nil {
@@ -12801,7 +18252,21 @@ func (p *TelephonyProxy) UnregisterImsStateCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterImsStateCallback)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telephony/IImsStateCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterImsStateCallback)
 	if _err != nil {
@@ -12830,9 +18295,29 @@ func (p *TelephonyProxy) GetLastKnownCellIdentity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetLastKnownCellIdentity)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetLastKnownCellIdentity)
 	if _err != nil {
@@ -12869,7 +18354,21 @@ func (p *TelephonyProxy) SetModemService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(serviceName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetModemService)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(serviceName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(serviceName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetModemService)
 	if _err != nil {
@@ -12933,9 +18432,29 @@ func (p *TelephonyProxy) IsProvisioningRequiredForCapability(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(capability)
-	_data.WriteInt32(tech)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsProvisioningRequiredForCapability)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(capability)
+		_data.WriteInt32(tech)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(capability)
+			case 2:
+				_data.WriteInt32(tech)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsProvisioningRequiredForCapability)
 	if _err != nil {
@@ -12969,9 +18488,29 @@ func (p *TelephonyProxy) IsRcsProvisioningRequiredForCapability(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(capability)
-	_data.WriteInt32(tech)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsRcsProvisioningRequiredForCapability)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(capability)
+		_data.WriteInt32(tech)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(capability)
+			case 2:
+				_data.WriteInt32(tech)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsRcsProvisioningRequiredForCapability)
 	if _err != nil {
@@ -13004,9 +18543,29 @@ func (p *TelephonyProxy) SetVoiceServiceStateOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(hasService)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetVoiceServiceStateOverride)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(hasService)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(hasService)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetVoiceServiceStateOverride)
 	if _err != nil {
@@ -13034,7 +18593,21 @@ func (p *TelephonyProxy) GetCarrierServicePackageNameForLogicalSlot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(logicalSlotIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCarrierServicePackageNameForLogicalSlot)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(logicalSlotIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(logicalSlotIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCarrierServicePackageNameForLogicalSlot)
 	if _err != nil {
@@ -13066,8 +18639,25 @@ func (p *TelephonyProxy) SetRemovableEsimAsDefaultEuicc(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(isDefault)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetRemovableEsimAsDefaultEuicc)
+	_compiledDescs := []string{
+		"Z",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isDefault)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isDefault)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetRemovableEsimAsDefaultEuicc)
 	if _err != nil {
@@ -13095,7 +18685,21 @@ func (p *TelephonyProxy) IsRemovableEsimDefaultEuicc(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyIsRemovableEsimDefaultEuicc)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsRemovableEsimDefaultEuicc)
 	if _err != nil {
@@ -13128,8 +18732,25 @@ func (p *TelephonyProxy) GetDefaultRespondViaMessageApplication(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(updateIfNeeded)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetDefaultRespondViaMessageApplication)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(updateIfNeeded)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(updateIfNeeded)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetDefaultRespondViaMessageApplication)
 	if _err != nil {
@@ -13166,7 +18787,21 @@ func (p *TelephonyProxy) GetSimStateForSlotIndex(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(slotIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetSimStateForSlotIndex)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(slotIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(slotIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetSimStateForSlotIndex)
 	if _err != nil {
@@ -13201,11 +18836,37 @@ func (p *TelephonyProxy) PersistEmergencyCallDiagnosticData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(dropboxTag)
-	_data.WriteBool(enableLogcat)
-	_data.WriteInt64(logcatStartTimestampMillis)
-	_data.WriteBool(enableTelecomDump)
-	_data.WriteBool(enableTelephonyDump)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyPersistEmergencyCallDiagnosticData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"J",
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(dropboxTag)
+		_data.WriteBool(enableLogcat)
+		_data.WriteInt64(logcatStartTimestampMillis)
+		_data.WriteBool(enableTelecomDump)
+		_data.WriteBool(enableTelephonyDump)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(dropboxTag)
+			case 1:
+				_data.WriteBool(enableLogcat)
+			case 2:
+				_data.WriteInt64(logcatStartTimestampMillis)
+			case 3:
+				_data.WriteBool(enableTelecomDump)
+			case 4:
+				_data.WriteBool(enableTelephonyDump)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyPersistEmergencyCallDiagnosticData)
 	if _err != nil {
@@ -13232,7 +18893,21 @@ func (p *TelephonyProxy) SetNullCipherAndIntegrityEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetNullCipherAndIntegrityEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetNullCipherAndIntegrityEnabled)
 	if _err != nil {
@@ -13290,7 +18965,21 @@ func (p *TelephonyProxy) GetCellBroadcastIdRanges(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCellBroadcastIdRanges)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCellBroadcastIdRanges)
 	if _err != nil {
@@ -13355,19 +19044,49 @@ func (p *TelephonyProxy) SetCellBroadcastIdRanges(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	if ranges == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetCellBroadcastIdRanges)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		if ranges == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ranges)))
+			for _, _item := range ranges {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(ranges)))
-		for _, _item := range ranges {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				if ranges == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ranges)))
+					for _, _item := range ranges {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetCellBroadcastIdRanges)
 	if _err != nil {
@@ -13425,8 +19144,25 @@ func (p *TelephonyProxy) GetCarrierRestrictionStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	binder.WriteBinderToParcel(ctx, _data, internalCallback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetCarrierRestrictionStatus)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, internalCallback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, internalCallback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCarrierRestrictionStatus)
 	if _err != nil {
@@ -13457,11 +19193,37 @@ func (p *TelephonyProxy) RequestSatelliteEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(enableSatellite)
-	_data.WriteBool(enableDemoMode)
-	_data.WriteBool(isEmergency)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestSatelliteEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Z",
+		"Z",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(enableSatellite)
+		_data.WriteBool(enableDemoMode)
+		_data.WriteBool(isEmergency)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(enableSatellite)
+			case 2:
+				_data.WriteBool(enableDemoMode)
+			case 3:
+				_data.WriteBool(isEmergency)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestSatelliteEnabled)
 	if _err != nil {
@@ -13489,10 +19251,30 @@ func (p *TelephonyProxy) RequestIsSatelliteEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestIsSatelliteEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := receiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := receiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestIsSatelliteEnabled)
@@ -13521,10 +19303,30 @@ func (p *TelephonyProxy) RequestIsDemoModeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestIsDemoModeEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := receiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := receiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestIsDemoModeEnabled)
@@ -13553,10 +19355,30 @@ func (p *TelephonyProxy) RequestIsEmergencyModeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestIsEmergencyModeEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := receiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := receiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestIsEmergencyModeEnabled)
@@ -13585,10 +19407,30 @@ func (p *TelephonyProxy) RequestIsSatelliteSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestIsSatelliteSupported)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := receiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := receiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestIsSatelliteSupported)
@@ -13617,10 +19459,30 @@ func (p *TelephonyProxy) RequestSatelliteCapabilities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestSatelliteCapabilities)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := receiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := receiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestSatelliteCapabilities)
@@ -13650,9 +19512,29 @@ func (p *TelephonyProxy) StartSatelliteTransmissionUpdates(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyStartSatelliteTransmissionUpdates)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+		"Landroid/telephony/satellite/ISatelliteTransmissionUpdateCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyStartSatelliteTransmissionUpdates)
 	if _err != nil {
@@ -13681,9 +19563,29 @@ func (p *TelephonyProxy) StopSatelliteTransmissionUpdates(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyStopSatelliteTransmissionUpdates)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+		"Landroid/telephony/satellite/ISatelliteTransmissionUpdateCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyStopSatelliteTransmissionUpdates)
 	if _err != nil {
@@ -13714,10 +19616,33 @@ func (p *TelephonyProxy) ProvisionSatelliteService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(token)
-	_data.WriteByteArray(provisionData)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyProvisionSatelliteService)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"[B",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(token)
+		_data.WriteByteArray(provisionData)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(token)
+			case 2:
+				_data.WriteByteArray(provisionData)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyProvisionSatelliteService)
 	if _err != nil {
@@ -13751,9 +19676,29 @@ func (p *TelephonyProxy) DeprovisionSatelliteService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteString16(token)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyDeprovisionSatelliteService)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(token)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(token)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyDeprovisionSatelliteService)
 	if _err != nil {
@@ -13782,8 +19727,25 @@ func (p *TelephonyProxy) RegisterForSatelliteProvisionStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterForSatelliteProvisionStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/satellite/ISatelliteProvisionStateCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterForSatelliteProvisionStateChanged)
 	if _err != nil {
@@ -13815,8 +19777,25 @@ func (p *TelephonyProxy) UnregisterForSatelliteProvisionStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterForSatelliteProvisionStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/satellite/ISatelliteProvisionStateCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterForSatelliteProvisionStateChanged)
 	if _err != nil {
@@ -13844,10 +19823,30 @@ func (p *TelephonyProxy) RequestIsSatelliteProvisioned(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestIsSatelliteProvisioned)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := receiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := receiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestIsSatelliteProvisioned)
@@ -13877,8 +19876,25 @@ func (p *TelephonyProxy) RegisterForSatelliteModemStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterForSatelliteModemStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/satellite/ISatelliteModemStateCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterForSatelliteModemStateChanged)
 	if _err != nil {
@@ -13910,8 +19926,25 @@ func (p *TelephonyProxy) UnregisterForModemStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterForModemStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/satellite/ISatelliteModemStateCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterForModemStateChanged)
 	if _err != nil {
@@ -13940,8 +19973,25 @@ func (p *TelephonyProxy) RegisterForIncomingDatagram(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterForIncomingDatagram)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/satellite/ISatelliteDatagramCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterForIncomingDatagram)
 	if _err != nil {
@@ -13973,8 +20023,25 @@ func (p *TelephonyProxy) UnregisterForIncomingDatagram(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterForIncomingDatagram)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/satellite/ISatelliteDatagramCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterForIncomingDatagram)
 	if _err != nil {
@@ -14002,8 +20069,25 @@ func (p *TelephonyProxy) PollPendingDatagrams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyPollPendingDatagrams)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyPollPendingDatagrams)
 	if _err != nil {
@@ -14034,14 +20118,43 @@ func (p *TelephonyProxy) SendDatagram(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(datagramType)
-	_data.WriteInt32(1)
-	if _err := datagram.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySendDatagram)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/telephony/satellite/stub/SatelliteDatagram;",
+		"Z",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
 	}
-	_data.WriteBool(needFullScreenPointingUI)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(datagramType)
+		_data.WriteInt32(1)
+		if _err := datagram.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(needFullScreenPointingUI)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(datagramType)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := datagram.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteBool(needFullScreenPointingUI)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySendDatagram)
 	if _err != nil {
@@ -14069,10 +20182,30 @@ func (p *TelephonyProxy) RequestIsCommunicationAllowedForCurrentLocation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestIsCommunicationAllowedForCurrentLocation)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := receiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := receiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestIsCommunicationAllowedForCurrentLocation)
@@ -14101,10 +20234,30 @@ func (p *TelephonyProxy) RequestTimeForNextSatelliteVisibility(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestTimeForNextSatelliteVisibility)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := receiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := receiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestTimeForNextSatelliteVisibility)
@@ -14133,8 +20286,25 @@ func (p *TelephonyProxy) SetDeviceAlignedWithSatellite(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteBool(isAligned)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetDeviceAlignedWithSatellite)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(isAligned)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(isAligned)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetDeviceAlignedWithSatellite)
 	if _err != nil {
@@ -14162,7 +20332,21 @@ func (p *TelephonyProxy) SetSatelliteServicePackageName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(servicePackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetSatelliteServicePackageName)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(servicePackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(servicePackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetSatelliteServicePackageName)
 	if _err != nil {
@@ -14194,7 +20378,21 @@ func (p *TelephonyProxy) SetSatelliteGatewayServicePackageName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(servicePackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetSatelliteGatewayServicePackageName)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(servicePackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(servicePackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetSatelliteGatewayServicePackageName)
 	if _err != nil {
@@ -14226,7 +20424,21 @@ func (p *TelephonyProxy) SetSatelliteListeningTimeoutDuration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt64(timeoutMillis)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetSatelliteListeningTimeoutDuration)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(timeoutMillis)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(timeoutMillis)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetSatelliteListeningTimeoutDuration)
 	if _err != nil {
@@ -14259,8 +20471,25 @@ func (p *TelephonyProxy) SetSatellitePointingUiClassName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(packageName)
-	_data.WriteString16(className)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetSatellitePointingUiClassName)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(className)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(className)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetSatellitePointingUiClassName)
 	if _err != nil {
@@ -14294,9 +20523,29 @@ func (p *TelephonyProxy) SetDatagramControllerTimeoutDuration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(reset)
-	_data.WriteInt32(timeoutType)
-	_data.WriteInt64(timeoutMillis)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetDatagramControllerTimeoutDuration)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(reset)
+		_data.WriteInt32(timeoutType)
+		_data.WriteInt64(timeoutMillis)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(reset)
+			case 1:
+				_data.WriteInt32(timeoutType)
+			case 2:
+				_data.WriteInt64(timeoutMillis)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetDatagramControllerTimeoutDuration)
 	if _err != nil {
@@ -14330,9 +20579,29 @@ func (p *TelephonyProxy) SetSatelliteControllerTimeoutDuration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(reset)
-	_data.WriteInt32(timeoutType)
-	_data.WriteInt64(timeoutMillis)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetSatelliteControllerTimeoutDuration)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(reset)
+		_data.WriteInt32(timeoutType)
+		_data.WriteInt64(timeoutMillis)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(reset)
+			case 1:
+				_data.WriteInt32(timeoutType)
+			case 2:
+				_data.WriteInt64(timeoutMillis)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetSatelliteControllerTimeoutDuration)
 	if _err != nil {
@@ -14365,8 +20634,25 @@ func (p *TelephonyProxy) SetEmergencyCallToSatelliteHandoverType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(handoverType)
-	_data.WriteInt32(delaySeconds)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetEmergencyCallToSatelliteHandoverType)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(handoverType)
+		_data.WriteInt32(delaySeconds)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(handoverType)
+			case 1:
+				_data.WriteInt32(delaySeconds)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetEmergencyCallToSatelliteHandoverType)
 	if _err != nil {
@@ -14402,26 +20688,67 @@ func (p *TelephonyProxy) SetCountryCodes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(reset)
-	if currentNetworkCountryCodes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetCountryCodes)
+	_compiledDescs := []string{
+		"Z",
+		"Ljava/util/List;",
+		"Ljava/util/Map;",
+		"Ljava/lang/String;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(reset)
+		if currentNetworkCountryCodes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(currentNetworkCountryCodes)))
+			for _, _item := range currentNetworkCountryCodes {
+				_data.WriteString16(_item)
+			}
+		}
+		if cachedNetworkCountryCodes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(cachedNetworkCountryCodes)))
+			for _k, _v := range cachedNetworkCountryCodes {
+				_data.WriteString16(_k.(string))
+				_data.WriteString16(_v.(string))
+			}
+		}
+		_data.WriteString16(locationCountryCode)
+		_data.WriteInt64(locationCountryCodeTimestampNanos)
 	} else {
-		_data.WriteInt32(int32(len(currentNetworkCountryCodes)))
-		for _, _item := range currentNetworkCountryCodes {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(reset)
+			case 1:
+				if currentNetworkCountryCodes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(currentNetworkCountryCodes)))
+					for _, _item := range currentNetworkCountryCodes {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				if cachedNetworkCountryCodes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(cachedNetworkCountryCodes)))
+					for _k, _v := range cachedNetworkCountryCodes {
+						_data.WriteString16(_k.(string))
+						_data.WriteString16(_v.(string))
+					}
+				}
+			case 3:
+				_data.WriteString16(locationCountryCode)
+			case 4:
+				_data.WriteInt64(locationCountryCodeTimestampNanos)
+			}
 		}
 	}
-	if cachedNetworkCountryCodes == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(cachedNetworkCountryCodes)))
-		for _k, _v := range cachedNetworkCountryCodes {
-			_data.WriteString16(_k.(string))
-			_data.WriteString16(_v.(string))
-		}
-	}
-	_data.WriteString16(locationCountryCode)
-	_data.WriteInt64(locationCountryCodeTimestampNanos)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetCountryCodes)
 	if _err != nil {
@@ -14457,16 +20784,49 @@ func (p *TelephonyProxy) SetSatelliteAccessControlOverlayConfigs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(reset)
-	_data.WriteBool(isAllowed)
-	_data.WriteString16(s2CellFile)
-	_data.WriteInt64(locationFreshDurationNanos)
-	if satelliteCountryCodes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetSatelliteAccessControlOverlayConfigs)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+		"Ljava/lang/String;",
+		"J",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(reset)
+		_data.WriteBool(isAllowed)
+		_data.WriteString16(s2CellFile)
+		_data.WriteInt64(locationFreshDurationNanos)
+		if satelliteCountryCodes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(satelliteCountryCodes)))
+			for _, _item := range satelliteCountryCodes {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(satelliteCountryCodes)))
-		for _, _item := range satelliteCountryCodes {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(reset)
+			case 1:
+				_data.WriteBool(isAllowed)
+			case 2:
+				_data.WriteString16(s2CellFile)
+			case 3:
+				_data.WriteInt64(locationFreshDurationNanos)
+			case 4:
+				if satelliteCountryCodes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(satelliteCountryCodes)))
+					for _, _item := range satelliteCountryCodes {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -14501,8 +20861,25 @@ func (p *TelephonyProxy) SetOemEnabledSatelliteProvisionStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(reset)
-	_data.WriteBool(isProvisioned)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetOemEnabledSatelliteProvisionStatus)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(reset)
+		_data.WriteBool(isProvisioned)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(reset)
+			case 1:
+				_data.WriteBool(isProvisioned)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetOemEnabledSatelliteProvisionStatus)
 	if _err != nil {
@@ -14535,8 +20912,25 @@ func (p *TelephonyProxy) GetShaIdFromAllowList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(pkgName)
-	_data.WriteInt32(carrierId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetShaIdFromAllowList)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkgName)
+		_data.WriteInt32(carrierId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkgName)
+			case 1:
+				_data.WriteInt32(carrierId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetShaIdFromAllowList)
 	if _err != nil {
@@ -14582,9 +20976,29 @@ func (p *TelephonyProxy) AddAttachRestrictionForCarrier(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(reason)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyAddAttachRestrictionForCarrier)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(reason)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(reason)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyAddAttachRestrictionForCarrier)
 	if _err != nil {
@@ -14613,9 +21027,29 @@ func (p *TelephonyProxy) RemoveAttachRestrictionForCarrier(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(reason)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRemoveAttachRestrictionForCarrier)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Lcom/android/internal/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(reason)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(reason)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRemoveAttachRestrictionForCarrier)
 	if _err != nil {
@@ -14643,7 +21077,21 @@ func (p *TelephonyProxy) GetAttachRestrictionReasonsForCarrier(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetAttachRestrictionReasonsForCarrier)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetAttachRestrictionReasonsForCarrier)
 	if _err != nil {
@@ -14688,10 +21136,30 @@ func (p *TelephonyProxy) RequestNtnSignalStrength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestNtnSignalStrength)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := receiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := receiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestNtnSignalStrength)
@@ -14720,8 +21188,25 @@ func (p *TelephonyProxy) RegisterForNtnSignalStrengthChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterForNtnSignalStrengthChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/satellite/INtnSignalStrengthCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterForNtnSignalStrengthChanged)
 	if _err != nil {
@@ -14749,8 +21234,25 @@ func (p *TelephonyProxy) UnregisterForNtnSignalStrengthChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterForNtnSignalStrengthChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/satellite/INtnSignalStrengthCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterForNtnSignalStrengthChanged)
 	if _err != nil {
@@ -14779,8 +21281,25 @@ func (p *TelephonyProxy) RegisterForCapabilitiesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterForCapabilitiesChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/satellite/ISatelliteCapabilitiesCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterForCapabilitiesChanged)
 	if _err != nil {
@@ -14812,8 +21331,25 @@ func (p *TelephonyProxy) UnregisterForCapabilitiesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterForCapabilitiesChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/satellite/ISatelliteCapabilitiesCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterForCapabilitiesChanged)
 	if _err != nil {
@@ -14841,7 +21377,21 @@ func (p *TelephonyProxy) SetShouldSendDatagramToModemInDemoMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(shouldSendToModemInDemoMode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetShouldSendDatagramToModemInDemoMode)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(shouldSendToModemInDemoMode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(shouldSendToModemInDemoMode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetShouldSendDatagramToModemInDemoMode)
 	if _err != nil {
@@ -14873,9 +21423,26 @@ func (p *TelephonyProxy) SetDomainSelectionServiceOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetDomainSelectionServiceOverride)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := componentName.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := componentName.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetDomainSelectionServiceOverride)
@@ -14937,7 +21504,21 @@ func (p *TelephonyProxy) SetEnableCellularIdentifierDisclosureNotifications(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetEnableCellularIdentifierDisclosureNotifications)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetEnableCellularIdentifierDisclosureNotifications)
 	if _err != nil {
@@ -14994,7 +21575,21 @@ func (p *TelephonyProxy) SetNullCipherNotificationsEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetNullCipherNotificationsEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetNullCipherNotificationsEnabled)
 	if _err != nil {
@@ -15052,7 +21647,21 @@ func (p *TelephonyProxy) GetSatellitePlmnsForCarrier(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyGetSatellitePlmnsForCarrier)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetSatellitePlmnsForCarrier)
 	if _err != nil {
@@ -15098,8 +21707,25 @@ func (p *TelephonyProxy) RegisterForSatelliteSupportedStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterForSatelliteSupportedStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/satellite/ISatelliteSupportedStateCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterForSatelliteSupportedStateChanged)
 	if _err != nil {
@@ -15131,8 +21757,25 @@ func (p *TelephonyProxy) UnregisterForSatelliteSupportedStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterForSatelliteSupportedStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/satellite/ISatelliteSupportedStateCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterForSatelliteSupportedStateChanged)
 	if _err != nil {
@@ -15161,8 +21804,25 @@ func (p *TelephonyProxy) RegisterForCommunicationAllowedStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRegisterForCommunicationAllowedStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/satellite/ISatelliteCommunicationAllowedStateCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterForCommunicationAllowedStateChanged)
 	if _err != nil {
@@ -15194,8 +21854,25 @@ func (p *TelephonyProxy) UnregisterForCommunicationAllowedStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyUnregisterForCommunicationAllowedStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/satellite/ISatelliteCommunicationAllowedStateCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterForCommunicationAllowedStateChanged)
 	if _err != nil {
@@ -15225,9 +21902,29 @@ func (p *TelephonyProxy) SetDatagramControllerBooleanConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteBool(reset)
-	_data.WriteInt32(booleanType)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetDatagramControllerBooleanConfig)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(reset)
+		_data.WriteInt32(booleanType)
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(reset)
+			case 1:
+				_data.WriteInt32(booleanType)
+			case 2:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetDatagramControllerBooleanConfig)
 	if _err != nil {
@@ -15259,7 +21956,21 @@ func (p *TelephonyProxy) SetIsSatelliteCommunicationAllowedForCurrentLocationCac
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteString16(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonySetIsSatelliteCommunicationAllowedForCurrentLocationCache)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetIsSatelliteCommunicationAllowedForCurrentLocationCache)
 	if _err != nil {
@@ -15291,10 +22002,30 @@ func (p *TelephonyProxy) RequestSatelliteSessionStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITelephony, MethodITelephonyRequestSatelliteSessionStats)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := receiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := receiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestSatelliteSessionStats)

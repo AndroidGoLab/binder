@@ -87,13 +87,36 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnKeyphraseDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteInt32(1)
-	if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnKeyphraseDetected)
+	_compiledDescs := []string{
+		"LSoundTrigger/KeyphraseRecognitionEvent;",
+		"Landroid/service/voice/HotwordDetectedResult;",
 	}
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnKeyphraseDetected)
@@ -112,9 +135,26 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnKeyphraseDetectedFromExternalS
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnKeyphraseDetectedFromExternalSource)
+	_compiledDescs := []string{
+		"Landroid/service/voice/HotwordDetectedResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnKeyphraseDetectedFromExternalSource)
@@ -133,9 +173,26 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnGenericSoundTriggerDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteInt32(1)
-	if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnGenericSoundTriggerDetected)
+	_compiledDescs := []string{
+		"LSoundTrigger/GenericRecognitionEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnGenericSoundTriggerDetected)
@@ -154,9 +211,26 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnRejected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnRejected)
+	_compiledDescs := []string{
+		"Landroid/service/voice/HotwordRejectedResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnRejected)
@@ -175,9 +249,26 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnHotwordDetectionServiceFailure
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteInt32(1)
-	if _err := hotwordDetectionServiceFailure.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnHotwordDetectionServiceFailure)
+	_compiledDescs := []string{
+		"Landroid/service/voice/HotwordDetectionServiceFailure;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := hotwordDetectionServiceFailure.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := hotwordDetectionServiceFailure.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnHotwordDetectionServiceFailure)
@@ -196,9 +287,26 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnVisualQueryDetectionServiceFai
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteInt32(1)
-	if _err := visualQueryDetectionServiceFailure.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnVisualQueryDetectionServiceFailure)
+	_compiledDescs := []string{
+		"Landroid/service/voice/VisualQueryDetectionServiceFailure;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := visualQueryDetectionServiceFailure.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := visualQueryDetectionServiceFailure.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnVisualQueryDetectionServiceFailure)
@@ -217,9 +325,26 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnSoundTriggerFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteInt32(1)
-	if _err := soundTriggerFailure.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnSoundTriggerFailure)
+	_compiledDescs := []string{
+		"Landroid/service/voice/SoundTriggerFailure;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := soundTriggerFailure.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := soundTriggerFailure.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnSoundTriggerFailure)
@@ -238,7 +363,21 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnUnknownFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteString16(errorMessage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnUnknownFailure)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(errorMessage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(errorMessage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnUnknownFailure)
 	if _err != nil {
@@ -288,7 +427,21 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnStatusReported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnStatusReported)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnStatusReported)
 	if _err != nil {
@@ -323,10 +476,30 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnOpenFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteString16(filename)
-	_data.WriteInt32(1)
-	if _err := future.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnOpenFile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/infra/AndroidFuture;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(filename)
+		_data.WriteInt32(1)
+		if _err := future.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(filename)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := future.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnOpenFile)

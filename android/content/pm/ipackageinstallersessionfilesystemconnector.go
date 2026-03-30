@@ -50,10 +50,33 @@ func (p *PackageInstallerSessionFileSystemConnectorProxy) WriteData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSessionFileSystemConnector)
-	_data.WriteString16(name)
-	_data.WriteInt64(offsetBytes)
-	_data.WriteInt64(lengthBytes)
-	_data.WriteParcelFileDescriptor(fd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSessionFileSystemConnector, MethodIPackageInstallerSessionFileSystemConnectorWriteData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"J",
+		"Landroid/os/ParcelFileDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteInt64(offsetBytes)
+		_data.WriteInt64(lengthBytes)
+		_data.WriteParcelFileDescriptor(fd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteInt64(offsetBytes)
+			case 2:
+				_data.WriteInt64(lengthBytes)
+			case 3:
+				_data.WriteParcelFileDescriptor(fd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSessionFileSystemConnector, MethodIPackageInstallerSessionFileSystemConnectorWriteData)
 	if _err != nil {

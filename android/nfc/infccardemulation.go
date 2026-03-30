@@ -109,12 +109,35 @@ func (p *NfcCardEmulationProxy) IsDefaultServiceForCategory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationIsDefaultServiceForCategory)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(category)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(category)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(category)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationIsDefaultServiceForCategory)
 	if _err != nil {
@@ -148,12 +171,35 @@ func (p *NfcCardEmulationProxy) IsDefaultServiceForAid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationIsDefaultServiceForAid)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(aid)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(aid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(aid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationIsDefaultServiceForAid)
 	if _err != nil {
@@ -187,12 +233,35 @@ func (p *NfcCardEmulationProxy) SetDefaultServiceForCategory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationSetDefaultServiceForCategory)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(category)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(category)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(category)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationSetDefaultServiceForCategory)
 	if _err != nil {
@@ -225,10 +294,30 @@ func (p *NfcCardEmulationProxy) SetDefaultForNextTap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationSetDefaultForNextTap)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationSetDefaultForNextTap)
@@ -263,12 +352,35 @@ func (p *NfcCardEmulationProxy) SetShouldDefaultToObserveModeForService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationSetShouldDefaultToObserveModeForService)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(enable)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationSetShouldDefaultToObserveModeForService)
 	if _err != nil {
@@ -302,14 +414,40 @@ func (p *NfcCardEmulationProxy) RegisterAidGroupForService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationRegisterAidGroupForService)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"Landroid/nfc/cardemulation/AidGroup;",
 	}
-	_data.WriteInt32(1)
-	if _err := aidGroup.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := aidGroup.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := aidGroup.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationRegisterAidGroupForService)
@@ -345,13 +483,39 @@ func (p *NfcCardEmulationProxy) RegisterPollingLoopFilterForService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationRegisterPollingLoopFilterForService)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(pollingLoopFilter)
-	_data.WriteBool(autoTransact)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(pollingLoopFilter)
+		_data.WriteBool(autoTransact)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(pollingLoopFilter)
+			case 3:
+				_data.WriteBool(autoTransact)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationRegisterPollingLoopFilterForService)
 	if _err != nil {
@@ -385,12 +549,35 @@ func (p *NfcCardEmulationProxy) SetOffHostForService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationSetOffHostForService)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(offHostSecureElement)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(offHostSecureElement)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(offHostSecureElement)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationSetOffHostForService)
 	if _err != nil {
@@ -423,10 +610,30 @@ func (p *NfcCardEmulationProxy) UnsetOffHostForService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationUnsetOffHostForService)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationUnsetOffHostForService)
@@ -461,12 +668,35 @@ func (p *NfcCardEmulationProxy) GetAidGroupForService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationGetAidGroupForService)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(category)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(category)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(category)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationGetAidGroupForService)
 	if _err != nil {
@@ -505,12 +735,35 @@ func (p *NfcCardEmulationProxy) RemoveAidGroupForService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationRemoveAidGroupForService)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(category)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(category)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteString16(category)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationRemoveAidGroupForService)
 	if _err != nil {
@@ -543,8 +796,25 @@ func (p *NfcCardEmulationProxy) GetServices(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(category)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationGetServices)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(category)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(category)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationGetServices)
 	if _err != nil {
@@ -608,9 +878,26 @@ func (p *NfcCardEmulationProxy) SetPreferredService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(1)
-	if _err := service.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationSetPreferredService)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := service.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := service.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationSetPreferredService)
@@ -703,7 +990,21 @@ func (p *NfcCardEmulationProxy) GetPreferredPaymentService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationGetPreferredPaymentService)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationGetPreferredPaymentService)
 	if _err != nil {
@@ -742,12 +1043,35 @@ func (p *NfcCardEmulationProxy) SetServiceEnabledForCategoryOther(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := app.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationSetServiceEnabledForCategoryOther)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"Z",
 	}
-	_data.WriteBool(status)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := app.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := app.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteBool(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationSetServiceEnabledForCategoryOther)
 	if _err != nil {
@@ -811,9 +1135,29 @@ func (p *NfcCardEmulationProxy) OverrideRoutingTable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(protocol)
-	_data.WriteString16(technology)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationOverrideRoutingTable)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(protocol)
+		_data.WriteString16(technology)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(protocol)
+			case 2:
+				_data.WriteString16(technology)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationOverrideRoutingTable)
 	if _err != nil {
@@ -845,7 +1189,21 @@ func (p *NfcCardEmulationProxy) RecoverRoutingTable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationRecoverRoutingTable)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationRecoverRoutingTable)
 	if _err != nil {

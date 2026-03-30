@@ -49,11 +49,34 @@ func (p *ContextHubCallbackProxy) OnMessageReceipt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
-	_data.WriteInt32(hubId)
-	_data.WriteInt32(nanoAppId)
-	_data.WriteInt32(1)
-	if _err := msg.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContextHubCallback, MethodIContextHubCallbackOnMessageReceipt)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/hardware/location/ContextHubMessage;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(hubId)
+		_data.WriteInt32(nanoAppId)
+		_data.WriteInt32(1)
+		if _err := msg.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(hubId)
+			case 1:
+				_data.WriteInt32(nanoAppId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := msg.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubCallback, MethodIContextHubCallbackOnMessageReceipt)

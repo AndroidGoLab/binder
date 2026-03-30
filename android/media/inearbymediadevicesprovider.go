@@ -50,7 +50,21 @@ func (p *NearbyMediaDevicesProviderProxy) RegisterNearbyDevicesCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINearbyMediaDevicesProvider)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINearbyMediaDevicesProvider, MethodINearbyMediaDevicesProviderRegisterNearbyDevicesCallback)
+	_compiledDescs := []string{
+		"Landroid/media/INearbyMediaDevicesUpdateCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINearbyMediaDevicesProvider, MethodINearbyMediaDevicesProviderRegisterNearbyDevicesCallback)
 	if _err != nil {
@@ -68,7 +82,21 @@ func (p *NearbyMediaDevicesProviderProxy) UnregisterNearbyDevicesCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINearbyMediaDevicesProvider)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINearbyMediaDevicesProvider, MethodINearbyMediaDevicesProviderUnregisterNearbyDevicesCallback)
+	_compiledDescs := []string{
+		"Landroid/media/INearbyMediaDevicesUpdateCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINearbyMediaDevicesProvider, MethodINearbyMediaDevicesProviderUnregisterNearbyDevicesCallback)
 	if _err != nil {

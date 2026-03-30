@@ -55,16 +55,45 @@ func (p *AutofillWindowPresenterProxy) Show(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutofillWindowPresenter)
-	_data.WriteInt32(1)
-	if _err := p_.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutofillWindowPresenter, MethodIAutofillWindowPresenterShow)
+	_compiledDescs := []string{
+		"LWindowManager/LayoutParams;",
+		"Landroid/graphics/Rect;",
+		"Z",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := transitionEpicenter.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := p_.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := transitionEpicenter.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(fitsSystemWindows)
+		_data.WriteInt32(layoutDirection)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := p_.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := transitionEpicenter.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteBool(fitsSystemWindows)
+			case 3:
+				_data.WriteInt32(layoutDirection)
+			}
+		}
 	}
-	_data.WriteBool(fitsSystemWindows)
-	_data.WriteInt32(layoutDirection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutofillWindowPresenter, MethodIAutofillWindowPresenterShow)
 	if _err != nil {
@@ -82,9 +111,26 @@ func (p *AutofillWindowPresenterProxy) Hide(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutofillWindowPresenter)
-	_data.WriteInt32(1)
-	if _err := transitionEpicenter.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutofillWindowPresenter, MethodIAutofillWindowPresenterHide)
+	_compiledDescs := []string{
+		"Landroid/graphics/Rect;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := transitionEpicenter.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := transitionEpicenter.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutofillWindowPresenter, MethodIAutofillWindowPresenterHide)

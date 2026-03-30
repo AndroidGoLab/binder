@@ -275,17 +275,55 @@ func (p *PowerManagerProxy) AcquireWakeLock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
-	_data.WriteInt32(flags)
-	_data.WriteString16(tag)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := ws.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerAcquireWakeLock)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/WorkSource;",
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/os/IWakeLockCallback;",
 	}
-	_data.WriteString16(historyTag)
-	_data.WriteInt32(displayId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+		_data.WriteInt32(flags)
+		_data.WriteString16(tag)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := ws.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(historyTag)
+		_data.WriteInt32(displayId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(flags)
+			case 2:
+				_data.WriteString16(tag)
+			case 3:
+				_data.WriteString16(packageName)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := ws.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteString16(historyTag)
+			case 6:
+				_data.WriteInt32(displayId)
+			case 7:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerAcquireWakeLock)
 	if _err != nil {
@@ -318,13 +356,45 @@ func (p *PowerManagerProxy) AcquireWakeLockWithUid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
-	_data.WriteInt32(flags)
-	_data.WriteString16(tag)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(uidtoblame)
-	_data.WriteInt32(displayId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerAcquireWakeLockWithUid)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Landroid/os/IWakeLockCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+		_data.WriteInt32(flags)
+		_data.WriteString16(tag)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(uidtoblame)
+		_data.WriteInt32(displayId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(flags)
+			case 2:
+				_data.WriteString16(tag)
+			case 3:
+				_data.WriteString16(packageName)
+			case 4:
+				_data.WriteInt32(uidtoblame)
+			case 5:
+				_data.WriteInt32(displayId)
+			case 6:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerAcquireWakeLockWithUid)
 	if _err != nil {
@@ -352,8 +422,25 @@ func (p *PowerManagerProxy) ReleaseWakeLock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerReleaseWakeLock)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerReleaseWakeLock)
 	if _err != nil {
@@ -381,13 +468,37 @@ func (p *PowerManagerProxy) UpdateWakeLockUids(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
-	if uids == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerUpdateWakeLockUids)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+		if uids == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(uids)))
+			for _, _item := range uids {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(uids)))
-		for _, _item := range uids {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+			case 1:
+				if uids == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(uids)))
+					for _, _item := range uids {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -417,8 +528,25 @@ func (p *PowerManagerProxy) SetPowerBoost(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(boost)
-	_data.WriteInt32(durationMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetPowerBoost)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(boost)
+		_data.WriteInt32(durationMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(boost)
+			case 1:
+				_data.WriteInt32(durationMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetPowerBoost)
 	if _err != nil {
@@ -437,8 +565,25 @@ func (p *PowerManagerProxy) SetPowerMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(mode)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetPowerMode)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mode)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mode)
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetPowerMode)
 	if _err != nil {
@@ -458,8 +603,25 @@ func (p *PowerManagerProxy) SetPowerModeChecked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(mode)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetPowerModeChecked)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mode)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mode)
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetPowerModeChecked)
 	if _err != nil {
@@ -492,12 +654,35 @@ func (p *PowerManagerProxy) UpdateWakeLockWorkSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := ws.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerUpdateWakeLockWorkSource)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/os/WorkSource;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(historyTag)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := ws.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(historyTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := ws.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(historyTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerUpdateWakeLockWorkSource)
 	if _err != nil {
@@ -525,8 +710,25 @@ func (p *PowerManagerProxy) UpdateWakeLockCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerUpdateWakeLockCallback)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/os/IWakeLockCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerUpdateWakeLockCallback)
 	if _err != nil {
@@ -554,7 +756,21 @@ func (p *PowerManagerProxy) IsWakeLockLevelSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(level)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerIsWakeLockLevelSupported)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(level)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(level)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsWakeLockLevelSupported)
 	if _err != nil {
@@ -588,10 +804,33 @@ func (p *PowerManagerProxy) UserActivity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(displayId)
-	_data.WriteInt64(time)
-	_data.WriteInt32(event)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerUserActivity)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteInt64(time)
+		_data.WriteInt32(event)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteInt64(time)
+			case 2:
+				_data.WriteInt32(event)
+			case 3:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerUserActivity)
 	if _err != nil {
@@ -621,10 +860,33 @@ func (p *PowerManagerProxy) WakeUp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt64(time)
-	_data.WriteInt32(reason)
-	_data.WriteString16(details)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerWakeUp)
+	_compiledDescs := []string{
+		"J",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(time)
+		_data.WriteInt32(reason)
+		_data.WriteString16(details)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(time)
+			case 1:
+				_data.WriteInt32(reason)
+			case 2:
+				_data.WriteString16(details)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerWakeUp)
 	if _err != nil {
@@ -653,9 +915,29 @@ func (p *PowerManagerProxy) GoToSleep(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt64(time)
-	_data.WriteInt32(reason)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerGoToSleep)
+	_compiledDescs := []string{
+		"J",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(time)
+		_data.WriteInt32(reason)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(time)
+			case 1:
+				_data.WriteInt32(reason)
+			case 2:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGoToSleep)
 	if _err != nil {
@@ -685,10 +967,33 @@ func (p *PowerManagerProxy) GoToSleepWithDisplayId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(displayId)
-	_data.WriteInt64(time)
-	_data.WriteInt32(reason)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerGoToSleepWithDisplayId)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteInt64(time)
+		_data.WriteInt32(reason)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteInt64(time)
+			case 2:
+				_data.WriteInt32(reason)
+			case 3:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGoToSleepWithDisplayId)
 	if _err != nil {
@@ -715,7 +1020,21 @@ func (p *PowerManagerProxy) Nap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt64(time)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerNap)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(time)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(time)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerNap)
 	if _err != nil {
@@ -743,7 +1062,21 @@ func (p *PowerManagerProxy) GetBrightnessConstraint(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(constraint)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerGetBrightnessConstraint)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(constraint)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(constraint)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGetBrightnessConstraint)
 	if _err != nil {
@@ -805,7 +1138,21 @@ func (p *PowerManagerProxy) IsDisplayInteractive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerIsDisplayInteractive)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsDisplayInteractive)
 	if _err != nil {
@@ -897,7 +1244,21 @@ func (p *PowerManagerProxy) GetPowerSaveState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(serviceType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerGetPowerSaveState)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serviceType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serviceType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGetPowerSaveState)
 	if _err != nil {
@@ -934,7 +1295,21 @@ func (p *PowerManagerProxy) SetPowerSaveModeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteBool(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetPowerSaveModeEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetPowerSaveModeEnabled)
 	if _err != nil {
@@ -1031,9 +1406,26 @@ func (p *PowerManagerProxy) SetFullPowerSavePolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetFullPowerSavePolicy)
+	_compiledDescs := []string{
+		"Landroid/os/BatterySaverPolicyConfig;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetFullPowerSavePolicy)
@@ -1067,8 +1459,25 @@ func (p *PowerManagerProxy) SetDynamicPowerSaveHint(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteBool(powerSaveHint)
-	_data.WriteInt32(disableThreshold)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetDynamicPowerSaveHint)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(powerSaveHint)
+		_data.WriteInt32(disableThreshold)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(powerSaveHint)
+			case 1:
+				_data.WriteInt32(disableThreshold)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetDynamicPowerSaveHint)
 	if _err != nil {
@@ -1100,9 +1509,26 @@ func (p *PowerManagerProxy) SetAdaptivePowerSavePolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetAdaptivePowerSavePolicy)
+	_compiledDescs := []string{
+		"Landroid/os/BatterySaverPolicyConfig;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetAdaptivePowerSavePolicy)
@@ -1135,7 +1561,21 @@ func (p *PowerManagerProxy) SetAdaptivePowerSaveEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetAdaptivePowerSaveEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetAdaptivePowerSaveEnabled)
 	if _err != nil {
@@ -1197,11 +1637,31 @@ func (p *PowerManagerProxy) SetBatteryDischargePrediction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(1)
-	if _err := timeRemaining.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetBatteryDischargePrediction)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelDuration;",
+		"Z",
 	}
-	_data.WriteBool(isCustomized)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := timeRemaining.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(isCustomized)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := timeRemaining.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(isCustomized)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetBatteryDischargePrediction)
 	if _err != nil {
@@ -1413,7 +1873,21 @@ func (p *PowerManagerProxy) SetLowPowerStandbyEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetLowPowerStandbyEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetLowPowerStandbyEnabled)
 	if _err != nil {
@@ -1440,7 +1914,21 @@ func (p *PowerManagerProxy) SetLowPowerStandbyActiveDuringMaintenance(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteBool(activeDuringMaintenance)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetLowPowerStandbyActiveDuringMaintenance)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(activeDuringMaintenance)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(activeDuringMaintenance)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetLowPowerStandbyActiveDuringMaintenance)
 	if _err != nil {
@@ -1467,7 +1955,21 @@ func (p *PowerManagerProxy) ForceLowPowerStandbyActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteBool(active)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerForceLowPowerStandbyActive)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(active)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(active)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerForceLowPowerStandbyActive)
 	if _err != nil {
@@ -1494,13 +1996,34 @@ func (p *PowerManagerProxy) SetLowPowerStandbyPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	if policy != nil {
-		_data.WriteInt32(1)
-		if _err := (*policy).MarshalParcel(_data); _err != nil {
-			return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetLowPowerStandbyPolicy)
+	_compiledDescs := []string{
+		"Landroid/os/IPowerManager/LowPowerStandbyPolicy;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if policy != nil {
+			_data.WriteInt32(1)
+			if _err := (*policy).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if policy != nil {
+					_data.WriteInt32(1)
+					if _err := (*policy).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetLowPowerStandbyPolicy)
@@ -1594,7 +2117,21 @@ func (p *PowerManagerProxy) IsReasonAllowedInLowPowerStandby(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerIsReasonAllowedInLowPowerStandby)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsReasonAllowedInLowPowerStandby)
 	if _err != nil {
@@ -1626,7 +2163,21 @@ func (p *PowerManagerProxy) IsFeatureAllowedInLowPowerStandby(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteString16(feature)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerIsFeatureAllowedInLowPowerStandby)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(feature)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(feature)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsFeatureAllowedInLowPowerStandby)
 	if _err != nil {
@@ -1658,15 +2209,42 @@ func (p *PowerManagerProxy) AcquireLowPowerStandbyPorts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	if ports == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerAcquireLowPowerStandbyPorts)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		if ports == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ports)))
+			for _, _item := range ports {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(ports)))
-		for _, _item := range ports {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				if ports == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ports)))
+					for _, _item := range ports {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1696,7 +2274,21 @@ func (p *PowerManagerProxy) ReleaseLowPowerStandbyPorts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerReleaseLowPowerStandbyPorts)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerReleaseLowPowerStandbyPorts)
 	if _err != nil {
@@ -1787,9 +2379,29 @@ func (p *PowerManagerProxy) Reboot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteBool(confirm)
-	_data.WriteString16(reason)
-	_data.WriteBool(wait)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerReboot)
+	_compiledDescs := []string{
+		"Z",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(confirm)
+		_data.WriteString16(reason)
+		_data.WriteBool(wait)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(confirm)
+			case 1:
+				_data.WriteString16(reason)
+			case 2:
+				_data.WriteBool(wait)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerReboot)
 	if _err != nil {
@@ -1817,8 +2429,25 @@ func (p *PowerManagerProxy) RebootSafeMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteBool(confirm)
-	_data.WriteBool(wait)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerRebootSafeMode)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(confirm)
+		_data.WriteBool(wait)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(confirm)
+			case 1:
+				_data.WriteBool(wait)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerRebootSafeMode)
 	if _err != nil {
@@ -1847,9 +2476,29 @@ func (p *PowerManagerProxy) Shutdown(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteBool(confirm)
-	_data.WriteString16(reason)
-	_data.WriteBool(wait)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerShutdown)
+	_compiledDescs := []string{
+		"Z",
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(confirm)
+		_data.WriteString16(reason)
+		_data.WriteBool(wait)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(confirm)
+			case 1:
+				_data.WriteString16(reason)
+			case 2:
+				_data.WriteBool(wait)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerShutdown)
 	if _err != nil {
@@ -1876,7 +2525,21 @@ func (p *PowerManagerProxy) Crash(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerCrash)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerCrash)
 	if _err != nil {
@@ -1963,7 +2626,21 @@ func (p *PowerManagerProxy) SetStayOnSetting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(val)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetStayOnSetting)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(val)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(val)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetStayOnSetting)
 	if _err != nil {
@@ -1990,7 +2667,21 @@ func (p *PowerManagerProxy) BoostScreenBrightness(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt64(time)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerBoostScreenBrightness)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(time)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(time)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerBoostScreenBrightness)
 	if _err != nil {
@@ -2022,15 +2713,47 @@ func (p *PowerManagerProxy) AcquireWakeLockAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
-	_data.WriteInt32(flags)
-	_data.WriteString16(tag)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := ws.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerAcquireWakeLockAsync)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/WorkSource;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(historyTag)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+		_data.WriteInt32(flags)
+		_data.WriteString16(tag)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := ws.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(historyTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(flags)
+			case 2:
+				_data.WriteString16(tag)
+			case 3:
+				_data.WriteString16(packageName)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := ws.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteString16(historyTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerAcquireWakeLockAsync)
 	if _err != nil {
@@ -2049,8 +2772,25 @@ func (p *PowerManagerProxy) ReleaseWakeLockAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerReleaseWakeLockAsync)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerReleaseWakeLockAsync)
 	if _err != nil {
@@ -2069,13 +2809,37 @@ func (p *PowerManagerProxy) UpdateWakeLockUidsAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
-	if uids == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerUpdateWakeLockUidsAsync)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+		if uids == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(uids)))
+			for _, _item := range uids {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(uids)))
-		for _, _item := range uids {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+			case 1:
+				if uids == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(uids)))
+					for _, _item := range uids {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -2126,8 +2890,25 @@ func (p *PowerManagerProxy) SetAttentionLight(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteBool(on)
-	_data.WriteInt32(color)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetAttentionLight)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(on)
+		_data.WriteInt32(color)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(on)
+			case 1:
+				_data.WriteInt32(color)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetAttentionLight)
 	if _err != nil {
@@ -2154,7 +2935,21 @@ func (p *PowerManagerProxy) SetDozeAfterScreenOff(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteBool(on)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSetDozeAfterScreenOff)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(on)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(on)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetDozeAfterScreenOff)
 	if _err != nil {
@@ -2212,8 +3007,25 @@ func (p *PowerManagerProxy) SuppressAmbientDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteString16(token)
-	_data.WriteBool(suppress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerSuppressAmbientDisplay)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(token)
+		_data.WriteBool(suppress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(token)
+			case 1:
+				_data.WriteBool(suppress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSuppressAmbientDisplay)
 	if _err != nil {
@@ -2241,7 +3053,21 @@ func (p *PowerManagerProxy) IsAmbientDisplaySuppressedForToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteString16(token)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerIsAmbientDisplaySuppressedForToken)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(token)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(token)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsAmbientDisplaySuppressedForToken)
 	if _err != nil {
@@ -2304,8 +3130,25 @@ func (p *PowerManagerProxy) IsAmbientDisplaySuppressedForTokenByApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteString16(token)
-	_data.WriteInt32(_identity.UID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerManager, MethodIPowerManagerIsAmbientDisplaySuppressedForTokenByApp)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(token)
+		_data.WriteInt32(_identity.UID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(token)
+			case 1:
+				_data.WriteInt32(_identity.UID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsAmbientDisplaySuppressedForTokenByApp)
 	if _err != nil {

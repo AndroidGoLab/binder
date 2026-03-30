@@ -168,11 +168,37 @@ func (p *UsageStatsManagerProxy) QueryUsageStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt32(bucketType)
-	_data.WriteInt64(beginTime)
-	_data.WriteInt64(endTime)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryUsageStats)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"J",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(bucketType)
+		_data.WriteInt64(beginTime)
+		_data.WriteInt64(endTime)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(bucketType)
+			case 1:
+				_data.WriteInt64(beginTime)
+			case 2:
+				_data.WriteInt64(endTime)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			case 4:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryUsageStats)
 	if _err != nil {
@@ -212,10 +238,33 @@ func (p *UsageStatsManagerProxy) QueryConfigurationStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt32(bucketType)
-	_data.WriteInt64(beginTime)
-	_data.WriteInt64(endTime)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryConfigurationStats)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(bucketType)
+		_data.WriteInt64(beginTime)
+		_data.WriteInt64(endTime)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(bucketType)
+			case 1:
+				_data.WriteInt64(beginTime)
+			case 2:
+				_data.WriteInt64(endTime)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryConfigurationStats)
 	if _err != nil {
@@ -255,10 +304,33 @@ func (p *UsageStatsManagerProxy) QueryEventStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt32(bucketType)
-	_data.WriteInt64(beginTime)
-	_data.WriteInt64(endTime)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryEventStats)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(bucketType)
+		_data.WriteInt64(beginTime)
+		_data.WriteInt64(endTime)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(bucketType)
+			case 1:
+				_data.WriteInt64(beginTime)
+			case 2:
+				_data.WriteInt64(endTime)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryEventStats)
 	if _err != nil {
@@ -297,9 +369,29 @@ func (p *UsageStatsManagerProxy) QueryEvents(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt64(beginTime)
-	_data.WriteInt64(endTime)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryEvents)
+	_compiledDescs := []string{
+		"J",
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(beginTime)
+		_data.WriteInt64(endTime)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(beginTime)
+			case 1:
+				_data.WriteInt64(endTime)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryEvents)
 	if _err != nil {
@@ -338,9 +430,29 @@ func (p *UsageStatsManagerProxy) QueryEventsForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt64(beginTime)
-	_data.WriteInt64(endTime)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryEventsForPackage)
+	_compiledDescs := []string{
+		"J",
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(beginTime)
+		_data.WriteInt64(endTime)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(beginTime)
+			case 1:
+				_data.WriteInt64(endTime)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryEventsForPackage)
 	if _err != nil {
@@ -379,10 +491,33 @@ func (p *UsageStatsManagerProxy) QueryEventsForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt64(beginTime)
-	_data.WriteInt64(endTime)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryEventsForUser)
+	_compiledDescs := []string{
+		"J",
+		"J",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(beginTime)
+		_data.WriteInt64(endTime)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(beginTime)
+			case 1:
+				_data.WriteInt64(endTime)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryEventsForUser)
 	if _err != nil {
@@ -422,11 +557,37 @@ func (p *UsageStatsManagerProxy) QueryEventsForPackageForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt64(beginTime)
-	_data.WriteInt64(endTime)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(pkg)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryEventsForPackageForUser)
+	_compiledDescs := []string{
+		"J",
+		"J",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(beginTime)
+		_data.WriteInt64(endTime)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(pkg)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(beginTime)
+			case 1:
+				_data.WriteInt64(endTime)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteString16(pkg)
+			case 4:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryEventsForPackageForUser)
 	if _err != nil {
@@ -464,11 +625,31 @@ func (p *UsageStatsManagerProxy) QueryEventsWithFilter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt32(1)
-	if _err := query.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryEventsWithFilter)
+	_compiledDescs := []string{
+		"Landroid/app/usage/UsageEventsQuery;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := query.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := query.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryEventsWithFilter)
 	if _err != nil {
@@ -506,9 +687,29 @@ func (p *UsageStatsManagerProxy) SetAppInactive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(packageName)
-	_data.WriteBool(inactive)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerSetAppInactive)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteBool(inactive)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteBool(inactive)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerSetAppInactive)
 	if _err != nil {
@@ -567,9 +768,29 @@ func (p *UsageStatsManagerProxy) IsAppInactive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerIsAppInactive)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerIsAppInactive)
 	if _err != nil {
@@ -629,18 +850,51 @@ func (p *UsageStatsManagerProxy) ReportChooserSelection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(contentType)
-	if annotations == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerReportChooserSelection)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(contentType)
+		if annotations == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(annotations)))
+			for _, _item := range annotations {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteString16(action)
 	} else {
-		_data.WriteInt32(int32(len(annotations)))
-		for _, _item := range annotations {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteString16(contentType)
+			case 3:
+				if annotations == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(annotations)))
+					for _, _item := range annotations {
+						_data.WriteString16(_item)
+					}
+				}
+			case 4:
+				_data.WriteString16(action)
+			}
 		}
 	}
-	_data.WriteString16(action)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerReportChooserSelection)
 	if _err != nil {
@@ -669,9 +923,29 @@ func (p *UsageStatsManagerProxy) GetAppStandbyBucket(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerGetAppStandbyBucket)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerGetAppStandbyBucket)
 	if _err != nil {
@@ -704,9 +978,29 @@ func (p *UsageStatsManagerProxy) SetAppStandbyBucket(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(bucket)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerSetAppStandbyBucket)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(bucket)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(bucket)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerSetAppStandbyBucket)
 	if _err != nil {
@@ -734,8 +1028,25 @@ func (p *UsageStatsManagerProxy) GetAppStandbyBuckets(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerGetAppStandbyBuckets)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerGetAppStandbyBuckets)
 	if _err != nil {
@@ -772,11 +1083,31 @@ func (p *UsageStatsManagerProxy) SetAppStandbyBuckets(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt32(1)
-	if _err := appBuckets.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerSetAppStandbyBuckets)
+	_compiledDescs := []string{
+		"Landroid/content/pm/ParceledListSlice;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := appBuckets.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := appBuckets.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerSetAppStandbyBuckets)
 	if _err != nil {
@@ -805,9 +1136,29 @@ func (p *UsageStatsManagerProxy) GetAppMinStandbyBucket(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerGetAppMinStandbyBucket)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerGetAppMinStandbyBucket)
 	if _err != nil {
@@ -840,9 +1191,29 @@ func (p *UsageStatsManagerProxy) SetEstimatedLaunchTime(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt64(estimatedLaunchTime)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerSetEstimatedLaunchTime)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt64(estimatedLaunchTime)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt64(estimatedLaunchTime)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerSetEstimatedLaunchTime)
 	if _err != nil {
@@ -870,11 +1241,31 @@ func (p *UsageStatsManagerProxy) SetEstimatedLaunchTimes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt32(1)
-	if _err := appLaunchTimes.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerSetEstimatedLaunchTimes)
+	_compiledDescs := []string{
+		"Landroid/content/pm/ParceledListSlice;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := appLaunchTimes.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := appLaunchTimes.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerSetEstimatedLaunchTimes)
 	if _err != nil {
@@ -905,21 +1296,57 @@ func (p *UsageStatsManagerProxy) RegisterAppUsageObserver(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt32(observerId)
-	if packages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerRegisterAppUsageObserver)
+	_compiledDescs := []string{
+		"I",
+		"[Ljava/lang/String;",
+		"J",
+		"Landroid/app/PendingIntent;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(observerId)
+		if packages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packages)))
+			for _, _item := range packages {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt64(timeLimitMs)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
 	} else {
-		_data.WriteInt32(int32(len(packages)))
-		for _, _item := range packages {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(observerId)
+			case 1:
+				if packages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packages)))
+					for _, _item := range packages {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt64(timeLimitMs)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteString16(_identity.PackageName)
+			}
 		}
 	}
-	_data.WriteInt64(timeLimitMs)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerRegisterAppUsageObserver)
 	if _err != nil {
@@ -947,8 +1374,25 @@ func (p *UsageStatsManagerProxy) UnregisterAppUsageObserver(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt32(observerId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerUnregisterAppUsageObserver)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(observerId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(observerId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerUnregisterAppUsageObserver)
 	if _err != nil {
@@ -981,26 +1425,71 @@ func (p *UsageStatsManagerProxy) RegisterUsageSessionObserver(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt32(sessionObserverId)
-	if observed == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerRegisterUsageSessionObserver)
+	_compiledDescs := []string{
+		"I",
+		"[Ljava/lang/String;",
+		"J",
+		"J",
+		"Landroid/app/PendingIntent;",
+		"Landroid/app/PendingIntent;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionObserverId)
+		if observed == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(observed)))
+			for _, _item := range observed {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt64(timeLimitMs)
+		_data.WriteInt64(sessionThresholdTimeMs)
+		_data.WriteInt32(1)
+		if _err := limitReachedCallbackIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := sessionEndCallbackIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
 	} else {
-		_data.WriteInt32(int32(len(observed)))
-		for _, _item := range observed {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionObserverId)
+			case 1:
+				if observed == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(observed)))
+					for _, _item := range observed {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt64(timeLimitMs)
+			case 3:
+				_data.WriteInt64(sessionThresholdTimeMs)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := limitReachedCallbackIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := sessionEndCallbackIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				_data.WriteString16(_identity.PackageName)
+			}
 		}
 	}
-	_data.WriteInt64(timeLimitMs)
-	_data.WriteInt64(sessionThresholdTimeMs)
-	_data.WriteInt32(1)
-	if _err := limitReachedCallbackIntent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := sessionEndCallbackIntent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerRegisterUsageSessionObserver)
 	if _err != nil {
@@ -1028,8 +1517,25 @@ func (p *UsageStatsManagerProxy) UnregisterUsageSessionObserver(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt32(sessionObserverId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerUnregisterUsageSessionObserver)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionObserverId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionObserverId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerUnregisterUsageSessionObserver)
 	if _err != nil {
@@ -1061,22 +1567,61 @@ func (p *UsageStatsManagerProxy) RegisterAppUsageLimitObserver(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt32(observerId)
-	if packages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerRegisterAppUsageLimitObserver)
+	_compiledDescs := []string{
+		"I",
+		"[Ljava/lang/String;",
+		"J",
+		"J",
+		"Landroid/app/PendingIntent;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(observerId)
+		if packages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(packages)))
+			for _, _item := range packages {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt64(timeLimitMs)
+		_data.WriteInt64(timeUsedMs)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
 	} else {
-		_data.WriteInt32(int32(len(packages)))
-		for _, _item := range packages {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(observerId)
+			case 1:
+				if packages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(packages)))
+					for _, _item := range packages {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt64(timeLimitMs)
+			case 3:
+				_data.WriteInt64(timeUsedMs)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 5:
+				_data.WriteString16(_identity.PackageName)
+			}
 		}
 	}
-	_data.WriteInt64(timeLimitMs)
-	_data.WriteInt64(timeUsedMs)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerRegisterAppUsageLimitObserver)
 	if _err != nil {
@@ -1104,8 +1649,25 @@ func (p *UsageStatsManagerProxy) UnregisterAppUsageLimitObserver(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteInt32(observerId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerUnregisterAppUsageLimitObserver)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(observerId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(observerId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerUnregisterAppUsageLimitObserver)
 	if _err != nil {
@@ -1134,9 +1696,29 @@ func (p *UsageStatsManagerProxy) ReportUsageStart(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	binder.WriteBinderToParcel(ctx, _data, activity, p.Remote.Transport())
-	_data.WriteString16(token)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerReportUsageStart)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, activity, p.Remote.Transport())
+		_data.WriteString16(token)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, activity, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(token)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerReportUsageStart)
 	if _err != nil {
@@ -1166,10 +1748,33 @@ func (p *UsageStatsManagerProxy) ReportPastUsageStart(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	binder.WriteBinderToParcel(ctx, _data, activity, p.Remote.Transport())
-	_data.WriteString16(token)
-	_data.WriteInt64(timeAgoMs)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerReportPastUsageStart)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, activity, p.Remote.Transport())
+		_data.WriteString16(token)
+		_data.WriteInt64(timeAgoMs)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, activity, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(token)
+			case 2:
+				_data.WriteInt64(timeAgoMs)
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerReportPastUsageStart)
 	if _err != nil {
@@ -1198,9 +1803,29 @@ func (p *UsageStatsManagerProxy) ReportUsageStop(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	binder.WriteBinderToParcel(ctx, _data, activity, p.Remote.Transport())
-	_data.WriteString16(token)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerReportUsageStop)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, activity, p.Remote.Transport())
+		_data.WriteString16(token)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, activity, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(token)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerReportUsageStop)
 	if _err != nil {
@@ -1228,8 +1853,25 @@ func (p *UsageStatsManagerProxy) ReportUserInteraction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerReportUserInteraction)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerReportUserInteraction)
 	if _err != nil {
@@ -1258,11 +1900,34 @@ func (p *UsageStatsManagerProxy) ReportUserInteractionWithBundle(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := eventExtras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerReportUserInteractionWithBundle)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/os/PersistableBundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := eventExtras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := eventExtras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerReportUserInteractionWithBundle)
@@ -1347,8 +2012,25 @@ func (p *UsageStatsManagerProxy) GetLastTimeAnyComponentUsed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerGetLastTimeAnyComponentUsed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerGetLastTimeAnyComponentUsed)
 	if _err != nil {
@@ -1382,10 +2064,33 @@ func (p *UsageStatsManagerProxy) QueryBroadcastResponseStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt64(id)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryBroadcastResponseStats)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt64(id)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt64(id)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerQueryBroadcastResponseStats)
 	if _err != nil {
@@ -1423,10 +2128,33 @@ func (p *UsageStatsManagerProxy) ClearBroadcastResponseStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt64(id)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerClearBroadcastResponseStats)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt64(id)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt64(id)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerClearBroadcastResponseStats)
 	if _err != nil {
@@ -1453,8 +2181,25 @@ func (p *UsageStatsManagerProxy) ClearBroadcastEvents(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerClearBroadcastEvents)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerClearBroadcastEvents)
 	if _err != nil {
@@ -1483,8 +2228,25 @@ func (p *UsageStatsManagerProxy) IsPackageExemptedFromBroadcastResponseStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerIsPackageExemptedFromBroadcastResponseStats)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerIsPackageExemptedFromBroadcastResponseStats)
 	if _err != nil {
@@ -1516,7 +2278,21 @@ func (p *UsageStatsManagerProxy) GetAppStandbyConstant(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
-	_data.WriteString16(key)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerGetAppStandbyConstant)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerGetAppStandbyConstant)
 	if _err != nil {

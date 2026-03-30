@@ -59,11 +59,31 @@ func (p *RequestUpdateProcessorImplProxy) OnOutputSurface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
-	_data.WriteInt32(1)
-	if _err := surface.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplOnOutputSurface)
+	_compiledDescs := []string{
+		"Landroid/view/Surface;",
+		"I",
 	}
-	_data.WriteInt32(imageFormat)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := surface.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(imageFormat)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := surface.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(imageFormat)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplOnOutputSurface)
 	if _err != nil {
@@ -90,9 +110,26 @@ func (p *RequestUpdateProcessorImplProxy) OnResolutionUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
-	_data.WriteInt32(1)
-	if _err := size.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplOnResolutionUpdate)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera2/extension/Size;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := size.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := size.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplOnResolutionUpdate)
@@ -120,7 +157,21 @@ func (p *RequestUpdateProcessorImplProxy) OnImageFormatUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
-	_data.WriteInt32(imageFormat)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplOnImageFormatUpdate)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(imageFormat)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(imageFormat)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplOnImageFormatUpdate)
 	if _err != nil {
@@ -149,11 +200,31 @@ func (p *RequestUpdateProcessorImplProxy) Process(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplProcess)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera2/impl/CameraMetadataNative;",
+		"I",
 	}
-	_data.WriteInt32(sequenceId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(sequenceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(sequenceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplProcess)
 	if _err != nil {

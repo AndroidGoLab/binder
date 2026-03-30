@@ -135,7 +135,21 @@ func (p *KeyMintDeviceProxy) AddRngEntropy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceAddRngEntropy)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceAddRngEntropy)
 	if _err != nil {
@@ -164,24 +178,58 @@ func (p *KeyMintDeviceProxy) GenerateKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	if keyParams == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyParams)))
-		for _, _item := range keyParams {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGenerateKey)
+	_compiledDescs := []string{
+		"[Landroid/hardware/security/keymint/KeyParameter;",
+		"Landroid/hardware/security/keymint/AttestationKey;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if keyParams == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(keyParams)))
+			for _, _item := range keyParams {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
 			}
 		}
-	}
-	if attestationKey != nil {
-		_data.WriteInt32(1)
-		if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
-			return _result, _err
+		if attestationKey != nil {
+			_data.WriteInt32(1)
+			if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if keyParams == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(keyParams)))
+					for _, _item := range keyParams {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 1:
+				if attestationKey != nil {
+					_data.WriteInt32(1)
+					if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGenerateKey)
@@ -222,26 +270,66 @@ func (p *KeyMintDeviceProxy) ImportKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	if keyParams == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyParams)))
-		for _, _item := range keyParams {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceImportKey)
+	_compiledDescs := []string{
+		"[Landroid/hardware/security/keymint/KeyParameter;",
+		"Landroid/hardware/security/keymint/KeyFormat;",
+		"[B",
+		"Landroid/hardware/security/keymint/AttestationKey;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if keyParams == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(keyParams)))
+			for _, _item := range keyParams {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
 			}
 		}
-	}
-	_data.WriteInt32(int32(keyFormat))
-	_data.WriteByteArray(keyData)
-	if attestationKey != nil {
-		_data.WriteInt32(1)
-		if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
-			return _result, _err
+		_data.WriteInt32(int32(keyFormat))
+		_data.WriteByteArray(keyData)
+		if attestationKey != nil {
+			_data.WriteInt32(1)
+			if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if keyParams == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(keyParams)))
+					for _, _item := range keyParams {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(int32(keyFormat))
+			case 2:
+				_data.WriteByteArray(keyData)
+			case 3:
+				if attestationKey != nil {
+					_data.WriteInt32(1)
+					if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceImportKey)
@@ -284,22 +372,61 @@ func (p *KeyMintDeviceProxy) ImportWrappedKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	_data.WriteByteArray(wrappedKeyData)
-	_data.WriteByteArray(wrappingKeyBlob)
-	_data.WriteByteArray(maskingKey)
-	if unwrappingParams == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceImportWrappedKey)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"[B",
+		"[Landroid/hardware/security/keymint/KeyParameter;",
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(wrappedKeyData)
+		_data.WriteByteArray(wrappingKeyBlob)
+		_data.WriteByteArray(maskingKey)
+		if unwrappingParams == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(unwrappingParams)))
+			for _, _item := range unwrappingParams {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+		_data.WriteInt64(passwordSid)
+		_data.WriteInt64(biometricSid)
 	} else {
-		_data.WriteInt32(int32(len(unwrappingParams)))
-		for _, _item := range unwrappingParams {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(wrappedKeyData)
+			case 1:
+				_data.WriteByteArray(wrappingKeyBlob)
+			case 2:
+				_data.WriteByteArray(maskingKey)
+			case 3:
+				if unwrappingParams == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(unwrappingParams)))
+					for _, _item := range unwrappingParams {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 4:
+				_data.WriteInt64(passwordSid)
+			case 5:
+				_data.WriteInt64(biometricSid)
 			}
 		}
 	}
-	_data.WriteInt64(passwordSid)
-	_data.WriteInt64(biometricSid)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceImportWrappedKey)
 	if _err != nil {
@@ -337,15 +464,42 @@ func (p *KeyMintDeviceProxy) UpgradeKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	_data.WriteByteArray(keyBlobToUpgrade)
-	if upgradeParams == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceUpgradeKey)
+	_compiledDescs := []string{
+		"[B",
+		"[Landroid/hardware/security/keymint/KeyParameter;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(keyBlobToUpgrade)
+		if upgradeParams == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(upgradeParams)))
+			for _, _item := range upgradeParams {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(upgradeParams)))
-		for _, _item := range upgradeParams {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(keyBlobToUpgrade)
+			case 1:
+				if upgradeParams == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(upgradeParams)))
+					for _, _item := range upgradeParams {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -379,7 +533,21 @@ func (p *KeyMintDeviceProxy) DeleteKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	_data.WriteByteArray(keyBlob)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceDeleteKey)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(keyBlob)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(keyBlob)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceDeleteKey)
 	if _err != nil {
@@ -460,26 +628,66 @@ func (p *KeyMintDeviceProxy) Begin(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	_data.WriteInt32(int32(purpose))
-	_data.WriteByteArray(keyBlob)
-	if params == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(params)))
-		for _, _item := range params {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceBegin)
+	_compiledDescs := []string{
+		"Landroid/hardware/security/keymint/KeyPurpose;",
+		"[B",
+		"[Landroid/hardware/security/keymint/KeyParameter;",
+		"Landroid/hardware/security/keymint/HardwareAuthToken;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(purpose))
+		_data.WriteByteArray(keyBlob)
+		if params == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(params)))
+			for _, _item := range params {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
 			}
 		}
-	}
-	if authToken != nil {
-		_data.WriteInt32(1)
-		if _err := (*authToken).MarshalParcel(_data); _err != nil {
-			return _result, _err
+		if authToken != nil {
+			_data.WriteInt32(1)
+			if _err := (*authToken).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(purpose))
+			case 1:
+				_data.WriteByteArray(keyBlob)
+			case 2:
+				if params == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(params)))
+					for _, _item := range params {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 3:
+				if authToken != nil {
+					_data.WriteInt32(1)
+					if _err := (*authToken).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceBegin)
@@ -517,14 +725,38 @@ func (p *KeyMintDeviceProxy) DeviceLocked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	_data.WriteBool(passwordOnly)
-	if timestampToken != nil {
-		_data.WriteInt32(1)
-		if _err := (*timestampToken).MarshalParcel(_data); _err != nil {
-			return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceDeviceLocked)
+	_compiledDescs := []string{
+		"Z",
+		"Landroid/hardware/security/secureclock/TimeStampToken;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(passwordOnly)
+		if timestampToken != nil {
+			_data.WriteInt32(1)
+			if _err := (*timestampToken).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(passwordOnly)
+			case 1:
+				if timestampToken != nil {
+					_data.WriteInt32(1)
+					if _err := (*timestampToken).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceDeviceLocked)
@@ -578,7 +810,21 @@ func (p *KeyMintDeviceProxy) ConvertStorageKeyToEphemeral(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	_data.WriteByteArray(storageKeyBlob)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceConvertStorageKeyToEphemeral)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(storageKeyBlob)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(storageKeyBlob)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceConvertStorageKeyToEphemeral)
 	if _err != nil {
@@ -612,9 +858,29 @@ func (p *KeyMintDeviceProxy) GetKeyCharacteristics(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	_data.WriteByteArray(keyBlob)
-	_data.WriteByteArray(appId)
-	_data.WriteByteArray(appData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetKeyCharacteristics)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(keyBlob)
+		_data.WriteByteArray(appId)
+		_data.WriteByteArray(appData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(keyBlob)
+			case 1:
+				_data.WriteByteArray(appId)
+			case 2:
+				_data.WriteByteArray(appData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetKeyCharacteristics)
 	if _err != nil {
@@ -708,7 +974,21 @@ func (p *KeyMintDeviceProxy) GetRootOfTrust(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	_data.WriteByteArray(challenge)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetRootOfTrust)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(challenge)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(challenge)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetRootOfTrust)
 	if _err != nil {
@@ -739,7 +1019,21 @@ func (p *KeyMintDeviceProxy) SendRootOfTrust(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	_data.WriteByteArray(rootOfTrust)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceSendRootOfTrust)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(rootOfTrust)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(rootOfTrust)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceSendRootOfTrust)
 	if _err != nil {

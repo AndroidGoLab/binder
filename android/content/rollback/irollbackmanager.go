@@ -143,15 +143,44 @@ func (p *RollbackManagerProxy) CommitRollback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
-	_data.WriteInt32(rollbackId)
-	_data.WriteInt32(1)
-	if _err := causePackages.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRollbackManager, MethodIRollbackManagerCommitRollback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/pm/ParceledListSlice;",
+		"Ljava/lang/String;",
+		"Landroid/content/IntentSender;",
 	}
-	_data.WriteString16(callerPackageName)
-	_data.WriteInt32(1)
-	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(rollbackId)
+		_data.WriteInt32(1)
+		if _err := causePackages.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(callerPackageName)
+		_data.WriteInt32(1)
+		if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(rollbackId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := causePackages.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(callerPackageName)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerCommitRollback)
@@ -184,19 +213,55 @@ func (p *RollbackManagerProxy) SnapshotAndRestoreUserData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
-	_data.WriteString16(packageName)
-	if userIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRollbackManager, MethodIRollbackManagerSnapshotAndRestoreUserData)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[I",
+		"I",
+		"J",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		if userIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(userIds)))
+			for _, _item := range userIds {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteInt32(appId)
+		_data.WriteInt64(ceDataInode)
+		_data.WriteString16(seInfo)
+		_data.WriteInt32(token)
 	} else {
-		_data.WriteInt32(int32(len(userIds)))
-		for _, _item := range userIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				if userIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(userIds)))
+					for _, _item := range userIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 2:
+				_data.WriteInt32(appId)
+			case 3:
+				_data.WriteInt64(ceDataInode)
+			case 4:
+				_data.WriteString16(seInfo)
+			case 5:
+				_data.WriteInt32(token)
+			}
 		}
 	}
-	_data.WriteInt32(appId)
-	_data.WriteInt64(ceDataInode)
-	_data.WriteString16(seInfo)
-	_data.WriteInt32(token)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerSnapshotAndRestoreUserData)
 	if _err != nil {
@@ -248,7 +313,21 @@ func (p *RollbackManagerProxy) ExpireRollbackForPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRollbackManager, MethodIRollbackManagerExpireRollbackForPackage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerExpireRollbackForPackage)
 	if _err != nil {
@@ -276,7 +355,21 @@ func (p *RollbackManagerProxy) NotifyStagedSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
-	_data.WriteInt32(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRollbackManager, MethodIRollbackManagerNotifyStagedSession)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerNotifyStagedSession)
 	if _err != nil {
@@ -307,7 +400,21 @@ func (p *RollbackManagerProxy) BlockRollbackManager(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
-	_data.WriteInt64(millis)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRollbackManager, MethodIRollbackManagerBlockRollbackManager)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(millis)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(millis)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerBlockRollbackManager)
 	if _err != nil {

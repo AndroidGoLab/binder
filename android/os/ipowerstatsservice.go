@@ -58,9 +58,26 @@ func (p *PowerStatsServiceProxy) GetSupportedPowerMonitors(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerStatsService)
-	_data.WriteInt32(1)
-	if _err := resultReceiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerStatsService, MethodIPowerStatsServiceGetSupportedPowerMonitors)
+	_compiledDescs := []string{
+		"Landroid/os/ResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := resultReceiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := resultReceiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerStatsService, MethodIPowerStatsServiceGetSupportedPowerMonitors)
@@ -80,17 +97,44 @@ func (p *PowerStatsServiceProxy) GetPowerMonitorReadings(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerStatsService)
-	if powerMonitorIndices == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(powerMonitorIndices)))
-		for _, _item := range powerMonitorIndices {
-			_data.WriteInt32(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPowerStatsService, MethodIPowerStatsServiceGetPowerMonitorReadings)
+	_compiledDescs := []string{
+		"[I",
+		"Landroid/os/ResultReceiver;",
 	}
-	_data.WriteInt32(1)
-	if _err := resultReceiver.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if powerMonitorIndices == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(powerMonitorIndices)))
+			for _, _item := range powerMonitorIndices {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteInt32(1)
+		if _err := resultReceiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if powerMonitorIndices == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(powerMonitorIndices)))
+					for _, _item := range powerMonitorIndices {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := resultReceiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerStatsService, MethodIPowerStatsServiceGetPowerMonitorReadings)

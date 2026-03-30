@@ -50,7 +50,21 @@ func (p *SpatializerHeadTrackingModeCallbackProxy) DispatchSpatializerActualHead
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackingModeCallback)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializerHeadTrackingModeCallback, MethodISpatializerHeadTrackingModeCallbackDispatchSpatializerActualHeadTrackingModeChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializerHeadTrackingModeCallback, MethodISpatializerHeadTrackingModeCallbackDispatchSpatializerActualHeadTrackingModeChanged)
 	if _err != nil {
@@ -68,7 +82,21 @@ func (p *SpatializerHeadTrackingModeCallbackProxy) DispatchSpatializerDesiredHea
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackingModeCallback)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializerHeadTrackingModeCallback, MethodISpatializerHeadTrackingModeCallbackDispatchSpatializerDesiredHeadTrackingModeChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializerHeadTrackingModeCallback, MethodISpatializerHeadTrackingModeCallbackDispatchSpatializerDesiredHeadTrackingModeChanged)
 	if _err != nil {

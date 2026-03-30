@@ -70,8 +70,25 @@ func (p *PipAnimationListenerProxy) OnPipResourceDimensionsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPipAnimationListener)
-	_data.WriteInt32(cornerRadius)
-	_data.WriteInt32(shadowRadius)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPipAnimationListener, MethodIPipAnimationListenerOnPipResourceDimensionsChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cornerRadius)
+		_data.WriteInt32(shadowRadius)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cornerRadius)
+			case 1:
+				_data.WriteInt32(shadowRadius)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPipAnimationListener, MethodIPipAnimationListenerOnPipResourceDimensionsChanged)
 	if _err != nil {

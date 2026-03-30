@@ -59,7 +59,21 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
-	_data.WriteInt32(requestReason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationStarted)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(requestReason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(requestReason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationStarted)
 	if _err != nil {
@@ -94,8 +108,25 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationSucceeded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
-	_data.WriteInt32(requestReason)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationSucceeded)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(requestReason)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(requestReason)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationSucceeded)
 	if _err != nil {
@@ -114,8 +145,25 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
-	_data.WriteInt32(requestReason)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationFailed)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(requestReason)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(requestReason)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationFailed)
 	if _err != nil {
@@ -135,12 +183,35 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationAcquired(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
-	_data.WriteInt32(1)
-	if _err := biometricSourceType.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationAcquired)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/BiometricSourceType;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(requestReason)
-	_data.WriteInt32(acquiredInfo)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := biometricSourceType.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(requestReason)
+		_data.WriteInt32(acquiredInfo)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := biometricSourceType.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(requestReason)
+			case 2:
+				_data.WriteInt32(acquiredInfo)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationAcquired)
 	if _err != nil {

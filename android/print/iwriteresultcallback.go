@@ -58,8 +58,25 @@ func (p *WriteResultCallbackProxy) OnWriteStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWriteResultCallback)
-	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(sequence)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteStarted)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/common/ICancellationSignal;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteStarted)
 	if _err != nil {
@@ -78,18 +95,45 @@ func (p *WriteResultCallbackProxy) OnWriteFinished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWriteResultCallback)
-	if pages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteFinished)
+	_compiledDescs := []string{
+		"[Landroid/print/PageRange;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if pages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(pages)))
+			for _, _item := range pages {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteInt32(sequence)
 	} else {
-		_data.WriteInt32(int32(len(pages)))
-		for _, _item := range pages {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if pages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(pages)))
+					for _, _item := range pages {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(sequence)
 			}
 		}
 	}
-	_data.WriteInt32(sequence)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteFinished)
 	if _err != nil {
@@ -108,8 +152,25 @@ func (p *WriteResultCallbackProxy) OnWriteFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWriteResultCallback)
-	_data.WriteString16(error_)
-	_data.WriteInt32(sequence)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteFailed)
+	_compiledDescs := []string{
+		"Ljava/lang/CharSequence;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(error_)
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(error_)
+			case 1:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteFailed)
 	if _err != nil {
@@ -127,7 +188,21 @@ func (p *WriteResultCallbackProxy) OnWriteCanceled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWriteResultCallback)
-	_data.WriteInt32(sequence)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteCanceled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sequence)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sequence)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteCanceled)
 	if _err != nil {

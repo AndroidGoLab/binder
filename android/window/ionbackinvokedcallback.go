@@ -56,9 +56,26 @@ func (p *OnBackInvokedCallbackProxy) OnBackStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
-	_data.WriteInt32(1)
-	if _err := backMotionEvent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnBackInvokedCallback, MethodIOnBackInvokedCallbackOnBackStarted)
+	_compiledDescs := []string{
+		"Landroid/window/BackMotionEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := backMotionEvent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := backMotionEvent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnBackInvokedCallback, MethodIOnBackInvokedCallbackOnBackStarted)
@@ -77,9 +94,26 @@ func (p *OnBackInvokedCallbackProxy) OnBackProgressed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
-	_data.WriteInt32(1)
-	if _err := backMotionEvent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnBackInvokedCallback, MethodIOnBackInvokedCallbackOnBackProgressed)
+	_compiledDescs := []string{
+		"Landroid/window/BackMotionEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := backMotionEvent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := backMotionEvent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnBackInvokedCallback, MethodIOnBackInvokedCallbackOnBackProgressed)

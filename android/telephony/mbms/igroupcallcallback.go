@@ -54,8 +54,25 @@ func (p *GroupCallCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGroupCallCallback)
-	_data.WriteInt32(errorCode)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGroupCallCallback, MethodIGroupCallCallbackOnError)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			case 1:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGroupCallCallback, MethodIGroupCallCallbackOnError)
 	if _err != nil {
@@ -74,8 +91,25 @@ func (p *GroupCallCallbackProxy) OnGroupCallStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGroupCallCallback)
-	_data.WriteInt32(state)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGroupCallCallback, MethodIGroupCallCallbackOnGroupCallStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(state)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(state)
+			case 1:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGroupCallCallback, MethodIGroupCallCallbackOnGroupCallStateChanged)
 	if _err != nil {
@@ -93,7 +127,21 @@ func (p *GroupCallCallbackProxy) OnBroadcastSignalStrengthUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGroupCallCallback)
-	_data.WriteInt32(signalStrength)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGroupCallCallback, MethodIGroupCallCallbackOnBroadcastSignalStrengthUpdated)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(signalStrength)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(signalStrength)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGroupCallCallback, MethodIGroupCallCallbackOnBroadcastSignalStrengthUpdated)
 	if _err != nil {

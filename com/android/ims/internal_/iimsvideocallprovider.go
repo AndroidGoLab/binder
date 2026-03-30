@@ -80,7 +80,21 @@ func (p *ImsVideoCallProviderProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetCallback)
+	_compiledDescs := []string{
+		"Lcom/android/ims/internal/IImsVideoCallCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetCallback)
 	if _err != nil {
@@ -99,8 +113,25 @@ func (p *ImsVideoCallProviderProxy) SetCamera(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
-	_data.WriteString16(cameraId)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetCamera)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetCamera)
 	if _err != nil {
@@ -118,9 +149,26 @@ func (p *ImsVideoCallProviderProxy) SetPreviewSurface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
-	_data.WriteInt32(1)
-	if _err := surface.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetPreviewSurface)
+	_compiledDescs := []string{
+		"Landroid/view/Surface;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := surface.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := surface.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetPreviewSurface)
@@ -139,9 +187,26 @@ func (p *ImsVideoCallProviderProxy) SetDisplaySurface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
-	_data.WriteInt32(1)
-	if _err := surface.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetDisplaySurface)
+	_compiledDescs := []string{
+		"Landroid/view/Surface;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := surface.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := surface.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetDisplaySurface)
@@ -160,7 +225,21 @@ func (p *ImsVideoCallProviderProxy) SetDeviceOrientation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
-	_data.WriteInt32(rotation)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetDeviceOrientation)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(rotation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(rotation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetDeviceOrientation)
 	if _err != nil {
@@ -178,7 +257,21 @@ func (p *ImsVideoCallProviderProxy) SetZoom(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
-	_data.WriteFloat32(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetZoom)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetZoom)
 	if _err != nil {
@@ -197,13 +290,36 @@ func (p *ImsVideoCallProviderProxy) SendSessionModifyRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
-	_data.WriteInt32(1)
-	if _err := fromProfile.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSendSessionModifyRequest)
+	_compiledDescs := []string{
+		"Landroid/telecom/VideoProfile;",
+		"Landroid/telecom/VideoProfile;",
 	}
-	_data.WriteInt32(1)
-	if _err := toProfile.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := fromProfile.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := toProfile.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := fromProfile.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := toProfile.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSendSessionModifyRequest)
@@ -222,9 +338,26 @@ func (p *ImsVideoCallProviderProxy) SendSessionModifyResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
-	_data.WriteInt32(1)
-	if _err := responseProfile.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSendSessionModifyResponse)
+	_compiledDescs := []string{
+		"Landroid/telecom/VideoProfile;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := responseProfile.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := responseProfile.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSendSessionModifyResponse)
@@ -275,9 +408,26 @@ func (p *ImsVideoCallProviderProxy) SetPauseImage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetPauseImage)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetPauseImage)

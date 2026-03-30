@@ -52,18 +52,53 @@ func (p *DownloadProgressListenerProxy) OnProgressUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDownloadProgressListener)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDownloadProgressListener, MethodIDownloadProgressListenerOnProgressUpdated)
+	_compiledDescs := []string{
+		"Landroid/telephony/mbms/DownloadRequest;",
+		"Landroid/telephony/mbms/FileInfo;",
+		"I",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := fileInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := fileInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(currentDownloadSize)
+		_data.WriteInt32(fullDownloadSize)
+		_data.WriteInt32(currentDecodedSize)
+		_data.WriteInt32(fullDecodedSize)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := fileInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(currentDownloadSize)
+			case 3:
+				_data.WriteInt32(fullDownloadSize)
+			case 4:
+				_data.WriteInt32(currentDecodedSize)
+			case 5:
+				_data.WriteInt32(fullDecodedSize)
+			}
+		}
 	}
-	_data.WriteInt32(currentDownloadSize)
-	_data.WriteInt32(fullDownloadSize)
-	_data.WriteInt32(currentDecodedSize)
-	_data.WriteInt32(fullDecodedSize)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadProgressListener, MethodIDownloadProgressListenerOnProgressUpdated)
 	if _err != nil {

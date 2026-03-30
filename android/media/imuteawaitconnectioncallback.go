@@ -51,16 +51,43 @@ func (p *MuteAwaitConnectionCallbackProxy) DispatchOnMutedUntilConnection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMuteAwaitConnectionCallback)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMuteAwaitConnectionCallback, MethodIMuteAwaitConnectionCallbackDispatchOnMutedUntilConnection)
+	_compiledDescs := []string{
+		"Landroid/media/AudioDeviceAttributes;",
+		"[I",
 	}
-	if mutedUsages == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if mutedUsages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(mutedUsages)))
+			for _, _item := range mutedUsages {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(mutedUsages)))
-		for _, _item := range mutedUsages {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if mutedUsages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(mutedUsages)))
+					for _, _item := range mutedUsages {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -82,17 +109,47 @@ func (p *MuteAwaitConnectionCallbackProxy) DispatchOnUnmutedEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMuteAwaitConnectionCallback)
-	_data.WriteInt32(event)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMuteAwaitConnectionCallback, MethodIMuteAwaitConnectionCallbackDispatchOnUnmutedEvent)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/AudioDeviceAttributes;",
+		"[I",
 	}
-	if mutedUsages == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(event)
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if mutedUsages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(mutedUsages)))
+			for _, _item := range mutedUsages {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(mutedUsages)))
-		for _, _item := range mutedUsages {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(event)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				if mutedUsages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(mutedUsages)))
+					for _, _item := range mutedUsages {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 

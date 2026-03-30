@@ -50,7 +50,21 @@ func (p *GetAvailableMemoryInBytesCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetAvailableMemoryInBytesCallback)
-	_data.WriteInt64(availableMemoryInBytes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGetAvailableMemoryInBytesCallback, MethodIGetAvailableMemoryInBytesCallbackOnSuccess)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(availableMemoryInBytes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(availableMemoryInBytes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetAvailableMemoryInBytesCallback, MethodIGetAvailableMemoryInBytesCallbackOnSuccess)
 	if _err != nil {
@@ -68,7 +82,21 @@ func (p *GetAvailableMemoryInBytesCallbackProxy) OnUnsupportedOperationException
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetAvailableMemoryInBytesCallback)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGetAvailableMemoryInBytesCallback, MethodIGetAvailableMemoryInBytesCallbackOnUnsupportedOperationException)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetAvailableMemoryInBytesCallback, MethodIGetAvailableMemoryInBytesCallbackOnUnsupportedOperationException)
 	if _err != nil {

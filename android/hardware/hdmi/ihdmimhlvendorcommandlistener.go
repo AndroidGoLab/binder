@@ -50,10 +50,33 @@ func (p *HdmiMhlVendorCommandListenerProxy) OnReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiMhlVendorCommandListener)
-	_data.WriteInt32(portId)
-	_data.WriteInt32(offset)
-	_data.WriteInt32(length)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiMhlVendorCommandListener, MethodIHdmiMhlVendorCommandListenerOnReceived)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+		_data.WriteInt32(offset)
+		_data.WriteInt32(length)
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			case 1:
+				_data.WriteInt32(offset)
+			case 2:
+				_data.WriteInt32(length)
+			case 3:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiMhlVendorCommandListener, MethodIHdmiMhlVendorCommandListenerOnReceived)
 	if _err != nil {

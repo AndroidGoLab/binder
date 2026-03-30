@@ -59,7 +59,21 @@ func (p *BufferSubscriberProxy) OnSubscribe(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscriber)
-	binder.WriteBinderToParcel(ctx, _data, subscription.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBufferSubscriber, MethodIBufferSubscriberOnSubscribe)
+	_compiledDescs := []string{
+		"Landroid/graphics/bufferstreams/IBufferSubscription;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, subscription.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, subscription.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferSubscriber, MethodIBufferSubscriberOnSubscribe)
 	if _err != nil {
@@ -77,9 +91,26 @@ func (p *BufferSubscriberProxy) OnBufferCacheUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscriber)
-	_data.WriteInt32(1)
-	if _err := update.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBufferSubscriber, MethodIBufferSubscriberOnBufferCacheUpdate)
+	_compiledDescs := []string{
+		"Landroid/graphics/bufferstreams/BufferCacheUpdate;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := update.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := update.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferSubscriber, MethodIBufferSubscriberOnBufferCacheUpdate)
@@ -98,9 +129,26 @@ func (p *BufferSubscriberProxy) OnNext(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscriber)
-	_data.WriteInt32(1)
-	if _err := frame.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBufferSubscriber, MethodIBufferSubscriberOnNext)
+	_compiledDescs := []string{
+		"Landroid/graphics/bufferstreams/Frame;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := frame.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := frame.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferSubscriber, MethodIBufferSubscriberOnNext)

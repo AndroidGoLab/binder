@@ -57,8 +57,25 @@ func (p *BiometricSensorReceiverProxy) OnAuthenticationSucceeded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSensorReceiver)
-	_data.WriteInt32(sensorId)
-	_data.WriteByteArray(token)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnAuthenticationSucceeded)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+		_data.WriteByteArray(token)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			case 1:
+				_data.WriteByteArray(token)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnAuthenticationSucceeded)
 	if _err != nil {
@@ -76,7 +93,21 @@ func (p *BiometricSensorReceiverProxy) OnAuthenticationFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSensorReceiver)
-	_data.WriteInt32(sensorId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnAuthenticationFailed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnAuthenticationFailed)
 	if _err != nil {
@@ -97,10 +128,33 @@ func (p *BiometricSensorReceiverProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSensorReceiver)
-	_data.WriteInt32(sensorId)
-	_data.WriteInt32(cookie)
-	_data.WriteInt32(error_)
-	_data.WriteInt32(vendorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnError)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+		_data.WriteInt32(cookie)
+		_data.WriteInt32(error_)
+		_data.WriteInt32(vendorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			case 1:
+				_data.WriteInt32(cookie)
+			case 2:
+				_data.WriteInt32(error_)
+			case 3:
+				_data.WriteInt32(vendorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnError)
 	if _err != nil {
@@ -120,9 +174,29 @@ func (p *BiometricSensorReceiverProxy) OnAcquired(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSensorReceiver)
-	_data.WriteInt32(sensorId)
-	_data.WriteInt32(acquiredInfo)
-	_data.WriteInt32(vendorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnAcquired)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+		_data.WriteInt32(acquiredInfo)
+		_data.WriteInt32(vendorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			case 1:
+				_data.WriteInt32(acquiredInfo)
+			case 2:
+				_data.WriteInt32(vendorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnAcquired)
 	if _err != nil {

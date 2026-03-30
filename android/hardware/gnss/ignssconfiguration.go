@@ -75,7 +75,21 @@ func (p *GnssConfigurationProxy) SetSuplVersion(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
-	_data.WriteInt32(version)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetSuplVersion)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(version)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(version)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetSuplVersion)
 	if _err != nil {
@@ -102,7 +116,21 @@ func (p *GnssConfigurationProxy) SetSuplMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetSuplMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetSuplMode)
 	if _err != nil {
@@ -129,7 +157,21 @@ func (p *GnssConfigurationProxy) SetLppProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
-	_data.WriteInt32(lppProfile)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetLppProfile)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(lppProfile)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(lppProfile)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetLppProfile)
 	if _err != nil {
@@ -156,7 +198,21 @@ func (p *GnssConfigurationProxy) SetGlonassPositioningProtocol(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
-	_data.WriteInt32(protocol)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetGlonassPositioningProtocol)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(protocol)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(protocol)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetGlonassPositioningProtocol)
 	if _err != nil {
@@ -183,7 +239,21 @@ func (p *GnssConfigurationProxy) SetEmergencySuplPdn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetEmergencySuplPdn)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetEmergencySuplPdn)
 	if _err != nil {
@@ -210,7 +280,21 @@ func (p *GnssConfigurationProxy) SetEsExtensionSec(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
-	_data.WriteInt32(emergencyExtensionSeconds)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetEsExtensionSec)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(emergencyExtensionSeconds)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(emergencyExtensionSeconds)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetEsExtensionSec)
 	if _err != nil {
@@ -237,14 +321,38 @@ func (p *GnssConfigurationProxy) SetBlocklist(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
-	if blocklist == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetBlocklist)
+	_compiledDescs := []string{
+		"[Landroid/hardware/gnss/BlocklistedSource;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if blocklist == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(blocklist)))
+			for _, _item := range blocklist {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(blocklist)))
-		for _, _item := range blocklist {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if blocklist == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(blocklist)))
+					for _, _item := range blocklist {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

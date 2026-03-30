@@ -83,7 +83,21 @@ func (p *FrontendProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFrontend, MethodIFrontendSetCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/IFrontendCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendSetCallback)
 	if _err != nil {
@@ -110,9 +124,26 @@ func (p *FrontendProxy) Tune(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
-	_data.WriteInt32(1)
-	if _err := settings.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFrontend, MethodIFrontendTune)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/FrontendSettings;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := settings.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := settings.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendTune)
@@ -191,11 +222,31 @@ func (p *FrontendProxy) Scan(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
-	_data.WriteInt32(1)
-	if _err := settings.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFrontend, MethodIFrontendScan)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/FrontendSettings;",
+		"Landroid/hardware/tv/tuner/FrontendScanType;",
 	}
-	_data.WriteInt32(int32(type_))
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := settings.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(int32(type_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := settings.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(int32(type_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendScan)
 	if _err != nil {
@@ -248,12 +299,33 @@ func (p *FrontendProxy) GetStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
-	if statusTypes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFrontend, MethodIFrontendGetStatus)
+	_compiledDescs := []string{
+		"[Landroid/hardware/tv/tuner/FrontendStatusType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if statusTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(statusTypes)))
+			for _, _item := range statusTypes {
+				_data.WriteInt32(int32(_item))
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(statusTypes)))
-		for _, _item := range statusTypes {
-			_data.WriteInt32(int32(_item))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if statusTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(statusTypes)))
+					for _, _item := range statusTypes {
+						_data.WriteInt32(int32(_item))
+					}
+				}
+			}
 		}
 	}
 
@@ -318,7 +390,21 @@ func (p *FrontendProxy) SetLnb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
-	_data.WriteInt32(lnbId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFrontend, MethodIFrontendSetLnb)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(lnbId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(lnbId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendSetLnb)
 	if _err != nil {
@@ -346,7 +432,21 @@ func (p *FrontendProxy) LinkCiCam(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
-	_data.WriteInt32(ciCamId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFrontend, MethodIFrontendLinkCiCam)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(ciCamId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(ciCamId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendLinkCiCam)
 	if _err != nil {
@@ -377,7 +477,21 @@ func (p *FrontendProxy) UnlinkCiCam(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
-	_data.WriteInt32(ciCamId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFrontend, MethodIFrontendUnlinkCiCam)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(ciCamId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(ciCamId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendUnlinkCiCam)
 	if _err != nil {
@@ -434,7 +548,21 @@ func (p *FrontendProxy) RemoveOutputPid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
-	_data.WriteInt32(pid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFrontend, MethodIFrontendRemoveOutputPid)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(pid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(pid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendRemoveOutputPid)
 	if _err != nil {
@@ -462,12 +590,33 @@ func (p *FrontendProxy) GetFrontendStatusReadiness(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
-	if statusTypes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFrontend, MethodIFrontendGetFrontendStatusReadiness)
+	_compiledDescs := []string{
+		"[Landroid/hardware/tv/tuner/FrontendStatusType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if statusTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(statusTypes)))
+			for _, _item := range statusTypes {
+				_data.WriteInt32(int32(_item))
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(statusTypes)))
-		for _, _item := range statusTypes {
-			_data.WriteInt32(int32(_item))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if statusTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(statusTypes)))
+					for _, _item := range statusTypes {
+						_data.WriteInt32(int32(_item))
+					}
+				}
+			}
 		}
 	}
 

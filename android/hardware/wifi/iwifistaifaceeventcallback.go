@@ -79,11 +79,34 @@ func (p *WifiStaIfaceEventCallbackProxy) OnBackgroundFullScanResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
-	_data.WriteInt32(cmdId)
-	_data.WriteInt32(bucketsScanned)
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnBackgroundFullScanResult)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/hardware/wifi/StaScanResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		_data.WriteInt32(bucketsScanned)
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				_data.WriteInt32(bucketsScanned)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnBackgroundFullScanResult)
@@ -102,7 +125,21 @@ func (p *WifiStaIfaceEventCallbackProxy) OnBackgroundScanFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
-	_data.WriteInt32(cmdId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnBackgroundScanFailure)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnBackgroundScanFailure)
 	if _err != nil {
@@ -121,15 +158,42 @@ func (p *WifiStaIfaceEventCallbackProxy) OnBackgroundScanResults(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
-	_data.WriteInt32(cmdId)
-	if scanDatas == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnBackgroundScanResults)
+	_compiledDescs := []string{
+		"I",
+		"[Landroid/hardware/wifi/StaScanData;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		if scanDatas == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(scanDatas)))
+			for _, _item := range scanDatas {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(scanDatas)))
-		for _, _item := range scanDatas {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				if scanDatas == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(scanDatas)))
+					for _, _item := range scanDatas {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -152,9 +216,29 @@ func (p *WifiStaIfaceEventCallbackProxy) OnRssiThresholdBreached(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
-	_data.WriteInt32(cmdId)
-	_data.WriteByteArray(currBssid)
-	_data.WriteInt32(currRssi)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnRssiThresholdBreached)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		_data.WriteByteArray(currBssid)
+		_data.WriteInt32(currRssi)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				_data.WriteByteArray(currBssid)
+			case 2:
+				_data.WriteInt32(currRssi)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnRssiThresholdBreached)
 	if _err != nil {
@@ -173,8 +257,25 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
-	_data.WriteInt32(cmdId)
-	_data.WritePaddedByte(byte(error_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnTwtFailure)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/wifi/IWifiStaIfaceEventCallback/TwtErrorCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		_data.WritePaddedByte(byte(error_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				_data.WritePaddedByte(byte(error_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnTwtFailure)
 	if _err != nil {
@@ -193,10 +294,30 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionCreate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
-	_data.WriteInt32(cmdId)
-	_data.WriteInt32(1)
-	if _err := twtSession.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnTwtSessionCreate)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/wifi/TwtSession;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		_data.WriteInt32(1)
+		if _err := twtSession.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := twtSession.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnTwtSessionCreate)
@@ -216,10 +337,30 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
-	_data.WriteInt32(cmdId)
-	_data.WriteInt32(1)
-	if _err := twtSession.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnTwtSessionUpdate)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/wifi/TwtSession;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		_data.WriteInt32(1)
+		if _err := twtSession.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := twtSession.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnTwtSessionUpdate)
@@ -240,9 +381,29 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionTeardown(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
-	_data.WriteInt32(cmdId)
-	_data.WriteInt32(twtSessionId)
-	_data.WritePaddedByte(byte(reasonCode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnTwtSessionTeardown)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/hardware/wifi/IWifiStaIfaceEventCallback/TwtTeardownReasonCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		_data.WriteInt32(twtSessionId)
+		_data.WritePaddedByte(byte(reasonCode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				_data.WriteInt32(twtSessionId)
+			case 2:
+				_data.WritePaddedByte(byte(reasonCode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnTwtSessionTeardown)
 	if _err != nil {
@@ -262,11 +423,34 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
-	_data.WriteInt32(cmdId)
-	_data.WriteInt32(twtSessionId)
-	_data.WriteInt32(1)
-	if _err := twtSessionStats.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnTwtSessionStats)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/hardware/wifi/TwtSessionStats;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		_data.WriteInt32(twtSessionId)
+		_data.WriteInt32(1)
+		if _err := twtSessionStats.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				_data.WriteInt32(twtSessionId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := twtSessionStats.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnTwtSessionStats)
@@ -286,8 +470,25 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionSuspend(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
-	_data.WriteInt32(cmdId)
-	_data.WriteInt32(twtSessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnTwtSessionSuspend)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		_data.WriteInt32(twtSessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				_data.WriteInt32(twtSessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnTwtSessionSuspend)
 	if _err != nil {
@@ -306,8 +507,25 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionResume(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
-	_data.WriteInt32(cmdId)
-	_data.WriteInt32(twtSessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnTwtSessionResume)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdId)
+		_data.WriteInt32(twtSessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdId)
+			case 1:
+				_data.WriteInt32(twtSessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnTwtSessionResume)
 	if _err != nil {

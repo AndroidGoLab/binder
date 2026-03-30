@@ -66,9 +66,26 @@ func (p *VideoCallbackProxy) ReceiveSessionModifyRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVideoCallback)
-	_data.WriteInt32(1)
-	if _err := videoProfile.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVideoCallback, MethodIVideoCallbackReceiveSessionModifyRequest)
+	_compiledDescs := []string{
+		"Landroid/telecom/VideoProfile;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := videoProfile.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := videoProfile.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoCallback, MethodIVideoCallbackReceiveSessionModifyRequest)
@@ -89,14 +106,40 @@ func (p *VideoCallbackProxy) ReceiveSessionModifyResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVideoCallback)
-	_data.WriteInt32(status)
-	_data.WriteInt32(1)
-	if _err := requestedProfile.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVideoCallback, MethodIVideoCallbackReceiveSessionModifyResponse)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telecom/VideoProfile;",
+		"Landroid/telecom/VideoProfile;",
 	}
-	_data.WriteInt32(1)
-	if _err := responseProfile.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+		_data.WriteInt32(1)
+		if _err := requestedProfile.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := responseProfile.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := requestedProfile.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := responseProfile.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoCallback, MethodIVideoCallbackReceiveSessionModifyResponse)
@@ -115,7 +158,21 @@ func (p *VideoCallbackProxy) HandleCallSessionEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVideoCallback)
-	_data.WriteInt32(event)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVideoCallback, MethodIVideoCallbackHandleCallSessionEvent)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(event)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(event)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoCallback, MethodIVideoCallbackHandleCallSessionEvent)
 	if _err != nil {
@@ -134,8 +191,25 @@ func (p *VideoCallbackProxy) ChangePeerDimensions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVideoCallback)
-	_data.WriteInt32(width)
-	_data.WriteInt32(height)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVideoCallback, MethodIVideoCallbackChangePeerDimensions)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(width)
+		_data.WriteInt32(height)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(width)
+			case 1:
+				_data.WriteInt32(height)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoCallback, MethodIVideoCallbackChangePeerDimensions)
 	if _err != nil {
@@ -153,7 +227,21 @@ func (p *VideoCallbackProxy) ChangeCallDataUsage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVideoCallback)
-	_data.WriteInt64(dataUsage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVideoCallback, MethodIVideoCallbackChangeCallDataUsage)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(dataUsage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(dataUsage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoCallback, MethodIVideoCallbackChangeCallDataUsage)
 	if _err != nil {
@@ -171,9 +259,26 @@ func (p *VideoCallbackProxy) ChangeCameraCapabilities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVideoCallback)
-	_data.WriteInt32(1)
-	if _err := cameraCapabilities.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVideoCallback, MethodIVideoCallbackChangeCameraCapabilities)
+	_compiledDescs := []string{
+		"LVideoProfile/CameraCapabilities;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := cameraCapabilities.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := cameraCapabilities.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoCallback, MethodIVideoCallbackChangeCameraCapabilities)
@@ -192,7 +297,21 @@ func (p *VideoCallbackProxy) ChangeVideoQuality(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVideoCallback)
-	_data.WriteInt32(videoQuality)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVideoCallback, MethodIVideoCallbackChangeVideoQuality)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(videoQuality)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(videoQuality)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoCallback, MethodIVideoCallbackChangeVideoQuality)
 	if _err != nil {

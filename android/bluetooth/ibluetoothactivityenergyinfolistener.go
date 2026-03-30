@@ -47,9 +47,26 @@ func (p *BluetoothActivityEnergyInfoListenerProxy) OnBluetoothActivityEnergyInfo
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothActivityEnergyInfoListener)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothActivityEnergyInfoListener, MethodIBluetoothActivityEnergyInfoListenerOnBluetoothActivityEnergyInfoAvailable)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothActivityEnergyInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothActivityEnergyInfoListener, MethodIBluetoothActivityEnergyInfoListenerOnBluetoothActivityEnergyInfoAvailable)

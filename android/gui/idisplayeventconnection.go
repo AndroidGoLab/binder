@@ -96,7 +96,21 @@ func (p *DisplayEventConnectionProxy) SetVsyncRate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
-	_data.WriteInt32(count)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionSetVsyncRate)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(count)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(count)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionSetVsyncRate)
 	if _err != nil {

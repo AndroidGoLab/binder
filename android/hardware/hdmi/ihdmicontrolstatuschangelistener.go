@@ -48,8 +48,25 @@ func (p *HdmiControlStatusChangeListenerProxy) OnStatusChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlStatusChangeListener)
-	_data.WriteInt32(isCecEnabled)
-	_data.WriteBool(isCecAvailable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiControlStatusChangeListener, MethodIHdmiControlStatusChangeListenerOnStatusChange)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(isCecEnabled)
+		_data.WriteBool(isCecAvailable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(isCecEnabled)
+			case 1:
+				_data.WriteBool(isCecAvailable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlStatusChangeListener, MethodIHdmiControlStatusChangeListenerOnStatusChange)
 	if _err != nil {

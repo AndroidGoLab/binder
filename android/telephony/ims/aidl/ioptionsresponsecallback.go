@@ -50,7 +50,21 @@ func (p *OptionsResponseCallbackProxy) OnCommandError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsResponseCallback)
-	_data.WriteInt32(code)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOptionsResponseCallback, MethodIOptionsResponseCallbackOnCommandError)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsResponseCallback, MethodIOptionsResponseCallbackOnCommandError)
 	if _err != nil {
@@ -70,14 +84,41 @@ func (p *OptionsResponseCallbackProxy) OnNetworkResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsResponseCallback)
-	_data.WriteInt32(code)
-	_data.WriteString16(reason)
-	if theirCaps == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOptionsResponseCallback, MethodIOptionsResponseCallbackOnNetworkResponse)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(code)
+		_data.WriteString16(reason)
+		if theirCaps == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(theirCaps)))
+			for _, _item := range theirCaps {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(theirCaps)))
-		for _, _item := range theirCaps {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(code)
+			case 1:
+				_data.WriteString16(reason)
+			case 2:
+				if theirCaps == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(theirCaps)))
+					for _, _item := range theirCaps {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 

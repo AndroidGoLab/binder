@@ -48,22 +48,56 @@ func (p *AudioGainCallbackProxy) OnAudioDeviceGainsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioGainCallback)
-	if reasons == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(reasons)))
-		for _, _item := range reasons {
-			_data.WriteInt32(int32(_item))
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioGainCallback, MethodIAudioGainCallbackOnAudioDeviceGainsChanged)
+	_compiledDescs := []string{
+		"[Landroid/hardware/automotive/audiocontrol/Reasons;",
+		"[Landroid/hardware/automotive/audiocontrol/AudioGainConfigInfo;",
 	}
-	if gains == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if reasons == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(reasons)))
+			for _, _item := range reasons {
+				_data.WriteInt32(int32(_item))
+			}
+		}
+		if gains == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(gains)))
+			for _, _item := range gains {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(gains)))
-		for _, _item := range gains {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if reasons == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(reasons)))
+					for _, _item := range reasons {
+						_data.WriteInt32(int32(_item))
+					}
+				}
+			case 1:
+				if gains == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(gains)))
+					for _, _item := range gains {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

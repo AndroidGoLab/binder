@@ -79,13 +79,39 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceTransitionCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofenceCallback)
-	_data.WriteInt32(geofenceId)
-	_data.WriteInt32(1)
-	if _err := location.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssGeofenceCallback, MethodIGnssGeofenceCallbackGnssGeofenceTransitionCb)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/gnss/GnssLocation;",
+		"I",
+		"J",
 	}
-	_data.WriteInt32(transition)
-	_data.WriteInt64(timestampMillis)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(geofenceId)
+		_data.WriteInt32(1)
+		if _err := location.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(transition)
+		_data.WriteInt64(timestampMillis)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(geofenceId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := location.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(transition)
+			case 3:
+				_data.WriteInt64(timestampMillis)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssGeofenceCallback, MethodIGnssGeofenceCallbackGnssGeofenceTransitionCb)
 	if _err != nil {
@@ -113,10 +139,30 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceStatusCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofenceCallback)
-	_data.WriteInt32(availability)
-	_data.WriteInt32(1)
-	if _err := lastLocation.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssGeofenceCallback, MethodIGnssGeofenceCallbackGnssGeofenceStatusCb)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/gnss/GnssLocation;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(availability)
+		_data.WriteInt32(1)
+		if _err := lastLocation.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(availability)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := lastLocation.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssGeofenceCallback, MethodIGnssGeofenceCallbackGnssGeofenceStatusCb)
@@ -145,8 +191,25 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceAddCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofenceCallback)
-	_data.WriteInt32(geofenceId)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssGeofenceCallback, MethodIGnssGeofenceCallbackGnssGeofenceAddCb)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(geofenceId)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(geofenceId)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssGeofenceCallback, MethodIGnssGeofenceCallbackGnssGeofenceAddCb)
 	if _err != nil {
@@ -174,8 +237,25 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceRemoveCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofenceCallback)
-	_data.WriteInt32(geofenceId)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssGeofenceCallback, MethodIGnssGeofenceCallbackGnssGeofenceRemoveCb)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(geofenceId)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(geofenceId)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssGeofenceCallback, MethodIGnssGeofenceCallbackGnssGeofenceRemoveCb)
 	if _err != nil {
@@ -203,8 +283,25 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofencePauseCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofenceCallback)
-	_data.WriteInt32(geofenceId)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssGeofenceCallback, MethodIGnssGeofenceCallbackGnssGeofencePauseCb)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(geofenceId)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(geofenceId)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssGeofenceCallback, MethodIGnssGeofenceCallbackGnssGeofencePauseCb)
 	if _err != nil {
@@ -232,8 +329,25 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceResumeCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofenceCallback)
-	_data.WriteInt32(geofenceId)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssGeofenceCallback, MethodIGnssGeofenceCallbackGnssGeofenceResumeCb)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(geofenceId)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(geofenceId)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssGeofenceCallback, MethodIGnssGeofenceCallbackGnssGeofenceResumeCb)
 	if _err != nil {

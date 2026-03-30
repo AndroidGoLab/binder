@@ -58,7 +58,21 @@ func (p *SoundDoseProxy) SetOutputRs2UpperBound(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
-	_data.WriteFloat32(rs2ValueDbA)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDose, MethodISoundDoseSetOutputRs2UpperBound)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(rs2ValueDbA)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(rs2ValueDbA)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseSetOutputRs2UpperBound)
 	if _err != nil {
@@ -115,7 +129,21 @@ func (p *SoundDoseProxy) RegisterSoundDoseCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDose, MethodISoundDoseRegisterSoundDoseCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/audio/core/sounddose/ISoundDose/IHalSoundDoseCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseRegisterSoundDoseCallback)
 	if _err != nil {

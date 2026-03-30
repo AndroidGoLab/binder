@@ -47,7 +47,21 @@ func (p *RegionSamplingListenerProxy) OnSampleCollected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRegionSamplingListener)
-	_data.WriteFloat32(medianLuma)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRegionSamplingListener, MethodIRegionSamplingListenerOnSampleCollected)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(medianLuma)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(medianLuma)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRegionSamplingListener, MethodIRegionSamplingListenerOnSampleCollected)
 	if _err != nil {

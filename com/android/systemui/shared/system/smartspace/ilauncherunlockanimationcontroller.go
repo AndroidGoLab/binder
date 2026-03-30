@@ -65,12 +65,35 @@ func (p *LauncherUnlockAnimationControllerProxy) PrepareForUnlock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
-	_data.WriteBool(animateSmartspace)
-	_data.WriteInt32(1)
-	if _err := lockscreenSmartspaceBounds.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherUnlockAnimationController, MethodILauncherUnlockAnimationControllerPrepareForUnlock)
+	_compiledDescs := []string{
+		"Z",
+		"Landroid/graphics/Rect;",
+		"I",
 	}
-	_data.WriteInt32(selectedPage)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(animateSmartspace)
+		_data.WriteInt32(1)
+		if _err := lockscreenSmartspaceBounds.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(selectedPage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(animateSmartspace)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := lockscreenSmartspaceBounds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(selectedPage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherUnlockAnimationController, MethodILauncherUnlockAnimationControllerPrepareForUnlock)
 	if _err != nil {
@@ -98,8 +121,25 @@ func (p *LauncherUnlockAnimationControllerProxy) SetUnlockAmount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
-	_data.WriteFloat32(amount)
-	_data.WriteBool(forceIfAnimating)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherUnlockAnimationController, MethodILauncherUnlockAnimationControllerSetUnlockAmount)
+	_compiledDescs := []string{
+		"F",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(amount)
+		_data.WriteBool(forceIfAnimating)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(amount)
+			case 1:
+				_data.WriteBool(forceIfAnimating)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherUnlockAnimationController, MethodILauncherUnlockAnimationControllerSetUnlockAmount)
 	if _err != nil {
@@ -119,9 +159,29 @@ func (p *LauncherUnlockAnimationControllerProxy) PlayUnlockAnimation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
-	_data.WriteBool(unlocked)
-	_data.WriteInt64(duration)
-	_data.WriteInt64(startDelay)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherUnlockAnimationController, MethodILauncherUnlockAnimationControllerPlayUnlockAnimation)
+	_compiledDescs := []string{
+		"Z",
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(unlocked)
+		_data.WriteInt64(duration)
+		_data.WriteInt64(startDelay)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(unlocked)
+			case 1:
+				_data.WriteInt64(duration)
+			case 2:
+				_data.WriteInt64(startDelay)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherUnlockAnimationController, MethodILauncherUnlockAnimationControllerPlayUnlockAnimation)
 	if _err != nil {
@@ -139,7 +199,21 @@ func (p *LauncherUnlockAnimationControllerProxy) SetSmartspaceSelectedPage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
-	_data.WriteInt32(selectedPage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherUnlockAnimationController, MethodILauncherUnlockAnimationControllerSetSmartspaceSelectedPage)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(selectedPage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(selectedPage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherUnlockAnimationController, MethodILauncherUnlockAnimationControllerSetSmartspaceSelectedPage)
 	if _err != nil {
@@ -157,7 +231,21 @@ func (p *LauncherUnlockAnimationControllerProxy) SetSmartspaceVisibility(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
-	_data.WriteInt32(visibility)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILauncherUnlockAnimationController, MethodILauncherUnlockAnimationControllerSetSmartspaceVisibility)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(visibility)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(visibility)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherUnlockAnimationController, MethodILauncherUnlockAnimationControllerSetSmartspaceVisibility)
 	if _err != nil {

@@ -82,8 +82,25 @@ func (p *BiometricAuthenticatorProxy) CreateTestSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorCreateTestSession)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/ITestSessionCallback;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorCreateTestSession)
 	if _err != nil {
@@ -116,7 +133,21 @@ func (p *BiometricAuthenticatorProxy) GetSensorProperties(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricAuthenticator)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorGetSensorProperties)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorGetSensorProperties)
 	if _err != nil {
@@ -153,7 +184,21 @@ func (p *BiometricAuthenticatorProxy) DumpSensorServiceStateProto(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricAuthenticator)
-	_data.WriteBool(clearSchedulerBuffer)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorDumpSensorServiceStateProto)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(clearSchedulerBuffer)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(clearSchedulerBuffer)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorDumpSensorServiceStateProto)
 	if _err != nil {
@@ -192,16 +237,57 @@ func (p *BiometricAuthenticatorProxy) PrepareForAuthentication(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricAuthenticator)
-	_data.WriteBool(requireConfirmation)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt64(operationId)
-	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, sensorReceiver.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt64(requestId)
-	_data.WriteInt32(cookie)
-	_data.WriteBool(allowBackgroundAuthentication)
-	_data.WriteBool(isForLegacyFingerprintManager)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorPrepareForAuthentication)
+	_compiledDescs := []string{
+		"Z",
+		"Landroid/os/IBinder;",
+		"J",
+		"I",
+		"Landroid/hardware/biometrics/IBiometricSensorReceiver;",
+		"Ljava/lang/String;",
+		"J",
+		"I",
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(requireConfirmation)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt64(operationId)
+		_data.WriteInt32(_identity.UserID)
+		binder.WriteBinderToParcel(ctx, _data, sensorReceiver.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt64(requestId)
+		_data.WriteInt32(cookie)
+		_data.WriteBool(allowBackgroundAuthentication)
+		_data.WriteBool(isForLegacyFingerprintManager)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(requireConfirmation)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 2:
+				_data.WriteInt64(operationId)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, sensorReceiver.AsBinder(), p.Remote.Transport())
+			case 5:
+				_data.WriteString16(_identity.PackageName)
+			case 6:
+				_data.WriteInt64(requestId)
+			case 7:
+				_data.WriteInt32(cookie)
+			case 8:
+				_data.WriteBool(allowBackgroundAuthentication)
+			case 9:
+				_data.WriteBool(isForLegacyFingerprintManager)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorPrepareForAuthentication)
 	if _err != nil {
@@ -228,7 +314,21 @@ func (p *BiometricAuthenticatorProxy) StartPreparedClient(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricAuthenticator)
-	_data.WriteInt32(cookie)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorStartPreparedClient)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cookie)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cookie)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorStartPreparedClient)
 	if _err != nil {
@@ -257,9 +357,29 @@ func (p *BiometricAuthenticatorProxy) CancelAuthenticationFromService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt64(requestId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorCancelAuthenticationFromService)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt64(requestId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt64(requestId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorCancelAuthenticationFromService)
 	if _err != nil {
@@ -287,7 +407,21 @@ func (p *BiometricAuthenticatorProxy) IsHardwareDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricAuthenticator)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorIsHardwareDetected)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorIsHardwareDetected)
 	if _err != nil {
@@ -319,8 +453,25 @@ func (p *BiometricAuthenticatorProxy) HasEnrolledTemplates(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricAuthenticator)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorHasEnrolledTemplates)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorHasEnrolledTemplates)
 	if _err != nil {
@@ -352,7 +503,21 @@ func (p *BiometricAuthenticatorProxy) GetLockoutModeForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricAuthenticator)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorGetLockoutModeForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorGetLockoutModeForUser)
 	if _err != nil {
@@ -384,8 +549,25 @@ func (p *BiometricAuthenticatorProxy) InvalidateAuthenticatorId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricAuthenticator)
-	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorInvalidateAuthenticatorId)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/biometrics/IInvalidationCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorInvalidateAuthenticatorId)
 	if _err != nil {
@@ -413,7 +595,21 @@ func (p *BiometricAuthenticatorProxy) GetAuthenticatorId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricAuthenticator)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorGetAuthenticatorId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorGetAuthenticatorId)
 	if _err != nil {
@@ -446,10 +642,33 @@ func (p *BiometricAuthenticatorProxy) ResetLockout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteByteArray(hardwareAuthToken)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorResetLockout)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteByteArray(hardwareAuthToken)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteByteArray(hardwareAuthToken)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricAuthenticator, MethodIBiometricAuthenticatorResetLockout)
 	if _err != nil {

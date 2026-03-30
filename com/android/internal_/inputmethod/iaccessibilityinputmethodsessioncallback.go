@@ -48,8 +48,25 @@ func (p *AccessibilityInputMethodSessionCallbackProxy) SessionCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInputMethodSessionCallback)
-	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInputMethodSessionCallback, MethodIAccessibilityInputMethodSessionCallbackSessionCreated)
+	_compiledDescs := []string{
+		"Lcom/android/internal/inputmethod/IAccessibilityInputMethodSession;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInputMethodSessionCallback, MethodIAccessibilityInputMethodSessionCallbackSessionCreated)
 	if _err != nil {

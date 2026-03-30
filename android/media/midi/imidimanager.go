@@ -148,7 +148,21 @@ func (p *MidiManagerProxy) GetDevicesForTransport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	_data.WriteInt32(transport)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMidiManager, MethodIMidiManagerGetDevicesForTransport)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(transport)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(transport)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerGetDevicesForTransport)
 	if _err != nil {
@@ -212,8 +226,25 @@ func (p *MidiManagerProxy) RegisterListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMidiManager, MethodIMidiManagerRegisterListener)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/media/midi/IMidiDeviceListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerRegisterListener)
 	if _err != nil {
@@ -241,8 +272,25 @@ func (p *MidiManagerProxy) UnregisterListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMidiManager, MethodIMidiManagerUnregisterListener)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/media/midi/IMidiDeviceListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerUnregisterListener)
 	if _err != nil {
@@ -271,12 +319,35 @@ func (p *MidiManagerProxy) OpenDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMidiManager, MethodIMidiManagerOpenDevice)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/media/midi/MidiDeviceInfo;",
+		"Landroid/media/midi/IMidiDeviceOpenCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerOpenDevice)
 	if _err != nil {
@@ -305,12 +376,35 @@ func (p *MidiManagerProxy) OpenBluetoothDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := bluetoothDevice.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMidiManager, MethodIMidiManagerOpenBluetoothDevice)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/bluetooth/BluetoothDevice;",
+		"Landroid/media/midi/IMidiDeviceOpenCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := bluetoothDevice.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := bluetoothDevice.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerOpenBluetoothDevice)
 	if _err != nil {
@@ -338,8 +432,25 @@ func (p *MidiManagerProxy) CloseDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, deviceToken, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMidiManager, MethodIMidiManagerCloseDevice)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, deviceToken, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, deviceToken, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerCloseDevice)
 	if _err != nil {
@@ -374,31 +485,83 @@ func (p *MidiManagerProxy) RegisterDeviceServer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(numInputPorts)
-	_data.WriteInt32(numOutputPorts)
-	if inputPortNames == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMidiManager, MethodIMidiManagerRegisterDeviceServer)
+	_compiledDescs := []string{
+		"Landroid/media/midi/IMidiDeviceServer;",
+		"I",
+		"I",
+		"[Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(numInputPorts)
+		_data.WriteInt32(numOutputPorts)
+		if inputPortNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(inputPortNames)))
+			for _, _item := range inputPortNames {
+				_data.WriteString16(_item)
+			}
+		}
+		if outputPortNames == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(outputPortNames)))
+			for _, _item := range outputPortNames {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(1)
+		if _err := properties.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(type_)
+		_data.WriteInt32(defaultProtocol)
 	} else {
-		_data.WriteInt32(int32(len(inputPortNames)))
-		for _, _item := range inputPortNames {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(numInputPorts)
+			case 2:
+				_data.WriteInt32(numOutputPorts)
+			case 3:
+				if inputPortNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(inputPortNames)))
+					for _, _item := range inputPortNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 4:
+				if outputPortNames == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(outputPortNames)))
+					for _, _item := range outputPortNames {
+						_data.WriteString16(_item)
+					}
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := properties.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 6:
+				_data.WriteInt32(type_)
+			case 7:
+				_data.WriteInt32(defaultProtocol)
+			}
 		}
 	}
-	if outputPortNames == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(outputPortNames)))
-		for _, _item := range outputPortNames {
-			_data.WriteString16(_item)
-		}
-	}
-	_data.WriteInt32(1)
-	if _err := properties.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(type_)
-	_data.WriteInt32(defaultProtocol)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerRegisterDeviceServer)
 	if _err != nil {
@@ -434,7 +597,21 @@ func (p *MidiManagerProxy) UnregisterDeviceServer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMidiManager, MethodIMidiManagerUnregisterDeviceServer)
+	_compiledDescs := []string{
+		"Landroid/media/midi/IMidiDeviceServer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerUnregisterDeviceServer)
 	if _err != nil {
@@ -463,8 +640,25 @@ func (p *MidiManagerProxy) GetServiceDeviceInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(className)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMidiManager, MethodIMidiManagerGetServiceDeviceInfo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(className)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(className)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerGetServiceDeviceInfo)
 	if _err != nil {
@@ -501,9 +695,26 @@ func (p *MidiManagerProxy) GetDeviceStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	_data.WriteInt32(1)
-	if _err := deviceInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMidiManager, MethodIMidiManagerGetDeviceStatus)
+	_compiledDescs := []string{
+		"Landroid/media/midi/MidiDeviceInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := deviceInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := deviceInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerGetDeviceStatus)
@@ -541,10 +752,30 @@ func (p *MidiManagerProxy) SetDeviceStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := status.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMidiManager, MethodIMidiManagerSetDeviceStatus)
+	_compiledDescs := []string{
+		"Landroid/media/midi/IMidiDeviceServer;",
+		"Landroid/media/midi/MidiDeviceStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := status.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := status.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerSetDeviceStatus)
@@ -574,9 +805,29 @@ func (p *MidiManagerProxy) UpdateTotalBytes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(inputBytes)
-	_data.WriteInt32(outputBytes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMidiManager, MethodIMidiManagerUpdateTotalBytes)
+	_compiledDescs := []string{
+		"Landroid/media/midi/IMidiDeviceServer;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(inputBytes)
+		_data.WriteInt32(outputBytes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(inputBytes)
+			case 2:
+				_data.WriteInt32(outputBytes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerUpdateTotalBytes)
 	if _err != nil {

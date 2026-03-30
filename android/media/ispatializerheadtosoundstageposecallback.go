@@ -47,12 +47,33 @@ func (p *SpatializerHeadToSoundStagePoseCallbackProxy) DispatchPoseChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadToSoundStagePoseCallback)
-	if pose == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializerHeadToSoundStagePoseCallback, MethodISpatializerHeadToSoundStagePoseCallbackDispatchPoseChanged)
+	_compiledDescs := []string{
+		"[F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if pose == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(pose)))
+			for _, _item := range pose {
+				_data.WriteFloat32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(pose)))
-		for _, _item := range pose {
-			_data.WriteFloat32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if pose == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(pose)))
+					for _, _item := range pose {
+						_data.WriteFloat32(_item)
+					}
+				}
+			}
 		}
 	}
 

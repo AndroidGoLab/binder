@@ -161,7 +161,21 @@ func (p *DrmPluginProxy) CloseSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginCloseSession)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginCloseSession)
 	if _err != nil {
@@ -192,10 +206,33 @@ func (p *DrmPluginProxy) Decrypt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(sessionId)
-	_data.WriteByteArray(keyId)
-	_data.WriteByteArray(input)
-	_data.WriteByteArray(iv)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginDecrypt)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+		_data.WriteByteArray(keyId)
+		_data.WriteByteArray(input)
+		_data.WriteByteArray(iv)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			case 1:
+				_data.WriteByteArray(keyId)
+			case 2:
+				_data.WriteByteArray(input)
+			case 3:
+				_data.WriteByteArray(iv)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginDecrypt)
 	if _err != nil {
@@ -230,10 +267,33 @@ func (p *DrmPluginProxy) Encrypt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(sessionId)
-	_data.WriteByteArray(keyId)
-	_data.WriteByteArray(input)
-	_data.WriteByteArray(iv)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginEncrypt)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+		_data.WriteByteArray(keyId)
+		_data.WriteByteArray(input)
+		_data.WriteByteArray(iv)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			case 1:
+				_data.WriteByteArray(keyId)
+			case 2:
+				_data.WriteByteArray(input)
+			case 3:
+				_data.WriteByteArray(iv)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginEncrypt)
 	if _err != nil {
@@ -304,18 +364,54 @@ func (p *DrmPluginProxy) GetKeyRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(scope)
-	_data.WriteByteArray(initData)
-	_data.WriteString16(mimeType)
-	_data.WriteInt32(int32(keyType))
-	if optionalParameters == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetKeyRequest)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"Ljava/lang/String;",
+		"Landroid/hardware/drm/KeyType;",
+		"[Landroid/hardware/drm/KeyValue;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(scope)
+		_data.WriteByteArray(initData)
+		_data.WriteString16(mimeType)
+		_data.WriteInt32(int32(keyType))
+		if optionalParameters == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(optionalParameters)))
+			for _, _item := range optionalParameters {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(optionalParameters)))
-		for _, _item := range optionalParameters {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(scope)
+			case 1:
+				_data.WriteByteArray(initData)
+			case 2:
+				_data.WriteString16(mimeType)
+			case 3:
+				_data.WriteInt32(int32(keyType))
+			case 4:
+				if optionalParameters == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(optionalParameters)))
+					for _, _item := range optionalParameters {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -576,9 +672,26 @@ func (p *DrmPluginProxy) GetOfflineLicenseState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteInt32(1)
-	if _err := keySetId.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetOfflineLicenseState)
+	_compiledDescs := []string{
+		"Landroid/hardware/drm/KeySetId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := keySetId.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := keySetId.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetOfflineLicenseState)
@@ -612,7 +725,21 @@ func (p *DrmPluginProxy) GetPropertyByteArray(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteString16(propertyName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetPropertyByteArray)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(propertyName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(propertyName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetPropertyByteArray)
 	if _err != nil {
@@ -644,7 +771,21 @@ func (p *DrmPluginProxy) GetPropertyString(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteString16(propertyName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetPropertyString)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(propertyName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(propertyName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetPropertyString)
 	if _err != nil {
@@ -677,8 +818,25 @@ func (p *DrmPluginProxy) GetProvisionRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteString16(certificateType)
-	_data.WriteString16(certificateAuthority)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetProvisionRequest)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(certificateType)
+		_data.WriteString16(certificateAuthority)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(certificateType)
+			case 1:
+				_data.WriteString16(certificateAuthority)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetProvisionRequest)
 	if _err != nil {
@@ -715,9 +873,26 @@ func (p *DrmPluginProxy) GetSecureStop(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteInt32(1)
-	if _err := secureStopId.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetSecureStop)
+	_compiledDescs := []string{
+		"Landroid/hardware/drm/SecureStopId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := secureStopId.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := secureStopId.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetSecureStop)
@@ -879,7 +1054,21 @@ func (p *DrmPluginProxy) GetSecurityLevel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetSecurityLevel)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetSecurityLevel)
 	if _err != nil {
@@ -912,7 +1101,21 @@ func (p *DrmPluginProxy) OpenSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteInt32(int32(securityLevel))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginOpenSession)
+	_compiledDescs := []string{
+		"Landroid/hardware/drm/SecurityLevel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(securityLevel))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(securityLevel))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginOpenSession)
 	if _err != nil {
@@ -945,8 +1148,25 @@ func (p *DrmPluginProxy) ProvideKeyResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(scope)
-	_data.WriteByteArray(response)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginProvideKeyResponse)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(scope)
+		_data.WriteByteArray(response)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(scope)
+			case 1:
+				_data.WriteByteArray(response)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginProvideKeyResponse)
 	if _err != nil {
@@ -983,7 +1203,21 @@ func (p *DrmPluginProxy) ProvideProvisionResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(response)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginProvideProvisionResponse)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(response)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(response)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginProvideProvisionResponse)
 	if _err != nil {
@@ -1020,7 +1254,21 @@ func (p *DrmPluginProxy) QueryKeyStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginQueryKeyStatus)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginQueryKeyStatus)
 	if _err != nil {
@@ -1108,9 +1356,26 @@ func (p *DrmPluginProxy) ReleaseSecureStop(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteInt32(1)
-	if _err := secureStopId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginReleaseSecureStop)
+	_compiledDescs := []string{
+		"Landroid/hardware/drm/SecureStopId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := secureStopId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := secureStopId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginReleaseSecureStop)
@@ -1138,9 +1403,26 @@ func (p *DrmPluginProxy) ReleaseSecureStops(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteInt32(1)
-	if _err := ssRelease.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginReleaseSecureStops)
+	_compiledDescs := []string{
+		"Landroid/hardware/drm/OpaqueData;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := ssRelease.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := ssRelease.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginReleaseSecureStops)
@@ -1193,7 +1475,21 @@ func (p *DrmPluginProxy) RemoveKeys(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginRemoveKeys)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginRemoveKeys)
 	if _err != nil {
@@ -1220,9 +1516,26 @@ func (p *DrmPluginProxy) RemoveOfflineLicense(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteInt32(1)
-	if _err := keySetId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginRemoveOfflineLicense)
+	_compiledDescs := []string{
+		"Landroid/hardware/drm/KeySetId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := keySetId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := keySetId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginRemoveOfflineLicense)
@@ -1250,9 +1563,26 @@ func (p *DrmPluginProxy) RemoveSecureStop(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteInt32(1)
-	if _err := secureStopId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginRemoveSecureStop)
+	_compiledDescs := []string{
+		"Landroid/hardware/drm/SecureStopId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := secureStopId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := secureStopId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginRemoveSecureStop)
@@ -1282,8 +1612,25 @@ func (p *DrmPluginProxy) RequiresSecureDecoder(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteString16(mime)
-	_data.WriteInt32(int32(level))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginRequiresSecureDecoder)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/drm/SecurityLevel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(mime)
+		_data.WriteInt32(int32(level))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(mime)
+			case 1:
+				_data.WriteInt32(int32(level))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginRequiresSecureDecoder)
 	if _err != nil {
@@ -1315,10 +1662,30 @@ func (p *DrmPluginProxy) RestoreKeys(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(sessionId)
-	_data.WriteInt32(1)
-	if _err := keySetId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginRestoreKeys)
+	_compiledDescs := []string{
+		"[B",
+		"Landroid/hardware/drm/KeySetId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+		_data.WriteInt32(1)
+		if _err := keySetId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := keySetId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginRestoreKeys)
@@ -1347,8 +1714,25 @@ func (p *DrmPluginProxy) SetCipherAlgorithm(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(sessionId)
-	_data.WriteString16(algorithm)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetCipherAlgorithm)
+	_compiledDescs := []string{
+		"[B",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+		_data.WriteString16(algorithm)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			case 1:
+				_data.WriteString16(algorithm)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetCipherAlgorithm)
 	if _err != nil {
@@ -1375,7 +1759,21 @@ func (p *DrmPluginProxy) SetListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/drm/IDrmPluginListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetListener)
 	if _err != nil {
@@ -1403,8 +1801,25 @@ func (p *DrmPluginProxy) SetMacAlgorithm(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(sessionId)
-	_data.WriteString16(algorithm)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetMacAlgorithm)
+	_compiledDescs := []string{
+		"[B",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+		_data.WriteString16(algorithm)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			case 1:
+				_data.WriteString16(algorithm)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetMacAlgorithm)
 	if _err != nil {
@@ -1432,8 +1847,25 @@ func (p *DrmPluginProxy) SetPlaybackId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(sessionId)
-	_data.WriteString16(playbackId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetPlaybackId)
+	_compiledDescs := []string{
+		"[B",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+		_data.WriteString16(playbackId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			case 1:
+				_data.WriteString16(playbackId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetPlaybackId)
 	if _err != nil {
@@ -1461,8 +1893,25 @@ func (p *DrmPluginProxy) SetPropertyByteArray(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteString16(propertyName)
-	_data.WriteByteArray(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetPropertyByteArray)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(propertyName)
+		_data.WriteByteArray(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(propertyName)
+			case 1:
+				_data.WriteByteArray(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetPropertyByteArray)
 	if _err != nil {
@@ -1490,8 +1939,25 @@ func (p *DrmPluginProxy) SetPropertyString(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteString16(propertyName)
-	_data.WriteString16(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetPropertyString)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(propertyName)
+		_data.WriteString16(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(propertyName)
+			case 1:
+				_data.WriteString16(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetPropertyString)
 	if _err != nil {
@@ -1521,9 +1987,29 @@ func (p *DrmPluginProxy) Sign(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(sessionId)
-	_data.WriteByteArray(keyId)
-	_data.WriteByteArray(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginSign)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+		_data.WriteByteArray(keyId)
+		_data.WriteByteArray(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			case 1:
+				_data.WriteByteArray(keyId)
+			case 2:
+				_data.WriteByteArray(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginSign)
 	if _err != nil {
@@ -1558,10 +2044,33 @@ func (p *DrmPluginProxy) SignRSA(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(sessionId)
-	_data.WriteString16(algorithm)
-	_data.WriteByteArray(message)
-	_data.WriteByteArray(wrappedkey)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginSignRSA)
+	_compiledDescs := []string{
+		"[B",
+		"Ljava/lang/String;",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+		_data.WriteString16(algorithm)
+		_data.WriteByteArray(message)
+		_data.WriteByteArray(wrappedkey)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			case 1:
+				_data.WriteString16(algorithm)
+			case 2:
+				_data.WriteByteArray(message)
+			case 3:
+				_data.WriteByteArray(wrappedkey)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginSignRSA)
 	if _err != nil {
@@ -1596,10 +2105,33 @@ func (p *DrmPluginProxy) Verify(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	_data.WriteByteArray(sessionId)
-	_data.WriteByteArray(keyId)
-	_data.WriteByteArray(message)
-	_data.WriteByteArray(signature)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmPlugin, MethodIDrmPluginVerify)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+		_data.WriteByteArray(keyId)
+		_data.WriteByteArray(message)
+		_data.WriteByteArray(signature)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			case 1:
+				_data.WriteByteArray(keyId)
+			case 2:
+				_data.WriteByteArray(message)
+			case 3:
+				_data.WriteByteArray(signature)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginVerify)
 	if _err != nil {

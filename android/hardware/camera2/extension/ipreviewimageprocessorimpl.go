@@ -59,11 +59,31 @@ func (p *PreviewImageProcessorImplProxy) OnOutputSurface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewImageProcessorImpl)
-	_data.WriteInt32(1)
-	if _err := surface.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplOnOutputSurface)
+	_compiledDescs := []string{
+		"Landroid/view/Surface;",
+		"I",
 	}
-	_data.WriteInt32(imageFormat)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := surface.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(imageFormat)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := surface.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(imageFormat)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplOnOutputSurface)
 	if _err != nil {
@@ -90,9 +110,26 @@ func (p *PreviewImageProcessorImplProxy) OnResolutionUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewImageProcessorImpl)
-	_data.WriteInt32(1)
-	if _err := size.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplOnResolutionUpdate)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera2/extension/Size;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := size.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := size.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplOnResolutionUpdate)
@@ -120,7 +157,21 @@ func (p *PreviewImageProcessorImplProxy) OnImageFormatUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewImageProcessorImpl)
-	_data.WriteInt32(imageFormat)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplOnImageFormatUpdate)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(imageFormat)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(imageFormat)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplOnImageFormatUpdate)
 	if _err != nil {
@@ -150,16 +201,45 @@ func (p *PreviewImageProcessorImplProxy) Process(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewImageProcessorImpl)
-	_data.WriteInt32(1)
-	if _err := image.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplProcess)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera2/extension/ParcelImage;",
+		"Landroid/hardware/camera2/impl/CameraMetadataNative;",
+		"I",
+		"Landroid/hardware/camera2/extension/IProcessResultImpl;",
 	}
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := image.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(sequenceId)
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := image.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(sequenceId)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	_data.WriteInt32(sequenceId)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplProcess)
 	if _err != nil {

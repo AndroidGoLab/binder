@@ -55,9 +55,29 @@ func (p *GnssMeasurementInterfaceProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementInterface)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteBool(enableFullTracking)
-	_data.WriteBool(enableCorrVecOutputs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssMeasurementInterface, MethodIGnssMeasurementInterfaceSetCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/IGnssMeasurementCallback;",
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteBool(enableFullTracking)
+		_data.WriteBool(enableCorrVecOutputs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteBool(enableFullTracking)
+			case 2:
+				_data.WriteBool(enableCorrVecOutputs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssMeasurementInterface, MethodIGnssMeasurementInterfaceSetCallback)
 	if _err != nil {
@@ -110,10 +130,30 @@ func (p *GnssMeasurementInterfaceProxy) SetCallbackWithOptions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementInterface)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssMeasurementInterface, MethodIGnssMeasurementInterfaceSetCallbackWithOptions)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/IGnssMeasurementCallback;",
+		"Landroid/hardware/gnss/IGnssBatching/Options;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssMeasurementInterface, MethodIGnssMeasurementInterfaceSetCallbackWithOptions)

@@ -47,7 +47,21 @@ func (p *SatelliteModemStateCallbackProxy) OnSatelliteModemStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteModemStateCallback)
-	_data.WriteInt32(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatelliteModemStateCallback, MethodISatelliteModemStateCallbackOnSatelliteModemStateChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteModemStateCallback, MethodISatelliteModemStateCallbackOnSatelliteModemStateChanged)
 	if _err != nil {

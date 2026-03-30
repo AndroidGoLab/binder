@@ -112,10 +112,30 @@ func (p *PlatformCompatProxy) ReportChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt64(changeId)
-	_data.WriteInt32(1)
-	if _err := appInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatReportChange)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/content/pm/ApplicationInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(changeId)
+		_data.WriteInt32(1)
+		if _err := appInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(changeId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := appInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatReportChange)
@@ -145,9 +165,29 @@ func (p *PlatformCompatProxy) ReportChangeByPackageName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt64(changeId)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatReportChangeByPackageName)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(changeId)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(changeId)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatReportChangeByPackageName)
 	if _err != nil {
@@ -175,8 +215,25 @@ func (p *PlatformCompatProxy) ReportChangeByUid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt64(changeId)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatReportChangeByUid)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(changeId)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(changeId)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatReportChangeByUid)
 	if _err != nil {
@@ -205,10 +262,30 @@ func (p *PlatformCompatProxy) IsChangeEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt64(changeId)
-	_data.WriteInt32(1)
-	if _err := appInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatIsChangeEnabled)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/content/pm/ApplicationInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(changeId)
+		_data.WriteInt32(1)
+		if _err := appInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(changeId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := appInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatIsChangeEnabled)
@@ -243,9 +320,29 @@ func (p *PlatformCompatProxy) IsChangeEnabledByPackageName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt64(changeId)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatIsChangeEnabledByPackageName)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(changeId)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(changeId)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatIsChangeEnabledByPackageName)
 	if _err != nil {
@@ -278,8 +375,25 @@ func (p *PlatformCompatProxy) IsChangeEnabledByUid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt64(changeId)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatIsChangeEnabledByUid)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(changeId)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(changeId)
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatIsChangeEnabledByUid)
 	if _err != nil {
@@ -311,11 +425,31 @@ func (p *PlatformCompatProxy) SetOverrides(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt32(1)
-	if _err := overrides.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatSetOverrides)
+	_compiledDescs := []string{
+		"Lcom/android/internal/compat/CompatibilityChangeConfig;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := overrides.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := overrides.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatSetOverrides)
 	if _err != nil {
@@ -342,9 +476,26 @@ func (p *PlatformCompatProxy) PutAllOverridesOnReleaseBuilds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt32(1)
-	if _err := overridesByPackage.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatPutAllOverridesOnReleaseBuilds)
+	_compiledDescs := []string{
+		"Lcom/android/internal/compat/CompatibilityOverridesByPackageConfig;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := overridesByPackage.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := overridesByPackage.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatPutAllOverridesOnReleaseBuilds)
@@ -373,11 +524,31 @@ func (p *PlatformCompatProxy) PutOverridesOnReleaseBuilds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt32(1)
-	if _err := overrides.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatPutOverridesOnReleaseBuilds)
+	_compiledDescs := []string{
+		"Lcom/android/internal/compat/CompatibilityOverrideConfig;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := overrides.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := overrides.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatPutOverridesOnReleaseBuilds)
 	if _err != nil {
@@ -405,11 +576,31 @@ func (p *PlatformCompatProxy) SetOverridesForTest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt32(1)
-	if _err := overrides.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatSetOverridesForTest)
+	_compiledDescs := []string{
+		"Lcom/android/internal/compat/CompatibilityChangeConfig;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := overrides.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := overrides.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatSetOverridesForTest)
 	if _err != nil {
@@ -438,8 +629,25 @@ func (p *PlatformCompatProxy) ClearOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt64(changeId)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatClearOverride)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(changeId)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(changeId)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatClearOverride)
 	if _err != nil {
@@ -472,8 +680,25 @@ func (p *PlatformCompatProxy) ClearOverrideForTest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt64(changeId)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatClearOverrideForTest)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(changeId)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(changeId)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatClearOverrideForTest)
 	if _err != nil {
@@ -504,9 +729,26 @@ func (p *PlatformCompatProxy) RemoveAllOverridesOnReleaseBuilds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt32(1)
-	if _err := overridesToRemoveByPackage.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatRemoveAllOverridesOnReleaseBuilds)
+	_compiledDescs := []string{
+		"Lcom/android/internal/compat/CompatibilityOverridesToRemoveByPackageConfig;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := overridesToRemoveByPackage.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := overridesToRemoveByPackage.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatRemoveAllOverridesOnReleaseBuilds)
@@ -535,11 +777,31 @@ func (p *PlatformCompatProxy) RemoveOverridesOnReleaseBuilds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt32(1)
-	if _err := overridesToRemove.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatRemoveOverridesOnReleaseBuilds)
+	_compiledDescs := []string{
+		"Lcom/android/internal/compat/CompatibilityOverridesToRemoveConfig;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := overridesToRemove.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := overridesToRemove.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatRemoveOverridesOnReleaseBuilds)
 	if _err != nil {
@@ -568,8 +830,25 @@ func (p *PlatformCompatProxy) EnableTargetSdkChanges(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(targetSdkVersion)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatEnableTargetSdkChanges)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(targetSdkVersion)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(targetSdkVersion)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatEnableTargetSdkChanges)
 	if _err != nil {
@@ -602,8 +881,25 @@ func (p *PlatformCompatProxy) DisableTargetSdkChanges(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(targetSdkVersion)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatDisableTargetSdkChanges)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(targetSdkVersion)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(targetSdkVersion)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatDisableTargetSdkChanges)
 	if _err != nil {
@@ -634,7 +930,21 @@ func (p *PlatformCompatProxy) ClearOverrides(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatClearOverrides)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatClearOverrides)
 	if _err != nil {
@@ -661,7 +971,21 @@ func (p *PlatformCompatProxy) ClearOverridesForTest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatClearOverridesForTest)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatClearOverridesForTest)
 	if _err != nil {
@@ -689,9 +1013,26 @@ func (p *PlatformCompatProxy) GetAppConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
-	_data.WriteInt32(1)
-	if _err := appInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPlatformCompat, MethodIPlatformCompatGetAppConfig)
+	_compiledDescs := []string{
+		"Landroid/content/pm/ApplicationInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := appInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := appInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatGetAppConfig)

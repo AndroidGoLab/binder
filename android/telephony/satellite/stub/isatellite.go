@@ -114,7 +114,21 @@ func (p *SatelliteProxy) SetSatelliteListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteSetSatelliteListener)
+	_compiledDescs := []string{
+		"Landroid/telephony/satellite/stub/ISatelliteListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteSetSatelliteListener)
 	if _err != nil {
@@ -134,9 +148,29 @@ func (p *SatelliteProxy) RequestSatelliteListeningEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	_data.WriteBool(enable)
-	_data.WriteInt32(timeout)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteRequestSatelliteListeningEnabled)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+		_data.WriteInt32(timeout)
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			case 1:
+				_data.WriteInt32(timeout)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestSatelliteListeningEnabled)
 	if _err != nil {
@@ -155,8 +189,25 @@ func (p *SatelliteProxy) EnableCellularModemWhileSatelliteModeIsOn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	_data.WriteBool(enabled)
-	binder.WriteBinderToParcel(ctx, _data, errorCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteEnableCellularModemWhileSatelliteModeIsOn)
+	_compiledDescs := []string{
+		"Z",
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+		binder.WriteBinderToParcel(ctx, _data, errorCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, errorCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteEnableCellularModemWhileSatelliteModeIsOn)
 	if _err != nil {
@@ -177,10 +228,33 @@ func (p *SatelliteProxy) RequestSatelliteEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	_data.WriteBool(enableSatellite)
-	_data.WriteBool(enableDemoMode)
-	_data.WriteBool(isEmergency)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteRequestSatelliteEnabled)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+		"Z",
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enableSatellite)
+		_data.WriteBool(enableDemoMode)
+		_data.WriteBool(isEmergency)
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enableSatellite)
+			case 1:
+				_data.WriteBool(enableDemoMode)
+			case 2:
+				_data.WriteBool(isEmergency)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestSatelliteEnabled)
 	if _err != nil {
@@ -199,8 +273,25 @@ func (p *SatelliteProxy) RequestIsSatelliteEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteRequestIsSatelliteEnabled)
+	_compiledDescs := []string{
+		"Landroid/telephony/IIntegerConsumer;",
+		"Landroid/telephony/IBooleanConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestIsSatelliteEnabled)
 	if _err != nil {
@@ -219,8 +310,25 @@ func (p *SatelliteProxy) RequestIsSatelliteSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteRequestIsSatelliteSupported)
+	_compiledDescs := []string{
+		"Landroid/telephony/IIntegerConsumer;",
+		"Landroid/telephony/IBooleanConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestIsSatelliteSupported)
 	if _err != nil {
@@ -239,8 +347,25 @@ func (p *SatelliteProxy) RequestSatelliteCapabilities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteRequestSatelliteCapabilities)
+	_compiledDescs := []string{
+		"Landroid/telephony/IIntegerConsumer;",
+		"Landroid/telephony/satellite/stub/ISatelliteCapabilitiesConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestSatelliteCapabilities)
 	if _err != nil {
@@ -258,7 +383,21 @@ func (p *SatelliteProxy) StartSendingSatellitePointingInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteStartSendingSatellitePointingInfo)
+	_compiledDescs := []string{
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteStartSendingSatellitePointingInfo)
 	if _err != nil {
@@ -276,7 +415,21 @@ func (p *SatelliteProxy) StopSendingSatellitePointingInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteStopSendingSatellitePointingInfo)
+	_compiledDescs := []string{
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteStopSendingSatellitePointingInfo)
 	if _err != nil {
@@ -296,9 +449,29 @@ func (p *SatelliteProxy) ProvisionSatelliteService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	_data.WriteString16(token)
-	_data.WriteByteArray(provisionData)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteProvisionSatelliteService)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[B",
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(token)
+		_data.WriteByteArray(provisionData)
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(token)
+			case 1:
+				_data.WriteByteArray(provisionData)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteProvisionSatelliteService)
 	if _err != nil {
@@ -317,8 +490,25 @@ func (p *SatelliteProxy) DeprovisionSatelliteService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	_data.WriteString16(token)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteDeprovisionSatelliteService)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(token)
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(token)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteDeprovisionSatelliteService)
 	if _err != nil {
@@ -337,8 +527,25 @@ func (p *SatelliteProxy) RequestIsSatelliteProvisioned(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteRequestIsSatelliteProvisioned)
+	_compiledDescs := []string{
+		"Landroid/telephony/IIntegerConsumer;",
+		"Landroid/telephony/IBooleanConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestIsSatelliteProvisioned)
 	if _err != nil {
@@ -356,7 +563,21 @@ func (p *SatelliteProxy) PollPendingSatelliteDatagrams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatellitePollPendingSatelliteDatagrams)
+	_compiledDescs := []string{
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatellitePollPendingSatelliteDatagrams)
 	if _err != nil {
@@ -376,12 +597,35 @@ func (p *SatelliteProxy) SendSatelliteDatagram(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	_data.WriteInt32(1)
-	if _err := datagram.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteSendSatelliteDatagram)
+	_compiledDescs := []string{
+		"Landroid/telephony/satellite/stub/SatelliteDatagram;",
+		"Z",
+		"Landroid/telephony/IIntegerConsumer;",
 	}
-	_data.WriteBool(isEmergency)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := datagram.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(isEmergency)
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := datagram.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(isEmergency)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteSendSatelliteDatagram)
 	if _err != nil {
@@ -400,8 +644,25 @@ func (p *SatelliteProxy) RequestSatelliteModemState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteRequestSatelliteModemState)
+	_compiledDescs := []string{
+		"Landroid/telephony/IIntegerConsumer;",
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestSatelliteModemState)
 	if _err != nil {
@@ -420,8 +681,25 @@ func (p *SatelliteProxy) RequestTimeForNextSatelliteVisibility(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteRequestTimeForNextSatelliteVisibility)
+	_compiledDescs := []string{
+		"Landroid/telephony/IIntegerConsumer;",
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestTimeForNextSatelliteVisibility)
 	if _err != nil {
@@ -442,24 +720,61 @@ func (p *SatelliteProxy) SetSatellitePlmn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	_data.WriteInt32(simSlot)
-	if carrierPlmnList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteSetSatellitePlmn)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+		"Ljava/util/List;",
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(simSlot)
+		if carrierPlmnList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(carrierPlmnList)))
+			for _, _item := range carrierPlmnList {
+				_data.WriteString16(_item)
+			}
+		}
+		if allSatellitePlmnList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(allSatellitePlmnList)))
+			for _, _item := range allSatellitePlmnList {
+				_data.WriteString16(_item)
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(carrierPlmnList)))
-		for _, _item := range carrierPlmnList {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(simSlot)
+			case 1:
+				if carrierPlmnList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(carrierPlmnList)))
+					for _, _item := range carrierPlmnList {
+						_data.WriteString16(_item)
+					}
+				}
+			case 2:
+				if allSatellitePlmnList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(allSatellitePlmnList)))
+					for _, _item := range allSatellitePlmnList {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			}
 		}
 	}
-	if allSatellitePlmnList == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(allSatellitePlmnList)))
-		for _, _item := range allSatellitePlmnList {
-			_data.WriteString16(_item)
-		}
-	}
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteSetSatellitePlmn)
 	if _err != nil {
@@ -479,9 +794,29 @@ func (p *SatelliteProxy) SetSatelliteEnabledForCarrier(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	_data.WriteInt32(simSlot)
-	_data.WriteBool(satelliteEnabled)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteSetSatelliteEnabledForCarrier)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(simSlot)
+		_data.WriteBool(satelliteEnabled)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(simSlot)
+			case 1:
+				_data.WriteBool(satelliteEnabled)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteSetSatelliteEnabledForCarrier)
 	if _err != nil {
@@ -501,9 +836,29 @@ func (p *SatelliteProxy) RequestIsSatelliteEnabledForCarrier(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	_data.WriteInt32(simSlot)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteRequestIsSatelliteEnabledForCarrier)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/IIntegerConsumer;",
+		"Landroid/telephony/IBooleanConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(simSlot)
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(simSlot)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestIsSatelliteEnabledForCarrier)
 	if _err != nil {
@@ -522,8 +877,25 @@ func (p *SatelliteProxy) RequestSignalStrength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteRequestSignalStrength)
+	_compiledDescs := []string{
+		"Landroid/telephony/IIntegerConsumer;",
+		"Landroid/telephony/satellite/stub/INtnSignalStrengthConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestSignalStrength)
 	if _err != nil {
@@ -541,7 +913,21 @@ func (p *SatelliteProxy) StartSendingNtnSignalStrength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteStartSendingNtnSignalStrength)
+	_compiledDescs := []string{
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteStartSendingNtnSignalStrength)
 	if _err != nil {
@@ -559,7 +945,21 @@ func (p *SatelliteProxy) StopSendingNtnSignalStrength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteStopSendingNtnSignalStrength)
+	_compiledDescs := []string{
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteStopSendingNtnSignalStrength)
 	if _err != nil {
@@ -577,7 +977,21 @@ func (p *SatelliteProxy) AbortSendingSatelliteDatagrams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatellite, MethodISatelliteAbortSendingSatelliteDatagrams)
+	_compiledDescs := []string{
+		"Landroid/telephony/IIntegerConsumer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteAbortSendingSatelliteDatagrams)
 	if _err != nil {

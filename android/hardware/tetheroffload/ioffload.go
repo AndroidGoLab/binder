@@ -74,9 +74,29 @@ func (p *OffloadProxy) InitOffload(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
-	_data.WriteParcelFileDescriptor(fd1)
-	_data.WriteParcelFileDescriptor(fd2)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOffload, MethodIOffloadInitOffload)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/hardware/tetheroffload/ITetheringOffloadCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(fd1)
+		_data.WriteParcelFileDescriptor(fd2)
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(fd1)
+			case 1:
+				_data.WriteParcelFileDescriptor(fd2)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOffload, MethodIOffloadInitOffload)
 	if _err != nil {
@@ -128,12 +148,33 @@ func (p *OffloadProxy) SetLocalPrefixes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
-	if prefixes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOffload, MethodIOffloadSetLocalPrefixes)
+	_compiledDescs := []string{
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if prefixes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(prefixes)))
+			for _, _item := range prefixes {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(prefixes)))
-		for _, _item := range prefixes {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if prefixes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(prefixes)))
+					for _, _item := range prefixes {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -163,7 +204,21 @@ func (p *OffloadProxy) GetForwardedStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
-	_data.WriteString16(upstream)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOffload, MethodIOffloadGetForwardedStats)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(upstream)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(upstream)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOffload, MethodIOffloadGetForwardedStats)
 	if _err != nil {
@@ -201,9 +256,29 @@ func (p *OffloadProxy) SetDataWarningAndLimit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
-	_data.WriteString16(upstream)
-	_data.WriteInt64(warningBytes)
-	_data.WriteInt64(limitBytes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOffload, MethodIOffloadSetDataWarningAndLimit)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(upstream)
+		_data.WriteInt64(warningBytes)
+		_data.WriteInt64(limitBytes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(upstream)
+			case 1:
+				_data.WriteInt64(warningBytes)
+			case 2:
+				_data.WriteInt64(limitBytes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOffload, MethodIOffloadSetDataWarningAndLimit)
 	if _err != nil {
@@ -233,15 +308,45 @@ func (p *OffloadProxy) SetUpstreamParameters(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
-	_data.WriteString16(iface)
-	_data.WriteString16(v4Addr)
-	_data.WriteString16(v4Gw)
-	if v6Gws == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOffload, MethodIOffloadSetUpstreamParameters)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iface)
+		_data.WriteString16(v4Addr)
+		_data.WriteString16(v4Gw)
+		if v6Gws == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(v6Gws)))
+			for _, _item := range v6Gws {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(v6Gws)))
-		for _, _item := range v6Gws {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iface)
+			case 1:
+				_data.WriteString16(v4Addr)
+			case 2:
+				_data.WriteString16(v4Gw)
+			case 3:
+				if v6Gws == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(v6Gws)))
+					for _, _item := range v6Gws {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -271,8 +376,25 @@ func (p *OffloadProxy) AddDownstream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
-	_data.WriteString16(iface)
-	_data.WriteString16(prefix)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOffload, MethodIOffloadAddDownstream)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iface)
+		_data.WriteString16(prefix)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iface)
+			case 1:
+				_data.WriteString16(prefix)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOffload, MethodIOffloadAddDownstream)
 	if _err != nil {
@@ -300,8 +422,25 @@ func (p *OffloadProxy) RemoveDownstream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
-	_data.WriteString16(iface)
-	_data.WriteString16(prefix)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOffload, MethodIOffloadRemoveDownstream)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iface)
+		_data.WriteString16(prefix)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iface)
+			case 1:
+				_data.WriteString16(prefix)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOffload, MethodIOffloadRemoveDownstream)
 	if _err != nil {

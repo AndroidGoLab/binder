@@ -93,7 +93,21 @@ func (p *AidlTestProxy) IntMethod(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
-	_data.WriteInt32(a)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAidlTest, MethodIAidlTestIntMethod)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(a)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(a)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlTest, MethodIAidlTestIntMethod)
 	if _err != nil {
@@ -125,9 +139,26 @@ func (p *AidlTestProxy) ParcelableIn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
-	_data.WriteInt32(1)
-	if _err := p_.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAidlTest, MethodIAidlTestParcelableIn)
+	_compiledDescs := []string{
+		"LAidlTest/TestParcelable;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := p_.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := p_.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlTest, MethodIAidlTestParcelableIn)
@@ -212,9 +243,26 @@ func (p *AidlTestProxy) ParcelableInOut(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
-	_data.WriteInt32(1)
-	if _err := p_.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAidlTest, MethodIAidlTestParcelableInOut)
+	_compiledDescs := []string{
+		"LAidlTest/TestParcelable;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := p_.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := p_.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlTest, MethodIAidlTestParcelableInOut)
@@ -264,18 +312,45 @@ func (p *AidlTestProxy) ListParcelableLonger(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
-	if list == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAidlTest, MethodIAidlTestListParcelableLonger)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if list == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(list)))
+			for _, _item := range list {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+		_data.WriteInt32(index)
 	} else {
-		_data.WriteInt32(int32(len(list)))
-		for _, _item := range list {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if list == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(list)))
+					for _, _item := range list {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(index)
 			}
 		}
 	}
-	_data.WriteInt32(index)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlTest, MethodIAidlTestListParcelableLonger)
 	if _err != nil {
@@ -331,18 +406,45 @@ func (p *AidlTestProxy) ListParcelableShorter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
-	if list == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAidlTest, MethodIAidlTestListParcelableShorter)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if list == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(list)))
+			for _, _item := range list {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+		_data.WriteInt32(index)
 	} else {
-		_data.WriteInt32(int32(len(list)))
-		for _, _item := range list {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if list == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(list)))
+					for _, _item := range list {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(index)
 			}
 		}
 	}
-	_data.WriteInt32(index)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlTest, MethodIAidlTestListParcelableShorter)
 	if _err != nil {
@@ -394,20 +496,51 @@ func (p *AidlTestProxy) BooleanArray(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
-	if a0 == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(a0)))
-		for _, _item := range a0 {
-			_data.WriteBool(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAidlTest, MethodIAidlTestBooleanArray)
+	_compiledDescs := []string{
+		"[Z",
+		"[Z",
 	}
-	if a2 == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if a0 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a0)))
+			for _, _item := range a0 {
+				_data.WriteBool(_item)
+			}
+		}
+		if a2 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a2)))
+			for _, _item := range a2 {
+				_data.WriteBool(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(a2)))
-		for _, _item := range a2 {
-			_data.WriteBool(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if a0 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a0)))
+					for _, _item := range a0 {
+						_data.WriteBool(_item)
+					}
+				}
+			case 1:
+				if a2 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a2)))
+					for _, _item := range a2 {
+						_data.WriteBool(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -488,20 +621,51 @@ func (p *AidlTestProxy) CharArray(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
-	if a0 == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(a0)))
-		for _, _item := range a0 {
-			_data.WriteInt32(int32(_item))
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAidlTest, MethodIAidlTestCharArray)
+	_compiledDescs := []string{
+		"[C",
+		"[C",
 	}
-	if a2 == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if a0 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a0)))
+			for _, _item := range a0 {
+				_data.WriteInt32(int32(_item))
+			}
+		}
+		if a2 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a2)))
+			for _, _item := range a2 {
+				_data.WriteInt32(int32(_item))
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(a2)))
-		for _, _item := range a2 {
-			_data.WriteInt32(int32(_item))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if a0 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a0)))
+					for _, _item := range a0 {
+						_data.WriteInt32(int32(_item))
+					}
+				}
+			case 1:
+				if a2 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a2)))
+					for _, _item := range a2 {
+						_data.WriteInt32(int32(_item))
+					}
+				}
+			}
 		}
 	}
 
@@ -585,20 +749,51 @@ func (p *AidlTestProxy) IntArray(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
-	if a0 == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(a0)))
-		for _, _item := range a0 {
-			_data.WriteInt32(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAidlTest, MethodIAidlTestIntArray)
+	_compiledDescs := []string{
+		"[I",
+		"[I",
 	}
-	if a2 == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if a0 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a0)))
+			for _, _item := range a0 {
+				_data.WriteInt32(_item)
+			}
+		}
+		if a2 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a2)))
+			for _, _item := range a2 {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(a2)))
-		for _, _item := range a2 {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if a0 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a0)))
+					for _, _item := range a0 {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				if a2 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a2)))
+					for _, _item := range a2 {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -679,20 +874,51 @@ func (p *AidlTestProxy) LongArray(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
-	if a0 == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(a0)))
-		for _, _item := range a0 {
-			_data.WriteInt64(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAidlTest, MethodIAidlTestLongArray)
+	_compiledDescs := []string{
+		"[J",
+		"[J",
 	}
-	if a2 == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if a0 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a0)))
+			for _, _item := range a0 {
+				_data.WriteInt64(_item)
+			}
+		}
+		if a2 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a2)))
+			for _, _item := range a2 {
+				_data.WriteInt64(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(a2)))
-		for _, _item := range a2 {
-			_data.WriteInt64(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if a0 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a0)))
+					for _, _item := range a0 {
+						_data.WriteInt64(_item)
+					}
+				}
+			case 1:
+				if a2 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a2)))
+					for _, _item := range a2 {
+						_data.WriteInt64(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -773,20 +999,51 @@ func (p *AidlTestProxy) FloatArray(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
-	if a0 == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(a0)))
-		for _, _item := range a0 {
-			_data.WriteFloat32(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAidlTest, MethodIAidlTestFloatArray)
+	_compiledDescs := []string{
+		"[F",
+		"[F",
 	}
-	if a2 == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if a0 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a0)))
+			for _, _item := range a0 {
+				_data.WriteFloat32(_item)
+			}
+		}
+		if a2 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a2)))
+			for _, _item := range a2 {
+				_data.WriteFloat32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(a2)))
-		for _, _item := range a2 {
-			_data.WriteFloat32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if a0 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a0)))
+					for _, _item := range a0 {
+						_data.WriteFloat32(_item)
+					}
+				}
+			case 1:
+				if a2 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a2)))
+					for _, _item := range a2 {
+						_data.WriteFloat32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -867,20 +1124,51 @@ func (p *AidlTestProxy) DoubleArray(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
-	if a0 == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(a0)))
-		for _, _item := range a0 {
-			_data.WriteFloat64(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAidlTest, MethodIAidlTestDoubleArray)
+	_compiledDescs := []string{
+		"[D",
+		"[D",
 	}
-	if a2 == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if a0 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a0)))
+			for _, _item := range a0 {
+				_data.WriteFloat64(_item)
+			}
+		}
+		if a2 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a2)))
+			for _, _item := range a2 {
+				_data.WriteFloat64(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(a2)))
-		for _, _item := range a2 {
-			_data.WriteFloat64(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if a0 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a0)))
+					for _, _item := range a0 {
+						_data.WriteFloat64(_item)
+					}
+				}
+			case 1:
+				if a2 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a2)))
+					for _, _item := range a2 {
+						_data.WriteFloat64(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -961,20 +1249,51 @@ func (p *AidlTestProxy) StringArray(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
-	if a0 == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(a0)))
-		for _, _item := range a0 {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAidlTest, MethodIAidlTestStringArray)
+	_compiledDescs := []string{
+		"[Ljava/lang/String;",
+		"[Ljava/lang/String;",
 	}
-	if a2 == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if a0 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a0)))
+			for _, _item := range a0 {
+				_data.WriteString16(_item)
+			}
+		}
+		if a2 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a2)))
+			for _, _item := range a2 {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(a2)))
-		for _, _item := range a2 {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if a0 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a0)))
+					for _, _item := range a0 {
+						_data.WriteString16(_item)
+					}
+				}
+			case 1:
+				if a2 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a2)))
+					for _, _item := range a2 {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -1055,25 +1374,62 @@ func (p *AidlTestProxy) ParcelableArray(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
-	if a0 == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(a0)))
-		for _, _item := range a0 {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAidlTest, MethodIAidlTestParcelableArray)
+	_compiledDescs := []string{
+		"[LAidlTest/TestParcelable;",
+		"[LAidlTest/TestParcelable;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if a0 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a0)))
+			for _, _item := range a0 {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
 			}
 		}
-	}
-	if a2 == nil {
-		_data.WriteInt32(-1)
+		if a2 == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(a2)))
+			for _, _item := range a2 {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(a2)))
-		for _, _item := range a2 {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if a0 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a0)))
+					for _, _item := range a0 {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 1:
+				if a2 == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(a2)))
+					for _, _item := range a2 {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}

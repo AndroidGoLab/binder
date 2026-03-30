@@ -69,7 +69,21 @@ func (p *CameraExtensionsProxyServiceProxy) RegisterClient(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceRegisterClient)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceRegisterClient)
 	if _err != nil {
@@ -100,7 +114,21 @@ func (p *CameraExtensionsProxyServiceProxy) UnregisterClient(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceUnregisterClient)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceUnregisterClient)
 	if _err != nil {
@@ -157,7 +185,21 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializeSession)
+	_compiledDescs := []string{
+		"Landroid/hardware/camera2/extension/IInitializeSessionCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializeSession)
 	if _err != nil {
@@ -210,7 +252,21 @@ func (p *CameraExtensionsProxyServiceProxy) InitializePreviewExtension(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
-	_data.WriteInt32(extensionType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializePreviewExtension)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(extensionType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(extensionType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializePreviewExtension)
 	if _err != nil {
@@ -243,7 +299,21 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeImageExtension(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
-	_data.WriteInt32(extensionType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializeImageExtension)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(extensionType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(extensionType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializeImageExtension)
 	if _err != nil {
@@ -276,7 +346,21 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeAdvancedExtension(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
-	_data.WriteInt32(extensionType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializeAdvancedExtension)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(extensionType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(extensionType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializeAdvancedExtension)
 	if _err != nil {

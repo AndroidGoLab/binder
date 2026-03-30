@@ -56,9 +56,29 @@ func (p *GrammaticalInflectionManagerProxy) SetRequestedApplicationGrammaticalGe
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGrammaticalInflectionManager)
-	_data.WriteString16(appPackageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(gender)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGrammaticalInflectionManager, MethodIGrammaticalInflectionManagerSetRequestedApplicationGrammaticalGender)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(appPackageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(gender)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(appPackageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(gender)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGrammaticalInflectionManager, MethodIGrammaticalInflectionManagerSetRequestedApplicationGrammaticalGender)
 	if _err != nil {
@@ -86,8 +106,25 @@ func (p *GrammaticalInflectionManagerProxy) SetSystemWideGrammaticalGender(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGrammaticalInflectionManager)
-	_data.WriteInt32(gender)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGrammaticalInflectionManager, MethodIGrammaticalInflectionManagerSetSystemWideGrammaticalGender)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(gender)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(gender)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGrammaticalInflectionManager, MethodIGrammaticalInflectionManagerSetSystemWideGrammaticalGender)
 	if _err != nil {
@@ -116,11 +153,31 @@ func (p *GrammaticalInflectionManagerProxy) GetSystemGrammaticalGender(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGrammaticalInflectionManager)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGrammaticalInflectionManager, MethodIGrammaticalInflectionManagerGetSystemGrammaticalGender)
+	_compiledDescs := []string{
+		"Landroid/content/AttributionSource;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGrammaticalInflectionManager, MethodIGrammaticalInflectionManagerGetSystemGrammaticalGender)
 	if _err != nil {

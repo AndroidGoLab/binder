@@ -51,7 +51,21 @@ func (p *StreamOutEventCallbackProxy) OnCodecFormatChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOutEventCallback)
-	_data.WriteByteArray(audioMetadata)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamOutEventCallback, MethodIStreamOutEventCallbackOnCodecFormatChanged)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(audioMetadata)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(audioMetadata)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamOutEventCallback, MethodIStreamOutEventCallbackOnCodecFormatChanged)
 	if _err != nil {
@@ -69,12 +83,33 @@ func (p *StreamOutEventCallbackProxy) OnRecommendedLatencyModeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOutEventCallback)
-	if modes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStreamOutEventCallback, MethodIStreamOutEventCallbackOnRecommendedLatencyModeChanged)
+	_compiledDescs := []string{
+		"[Landroid/media/audio/common/AudioLatencyMode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if modes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(modes)))
+			for _, _item := range modes {
+				_data.WritePaddedByte(byte(_item))
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(modes)))
-		for _, _item := range modes {
-			_data.WritePaddedByte(byte(_item))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if modes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(modes)))
+					for _, _item := range modes {
+						_data.WritePaddedByte(byte(_item))
+					}
+				}
+			}
 		}
 	}
 

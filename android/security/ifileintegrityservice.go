@@ -89,8 +89,25 @@ func (p *FileIntegrityServiceProxy) IsAppSourceCertificateTrusted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFileIntegrityService)
-	_data.WriteByteArray(certificateBytes)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFileIntegrityService, MethodIFileIntegrityServiceIsAppSourceCertificateTrusted)
+	_compiledDescs := []string{
+		"[B",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(certificateBytes)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(certificateBytes)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFileIntegrityService, MethodIFileIntegrityServiceIsAppSourceCertificateTrusted)
 	if _err != nil {
@@ -122,7 +139,21 @@ func (p *FileIntegrityServiceProxy) CreateAuthToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFileIntegrityService)
-	_data.WriteParcelFileDescriptor(authFd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFileIntegrityService, MethodIFileIntegrityServiceCreateAuthToken)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(authFd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(authFd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFileIntegrityService, MethodIFileIntegrityServiceCreateAuthToken)
 	if _err != nil {
@@ -157,9 +188,29 @@ func (p *FileIntegrityServiceProxy) SetupFsverity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFileIntegrityService)
-	binder.WriteBinderToParcel(ctx, _data, authToken.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(filePath)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFileIntegrityService, MethodIFileIntegrityServiceSetupFsverity)
+	_compiledDescs := []string{
+		"LIInstalld/IFsveritySetupAuthToken;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, authToken.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(filePath)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, authToken.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(filePath)
+			case 2:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFileIntegrityService, MethodIFileIntegrityServiceSetupFsverity)
 	if _err != nil {

@@ -148,7 +148,21 @@ func (p *PackageInstallerSessionProxy) SetClientProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteFloat32(progress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSetClientProgress)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(progress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(progress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSetClientProgress)
 	if _err != nil {
@@ -175,7 +189,21 @@ func (p *PackageInstallerSessionProxy) AddClientProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteFloat32(progress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAddClientProgress)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(progress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(progress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAddClientProgress)
 	if _err != nil {
@@ -248,9 +276,29 @@ func (p *PackageInstallerSessionProxy) OpenWrite(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteString16(name)
-	_data.WriteInt64(offsetBytes)
-	_data.WriteInt64(lengthBytes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionOpenWrite)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteInt64(offsetBytes)
+		_data.WriteInt64(lengthBytes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteInt64(offsetBytes)
+			case 2:
+				_data.WriteInt64(lengthBytes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionOpenWrite)
 	if _err != nil {
@@ -282,7 +330,21 @@ func (p *PackageInstallerSessionProxy) OpenRead(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionOpenRead)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionOpenRead)
 	if _err != nil {
@@ -316,10 +378,33 @@ func (p *PackageInstallerSessionProxy) Write(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteString16(name)
-	_data.WriteInt64(offsetBytes)
-	_data.WriteInt64(lengthBytes)
-	_data.WriteParcelFileDescriptor(fd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionWrite)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"J",
+		"Landroid/os/ParcelFileDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteInt64(offsetBytes)
+		_data.WriteInt64(lengthBytes)
+		_data.WriteParcelFileDescriptor(fd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteInt64(offsetBytes)
+			case 2:
+				_data.WriteInt64(lengthBytes)
+			case 3:
+				_data.WriteParcelFileDescriptor(fd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionWrite)
 	if _err != nil {
@@ -346,7 +431,21 @@ func (p *PackageInstallerSessionProxy) StageViaHardLink(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteString16(target)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionStageViaHardLink)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(target)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(target)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionStageViaHardLink)
 	if _err != nil {
@@ -375,19 +474,49 @@ func (p *PackageInstallerSessionProxy) SetChecksums(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteString16(name)
-	if checksums == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSetChecksums)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"[Landroid/content/pm/Checksum;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		if checksums == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(checksums)))
+			for _, _item := range checksums {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteByteArray(signature)
 	} else {
-		_data.WriteInt32(int32(len(checksums)))
-		for _, _item := range checksums {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				if checksums == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(checksums)))
+					for _, _item := range checksums {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				_data.WriteByteArray(signature)
 			}
 		}
 	}
-	_data.WriteByteArray(signature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSetChecksums)
 	if _err != nil {
@@ -418,15 +547,45 @@ func (p *PackageInstallerSessionProxy) RequestChecksums(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteString16(name)
-	_data.WriteInt32(optional)
-	_data.WriteInt32(required)
-	if trustedInstallers == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(trustedInstallers)))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRequestChecksums)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Ljava/util/List;",
+		"Landroid/content/pm/IOnChecksumsReadyListener;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, onChecksumsReadyListener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		_data.WriteInt32(optional)
+		_data.WriteInt32(required)
+		if trustedInstallers == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(trustedInstallers)))
+		}
+		binder.WriteBinderToParcel(ctx, _data, onChecksumsReadyListener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				_data.WriteInt32(optional)
+			case 2:
+				_data.WriteInt32(required)
+			case 3:
+				if trustedInstallers == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(trustedInstallers)))
+				}
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, onChecksumsReadyListener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRequestChecksums)
 	if _err != nil {
@@ -453,7 +612,21 @@ func (p *PackageInstallerSessionProxy) RemoveSplit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteString16(splitName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveSplit)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(splitName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(splitName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveSplit)
 	if _err != nil {
@@ -506,11 +679,31 @@ func (p *PackageInstallerSessionProxy) Commit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteInt32(1)
-	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionCommit)
+	_compiledDescs := []string{
+		"Landroid/content/IntentSender;",
+		"Z",
 	}
-	_data.WriteBool(forTransferred)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(forTransferred)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(forTransferred)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionCommit)
 	if _err != nil {
@@ -537,7 +730,21 @@ func (p *PackageInstallerSessionProxy) Transfer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionTransfer)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionTransfer)
 	if _err != nil {
@@ -696,11 +903,37 @@ func (p *PackageInstallerSessionProxy) AddFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteInt32(location)
-	_data.WriteString16(name)
-	_data.WriteInt64(lengthBytes)
-	_data.WriteByteArray(metadata)
-	_data.WriteByteArray(signature)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAddFile)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"J",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(location)
+		_data.WriteString16(name)
+		_data.WriteInt64(lengthBytes)
+		_data.WriteByteArray(metadata)
+		_data.WriteByteArray(signature)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(location)
+			case 1:
+				_data.WriteString16(name)
+			case 2:
+				_data.WriteInt64(lengthBytes)
+			case 3:
+				_data.WriteByteArray(metadata)
+			case 4:
+				_data.WriteByteArray(signature)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAddFile)
 	if _err != nil {
@@ -728,8 +961,25 @@ func (p *PackageInstallerSessionProxy) RemoveFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteInt32(location)
-	_data.WriteString16(name)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveFile)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(location)
+		_data.WriteString16(name)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(location)
+			case 1:
+				_data.WriteString16(name)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveFile)
 	if _err != nil {
@@ -829,7 +1079,21 @@ func (p *PackageInstallerSessionProxy) AddChildSessionId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteInt32(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAddChildSessionId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAddChildSessionId)
 	if _err != nil {
@@ -856,7 +1120,21 @@ func (p *PackageInstallerSessionProxy) RemoveChildSessionId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteInt32(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveChildSessionId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveChildSessionId)
 	if _err != nil {
@@ -974,13 +1252,36 @@ func (p *PackageInstallerSessionProxy) RequestUserPreapproval(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteInt32(1)
-	if _err := details.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRequestUserPreapproval)
+	_compiledDescs := []string{
+		"LPackageInstaller/PreapprovalDetails;",
+		"Landroid/content/IntentSender;",
 	}
-	_data.WriteInt32(1)
-	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := details.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := details.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRequestUserPreapproval)
@@ -1153,9 +1454,26 @@ func (p *PackageInstallerSessionProxy) SetPreVerifiedDomains(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
-	_data.WriteInt32(1)
-	if _err := preVerifiedDomains.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSetPreVerifiedDomains)
+	_compiledDescs := []string{
+		"Landroid/content/pm/verify/domain/DomainSet;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := preVerifiedDomains.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := preVerifiedDomains.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSetPreVerifiedDomains)

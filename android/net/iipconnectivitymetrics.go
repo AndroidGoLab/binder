@@ -60,9 +60,26 @@ func (p *IpConnectivityMetricsProxy) LogEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsLogEvent)
+	_compiledDescs := []string{
+		"Landroid/net/ConnectivityMetricsEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsLogEvent)
@@ -94,7 +111,21 @@ func (p *IpConnectivityMetricsProxy) LogDefaultNetworkValidity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
-	_data.WriteBool(valid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsLogDefaultNetworkValidity)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(valid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(valid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsLogDefaultNetworkValidity)
 	if _err != nil {
@@ -166,8 +197,25 @@ func (p *IpConnectivityMetricsProxy) AddNetdEventCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
-	_data.WriteInt32(callerType)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsAddNetdEventCallback)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/net/INetdEventCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(callerType)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(callerType)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsAddNetdEventCallback)
 	if _err != nil {
@@ -199,7 +247,21 @@ func (p *IpConnectivityMetricsProxy) RemoveNetdEventCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
-	_data.WriteInt32(callerType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsRemoveNetdEventCallback)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(callerType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(callerType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsRemoveNetdEventCallback)
 	if _err != nil {

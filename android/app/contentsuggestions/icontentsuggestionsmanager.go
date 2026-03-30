@@ -76,11 +76,34 @@ func (p *ContentSuggestionsManagerProxy) ProvideContextImage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(1)
-	if _err := imageContextRequestExtras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerProvideContextImage)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(1)
+		if _err := imageContextRequestExtras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(taskId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := imageContextRequestExtras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerProvideContextImage)
@@ -101,14 +124,40 @@ func (p *ContentSuggestionsManagerProxy) ProvideContextBitmap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := bitmap.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerProvideContextBitmap)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/graphics/Bitmap;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(1)
-	if _err := imageContextRequestExtras.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := bitmap.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := imageContextRequestExtras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := bitmap.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := imageContextRequestExtras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerProvideContextBitmap)
@@ -129,12 +178,35 @@ func (p *ContentSuggestionsManagerProxy) SuggestContentSelections(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerSuggestContentSelections)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/app/contentsuggestions/SelectionsRequest;",
+		"Landroid/app/contentsuggestions/ISelectionsCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerSuggestContentSelections)
 	if _err != nil {
@@ -154,12 +226,35 @@ func (p *ContentSuggestionsManagerProxy) ClassifyContentSelections(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerClassifyContentSelections)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/app/contentsuggestions/ClassificationsRequest;",
+		"Landroid/app/contentsuggestions/IClassificationsCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerClassifyContentSelections)
 	if _err != nil {
@@ -179,11 +274,34 @@ func (p *ContentSuggestionsManagerProxy) NotifyInteraction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(requestId)
-	_data.WriteInt32(1)
-	if _err := interaction.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerNotifyInteraction)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(requestId)
+		_data.WriteInt32(1)
+		if _err := interaction.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(requestId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := interaction.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerNotifyInteraction)
@@ -203,8 +321,25 @@ func (p *ContentSuggestionsManagerProxy) IsEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
-	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerIsEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/os/IResultReceiver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerIsEnabled)
 	if _err != nil {
@@ -222,7 +357,21 @@ func (p *ContentSuggestionsManagerProxy) ResetTemporaryService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerResetTemporaryService)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerResetTemporaryService)
 	if _err != nil {
@@ -242,9 +391,29 @@ func (p *ContentSuggestionsManagerProxy) SetTemporaryService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(serviceName)
-	_data.WriteInt32(duration)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerSetTemporaryService)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(serviceName)
+		_data.WriteInt32(duration)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(serviceName)
+			case 2:
+				_data.WriteInt32(duration)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerSetTemporaryService)
 	if _err != nil {
@@ -263,8 +432,25 @@ func (p *ContentSuggestionsManagerProxy) SetDefaultServiceEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerSetDefaultServiceEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentSuggestionsManager, MethodIContentSuggestionsManagerSetDefaultServiceEnabled)
 	if _err != nil {

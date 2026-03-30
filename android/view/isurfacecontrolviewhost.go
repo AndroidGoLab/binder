@@ -62,9 +62,26 @@ func (p *SurfaceControlViewHostProxy) OnConfigurationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
-	_data.WriteInt32(1)
-	if _err := newConfig.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostOnConfigurationChanged)
+	_compiledDescs := []string{
+		"Landroid/content/res/Configuration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := newConfig.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := newConfig.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostOnConfigurationChanged)
@@ -100,13 +117,36 @@ func (p *SurfaceControlViewHostProxy) OnInsetsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
-	_data.WriteInt32(1)
-	if _err := state.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostOnInsetsChanged)
+	_compiledDescs := []string{
+		"Landroid/view/InsetsState;",
+		"Landroid/graphics/Rect;",
 	}
-	_data.WriteInt32(1)
-	if _err := insetFrame.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := state.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := insetFrame.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := state.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := insetFrame.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostOnInsetsChanged)
@@ -156,7 +196,21 @@ func (p *SurfaceControlViewHostProxy) AttachParentInterface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
-	binder.WriteBinderToParcel(ctx, _data, parentInterface.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostAttachParentInterface)
+	_compiledDescs := []string{
+		"Landroid/view/ISurfaceControlViewHostParent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, parentInterface.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, parentInterface.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostAttachParentInterface)
 	if _err != nil {

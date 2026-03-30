@@ -153,9 +153,26 @@ func (p *FilterProxy) Configure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
-	_data.WriteInt32(1)
-	if _err := settings.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFilter, MethodIFilterConfigure)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/DemuxFilterSettings;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := settings.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := settings.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterConfigure)
@@ -183,9 +200,26 @@ func (p *FilterProxy) ConfigureAvStreamType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
-	_data.WriteInt32(1)
-	if _err := avStreamType.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFilter, MethodIFilterConfigureAvStreamType)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/AvStreamType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := avStreamType.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := avStreamType.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterConfigureAvStreamType)
@@ -213,7 +247,21 @@ func (p *FilterProxy) ConfigureIpCid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
-	_data.WriteInt32(ipCid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFilter, MethodIFilterConfigureIpCid)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(ipCid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(ipCid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterConfigureIpCid)
 	if _err != nil {
@@ -240,7 +288,21 @@ func (p *FilterProxy) ConfigureMonitorEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
-	_data.WriteInt32(monitorEventTypes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFilter, MethodIFilterConfigureMonitorEvent)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(monitorEventTypes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(monitorEventTypes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterConfigureMonitorEvent)
 	if _err != nil {
@@ -445,11 +507,31 @@ func (p *FilterProxy) ReleaseAvHandle(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
-	_data.WriteInt32(1)
-	if _err := avMemory.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFilter, MethodIFilterReleaseAvHandle)
+	_compiledDescs := []string{
+		"Landroid/hardware/common/NativeHandle;",
+		"J",
 	}
-	_data.WriteInt64(avDataId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := avMemory.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt64(avDataId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := avMemory.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt64(avDataId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterReleaseAvHandle)
 	if _err != nil {
@@ -476,7 +558,21 @@ func (p *FilterProxy) SetDataSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
-	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFilter, MethodIFilterSetDataSource)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/IFilter;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterSetDataSource)
 	if _err != nil {
@@ -503,9 +599,26 @@ func (p *FilterProxy) SetDelayHint(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
-	_data.WriteInt32(1)
-	if _err := hint.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFilter, MethodIFilterSetDelayHint)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/FilterDelayHint;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := hint.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := hint.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterSetDelayHint)

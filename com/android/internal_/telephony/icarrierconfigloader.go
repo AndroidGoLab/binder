@@ -68,8 +68,25 @@ func (p *CarrierConfigLoaderProxy) GetConfigForSubId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderGetConfigForSubId)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderGetConfigForSubId)
 	if _err != nil {
@@ -107,9 +124,29 @@ func (p *CarrierConfigLoaderProxy) GetConfigForSubIdWithFeature(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderGetConfigForSubIdWithFeature)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderGetConfigForSubIdWithFeature)
 	if _err != nil {
@@ -147,12 +184,35 @@ func (p *CarrierConfigLoaderProxy) OverrideConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := overrides.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderOverrideConfig)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/PersistableBundle;",
+		"Z",
 	}
-	_data.WriteBool(persistent)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(1)
+		if _err := overrides.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(persistent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := overrides.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteBool(persistent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderOverrideConfig)
 	if _err != nil {
@@ -179,7 +239,21 @@ func (p *CarrierConfigLoaderProxy) NotifyConfigChangedForSubId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderNotifyConfigChangedForSubId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderNotifyConfigChangedForSubId)
 	if _err != nil {
@@ -207,8 +281,25 @@ func (p *CarrierConfigLoaderProxy) UpdateConfigForPhoneId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
-	_data.WriteInt32(phoneId)
-	_data.WriteString16(simState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderUpdateConfigForPhoneId)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(phoneId)
+		_data.WriteString16(simState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(phoneId)
+			case 1:
+				_data.WriteString16(simState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderUpdateConfigForPhoneId)
 	if _err != nil {
@@ -268,15 +359,45 @@ func (p *CarrierConfigLoaderProxy) GetConfigSubsetForSubIdWithFeature(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteString16(_identity.AttributionTag)
-	if carrierConfigs == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderGetConfigSubsetForSubIdWithFeature)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteString16(_identity.AttributionTag)
+		if carrierConfigs == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(carrierConfigs)))
+			for _, _item := range carrierConfigs {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(carrierConfigs)))
-		for _, _item := range carrierConfigs {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				if carrierConfigs == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(carrierConfigs)))
+					for _, _item := range carrierConfigs {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 

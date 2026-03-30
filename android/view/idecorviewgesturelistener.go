@@ -48,8 +48,25 @@ func (p *DecorViewGestureListenerProxy) OnInterceptionChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDecorViewGestureListener)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
-	_data.WriteBool(intercepted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDecorViewGestureListener, MethodIDecorViewGestureListenerOnInterceptionChanged)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+		_data.WriteBool(intercepted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+			case 1:
+				_data.WriteBool(intercepted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDecorViewGestureListener, MethodIDecorViewGestureListenerOnInterceptionChanged)
 	if _err != nil {

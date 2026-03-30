@@ -48,8 +48,25 @@ func (p *GnssNmeaListenerProxy) OnNmeaReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssNmeaListener)
-	_data.WriteInt64(timestamp)
-	_data.WriteString16(nmea)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssNmeaListener, MethodIGnssNmeaListenerOnNmeaReceived)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(timestamp)
+		_data.WriteString16(nmea)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(timestamp)
+			case 1:
+				_data.WriteString16(nmea)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssNmeaListener, MethodIGnssNmeaListenerOnNmeaReceived)
 	if _err != nil {

@@ -56,19 +56,54 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyAttestation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttestationVerificationManagerService)
-	_data.WriteInt32(1)
-	if _err := profile.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAttestationVerificationManagerService, MethodIAttestationVerificationManagerServiceVerifyAttestation)
+	_compiledDescs := []string{
+		"Landroid/security/attestationverification/AttestationProfile;",
+		"I",
+		"Landroid/os/Bundle;",
+		"[B",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(localBindingType)
-	_data.WriteInt32(1)
-	if _err := requirements.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteByteArray(attestation)
-	_data.WriteInt32(1)
-	if _err := resultCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := profile.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(localBindingType)
+		_data.WriteInt32(1)
+		if _err := requirements.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteByteArray(attestation)
+		_data.WriteInt32(1)
+		if _err := resultCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := profile.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(localBindingType)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := requirements.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteByteArray(attestation)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := resultCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttestationVerificationManagerService, MethodIAttestationVerificationManagerServiceVerifyAttestation)
@@ -89,17 +124,46 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttestationVerificationManagerService)
-	_data.WriteInt32(1)
-	if _err := token.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAttestationVerificationManagerService, MethodIAttestationVerificationManagerServiceVerifyToken)
+	_compiledDescs := []string{
+		"Landroid/security/attestationverification/VerificationToken;",
+		"Landroid/os/ParcelDuration;",
+		"Lcom/android/internal/infra/AndroidFuture;",
 	}
-	_data.WriteInt32(1)
-	if _err := maximumTokenAge.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := resultCallback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := token.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := maximumTokenAge.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := resultCallback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := token.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := maximumTokenAge.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := resultCallback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttestationVerificationManagerService, MethodIAttestationVerificationManagerServiceVerifyToken)

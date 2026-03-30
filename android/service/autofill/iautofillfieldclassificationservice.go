@@ -56,58 +56,139 @@ func (p *AutofillFieldClassificationServiceProxy) CalculateScores(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutofillFieldClassificationService)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAutofillFieldClassificationService, MethodIAutofillFieldClassificationServiceCalculateScores)
+	_compiledDescs := []string{
+		"Landroid/os/RemoteCallback;",
+		"Ljava/util/List;",
+		"[Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"Ljava/util/Map;",
+		"Ljava/util/Map;",
 	}
-	if actualValues == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(actualValues)))
-		for _, _item := range actualValues {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if actualValues == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(actualValues)))
+			for _, _item := range actualValues {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
 			}
 		}
-	}
-	if userDataValues == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(userDataValues)))
-		for _, _item := range userDataValues {
-			_data.WriteString16(_item)
+		if userDataValues == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(userDataValues)))
+			for _, _item := range userDataValues {
+				_data.WriteString16(_item)
+			}
 		}
-	}
-	if categoryIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(categoryIds)))
-		for _, _item := range categoryIds {
-			_data.WriteString16(_item)
+		if categoryIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(categoryIds)))
+			for _, _item := range categoryIds {
+				_data.WriteString16(_item)
+			}
 		}
-	}
-	_data.WriteString16(defaultAlgorithm)
-	_data.WriteInt32(1)
-	if _err := defaultArgs.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	if algorithms == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(algorithms)))
-		for _k, _v := range algorithms {
-			_data.WriteString16(_k.(string))
-			_data.WriteString16(_v.(string))
+		_data.WriteString16(defaultAlgorithm)
+		_data.WriteInt32(1)
+		if _err := defaultArgs.MarshalParcel(_data); _err != nil {
+			return _err
 		}
-	}
-	if args == nil {
-		_data.WriteInt32(-1)
+		if algorithms == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(algorithms)))
+			for _k, _v := range algorithms {
+				_data.WriteString16(_k.(string))
+				_data.WriteString16(_v.(string))
+			}
+		}
+		if args == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(args)))
+			for _k, _v := range args {
+				_data.WriteString16(_k.(string))
+				_data.WriteString16(_v.(string))
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(args)))
-		for _k, _v := range args {
-			_data.WriteString16(_k.(string))
-			_data.WriteString16(_v.(string))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if actualValues == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(actualValues)))
+					for _, _item := range actualValues {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				if userDataValues == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(userDataValues)))
+					for _, _item := range userDataValues {
+						_data.WriteString16(_item)
+					}
+				}
+			case 3:
+				if categoryIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(categoryIds)))
+					for _, _item := range categoryIds {
+						_data.WriteString16(_item)
+					}
+				}
+			case 4:
+				_data.WriteString16(defaultAlgorithm)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := defaultArgs.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				if algorithms == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(algorithms)))
+					for _k, _v := range algorithms {
+						_data.WriteString16(_k.(string))
+						_data.WriteString16(_v.(string))
+					}
+				}
+			case 7:
+				if args == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(args)))
+					for _k, _v := range args {
+						_data.WriteString16(_k.(string))
+						_data.WriteString16(_v.(string))
+					}
+				}
+			}
 		}
 	}
 

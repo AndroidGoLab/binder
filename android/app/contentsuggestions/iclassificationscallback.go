@@ -48,15 +48,42 @@ func (p *ClassificationsCallbackProxy) OnContentClassificationsAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClassificationsCallback)
-	_data.WriteInt32(statusCode)
-	if classifications == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClassificationsCallback, MethodIClassificationsCallbackOnContentClassificationsAvailable)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(statusCode)
+		if classifications == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(classifications)))
+			for _, _item := range classifications {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(classifications)))
-		for _, _item := range classifications {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(statusCode)
+			case 1:
+				if classifications == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(classifications)))
+					for _, _item := range classifications {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

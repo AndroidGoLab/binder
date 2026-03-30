@@ -51,9 +51,26 @@ func (p *PooledGraphicBufferAllocatorProxy) Allocate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPooledGraphicBufferAllocator)
-	_data.WriteInt32(1)
-	if _err := desc.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPooledGraphicBufferAllocator, MethodIPooledGraphicBufferAllocatorAllocate)
+	_compiledDescs := []string{
+		"Landroid/hardware/media/c2/IGraphicBufferAllocator/Description;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := desc.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := desc.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPooledGraphicBufferAllocator, MethodIPooledGraphicBufferAllocatorAllocate)
@@ -91,7 +108,21 @@ func (p *PooledGraphicBufferAllocatorProxy) Deallocate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPooledGraphicBufferAllocator)
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPooledGraphicBufferAllocator, MethodIPooledGraphicBufferAllocatorDeallocate)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPooledGraphicBufferAllocator, MethodIPooledGraphicBufferAllocatorDeallocate)
 	if _err != nil {

@@ -115,9 +115,26 @@ func (p *SuggestionServiceProxy) DismissSuggestion(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISuggestionService)
-	_data.WriteInt32(1)
-	if _err := suggestion.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISuggestionService, MethodISuggestionServiceDismissSuggestion)
+	_compiledDescs := []string{
+		"Landroid/service/settings/suggestions/Suggestion;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := suggestion.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := suggestion.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuggestionService, MethodISuggestionServiceDismissSuggestion)
@@ -145,9 +162,26 @@ func (p *SuggestionServiceProxy) LaunchSuggestion(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISuggestionService)
-	_data.WriteInt32(1)
-	if _err := suggestion.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISuggestionService, MethodISuggestionServiceLaunchSuggestion)
+	_compiledDescs := []string{
+		"Landroid/service/settings/suggestions/Suggestion;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := suggestion.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := suggestion.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuggestionService, MethodISuggestionServiceLaunchSuggestion)

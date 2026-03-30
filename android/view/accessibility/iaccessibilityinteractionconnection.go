@@ -87,31 +87,88 @@ func (p *AccessibilityInteractionConnectionProxy) FindAccessibilityNodeInfoByAcc
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
-	_data.WriteInt64(accessibilityNodeId)
-	_data.WriteInt32(1)
-	if _err := bounds.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFindAccessibilityNodeInfoByAccessibilityId)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/graphics/Region;",
+		"I",
+		"Landroid/view/accessibility/IAccessibilityInteractionConnectionCallback;",
+		"I",
+		"I",
+		"J",
+		"Landroid/view/MagnificationSpec;",
+		"[F",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(flags)
-	_data.WriteInt32(interrogatingPid)
-	_data.WriteInt64(interrogatingTid)
-	_data.WriteInt32(1)
-	if _err := spec.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	if matrixValues == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(matrixValues)))
-		for _, _item := range matrixValues {
-			_data.WriteFloat32(_item)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(accessibilityNodeId)
+		_data.WriteInt32(1)
+		if _err := bounds.MarshalParcel(_data); _err != nil {
+			return _err
 		}
-	}
-	_data.WriteInt32(1)
-	if _err := arguments.MarshalParcel(_data); _err != nil {
-		return _err
+		_data.WriteInt32(interactionId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(flags)
+		_data.WriteInt32(interrogatingPid)
+		_data.WriteInt64(interrogatingTid)
+		_data.WriteInt32(1)
+		if _err := spec.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if matrixValues == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(matrixValues)))
+			for _, _item := range matrixValues {
+				_data.WriteFloat32(_item)
+			}
+		}
+		_data.WriteInt32(1)
+		if _err := arguments.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(accessibilityNodeId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := bounds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(interactionId)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 4:
+				_data.WriteInt32(flags)
+			case 5:
+				_data.WriteInt32(interrogatingPid)
+			case 6:
+				_data.WriteInt64(interrogatingTid)
+			case 7:
+				_data.WriteInt32(1)
+				if _err := spec.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 8:
+				if matrixValues == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(matrixValues)))
+					for _, _item := range matrixValues {
+						_data.WriteFloat32(_item)
+					}
+				}
+			case 9:
+				_data.WriteInt32(1)
+				if _err := arguments.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFindAccessibilityNodeInfoByAccessibilityId)
@@ -139,27 +196,81 @@ func (p *AccessibilityInteractionConnectionProxy) FindAccessibilityNodeInfosByVi
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
-	_data.WriteInt64(accessibilityNodeId)
-	_data.WriteString16(viewId)
-	_data.WriteInt32(1)
-	if _err := bounds.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFindAccessibilityNodeInfosByViewId)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"Landroid/graphics/Region;",
+		"I",
+		"Landroid/view/accessibility/IAccessibilityInteractionConnectionCallback;",
+		"I",
+		"I",
+		"J",
+		"Landroid/view/MagnificationSpec;",
+		"[F",
 	}
-	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(flags)
-	_data.WriteInt32(interrogatingPid)
-	_data.WriteInt64(interrogatingTid)
-	_data.WriteInt32(1)
-	if _err := spec.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	if matrix == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(accessibilityNodeId)
+		_data.WriteString16(viewId)
+		_data.WriteInt32(1)
+		if _err := bounds.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(interactionId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(flags)
+		_data.WriteInt32(interrogatingPid)
+		_data.WriteInt64(interrogatingTid)
+		_data.WriteInt32(1)
+		if _err := spec.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if matrix == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(matrix)))
+			for _, _item := range matrix {
+				_data.WriteFloat32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(matrix)))
-		for _, _item := range matrix {
-			_data.WriteFloat32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(accessibilityNodeId)
+			case 1:
+				_data.WriteString16(viewId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := bounds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(interactionId)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 5:
+				_data.WriteInt32(flags)
+			case 6:
+				_data.WriteInt32(interrogatingPid)
+			case 7:
+				_data.WriteInt64(interrogatingTid)
+			case 8:
+				_data.WriteInt32(1)
+				if _err := spec.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 9:
+				if matrix == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(matrix)))
+					for _, _item := range matrix {
+						_data.WriteFloat32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -188,27 +299,81 @@ func (p *AccessibilityInteractionConnectionProxy) FindAccessibilityNodeInfosByTe
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
-	_data.WriteInt64(accessibilityNodeId)
-	_data.WriteString16(text)
-	_data.WriteInt32(1)
-	if _err := bounds.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFindAccessibilityNodeInfosByText)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+		"Landroid/graphics/Region;",
+		"I",
+		"Landroid/view/accessibility/IAccessibilityInteractionConnectionCallback;",
+		"I",
+		"I",
+		"J",
+		"Landroid/view/MagnificationSpec;",
+		"[F",
 	}
-	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(flags)
-	_data.WriteInt32(interrogatingPid)
-	_data.WriteInt64(interrogatingTid)
-	_data.WriteInt32(1)
-	if _err := spec.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	if matrixValues == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(accessibilityNodeId)
+		_data.WriteString16(text)
+		_data.WriteInt32(1)
+		if _err := bounds.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(interactionId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(flags)
+		_data.WriteInt32(interrogatingPid)
+		_data.WriteInt64(interrogatingTid)
+		_data.WriteInt32(1)
+		if _err := spec.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if matrixValues == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(matrixValues)))
+			for _, _item := range matrixValues {
+				_data.WriteFloat32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(matrixValues)))
-		for _, _item := range matrixValues {
-			_data.WriteFloat32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(accessibilityNodeId)
+			case 1:
+				_data.WriteString16(text)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := bounds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(interactionId)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 5:
+				_data.WriteInt32(flags)
+			case 6:
+				_data.WriteInt32(interrogatingPid)
+			case 7:
+				_data.WriteInt64(interrogatingTid)
+			case 8:
+				_data.WriteInt32(1)
+				if _err := spec.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 9:
+				if matrixValues == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(matrixValues)))
+					for _, _item := range matrixValues {
+						_data.WriteFloat32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -237,27 +402,81 @@ func (p *AccessibilityInteractionConnectionProxy) FindFocus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
-	_data.WriteInt64(accessibilityNodeId)
-	_data.WriteInt32(focusType)
-	_data.WriteInt32(1)
-	if _err := bounds.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFindFocus)
+	_compiledDescs := []string{
+		"J",
+		"I",
+		"Landroid/graphics/Region;",
+		"I",
+		"Landroid/view/accessibility/IAccessibilityInteractionConnectionCallback;",
+		"I",
+		"I",
+		"J",
+		"Landroid/view/MagnificationSpec;",
+		"[F",
 	}
-	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(flags)
-	_data.WriteInt32(interrogatingPid)
-	_data.WriteInt64(interrogatingTid)
-	_data.WriteInt32(1)
-	if _err := spec.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	if matrixValues == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(accessibilityNodeId)
+		_data.WriteInt32(focusType)
+		_data.WriteInt32(1)
+		if _err := bounds.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(interactionId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(flags)
+		_data.WriteInt32(interrogatingPid)
+		_data.WriteInt64(interrogatingTid)
+		_data.WriteInt32(1)
+		if _err := spec.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if matrixValues == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(matrixValues)))
+			for _, _item := range matrixValues {
+				_data.WriteFloat32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(matrixValues)))
-		for _, _item := range matrixValues {
-			_data.WriteFloat32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(accessibilityNodeId)
+			case 1:
+				_data.WriteInt32(focusType)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := bounds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(interactionId)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 5:
+				_data.WriteInt32(flags)
+			case 6:
+				_data.WriteInt32(interrogatingPid)
+			case 7:
+				_data.WriteInt64(interrogatingTid)
+			case 8:
+				_data.WriteInt32(1)
+				if _err := spec.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 9:
+				if matrixValues == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(matrixValues)))
+					for _, _item := range matrixValues {
+						_data.WriteFloat32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -286,27 +505,81 @@ func (p *AccessibilityInteractionConnectionProxy) FocusSearch(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
-	_data.WriteInt64(accessibilityNodeId)
-	_data.WriteInt32(direction)
-	_data.WriteInt32(1)
-	if _err := bounds.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFocusSearch)
+	_compiledDescs := []string{
+		"J",
+		"I",
+		"Landroid/graphics/Region;",
+		"I",
+		"Landroid/view/accessibility/IAccessibilityInteractionConnectionCallback;",
+		"I",
+		"I",
+		"J",
+		"Landroid/view/MagnificationSpec;",
+		"[F",
 	}
-	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(flags)
-	_data.WriteInt32(interrogatingPid)
-	_data.WriteInt64(interrogatingTid)
-	_data.WriteInt32(1)
-	if _err := spec.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	if matrixValues == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(accessibilityNodeId)
+		_data.WriteInt32(direction)
+		_data.WriteInt32(1)
+		if _err := bounds.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(interactionId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(flags)
+		_data.WriteInt32(interrogatingPid)
+		_data.WriteInt64(interrogatingTid)
+		_data.WriteInt32(1)
+		if _err := spec.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if matrixValues == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(matrixValues)))
+			for _, _item := range matrixValues {
+				_data.WriteFloat32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(matrixValues)))
-		for _, _item := range matrixValues {
-			_data.WriteFloat32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(accessibilityNodeId)
+			case 1:
+				_data.WriteInt32(direction)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := bounds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(interactionId)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 5:
+				_data.WriteInt32(flags)
+			case 6:
+				_data.WriteInt32(interrogatingPid)
+			case 7:
+				_data.WriteInt64(interrogatingTid)
+			case 8:
+				_data.WriteInt32(1)
+				if _err := spec.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 9:
+				if matrixValues == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(matrixValues)))
+					for _, _item := range matrixValues {
+						_data.WriteFloat32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -333,17 +606,55 @@ func (p *AccessibilityInteractionConnectionProxy) PerformAccessibilityAction(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
-	_data.WriteInt64(accessibilityNodeId)
-	_data.WriteInt32(action)
-	_data.WriteInt32(1)
-	if _err := arguments.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionPerformAccessibilityAction)
+	_compiledDescs := []string{
+		"J",
+		"I",
+		"Landroid/os/Bundle;",
+		"I",
+		"Landroid/view/accessibility/IAccessibilityInteractionConnectionCallback;",
+		"I",
+		"I",
+		"J",
 	}
-	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(flags)
-	_data.WriteInt32(interrogatingPid)
-	_data.WriteInt64(interrogatingTid)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(accessibilityNodeId)
+		_data.WriteInt32(action)
+		_data.WriteInt32(1)
+		if _err := arguments.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(interactionId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(flags)
+		_data.WriteInt32(interrogatingPid)
+		_data.WriteInt64(interrogatingTid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(accessibilityNodeId)
+			case 1:
+				_data.WriteInt32(action)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := arguments.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(interactionId)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 5:
+				_data.WriteInt32(flags)
+			case 6:
+				_data.WriteInt32(interrogatingPid)
+			case 7:
+				_data.WriteInt64(interrogatingTid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionPerformAccessibilityAction)
 	if _err != nil {
@@ -395,12 +706,35 @@ func (p *AccessibilityInteractionConnectionProxy) TakeScreenshotOfWindow(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
-	_data.WriteInt32(interactionId)
-	_data.WriteInt32(1)
-	if _err := listener.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionTakeScreenshotOfWindow)
+	_compiledDescs := []string{
+		"I",
+		"LScreenCapture/ScreenCaptureListener;",
+		"Landroid/view/accessibility/IAccessibilityInteractionConnectionCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(interactionId)
+		_data.WriteInt32(1)
+		if _err := listener.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(interactionId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := listener.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionTakeScreenshotOfWindow)
 	if _err != nil {
@@ -420,12 +754,35 @@ func (p *AccessibilityInteractionConnectionProxy) AttachAccessibilityOverlayToWi
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
-	_data.WriteInt32(1)
-	if _err := sc.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionAttachAccessibilityOverlayToWindow)
+	_compiledDescs := []string{
+		"Landroid/view/SurfaceControl;",
+		"I",
+		"Landroid/view/accessibility/IAccessibilityInteractionConnectionCallback;",
 	}
-	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sc.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(interactionId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sc.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(interactionId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionAttachAccessibilityOverlayToWindow)
 	if _err != nil {

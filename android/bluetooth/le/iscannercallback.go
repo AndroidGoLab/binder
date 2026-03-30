@@ -60,8 +60,25 @@ func (p *ScannerCallbackProxy) OnScannerRegistered(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScannerCallback)
-	_data.WriteInt32(status)
-	_data.WriteInt32(scannerId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIScannerCallback, MethodIScannerCallbackOnScannerRegistered)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+		_data.WriteInt32(scannerId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			case 1:
+				_data.WriteInt32(scannerId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScannerCallback, MethodIScannerCallbackOnScannerRegistered)
 	if _err != nil {
@@ -79,9 +96,26 @@ func (p *ScannerCallbackProxy) OnScanResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScannerCallback)
-	_data.WriteInt32(1)
-	if _err := scanResult.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIScannerCallback, MethodIScannerCallbackOnScanResult)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/le/ScanResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := scanResult.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := scanResult.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScannerCallback, MethodIScannerCallbackOnScanResult)
@@ -100,14 +134,38 @@ func (p *ScannerCallbackProxy) OnBatchScanResults(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScannerCallback)
-	if batchResults == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIScannerCallback, MethodIScannerCallbackOnBatchScanResults)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if batchResults == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(batchResults)))
+			for _, _item := range batchResults {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(batchResults)))
-		for _, _item := range batchResults {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if batchResults == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(batchResults)))
+					for _, _item := range batchResults {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -129,10 +187,30 @@ func (p *ScannerCallbackProxy) OnFoundOrLost(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScannerCallback)
-	_data.WriteBool(onFound)
-	_data.WriteInt32(1)
-	if _err := scanResult.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIScannerCallback, MethodIScannerCallbackOnFoundOrLost)
+	_compiledDescs := []string{
+		"Z",
+		"Landroid/bluetooth/le/ScanResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(onFound)
+		_data.WriteInt32(1)
+		if _err := scanResult.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(onFound)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := scanResult.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScannerCallback, MethodIScannerCallbackOnFoundOrLost)
@@ -151,7 +229,21 @@ func (p *ScannerCallbackProxy) OnScanManagerErrorCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScannerCallback)
-	_data.WriteInt32(errorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIScannerCallback, MethodIScannerCallbackOnScanManagerErrorCallback)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScannerCallback, MethodIScannerCallbackOnScanManagerErrorCallback)
 	if _err != nil {

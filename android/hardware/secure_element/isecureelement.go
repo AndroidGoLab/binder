@@ -76,7 +76,21 @@ func (p *SecureElementProxy) CloseChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
-	_data.WritePaddedByte(channelNumber)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISecureElement, MethodISecureElementCloseChannel)
+	_compiledDescs := []string{
+		"B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(channelNumber)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(channelNumber)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementCloseChannel)
 	if _err != nil {
@@ -133,7 +147,21 @@ func (p *SecureElementProxy) Init(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
-	binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISecureElement, MethodISecureElementInit)
+	_compiledDescs := []string{
+		"Landroid/hardware/secure_element/ISecureElementCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementInit)
 	if _err != nil {
@@ -192,8 +220,25 @@ func (p *SecureElementProxy) OpenBasicChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
-	_data.WriteByteArray(aid)
-	_data.WritePaddedByte(p2)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISecureElement, MethodISecureElementOpenBasicChannel)
+	_compiledDescs := []string{
+		"[B",
+		"B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(aid)
+		_data.WritePaddedByte(p2)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(aid)
+			case 1:
+				_data.WritePaddedByte(p2)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementOpenBasicChannel)
 	if _err != nil {
@@ -226,8 +271,25 @@ func (p *SecureElementProxy) OpenLogicalChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
-	_data.WriteByteArray(aid)
-	_data.WritePaddedByte(p2)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISecureElement, MethodISecureElementOpenLogicalChannel)
+	_compiledDescs := []string{
+		"[B",
+		"B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(aid)
+		_data.WritePaddedByte(p2)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(aid)
+			case 1:
+				_data.WritePaddedByte(p2)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementOpenLogicalChannel)
 	if _err != nil {
@@ -289,7 +351,21 @@ func (p *SecureElementProxy) Transmit(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISecureElement, MethodISecureElementTransmit)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementTransmit)
 	if _err != nil {

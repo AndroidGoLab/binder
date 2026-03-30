@@ -48,11 +48,31 @@ func (p *DeviceVolumeBehaviorDispatcherProxy) DispatchDeviceVolumeBehaviorChange
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceVolumeBehaviorDispatcher)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDeviceVolumeBehaviorDispatcher, MethodIDeviceVolumeBehaviorDispatcherDispatchDeviceVolumeBehaviorChanged)
+	_compiledDescs := []string{
+		"Landroid/media/AudioDeviceAttributes;",
+		"I",
 	}
-	_data.WriteInt32(deviceVolumeBehavior)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(deviceVolumeBehavior)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(deviceVolumeBehavior)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceVolumeBehaviorDispatcher, MethodIDeviceVolumeBehaviorDispatcherDispatchDeviceVolumeBehaviorChanged)
 	if _err != nil {

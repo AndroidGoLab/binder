@@ -54,7 +54,21 @@ func (p *PinnedTaskListenerProxy) OnMovementBoundsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPinnedTaskListener)
-	_data.WriteBool(fromImeAdjustment)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPinnedTaskListener, MethodIPinnedTaskListenerOnMovementBoundsChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(fromImeAdjustment)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(fromImeAdjustment)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinnedTaskListener, MethodIPinnedTaskListenerOnMovementBoundsChanged)
 	if _err != nil {
@@ -73,8 +87,25 @@ func (p *PinnedTaskListenerProxy) OnImeVisibilityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPinnedTaskListener)
-	_data.WriteBool(imeVisible)
-	_data.WriteInt32(imeHeight)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPinnedTaskListener, MethodIPinnedTaskListenerOnImeVisibilityChanged)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(imeVisible)
+		_data.WriteInt32(imeHeight)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(imeVisible)
+			case 1:
+				_data.WriteInt32(imeHeight)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinnedTaskListener, MethodIPinnedTaskListenerOnImeVisibilityChanged)
 	if _err != nil {
@@ -92,9 +123,26 @@ func (p *PinnedTaskListenerProxy) OnActivityHidden(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPinnedTaskListener)
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPinnedTaskListener, MethodIPinnedTaskListenerOnActivityHidden)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := componentName.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := componentName.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinnedTaskListener, MethodIPinnedTaskListenerOnActivityHidden)

@@ -49,9 +49,29 @@ func (p *DexModuleRegisterCallbackProxy) OnDexModuleRegistered(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDexModuleRegisterCallback)
-	_data.WriteString16(dexModulePath)
-	_data.WriteBool(success)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDexModuleRegisterCallback, MethodIDexModuleRegisterCallbackOnDexModuleRegistered)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(dexModulePath)
+		_data.WriteBool(success)
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(dexModulePath)
+			case 1:
+				_data.WriteBool(success)
+			case 2:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDexModuleRegisterCallback, MethodIDexModuleRegisterCallbackOnDexModuleRegistered)
 	if _err != nil {

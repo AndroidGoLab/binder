@@ -59,9 +59,26 @@ func (p *EvsUltrasonicsArrayProxy) DoneWithDataFrame(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
-	_data.WriteInt32(1)
-	if _err := dataFrameDesc.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArrayDoneWithDataFrame)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/UltrasonicsDataFrameDesc;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := dataFrameDesc.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := dataFrameDesc.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArrayDoneWithDataFrame)
@@ -124,7 +141,21 @@ func (p *EvsUltrasonicsArrayProxy) SetMaxFramesInFlight(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
-	_data.WriteInt32(bufferCount)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArraySetMaxFramesInFlight)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(bufferCount)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(bufferCount)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArraySetMaxFramesInFlight)
 	if _err != nil {
@@ -151,7 +182,21 @@ func (p *EvsUltrasonicsArrayProxy) StartStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
-	binder.WriteBinderToParcel(ctx, _data, stream.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArrayStartStream)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/IEvsUltrasonicsArrayStream;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, stream.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, stream.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArrayStartStream)
 	if _err != nil {

@@ -49,8 +49,25 @@ func (p *BiometricServiceLockoutResetCallbackProxy) OnLockoutReset(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricServiceLockoutResetCallback)
-	_data.WriteInt32(sensorId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricServiceLockoutResetCallback, MethodIBiometricServiceLockoutResetCallbackOnLockoutReset)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IRemoteCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricServiceLockoutResetCallback, MethodIBiometricServiceLockoutResetCallbackOnLockoutReset)
 	if _err != nil {

@@ -78,8 +78,25 @@ func (p *CameraServiceListenerProxy) OnStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
-	_data.WriteInt32(status)
-	_data.WriteString16(cameraId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnStatusChanged)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+		_data.WriteString16(cameraId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			case 1:
+				_data.WriteString16(cameraId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnStatusChanged)
 	if _err != nil {
@@ -99,9 +116,29 @@ func (p *CameraServiceListenerProxy) OnPhysicalCameraStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
-	_data.WriteInt32(status)
-	_data.WriteString16(cameraId)
-	_data.WriteString16(physicalCameraId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnPhysicalCameraStatusChanged)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+		_data.WriteString16(cameraId)
+		_data.WriteString16(physicalCameraId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			case 1:
+				_data.WriteString16(cameraId)
+			case 2:
+				_data.WriteString16(physicalCameraId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnPhysicalCameraStatusChanged)
 	if _err != nil {
@@ -120,8 +157,25 @@ func (p *CameraServiceListenerProxy) OnTorchStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
-	_data.WriteInt32(status)
-	_data.WriteString16(cameraId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnTorchStatusChanged)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+		_data.WriteString16(cameraId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			case 1:
+				_data.WriteString16(cameraId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnTorchStatusChanged)
 	if _err != nil {
@@ -140,8 +194,25 @@ func (p *CameraServiceListenerProxy) OnTorchStrengthLevelChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
-	_data.WriteString16(cameraId)
-	_data.WriteInt32(newTorchStrength)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnTorchStrengthLevelChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+		_data.WriteInt32(newTorchStrength)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			case 1:
+				_data.WriteInt32(newTorchStrength)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnTorchStrengthLevelChanged)
 	if _err != nil {
@@ -176,8 +247,25 @@ func (p *CameraServiceListenerProxy) OnCameraOpened(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
-	_data.WriteString16(cameraId)
-	_data.WriteString16(clientPackageId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnCameraOpened)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+		_data.WriteString16(clientPackageId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			case 1:
+				_data.WriteString16(clientPackageId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnCameraOpened)
 	if _err != nil {
@@ -195,7 +283,21 @@ func (p *CameraServiceListenerProxy) OnCameraClosed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
-	_data.WriteString16(cameraId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnCameraClosed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(cameraId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(cameraId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnCameraClosed)
 	if _err != nil {

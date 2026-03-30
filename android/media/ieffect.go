@@ -126,9 +126,29 @@ func (p *EffectProxy) Command(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
-	_data.WriteInt32(cmdCode)
-	_data.WriteByteArray(cmdData)
-	_data.WriteInt32(maxResponseSize)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEffect, MethodIEffectCommand)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cmdCode)
+		_data.WriteByteArray(cmdData)
+		_data.WriteInt32(maxResponseSize)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cmdCode)
+			case 1:
+				_data.WriteByteArray(cmdData)
+			case 2:
+				_data.WriteInt32(maxResponseSize)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectCommand)
 	if _err != nil {

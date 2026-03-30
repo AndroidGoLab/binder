@@ -106,8 +106,25 @@ func (p *MediaProjectionManagerProxy) HasProjectionPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	_data.WriteInt32(processUid)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerHasProjectionPermission)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(processUid)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(processUid)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerHasProjectionPermission)
 	if _err != nil {
@@ -142,10 +159,33 @@ func (p *MediaProjectionManagerProxy) CreateProjection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	_data.WriteInt32(processUid)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(type_)
-	_data.WriteBool(permanentGrant)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerCreateProjection)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(processUid)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(type_)
+		_data.WriteBool(permanentGrant)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(processUid)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(type_)
+			case 3:
+				_data.WriteBool(permanentGrant)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerCreateProjection)
 	if _err != nil {
@@ -179,8 +219,25 @@ func (p *MediaProjectionManagerProxy) GetProjection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	_data.WriteInt32(processUid)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerGetProjection)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(processUid)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(processUid)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerGetProjection)
 	if _err != nil {
@@ -213,7 +270,21 @@ func (p *MediaProjectionManagerProxy) IsCurrentProjection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerIsCurrentProjection)
+	_compiledDescs := []string{
+		"Landroid/media/projection/IMediaProjection;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerIsCurrentProjection)
 	if _err != nil {
@@ -244,7 +315,21 @@ func (p *MediaProjectionManagerProxy) RequestConsentForInvalidProjection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerRequestConsentForInvalidProjection)
+	_compiledDescs := []string{
+		"Landroid/media/projection/IMediaProjection;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerRequestConsentForInvalidProjection)
 	if _err != nil {
@@ -332,8 +417,25 @@ func (p *MediaProjectionManagerProxy) NotifyActiveProjectionCapturedContentResiz
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	_data.WriteInt32(width)
-	_data.WriteInt32(height)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyActiveProjectionCapturedContentResized)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(width)
+		_data.WriteInt32(height)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(width)
+			case 1:
+				_data.WriteInt32(height)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyActiveProjectionCapturedContentResized)
 	if _err != nil {
@@ -360,7 +462,21 @@ func (p *MediaProjectionManagerProxy) NotifyActiveProjectionCapturedContentVisib
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	_data.WriteBool(isVisible)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyActiveProjectionCapturedContentVisibilityChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isVisible)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isVisible)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyActiveProjectionCapturedContentVisibilityChanged)
 	if _err != nil {
@@ -388,7 +504,21 @@ func (p *MediaProjectionManagerProxy) AddCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerAddCallback)
+	_compiledDescs := []string{
+		"Landroid/media/projection/IMediaProjectionWatcherCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerAddCallback)
 	if _err != nil {
@@ -424,7 +554,21 @@ func (p *MediaProjectionManagerProxy) RemoveCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerRemoveCallback)
+	_compiledDescs := []string{
+		"Landroid/media/projection/IMediaProjectionWatcherCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerRemoveCallback)
 	if _err != nil {
@@ -453,11 +597,31 @@ func (p *MediaProjectionManagerProxy) SetContentRecordingSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	_data.WriteInt32(1)
-	if _err := incomingSession.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerSetContentRecordingSession)
+	_compiledDescs := []string{
+		"Landroid/view/ContentRecordingSession;",
+		"Landroid/media/projection/IMediaProjection;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := incomingSession.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := incomingSession.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerSetContentRecordingSession)
 	if _err != nil {
@@ -489,8 +653,25 @@ func (p *MediaProjectionManagerProxy) SetUserReviewGrantedConsentResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	_data.WriteInt32(int32(consentResult))
-	binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerSetUserReviewGrantedConsentResult)
+	_compiledDescs := []string{
+		"Landroid/media/projection/ReviewGrantedConsentResult;",
+		"Landroid/media/projection/IMediaProjection;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(consentResult))
+		binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(consentResult))
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerSetUserReviewGrantedConsentResult)
 	if _err != nil {
@@ -518,8 +699,25 @@ func (p *MediaProjectionManagerProxy) NotifyPermissionRequestInitiated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	_data.WriteInt32(hostProcessUid)
-	_data.WriteInt32(sessionCreationSource)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyPermissionRequestInitiated)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(hostProcessUid)
+		_data.WriteInt32(sessionCreationSource)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(hostProcessUid)
+			case 1:
+				_data.WriteInt32(sessionCreationSource)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyPermissionRequestInitiated)
 	if _err != nil {
@@ -537,7 +735,21 @@ func (p *MediaProjectionManagerProxy) NotifyPermissionRequestDisplayed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	_data.WriteInt32(hostProcessUid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyPermissionRequestDisplayed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(hostProcessUid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(hostProcessUid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyPermissionRequestDisplayed)
 	if _err != nil {
@@ -555,7 +767,21 @@ func (p *MediaProjectionManagerProxy) NotifyPermissionRequestCancelled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	_data.WriteInt32(hostProcessUid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyPermissionRequestCancelled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(hostProcessUid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(hostProcessUid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyPermissionRequestCancelled)
 	if _err != nil {
@@ -573,7 +799,21 @@ func (p *MediaProjectionManagerProxy) NotifyAppSelectorDisplayed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	_data.WriteInt32(hostProcessUid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyAppSelectorDisplayed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(hostProcessUid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(hostProcessUid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyAppSelectorDisplayed)
 	if _err != nil {
@@ -593,9 +833,29 @@ func (p *MediaProjectionManagerProxy) NotifyWindowingModeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	_data.WriteInt32(contentToRecord)
-	_data.WriteInt32(targetProcessUid)
-	_data.WriteInt32(windowingMode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyWindowingModeChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(contentToRecord)
+		_data.WriteInt32(targetProcessUid)
+		_data.WriteInt32(windowingMode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(contentToRecord)
+			case 1:
+				_data.WriteInt32(targetProcessUid)
+			case 2:
+				_data.WriteInt32(windowingMode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyWindowingModeChanged)
 	if _err != nil {

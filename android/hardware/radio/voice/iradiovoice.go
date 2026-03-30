@@ -161,7 +161,21 @@ func (p *RadioVoiceProxy) AcceptCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceAcceptCall)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceAcceptCall)
 	if _err != nil {
@@ -179,7 +193,21 @@ func (p *RadioVoiceProxy) CancelPendingUssd(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceCancelPendingUssd)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceCancelPendingUssd)
 	if _err != nil {
@@ -197,7 +225,21 @@ func (p *RadioVoiceProxy) Conference(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceConference)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceConference)
 	if _err != nil {
@@ -216,10 +258,30 @@ func (p *RadioVoiceProxy) Dial(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(1)
-	if _err := dialInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceDial)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/voice/Dial;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(1)
+		if _err := dialInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := dialInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceDial)
@@ -244,23 +306,65 @@ func (p *RadioVoiceProxy) EmergencyDial(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(1)
-	if _err := dialInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceEmergencyDial)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/voice/Dial;",
+		"I",
+		"[Ljava/lang/String;",
+		"Landroid/hardware/radio/voice/EmergencyCallRouting;",
+		"Z",
+		"Z",
 	}
-	_data.WriteInt32(categories)
-	if urns == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(1)
+		if _err := dialInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(categories)
+		if urns == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(urns)))
+			for _, _item := range urns {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(int32(routing))
+		_data.WriteBool(hasKnownUserIntentEmergency)
+		_data.WriteBool(isTesting)
 	} else {
-		_data.WriteInt32(int32(len(urns)))
-		for _, _item := range urns {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := dialInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(categories)
+			case 3:
+				if urns == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(urns)))
+					for _, _item := range urns {
+						_data.WriteString16(_item)
+					}
+				}
+			case 4:
+				_data.WriteInt32(int32(routing))
+			case 5:
+				_data.WriteBool(hasKnownUserIntentEmergency)
+			case 6:
+				_data.WriteBool(isTesting)
+			}
 		}
 	}
-	_data.WriteInt32(int32(routing))
-	_data.WriteBool(hasKnownUserIntentEmergency)
-	_data.WriteBool(isTesting)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceEmergencyDial)
 	if _err != nil {
@@ -278,7 +382,21 @@ func (p *RadioVoiceProxy) ExitEmergencyCallbackMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceExitEmergencyCallbackMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceExitEmergencyCallbackMode)
 	if _err != nil {
@@ -296,7 +414,21 @@ func (p *RadioVoiceProxy) ExplicitCallTransfer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceExplicitCallTransfer)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceExplicitCallTransfer)
 	if _err != nil {
@@ -315,10 +447,30 @@ func (p *RadioVoiceProxy) GetCallForwardStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(1)
-	if _err := callInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetCallForwardStatus)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/voice/CallForwardInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(1)
+		if _err := callInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetCallForwardStatus)
@@ -338,8 +490,25 @@ func (p *RadioVoiceProxy) GetCallWaiting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(serviceClass)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetCallWaiting)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(serviceClass)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(serviceClass)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetCallWaiting)
 	if _err != nil {
@@ -357,7 +526,21 @@ func (p *RadioVoiceProxy) GetClip(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetClip)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetClip)
 	if _err != nil {
@@ -375,7 +558,21 @@ func (p *RadioVoiceProxy) GetClir(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetClir)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetClir)
 	if _err != nil {
@@ -393,7 +590,21 @@ func (p *RadioVoiceProxy) GetCurrentCalls(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetCurrentCalls)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetCurrentCalls)
 	if _err != nil {
@@ -411,7 +622,21 @@ func (p *RadioVoiceProxy) GetLastCallFailCause(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetLastCallFailCause)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetLastCallFailCause)
 	if _err != nil {
@@ -429,7 +654,21 @@ func (p *RadioVoiceProxy) GetMute(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetMute)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetMute)
 	if _err != nil {
@@ -447,7 +686,21 @@ func (p *RadioVoiceProxy) GetPreferredVoicePrivacy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetPreferredVoicePrivacy)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetPreferredVoicePrivacy)
 	if _err != nil {
@@ -465,7 +718,21 @@ func (p *RadioVoiceProxy) GetTtyMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetTtyMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetTtyMode)
 	if _err != nil {
@@ -484,8 +751,25 @@ func (p *RadioVoiceProxy) HandleStkCallSetupRequestFromSim(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteBool(accept)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceHandleStkCallSetupRequestFromSim)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteBool(accept)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteBool(accept)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceHandleStkCallSetupRequestFromSim)
 	if _err != nil {
@@ -504,8 +788,25 @@ func (p *RadioVoiceProxy) Hangup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(gsmIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceHangup)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(gsmIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(gsmIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceHangup)
 	if _err != nil {
@@ -523,7 +824,21 @@ func (p *RadioVoiceProxy) HangupForegroundResumeBackground(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceHangupForegroundResumeBackground)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceHangupForegroundResumeBackground)
 	if _err != nil {
@@ -541,7 +856,21 @@ func (p *RadioVoiceProxy) HangupWaitingOrBackground(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceHangupWaitingOrBackground)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceHangupWaitingOrBackground)
 	if _err != nil {
@@ -559,7 +888,21 @@ func (p *RadioVoiceProxy) IsVoNrEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceIsVoNrEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceIsVoNrEnabled)
 	if _err != nil {
@@ -577,7 +920,21 @@ func (p *RadioVoiceProxy) RejectCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceRejectCall)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceRejectCall)
 	if _err != nil {
@@ -614,10 +971,33 @@ func (p *RadioVoiceProxy) SendBurstDtmf(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteString16(dtmf)
-	_data.WriteInt32(on)
-	_data.WriteInt32(off)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceSendBurstDtmf)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteString16(dtmf)
+		_data.WriteInt32(on)
+		_data.WriteInt32(off)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteString16(dtmf)
+			case 2:
+				_data.WriteInt32(on)
+			case 3:
+				_data.WriteInt32(off)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSendBurstDtmf)
 	if _err != nil {
@@ -636,8 +1016,25 @@ func (p *RadioVoiceProxy) SendCdmaFeatureCode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteString16(featureCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceSendCdmaFeatureCode)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteString16(featureCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteString16(featureCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSendCdmaFeatureCode)
 	if _err != nil {
@@ -656,8 +1053,25 @@ func (p *RadioVoiceProxy) SendDtmf(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteString16(s_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceSendDtmf)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteString16(s_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteString16(s_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSendDtmf)
 	if _err != nil {
@@ -676,8 +1090,25 @@ func (p *RadioVoiceProxy) SendUssd(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteString16(ussd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceSendUssd)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteString16(ussd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteString16(ussd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSendUssd)
 	if _err != nil {
@@ -696,8 +1127,25 @@ func (p *RadioVoiceProxy) SeparateConnection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(gsmIndex)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceSeparateConnection)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(gsmIndex)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(gsmIndex)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSeparateConnection)
 	if _err != nil {
@@ -716,10 +1164,30 @@ func (p *RadioVoiceProxy) SetCallForward(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(1)
-	if _err := callInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetCallForward)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/voice/CallForwardInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(1)
+		if _err := callInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetCallForward)
@@ -740,9 +1208,29 @@ func (p *RadioVoiceProxy) SetCallWaiting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteBool(enable)
-	_data.WriteInt32(serviceClass)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetCallWaiting)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteBool(enable)
+		_data.WriteInt32(serviceClass)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteBool(enable)
+			case 2:
+				_data.WriteInt32(serviceClass)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetCallWaiting)
 	if _err != nil {
@@ -761,8 +1249,25 @@ func (p *RadioVoiceProxy) SetClir(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetClir)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetClir)
 	if _err != nil {
@@ -781,8 +1286,25 @@ func (p *RadioVoiceProxy) SetMute(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetMute)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetMute)
 	if _err != nil {
@@ -801,8 +1323,25 @@ func (p *RadioVoiceProxy) SetPreferredVoicePrivacy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetPreferredVoicePrivacy)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetPreferredVoicePrivacy)
 	if _err != nil {
@@ -821,8 +1360,25 @@ func (p *RadioVoiceProxy) SetResponseFunctions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	binder.WriteBinderToParcel(ctx, _data, radioVoiceResponse.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, radioVoiceIndication.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetResponseFunctions)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/voice/IRadioVoiceResponse;",
+		"Landroid/hardware/radio/voice/IRadioVoiceIndication;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, radioVoiceResponse.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, radioVoiceIndication.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, radioVoiceResponse.AsBinder(), p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, radioVoiceIndication.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetResponseFunctions)
 	if _err != nil {
@@ -841,8 +1397,25 @@ func (p *RadioVoiceProxy) SetTtyMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteInt32(int32(mode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetTtyMode)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/voice/TtyMode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteInt32(int32(mode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteInt32(int32(mode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetTtyMode)
 	if _err != nil {
@@ -861,8 +1434,25 @@ func (p *RadioVoiceProxy) SetVoNrEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetVoNrEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetVoNrEnabled)
 	if _err != nil {
@@ -881,8 +1471,25 @@ func (p *RadioVoiceProxy) StartDtmf(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
-	_data.WriteString16(s_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceStartDtmf)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+		_data.WriteString16(s_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			case 1:
+				_data.WriteString16(s_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceStartDtmf)
 	if _err != nil {
@@ -900,7 +1507,21 @@ func (p *RadioVoiceProxy) StopDtmf(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceStopDtmf)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceStopDtmf)
 	if _err != nil {
@@ -918,7 +1539,21 @@ func (p *RadioVoiceProxy) SwitchWaitingOrHoldingAndActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	_data.WriteInt32(serial)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRadioVoice, MethodIRadioVoiceSwitchWaitingOrHoldingAndActive)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serial)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serial)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSwitchWaitingOrHoldingAndActive)
 	if _err != nil {

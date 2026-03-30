@@ -50,10 +50,33 @@ func (p *ForegroundServiceObserverProxy) OnForegroundStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIForegroundServiceObserver)
-	binder.WriteBinderToParcel(ctx, _data, serviceToken, p.Remote.Transport())
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteBool(isForeground)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIForegroundServiceObserver, MethodIForegroundServiceObserverOnForegroundStateChanged)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, serviceToken, p.Remote.Transport())
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteBool(isForeground)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, serviceToken, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteBool(isForeground)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIForegroundServiceObserver, MethodIForegroundServiceObserverOnForegroundStateChanged)
 	if _err != nil {

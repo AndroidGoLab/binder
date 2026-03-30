@@ -50,12 +50,35 @@ func (p *VrListenerProxy) FocusedActivityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVrListener)
-	_data.WriteInt32(1)
-	if _err := component.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVrListener, MethodIVrListenerFocusedActivityChanged)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Z",
+		"I",
 	}
-	_data.WriteBool(running2dInVr)
-	_data.WriteInt32(pid)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := component.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(running2dInVr)
+		_data.WriteInt32(pid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := component.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(running2dInVr)
+			case 2:
+				_data.WriteInt32(pid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrListener, MethodIVrListenerFocusedActivityChanged)
 	if _err != nil {

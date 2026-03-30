@@ -58,12 +58,35 @@ func (p *BluetoothVolumeControlCallbackProxy) OnVolumeOffsetChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothVolumeControlCallback)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnVolumeOffsetChanged)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(instanceId)
-	_data.WriteInt32(volumeOffset)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(instanceId)
+		_data.WriteInt32(volumeOffset)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(instanceId)
+			case 2:
+				_data.WriteInt32(volumeOffset)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnVolumeOffsetChanged)
 	if _err != nil {
@@ -83,12 +106,35 @@ func (p *BluetoothVolumeControlCallbackProxy) OnVolumeOffsetAudioLocationChanged
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothVolumeControlCallback)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnVolumeOffsetAudioLocationChanged)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(instanceId)
-	_data.WriteInt32(audioLocation)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(instanceId)
+		_data.WriteInt32(audioLocation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(instanceId)
+			case 2:
+				_data.WriteInt32(audioLocation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnVolumeOffsetAudioLocationChanged)
 	if _err != nil {
@@ -108,12 +154,35 @@ func (p *BluetoothVolumeControlCallbackProxy) OnVolumeOffsetAudioDescriptionChan
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothVolumeControlCallback)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnVolumeOffsetAudioDescriptionChanged)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"I",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(instanceId)
-	_data.WriteString16(audioDescription)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(instanceId)
+		_data.WriteString16(audioDescription)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(instanceId)
+			case 2:
+				_data.WriteString16(audioDescription)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnVolumeOffsetAudioDescriptionChanged)
 	if _err != nil {
@@ -132,11 +201,31 @@ func (p *BluetoothVolumeControlCallbackProxy) OnDeviceVolumeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothVolumeControlCallback)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnDeviceVolumeChanged)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"I",
 	}
-	_data.WriteInt32(volume)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(volume)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(volume)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnDeviceVolumeChanged)
 	if _err != nil {

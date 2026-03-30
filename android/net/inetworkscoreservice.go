@@ -78,14 +78,38 @@ func (p *NetworkScoreServiceProxy) UpdateScores(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
-	if networks == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceUpdateScores)
+	_compiledDescs := []string{
+		"[Landroid/net/ScoredNetwork;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if networks == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(networks)))
+			for _, _item := range networks {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(networks)))
-		for _, _item := range networks {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if networks == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(networks)))
+					for _, _item := range networks {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -150,7 +174,21 @@ func (p *NetworkScoreServiceProxy) SetActiveScorer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceSetActiveScorer)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceSetActiveScorer)
 	if _err != nil {
@@ -208,9 +246,29 @@ func (p *NetworkScoreServiceProxy) RegisterNetworkScoreCache(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
-	_data.WriteInt32(networkType)
-	binder.WriteBinderToParcel(ctx, _data, scoreCache.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(filterType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceRegisterNetworkScoreCache)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/net/INetworkScoreCache;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(networkType)
+		binder.WriteBinderToParcel(ctx, _data, scoreCache.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(filterType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(networkType)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, scoreCache.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(filterType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceRegisterNetworkScoreCache)
 	if _err != nil {
@@ -238,8 +296,25 @@ func (p *NetworkScoreServiceProxy) UnregisterNetworkScoreCache(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
-	_data.WriteInt32(networkType)
-	binder.WriteBinderToParcel(ctx, _data, scoreCache.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceUnregisterNetworkScoreCache)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/net/INetworkScoreCache;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(networkType)
+		binder.WriteBinderToParcel(ctx, _data, scoreCache.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(networkType)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, scoreCache.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceUnregisterNetworkScoreCache)
 	if _err != nil {
@@ -267,14 +342,38 @@ func (p *NetworkScoreServiceProxy) RequestScores(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
-	if networks == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceRequestScores)
+	_compiledDescs := []string{
+		"[Landroid/net/NetworkKey;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if networks == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(networks)))
+			for _, _item := range networks {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(networks)))
-		for _, _item := range networks {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if networks == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(networks)))
+					for _, _item := range networks {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -309,7 +408,21 @@ func (p *NetworkScoreServiceProxy) IsCallerActiveScorer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
-	_data.WriteInt32(_identity.UID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceIsCallerActiveScorer)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceIsCallerActiveScorer)
 	if _err != nil {

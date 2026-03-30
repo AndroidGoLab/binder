@@ -96,7 +96,21 @@ func (p *GnssCallbackProxy) GnssSetCapabilitiesCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
-	_data.WriteInt32(capabilities)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssCallback, MethodIGnssCallbackGnssSetCapabilitiesCb)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(capabilities)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(capabilities)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssCallback, MethodIGnssCallbackGnssSetCapabilitiesCb)
 	if _err != nil {
@@ -123,7 +137,21 @@ func (p *GnssCallbackProxy) GnssStatusCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
-	_data.WriteInt32(int32(status))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssCallback, MethodIGnssCallbackGnssStatusCb)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/IGnssCallback/GnssStatusValue;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(status))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(status))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssCallback, MethodIGnssCallbackGnssStatusCb)
 	if _err != nil {
@@ -150,14 +178,38 @@ func (p *GnssCallbackProxy) GnssSvStatusCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
-	if svInfoList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssCallback, MethodIGnssCallbackGnssSvStatusCb)
+	_compiledDescs := []string{
+		"[Landroid/hardware/gnss/IGnssCallback/GnssSvInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if svInfoList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(svInfoList)))
+			for _, _item := range svInfoList {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(svInfoList)))
-		for _, _item := range svInfoList {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if svInfoList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(svInfoList)))
+					for _, _item := range svInfoList {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -187,9 +239,26 @@ func (p *GnssCallbackProxy) GnssLocationCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
-	_data.WriteInt32(1)
-	if _err := location.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssCallback, MethodIGnssCallbackGnssLocationCb)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/GnssLocation;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := location.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := location.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssCallback, MethodIGnssCallbackGnssLocationCb)
@@ -218,8 +287,25 @@ func (p *GnssCallbackProxy) GnssNmeaCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
-	_data.WriteInt64(timestamp)
-	_data.WriteString16(nmea)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssCallback, MethodIGnssCallbackGnssNmeaCb)
+	_compiledDescs := []string{
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(timestamp)
+		_data.WriteString16(nmea)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(timestamp)
+			case 1:
+				_data.WriteString16(nmea)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssCallback, MethodIGnssCallbackGnssNmeaCb)
 	if _err != nil {
@@ -296,9 +382,26 @@ func (p *GnssCallbackProxy) GnssSetSystemInfoCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssCallback, MethodIGnssCallbackGnssSetSystemInfoCb)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/IGnssCallback/GnssSystemInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssCallback, MethodIGnssCallbackGnssSetSystemInfoCb)
@@ -352,8 +455,25 @@ func (p *GnssCallbackProxy) GnssRequestLocationCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
-	_data.WriteBool(independentFromGnss)
-	_data.WriteBool(isUserEmergency)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssCallback, MethodIGnssCallbackGnssRequestLocationCb)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(independentFromGnss)
+		_data.WriteBool(isUserEmergency)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(independentFromGnss)
+			case 1:
+				_data.WriteBool(isUserEmergency)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssCallback, MethodIGnssCallbackGnssRequestLocationCb)
 	if _err != nil {
@@ -380,14 +500,38 @@ func (p *GnssCallbackProxy) GnssSetSignalTypeCapabilitiesCb(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
-	if gnssSignalTypes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssCallback, MethodIGnssCallbackGnssSetSignalTypeCapabilitiesCb)
+	_compiledDescs := []string{
+		"[Landroid/hardware/gnss/GnssSignalType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if gnssSignalTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(gnssSignalTypes)))
+			for _, _item := range gnssSignalTypes {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(gnssSignalTypes)))
-		for _, _item := range gnssSignalTypes {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if gnssSignalTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(gnssSignalTypes)))
+					for _, _item := range gnssSignalTypes {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

@@ -48,8 +48,25 @@ func (p *WallpaperVisibilityListenerProxy) OnWallpaperVisibilityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperVisibilityListener)
-	_data.WriteBool(visible)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWallpaperVisibilityListener, MethodIWallpaperVisibilityListenerOnWallpaperVisibilityChanged)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(visible)
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(visible)
+			case 1:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperVisibilityListener, MethodIWallpaperVisibilityListenerOnWallpaperVisibilityChanged)
 	if _err != nil {

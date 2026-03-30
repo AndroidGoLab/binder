@@ -65,11 +65,31 @@ func (p *ActivityControllerProxy) ActivityStarting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityController)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIActivityController, MethodIActivityControllerActivityStarting)
+	_compiledDescs := []string{
+		"Landroid/content/Intent;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(pkg)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityController, MethodIActivityControllerActivityStarting)
 	if _err != nil {
@@ -101,7 +121,21 @@ func (p *ActivityControllerProxy) ActivityResuming(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityController)
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIActivityController, MethodIActivityControllerActivityResuming)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityController, MethodIActivityControllerActivityResuming)
 	if _err != nil {
@@ -138,12 +172,41 @@ func (p *ActivityControllerProxy) AppCrashed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityController)
-	_data.WriteString16(processName)
-	_data.WriteInt32(pid)
-	_data.WriteString16(shortMsg)
-	_data.WriteString16(longMsg)
-	_data.WriteInt64(timeMillis)
-	_data.WriteString16(stackTrace)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIActivityController, MethodIActivityControllerAppCrashed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"J",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(processName)
+		_data.WriteInt32(pid)
+		_data.WriteString16(shortMsg)
+		_data.WriteString16(longMsg)
+		_data.WriteInt64(timeMillis)
+		_data.WriteString16(stackTrace)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(processName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteString16(shortMsg)
+			case 3:
+				_data.WriteString16(longMsg)
+			case 4:
+				_data.WriteInt64(timeMillis)
+			case 5:
+				_data.WriteString16(stackTrace)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityController, MethodIActivityControllerAppCrashed)
 	if _err != nil {
@@ -177,9 +240,29 @@ func (p *ActivityControllerProxy) AppEarlyNotResponding(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityController)
-	_data.WriteString16(processName)
-	_data.WriteInt32(pid)
-	_data.WriteString16(annotation)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIActivityController, MethodIActivityControllerAppEarlyNotResponding)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(processName)
+		_data.WriteInt32(pid)
+		_data.WriteString16(annotation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(processName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteString16(annotation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityController, MethodIActivityControllerAppEarlyNotResponding)
 	if _err != nil {
@@ -213,9 +296,29 @@ func (p *ActivityControllerProxy) AppNotResponding(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityController)
-	_data.WriteString16(processName)
-	_data.WriteInt32(pid)
-	_data.WriteString16(processStats)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIActivityController, MethodIActivityControllerAppNotResponding)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(processName)
+		_data.WriteInt32(pid)
+		_data.WriteString16(processStats)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(processName)
+			case 1:
+				_data.WriteInt32(pid)
+			case 2:
+				_data.WriteString16(processStats)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityController, MethodIActivityControllerAppNotResponding)
 	if _err != nil {
@@ -247,7 +350,21 @@ func (p *ActivityControllerProxy) SystemNotResponding(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityController)
-	_data.WriteString16(msg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIActivityController, MethodIActivityControllerSystemNotResponding)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(msg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(msg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityController, MethodIActivityControllerSystemNotResponding)
 	if _err != nil {

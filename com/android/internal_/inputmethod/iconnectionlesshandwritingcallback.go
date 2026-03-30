@@ -50,7 +50,21 @@ func (p *ConnectionlessHandwritingCallbackProxy) OnResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionlessHandwritingCallback)
-	_data.WriteString16(text)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionlessHandwritingCallback, MethodIConnectionlessHandwritingCallbackOnResult)
+	_compiledDescs := []string{
+		"Ljava/lang/CharSequence;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(text)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(text)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionlessHandwritingCallback, MethodIConnectionlessHandwritingCallbackOnResult)
 	if _err != nil {
@@ -68,7 +82,21 @@ func (p *ConnectionlessHandwritingCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionlessHandwritingCallback)
-	_data.WriteInt32(errorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIConnectionlessHandwritingCallback, MethodIConnectionlessHandwritingCallbackOnError)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionlessHandwritingCallback, MethodIConnectionlessHandwritingCallbackOnError)
 	if _err != nil {

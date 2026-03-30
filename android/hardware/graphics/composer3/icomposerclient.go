@@ -203,8 +203,25 @@ func (p *ComposerClientProxy) CreateLayer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(bufferSlotCount)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientCreateLayer)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt32(bufferSlotCount)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt32(bufferSlotCount)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientCreateLayer)
 	if _err != nil {
@@ -239,10 +256,33 @@ func (p *ComposerClientProxy) CreateVirtualDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt32(width)
-	_data.WriteInt32(height)
-	_data.WriteInt32(int32(formatHint))
-	_data.WriteInt32(outputBufferSlotCount)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientCreateVirtualDisplay)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/hardware/graphics/common/PixelFormat;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(width)
+		_data.WriteInt32(height)
+		_data.WriteInt32(int32(formatHint))
+		_data.WriteInt32(outputBufferSlotCount)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(width)
+			case 1:
+				_data.WriteInt32(height)
+			case 2:
+				_data.WriteInt32(int32(formatHint))
+			case 3:
+				_data.WriteInt32(outputBufferSlotCount)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientCreateVirtualDisplay)
 	if _err != nil {
@@ -279,8 +319,25 @@ func (p *ComposerClientProxy) DestroyLayer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt64(layer)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientDestroyLayer)
+	_compiledDescs := []string{
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt64(layer)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt64(layer)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientDestroyLayer)
 	if _err != nil {
@@ -307,7 +364,21 @@ func (p *ComposerClientProxy) DestroyVirtualDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientDestroyVirtualDisplay)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientDestroyVirtualDisplay)
 	if _err != nil {
@@ -335,14 +406,38 @@ func (p *ComposerClientProxy) ExecuteCommands(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	if commands == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientExecuteCommands)
+	_compiledDescs := []string{
+		"[Landroid/hardware/graphics/composer3/DisplayCommand;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if commands == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(commands)))
+			for _, _item := range commands {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(commands)))
-		for _, _item := range commands {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if commands == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(commands)))
+					for _, _item := range commands {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -409,7 +504,21 @@ func (p *ComposerClientProxy) GetActiveConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetActiveConfig)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetActiveConfig)
 	if _err != nil {
@@ -441,7 +550,21 @@ func (p *ComposerClientProxy) GetColorModes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetColorModes)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetColorModes)
 	if _err != nil {
@@ -487,7 +610,21 @@ func (p *ComposerClientProxy) GetDataspaceSaturationMatrix(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt32(int32(dataspace))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetDataspaceSaturationMatrix)
+	_compiledDescs := []string{
+		"Landroid/hardware/graphics/common/Dataspace;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(dataspace))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(dataspace))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDataspaceSaturationMatrix)
 	if _err != nil {
@@ -534,9 +671,29 @@ func (p *ComposerClientProxy) GetDisplayAttribute(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(config)
-	_data.WriteInt32(int32(attribute))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayAttribute)
+	_compiledDescs := []string{
+		"J",
+		"I",
+		"Landroid/hardware/graphics/composer3/DisplayAttribute;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt32(config)
+		_data.WriteInt32(int32(attribute))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt32(config)
+			case 2:
+				_data.WriteInt32(int32(attribute))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayAttribute)
 	if _err != nil {
@@ -568,7 +725,21 @@ func (p *ComposerClientProxy) GetDisplayCapabilities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayCapabilities)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayCapabilities)
 	if _err != nil {
@@ -614,7 +785,21 @@ func (p *ComposerClientProxy) GetDisplayConfigs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayConfigs)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayConfigs)
 	if _err != nil {
@@ -659,7 +844,21 @@ func (p *ComposerClientProxy) GetDisplayConnectionType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayConnectionType)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayConnectionType)
 	if _err != nil {
@@ -692,7 +891,21 @@ func (p *ComposerClientProxy) GetDisplayIdentificationData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayIdentificationData)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayIdentificationData)
 	if _err != nil {
@@ -729,7 +942,21 @@ func (p *ComposerClientProxy) GetDisplayName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayName)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayName)
 	if _err != nil {
@@ -761,7 +988,21 @@ func (p *ComposerClientProxy) GetDisplayVsyncPeriod(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayVsyncPeriod)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayVsyncPeriod)
 	if _err != nil {
@@ -795,9 +1036,29 @@ func (p *ComposerClientProxy) GetDisplayedContentSample(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt64(maxFrames)
-	_data.WriteInt64(timestamp)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayedContentSample)
+	_compiledDescs := []string{
+		"J",
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt64(maxFrames)
+		_data.WriteInt64(timestamp)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt64(maxFrames)
+			case 2:
+				_data.WriteInt64(timestamp)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayedContentSample)
 	if _err != nil {
@@ -834,7 +1095,21 @@ func (p *ComposerClientProxy) GetDisplayedContentSamplingAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayedContentSamplingAttributes)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayedContentSamplingAttributes)
 	if _err != nil {
@@ -871,7 +1146,21 @@ func (p *ComposerClientProxy) GetDisplayPhysicalOrientation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayPhysicalOrientation)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayPhysicalOrientation)
 	if _err != nil {
@@ -904,7 +1193,21 @@ func (p *ComposerClientProxy) GetHdrCapabilities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetHdrCapabilities)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetHdrCapabilities)
 	if _err != nil {
@@ -971,7 +1274,21 @@ func (p *ComposerClientProxy) GetPerFrameMetadataKeys(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetPerFrameMetadataKeys)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetPerFrameMetadataKeys)
 	if _err != nil {
@@ -1017,7 +1334,21 @@ func (p *ComposerClientProxy) GetReadbackBufferAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetReadbackBufferAttributes)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetReadbackBufferAttributes)
 	if _err != nil {
@@ -1054,7 +1385,21 @@ func (p *ComposerClientProxy) GetReadbackBufferFence(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetReadbackBufferFence)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetReadbackBufferFence)
 	if _err != nil {
@@ -1087,8 +1432,25 @@ func (p *ComposerClientProxy) GetRenderIntents(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(int32(mode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetRenderIntents)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/hardware/graphics/composer3/ColorMode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt32(int32(mode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt32(int32(mode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetRenderIntents)
 	if _err != nil {
@@ -1134,7 +1496,21 @@ func (p *ComposerClientProxy) GetSupportedContentTypes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetSupportedContentTypes)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetSupportedContentTypes)
 	if _err != nil {
@@ -1180,7 +1556,21 @@ func (p *ComposerClientProxy) GetDisplayDecorationSupport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayDecorationSupport)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayDecorationSupport)
 	if _err != nil {
@@ -1216,7 +1606,21 @@ func (p *ComposerClientProxy) RegisterCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientRegisterCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/graphics/composer3/IComposerCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientRegisterCallback)
 	if _err != nil {
@@ -1244,8 +1648,25 @@ func (p *ComposerClientProxy) SetActiveConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(config)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientSetActiveConfig)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt32(config)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt32(config)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetActiveConfig)
 	if _err != nil {
@@ -1275,11 +1696,34 @@ func (p *ComposerClientProxy) SetActiveConfigWithConstraints(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(config)
-	_data.WriteInt32(1)
-	if _err := vsyncPeriodChangeConstraints.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientSetActiveConfigWithConstraints)
+	_compiledDescs := []string{
+		"J",
+		"I",
+		"Landroid/hardware/graphics/composer3/VsyncPeriodChangeConstraints;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt32(config)
+		_data.WriteInt32(1)
+		if _err := vsyncPeriodChangeConstraints.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt32(config)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := vsyncPeriodChangeConstraints.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetActiveConfigWithConstraints)
@@ -1317,8 +1761,25 @@ func (p *ComposerClientProxy) SetBootDisplayConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(config)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientSetBootDisplayConfig)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt32(config)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt32(config)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetBootDisplayConfig)
 	if _err != nil {
@@ -1345,7 +1806,21 @@ func (p *ComposerClientProxy) ClearBootDisplayConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientClearBootDisplayConfig)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientClearBootDisplayConfig)
 	if _err != nil {
@@ -1373,7 +1848,21 @@ func (p *ComposerClientProxy) GetPreferredBootDisplayConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetPreferredBootDisplayConfig)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetPreferredBootDisplayConfig)
 	if _err != nil {
@@ -1405,8 +1894,25 @@ func (p *ComposerClientProxy) SetAutoLowLatencyMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteBool(on)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientSetAutoLowLatencyMode)
+	_compiledDescs := []string{
+		"J",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteBool(on)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteBool(on)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetAutoLowLatencyMode)
 	if _err != nil {
@@ -1434,8 +1940,25 @@ func (p *ComposerClientProxy) SetClientTargetSlotCount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(clientTargetSlotCount)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientSetClientTargetSlotCount)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt32(clientTargetSlotCount)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt32(clientTargetSlotCount)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetClientTargetSlotCount)
 	if _err != nil {
@@ -1464,9 +1987,29 @@ func (p *ComposerClientProxy) SetColorMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(int32(mode))
-	_data.WriteInt32(int32(intent))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientSetColorMode)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/hardware/graphics/composer3/ColorMode;",
+		"Landroid/hardware/graphics/composer3/RenderIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt32(int32(mode))
+		_data.WriteInt32(int32(intent))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt32(int32(mode))
+			case 2:
+				_data.WriteInt32(int32(intent))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetColorMode)
 	if _err != nil {
@@ -1494,8 +2037,25 @@ func (p *ComposerClientProxy) SetContentType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(int32(type_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientSetContentType)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/hardware/graphics/composer3/ContentType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt32(int32(type_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt32(int32(type_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetContentType)
 	if _err != nil {
@@ -1525,10 +2085,33 @@ func (p *ComposerClientProxy) SetDisplayedContentSamplingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteBool(enable)
-	_data.WritePaddedByte(byte(componentMask))
-	_data.WriteInt64(maxFrames)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientSetDisplayedContentSamplingEnabled)
+	_compiledDescs := []string{
+		"J",
+		"Z",
+		"Landroid/hardware/graphics/composer3/FormatColorComponent;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteBool(enable)
+		_data.WritePaddedByte(byte(componentMask))
+		_data.WriteInt64(maxFrames)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteBool(enable)
+			case 2:
+				_data.WritePaddedByte(byte(componentMask))
+			case 3:
+				_data.WriteInt64(maxFrames)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetDisplayedContentSamplingEnabled)
 	if _err != nil {
@@ -1556,8 +2139,25 @@ func (p *ComposerClientProxy) SetPowerMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(int32(mode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientSetPowerMode)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/hardware/graphics/composer3/PowerMode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt32(int32(mode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt32(int32(mode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetPowerMode)
 	if _err != nil {
@@ -1586,15 +2186,42 @@ func (p *ComposerClientProxy) SetReadbackBuffer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(1)
-	if _err := buffer.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientSetReadbackBuffer)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/hardware/common/NativeHandle;",
+		"Landroid/os/ParcelFileDescriptor;",
 	}
-	if releaseFence != nil {
-		_data.WriteParcelFileDescriptor((*releaseFence))
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt32(1)
+		if _err := buffer.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if releaseFence != nil {
+			_data.WriteParcelFileDescriptor((*releaseFence))
+		} else {
+			_data.WriteInt32(-1)
+		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := buffer.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				if releaseFence != nil {
+					_data.WriteParcelFileDescriptor((*releaseFence))
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetReadbackBuffer)
@@ -1623,8 +2250,25 @@ func (p *ComposerClientProxy) SetVsyncEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientSetVsyncEnabled)
+	_compiledDescs := []string{
+		"J",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetVsyncEnabled)
 	if _err != nil {
@@ -1652,8 +2296,25 @@ func (p *ComposerClientProxy) SetIdleTimerEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(timeoutMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientSetIdleTimerEnabled)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt32(timeoutMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt32(timeoutMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetIdleTimerEnabled)
 	if _err != nil {
@@ -1778,9 +2439,26 @@ func (p *ComposerClientProxy) SetHdrConversionStrategy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt32(1)
-	if _err := conversionStrategy.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientSetHdrConversionStrategy)
+	_compiledDescs := []string{
+		"Landroid/gui/HdrConversionStrategy;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := conversionStrategy.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := conversionStrategy.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetHdrConversionStrategy)
@@ -1814,8 +2492,25 @@ func (p *ComposerClientProxy) SetRefreshRateChangedCallbackDebugEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientSetRefreshRateChangedCallbackDebugEnabled)
+	_compiledDescs := []string{
+		"J",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetRefreshRateChangedCallbackDebugEnabled)
 	if _err != nil {
@@ -1844,8 +2539,25 @@ func (p *ComposerClientProxy) GetDisplayConfigurations(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(maxFrameIntervalNs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayConfigurations)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt32(maxFrameIntervalNs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt32(maxFrameIntervalNs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayConfigurations)
 	if _err != nil {
@@ -1910,12 +2622,35 @@ func (p *ComposerClientProxy) NotifyExpectedPresent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(1)
-	if _err := expectedPresentTime.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIComposerClient, MethodIComposerClientNotifyExpectedPresent)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/hardware/graphics/composer3/ClockMonotonicTimestamp;",
+		"I",
 	}
-	_data.WriteInt32(frameIntervalNs)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(display)
+		_data.WriteInt32(1)
+		if _err := expectedPresentTime.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(frameIntervalNs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(display)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := expectedPresentTime.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(frameIntervalNs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientNotifyExpectedPresent)
 	if _err != nil {

@@ -107,7 +107,21 @@ func (p *TimeZoneDetectorServiceProxy) AddListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceAddListener)
+	_compiledDescs := []string{
+		"Landroid/app/time/ITimeZoneDetectorListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceAddListener)
 	if _err != nil {
@@ -134,7 +148,21 @@ func (p *TimeZoneDetectorServiceProxy) RemoveListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceRemoveListener)
+	_compiledDescs := []string{
+		"Landroid/app/time/ITimeZoneDetectorListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceRemoveListener)
 	if _err != nil {
@@ -162,9 +190,26 @@ func (p *TimeZoneDetectorServiceProxy) UpdateConfiguration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
-	_data.WriteInt32(1)
-	if _err := configuration.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceUpdateConfiguration)
+	_compiledDescs := []string{
+		"Landroid/app/time/TimeZoneConfiguration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := configuration.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := configuration.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceUpdateConfiguration)
@@ -232,7 +277,21 @@ func (p *TimeZoneDetectorServiceProxy) ConfirmTimeZone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
-	_data.WriteString16(timeZoneId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceConfirmTimeZone)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(timeZoneId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(timeZoneId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceConfirmTimeZone)
 	if _err != nil {
@@ -264,9 +323,26 @@ func (p *TimeZoneDetectorServiceProxy) SetManualTimeZone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
-	_data.WriteInt32(1)
-	if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceSetManualTimeZone)
+	_compiledDescs := []string{
+		"Landroid/app/timezonedetector/ManualTimeZoneSuggestion;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceSetManualTimeZone)
@@ -299,9 +375,26 @@ func (p *TimeZoneDetectorServiceProxy) SuggestManualTimeZone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
-	_data.WriteInt32(1)
-	if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceSuggestManualTimeZone)
+	_compiledDescs := []string{
+		"Landroid/app/timezonedetector/ManualTimeZoneSuggestion;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceSuggestManualTimeZone)
@@ -333,9 +426,26 @@ func (p *TimeZoneDetectorServiceProxy) SuggestTelephonyTimeZone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
-	_data.WriteInt32(1)
-	if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceSuggestTelephonyTimeZone)
+	_compiledDescs := []string{
+		"Landroid/app/timezonedetector/TelephonyTimeZoneSuggestion;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceSuggestTelephonyTimeZone)

@@ -51,11 +51,37 @@ func (p *HdrLayerInfoListenerProxy) OnHdrLayerInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdrLayerInfoListener)
-	_data.WriteInt32(numberOfHdrLayers)
-	_data.WriteInt32(maxW)
-	_data.WriteInt32(maxH)
-	_data.WriteInt32(flags)
-	_data.WriteFloat32(maxDesiredHdrSdrRatio)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdrLayerInfoListener, MethodIHdrLayerInfoListenerOnHdrLayerInfoChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(numberOfHdrLayers)
+		_data.WriteInt32(maxW)
+		_data.WriteInt32(maxH)
+		_data.WriteInt32(flags)
+		_data.WriteFloat32(maxDesiredHdrSdrRatio)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(numberOfHdrLayers)
+			case 1:
+				_data.WriteInt32(maxW)
+			case 2:
+				_data.WriteInt32(maxH)
+			case 3:
+				_data.WriteInt32(flags)
+			case 4:
+				_data.WriteFloat32(maxDesiredHdrSdrRatio)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdrLayerInfoListener, MethodIHdrLayerInfoListenerOnHdrLayerInfoChanged)
 	if _err != nil {

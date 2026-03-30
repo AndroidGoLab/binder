@@ -52,9 +52,29 @@ func (p *MediaScannerServiceProxy) RequestScanFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaScannerService)
-	_data.WriteString16(path)
-	_data.WriteString16(mimeType)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaScannerService, MethodIMediaScannerServiceRequestScanFile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/media/IMediaScannerListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(path)
+		_data.WriteString16(mimeType)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(path)
+			case 1:
+				_data.WriteString16(mimeType)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaScannerService, MethodIMediaScannerServiceRequestScanFile)
 	if _err != nil {
@@ -82,8 +102,25 @@ func (p *MediaScannerServiceProxy) ScanFile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaScannerService)
-	_data.WriteString16(path)
-	_data.WriteString16(mimeType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMediaScannerService, MethodIMediaScannerServiceScanFile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(path)
+		_data.WriteString16(mimeType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(path)
+			case 1:
+				_data.WriteString16(mimeType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaScannerService, MethodIMediaScannerServiceScanFile)
 	if _err != nil {

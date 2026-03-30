@@ -50,7 +50,21 @@ func (p *SnapshotRuntimeProfileCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISnapshotRuntimeProfileCallback)
-	_data.WriteParcelFileDescriptor(profileReadFd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISnapshotRuntimeProfileCallback, MethodISnapshotRuntimeProfileCallbackOnSuccess)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(profileReadFd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(profileReadFd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISnapshotRuntimeProfileCallback, MethodISnapshotRuntimeProfileCallbackOnSuccess)
 	if _err != nil {
@@ -68,7 +82,21 @@ func (p *SnapshotRuntimeProfileCallbackProxy) OnError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISnapshotRuntimeProfileCallback)
-	_data.WriteInt32(errCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISnapshotRuntimeProfileCallback, MethodISnapshotRuntimeProfileCallbackOnError)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(errCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(errCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISnapshotRuntimeProfileCallback, MethodISnapshotRuntimeProfileCallbackOnError)
 	if _err != nil {

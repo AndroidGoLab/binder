@@ -56,9 +56,29 @@ func (p *HardwarePropertiesManagerProxy) GetDeviceTemperatures(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHardwarePropertiesManager)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(type_)
-	_data.WriteInt32(source)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHardwarePropertiesManager, MethodIHardwarePropertiesManagerGetDeviceTemperatures)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(type_)
+		_data.WriteInt32(source)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(type_)
+			case 2:
+				_data.WriteInt32(source)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHardwarePropertiesManager, MethodIHardwarePropertiesManagerGetDeviceTemperatures)
 	if _err != nil {
@@ -103,7 +123,21 @@ func (p *HardwarePropertiesManagerProxy) GetCpuUsages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHardwarePropertiesManager)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHardwarePropertiesManager, MethodIHardwarePropertiesManagerGetCpuUsages)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHardwarePropertiesManager, MethodIHardwarePropertiesManagerGetCpuUsages)
 	if _err != nil {
@@ -167,7 +201,21 @@ func (p *HardwarePropertiesManagerProxy) GetFanSpeeds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHardwarePropertiesManager)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHardwarePropertiesManager, MethodIHardwarePropertiesManagerGetFanSpeeds)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHardwarePropertiesManager, MethodIHardwarePropertiesManagerGetFanSpeeds)
 	if _err != nil {

@@ -136,7 +136,21 @@ func (p *WebViewUpdateServiceProxy) ChangeProviderAndSetting(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
-	_data.WriteString16(newProvider)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceChangeProviderAndSetting)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(newProvider)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(newProvider)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceChangeProviderAndSetting)
 	if _err != nil {
@@ -386,7 +400,21 @@ func (p *WebViewUpdateServiceProxy) EnableMultiProcess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceEnableMultiProcess)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceEnableMultiProcess)
 	if _err != nil {

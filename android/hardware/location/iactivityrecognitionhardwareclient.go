@@ -48,8 +48,25 @@ func (p *ActivityRecognitionHardwareClientProxy) OnAvailabilityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardwareClient)
-	_data.WriteBool(isSupported)
-	binder.WriteBinderToParcel(ctx, _data, instance.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIActivityRecognitionHardwareClient, MethodIActivityRecognitionHardwareClientOnAvailabilityChanged)
+	_compiledDescs := []string{
+		"Z",
+		"Landroid/hardware/location/IActivityRecognitionHardware;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isSupported)
+		binder.WriteBinderToParcel(ctx, _data, instance.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isSupported)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, instance.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardwareClient, MethodIActivityRecognitionHardwareClientOnAvailabilityChanged)
 	if _err != nil {

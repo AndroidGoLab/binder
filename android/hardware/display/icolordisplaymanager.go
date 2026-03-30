@@ -150,7 +150,21 @@ func (p *ColorDisplayManagerProxy) SetSaturationLevel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
-	_data.WriteInt32(saturationLevel)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetSaturationLevel)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(saturationLevel)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(saturationLevel)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetSaturationLevel)
 	if _err != nil {
@@ -183,8 +197,25 @@ func (p *ColorDisplayManagerProxy) SetAppSaturationLevel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(saturationLevel)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetAppSaturationLevel)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(saturationLevel)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(saturationLevel)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetAppSaturationLevel)
 	if _err != nil {
@@ -306,7 +337,21 @@ func (p *ColorDisplayManagerProxy) SetNightDisplayActivated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
-	_data.WriteBool(activated)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayActivated)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(activated)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(activated)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayActivated)
 	if _err != nil {
@@ -368,7 +413,21 @@ func (p *ColorDisplayManagerProxy) SetNightDisplayColorTemperature(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
-	_data.WriteInt32(temperature)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayColorTemperature)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(temperature)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(temperature)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayColorTemperature)
 	if _err != nil {
@@ -460,7 +519,21 @@ func (p *ColorDisplayManagerProxy) SetNightDisplayAutoMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
-	_data.WriteInt32(autoMode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayAutoMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(autoMode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(autoMode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayAutoMode)
 	if _err != nil {
@@ -527,9 +600,26 @@ func (p *ColorDisplayManagerProxy) SetNightDisplayCustomStartTime(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
-	_data.WriteInt32(1)
-	if _err := time.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayCustomStartTime)
+	_compiledDescs := []string{
+		"Landroid/hardware/display/Time;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := time.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := time.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayCustomStartTime)
@@ -597,9 +687,26 @@ func (p *ColorDisplayManagerProxy) SetNightDisplayCustomEndTime(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
-	_data.WriteInt32(1)
-	if _err := time.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayCustomEndTime)
+	_compiledDescs := []string{
+		"Landroid/hardware/display/Time;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := time.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := time.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayCustomEndTime)
@@ -661,7 +768,21 @@ func (p *ColorDisplayManagerProxy) SetColorMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
-	_data.WriteInt32(colorMode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetColorMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(colorMode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(colorMode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetColorMode)
 	if _err != nil {
@@ -719,7 +840,21 @@ func (p *ColorDisplayManagerProxy) SetDisplayWhiteBalanceEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetDisplayWhiteBalanceEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetDisplayWhiteBalanceEnabled)
 	if _err != nil {
@@ -781,7 +916,21 @@ func (p *ColorDisplayManagerProxy) SetReduceBrightColorsActivated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
-	_data.WriteBool(activated)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetReduceBrightColorsActivated)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(activated)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(activated)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetReduceBrightColorsActivated)
 	if _err != nil {
@@ -843,7 +992,21 @@ func (p *ColorDisplayManagerProxy) SetReduceBrightColorsStrength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
-	_data.WriteInt32(strength)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetReduceBrightColorsStrength)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(strength)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(strength)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetReduceBrightColorsStrength)
 	if _err != nil {

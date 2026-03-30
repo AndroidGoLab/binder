@@ -66,7 +66,21 @@ func (p *BrailleDisplayConnectionProxy) Write(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBrailleDisplayConnection)
-	_data.WriteByteArray(output)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBrailleDisplayConnection, MethodIBrailleDisplayConnectionWrite)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(output)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(output)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBrailleDisplayConnection, MethodIBrailleDisplayConnectionWrite)
 	if _err != nil {

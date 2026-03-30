@@ -53,7 +53,21 @@ func (p *BiometricContextListenerProxy) OnFoldChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricContextListener)
-	_data.WriteInt32(int32(FoldState))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricContextListener, MethodIBiometricContextListenerOnFoldChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/IBiometricContextListener/FoldState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(FoldState))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(FoldState))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricContextListener, MethodIBiometricContextListenerOnFoldChanged)
 	if _err != nil {
@@ -71,7 +85,21 @@ func (p *BiometricContextListenerProxy) OnDisplayStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricContextListener)
-	_data.WriteInt32(displayState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricContextListener, MethodIBiometricContextListenerOnDisplayStateChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricContextListener, MethodIBiometricContextListenerOnDisplayStateChanged)
 	if _err != nil {
@@ -89,7 +117,21 @@ func (p *BiometricContextListenerProxy) OnHardwareIgnoreTouchesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricContextListener)
-	_data.WriteBool(shouldIgnore)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBiometricContextListener, MethodIBiometricContextListenerOnHardwareIgnoreTouchesChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(shouldIgnore)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(shouldIgnore)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricContextListener, MethodIBiometricContextListenerOnHardwareIgnoreTouchesChanged)
 	if _err != nil {

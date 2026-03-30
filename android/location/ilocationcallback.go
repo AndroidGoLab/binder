@@ -47,13 +47,34 @@ func (p *LocationCallbackProxy) OnLocation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationCallback)
-	if location != nil {
-		_data.WriteInt32(1)
-		if _err := (*location).MarshalParcel(_data); _err != nil {
-			return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorILocationCallback, MethodILocationCallbackOnLocation)
+	_compiledDescs := []string{
+		"Landroid/location/Location;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if location != nil {
+			_data.WriteInt32(1)
+			if _err := (*location).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
 		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if location != nil {
+					_data.WriteInt32(1)
+					if _err := (*location).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationCallback, MethodILocationCallbackOnLocation)

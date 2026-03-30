@@ -58,7 +58,21 @@ func (p *SendMgmtFrameEventProxy) OnAck(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISendMgmtFrameEvent)
-	_data.WriteInt32(elapsedTimeMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISendMgmtFrameEvent, MethodISendMgmtFrameEventOnAck)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(elapsedTimeMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(elapsedTimeMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISendMgmtFrameEvent, MethodISendMgmtFrameEventOnAck)
 	if _err != nil {
@@ -76,7 +90,21 @@ func (p *SendMgmtFrameEventProxy) OnFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISendMgmtFrameEvent)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISendMgmtFrameEvent, MethodISendMgmtFrameEventOnFailure)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISendMgmtFrameEvent, MethodISendMgmtFrameEventOnFailure)
 	if _err != nil {

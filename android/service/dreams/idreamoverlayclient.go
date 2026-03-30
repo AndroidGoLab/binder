@@ -57,13 +57,39 @@ func (p *DreamOverlayClientProxy) StartDream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamOverlayClient)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDreamOverlayClient, MethodIDreamOverlayClientStartDream)
+	_compiledDescs := []string{
+		"Landroid/view/WindowManager/LayoutParams;",
+		"Landroid/service/dreams/IDreamOverlayCallback;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(dreamComponent)
-	_data.WriteBool(shouldShowComplications)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(dreamComponent)
+		_data.WriteBool(shouldShowComplications)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteString16(dreamComponent)
+			case 3:
+				_data.WriteBool(shouldShowComplications)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamOverlayClient, MethodIDreamOverlayClientStartDream)
 	if _err != nil {

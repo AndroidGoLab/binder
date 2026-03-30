@@ -154,8 +154,25 @@ func (p *SmsProxy) GetAllMessagesFromIccEfForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsGetAllMessagesFromIccEfForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetAllMessagesFromIccEfForSubscriber)
 	if _err != nil {
@@ -223,11 +240,37 @@ func (p *SmsProxy) UpdateMessageOnIccEfForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt32(messageIndex)
-	_data.WriteInt32(newStatus)
-	_data.WriteByteArray(pdu)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsUpdateMessageOnIccEfForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+		_data.WriteInt32(messageIndex)
+		_data.WriteInt32(newStatus)
+		_data.WriteByteArray(pdu)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteInt32(messageIndex)
+			case 3:
+				_data.WriteInt32(newStatus)
+			case 4:
+				_data.WriteByteArray(pdu)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsUpdateMessageOnIccEfForSubscriber)
 	if _err != nil {
@@ -263,11 +306,37 @@ func (p *SmsProxy) CopyMessageToIccEfForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt32(status)
-	_data.WriteByteArray(pdu)
-	_data.WriteByteArray(smsc)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsCopyMessageToIccEfForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+		_data.WriteInt32(status)
+		_data.WriteByteArray(pdu)
+		_data.WriteByteArray(smsc)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteInt32(status)
+			case 3:
+				_data.WriteByteArray(pdu)
+			case 4:
+				_data.WriteByteArray(smsc)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsCopyMessageToIccEfForSubscriber)
 	if _err != nil {
@@ -306,20 +375,64 @@ func (p *SmsProxy) SendDataForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(callingattributionTag)
-	_data.WriteString16(destAddr)
-	_data.WriteString16(scAddr)
-	_data.WriteInt32(destPort)
-	_data.WriteByteArray(data)
-	_data.WriteInt32(1)
-	if _err := sentIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsSendDataForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"[B",
+		"Landroid/app/PendingIntent;",
+		"Landroid/app/PendingIntent;",
 	}
-	_data.WriteInt32(1)
-	if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(callingattributionTag)
+		_data.WriteString16(destAddr)
+		_data.WriteString16(scAddr)
+		_data.WriteInt32(destPort)
+		_data.WriteByteArray(data)
+		_data.WriteInt32(1)
+		if _err := sentIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteString16(callingattributionTag)
+			case 3:
+				_data.WriteString16(destAddr)
+			case 4:
+				_data.WriteString16(scAddr)
+			case 5:
+				_data.WriteInt32(destPort)
+			case 6:
+				_data.WriteByteArray(data)
+			case 7:
+				_data.WriteInt32(1)
+				if _err := sentIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 8:
+				_data.WriteInt32(1)
+				if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSendDataForSubscriber)
@@ -356,22 +469,69 @@ func (p *SmsProxy) SendTextForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(callingAttributionTag)
-	_data.WriteString16(destAddr)
-	_data.WriteString16(scAddr)
-	_data.WriteString16(text)
-	_data.WriteInt32(1)
-	if _err := sentIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsSendTextForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/app/PendingIntent;",
+		"Landroid/app/PendingIntent;",
+		"Z",
+		"J",
 	}
-	_data.WriteInt32(1)
-	if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(callingAttributionTag)
+		_data.WriteString16(destAddr)
+		_data.WriteString16(scAddr)
+		_data.WriteString16(text)
+		_data.WriteInt32(1)
+		if _err := sentIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(persistMessageForNonDefaultSmsApp)
+		_data.WriteInt64(messageId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteString16(callingAttributionTag)
+			case 3:
+				_data.WriteString16(destAddr)
+			case 4:
+				_data.WriteString16(scAddr)
+			case 5:
+				_data.WriteString16(text)
+			case 6:
+				_data.WriteInt32(1)
+				if _err := sentIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 7:
+				_data.WriteInt32(1)
+				if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 8:
+				_data.WriteBool(persistMessageForNonDefaultSmsApp)
+			case 9:
+				_data.WriteInt64(messageId)
+			}
+		}
 	}
-	_data.WriteBool(persistMessageForNonDefaultSmsApp)
-	_data.WriteInt64(messageId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSendTextForSubscriber)
 	if _err != nil {
@@ -409,24 +569,77 @@ func (p *SmsProxy) SendTextForSubscriberWithOptions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(callingAttributionTag)
-	_data.WriteString16(destAddr)
-	_data.WriteString16(scAddr)
-	_data.WriteString16(text)
-	_data.WriteInt32(1)
-	if _err := sentIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsSendTextForSubscriberWithOptions)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/app/PendingIntent;",
+		"Landroid/app/PendingIntent;",
+		"Z",
+		"I",
+		"Z",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(callingAttributionTag)
+		_data.WriteString16(destAddr)
+		_data.WriteString16(scAddr)
+		_data.WriteString16(text)
+		_data.WriteInt32(1)
+		if _err := sentIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(persistMessageForNonDefaultSmsApp)
+		_data.WriteInt32(priority)
+		_data.WriteBool(expectMore)
+		_data.WriteInt32(validityPeriod)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteString16(callingAttributionTag)
+			case 3:
+				_data.WriteString16(destAddr)
+			case 4:
+				_data.WriteString16(scAddr)
+			case 5:
+				_data.WriteString16(text)
+			case 6:
+				_data.WriteInt32(1)
+				if _err := sentIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 7:
+				_data.WriteInt32(1)
+				if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 8:
+				_data.WriteBool(persistMessageForNonDefaultSmsApp)
+			case 9:
+				_data.WriteInt32(priority)
+			case 10:
+				_data.WriteBool(expectMore)
+			case 11:
+				_data.WriteInt32(validityPeriod)
+			}
+		}
 	}
-	_data.WriteBool(persistMessageForNonDefaultSmsApp)
-	_data.WriteInt32(priority)
-	_data.WriteBool(expectMore)
-	_data.WriteInt32(validityPeriod)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSendTextForSubscriberWithOptions)
 	if _err != nil {
@@ -456,12 +669,38 @@ func (p *SmsProxy) InjectSmsPduForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteByteArray(pdu)
-	_data.WriteString16(format)
-	_data.WriteInt32(1)
-	if _err := receivedIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsInjectSmsPduForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+		"Ljava/lang/String;",
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteByteArray(pdu)
+		_data.WriteString16(format)
+		_data.WriteInt32(1)
+		if _err := receivedIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteByteArray(pdu)
+			case 2:
+				_data.WriteString16(format)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := receivedIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsInjectSmsPduForSubscriber)
@@ -498,43 +737,111 @@ func (p *SmsProxy) SendMultipartTextForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(callingAttributionTag)
-	_data.WriteString16(destinationAddress)
-	_data.WriteString16(scAddress)
-	if parts == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(parts)))
-		for _, _item := range parts {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsSendMultipartTextForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"Ljava/util/List;",
+		"Ljava/util/List;",
+		"Z",
+		"J",
 	}
-	if sentIntents == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(callingAttributionTag)
+		_data.WriteString16(destinationAddress)
+		_data.WriteString16(scAddress)
+		if parts == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(parts)))
+			for _, _item := range parts {
+				_data.WriteString16(_item)
+			}
+		}
+		if sentIntents == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(sentIntents)))
+			for _, _item := range sentIntents {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		if deliveryIntents == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(deliveryIntents)))
+			for _, _item := range deliveryIntents {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteBool(persistMessageForNonDefaultSmsApp)
+		_data.WriteInt64(messageId)
 	} else {
-		_data.WriteInt32(int32(len(sentIntents)))
-		for _, _item := range sentIntents {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteString16(callingAttributionTag)
+			case 3:
+				_data.WriteString16(destinationAddress)
+			case 4:
+				_data.WriteString16(scAddress)
+			case 5:
+				if parts == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(parts)))
+					for _, _item := range parts {
+						_data.WriteString16(_item)
+					}
+				}
+			case 6:
+				if sentIntents == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(sentIntents)))
+					for _, _item := range sentIntents {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 7:
+				if deliveryIntents == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(deliveryIntents)))
+					for _, _item := range deliveryIntents {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 8:
+				_data.WriteBool(persistMessageForNonDefaultSmsApp)
+			case 9:
+				_data.WriteInt64(messageId)
 			}
 		}
 	}
-	if deliveryIntents == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(deliveryIntents)))
-		for _, _item := range deliveryIntents {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-	_data.WriteBool(persistMessageForNonDefaultSmsApp)
-	_data.WriteInt64(messageId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSendMultipartTextForSubscriber)
 	if _err != nil {
@@ -572,45 +879,119 @@ func (p *SmsProxy) SendMultipartTextForSubscriberWithOptions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(callingAttributionTag)
-	_data.WriteString16(destinationAddress)
-	_data.WriteString16(scAddress)
-	if parts == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(parts)))
-		for _, _item := range parts {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsSendMultipartTextForSubscriberWithOptions)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"Ljava/util/List;",
+		"Ljava/util/List;",
+		"Z",
+		"I",
+		"Z",
+		"I",
 	}
-	if sentIntents == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(callingAttributionTag)
+		_data.WriteString16(destinationAddress)
+		_data.WriteString16(scAddress)
+		if parts == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(parts)))
+			for _, _item := range parts {
+				_data.WriteString16(_item)
+			}
+		}
+		if sentIntents == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(sentIntents)))
+			for _, _item := range sentIntents {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		if deliveryIntents == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(deliveryIntents)))
+			for _, _item := range deliveryIntents {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteBool(persistMessageForNonDefaultSmsApp)
+		_data.WriteInt32(priority)
+		_data.WriteBool(expectMore)
+		_data.WriteInt32(validityPeriod)
 	} else {
-		_data.WriteInt32(int32(len(sentIntents)))
-		for _, _item := range sentIntents {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteString16(callingAttributionTag)
+			case 3:
+				_data.WriteString16(destinationAddress)
+			case 4:
+				_data.WriteString16(scAddress)
+			case 5:
+				if parts == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(parts)))
+					for _, _item := range parts {
+						_data.WriteString16(_item)
+					}
+				}
+			case 6:
+				if sentIntents == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(sentIntents)))
+					for _, _item := range sentIntents {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 7:
+				if deliveryIntents == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(deliveryIntents)))
+					for _, _item := range deliveryIntents {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 8:
+				_data.WriteBool(persistMessageForNonDefaultSmsApp)
+			case 9:
+				_data.WriteInt32(priority)
+			case 10:
+				_data.WriteBool(expectMore)
+			case 11:
+				_data.WriteInt32(validityPeriod)
 			}
 		}
 	}
-	if deliveryIntents == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(deliveryIntents)))
-		for _, _item := range deliveryIntents {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-	_data.WriteBool(persistMessageForNonDefaultSmsApp)
-	_data.WriteInt32(priority)
-	_data.WriteBool(expectMore)
-	_data.WriteInt32(validityPeriod)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSendMultipartTextForSubscriberWithOptions)
 	if _err != nil {
@@ -640,9 +1021,29 @@ func (p *SmsProxy) EnableCellBroadcastForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(messageIdentifier)
-	_data.WriteInt32(ranType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsEnableCellBroadcastForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(messageIdentifier)
+		_data.WriteInt32(ranType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(messageIdentifier)
+			case 2:
+				_data.WriteInt32(ranType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsEnableCellBroadcastForSubscriber)
 	if _err != nil {
@@ -676,9 +1077,29 @@ func (p *SmsProxy) DisableCellBroadcastForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(messageIdentifier)
-	_data.WriteInt32(ranType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsDisableCellBroadcastForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(messageIdentifier)
+		_data.WriteInt32(ranType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(messageIdentifier)
+			case 2:
+				_data.WriteInt32(ranType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsDisableCellBroadcastForSubscriber)
 	if _err != nil {
@@ -713,10 +1134,33 @@ func (p *SmsProxy) EnableCellBroadcastRangeForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(startMessageId)
-	_data.WriteInt32(endMessageId)
-	_data.WriteInt32(ranType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsEnableCellBroadcastRangeForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(startMessageId)
+		_data.WriteInt32(endMessageId)
+		_data.WriteInt32(ranType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(startMessageId)
+			case 2:
+				_data.WriteInt32(endMessageId)
+			case 3:
+				_data.WriteInt32(ranType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsEnableCellBroadcastRangeForSubscriber)
 	if _err != nil {
@@ -751,10 +1195,33 @@ func (p *SmsProxy) DisableCellBroadcastRangeForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteInt32(startMessageId)
-	_data.WriteInt32(endMessageId)
-	_data.WriteInt32(ranType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsDisableCellBroadcastRangeForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteInt32(startMessageId)
+		_data.WriteInt32(endMessageId)
+		_data.WriteInt32(ranType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteInt32(startMessageId)
+			case 2:
+				_data.WriteInt32(endMessageId)
+			case 3:
+				_data.WriteInt32(ranType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsDisableCellBroadcastRangeForSubscriber)
 	if _err != nil {
@@ -786,7 +1253,21 @@ func (p *SmsProxy) GetPremiumSmsPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsGetPremiumSmsPermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetPremiumSmsPermission)
 	if _err != nil {
@@ -819,8 +1300,25 @@ func (p *SmsProxy) GetPremiumSmsPermissionForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsGetPremiumSmsPermissionForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetPremiumSmsPermissionForSubscriber)
 	if _err != nil {
@@ -852,8 +1350,25 @@ func (p *SmsProxy) SetPremiumSmsPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(permission)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsSetPremiumSmsPermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(permission)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(permission)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSetPremiumSmsPermission)
 	if _err != nil {
@@ -882,9 +1397,29 @@ func (p *SmsProxy) SetPremiumSmsPermissionForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(permission)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsSetPremiumSmsPermissionForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(permission)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(permission)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSetPremiumSmsPermissionForSubscriber)
 	if _err != nil {
@@ -912,7 +1447,21 @@ func (p *SmsProxy) IsImsSmsSupportedForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsIsImsSmsSupportedForSubscriber)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsIsImsSmsSupportedForSubscriber)
 	if _err != nil {
@@ -944,7 +1493,21 @@ func (p *SmsProxy) IsSmsSimPickActivityNeeded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsIsSmsSimPickActivityNeeded)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsIsSmsSimPickActivityNeeded)
 	if _err != nil {
@@ -1006,7 +1569,21 @@ func (p *SmsProxy) GetImsSmsFormatForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsGetImsSmsFormatForSubscriber)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetImsSmsFormatForSubscriber)
 	if _err != nil {
@@ -1073,21 +1650,62 @@ func (p *SmsProxy) SendStoredText(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(callingAttributionTag)
-	_data.WriteInt32(1)
-	if _err := messageUri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsSendStoredText)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"Ljava/lang/String;",
+		"Landroid/app/PendingIntent;",
+		"Landroid/app/PendingIntent;",
 	}
-	_data.WriteString16(scAddress)
-	_data.WriteInt32(1)
-	if _err := sentIntent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(callingAttributionTag)
+		_data.WriteInt32(1)
+		if _err := messageUri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(scAddress)
+		_data.WriteInt32(1)
+		if _err := sentIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteString16(callingAttributionTag)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := messageUri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteString16(scAddress)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := sentIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				_data.WriteInt32(1)
+				if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSendStoredText)
@@ -1121,33 +1739,88 @@ func (p *SmsProxy) SendStoredMultipartText(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(callingAttributeTag)
-	_data.WriteInt32(1)
-	if _err := messageUri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsSendStoredMultipartText)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+		"Ljava/util/List;",
 	}
-	_data.WriteString16(scAddress)
-	if sentIntents == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sentIntents)))
-		for _, _item := range sentIntents {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(callingAttributeTag)
+		_data.WriteInt32(1)
+		if _err := messageUri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(scAddress)
+		if sentIntents == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(sentIntents)))
+			for _, _item := range sentIntents {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
 			}
 		}
-	}
-	if deliveryIntents == nil {
-		_data.WriteInt32(-1)
+		if deliveryIntents == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(deliveryIntents)))
+			for _, _item := range deliveryIntents {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(deliveryIntents)))
-		for _, _item := range deliveryIntents {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteString16(callingAttributeTag)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := messageUri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteString16(scAddress)
+			case 5:
+				if sentIntents == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(sentIntents)))
+					for _, _item := range sentIntents {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 6:
+				if deliveryIntents == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(deliveryIntents)))
+					for _, _item := range deliveryIntents {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1178,7 +1851,21 @@ func (p *SmsProxy) GetCarrierConfigValuesForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsGetCarrierConfigValuesForSubscriber)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetCarrierConfigValuesForSubscriber)
 	if _err != nil {
@@ -1217,11 +1904,34 @@ func (p *SmsProxy) CreateAppSpecificSmsToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsCreateAppSpecificSmsToken)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsCreateAppSpecificSmsToken)
@@ -1257,12 +1967,38 @@ func (p *SmsProxy) CreateAppSpecificSmsTokenWithPackageInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingPkg)
-	_data.WriteString16(prefixes)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsCreateAppSpecificSmsTokenWithPackageInfo)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Landroid/app/PendingIntent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingPkg)
+		_data.WriteString16(prefixes)
+		_data.WriteInt32(1)
+		if _err := intent.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingPkg)
+			case 2:
+				_data.WriteString16(prefixes)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := intent.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsCreateAppSpecificSmsTokenWithPackageInfo)
@@ -1295,8 +2031,25 @@ func (p *SmsProxy) SetStorageMonitorMemoryStatusOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteBool(isStorageAvailable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsSetStorageMonitorMemoryStatusOverride)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteBool(isStorageAvailable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteBool(isStorageAvailable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSetStorageMonitorMemoryStatusOverride)
 	if _err != nil {
@@ -1323,7 +2076,21 @@ func (p *SmsProxy) ClearStorageMonitorMemoryStatusOverride(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsClearStorageMonitorMemoryStatusOverride)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsClearStorageMonitorMemoryStatusOverride)
 	if _err != nil {
@@ -1355,11 +2122,37 @@ func (p *SmsProxy) CheckSmsShortCodeDestination(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(callingApk)
-	_data.WriteString16(_identity.AttributionTag)
-	_data.WriteString16(destAddress)
-	_data.WriteString16(countryIso)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsCheckSmsShortCodeDestination)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(callingApk)
+		_data.WriteString16(_identity.AttributionTag)
+		_data.WriteString16(destAddress)
+		_data.WriteString16(countryIso)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(callingApk)
+			case 2:
+				_data.WriteString16(_identity.AttributionTag)
+			case 3:
+				_data.WriteString16(destAddress)
+			case 4:
+				_data.WriteString16(countryIso)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsCheckSmsShortCodeDestination)
 	if _err != nil {
@@ -1392,8 +2185,25 @@ func (p *SmsProxy) GetSmscAddressFromIccEfForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsGetSmscAddressFromIccEfForSubscriber)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetSmscAddressFromIccEfForSubscriber)
 	if _err != nil {
@@ -1427,9 +2237,29 @@ func (p *SmsProxy) SetSmscAddressOnIccEfForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteString16(smsc)
-	_data.WriteInt32(subId)
-	_data.WriteString16(_identity.PackageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsSetSmscAddressOnIccEfForSubscriber)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(smsc)
+		_data.WriteInt32(subId)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(smsc)
+			case 1:
+				_data.WriteInt32(subId)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSetSmscAddressOnIccEfForSubscriber)
 	if _err != nil {
@@ -1461,7 +2291,21 @@ func (p *SmsProxy) GetSmsCapacityOnIccForSubscriber(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsGetSmsCapacityOnIccForSubscriber)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetSmsCapacityOnIccForSubscriber)
 	if _err != nil {
@@ -1493,7 +2337,21 @@ func (p *SmsProxy) ResetAllCellBroadcastRanges(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsResetAllCellBroadcastRanges)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsResetAllCellBroadcastRanges)
 	if _err != nil {
@@ -1525,7 +2383,21 @@ func (p *SmsProxy) GetWapMessageSize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
-	_data.WriteString16(locationUrl)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISms, MethodISmsGetWapMessageSize)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(locationUrl)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(locationUrl)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetWapMessageSize)
 	if _err != nil {

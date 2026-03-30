@@ -174,7 +174,21 @@ func (p *SpatializerProxy) SetLevel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
-	_data.WritePaddedByte(byte(level))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializer, MethodISpatializerSetLevel)
+	_compiledDescs := []string{
+		"LSpatialization/Level;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(level))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(level))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetLevel)
 	if _err != nil {
@@ -306,7 +320,21 @@ func (p *SpatializerProxy) SetDesiredHeadTrackingMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
-	_data.WritePaddedByte(byte(mode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializer, MethodISpatializerSetDesiredHeadTrackingMode)
+	_compiledDescs := []string{
+		"LHeadTracking/Mode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(mode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(mode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetDesiredHeadTrackingMode)
 	if _err != nil {
@@ -389,12 +417,33 @@ func (p *SpatializerProxy) SetGlobalTransform(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
-	if screenToStage == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializer, MethodISpatializerSetGlobalTransform)
+	_compiledDescs := []string{
+		"[F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if screenToStage == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(screenToStage)))
+			for _, _item := range screenToStage {
+				_data.WriteFloat32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(screenToStage)))
-		for _, _item := range screenToStage {
-			_data.WriteFloat32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if screenToStage == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(screenToStage)))
+					for _, _item := range screenToStage {
+						_data.WriteFloat32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -423,7 +472,21 @@ func (p *SpatializerProxy) SetHeadSensor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
-	_data.WriteInt32(sensorHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializer, MethodISpatializerSetHeadSensor)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetHeadSensor)
 	if _err != nil {
@@ -450,7 +513,21 @@ func (p *SpatializerProxy) SetScreenSensor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
-	_data.WriteInt32(sensorHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializer, MethodISpatializerSetScreenSensor)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetScreenSensor)
 	if _err != nil {
@@ -477,7 +554,21 @@ func (p *SpatializerProxy) SetDisplayOrientation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
-	_data.WriteFloat32(physicalToLogicalAngle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializer, MethodISpatializerSetDisplayOrientation)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(physicalToLogicalAngle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(physicalToLogicalAngle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetDisplayOrientation)
 	if _err != nil {
@@ -504,7 +595,21 @@ func (p *SpatializerProxy) SetHingeAngle(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
-	_data.WriteFloat32(hingeAngle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializer, MethodISpatializerSetHingeAngle)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(hingeAngle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(hingeAngle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetHingeAngle)
 	if _err != nil {
@@ -531,7 +636,21 @@ func (p *SpatializerProxy) SetFoldState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
-	_data.WriteBool(folded)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializer, MethodISpatializerSetFoldState)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(folded)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(folded)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetFoldState)
 	if _err != nil {
@@ -602,7 +721,21 @@ func (p *SpatializerProxy) RegisterHeadTrackingCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializer, MethodISpatializerRegisterHeadTrackingCallback)
+	_compiledDescs := []string{
+		"Landroid/media/ISpatializerHeadTrackingCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerRegisterHeadTrackingCallback)
 	if _err != nil {
@@ -630,8 +763,25 @@ func (p *SpatializerProxy) SetParameter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
-	_data.WriteInt32(key)
-	_data.WriteByteArray(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializer, MethodISpatializerSetParameter)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(key)
+		_data.WriteByteArray(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(key)
+			case 1:
+				_data.WriteByteArray(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetParameter)
 	if _err != nil {
@@ -659,8 +809,25 @@ func (p *SpatializerProxy) GetParameter(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
-	_data.WriteInt32(key)
-	_data.WriteByteArray(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISpatializer, MethodISpatializerGetParameter)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(key)
+		_data.WriteByteArray(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(key)
+			case 1:
+				_data.WriteByteArray(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetParameter)
 	if _err != nil {

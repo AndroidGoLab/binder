@@ -82,7 +82,21 @@ func (p *SoundTriggerInjectionProxy) RegisterGlobalEventInjection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
-	binder.WriteBinderToParcel(ctx, _data, globalInjection.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionRegisterGlobalEventInjection)
+	_compiledDescs := []string{
+		"Landroid/media/soundtrigger_middleware/IInjectGlobalEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, globalInjection.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, globalInjection.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionRegisterGlobalEventInjection)
 	if _err != nil {
@@ -100,7 +114,21 @@ func (p *SoundTriggerInjectionProxy) OnRestarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
-	binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnRestarted)
+	_compiledDescs := []string{
+		"Landroid/media/soundtrigger_middleware/IInjectGlobalEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnRestarted)
 	if _err != nil {
@@ -118,7 +146,21 @@ func (p *SoundTriggerInjectionProxy) OnFrameworkDetached(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
-	binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnFrameworkDetached)
+	_compiledDescs := []string{
+		"Landroid/media/soundtrigger_middleware/IInjectGlobalEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnFrameworkDetached)
 	if _err != nil {
@@ -137,8 +179,25 @@ func (p *SoundTriggerInjectionProxy) OnClientAttached(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnClientAttached)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/media/soundtrigger_middleware/IInjectGlobalEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnClientAttached)
 	if _err != nil {
@@ -156,7 +215,21 @@ func (p *SoundTriggerInjectionProxy) OnClientDetached(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnClientDetached)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnClientDetached)
 	if _err != nil {
@@ -177,23 +250,59 @@ func (p *SoundTriggerInjectionProxy) OnSoundModelLoaded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
-	_data.WriteInt32(1)
-	if _err := model.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnSoundModelLoaded)
+	_compiledDescs := []string{
+		"Landroid/media/soundtrigger/SoundModel;",
+		"[Landroid/media/soundtrigger/Phrase;",
+		"Landroid/media/soundtrigger_middleware/IInjectModelEvent;",
+		"Landroid/media/soundtrigger_middleware/IInjectGlobalEvent;",
 	}
-	if phrases == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := model.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if phrases == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(phrases)))
+			for _, _item := range phrases {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, modelInjection.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(phrases)))
-		for _, _item := range phrases {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := model.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				if phrases == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(phrases)))
+					for _, _item := range phrases {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, modelInjection.AsBinder(), p.Remote.Transport())
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, modelInjection.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnSoundModelLoaded)
 	if _err != nil {
@@ -213,9 +322,29 @@ func (p *SoundTriggerInjectionProxy) OnParamSet(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
-	_data.WriteInt32(modelParam)
-	_data.WriteInt32(value)
-	binder.WriteBinderToParcel(ctx, _data, modelSession.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnParamSet)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/media/soundtrigger_middleware/IInjectModelEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(modelParam)
+		_data.WriteInt32(value)
+		binder.WriteBinderToParcel(ctx, _data, modelSession.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(modelParam)
+			case 1:
+				_data.WriteInt32(value)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, modelSession.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnParamSet)
 	if _err != nil {
@@ -236,13 +365,39 @@ func (p *SoundTriggerInjectionProxy) OnRecognitionStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
-	_data.WriteInt32(audioSessionToken)
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnRecognitionStarted)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/soundtrigger/RecognitionConfig;",
+		"Landroid/media/soundtrigger_middleware/IInjectRecognitionEvent;",
+		"Landroid/media/soundtrigger_middleware/IInjectModelEvent;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, recognitionInjection.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, modelSession.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(audioSessionToken)
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, recognitionInjection.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, modelSession.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(audioSessionToken)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, recognitionInjection.AsBinder(), p.Remote.Transport())
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, modelSession.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnRecognitionStarted)
 	if _err != nil {
@@ -260,7 +415,21 @@ func (p *SoundTriggerInjectionProxy) OnRecognitionStopped(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
-	binder.WriteBinderToParcel(ctx, _data, recognitionSession.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnRecognitionStopped)
+	_compiledDescs := []string{
+		"Landroid/media/soundtrigger_middleware/IInjectRecognitionEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, recognitionSession.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, recognitionSession.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnRecognitionStopped)
 	if _err != nil {
@@ -278,7 +447,21 @@ func (p *SoundTriggerInjectionProxy) OnSoundModelUnloaded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
-	binder.WriteBinderToParcel(ctx, _data, modelSession.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnSoundModelUnloaded)
+	_compiledDescs := []string{
+		"Landroid/media/soundtrigger_middleware/IInjectModelEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, modelSession.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, modelSession.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnSoundModelUnloaded)
 	if _err != nil {

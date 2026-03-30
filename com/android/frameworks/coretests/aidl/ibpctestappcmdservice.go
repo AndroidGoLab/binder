@@ -65,7 +65,21 @@ func (p *BpcTestAppCmdServiceProxy) CreateSystemBinders(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBpcTestAppCmdService)
-	_data.WriteInt32(count)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceCreateSystemBinders)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(count)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(count)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceCreateSystemBinders)
 	if _err != nil {
@@ -92,7 +106,21 @@ func (p *BpcTestAppCmdServiceProxy) ReleaseSystemBinders(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBpcTestAppCmdService)
-	_data.WriteInt32(count)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceReleaseSystemBinders)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(count)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(count)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceReleaseSystemBinders)
 	if _err != nil {
@@ -119,7 +147,21 @@ func (p *BpcTestAppCmdServiceProxy) CreateTestBinders(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBpcTestAppCmdService)
-	_data.WriteInt32(count)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceCreateTestBinders)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(count)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(count)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceCreateTestBinders)
 	if _err != nil {
@@ -146,7 +188,21 @@ func (p *BpcTestAppCmdServiceProxy) ReleaseTestBinders(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBpcTestAppCmdService)
-	_data.WriteInt32(count)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceReleaseTestBinders)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(count)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(count)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceReleaseTestBinders)
 	if _err != nil {

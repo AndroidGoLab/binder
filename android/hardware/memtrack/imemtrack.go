@@ -52,8 +52,25 @@ func (p *MemtrackProxy) GetMemory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMemtrack)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(int32(type_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMemtrack, MethodIMemtrackGetMemory)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/memtrack/MemtrackType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(pid)
+		_data.WriteInt32(int32(type_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(pid)
+			case 1:
+				_data.WriteInt32(int32(type_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMemtrack, MethodIMemtrackGetMemory)
 	if _err != nil {

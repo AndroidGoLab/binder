@@ -108,7 +108,21 @@ func (p *CarDisplayProxyProxy) GetDisplayInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
-	_data.WriteInt64(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyGetDisplayInfo)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyGetDisplayInfo)
 	if _err != nil {
@@ -145,7 +159,21 @@ func (p *CarDisplayProxyProxy) GetHGraphicBufferProducer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
-	_data.WriteInt64(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyGetHGraphicBufferProducer)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyGetHGraphicBufferProducer)
 	if _err != nil {
@@ -181,7 +209,21 @@ func (p *CarDisplayProxyProxy) HideWindow(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
-	_data.WriteInt64(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyHideWindow)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyHideWindow)
 	if _err != nil {
@@ -208,7 +250,21 @@ func (p *CarDisplayProxyProxy) ShowWindow(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
-	_data.WriteInt64(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyShowWindow)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyShowWindow)
 	if _err != nil {
@@ -236,7 +292,21 @@ func (p *CarDisplayProxyProxy) GetSurface(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
-	_data.WriteInt64(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyGetSurface)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyGetSurface)
 	if _err != nil {

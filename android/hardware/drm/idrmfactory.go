@@ -55,11 +55,31 @@ func (p *DrmFactoryProxy) CreateDrmPlugin(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmFactory)
-	_data.WriteInt32(1)
-	if _err := uuid.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmFactory, MethodIDrmFactoryCreateDrmPlugin)
+	_compiledDescs := []string{
+		"Landroid/hardware/drm/Uuid;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(appPackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := uuid.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(appPackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := uuid.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(appPackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmFactory, MethodIDrmFactoryCreateDrmPlugin)
 	if _err != nil {
@@ -93,11 +113,31 @@ func (p *DrmFactoryProxy) CreateCryptoPlugin(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmFactory)
-	_data.WriteInt32(1)
-	if _err := uuid.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDrmFactory, MethodIDrmFactoryCreateCryptoPlugin)
+	_compiledDescs := []string{
+		"Landroid/hardware/drm/Uuid;",
+		"[B",
 	}
-	_data.WriteByteArray(initData)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := uuid.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteByteArray(initData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := uuid.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteByteArray(initData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmFactory, MethodIDrmFactoryCreateCryptoPlugin)
 	if _err != nil {

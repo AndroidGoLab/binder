@@ -47,7 +47,21 @@ func (p *ShortcutServiceProxy) NotifyShortcutKeyPressed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	_data.WriteInt64(shortcutCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIShortcutService, MethodIShortcutServiceNotifyShortcutKeyPressed)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(shortcutCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(shortcutCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceNotifyShortcutKeyPressed)
 	if _err != nil {

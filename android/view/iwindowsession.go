@@ -188,14 +188,43 @@ func (p *WindowSessionProxy) AddToDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := attrs.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionAddToDisplay)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"LWindowManager/LayoutParams;",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(viewVisibility)
-	_data.WriteInt32(layerStackId)
-	_data.WriteInt32(requestedVisibleTypes)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := attrs.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(viewVisibility)
+		_data.WriteInt32(layerStackId)
+		_data.WriteInt32(requestedVisibleTypes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attrs.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(viewVisibility)
+			case 3:
+				_data.WriteInt32(layerStackId)
+			case 4:
+				_data.WriteInt32(requestedVisibleTypes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionAddToDisplay)
 	if _err != nil {
@@ -297,15 +326,47 @@ func (p *WindowSessionProxy) AddToDisplayAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := attrs.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionAddToDisplayAsUser)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"LWindowManager/LayoutParams;",
+		"I",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(viewVisibility)
-	_data.WriteInt32(layerStackId)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(requestedVisibleTypes)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := attrs.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(viewVisibility)
+		_data.WriteInt32(layerStackId)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(requestedVisibleTypes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attrs.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(viewVisibility)
+			case 3:
+				_data.WriteInt32(layerStackId)
+			case 4:
+				_data.WriteInt32(_identity.UserID)
+			case 5:
+				_data.WriteInt32(requestedVisibleTypes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionAddToDisplayAsUser)
 	if _err != nil {
@@ -403,13 +464,39 @@ func (p *WindowSessionProxy) AddToDisplayWithoutInputChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := attrs.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionAddToDisplayWithoutInputChannel)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"LWindowManager/LayoutParams;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(viewVisibility)
-	_data.WriteInt32(layerStackId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := attrs.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(viewVisibility)
+		_data.WriteInt32(layerStackId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attrs.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(viewVisibility)
+			case 3:
+				_data.WriteInt32(layerStackId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionAddToDisplayWithoutInputChannel)
 	if _err != nil {
@@ -478,7 +565,21 @@ func (p *WindowSessionProxy) Remove(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionRemove)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionRemove)
 	if _err != nil {
@@ -519,17 +620,55 @@ func (p *WindowSessionProxy) Relayout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := attrs.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionRelayout)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"LWindowManager/LayoutParams;",
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(requestedWidth)
-	_data.WriteInt32(requestedHeight)
-	_data.WriteInt32(viewVisibility)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(seq)
-	_data.WriteInt32(lastSyncSeqId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := attrs.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(requestedWidth)
+		_data.WriteInt32(requestedHeight)
+		_data.WriteInt32(viewVisibility)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(seq)
+		_data.WriteInt32(lastSyncSeqId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attrs.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(requestedWidth)
+			case 3:
+				_data.WriteInt32(requestedHeight)
+			case 4:
+				_data.WriteInt32(viewVisibility)
+			case 5:
+				_data.WriteInt32(flags)
+			case 6:
+				_data.WriteInt32(seq)
+			case 7:
+				_data.WriteInt32(lastSyncSeqId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionRelayout)
 	if _err != nil {
@@ -633,17 +772,55 @@ func (p *WindowSessionProxy) RelayoutAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := attrs.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionRelayoutAsync)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"LWindowManager/LayoutParams;",
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(requestedWidth)
-	_data.WriteInt32(requestedHeight)
-	_data.WriteInt32(viewVisibility)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(seq)
-	_data.WriteInt32(lastSyncSeqId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := attrs.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(requestedWidth)
+		_data.WriteInt32(requestedHeight)
+		_data.WriteInt32(viewVisibility)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(seq)
+		_data.WriteInt32(lastSyncSeqId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attrs.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(requestedWidth)
+			case 3:
+				_data.WriteInt32(requestedHeight)
+			case 4:
+				_data.WriteInt32(viewVisibility)
+			case 5:
+				_data.WriteInt32(flags)
+			case 6:
+				_data.WriteInt32(seq)
+			case 7:
+				_data.WriteInt32(lastSyncSeqId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionRelayoutAsync)
 	if _err != nil {
@@ -662,7 +839,21 @@ func (p *WindowSessionProxy) OutOfMemory(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionOutOfMemory)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionOutOfMemory)
 	if _err != nil {
@@ -697,19 +888,54 @@ func (p *WindowSessionProxy) SetInsets(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(touchableInsets)
-	_data.WriteInt32(1)
-	if _err := contentInsets.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionSetInsets)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"I",
+		"Landroid/graphics/Rect;",
+		"Landroid/graphics/Rect;",
+		"Landroid/graphics/Region;",
 	}
-	_data.WriteInt32(1)
-	if _err := visibleInsets.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := touchableRegion.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(touchableInsets)
+		_data.WriteInt32(1)
+		if _err := contentInsets.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := visibleInsets.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := touchableRegion.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(touchableInsets)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := contentInsets.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := visibleInsets.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := touchableRegion.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionSetInsets)
@@ -730,12 +956,35 @@ func (p *WindowSessionProxy) FinishDrawing(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := postDrawTransaction.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionFinishDrawing)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"LSurfaceControl/Transaction;",
+		"I",
 	}
-	_data.WriteInt32(seqId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := postDrawTransaction.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(seqId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := postDrawTransaction.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(seqId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionFinishDrawing)
 	if _err != nil {
@@ -756,9 +1005,29 @@ func (p *WindowSessionProxy) PerformHapticFeedback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	_data.WriteInt32(effectId)
-	_data.WriteBool(always)
-	_data.WriteBool(fromIme)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionPerformHapticFeedback)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(effectId)
+		_data.WriteBool(always)
+		_data.WriteBool(fromIme)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(effectId)
+			case 1:
+				_data.WriteBool(always)
+			case 2:
+				_data.WriteBool(fromIme)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionPerformHapticFeedback)
 	if _err != nil {
@@ -791,9 +1060,29 @@ func (p *WindowSessionProxy) PerformHapticFeedbackAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	_data.WriteInt32(effectId)
-	_data.WriteBool(always)
-	_data.WriteBool(fromIme)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionPerformHapticFeedbackAsync)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(effectId)
+		_data.WriteBool(always)
+		_data.WriteBool(fromIme)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(effectId)
+			case 1:
+				_data.WriteBool(always)
+			case 2:
+				_data.WriteBool(fromIme)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionPerformHapticFeedbackAsync)
 	if _err != nil {
@@ -822,22 +1111,72 @@ func (p *WindowSessionProxy) PerformDrag(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := surface.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionPerformDrag)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"I",
+		"Landroid/view/SurfaceControl;",
+		"I",
+		"I",
+		"I",
+		"F",
+		"F",
+		"F",
+		"F",
+		"Landroid/content/ClipData;",
 	}
-	_data.WriteInt32(touchSource)
-	_data.WriteInt32(touchDeviceId)
-	_data.WriteInt32(touchPointerId)
-	_data.WriteFloat32(touchX)
-	_data.WriteFloat32(touchY)
-	_data.WriteFloat32(thumbCenterX)
-	_data.WriteFloat32(thumbCenterY)
-	_data.WriteInt32(1)
-	if _err := data.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(flags)
+		_data.WriteInt32(1)
+		if _err := surface.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(touchSource)
+		_data.WriteInt32(touchDeviceId)
+		_data.WriteInt32(touchPointerId)
+		_data.WriteFloat32(touchX)
+		_data.WriteFloat32(touchY)
+		_data.WriteFloat32(thumbCenterX)
+		_data.WriteFloat32(thumbCenterY)
+		_data.WriteInt32(1)
+		if _err := data.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(flags)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := surface.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteInt32(touchSource)
+			case 4:
+				_data.WriteInt32(touchDeviceId)
+			case 5:
+				_data.WriteInt32(touchPointerId)
+			case 6:
+				_data.WriteFloat32(touchX)
+			case 7:
+				_data.WriteFloat32(touchY)
+			case 8:
+				_data.WriteFloat32(thumbCenterX)
+			case 9:
+				_data.WriteFloat32(thumbCenterY)
+			case 10:
+				_data.WriteInt32(1)
+				if _err := data.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionPerformDrag)
@@ -873,9 +1212,29 @@ func (p *WindowSessionProxy) DropForAccessibility(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(x)
-	_data.WriteInt32(y)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionDropForAccessibility)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(x)
+		_data.WriteInt32(y)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(x)
+			case 2:
+				_data.WriteInt32(y)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionDropForAccessibility)
 	if _err != nil {
@@ -907,8 +1266,25 @@ func (p *WindowSessionProxy) ReportDropResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteBool(consumed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionReportDropResult)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteBool(consumed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteBool(consumed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionReportDropResult)
 	if _err != nil {
@@ -927,8 +1303,25 @@ func (p *WindowSessionProxy) CancelDragAndDrop(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, dragToken, p.Remote.Transport())
-	_data.WriteBool(skipAnimation)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionCancelDragAndDrop)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, dragToken, p.Remote.Transport())
+		_data.WriteBool(skipAnimation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, dragToken, p.Remote.Transport())
+			case 1:
+				_data.WriteBool(skipAnimation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionCancelDragAndDrop)
 	if _err != nil {
@@ -946,7 +1339,21 @@ func (p *WindowSessionProxy) DragRecipientEntered(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionDragRecipientEntered)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionDragRecipientEntered)
 	if _err != nil {
@@ -964,7 +1371,21 @@ func (p *WindowSessionProxy) DragRecipientExited(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionDragRecipientExited)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionDragRecipientExited)
 	if _err != nil {
@@ -986,11 +1407,37 @@ func (p *WindowSessionProxy) SetWallpaperPosition(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
-	_data.WriteFloat32(x)
-	_data.WriteFloat32(y)
-	_data.WriteFloat32(xstep)
-	_data.WriteFloat32(ystep)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionSetWallpaperPosition)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"F",
+		"F",
+		"F",
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+		_data.WriteFloat32(x)
+		_data.WriteFloat32(y)
+		_data.WriteFloat32(xstep)
+		_data.WriteFloat32(ystep)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+			case 1:
+				_data.WriteFloat32(x)
+			case 2:
+				_data.WriteFloat32(y)
+			case 3:
+				_data.WriteFloat32(xstep)
+			case 4:
+				_data.WriteFloat32(ystep)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionSetWallpaperPosition)
 	if _err != nil {
@@ -1009,8 +1456,25 @@ func (p *WindowSessionProxy) SetWallpaperZoomOut(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
-	_data.WriteFloat32(scale)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionSetWallpaperZoomOut)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+		_data.WriteFloat32(scale)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+			case 1:
+				_data.WriteFloat32(scale)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionSetWallpaperZoomOut)
 	if _err != nil {
@@ -1029,8 +1493,25 @@ func (p *WindowSessionProxy) SetShouldZoomOutWallpaper(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
-	_data.WriteBool(shouldZoom)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionSetShouldZoomOutWallpaper)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+		_data.WriteBool(shouldZoom)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+			case 1:
+				_data.WriteBool(shouldZoom)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionSetShouldZoomOutWallpaper)
 	if _err != nil {
@@ -1048,7 +1529,21 @@ func (p *WindowSessionProxy) WallpaperOffsetsComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionWallpaperOffsetsComplete)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionWallpaperOffsetsComplete)
 	if _err != nil {
@@ -1068,9 +1563,29 @@ func (p *WindowSessionProxy) SetWallpaperDisplayOffset(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
-	_data.WriteInt32(x)
-	_data.WriteInt32(y)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionSetWallpaperDisplayOffset)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+		_data.WriteInt32(x)
+		_data.WriteInt32(y)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(x)
+			case 2:
+				_data.WriteInt32(y)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionSetWallpaperDisplayOffset)
 	if _err != nil {
@@ -1094,16 +1609,51 @@ func (p *WindowSessionProxy) SendWallpaperCommand(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
-	_data.WriteString16(action)
-	_data.WriteInt32(x)
-	_data.WriteInt32(y)
-	_data.WriteInt32(z)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionSendWallpaperCommand)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+		"Landroid/os/Bundle;",
+		"Z",
 	}
-	_data.WriteBool(sync)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
+		_data.WriteString16(action)
+		_data.WriteInt32(x)
+		_data.WriteInt32(y)
+		_data.WriteInt32(z)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(sync)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(action)
+			case 2:
+				_data.WriteInt32(x)
+			case 3:
+				_data.WriteInt32(y)
+			case 4:
+				_data.WriteInt32(z)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 6:
+				_data.WriteBool(sync)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionSendWallpaperCommand)
 	if _err != nil {
@@ -1122,10 +1672,30 @@ func (p *WindowSessionProxy) WallpaperCommandComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionWallpaperCommandComplete)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionWallpaperCommandComplete)
@@ -1145,10 +1715,30 @@ func (p *WindowSessionProxy) OnRectangleOnScreenRequested(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := rectangle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionOnRectangleOnScreenRequested)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/graphics/Rect;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := rectangle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := rectangle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionOnRectangleOnScreenRequested)
@@ -1168,7 +1758,21 @@ func (p *WindowSessionProxy) GetWindowId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionGetWindowId)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionGetWindowId)
 	if _err != nil {
@@ -1200,7 +1804,21 @@ func (p *WindowSessionProxy) PokeDrawLock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionPokeDrawLock)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionPokeDrawLock)
 	if _err != nil {
@@ -1230,9 +1848,29 @@ func (p *WindowSessionProxy) StartMovingTask(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteFloat32(startX)
-	_data.WriteFloat32(startY)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionStartMovingTask)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"F",
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteFloat32(startX)
+		_data.WriteFloat32(startY)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteFloat32(startX)
+			case 2:
+				_data.WriteFloat32(startY)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionStartMovingTask)
 	if _err != nil {
@@ -1263,7 +1901,21 @@ func (p *WindowSessionProxy) FinishMovingTask(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionFinishMovingTask)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionFinishMovingTask)
 	if _err != nil {
@@ -1281,7 +1933,21 @@ func (p *WindowSessionProxy) UpdatePointerIcon(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionUpdatePointerIcon)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionUpdatePointerIcon)
 	if _err != nil {
@@ -1300,10 +1966,30 @@ func (p *WindowSessionProxy) UpdateTapExcludeRegion(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := region.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionUpdateTapExcludeRegion)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"Landroid/graphics/Region;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := region.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := region.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionUpdateTapExcludeRegion)
@@ -1323,8 +2009,25 @@ func (p *WindowSessionProxy) UpdateRequestedVisibleTypes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(requestedVisibleTypes)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionUpdateRequestedVisibleTypes)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(requestedVisibleTypes)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(requestedVisibleTypes)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionUpdateRequestedVisibleTypes)
 	if _err != nil {
@@ -1343,15 +2046,42 @@ func (p *WindowSessionProxy) ReportSystemGestureExclusionChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	if exclusionRects == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionReportSystemGestureExclusionChanged)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		if exclusionRects == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(exclusionRects)))
+			for _, _item := range exclusionRects {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(exclusionRects)))
-		for _, _item := range exclusionRects {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				if exclusionRects == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(exclusionRects)))
+					for _, _item := range exclusionRects {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1373,8 +2103,25 @@ func (p *WindowSessionProxy) ReportDecorViewGestureInterceptionChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteBool(intercepted)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionReportDecorViewGestureInterceptionChanged)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteBool(intercepted)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteBool(intercepted)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionReportDecorViewGestureInterceptionChanged)
 	if _err != nil {
@@ -1394,26 +2141,66 @@ func (p *WindowSessionProxy) ReportKeepClearAreasChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	if restricted == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(restricted)))
-		for _, _item := range restricted {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionReportKeepClearAreasChanged)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"Ljava/util/List;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		if restricted == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(restricted)))
+			for _, _item := range restricted {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
 			}
 		}
-	}
-	if unrestricted == nil {
-		_data.WriteInt32(-1)
+		if unrestricted == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(unrestricted)))
+			for _, _item := range unrestricted {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(unrestricted)))
-		for _, _item := range unrestricted {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				if restricted == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(restricted)))
+					for _, _item := range restricted {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				if unrestricted == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(unrestricted)))
+					for _, _item := range unrestricted {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1445,30 +2232,87 @@ func (p *WindowSessionProxy) GrantInputChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(1)
-	if _err := surface.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionGrantInputChannel)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/view/SurfaceControl;",
+		"Landroid/os/IBinder;",
+		"Landroid/window/InputTransferToken;",
+		"I",
+		"I",
+		"I",
+		"I",
+		"Landroid/os/IBinder;",
+		"Landroid/window/InputTransferToken;",
+		"Ljava/lang/String;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
-	if hostInputTransferToken != nil {
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
 		_data.WriteInt32(1)
-		if _err := (*hostInputTransferToken).MarshalParcel(_data); _err != nil {
+		if _err := surface.MarshalParcel(_data); _err != nil {
 			return _err
 		}
+		binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+		if hostInputTransferToken != nil {
+			_data.WriteInt32(1)
+			if _err := (*hostInputTransferToken).MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		_data.WriteInt32(flags)
+		_data.WriteInt32(privateFlags)
+		_data.WriteInt32(inputFeatures)
+		_data.WriteInt32(type_)
+		binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := embeddedInputTransferToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(inputHandleName)
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := surface.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+			case 3:
+				if hostInputTransferToken != nil {
+					_data.WriteInt32(1)
+					if _err := (*hostInputTransferToken).MarshalParcel(_data); _err != nil {
+						return _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 4:
+				_data.WriteInt32(flags)
+			case 5:
+				_data.WriteInt32(privateFlags)
+			case 6:
+				_data.WriteInt32(inputFeatures)
+			case 7:
+				_data.WriteInt32(type_)
+			case 8:
+				binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
+			case 9:
+				_data.WriteInt32(1)
+				if _err := embeddedInputTransferToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 10:
+				_data.WriteString16(inputHandleName)
+			}
+		}
 	}
-	_data.WriteInt32(flags)
-	_data.WriteInt32(privateFlags)
-	_data.WriteInt32(inputFeatures)
-	_data.WriteInt32(type_)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := embeddedInputTransferToken.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteString16(inputHandleName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionGrantInputChannel)
 	if _err != nil {
@@ -1512,18 +2356,56 @@ func (p *WindowSessionProxy) UpdateInputChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, channelToken, p.Remote.Transport())
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(1)
-	if _err := surface.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionUpdateInputChannel)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+		"Landroid/view/SurfaceControl;",
+		"I",
+		"I",
+		"I",
+		"Landroid/graphics/Region;",
 	}
-	_data.WriteInt32(flags)
-	_data.WriteInt32(privateFlags)
-	_data.WriteInt32(inputFeatures)
-	_data.WriteInt32(1)
-	if _err := region.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, channelToken, p.Remote.Transport())
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(1)
+		if _err := surface.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(flags)
+		_data.WriteInt32(privateFlags)
+		_data.WriteInt32(inputFeatures)
+		_data.WriteInt32(1)
+		if _err := region.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, channelToken, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(displayId)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := surface.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(flags)
+			case 4:
+				_data.WriteInt32(privateFlags)
+			case 5:
+				_data.WriteInt32(inputFeatures)
+			case 6:
+				_data.WriteInt32(1)
+				if _err := region.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionUpdateInputChannel)
@@ -1544,12 +2426,35 @@ func (p *WindowSessionProxy) GrantEmbeddedWindowFocus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := inputToken.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionGrantEmbeddedWindowFocus)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"Landroid/window/InputTransferToken;",
+		"Z",
 	}
-	_data.WriteBool(grantFocus)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := inputToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(grantFocus)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := inputToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteBool(grantFocus)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionGrantEmbeddedWindowFocus)
 	if _err != nil {
@@ -1579,15 +2484,44 @@ func (p *WindowSessionProxy) GenerateDisplayHash(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := boundsInWindow.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionGenerateDisplayHash)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"Landroid/graphics/Rect;",
+		"Ljava/lang/String;",
+		"Landroid/os/RemoteCallback;",
 	}
-	_data.WriteString16(hashAlgorithm)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := boundsInWindow.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(hashAlgorithm)
+		_data.WriteInt32(1)
+		if _err := callback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := boundsInWindow.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(hashAlgorithm)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := callback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionGenerateDisplayHash)
@@ -1607,10 +2541,30 @@ func (p *WindowSessionProxy) SetOnBackInvokedCallbackInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := callbackInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionSetOnBackInvokedCallbackInfo)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"Landroid/window/OnBackInvokedCallbackInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := callbackInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := callbackInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionSetOnBackInvokedCallbackInfo)
@@ -1629,7 +2583,21 @@ func (p *WindowSessionProxy) ClearTouchableRegion(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionClearTouchableRegion)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionClearTouchableRegion)
 	if _err != nil {
@@ -1657,7 +2625,21 @@ func (p *WindowSessionProxy) CancelDraw(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionCancelDraw)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionCancelDraw)
 	if _err != nil {
@@ -1690,8 +2672,25 @@ func (p *WindowSessionProxy) MoveFocusToAdjacentWindow(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, fromWindow.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(direction)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIWindowSession, MethodIWindowSessionMoveFocusToAdjacentWindow)
+	_compiledDescs := []string{
+		"Landroid/view/IWindow;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, fromWindow.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(direction)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, fromWindow.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(direction)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionMoveFocusToAdjacentWindow)
 	if _err != nil {

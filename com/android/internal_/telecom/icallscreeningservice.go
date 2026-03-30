@@ -49,10 +49,30 @@ func (p *CallScreeningServiceProxy) ScreenCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallScreeningService)
-	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := call.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICallScreeningService, MethodICallScreeningServiceScreenCall)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telecom/ICallScreeningAdapter;",
+		"Landroid/telecom/ParcelableCall;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := call.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := call.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallScreeningService, MethodICallScreeningServiceScreenCall)

@@ -54,8 +54,25 @@ func (p *ImsMediaListenerProxy) OnOpenSessionSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaListener)
-	_data.WriteInt32(sessionId)
-	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsMediaListener, MethodIImsMediaListenerOnOpenSessionSuccess)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/ims/media/IImsMediaSession;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMediaListener, MethodIImsMediaListenerOnOpenSessionSuccess)
 	if _err != nil {
@@ -74,8 +91,25 @@ func (p *ImsMediaListenerProxy) OnOpenSessionFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaListener)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(int32(error_))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsMediaListener, MethodIImsMediaListenerOnOpenSessionFailure)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/radio/ims/media/RtpError;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+		_data.WriteInt32(int32(error_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			case 1:
+				_data.WriteInt32(int32(error_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMediaListener, MethodIImsMediaListenerOnOpenSessionFailure)
 	if _err != nil {
@@ -93,7 +127,21 @@ func (p *ImsMediaListenerProxy) OnSessionClosed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaListener)
-	_data.WriteInt32(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsMediaListener, MethodIImsMediaListenerOnSessionClosed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMediaListener, MethodIImsMediaListenerOnSessionClosed)
 	if _err != nil {

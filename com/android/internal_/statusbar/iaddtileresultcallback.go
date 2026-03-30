@@ -47,7 +47,21 @@ func (p *AddTileResultCallbackProxy) OnTileRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAddTileResultCallback)
-	_data.WriteInt32(userResponse)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAddTileResultCallback, MethodIAddTileResultCallbackOnTileRequest)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(userResponse)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(userResponse)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAddTileResultCallback, MethodIAddTileResultCallbackOnTileRequest)
 	if _err != nil {

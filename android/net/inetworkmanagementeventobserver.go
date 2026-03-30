@@ -79,8 +79,25 @@ func (p *NetworkManagementEventObserverProxy) InterfaceStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
-	_data.WriteString16(iface)
-	_data.WriteBool(up)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverInterfaceStatusChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iface)
+		_data.WriteBool(up)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iface)
+			case 1:
+				_data.WriteBool(up)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverInterfaceStatusChanged)
 	if _err != nil {
@@ -99,8 +116,25 @@ func (p *NetworkManagementEventObserverProxy) InterfaceLinkStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
-	_data.WriteString16(iface)
-	_data.WriteBool(up)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverInterfaceLinkStateChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iface)
+		_data.WriteBool(up)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iface)
+			case 1:
+				_data.WriteBool(up)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverInterfaceLinkStateChanged)
 	if _err != nil {
@@ -118,7 +152,21 @@ func (p *NetworkManagementEventObserverProxy) InterfaceAdded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
-	_data.WriteString16(iface)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverInterfaceAdded)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iface)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iface)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverInterfaceAdded)
 	if _err != nil {
@@ -136,7 +184,21 @@ func (p *NetworkManagementEventObserverProxy) InterfaceRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
-	_data.WriteString16(iface)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverInterfaceRemoved)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iface)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iface)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverInterfaceRemoved)
 	if _err != nil {
@@ -155,10 +217,30 @@ func (p *NetworkManagementEventObserverProxy) AddressUpdated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
-	_data.WriteString16(iface)
-	_data.WriteInt32(1)
-	if _err := address.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverAddressUpdated)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/radio/data/LinkAddress;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iface)
+		_data.WriteInt32(1)
+		if _err := address.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iface)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := address.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverAddressUpdated)
@@ -178,10 +260,30 @@ func (p *NetworkManagementEventObserverProxy) AddressRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
-	_data.WriteString16(iface)
-	_data.WriteInt32(1)
-	if _err := address.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverAddressRemoved)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/hardware/radio/data/LinkAddress;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iface)
+		_data.WriteInt32(1)
+		if _err := address.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iface)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := address.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverAddressRemoved)
@@ -201,8 +303,25 @@ func (p *NetworkManagementEventObserverProxy) LimitReached(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
-	_data.WriteString16(limitName)
-	_data.WriteString16(iface)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverLimitReached)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(limitName)
+		_data.WriteString16(iface)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(limitName)
+			case 1:
+				_data.WriteString16(iface)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverLimitReached)
 	if _err != nil {
@@ -223,10 +342,33 @@ func (p *NetworkManagementEventObserverProxy) InterfaceClassDataActivityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
-	_data.WriteInt32(label)
-	_data.WriteBool(active)
-	_data.WriteInt64(tsNanos)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverInterfaceClassDataActivityChanged)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(label)
+		_data.WriteBool(active)
+		_data.WriteInt64(tsNanos)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(label)
+			case 1:
+				_data.WriteBool(active)
+			case 2:
+				_data.WriteInt64(tsNanos)
+			case 3:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverInterfaceClassDataActivityChanged)
 	if _err != nil {
@@ -246,14 +388,41 @@ func (p *NetworkManagementEventObserverProxy) InterfaceDnsServerInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
-	_data.WriteString16(iface)
-	_data.WriteInt64(lifetime)
-	if servers == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverInterfaceDnsServerInfo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"J",
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(iface)
+		_data.WriteInt64(lifetime)
+		if servers == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(servers)))
+			for _, _item := range servers {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(servers)))
-		for _, _item := range servers {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(iface)
+			case 1:
+				_data.WriteInt64(lifetime)
+			case 2:
+				if servers == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(servers)))
+					for _, _item := range servers {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 

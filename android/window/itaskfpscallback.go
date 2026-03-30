@@ -47,7 +47,21 @@ func (p *TaskFpsCallbackProxy) OnFpsReported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFpsCallback)
-	_data.WriteFloat32(fps)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskFpsCallback, MethodITaskFpsCallbackOnFpsReported)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(fps)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(fps)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFpsCallback, MethodITaskFpsCallbackOnFpsReported)
 	if _err != nil {

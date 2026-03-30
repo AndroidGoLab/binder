@@ -59,7 +59,21 @@ func (p *BluetoothChannelSoundingSessionCallbackProxy) OnOpened(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSessionCallback)
-	_data.WriteInt32(int32(reason))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothChannelSoundingSessionCallback, MethodIBluetoothChannelSoundingSessionCallbackOnOpened)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/ranging/Reason;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(reason))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(reason))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothChannelSoundingSessionCallback, MethodIBluetoothChannelSoundingSessionCallbackOnOpened)
 	if _err != nil {
@@ -86,7 +100,21 @@ func (p *BluetoothChannelSoundingSessionCallbackProxy) OnOpenFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSessionCallback)
-	_data.WriteInt32(int32(reason))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothChannelSoundingSessionCallback, MethodIBluetoothChannelSoundingSessionCallbackOnOpenFailed)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/ranging/Reason;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(reason))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(reason))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothChannelSoundingSessionCallback, MethodIBluetoothChannelSoundingSessionCallbackOnOpenFailed)
 	if _err != nil {
@@ -113,9 +141,26 @@ func (p *BluetoothChannelSoundingSessionCallbackProxy) OnResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSessionCallback)
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothChannelSoundingSessionCallback, MethodIBluetoothChannelSoundingSessionCallbackOnResult)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/ranging/RangingResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := result.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := result.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothChannelSoundingSessionCallback, MethodIBluetoothChannelSoundingSessionCallbackOnResult)
@@ -143,7 +188,21 @@ func (p *BluetoothChannelSoundingSessionCallbackProxy) OnClose(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSessionCallback)
-	_data.WriteInt32(int32(reason))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothChannelSoundingSessionCallback, MethodIBluetoothChannelSoundingSessionCallbackOnClose)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/ranging/Reason;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(reason))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(reason))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothChannelSoundingSessionCallback, MethodIBluetoothChannelSoundingSessionCallbackOnClose)
 	if _err != nil {
@@ -170,7 +229,21 @@ func (p *BluetoothChannelSoundingSessionCallbackProxy) OnCloseFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSessionCallback)
-	_data.WriteInt32(int32(reason))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothChannelSoundingSessionCallback, MethodIBluetoothChannelSoundingSessionCallbackOnCloseFailed)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/ranging/Reason;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(reason))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(reason))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothChannelSoundingSessionCallback, MethodIBluetoothChannelSoundingSessionCallbackOnCloseFailed)
 	if _err != nil {

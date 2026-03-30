@@ -62,9 +62,26 @@ func (p *DetectorSessionVisualQueryDetectionCallbackProxy) OnAttentionGained(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDetectorSessionVisualQueryDetectionCallback)
-	_data.WriteInt32(1)
-	if _err := attentionResult.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnAttentionGained)
+	_compiledDescs := []string{
+		"Landroid/service/voice/VisualQueryAttentionResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attentionResult.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attentionResult.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnAttentionGained)
@@ -83,7 +100,21 @@ func (p *DetectorSessionVisualQueryDetectionCallbackProxy) OnAttentionLost(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDetectorSessionVisualQueryDetectionCallback)
-	_data.WriteInt32(interactionIntention)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnAttentionLost)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(interactionIntention)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(interactionIntention)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnAttentionLost)
 	if _err != nil {
@@ -101,7 +132,21 @@ func (p *DetectorSessionVisualQueryDetectionCallbackProxy) OnQueryDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDetectorSessionVisualQueryDetectionCallback)
-	_data.WriteString16(partialQuery)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnQueryDetected)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(partialQuery)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(partialQuery)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnQueryDetected)
 	if _err != nil {
@@ -119,9 +164,26 @@ func (p *DetectorSessionVisualQueryDetectionCallbackProxy) OnResultDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDetectorSessionVisualQueryDetectionCallback)
-	_data.WriteInt32(1)
-	if _err := partialResult.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnResultDetected)
+	_compiledDescs := []string{
+		"Landroid/service/voice/VisualQueryDetectedResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := partialResult.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := partialResult.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnResultDetected)

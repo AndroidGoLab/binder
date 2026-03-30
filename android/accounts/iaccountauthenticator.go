@@ -91,20 +91,56 @@ func (p *AccountAuthenticatorProxy) AddAccount(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(accountType)
-	_data.WriteString16(authTokenType)
-	if requiredFeatures == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(requiredFeatures)))
-		for _, _item := range requiredFeatures {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorAddAccount)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountAuthenticatorResponse;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(accountType)
+		_data.WriteString16(authTokenType)
+		if requiredFeatures == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(requiredFeatures)))
+			for _, _item := range requiredFeatures {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(accountType)
+			case 2:
+				_data.WriteString16(authTokenType)
+			case 3:
+				if requiredFeatures == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(requiredFeatures)))
+					for _, _item := range requiredFeatures {
+						_data.WriteString16(_item)
+					}
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorAddAccount)
@@ -125,14 +161,40 @@ func (p *AccountAuthenticatorProxy) ConfirmCredentials(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorConfirmCredentials)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountAuthenticatorResponse;",
+		"Landroid/accounts/Account;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorConfirmCredentials)
@@ -154,15 +216,44 @@ func (p *AccountAuthenticatorProxy) GetAuthToken(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAuthToken)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountAuthenticatorResponse;",
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteString16(authTokenType)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(authTokenType)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(authTokenType)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAuthToken)
@@ -182,8 +273,25 @@ func (p *AccountAuthenticatorProxy) GetAuthTokenLabel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(authTokenType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAuthTokenLabel)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountAuthenticatorResponse;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(authTokenType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(authTokenType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAuthTokenLabel)
 	if _err != nil {
@@ -204,15 +312,44 @@ func (p *AccountAuthenticatorProxy) UpdateCredentials(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorUpdateCredentials)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountAuthenticatorResponse;",
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteString16(authTokenType)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(authTokenType)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(authTokenType)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorUpdateCredentials)
@@ -232,8 +369,25 @@ func (p *AccountAuthenticatorProxy) EditProperties(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(accountType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorEditProperties)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountAuthenticatorResponse;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(accountType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(accountType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorEditProperties)
 	if _err != nil {
@@ -253,17 +407,47 @@ func (p *AccountAuthenticatorProxy) HasFeatures(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorHasFeatures)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountAuthenticatorResponse;",
+		"Landroid/accounts/Account;",
+		"[Ljava/lang/String;",
 	}
-	if features == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		if features == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(features)))
+			for _, _item := range features {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(features)))
-		for _, _item := range features {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				if features == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(features)))
+					for _, _item := range features {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -284,10 +468,30 @@ func (p *AccountAuthenticatorProxy) GetAccountRemovalAllowed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAccountRemovalAllowed)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountAuthenticatorResponse;",
+		"Landroid/accounts/Account;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAccountRemovalAllowed)
@@ -307,10 +511,30 @@ func (p *AccountAuthenticatorProxy) GetAccountCredentialsForCloning(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAccountCredentialsForCloning)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountAuthenticatorResponse;",
+		"Landroid/accounts/Account;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAccountCredentialsForCloning)
@@ -331,14 +555,40 @@ func (p *AccountAuthenticatorProxy) AddAccountFromCredentials(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorAddAccountFromCredentials)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountAuthenticatorResponse;",
+		"Landroid/accounts/Account;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(1)
-	if _err := accountCredentials.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := accountCredentials.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := accountCredentials.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorAddAccountFromCredentials)
@@ -361,20 +611,56 @@ func (p *AccountAuthenticatorProxy) StartAddAccountSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(accountType)
-	_data.WriteString16(authTokenType)
-	if requiredFeatures == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(requiredFeatures)))
-		for _, _item := range requiredFeatures {
-			_data.WriteString16(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorStartAddAccountSession)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountAuthenticatorResponse;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[Ljava/lang/String;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(accountType)
+		_data.WriteString16(authTokenType)
+		if requiredFeatures == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(requiredFeatures)))
+			for _, _item := range requiredFeatures {
+				_data.WriteString16(_item)
+			}
+		}
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(accountType)
+			case 2:
+				_data.WriteString16(authTokenType)
+			case 3:
+				if requiredFeatures == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(requiredFeatures)))
+					for _, _item := range requiredFeatures {
+						_data.WriteString16(_item)
+					}
+				}
+			case 4:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorStartAddAccountSession)
@@ -396,15 +682,44 @@ func (p *AccountAuthenticatorProxy) StartUpdateCredentialsSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorStartUpdateCredentialsSession)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountAuthenticatorResponse;",
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteString16(authTokenType)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(authTokenType)
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(authTokenType)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorStartUpdateCredentialsSession)
@@ -425,11 +740,34 @@ func (p *AccountAuthenticatorProxy) FinishSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(accountType)
-	_data.WriteInt32(1)
-	if _err := sessionBundle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorFinishSession)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountAuthenticatorResponse;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(accountType)
+		_data.WriteInt32(1)
+		if _err := sessionBundle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(accountType)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := sessionBundle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorFinishSession)
@@ -450,12 +788,35 @@ func (p *AccountAuthenticatorProxy) IsCredentialsUpdateSuggested(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorIsCredentialsUpdateSuggested)
+	_compiledDescs := []string{
+		"Landroid/accounts/IAccountAuthenticatorResponse;",
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(statusToken)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(statusToken)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteString16(statusToken)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorIsCredentialsUpdateSuggested)
 	if _err != nil {

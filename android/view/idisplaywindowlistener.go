@@ -64,7 +64,21 @@ func (p *DisplayWindowListenerProxy) OnDisplayAdded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnDisplayAdded)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnDisplayAdded)
 	if _err != nil {
@@ -83,10 +97,30 @@ func (p *DisplayWindowListenerProxy) OnDisplayConfigurationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(1)
-	if _err := newConfig.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnDisplayConfigurationChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/res/Configuration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(1)
+		if _err := newConfig.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := newConfig.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnDisplayConfigurationChanged)
@@ -105,7 +139,21 @@ func (p *DisplayWindowListenerProxy) OnDisplayRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnDisplayRemoved)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnDisplayRemoved)
 	if _err != nil {
@@ -124,8 +172,25 @@ func (p *DisplayWindowListenerProxy) OnFixedRotationStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(newRotation)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnFixedRotationStarted)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(newRotation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteInt32(newRotation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnFixedRotationStarted)
 	if _err != nil {
@@ -143,7 +208,21 @@ func (p *DisplayWindowListenerProxy) OnFixedRotationFinished(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnFixedRotationFinished)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnFixedRotationFinished)
 	if _err != nil {
@@ -163,26 +242,66 @@ func (p *DisplayWindowListenerProxy) OnKeepClearAreasChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
-	_data.WriteInt32(displayId)
-	if restricted == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(restricted)))
-		for _, _item := range restricted {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnKeepClearAreasChanged)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		if restricted == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(restricted)))
+			for _, _item := range restricted {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
 			}
 		}
-	}
-	if unrestricted == nil {
-		_data.WriteInt32(-1)
+		if unrestricted == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(unrestricted)))
+			for _, _item := range unrestricted {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(unrestricted)))
-		for _, _item := range unrestricted {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				if restricted == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(restricted)))
+					for _, _item := range restricted {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 2:
+				if unrestricted == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(unrestricted)))
+					for _, _item := range unrestricted {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

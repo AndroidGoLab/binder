@@ -52,10 +52,30 @@ func (p *SessionListenerProxy) OnSessionStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionListener)
-	_data.WriteInt32(sessionType)
-	_data.WriteInt32(1)
-	if _err := instance.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionListener, MethodISessionListenerOnSessionStarted)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/logging/InstanceId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionType)
+		_data.WriteInt32(1)
+		if _err := instance.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionType)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := instance.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionListener, MethodISessionListenerOnSessionStarted)
@@ -75,10 +95,30 @@ func (p *SessionListenerProxy) OnSessionEnded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionListener)
-	_data.WriteInt32(sessionType)
-	_data.WriteInt32(1)
-	if _err := instance.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISessionListener, MethodISessionListenerOnSessionEnded)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/logging/InstanceId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionType)
+		_data.WriteInt32(1)
+		if _err := instance.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionType)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := instance.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionListener, MethodISessionListenerOnSessionEnded)

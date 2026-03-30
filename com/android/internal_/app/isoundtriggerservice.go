@@ -65,15 +65,41 @@ func (p *SoundTriggerServiceProxy) AttachAsOriginator(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerService)
-	_data.WriteInt32(1)
-	if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerService, MethodISoundTriggerServiceAttachAsOriginator)
+	_compiledDescs := []string{
+		"Landroid/media/permission/Identity;",
+		"LSoundTrigger/ModuleProperties;",
+		"Landroid/os/IBinder;",
 	}
-	_data.WriteInt32(1)
-	if _err := moduleProperties.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := moduleProperties.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, client, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := moduleProperties.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, client, p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, client, p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerService, MethodISoundTriggerServiceAttachAsOriginator)
 	if _err != nil {
@@ -109,19 +135,51 @@ func (p *SoundTriggerServiceProxy) AttachAsMiddleman(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerService)
-	_data.WriteInt32(1)
-	if _err := middlemanIdentity.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerService, MethodISoundTriggerServiceAttachAsMiddleman)
+	_compiledDescs := []string{
+		"Landroid/media/permission/Identity;",
+		"Landroid/media/permission/Identity;",
+		"LSoundTrigger/ModuleProperties;",
+		"Landroid/os/IBinder;",
 	}
-	_data.WriteInt32(1)
-	if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := middlemanIdentity.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := moduleProperties.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, client, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := middlemanIdentity.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := moduleProperties.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, client, p.Remote.Transport())
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := moduleProperties.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, client, p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerService, MethodISoundTriggerServiceAttachAsMiddleman)
 	if _err != nil {
@@ -154,9 +212,26 @@ func (p *SoundTriggerServiceProxy) ListModuleProperties(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerService)
-	_data.WriteInt32(1)
-	if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerService, MethodISoundTriggerServiceListModuleProperties)
+	_compiledDescs := []string{
+		"Landroid/media/permission/Identity;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerService, MethodISoundTriggerServiceListModuleProperties)
@@ -220,7 +295,21 @@ func (p *SoundTriggerServiceProxy) AttachInjection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerService)
-	binder.WriteBinderToParcel(ctx, _data, injection.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerService, MethodISoundTriggerServiceAttachInjection)
+	_compiledDescs := []string{
+		"Landroid/media/soundtrigger_middleware/ISoundTriggerInjection;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, injection.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, injection.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerService, MethodISoundTriggerServiceAttachInjection)
 	if _err != nil {
@@ -247,7 +336,21 @@ func (p *SoundTriggerServiceProxy) SetInPhoneCallState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerService)
-	_data.WriteBool(isInPhoneCall)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundTriggerService, MethodISoundTriggerServiceSetInPhoneCallState)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isInPhoneCall)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isInPhoneCall)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerService, MethodISoundTriggerServiceSetInPhoneCallState)
 	if _err != nil {

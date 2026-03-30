@@ -85,25 +85,78 @@ func (p *AlarmManagerProxy) Set(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(type_)
-	_data.WriteInt64(triggerAtTime)
-	_data.WriteInt64(windowLength)
-	_data.WriteInt64(interval)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := operation.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAlarmManager, MethodIAlarmManagerSet)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"J",
+		"J",
+		"J",
+		"I",
+		"Landroid/app/PendingIntent;",
+		"Landroid/app/IAlarmListener;",
+		"Ljava/lang/String;",
+		"Landroid/os/WorkSource;",
+		"LAlarmManager/AlarmClockInfo;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(listenerTag)
-	_data.WriteInt32(1)
-	if _err := workSource.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := alarmClock.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(type_)
+		_data.WriteInt64(triggerAtTime)
+		_data.WriteInt64(windowLength)
+		_data.WriteInt64(interval)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(1)
+		if _err := operation.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(listenerTag)
+		_data.WriteInt32(1)
+		if _err := workSource.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := alarmClock.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(type_)
+			case 2:
+				_data.WriteInt64(triggerAtTime)
+			case 3:
+				_data.WriteInt64(windowLength)
+			case 4:
+				_data.WriteInt64(interval)
+			case 5:
+				_data.WriteInt32(flags)
+			case 6:
+				_data.WriteInt32(1)
+				if _err := operation.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 7:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 8:
+				_data.WriteString16(listenerTag)
+			case 9:
+				_data.WriteInt32(1)
+				if _err := workSource.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 10:
+				_data.WriteInt32(1)
+				if _err := alarmClock.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAlarmManager, MethodIAlarmManagerSet)
@@ -132,7 +185,21 @@ func (p *AlarmManagerProxy) SetTime(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
-	_data.WriteInt64(millis)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAlarmManager, MethodIAlarmManagerSetTime)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(millis)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(millis)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAlarmManager, MethodIAlarmManagerSetTime)
 	if _err != nil {
@@ -163,7 +230,21 @@ func (p *AlarmManagerProxy) SetTimeZone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
-	_data.WriteString16(zone)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAlarmManager, MethodIAlarmManagerSetTimeZone)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(zone)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(zone)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAlarmManager, MethodIAlarmManagerSetTimeZone)
 	if _err != nil {
@@ -191,11 +272,31 @@ func (p *AlarmManagerProxy) Remove(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
-	_data.WriteInt32(1)
-	if _err := operation.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAlarmManager, MethodIAlarmManagerRemove)
+	_compiledDescs := []string{
+		"Landroid/app/PendingIntent;",
+		"Landroid/app/IAlarmListener;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := operation.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := operation.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAlarmManager, MethodIAlarmManagerRemove)
 	if _err != nil {
@@ -222,7 +323,21 @@ func (p *AlarmManagerProxy) RemoveAll(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAlarmManager, MethodIAlarmManagerRemoveAll)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAlarmManager, MethodIAlarmManagerRemoveAll)
 	if _err != nil {
@@ -280,7 +395,21 @@ func (p *AlarmManagerProxy) GetNextAlarmClock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAlarmManager, MethodIAlarmManagerGetNextAlarmClock)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAlarmManager, MethodIAlarmManagerGetNextAlarmClock)
 	if _err != nil {
@@ -317,7 +446,21 @@ func (p *AlarmManagerProxy) CanScheduleExactAlarms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAlarmManager, MethodIAlarmManagerCanScheduleExactAlarms)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAlarmManager, MethodIAlarmManagerCanScheduleExactAlarms)
 	if _err != nil {
@@ -350,8 +493,25 @@ func (p *AlarmManagerProxy) HasScheduleExactAlarm(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAlarmManager, MethodIAlarmManagerHasScheduleExactAlarm)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAlarmManager, MethodIAlarmManagerHasScheduleExactAlarm)
 	if _err != nil {

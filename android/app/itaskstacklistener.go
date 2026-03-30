@@ -145,10 +145,33 @@ func (p *TaskStackListenerProxy) OnActivityPinned(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(stackId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityPinned)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(stackId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(taskId)
+			case 3:
+				_data.WriteInt32(stackId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityPinned)
 	if _err != nil {
@@ -185,13 +208,39 @@ func (p *TaskStackListenerProxy) OnActivityRestartAttempt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(1)
-	if _err := task.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityRestartAttempt)
+	_compiledDescs := []string{
+		"LActivityManager/RunningTaskInfo;",
+		"Z",
+		"Z",
+		"Z",
 	}
-	_data.WriteBool(homeTaskVisible)
-	_data.WriteBool(clearedTask)
-	_data.WriteBool(wasVisible)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := task.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(homeTaskVisible)
+		_data.WriteBool(clearedTask)
+		_data.WriteBool(wasVisible)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := task.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(homeTaskVisible)
+			case 2:
+				_data.WriteBool(clearedTask)
+			case 3:
+				_data.WriteBool(wasVisible)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityRestartAttempt)
 	if _err != nil {
@@ -211,9 +260,29 @@ func (p *TaskStackListenerProxy) OnActivityForcedResizable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityForcedResizable)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(taskId)
+			case 2:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityForcedResizable)
 	if _err != nil {
@@ -248,11 +317,31 @@ func (p *TaskStackListenerProxy) OnActivityLaunchOnSecondaryDisplayFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityLaunchOnSecondaryDisplayFailed)
+	_compiledDescs := []string{
+		"LActivityManager/RunningTaskInfo;",
+		"I",
 	}
-	_data.WriteInt32(requestedDisplayId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := taskInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(requestedDisplayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := taskInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(requestedDisplayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityLaunchOnSecondaryDisplayFailed)
 	if _err != nil {
@@ -271,11 +360,31 @@ func (p *TaskStackListenerProxy) OnActivityLaunchOnSecondaryDisplayRerouted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityLaunchOnSecondaryDisplayRerouted)
+	_compiledDescs := []string{
+		"LActivityManager/RunningTaskInfo;",
+		"I",
 	}
-	_data.WriteInt32(requestedDisplayId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := taskInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(requestedDisplayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := taskInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(requestedDisplayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityLaunchOnSecondaryDisplayRerouted)
 	if _err != nil {
@@ -294,10 +403,30 @@ func (p *TaskStackListenerProxy) OnTaskCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskCreated)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(1)
+		if _err := componentName.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := componentName.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskCreated)
@@ -316,7 +445,21 @@ func (p *TaskStackListenerProxy) OnTaskRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(taskId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskRemoved)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskRemoved)
 	if _err != nil {
@@ -334,9 +477,26 @@ func (p *TaskStackListenerProxy) OnTaskMovedToFront(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskMovedToFront)
+	_compiledDescs := []string{
+		"LActivityManager/RunningTaskInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := taskInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := taskInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskMovedToFront)
@@ -355,9 +515,26 @@ func (p *TaskStackListenerProxy) OnTaskDescriptionChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskDescriptionChanged)
+	_compiledDescs := []string{
+		"LActivityManager/RunningTaskInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := taskInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := taskInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskDescriptionChanged)
@@ -377,8 +554,25 @@ func (p *TaskStackListenerProxy) OnActivityRequestedOrientationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(requestedOrientation)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityRequestedOrientationChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(requestedOrientation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			case 1:
+				_data.WriteInt32(requestedOrientation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityRequestedOrientationChanged)
 	if _err != nil {
@@ -396,9 +590,26 @@ func (p *TaskStackListenerProxy) OnTaskRemovalStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskRemovalStarted)
+	_compiledDescs := []string{
+		"LActivityManager/RunningTaskInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := taskInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := taskInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskRemovalStarted)
@@ -418,11 +629,31 @@ func (p *TaskStackListenerProxy) OnTaskProfileLocked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskProfileLocked)
+	_compiledDescs := []string{
+		"LActivityManager/RunningTaskInfo;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := taskInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := taskInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskProfileLocked)
 	if _err != nil {
@@ -441,10 +672,30 @@ func (p *TaskStackListenerProxy) OnTaskSnapshotChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(1)
-	if _err := snapshot.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskSnapshotChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/window/TaskSnapshot;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(1)
+		if _err := snapshot.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := snapshot.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskSnapshotChanged)
@@ -463,9 +714,26 @@ func (p *TaskStackListenerProxy) OnBackPressedOnTaskRoot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnBackPressedOnTaskRoot)
+	_compiledDescs := []string{
+		"LActivityManager/RunningTaskInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := taskInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := taskInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnBackPressedOnTaskRoot)
@@ -485,8 +753,25 @@ func (p *TaskStackListenerProxy) OnTaskDisplayChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(newDisplayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskDisplayChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(newDisplayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			case 1:
+				_data.WriteInt32(newDisplayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskDisplayChanged)
 	if _err != nil {
@@ -520,7 +805,21 @@ func (p *TaskStackListenerProxy) OnRecentTaskListFrozenChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteBool(frozen)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnRecentTaskListFrozenChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(frozen)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(frozen)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnRecentTaskListFrozenChanged)
 	if _err != nil {
@@ -539,8 +838,25 @@ func (p *TaskStackListenerProxy) OnTaskFocusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(taskId)
-	_data.WriteBool(focused)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskFocusChanged)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+		_data.WriteBool(focused)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			case 1:
+				_data.WriteBool(focused)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskFocusChanged)
 	if _err != nil {
@@ -559,8 +875,25 @@ func (p *TaskStackListenerProxy) OnTaskRequestedOrientationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(requestedOrientation)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskRequestedOrientationChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(requestedOrientation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			case 1:
+				_data.WriteInt32(requestedOrientation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskRequestedOrientationChanged)
 	if _err != nil {
@@ -578,7 +911,21 @@ func (p *TaskStackListenerProxy) OnActivityRotation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityRotation)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityRotation)
 	if _err != nil {
@@ -596,9 +943,26 @@ func (p *TaskStackListenerProxy) OnTaskMovedToBack(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskMovedToBack)
+	_compiledDescs := []string{
+		"LActivityManager/RunningTaskInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := taskInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := taskInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskMovedToBack)
@@ -617,7 +981,21 @@ func (p *TaskStackListenerProxy) OnLockTaskModeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnLockTaskModeChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnLockTaskModeChanged)
 	if _err != nil {

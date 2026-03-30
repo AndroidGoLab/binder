@@ -50,15 +50,41 @@ func (p *BluetoothPreferredAudioProfilesCallbackProxy) OnPreferredAudioProfilesC
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothPreferredAudioProfilesCallback)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothPreferredAudioProfilesCallback, MethodIBluetoothPreferredAudioProfilesCallbackOnPreferredAudioProfilesChanged)
+	_compiledDescs := []string{
+		"Landroid/bluetooth/BluetoothDevice;",
+		"Landroid/os/Bundle;",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := preferredAudioProfiles.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := preferredAudioProfiles.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := preferredAudioProfiles.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(status)
+			}
+		}
 	}
-	_data.WriteInt32(status)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPreferredAudioProfilesCallback, MethodIBluetoothPreferredAudioProfilesCallbackOnPreferredAudioProfilesChanged)
 	if _err != nil {

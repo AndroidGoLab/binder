@@ -50,15 +50,41 @@ func (p *ChooserTargetServiceProxy) GetChooserTargets(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIChooserTargetService)
-	_data.WriteInt32(1)
-	if _err := targetComponentName.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIChooserTargetService, MethodIChooserTargetServiceGetChooserTargets)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Landroid/content/IntentFilter;",
+		"Landroid/service/chooser/IChooserTargetResult;",
 	}
-	_data.WriteInt32(1)
-	if _err := matchedFilter.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := targetComponentName.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := matchedFilter.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := targetComponentName.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := matchedFilter.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIChooserTargetService, MethodIChooserTargetServiceGetChooserTargets)
 	if _err != nil {

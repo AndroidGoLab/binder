@@ -48,8 +48,25 @@ func (p *ObserverProxy) OnMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIObserver)
-	_data.WriteInt64(connectionId)
-	_data.WriteInt32(msgId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIObserver, MethodIObserverOnMessage)
+	_compiledDescs := []string{
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(connectionId)
+		_data.WriteInt32(msgId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(connectionId)
+			case 1:
+				_data.WriteInt32(msgId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIObserver, MethodIObserverOnMessage)
 	if _err != nil {

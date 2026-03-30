@@ -114,7 +114,21 @@ func (p *ImsRegistrationListenerProxy) RegistrationConnectedWithRadioTech(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
-	_data.WriteInt32(imsRadioTech)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationConnectedWithRadioTech)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(imsRadioTech)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(imsRadioTech)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationConnectedWithRadioTech)
 	if _err != nil {
@@ -132,7 +146,21 @@ func (p *ImsRegistrationListenerProxy) RegistrationProgressingWithRadioTech(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
-	_data.WriteInt32(imsRadioTech)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationProgressingWithRadioTech)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(imsRadioTech)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(imsRadioTech)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationProgressingWithRadioTech)
 	if _err != nil {
@@ -150,9 +178,26 @@ func (p *ImsRegistrationListenerProxy) RegistrationDisconnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
-	_data.WriteInt32(1)
-	if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationDisconnected)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/ImsReasonInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationDisconnected)
@@ -204,8 +249,25 @@ func (p *ImsRegistrationListenerProxy) RegistrationServiceCapabilityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
-	_data.WriteInt32(serviceClass)
-	_data.WriteInt32(event)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationServiceCapabilityChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serviceClass)
+		_data.WriteInt32(event)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serviceClass)
+			case 1:
+				_data.WriteInt32(event)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationServiceCapabilityChanged)
 	if _err != nil {
@@ -225,21 +287,55 @@ func (p *ImsRegistrationListenerProxy) RegistrationFeatureCapabilityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
-	_data.WriteInt32(serviceClass)
-	if enabledFeatures == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(enabledFeatures)))
-		for _, _item := range enabledFeatures {
-			_data.WriteInt32(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationFeatureCapabilityChanged)
+	_compiledDescs := []string{
+		"I",
+		"[I",
+		"[I",
 	}
-	if disabledFeatures == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(serviceClass)
+		if enabledFeatures == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(enabledFeatures)))
+			for _, _item := range enabledFeatures {
+				_data.WriteInt32(_item)
+			}
+		}
+		if disabledFeatures == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(disabledFeatures)))
+			for _, _item := range disabledFeatures {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(disabledFeatures)))
-		for _, _item := range disabledFeatures {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(serviceClass)
+			case 1:
+				if enabledFeatures == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(enabledFeatures)))
+					for _, _item := range enabledFeatures {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 2:
+				if disabledFeatures == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(disabledFeatures)))
+					for _, _item := range disabledFeatures {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -259,7 +355,21 @@ func (p *ImsRegistrationListenerProxy) VoiceMessageCountUpdate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
-	_data.WriteInt32(count)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerVoiceMessageCountUpdate)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(count)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(count)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerVoiceMessageCountUpdate)
 	if _err != nil {
@@ -277,14 +387,38 @@ func (p *ImsRegistrationListenerProxy) RegistrationAssociatedUriChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
-	if uris == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationAssociatedUriChanged)
+	_compiledDescs := []string{
+		"[Landroid/net/Uri;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if uris == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(uris)))
+			for _, _item := range uris {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(uris)))
-		for _, _item := range uris {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if uris == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(uris)))
+					for _, _item := range uris {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -306,10 +440,30 @@ func (p *ImsRegistrationListenerProxy) RegistrationChangeFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
-	_data.WriteInt32(targetAccessTech)
-	_data.WriteInt32(1)
-	if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationChangeFailed)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/ims/ImsReasonInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(targetAccessTech)
+		_data.WriteInt32(1)
+		if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(targetAccessTech)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationChangeFailed)

@@ -103,8 +103,25 @@ func (p *NfcTagProxy) Connect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(nativeHandle)
-	_data.WriteInt32(technology)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagConnect)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nativeHandle)
+		_data.WriteInt32(technology)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nativeHandle)
+			case 1:
+				_data.WriteInt32(technology)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagConnect)
 	if _err != nil {
@@ -136,7 +153,21 @@ func (p *NfcTagProxy) Reconnect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(nativeHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagReconnect)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nativeHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nativeHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagReconnect)
 	if _err != nil {
@@ -168,7 +199,21 @@ func (p *NfcTagProxy) GetTechList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(nativeHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagGetTechList)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nativeHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nativeHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagGetTechList)
 	if _err != nil {
@@ -213,7 +258,21 @@ func (p *NfcTagProxy) IsNdef(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(nativeHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagIsNdef)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nativeHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nativeHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagIsNdef)
 	if _err != nil {
@@ -245,7 +304,21 @@ func (p *NfcTagProxy) IsPresent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(nativeHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagIsPresent)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nativeHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nativeHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagIsPresent)
 	if _err != nil {
@@ -279,9 +352,29 @@ func (p *NfcTagProxy) Transceive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(nativeHandle)
-	_data.WriteByteArray(data)
-	_data.WriteBool(raw)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagTransceive)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nativeHandle)
+		_data.WriteByteArray(data)
+		_data.WriteBool(raw)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nativeHandle)
+			case 1:
+				_data.WriteByteArray(data)
+			case 2:
+				_data.WriteBool(raw)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagTransceive)
 	if _err != nil {
@@ -318,7 +411,21 @@ func (p *NfcTagProxy) NdefRead(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(nativeHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagNdefRead)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nativeHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nativeHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagNdefRead)
 	if _err != nil {
@@ -356,10 +463,30 @@ func (p *NfcTagProxy) NdefWrite(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(nativeHandle)
-	_data.WriteInt32(1)
-	if _err := msg.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagNdefWrite)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/nfc/NdefMessage;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nativeHandle)
+		_data.WriteInt32(1)
+		if _err := msg.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nativeHandle)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := msg.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagNdefWrite)
@@ -392,7 +519,21 @@ func (p *NfcTagProxy) NdefMakeReadOnly(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(nativeHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagNdefMakeReadOnly)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nativeHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nativeHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagNdefMakeReadOnly)
 	if _err != nil {
@@ -424,7 +565,21 @@ func (p *NfcTagProxy) NdefIsWritable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(nativeHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagNdefIsWritable)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nativeHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nativeHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagNdefIsWritable)
 	if _err != nil {
@@ -457,8 +612,25 @@ func (p *NfcTagProxy) FormatNdef(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(nativeHandle)
-	_data.WriteByteArray(key)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagFormatNdef)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nativeHandle)
+		_data.WriteByteArray(key)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nativeHandle)
+			case 1:
+				_data.WriteByteArray(key)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagFormatNdef)
 	if _err != nil {
@@ -490,7 +662,21 @@ func (p *NfcTagProxy) Rediscover(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(nativehandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagRediscover)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(nativehandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(nativehandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagRediscover)
 	if _err != nil {
@@ -528,8 +714,25 @@ func (p *NfcTagProxy) SetTimeout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(technology)
-	_data.WriteInt32(timeout)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagSetTimeout)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(technology)
+		_data.WriteInt32(timeout)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(technology)
+			case 1:
+				_data.WriteInt32(timeout)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagSetTimeout)
 	if _err != nil {
@@ -561,7 +764,21 @@ func (p *NfcTagProxy) GetTimeout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(technology)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagGetTimeout)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(technology)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(technology)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagGetTimeout)
 	if _err != nil {
@@ -618,7 +835,21 @@ func (p *NfcTagProxy) CanMakeReadOnly(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(ndefType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagCanMakeReadOnly)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(ndefType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(ndefType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagCanMakeReadOnly)
 	if _err != nil {
@@ -650,7 +881,21 @@ func (p *NfcTagProxy) GetMaxTransceiveLength(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt32(technology)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagGetMaxTransceiveLength)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(technology)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(technology)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagGetMaxTransceiveLength)
 	if _err != nil {
@@ -712,7 +957,21 @@ func (p *NfcTagProxy) IsTagUpToDate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
-	_data.WriteInt64(cookie)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorINfcTag, MethodINfcTagIsTagUpToDate)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(cookie)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(cookie)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagIsTagUpToDate)
 	if _err != nil {

@@ -75,10 +75,30 @@ func (p *DataServiceCallbackProxy) OnSetupDataCallComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
-	_data.WriteInt32(result)
-	_data.WriteInt32(1)
-	if _err := dataCallResponse.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnSetupDataCallComplete)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/telephony/data/DataCallResponse;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+		_data.WriteInt32(1)
+		if _err := dataCallResponse.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := dataCallResponse.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnSetupDataCallComplete)
@@ -97,7 +117,21 @@ func (p *DataServiceCallbackProxy) OnDeactivateDataCallComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
-	_data.WriteInt32(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnDeactivateDataCallComplete)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnDeactivateDataCallComplete)
 	if _err != nil {
@@ -115,7 +149,21 @@ func (p *DataServiceCallbackProxy) OnSetInitialAttachApnComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
-	_data.WriteInt32(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnSetInitialAttachApnComplete)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnSetInitialAttachApnComplete)
 	if _err != nil {
@@ -133,7 +181,21 @@ func (p *DataServiceCallbackProxy) OnSetDataProfileComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
-	_data.WriteInt32(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnSetDataProfileComplete)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnSetDataProfileComplete)
 	if _err != nil {
@@ -152,15 +214,42 @@ func (p *DataServiceCallbackProxy) OnRequestDataCallListComplete(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
-	_data.WriteInt32(result)
-	if dataCallList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnRequestDataCallListComplete)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+		if dataCallList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(dataCallList)))
+			for _, _item := range dataCallList {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(dataCallList)))
-		for _, _item := range dataCallList {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			case 1:
+				if dataCallList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(dataCallList)))
+					for _, _item := range dataCallList {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -181,14 +270,38 @@ func (p *DataServiceCallbackProxy) OnDataCallListChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
-	if dataCallList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnDataCallListChanged)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if dataCallList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(dataCallList)))
+			for _, _item := range dataCallList {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(dataCallList)))
-		for _, _item := range dataCallList {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if dataCallList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(dataCallList)))
+					for _, _item := range dataCallList {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -209,7 +322,21 @@ func (p *DataServiceCallbackProxy) OnHandoverStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
-	_data.WriteInt32(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnHandoverStarted)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnHandoverStarted)
 	if _err != nil {
@@ -227,7 +354,21 @@ func (p *DataServiceCallbackProxy) OnHandoverCancelled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
-	_data.WriteInt32(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnHandoverCancelled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnHandoverCancelled)
 	if _err != nil {
@@ -245,7 +386,21 @@ func (p *DataServiceCallbackProxy) OnApnUnthrottled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
-	_data.WriteString16(apn)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnApnUnthrottled)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(apn)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(apn)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnApnUnthrottled)
 	if _err != nil {
@@ -263,9 +418,26 @@ func (p *DataServiceCallbackProxy) OnDataProfileUnthrottled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
-	_data.WriteInt32(1)
-	if _err := dp.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnDataProfileUnthrottled)
+	_compiledDescs := []string{
+		"Landroid/telephony/data/DataProfile;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := dp.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := dp.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnDataProfileUnthrottled)

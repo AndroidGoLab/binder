@@ -58,9 +58,29 @@ func (p *CallDiagnosticServiceAdapterProxy) DisplayDiagnosticMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticServiceAdapter)
-	_data.WriteString16(callId)
-	_data.WriteInt32(messageId)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterDisplayDiagnosticMessage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/CharSequence;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteInt32(messageId)
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteInt32(messageId)
+			case 2:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterDisplayDiagnosticMessage)
 	if _err != nil {
@@ -79,8 +99,25 @@ func (p *CallDiagnosticServiceAdapterProxy) ClearDiagnosticMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticServiceAdapter)
-	_data.WriteString16(callId)
-	_data.WriteInt32(messageId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterClearDiagnosticMessage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteInt32(messageId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteInt32(messageId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterClearDiagnosticMessage)
 	if _err != nil {
@@ -100,9 +137,29 @@ func (p *CallDiagnosticServiceAdapterProxy) SendDeviceToDeviceMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticServiceAdapter)
-	_data.WriteString16(callId)
-	_data.WriteInt32(message)
-	_data.WriteInt32(value)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterSendDeviceToDeviceMessage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteInt32(message)
+		_data.WriteInt32(value)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteInt32(message)
+			case 2:
+				_data.WriteInt32(value)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterSendDeviceToDeviceMessage)
 	if _err != nil {
@@ -121,8 +178,25 @@ func (p *CallDiagnosticServiceAdapterProxy) OverrideDisconnectMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticServiceAdapter)
-	_data.WriteString16(callId)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterOverrideDisconnectMessage)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/CharSequence;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(callId)
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(callId)
+			case 1:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterOverrideDisconnectMessage)
 	if _err != nil {

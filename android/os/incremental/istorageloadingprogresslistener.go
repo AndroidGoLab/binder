@@ -48,8 +48,25 @@ func (p *StorageLoadingProgressListenerProxy) OnStorageLoadingProgressChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageLoadingProgressListener)
-	_data.WriteInt32(storageId)
-	_data.WriteFloat32(progress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageLoadingProgressListener, MethodIStorageLoadingProgressListenerOnStorageLoadingProgressChanged)
+	_compiledDescs := []string{
+		"I",
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(storageId)
+		_data.WriteFloat32(progress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(storageId)
+			case 1:
+				_data.WriteFloat32(progress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageLoadingProgressListener, MethodIStorageLoadingProgressListenerOnStorageLoadingProgressChanged)
 	if _err != nil {

@@ -56,7 +56,21 @@ func (p *KeystoreOperationProxy) UpdateAad(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreOperation)
-	_data.WriteByteArray(aadInput)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeystoreOperation, MethodIKeystoreOperationUpdateAad)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(aadInput)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(aadInput)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreOperation, MethodIKeystoreOperationUpdateAad)
 	if _err != nil {
@@ -84,7 +98,21 @@ func (p *KeystoreOperationProxy) Update(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreOperation)
-	_data.WriteByteArray(input)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeystoreOperation, MethodIKeystoreOperationUpdate)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(input)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(input)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreOperation, MethodIKeystoreOperationUpdate)
 	if _err != nil {
@@ -117,8 +145,25 @@ func (p *KeystoreOperationProxy) Finish(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreOperation)
-	_data.WriteByteArray(input)
-	_data.WriteByteArray(signature)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeystoreOperation, MethodIKeystoreOperationFinish)
+	_compiledDescs := []string{
+		"[B",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(input)
+		_data.WriteByteArray(signature)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(input)
+			case 1:
+				_data.WriteByteArray(signature)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreOperation, MethodIKeystoreOperationFinish)
 	if _err != nil {

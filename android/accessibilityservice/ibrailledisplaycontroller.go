@@ -57,8 +57,25 @@ func (p *BrailleDisplayControllerProxy) OnConnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBrailleDisplayController)
-	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
-	_data.WriteByteArray(hidDescriptor)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBrailleDisplayController, MethodIBrailleDisplayControllerOnConnected)
+	_compiledDescs := []string{
+		"Landroid/accessibilityservice/IBrailleDisplayConnection;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
+		_data.WriteByteArray(hidDescriptor)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteByteArray(hidDescriptor)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBrailleDisplayController, MethodIBrailleDisplayControllerOnConnected)
 	if _err != nil {
@@ -76,7 +93,21 @@ func (p *BrailleDisplayControllerProxy) OnConnectionFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBrailleDisplayController)
-	_data.WriteInt32(error_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBrailleDisplayController, MethodIBrailleDisplayControllerOnConnectionFailed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(error_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(error_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBrailleDisplayController, MethodIBrailleDisplayControllerOnConnectionFailed)
 	if _err != nil {
@@ -94,7 +125,21 @@ func (p *BrailleDisplayControllerProxy) OnInput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBrailleDisplayController)
-	_data.WriteByteArray(input)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBrailleDisplayController, MethodIBrailleDisplayControllerOnInput)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(input)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(input)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBrailleDisplayController, MethodIBrailleDisplayControllerOnInput)
 	if _err != nil {

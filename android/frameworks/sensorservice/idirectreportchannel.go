@@ -50,8 +50,25 @@ func (p *DirectReportChannelProxy) Configure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDirectReportChannel)
-	_data.WriteInt32(sensorHandle)
-	_data.WriteInt32(int32(rate))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDirectReportChannel, MethodIDirectReportChannelConfigure)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/sensors/ISensors/RateLevel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorHandle)
+		_data.WriteInt32(int32(rate))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorHandle)
+			case 1:
+				_data.WriteInt32(int32(rate))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDirectReportChannel, MethodIDirectReportChannelConfigure)
 	if _err != nil {

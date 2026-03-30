@@ -68,9 +68,26 @@ func (p *RecognitionStatusCallbackProxy) OnKeyphraseDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
-	_data.WriteInt32(1)
-	if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnKeyphraseDetected)
+	_compiledDescs := []string{
+		"LSoundTrigger/KeyphraseRecognitionEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnKeyphraseDetected)
@@ -89,9 +106,26 @@ func (p *RecognitionStatusCallbackProxy) OnGenericSoundTriggerDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
-	_data.WriteInt32(1)
-	if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnGenericSoundTriggerDetected)
+	_compiledDescs := []string{
+		"LSoundTrigger/GenericRecognitionEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnGenericSoundTriggerDetected)
@@ -174,7 +208,21 @@ func (p *RecognitionStatusCallbackProxy) OnResumeFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnResumeFailed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnResumeFailed)
 	if _err != nil {
@@ -192,7 +240,21 @@ func (p *RecognitionStatusCallbackProxy) OnPauseFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
-	_data.WriteInt32(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnPauseFailed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnPauseFailed)
 	if _err != nil {

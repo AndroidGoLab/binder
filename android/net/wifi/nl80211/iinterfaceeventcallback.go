@@ -56,7 +56,21 @@ func (p *InterfaceEventCallbackProxy) OnClientInterfaceReady(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterfaceEventCallback)
-	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnClientInterfaceReady)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/nl80211/IClientInterface;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnClientInterfaceReady)
 	if _err != nil {
@@ -74,7 +88,21 @@ func (p *InterfaceEventCallbackProxy) OnApInterfaceReady(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterfaceEventCallback)
-	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnApInterfaceReady)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/nl80211/IApInterface;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnApInterfaceReady)
 	if _err != nil {
@@ -92,7 +120,21 @@ func (p *InterfaceEventCallbackProxy) OnClientTorndownEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterfaceEventCallback)
-	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnClientTorndownEvent)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/nl80211/IClientInterface;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnClientTorndownEvent)
 	if _err != nil {
@@ -110,7 +152,21 @@ func (p *InterfaceEventCallbackProxy) OnApTorndownEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterfaceEventCallback)
-	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnApTorndownEvent)
+	_compiledDescs := []string{
+		"Landroid/net/wifi/nl80211/IApInterface;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnApTorndownEvent)
 	if _err != nil {

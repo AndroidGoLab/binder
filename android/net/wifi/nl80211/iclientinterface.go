@@ -241,9 +241,29 @@ func (p *ClientInterfaceProxy) SendMgmtFrame(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClientInterface)
-	_data.WriteByteArray(frame)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(mcs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIClientInterface, MethodIClientInterfaceSendMgmtFrame)
+	_compiledDescs := []string{
+		"[B",
+		"Landroid/net/wifi/nl80211/ISendMgmtFrameEvent;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(frame)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(mcs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(frame)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(mcs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientInterface, MethodIClientInterfaceSendMgmtFrame)
 	if _err != nil {

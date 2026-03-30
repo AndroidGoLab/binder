@@ -169,13 +169,39 @@ func (p *CompanionDeviceManagerProxy) Associate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAssociate)
+	_compiledDescs := []string{
+		"Landroid/companion/AssociationRequest;",
+		"Landroid/companion/IAssociationRequestCallback;",
+		"Ljava/lang/String;",
+		"I",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAssociate)
 	if _err != nil {
@@ -203,8 +229,25 @@ func (p *CompanionDeviceManagerProxy) GetAssociations(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetAssociations)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetAssociations)
 	if _err != nil {
@@ -268,7 +311,21 @@ func (p *CompanionDeviceManagerProxy) GetAllAssociationsForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetAllAssociationsForUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetAllAssociationsForUser)
 	if _err != nil {
@@ -332,9 +389,29 @@ func (p *CompanionDeviceManagerProxy) LegacyDisassociate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteString16(deviceMacAddress)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerLegacyDisassociate)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(deviceMacAddress)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(deviceMacAddress)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerLegacyDisassociate)
 	if _err != nil {
@@ -361,7 +438,21 @@ func (p *CompanionDeviceManagerProxy) Disassociate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(associationId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDisassociate)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(associationId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(associationId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDisassociate)
 	if _err != nil {
@@ -389,9 +480,26 @@ func (p *CompanionDeviceManagerProxy) HasNotificationAccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(1)
-	if _err := component.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerHasNotificationAccess)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := component.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := component.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerHasNotificationAccess)
@@ -425,11 +533,31 @@ func (p *CompanionDeviceManagerProxy) RequestNotificationAccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(1)
-	if _err := component.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRequestNotificationAccess)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := component.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := component.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRequestNotificationAccess)
 	if _err != nil {
@@ -468,9 +596,29 @@ func (p *CompanionDeviceManagerProxy) IsDeviceAssociatedForWifiConnection(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(macAddress)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerIsDeviceAssociatedForWifiConnection)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(macAddress)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(macAddress)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerIsDeviceAssociatedForWifiConnection)
 	if _err != nil {
@@ -502,9 +650,29 @@ func (p *CompanionDeviceManagerProxy) RegisterDevicePresenceListenerService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteString16(deviceAddress)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRegisterDevicePresenceListenerService)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(deviceAddress)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(deviceAddress)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRegisterDevicePresenceListenerService)
 	if _err != nil {
@@ -532,9 +700,29 @@ func (p *CompanionDeviceManagerProxy) UnregisterDevicePresenceListenerService(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteString16(deviceAddress)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerUnregisterDevicePresenceListenerService)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(deviceAddress)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(deviceAddress)
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerUnregisterDevicePresenceListenerService)
 	if _err != nil {
@@ -564,9 +752,29 @@ func (p *CompanionDeviceManagerProxy) CanPairWithoutPrompt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(deviceMacAddress)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerCanPairWithoutPrompt)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(deviceMacAddress)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(deviceMacAddress)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerCanPairWithoutPrompt)
 	if _err != nil {
@@ -600,10 +808,33 @@ func (p *CompanionDeviceManagerProxy) CreateAssociation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(macAddress)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteByteArray(certificate)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerCreateAssociation)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(macAddress)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteByteArray(certificate)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(macAddress)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteByteArray(certificate)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerCreateAssociation)
 	if _err != nil {
@@ -631,8 +862,25 @@ func (p *CompanionDeviceManagerProxy) AddOnAssociationsChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAddOnAssociationsChangedListener)
+	_compiledDescs := []string{
+		"Landroid/companion/IOnAssociationsChangedListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAddOnAssociationsChangedListener)
 	if _err != nil {
@@ -660,8 +908,25 @@ func (p *CompanionDeviceManagerProxy) RemoveOnAssociationsChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRemoveOnAssociationsChangedListener)
+	_compiledDescs := []string{
+		"Landroid/companion/IOnAssociationsChangedListener;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRemoveOnAssociationsChangedListener)
 	if _err != nil {
@@ -688,7 +953,21 @@ func (p *CompanionDeviceManagerProxy) AddOnTransportsChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAddOnTransportsChangedListener)
+	_compiledDescs := []string{
+		"Landroid/companion/IOnTransportsChangedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAddOnTransportsChangedListener)
 	if _err != nil {
@@ -715,7 +994,21 @@ func (p *CompanionDeviceManagerProxy) RemoveOnTransportsChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRemoveOnTransportsChangedListener)
+	_compiledDescs := []string{
+		"Landroid/companion/IOnTransportsChangedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRemoveOnTransportsChangedListener)
 	if _err != nil {
@@ -744,14 +1037,41 @@ func (p *CompanionDeviceManagerProxy) SendMessage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(messageType)
-	_data.WriteByteArray(data)
-	if associationIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerSendMessage)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(messageType)
+		_data.WriteByteArray(data)
+		if associationIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(associationIds)))
+			for _, _item := range associationIds {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(associationIds)))
-		for _, _item := range associationIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(messageType)
+			case 1:
+				_data.WriteByteArray(data)
+			case 2:
+				if associationIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(associationIds)))
+					for _, _item := range associationIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -781,8 +1101,25 @@ func (p *CompanionDeviceManagerProxy) AddOnMessageReceivedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(messageType)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAddOnMessageReceivedListener)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/companion/IOnMessageReceivedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(messageType)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(messageType)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAddOnMessageReceivedListener)
 	if _err != nil {
@@ -810,8 +1147,25 @@ func (p *CompanionDeviceManagerProxy) RemoveOnMessageReceivedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(messageType)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRemoveOnMessageReceivedListener)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/companion/IOnMessageReceivedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(messageType)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(messageType)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRemoveOnMessageReceivedListener)
 	if _err != nil {
@@ -838,7 +1192,21 @@ func (p *CompanionDeviceManagerProxy) NotifyDeviceAppeared(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(associationId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerNotifyDeviceAppeared)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(associationId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(associationId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerNotifyDeviceAppeared)
 	if _err != nil {
@@ -865,7 +1233,21 @@ func (p *CompanionDeviceManagerProxy) NotifyDeviceDisappeared(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(associationId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerNotifyDeviceDisappeared)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(associationId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(associationId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerNotifyDeviceDisappeared)
 	if _err != nil {
@@ -894,9 +1276,29 @@ func (p *CompanionDeviceManagerProxy) BuildPermissionTransferUserConsentIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(associationId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerBuildPermissionTransferUserConsentIntent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(associationId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(associationId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerBuildPermissionTransferUserConsentIntent)
 	if _err != nil {
@@ -934,9 +1336,29 @@ func (p *CompanionDeviceManagerProxy) IsPermissionTransferUserConsented(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(associationId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerIsPermissionTransferUserConsented)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(associationId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(associationId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerIsPermissionTransferUserConsented)
 	if _err != nil {
@@ -970,10 +1392,33 @@ func (p *CompanionDeviceManagerProxy) StartSystemDataTransfer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(associationId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerStartSystemDataTransfer)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Landroid/companion/ISystemDataTransferCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(associationId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(associationId)
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerStartSystemDataTransfer)
 	if _err != nil {
@@ -1003,10 +1448,33 @@ func (p *CompanionDeviceManagerProxy) AttachSystemDataTransport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(associationId)
-	_data.WriteParcelFileDescriptor(fd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAttachSystemDataTransport)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Landroid/os/ParcelFileDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(associationId)
+		_data.WriteParcelFileDescriptor(fd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(associationId)
+			case 3:
+				_data.WriteParcelFileDescriptor(fd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAttachSystemDataTransport)
 	if _err != nil {
@@ -1035,9 +1503,29 @@ func (p *CompanionDeviceManagerProxy) DetachSystemDataTransport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(associationId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDetachSystemDataTransport)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(associationId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(associationId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDetachSystemDataTransport)
 	if _err != nil {
@@ -1066,8 +1554,25 @@ func (p *CompanionDeviceManagerProxy) IsCompanionApplicationBound(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerIsCompanionApplicationBound)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerIsCompanionApplicationBound)
 	if _err != nil {
@@ -1099,8 +1604,25 @@ func (p *CompanionDeviceManagerProxy) BuildAssociationCancellationIntent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerBuildAssociationCancellationIntent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(_identity.PackageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerBuildAssociationCancellationIntent)
 	if _err != nil {
@@ -1137,8 +1659,25 @@ func (p *CompanionDeviceManagerProxy) EnableSystemDataSync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(associationId)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerEnableSystemDataSync)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(associationId)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(associationId)
+			case 1:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerEnableSystemDataSync)
 	if _err != nil {
@@ -1166,8 +1705,25 @@ func (p *CompanionDeviceManagerProxy) DisableSystemDataSync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(associationId)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDisableSystemDataSync)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(associationId)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(associationId)
+			case 1:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDisableSystemDataSync)
 	if _err != nil {
@@ -1194,7 +1750,21 @@ func (p *CompanionDeviceManagerProxy) EnablePermissionsSync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(associationId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerEnablePermissionsSync)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(associationId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(associationId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerEnablePermissionsSync)
 	if _err != nil {
@@ -1221,7 +1791,21 @@ func (p *CompanionDeviceManagerProxy) DisablePermissionsSync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(associationId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDisablePermissionsSync)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(associationId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(associationId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDisablePermissionsSync)
 	if _err != nil {
@@ -1249,7 +1833,21 @@ func (p *CompanionDeviceManagerProxy) GetPermissionSyncRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(associationId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetPermissionSyncRequest)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(associationId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(associationId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetPermissionSyncRequest)
 	if _err != nil {
@@ -1285,7 +1883,21 @@ func (p *CompanionDeviceManagerProxy) EnableSecureTransport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerEnableSecureTransport)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerEnableSecureTransport)
 	if _err != nil {
@@ -1313,8 +1925,25 @@ func (p *CompanionDeviceManagerProxy) SetAssociationTag(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(associationId)
-	_data.WriteString16(tag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerSetAssociationTag)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(associationId)
+		_data.WriteString16(tag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(associationId)
+			case 1:
+				_data.WriteString16(tag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerSetAssociationTag)
 	if _err != nil {
@@ -1341,7 +1970,21 @@ func (p *CompanionDeviceManagerProxy) ClearAssociationTag(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(associationId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerClearAssociationTag)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(associationId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(associationId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerClearAssociationTag)
 	if _err != nil {
@@ -1369,7 +2012,21 @@ func (p *CompanionDeviceManagerProxy) GetBackupPayload(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetBackupPayload)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetBackupPayload)
 	if _err != nil {
@@ -1401,8 +2058,25 @@ func (p *CompanionDeviceManagerProxy) ApplyRestoredPayload(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteByteArray(payload)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerApplyRestoredPayload)
+	_compiledDescs := []string{
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(payload)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(payload)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerApplyRestoredPayload)
 	if _err != nil {
@@ -1431,12 +2105,35 @@ func (p *CompanionDeviceManagerProxy) StartObservingDevicePresence(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerStartObservingDevicePresence)
+	_compiledDescs := []string{
+		"Landroid/companion/ObservingDevicePresenceRequest;",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerStartObservingDevicePresence)
 	if _err != nil {
@@ -1465,12 +2162,35 @@ func (p *CompanionDeviceManagerProxy) StopObservingDevicePresence(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerStopObservingDevicePresence)
+	_compiledDescs := []string{
+		"Landroid/companion/ObservingDevicePresenceRequest;",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerStopObservingDevicePresence)
 	if _err != nil {

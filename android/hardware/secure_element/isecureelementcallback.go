@@ -48,8 +48,25 @@ func (p *SecureElementCallbackProxy) OnStateChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementCallback)
-	_data.WriteBool(connected)
-	_data.WriteString16(debugReason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISecureElementCallback, MethodISecureElementCallbackOnStateChange)
+	_compiledDescs := []string{
+		"Z",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(connected)
+		_data.WriteString16(debugReason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(connected)
+			case 1:
+				_data.WriteString16(debugReason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementCallback, MethodISecureElementCallbackOnStateChange)
 	if _err != nil {

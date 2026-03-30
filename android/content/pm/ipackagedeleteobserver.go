@@ -48,8 +48,25 @@ func (p *PackageDeleteObserverProxy) PackageDeleted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageDeleteObserver)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(returnCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageDeleteObserver, MethodIPackageDeleteObserverPackageDeleted)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(returnCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(returnCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageDeleteObserver, MethodIPackageDeleteObserverPackageDeleted)
 	if _err != nil {

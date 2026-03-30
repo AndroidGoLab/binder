@@ -66,8 +66,25 @@ func (p *MbmsStreamingServiceProxy) Initialize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceInitialize)
+	_compiledDescs := []string{
+		"Landroid/telephony/mbms/IMbmsStreamingSessionCallback;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceInitialize)
 	if _err != nil {
@@ -100,13 +117,37 @@ func (p *MbmsStreamingServiceProxy) RequestUpdateStreamingServices(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
-	_data.WriteInt32(subId)
-	if serviceClasses == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceRequestUpdateStreamingServices)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		if serviceClasses == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(serviceClasses)))
+			for _, _item := range serviceClasses {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(serviceClasses)))
-		for _, _item := range serviceClasses {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				if serviceClasses == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(serviceClasses)))
+					for _, _item := range serviceClasses {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -142,9 +183,29 @@ func (p *MbmsStreamingServiceProxy) StartStreaming(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
-	_data.WriteInt32(subId)
-	_data.WriteString16(serviceId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceStartStreaming)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/telephony/mbms/IStreamingServiceCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(serviceId)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(serviceId)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceStartStreaming)
 	if _err != nil {
@@ -177,8 +238,25 @@ func (p *MbmsStreamingServiceProxy) GetPlaybackUri(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
-	_data.WriteInt32(subId)
-	_data.WriteString16(serviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceGetPlaybackUri)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(serviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(serviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceGetPlaybackUri)
 	if _err != nil {
@@ -215,8 +293,25 @@ func (p *MbmsStreamingServiceProxy) StopStreaming(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
-	_data.WriteInt32(subId)
-	_data.WriteString16(serviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceStopStreaming)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+		_data.WriteString16(serviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			case 1:
+				_data.WriteString16(serviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceStopStreaming)
 	if _err != nil {
@@ -243,7 +338,21 @@ func (p *MbmsStreamingServiceProxy) Dispose(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceDispose)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceDispose)
 	if _err != nil {

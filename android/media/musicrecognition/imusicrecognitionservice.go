@@ -53,12 +53,35 @@ func (p *MusicRecognitionServiceProxy) OnAudioStreamStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionService)
-	_data.WriteParcelFileDescriptor(fd)
-	_data.WriteInt32(1)
-	if _err := audioFormat.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMusicRecognitionService, MethodIMusicRecognitionServiceOnAudioStreamStarted)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+		"Landroid/media/AudioFormat;",
+		"Landroid/media/musicrecognition/IMusicRecognitionServiceCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(fd)
+		_data.WriteInt32(1)
+		if _err := audioFormat.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(fd)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := audioFormat.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMusicRecognitionService, MethodIMusicRecognitionServiceOnAudioStreamStarted)
 	if _err != nil {
@@ -76,7 +99,21 @@ func (p *MusicRecognitionServiceProxy) GetAttributionTag(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMusicRecognitionService, MethodIMusicRecognitionServiceGetAttributionTag)
+	_compiledDescs := []string{
+		"Landroid/media/musicrecognition/IMusicRecognitionAttributionTagCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMusicRecognitionService, MethodIMusicRecognitionServiceGetAttributionTag)
 	if _err != nil {

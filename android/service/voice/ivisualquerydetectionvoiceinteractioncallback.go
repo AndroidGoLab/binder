@@ -59,7 +59,21 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnQueryDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionVoiceInteractionCallback)
-	_data.WriteString16(partialQuery)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVisualQueryDetectionVoiceInteractionCallback, MethodIVisualQueryDetectionVoiceInteractionCallbackOnQueryDetected)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(partialQuery)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(partialQuery)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVisualQueryDetectionVoiceInteractionCallback, MethodIVisualQueryDetectionVoiceInteractionCallbackOnQueryDetected)
 	if _err != nil {
@@ -77,9 +91,26 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnResultDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionVoiceInteractionCallback)
-	_data.WriteInt32(1)
-	if _err := partialResult.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVisualQueryDetectionVoiceInteractionCallback, MethodIVisualQueryDetectionVoiceInteractionCallbackOnResultDetected)
+	_compiledDescs := []string{
+		"Landroid/service/voice/VisualQueryDetectedResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := partialResult.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := partialResult.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVisualQueryDetectionVoiceInteractionCallback, MethodIVisualQueryDetectionVoiceInteractionCallbackOnResultDetected)
@@ -130,9 +161,26 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnVisualQueryDetecti
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionVoiceInteractionCallback)
-	_data.WriteInt32(1)
-	if _err := visualQueryDetectionServiceFailure.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVisualQueryDetectionVoiceInteractionCallback, MethodIVisualQueryDetectionVoiceInteractionCallbackOnVisualQueryDetectionServiceFailure)
+	_compiledDescs := []string{
+		"Landroid/service/voice/VisualQueryDetectionServiceFailure;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := visualQueryDetectionServiceFailure.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := visualQueryDetectionServiceFailure.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVisualQueryDetectionVoiceInteractionCallback, MethodIVisualQueryDetectionVoiceInteractionCallbackOnVisualQueryDetectionServiceFailure)

@@ -65,7 +65,21 @@ func (p *StorageEventListenerProxy) OnUsbMassStorageConnectionChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
-	_data.WriteBool(connected)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageEventListener, MethodIStorageEventListenerOnUsbMassStorageConnectionChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(connected)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(connected)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageEventListener, MethodIStorageEventListenerOnUsbMassStorageConnectionChanged)
 	if _err != nil {
@@ -85,9 +99,29 @@ func (p *StorageEventListenerProxy) OnStorageStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
-	_data.WriteString16(path)
-	_data.WriteString16(oldState)
-	_data.WriteString16(newState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageEventListener, MethodIStorageEventListenerOnStorageStateChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(path)
+		_data.WriteString16(oldState)
+		_data.WriteString16(newState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(path)
+			case 1:
+				_data.WriteString16(oldState)
+			case 2:
+				_data.WriteString16(newState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageEventListener, MethodIStorageEventListenerOnStorageStateChanged)
 	if _err != nil {
@@ -107,12 +141,35 @@ func (p *StorageEventListenerProxy) OnVolumeStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
-	_data.WriteInt32(1)
-	if _err := vol.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageEventListener, MethodIStorageEventListenerOnVolumeStateChanged)
+	_compiledDescs := []string{
+		"Landroid/os/storage/VolumeInfo;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(oldState)
-	_data.WriteInt32(newState)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := vol.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(oldState)
+		_data.WriteInt32(newState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := vol.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(oldState)
+			case 2:
+				_data.WriteInt32(newState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageEventListener, MethodIStorageEventListenerOnVolumeStateChanged)
 	if _err != nil {
@@ -130,9 +187,26 @@ func (p *StorageEventListenerProxy) OnVolumeRecordChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
-	_data.WriteInt32(1)
-	if _err := rec.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageEventListener, MethodIStorageEventListenerOnVolumeRecordChanged)
+	_compiledDescs := []string{
+		"Landroid/os/storage/VolumeRecord;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := rec.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := rec.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageEventListener, MethodIStorageEventListenerOnVolumeRecordChanged)
@@ -151,7 +225,21 @@ func (p *StorageEventListenerProxy) OnVolumeForgotten(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
-	_data.WriteString16(fsUuid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageEventListener, MethodIStorageEventListenerOnVolumeForgotten)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(fsUuid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(fsUuid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageEventListener, MethodIStorageEventListenerOnVolumeForgotten)
 	if _err != nil {
@@ -170,11 +258,31 @@ func (p *StorageEventListenerProxy) OnDiskScanned(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
-	_data.WriteInt32(1)
-	if _err := disk.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageEventListener, MethodIStorageEventListenerOnDiskScanned)
+	_compiledDescs := []string{
+		"Landroid/os/storage/DiskInfo;",
+		"I",
 	}
-	_data.WriteInt32(volumeCount)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := disk.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(volumeCount)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := disk.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(volumeCount)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageEventListener, MethodIStorageEventListenerOnDiskScanned)
 	if _err != nil {
@@ -192,9 +300,26 @@ func (p *StorageEventListenerProxy) OnDiskDestroyed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
-	_data.WriteInt32(1)
-	if _err := disk.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStorageEventListener, MethodIStorageEventListenerOnDiskDestroyed)
+	_compiledDescs := []string{
+		"Landroid/os/storage/DiskInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := disk.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := disk.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageEventListener, MethodIStorageEventListenerOnDiskDestroyed)

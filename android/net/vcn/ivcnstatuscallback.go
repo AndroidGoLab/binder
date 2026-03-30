@@ -50,7 +50,21 @@ func (p *VcnStatusCallbackProxy) OnVcnStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnStatusCallback)
-	_data.WriteInt32(statusCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVcnStatusCallback, MethodIVcnStatusCallbackOnVcnStatusChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(statusCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(statusCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnStatusCallback, MethodIVcnStatusCallbackOnVcnStatusChanged)
 	if _err != nil {
@@ -71,10 +85,33 @@ func (p *VcnStatusCallbackProxy) OnGatewayConnectionError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnStatusCallback)
-	_data.WriteString16(gatewayConnectionName)
-	_data.WriteInt32(errorCode)
-	_data.WriteString16(exceptionClass)
-	_data.WriteString16(exceptionMessage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVcnStatusCallback, MethodIVcnStatusCallbackOnGatewayConnectionError)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(gatewayConnectionName)
+		_data.WriteInt32(errorCode)
+		_data.WriteString16(exceptionClass)
+		_data.WriteString16(exceptionMessage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(gatewayConnectionName)
+			case 1:
+				_data.WriteInt32(errorCode)
+			case 2:
+				_data.WriteString16(exceptionClass)
+			case 3:
+				_data.WriteString16(exceptionMessage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnStatusCallback, MethodIVcnStatusCallbackOnGatewayConnectionError)
 	if _err != nil {

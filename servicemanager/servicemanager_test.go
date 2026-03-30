@@ -74,6 +74,10 @@ func (m *mockTransport) ResolveCode(_ context.Context, _ string, _ string) (bind
 	return binder.FirstCallTransaction, nil
 }
 
+func (m *mockTransport) ResolveMethodSignature(_ context.Context, _ string, _ string) []string {
+	return nil
+}
+
 func (m *mockTransport) APILevel() int {
 	return 0
 }

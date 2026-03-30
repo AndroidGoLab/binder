@@ -69,7 +69,21 @@ func (p *GameSessionProxy) OnTransientSystemBarVisibilityFromRevealGestureChange
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameSession)
-	_data.WriteBool(visibleDueToGesture)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGameSession, MethodIGameSessionOnTransientSystemBarVisibilityFromRevealGestureChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(visibleDueToGesture)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(visibleDueToGesture)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameSession, MethodIGameSessionOnTransientSystemBarVisibilityFromRevealGestureChanged)
 	if _err != nil {
@@ -87,7 +101,21 @@ func (p *GameSessionProxy) OnTaskFocusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameSession)
-	_data.WriteBool(focused)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGameSession, MethodIGameSessionOnTaskFocusChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(focused)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(focused)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameSession, MethodIGameSessionOnTaskFocusChanged)
 	if _err != nil {

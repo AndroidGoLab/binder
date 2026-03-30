@@ -49,9 +49,29 @@ func (p *StartingWindowListenerProxy) OnTaskLaunching(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStartingWindowListener)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(supportedType)
-	_data.WriteInt32(splashScreenBackgroundColor)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStartingWindowListener, MethodIStartingWindowListenerOnTaskLaunching)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+		_data.WriteInt32(supportedType)
+		_data.WriteInt32(splashScreenBackgroundColor)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			case 1:
+				_data.WriteInt32(supportedType)
+			case 2:
+				_data.WriteInt32(splashScreenBackgroundColor)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStartingWindowListener, MethodIStartingWindowListenerOnTaskLaunching)
 	if _err != nil {

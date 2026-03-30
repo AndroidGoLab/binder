@@ -95,8 +95,25 @@ func (p *SensorsProxy) Activate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
-	_data.WriteInt32(sensorHandle)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensors, MethodISensorsActivate)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorHandle)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorHandle)
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensors, MethodISensorsActivate)
 	if _err != nil {
@@ -125,9 +142,29 @@ func (p *SensorsProxy) Batch(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
-	_data.WriteInt32(sensorHandle)
-	_data.WriteInt64(samplingPeriodNs)
-	_data.WriteInt64(maxReportLatencyNs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensors, MethodISensorsBatch)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorHandle)
+		_data.WriteInt64(samplingPeriodNs)
+		_data.WriteInt64(maxReportLatencyNs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorHandle)
+			case 1:
+				_data.WriteInt64(samplingPeriodNs)
+			case 2:
+				_data.WriteInt64(maxReportLatencyNs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensors, MethodISensorsBatch)
 	if _err != nil {
@@ -157,9 +194,29 @@ func (p *SensorsProxy) ConfigDirectReport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
-	_data.WriteInt32(sensorHandle)
-	_data.WriteInt32(channelHandle)
-	_data.WriteInt32(int32(rate))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensors, MethodISensorsConfigDirectReport)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"Landroid/hardware/sensors/ISensors/RateLevel;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorHandle)
+		_data.WriteInt32(channelHandle)
+		_data.WriteInt32(int32(rate))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorHandle)
+			case 1:
+				_data.WriteInt32(channelHandle)
+			case 2:
+				_data.WriteInt32(int32(rate))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensors, MethodISensorsConfigDirectReport)
 	if _err != nil {
@@ -190,7 +247,21 @@ func (p *SensorsProxy) Flush(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
-	_data.WriteInt32(sensorHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensors, MethodISensorsFlush)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sensorHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sensorHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensors, MethodISensorsFlush)
 	if _err != nil {
@@ -281,15 +352,41 @@ func (p *SensorsProxy) Initialize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
-	_data.WriteInt32(1)
-	if _err := eventQueueDescriptor.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensors, MethodISensorsInitialize)
+	_compiledDescs := []string{
+		"Landroid/hardware/common/fmq/MQDescriptor;",
+		"Landroid/hardware/common/fmq/MQDescriptor;",
+		"Landroid/hardware/sensors/ISensorsCallback;",
 	}
-	_data.WriteInt32(1)
-	if _err := wakeLockDescriptor.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := eventQueueDescriptor.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := wakeLockDescriptor.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, sensorsCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := eventQueueDescriptor.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := wakeLockDescriptor.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, sensorsCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, sensorsCallback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensors, MethodISensorsInitialize)
 	if _err != nil {
@@ -316,9 +413,26 @@ func (p *SensorsProxy) InjectSensorData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensors, MethodISensorsInjectSensorData)
+	_compiledDescs := []string{
+		"Landroid/hardware/sensors/Event;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensors, MethodISensorsInjectSensorData)
@@ -347,9 +461,26 @@ func (p *SensorsProxy) RegisterDirectChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
-	_data.WriteInt32(1)
-	if _err := mem.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensors, MethodISensorsRegisterDirectChannel)
+	_compiledDescs := []string{
+		"Landroid/hardware/sensors/ISensors/SharedMemInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := mem.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := mem.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensors, MethodISensorsRegisterDirectChannel)
@@ -381,7 +512,21 @@ func (p *SensorsProxy) SetOperationMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
-	_data.WriteInt32(int32(mode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensors, MethodISensorsSetOperationMode)
+	_compiledDescs := []string{
+		"Landroid/hardware/sensors/ISensors/OperationMode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(mode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(mode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensors, MethodISensorsSetOperationMode)
 	if _err != nil {
@@ -408,7 +553,21 @@ func (p *SensorsProxy) UnregisterDirectChannel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
-	_data.WriteInt32(channelHandle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISensors, MethodISensorsUnregisterDirectChannel)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(channelHandle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(channelHandle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensors, MethodISensorsUnregisterDirectChannel)
 	if _err != nil {

@@ -72,12 +72,41 @@ func (p *ImeTrackerProxy) OnStart(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
-	_data.WriteString16(tag)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(type_)
-	_data.WriteInt32(origin)
-	_data.WriteInt32(reason)
-	_data.WriteBool(fromUser)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImeTracker, MethodIImeTrackerOnStart)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(tag)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(type_)
+		_data.WriteInt32(origin)
+		_data.WriteInt32(reason)
+		_data.WriteBool(fromUser)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(tag)
+			case 1:
+				_data.WriteInt32(uid)
+			case 2:
+				_data.WriteInt32(type_)
+			case 3:
+				_data.WriteInt32(origin)
+			case 4:
+				_data.WriteInt32(reason)
+			case 5:
+				_data.WriteBool(fromUser)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImeTracker, MethodIImeTrackerOnStart)
 	if _err != nil {
@@ -114,8 +143,25 @@ func (p *ImeTrackerProxy) OnProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
-	binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
-	_data.WriteInt32(phase)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImeTracker, MethodIImeTrackerOnProgress)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
+		_data.WriteInt32(phase)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(phase)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImeTracker, MethodIImeTrackerOnProgress)
 	if _err != nil {
@@ -134,11 +180,31 @@ func (p *ImeTrackerProxy) OnFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
-	_data.WriteInt32(1)
-	if _err := statsToken.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImeTracker, MethodIImeTrackerOnFailed)
+	_compiledDescs := []string{
+		"LImeTracker/Token;",
+		"I",
 	}
-	_data.WriteInt32(phase)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := statsToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(phase)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := statsToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(phase)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImeTracker, MethodIImeTrackerOnFailed)
 	if _err != nil {
@@ -157,11 +223,31 @@ func (p *ImeTrackerProxy) OnCancelled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
-	_data.WriteInt32(1)
-	if _err := statsToken.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImeTracker, MethodIImeTrackerOnCancelled)
+	_compiledDescs := []string{
+		"LImeTracker/Token;",
+		"I",
 	}
-	_data.WriteInt32(phase)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := statsToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(phase)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := statsToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(phase)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImeTracker, MethodIImeTrackerOnCancelled)
 	if _err != nil {
@@ -179,9 +265,26 @@ func (p *ImeTrackerProxy) OnShown(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
-	_data.WriteInt32(1)
-	if _err := statsToken.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImeTracker, MethodIImeTrackerOnShown)
+	_compiledDescs := []string{
+		"LImeTracker/Token;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := statsToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := statsToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImeTracker, MethodIImeTrackerOnShown)
@@ -200,9 +303,26 @@ func (p *ImeTrackerProxy) OnHidden(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
-	_data.WriteInt32(1)
-	if _err := statsToken.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImeTracker, MethodIImeTrackerOnHidden)
+	_compiledDescs := []string{
+		"LImeTracker/Token;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := statsToken.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := statsToken.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImeTracker, MethodIImeTrackerOnHidden)

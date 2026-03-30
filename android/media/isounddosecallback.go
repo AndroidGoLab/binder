@@ -51,8 +51,25 @@ func (p *SoundDoseCallbackProxy) OnMomentaryExposure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDoseCallback)
-	_data.WriteFloat32(currentMel)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDoseCallback, MethodISoundDoseCallbackOnMomentaryExposure)
+	_compiledDescs := []string{
+		"F",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(currentMel)
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(currentMel)
+			case 1:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDoseCallback, MethodISoundDoseCallbackOnMomentaryExposure)
 	if _err != nil {
@@ -71,15 +88,42 @@ func (p *SoundDoseCallbackProxy) OnNewCsdValue(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDoseCallback)
-	_data.WriteFloat32(currentCsd)
-	if records == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDoseCallback, MethodISoundDoseCallbackOnNewCsdValue)
+	_compiledDescs := []string{
+		"F",
+		"[Landroid/media/SoundDoseRecord;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(currentCsd)
+		if records == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(records)))
+			for _, _item := range records {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(records)))
-		for _, _item := range records {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(currentCsd)
+			case 1:
+				if records == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(records)))
+					for _, _item := range records {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}

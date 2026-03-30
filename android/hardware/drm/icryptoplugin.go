@@ -63,9 +63,26 @@ func (p *CryptoPluginProxy) Decrypt(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICryptoPlugin, MethodICryptoPluginDecrypt)
+	_compiledDescs := []string{
+		"Landroid/hardware/drm/DecryptArgs;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := args.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := args.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICryptoPlugin, MethodICryptoPluginDecrypt)
@@ -160,8 +177,25 @@ func (p *CryptoPluginProxy) NotifyResolution(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
-	_data.WriteInt32(width)
-	_data.WriteInt32(height)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICryptoPlugin, MethodICryptoPluginNotifyResolution)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(width)
+		_data.WriteInt32(height)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(width)
+			case 1:
+				_data.WriteInt32(height)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICryptoPlugin, MethodICryptoPluginNotifyResolution)
 	if _err != nil {
@@ -189,7 +223,21 @@ func (p *CryptoPluginProxy) RequiresSecureDecoderComponent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
-	_data.WriteString16(mime)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICryptoPlugin, MethodICryptoPluginRequiresSecureDecoderComponent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(mime)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(mime)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICryptoPlugin, MethodICryptoPluginRequiresSecureDecoderComponent)
 	if _err != nil {
@@ -220,7 +268,21 @@ func (p *CryptoPluginProxy) SetMediaDrmSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
-	_data.WriteByteArray(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICryptoPlugin, MethodICryptoPluginSetMediaDrmSession)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICryptoPlugin, MethodICryptoPluginSetMediaDrmSession)
 	if _err != nil {
@@ -247,9 +309,26 @@ func (p *CryptoPluginProxy) SetSharedBufferBase(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
-	_data.WriteInt32(1)
-	if _err := base.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorICryptoPlugin, MethodICryptoPluginSetSharedBufferBase)
+	_compiledDescs := []string{
+		"Landroid/hardware/drm/SharedBuffer;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := base.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := base.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICryptoPlugin, MethodICryptoPluginSetSharedBufferBase)

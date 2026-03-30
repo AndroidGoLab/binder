@@ -90,8 +90,25 @@ func (p *AdbManagerProxy) AllowDebugging(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
-	_data.WriteBool(alwaysAllow)
-	_data.WriteString16(publicKey)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdbManager, MethodIAdbManagerAllowDebugging)
+	_compiledDescs := []string{
+		"Z",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(alwaysAllow)
+		_data.WriteString16(publicKey)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(alwaysAllow)
+			case 1:
+				_data.WriteString16(publicKey)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerAllowDebugging)
 	if _err != nil {
@@ -169,8 +186,25 @@ func (p *AdbManagerProxy) AllowWirelessDebugging(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
-	_data.WriteBool(alwaysAllow)
-	_data.WriteString16(bssid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdbManager, MethodIAdbManagerAllowWirelessDebugging)
+	_compiledDescs := []string{
+		"Z",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(alwaysAllow)
+		_data.WriteString16(bssid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(alwaysAllow)
+			case 1:
+				_data.WriteString16(bssid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerAllowWirelessDebugging)
 	if _err != nil {
@@ -284,7 +318,21 @@ func (p *AdbManagerProxy) UnpairDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
-	_data.WriteString16(fingerprint)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdbManager, MethodIAdbManagerUnpairDevice)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(fingerprint)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(fingerprint)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerUnpairDevice)
 	if _err != nil {
@@ -337,8 +385,25 @@ func (p *AdbManagerProxy) EnablePairingByQrCode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
-	_data.WriteString16(serviceName)
-	_data.WriteString16(password)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdbManager, MethodIAdbManagerEnablePairingByQrCode)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(serviceName)
+		_data.WriteString16(password)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(serviceName)
+			case 1:
+				_data.WriteString16(password)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerEnablePairingByQrCode)
 	if _err != nil {
@@ -480,7 +545,21 @@ func (p *AdbManagerProxy) RegisterCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdbManager, MethodIAdbManagerRegisterCallback)
+	_compiledDescs := []string{
+		"Landroid/debug/IAdbCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerRegisterCallback)
 	if _err != nil {
@@ -507,7 +586,21 @@ func (p *AdbManagerProxy) UnregisterCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAdbManager, MethodIAdbManagerUnregisterCallback)
+	_compiledDescs := []string{
+		"Landroid/debug/IAdbCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerUnregisterCallback)
 	if _err != nil {

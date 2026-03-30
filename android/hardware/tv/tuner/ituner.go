@@ -136,7 +136,21 @@ func (p *TunerProxy) OpenFrontendById(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
-	_data.WriteInt32(frontendId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITuner, MethodITunerOpenFrontendById)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(frontendId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(frontendId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerOpenFrontendById)
 	if _err != nil {
@@ -283,7 +297,21 @@ func (p *TunerProxy) GetFrontendInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
-	_data.WriteInt32(frontendId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITuner, MethodITunerGetFrontendInfo)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(frontendId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(frontendId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerGetFrontendInfo)
 	if _err != nil {
@@ -363,7 +391,21 @@ func (p *TunerProxy) OpenLnbById(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
-	_data.WriteInt32(lnbId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITuner, MethodITunerOpenLnbById)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(lnbId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(lnbId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerOpenLnbById)
 	if _err != nil {
@@ -397,7 +439,21 @@ func (p *TunerProxy) OpenLnbByName(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
-	_data.WriteString16(lnbName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITuner, MethodITunerOpenLnbByName)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(lnbName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(lnbName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerOpenLnbByName)
 	if _err != nil {
@@ -445,7 +501,21 @@ func (p *TunerProxy) SetLna(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
-	_data.WriteBool(bEnable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITuner, MethodITunerSetLna)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(bEnable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(bEnable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerSetLna)
 	if _err != nil {
@@ -473,8 +543,25 @@ func (p *TunerProxy) SetMaxNumberOfFrontends(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
-	_data.WriteInt32(int32(frontendType))
-	_data.WriteInt32(maxNumber)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITuner, MethodITunerSetMaxNumberOfFrontends)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/FrontendType;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(frontendType))
+		_data.WriteInt32(maxNumber)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(frontendType))
+			case 1:
+				_data.WriteInt32(maxNumber)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerSetMaxNumberOfFrontends)
 	if _err != nil {
@@ -502,7 +589,21 @@ func (p *TunerProxy) GetMaxNumberOfFrontends(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
-	_data.WriteInt32(int32(frontendType))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITuner, MethodITunerGetMaxNumberOfFrontends)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/FrontendType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(frontendType))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(frontendType))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerGetMaxNumberOfFrontends)
 	if _err != nil {
@@ -607,7 +708,21 @@ func (p *TunerProxy) OpenDemuxById(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
-	_data.WriteInt32(demuxId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITuner, MethodITunerOpenDemuxById)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(demuxId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(demuxId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerOpenDemuxById)
 	if _err != nil {
@@ -640,7 +755,21 @@ func (p *TunerProxy) GetDemuxInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
-	_data.WriteInt32(demuxId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITuner, MethodITunerGetDemuxInfo)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(demuxId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(demuxId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerGetDemuxInfo)
 	if _err != nil {

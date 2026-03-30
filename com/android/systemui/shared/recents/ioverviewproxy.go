@@ -94,9 +94,26 @@ func (p *OverviewProxyProxy) OnActiveNavBarRegionChanges(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
-	_data.WriteInt32(1)
-	if _err := activeRegion.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnActiveNavBarRegionChanges)
+	_compiledDescs := []string{
+		"Landroid/graphics/Region;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := activeRegion.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := activeRegion.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnActiveNavBarRegionChanges)
@@ -115,9 +132,26 @@ func (p *OverviewProxyProxy) OnInitialize(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnInitialize)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnInitialize)
@@ -152,7 +186,21 @@ func (p *OverviewProxyProxy) OnOverviewShown(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
-	_data.WriteBool(triggeredFromAltTab)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnOverviewShown)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(triggeredFromAltTab)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(triggeredFromAltTab)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnOverviewShown)
 	if _err != nil {
@@ -171,8 +219,25 @@ func (p *OverviewProxyProxy) OnOverviewHidden(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
-	_data.WriteBool(triggeredFromAltTab)
-	_data.WriteBool(triggeredFromHomeKey)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnOverviewHidden)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(triggeredFromAltTab)
+		_data.WriteBool(triggeredFromHomeKey)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(triggeredFromAltTab)
+			case 1:
+				_data.WriteBool(triggeredFromHomeKey)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnOverviewHidden)
 	if _err != nil {
@@ -191,8 +256,25 @@ func (p *OverviewProxyProxy) OnAssistantAvailable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
-	_data.WriteBool(available)
-	_data.WriteBool(longPressHomeEnabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnAssistantAvailable)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(available)
+		_data.WriteBool(longPressHomeEnabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(available)
+			case 1:
+				_data.WriteBool(longPressHomeEnabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnAssistantAvailable)
 	if _err != nil {
@@ -210,7 +292,21 @@ func (p *OverviewProxyProxy) OnAssistantVisibilityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
-	_data.WriteFloat32(visibility)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnAssistantVisibilityChanged)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(visibility)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(visibility)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnAssistantVisibilityChanged)
 	if _err != nil {
@@ -228,7 +324,21 @@ func (p *OverviewProxyProxy) OnAssistantOverrideInvoked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
-	_data.WriteInt32(invocationType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnAssistantOverrideInvoked)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(invocationType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(invocationType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnAssistantOverrideInvoked)
 	if _err != nil {
@@ -246,7 +356,21 @@ func (p *OverviewProxyProxy) OnSystemUiStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
-	_data.WriteInt32(stateFlags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnSystemUiStateChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(stateFlags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(stateFlags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnSystemUiStateChanged)
 	if _err != nil {
@@ -265,8 +389,25 @@ func (p *OverviewProxyProxy) OnRotationProposal(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
-	_data.WriteInt32(rotation)
-	_data.WriteBool(isValid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnRotationProposal)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(rotation)
+		_data.WriteBool(isValid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(rotation)
+			case 1:
+				_data.WriteBool(isValid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnRotationProposal)
 	if _err != nil {
@@ -287,10 +428,33 @@ func (p *OverviewProxyProxy) Disable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(state1)
-	_data.WriteInt32(state2)
-	_data.WriteBool(animate)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOverviewProxy, MethodIOverviewProxyDisable)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(state1)
+		_data.WriteInt32(state2)
+		_data.WriteBool(animate)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteInt32(state1)
+			case 2:
+				_data.WriteInt32(state2)
+			case 3:
+				_data.WriteBool(animate)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyDisable)
 	if _err != nil {
@@ -309,8 +473,25 @@ func (p *OverviewProxyProxy) OnSystemBarAttributesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(behavior)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnSystemBarAttributesChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(behavior)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteInt32(behavior)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnSystemBarAttributesChanged)
 	if _err != nil {
@@ -328,7 +509,21 @@ func (p *OverviewProxyProxy) OnNavButtonsDarkIntensityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
-	_data.WriteFloat32(darkIntensity)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnNavButtonsDarkIntensityChanged)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(darkIntensity)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(darkIntensity)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnNavButtonsDarkIntensityChanged)
 	if _err != nil {
@@ -347,8 +542,25 @@ func (p *OverviewProxyProxy) OnNavigationBarLumaSamplingEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
-	_data.WriteInt32(displayId)
-	_data.WriteBool(enable)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnNavigationBarLumaSamplingEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteBool(enable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteBool(enable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnNavigationBarLumaSamplingEnabled)
 	if _err != nil {
@@ -366,7 +578,21 @@ func (p *OverviewProxyProxy) EnterStageSplitFromRunningApp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
-	_data.WriteBool(leftOrTop)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOverviewProxy, MethodIOverviewProxyEnterStageSplitFromRunningApp)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(leftOrTop)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(leftOrTop)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyEnterStageSplitFromRunningApp)
 	if _err != nil {

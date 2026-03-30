@@ -154,14 +154,40 @@ func (p *SupplicantStaIfaceCallbackProxy) OnAnqpQueryDone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteByteArray(bssid)
-	_data.WriteInt32(1)
-	if _err := data.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAnqpQueryDone)
+	_compiledDescs := []string{
+		"[B",
+		"Landroid/hardware/wifi/supplicant/AnqpData;",
+		"Landroid/hardware/wifi/supplicant/Hs20AnqpData;",
 	}
-	_data.WriteInt32(1)
-	if _err := hs20Data.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(bssid)
+		_data.WriteInt32(1)
+		if _err := data.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := hs20Data.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(bssid)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := data.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := hs20Data.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAnqpQueryDone)
@@ -180,9 +206,26 @@ func (p *SupplicantStaIfaceCallbackProxy) OnAssociationRejected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := assocRejectData.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAssociationRejected)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/AssociationRejectionData;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := assocRejectData.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := assocRejectData.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAssociationRejected)
@@ -201,7 +244,21 @@ func (p *SupplicantStaIfaceCallbackProxy) OnAuthenticationTimeout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteByteArray(bssid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAuthenticationTimeout)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(bssid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(bssid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAuthenticationTimeout)
 	if _err != nil {
@@ -221,9 +278,29 @@ func (p *SupplicantStaIfaceCallbackProxy) OnAuxiliarySupplicantEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(int32(eventCode))
-	_data.WriteByteArray(bssid)
-	_data.WriteString16(reasonString)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAuxiliarySupplicantEvent)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/AuxiliarySupplicantEventCode;",
+		"[B",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(eventCode))
+		_data.WriteByteArray(bssid)
+		_data.WriteString16(reasonString)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(eventCode))
+			case 1:
+				_data.WriteByteArray(bssid)
+			case 2:
+				_data.WriteString16(reasonString)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAuxiliarySupplicantEvent)
 	if _err != nil {
@@ -241,9 +318,26 @@ func (p *SupplicantStaIfaceCallbackProxy) OnBssTmHandlingDone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := tmData.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnBssTmHandlingDone)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/BssTmData;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := tmData.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := tmData.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnBssTmHandlingDone)
@@ -263,8 +357,25 @@ func (p *SupplicantStaIfaceCallbackProxy) OnBssidChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WritePaddedByte(byte(reason))
-	_data.WriteByteArray(bssid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnBssidChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/BssidChangeReason;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(reason))
+		_data.WriteByteArray(bssid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(reason))
+			case 1:
+				_data.WriteByteArray(bssid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnBssidChanged)
 	if _err != nil {
@@ -284,9 +395,29 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDisconnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteByteArray(bssid)
-	_data.WriteBool(locallyGenerated)
-	_data.WriteInt32(int32(reasonCode))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDisconnected)
+	_compiledDescs := []string{
+		"[B",
+		"Z",
+		"Landroid/hardware/wifi/supplicant/StaIfaceReasonCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(bssid)
+		_data.WriteBool(locallyGenerated)
+		_data.WriteInt32(int32(reasonCode))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(bssid)
+			case 1:
+				_data.WriteBool(locallyGenerated)
+			case 2:
+				_data.WriteInt32(int32(reasonCode))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDisconnected)
 	if _err != nil {
@@ -307,15 +438,45 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(int32(code))
-	_data.WriteString16(ssid)
-	_data.WriteString16(channelList)
-	if bandList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppFailure)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/DppFailureCode;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"[C",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(code))
+		_data.WriteString16(ssid)
+		_data.WriteString16(channelList)
+		if bandList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(bandList)))
+			for _, _item := range bandList {
+				_data.WriteInt32(int32(_item))
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(bandList)))
-		for _, _item := range bandList {
-			_data.WriteInt32(int32(_item))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(code))
+			case 1:
+				_data.WriteString16(ssid)
+			case 2:
+				_data.WriteString16(channelList)
+			case 3:
+				if bandList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(bandList)))
+					for _, _item := range bandList {
+						_data.WriteInt32(int32(_item))
+					}
+				}
+			}
 		}
 	}
 
@@ -335,7 +496,21 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(int32(code))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppProgress)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/DppProgressCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(code))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(code))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppProgress)
 	if _err != nil {
@@ -353,7 +528,21 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(int32(event))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppSuccess)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/DppEventType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(event))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(event))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppSuccess)
 	if _err != nil {
@@ -375,13 +564,42 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppSuccessConfigReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteByteArray(ssid)
-	_data.WriteString16(password)
-	_data.WriteByteArray(psk)
-	_data.WriteInt32(int32(securityAkm))
-	_data.WriteInt32(1)
-	if _err := dppConnectionKeys.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppSuccessConfigReceived)
+	_compiledDescs := []string{
+		"[B",
+		"Ljava/lang/String;",
+		"[B",
+		"Landroid/hardware/wifi/supplicant/DppAkm;",
+		"Landroid/hardware/wifi/supplicant/DppConnectionKeys;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(ssid)
+		_data.WriteString16(password)
+		_data.WriteByteArray(psk)
+		_data.WriteInt32(int32(securityAkm))
+		_data.WriteInt32(1)
+		if _err := dppConnectionKeys.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(ssid)
+			case 1:
+				_data.WriteString16(password)
+			case 2:
+				_data.WriteByteArray(psk)
+			case 3:
+				_data.WriteInt32(int32(securityAkm))
+			case 4:
+				_data.WriteInt32(1)
+				if _err := dppConnectionKeys.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppSuccessConfigReceived)
@@ -417,8 +635,25 @@ func (p *SupplicantStaIfaceCallbackProxy) OnEapFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteByteArray(bssid)
-	_data.WriteInt32(errorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnEapFailure)
+	_compiledDescs := []string{
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(bssid)
+		_data.WriteInt32(errorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(bssid)
+			case 1:
+				_data.WriteInt32(errorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnEapFailure)
 	if _err != nil {
@@ -436,7 +671,21 @@ func (p *SupplicantStaIfaceCallbackProxy) OnExtRadioWorkStart(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnExtRadioWorkStart)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnExtRadioWorkStart)
 	if _err != nil {
@@ -454,7 +703,21 @@ func (p *SupplicantStaIfaceCallbackProxy) OnExtRadioWorkTimeout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnExtRadioWorkTimeout)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnExtRadioWorkTimeout)
 	if _err != nil {
@@ -475,10 +738,33 @@ func (p *SupplicantStaIfaceCallbackProxy) OnHs20DeauthImminentNotice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteByteArray(bssid)
-	_data.WriteInt32(reasonCode)
-	_data.WriteInt32(reAuthDelayInSec)
-	_data.WriteString16(url)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20DeauthImminentNotice)
+	_compiledDescs := []string{
+		"[B",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(bssid)
+		_data.WriteInt32(reasonCode)
+		_data.WriteInt32(reAuthDelayInSec)
+		_data.WriteString16(url)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(bssid)
+			case 1:
+				_data.WriteInt32(reasonCode)
+			case 2:
+				_data.WriteInt32(reAuthDelayInSec)
+			case 3:
+				_data.WriteString16(url)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20DeauthImminentNotice)
 	if _err != nil {
@@ -498,9 +784,29 @@ func (p *SupplicantStaIfaceCallbackProxy) OnHs20IconQueryDone(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteByteArray(bssid)
-	_data.WriteString16(fileName)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20IconQueryDone)
+	_compiledDescs := []string{
+		"[B",
+		"Ljava/lang/String;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(bssid)
+		_data.WriteString16(fileName)
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(bssid)
+			case 1:
+				_data.WriteString16(fileName)
+			case 2:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20IconQueryDone)
 	if _err != nil {
@@ -520,9 +826,29 @@ func (p *SupplicantStaIfaceCallbackProxy) OnHs20SubscriptionRemediation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteByteArray(bssid)
-	_data.WritePaddedByte(byte(osuMethod))
-	_data.WriteString16(url)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20SubscriptionRemediation)
+	_compiledDescs := []string{
+		"[B",
+		"Landroid/hardware/wifi/supplicant/OsuMethod;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(bssid)
+		_data.WritePaddedByte(byte(osuMethod))
+		_data.WriteString16(url)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(bssid)
+			case 1:
+				_data.WritePaddedByte(byte(osuMethod))
+			case 2:
+				_data.WriteString16(url)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20SubscriptionRemediation)
 	if _err != nil {
@@ -541,8 +867,25 @@ func (p *SupplicantStaIfaceCallbackProxy) OnHs20TermsAndConditionsAcceptanceRequ
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteByteArray(bssid)
-	_data.WriteString16(url)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20TermsAndConditionsAcceptanceRequestedNotification)
+	_compiledDescs := []string{
+		"[B",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(bssid)
+		_data.WriteString16(url)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(bssid)
+			case 1:
+				_data.WriteString16(url)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20TermsAndConditionsAcceptanceRequestedNotification)
 	if _err != nil {
@@ -560,7 +903,21 @@ func (p *SupplicantStaIfaceCallbackProxy) OnNetworkAdded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnNetworkAdded)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnNetworkAdded)
 	if _err != nil {
@@ -578,7 +935,21 @@ func (p *SupplicantStaIfaceCallbackProxy) OnNetworkNotFound(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteByteArray(ssid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnNetworkNotFound)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(ssid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(ssid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnNetworkNotFound)
 	if _err != nil {
@@ -596,7 +967,21 @@ func (p *SupplicantStaIfaceCallbackProxy) OnNetworkRemoved(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnNetworkRemoved)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnNetworkRemoved)
 	if _err != nil {
@@ -615,8 +1000,25 @@ func (p *SupplicantStaIfaceCallbackProxy) OnPmkCacheAdded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt64(expirationTimeInSec)
-	_data.WriteByteArray(serializedEntry)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnPmkCacheAdded)
+	_compiledDescs := []string{
+		"J",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(expirationTimeInSec)
+		_data.WriteByteArray(serializedEntry)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(expirationTimeInSec)
+			case 1:
+				_data.WriteByteArray(serializedEntry)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnPmkCacheAdded)
 	if _err != nil {
@@ -638,11 +1040,37 @@ func (p *SupplicantStaIfaceCallbackProxy) OnStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(int32(newState))
-	_data.WriteByteArray(bssid)
-	_data.WriteInt32(id)
-	_data.WriteByteArray(ssid)
-	_data.WriteBool(filsHlpSent)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnStateChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/StaIfaceCallbackState;",
+		"[B",
+		"I",
+		"[B",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(newState))
+		_data.WriteByteArray(bssid)
+		_data.WriteInt32(id)
+		_data.WriteByteArray(ssid)
+		_data.WriteBool(filsHlpSent)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(newState))
+			case 1:
+				_data.WriteByteArray(bssid)
+			case 2:
+				_data.WriteInt32(id)
+			case 3:
+				_data.WriteByteArray(ssid)
+			case 4:
+				_data.WriteBool(filsHlpSent)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnStateChanged)
 	if _err != nil {
@@ -662,9 +1090,29 @@ func (p *SupplicantStaIfaceCallbackProxy) OnWpsEventFail(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteByteArray(bssid)
-	_data.WriteInt32(int32(configError))
-	_data.WriteInt32(int32(errorInd))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnWpsEventFail)
+	_compiledDescs := []string{
+		"[B",
+		"Landroid/hardware/wifi/supplicant/WpsConfigError;",
+		"Landroid/hardware/wifi/supplicant/WpsErrorIndication;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(bssid)
+		_data.WriteInt32(int32(configError))
+		_data.WriteInt32(int32(errorInd))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(bssid)
+			case 1:
+				_data.WriteInt32(int32(configError))
+			case 2:
+				_data.WriteInt32(int32(errorInd))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnWpsEventFail)
 	if _err != nil {
@@ -731,15 +1179,42 @@ func (p *SupplicantStaIfaceCallbackProxy) OnQosPolicyRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(qosPolicyRequestId)
-	if qosPolicyData == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnQosPolicyRequest)
+	_compiledDescs := []string{
+		"I",
+		"[Landroid/hardware/wifi/supplicant/QosPolicyData;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(qosPolicyRequestId)
+		if qosPolicyData == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(qosPolicyData)))
+			for _, _item := range qosPolicyData {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(qosPolicyData)))
-		for _, _item := range qosPolicyData {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(qosPolicyRequestId)
+			case 1:
+				if qosPolicyData == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(qosPolicyData)))
+					for _, _item := range qosPolicyData {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -760,7 +1235,21 @@ func (p *SupplicantStaIfaceCallbackProxy) OnMloLinksInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(int32(reason))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnMloLinksInfoChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/ISupplicantStaIfaceCallback/MloLinkInfoChangeReason;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(reason))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(reason))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnMloLinksInfoChanged)
 	if _err != nil {
@@ -778,9 +1267,26 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppConfigReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := configData.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppConfigReceived)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/DppConfigurationData;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := configData.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := configData.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppConfigReceived)
@@ -799,7 +1305,21 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppConnectionStatusResultSent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(int32(code))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppConnectionStatusResultSent)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/DppStatusErrorCode;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(code))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(code))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppConnectionStatusResultSent)
 	if _err != nil {
@@ -817,7 +1337,21 @@ func (p *SupplicantStaIfaceCallbackProxy) OnBssFrequencyChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(frequencyMhz)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnBssFrequencyChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(frequencyMhz)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(frequencyMhz)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnBssFrequencyChanged)
 	if _err != nil {
@@ -835,9 +1369,26 @@ func (p *SupplicantStaIfaceCallbackProxy) OnSupplicantStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := stateChangeData.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnSupplicantStateChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/SupplicantStateChangeData;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := stateChangeData.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := stateChangeData.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnSupplicantStateChanged)
@@ -856,14 +1407,38 @@ func (p *SupplicantStaIfaceCallbackProxy) OnQosPolicyResponseForScs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	if qosPolicyScsResponseStatus == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnQosPolicyResponseForScs)
+	_compiledDescs := []string{
+		"[Landroid/hardware/wifi/supplicant/QosPolicyScsResponseStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if qosPolicyScsResponseStatus == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(qosPolicyScsResponseStatus)))
+			for _, _item := range qosPolicyScsResponseStatus {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(qosPolicyScsResponseStatus)))
-		for _, _item := range qosPolicyScsResponseStatus {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if qosPolicyScsResponseStatus == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(qosPolicyScsResponseStatus)))
+					for _, _item := range qosPolicyScsResponseStatus {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -884,9 +1459,26 @@ func (p *SupplicantStaIfaceCallbackProxy) OnPmkSaCacheAdded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := pmkSaData.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnPmkSaCacheAdded)
+	_compiledDescs := []string{
+		"Landroid/hardware/wifi/supplicant/PmkSaCacheData;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pmkSaData.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pmkSaData.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnPmkSaCacheAdded)

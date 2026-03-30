@@ -170,9 +170,26 @@ func (p *PhoneStateListenerProxy) OnServiceStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(1)
-	if _err := serviceState.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnServiceStateChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/ServiceState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := serviceState.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := serviceState.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnServiceStateChanged)
@@ -191,7 +208,21 @@ func (p *PhoneStateListenerProxy) OnSignalStrengthChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(asu)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnSignalStrengthChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(asu)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(asu)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnSignalStrengthChanged)
 	if _err != nil {
@@ -209,7 +240,21 @@ func (p *PhoneStateListenerProxy) OnMessageWaitingIndicatorChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteBool(mwi)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnMessageWaitingIndicatorChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(mwi)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(mwi)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnMessageWaitingIndicatorChanged)
 	if _err != nil {
@@ -227,7 +272,21 @@ func (p *PhoneStateListenerProxy) OnCallForwardingIndicatorChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteBool(cfi)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCallForwardingIndicatorChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(cfi)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(cfi)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCallForwardingIndicatorChanged)
 	if _err != nil {
@@ -245,9 +304,26 @@ func (p *PhoneStateListenerProxy) OnCellLocationChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(1)
-	if _err := location.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCellLocationChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/CellIdentity;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := location.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := location.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCellLocationChanged)
@@ -267,8 +343,25 @@ func (p *PhoneStateListenerProxy) OnLegacyCallStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(state)
-	_data.WriteString16(incomingNumber)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnLegacyCallStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(state)
+		_data.WriteString16(incomingNumber)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(state)
+			case 1:
+				_data.WriteString16(incomingNumber)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnLegacyCallStateChanged)
 	if _err != nil {
@@ -286,7 +379,21 @@ func (p *PhoneStateListenerProxy) OnCallStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCallStateChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCallStateChanged)
 	if _err != nil {
@@ -305,8 +412,25 @@ func (p *PhoneStateListenerProxy) OnDataConnectionStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(state)
-	_data.WriteInt32(networkType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnDataConnectionStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(state)
+		_data.WriteInt32(networkType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(state)
+			case 1:
+				_data.WriteInt32(networkType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnDataConnectionStateChanged)
 	if _err != nil {
@@ -324,7 +448,21 @@ func (p *PhoneStateListenerProxy) OnDataActivity(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(direction)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnDataActivity)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(direction)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(direction)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnDataActivity)
 	if _err != nil {
@@ -342,9 +480,26 @@ func (p *PhoneStateListenerProxy) OnSignalStrengthsChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(1)
-	if _err := signalStrength.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnSignalStrengthsChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/network/SignalStrength;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := signalStrength.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := signalStrength.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnSignalStrengthsChanged)
@@ -363,14 +518,38 @@ func (p *PhoneStateListenerProxy) OnCellInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	if cellInfo == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCellInfoChanged)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if cellInfo == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(cellInfo)))
+			for _, _item := range cellInfo {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(cellInfo)))
-		for _, _item := range cellInfo {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if cellInfo == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(cellInfo)))
+					for _, _item := range cellInfo {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -391,9 +570,26 @@ func (p *PhoneStateListenerProxy) OnPreciseCallStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(1)
-	if _err := callState.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnPreciseCallStateChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/PreciseCallState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := callState.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := callState.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnPreciseCallStateChanged)
@@ -412,9 +608,26 @@ func (p *PhoneStateListenerProxy) OnPreciseDataConnectionStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(1)
-	if _err := dataConnectionState.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnPreciseDataConnectionStateChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/PreciseDataConnectionState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := dataConnectionState.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := dataConnectionState.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnPreciseDataConnectionStateChanged)
@@ -433,9 +646,26 @@ func (p *PhoneStateListenerProxy) OnDataConnectionRealTimeInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(1)
-	if _err := dcRtInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnDataConnectionRealTimeInfoChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/DataConnectionRealTimeInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := dcRtInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := dcRtInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnDataConnectionRealTimeInfoChanged)
@@ -454,7 +684,21 @@ func (p *PhoneStateListenerProxy) OnSrvccStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnSrvccStateChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnSrvccStateChanged)
 	if _err != nil {
@@ -472,7 +716,21 @@ func (p *PhoneStateListenerProxy) OnVoiceActivationStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(activationState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnVoiceActivationStateChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(activationState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(activationState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnVoiceActivationStateChanged)
 	if _err != nil {
@@ -490,7 +748,21 @@ func (p *PhoneStateListenerProxy) OnDataActivationStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(activationState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnDataActivationStateChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(activationState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(activationState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnDataActivationStateChanged)
 	if _err != nil {
@@ -508,7 +780,21 @@ func (p *PhoneStateListenerProxy) OnOemHookRawEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteByteArray(rawData)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnOemHookRawEvent)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(rawData)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(rawData)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnOemHookRawEvent)
 	if _err != nil {
@@ -526,7 +812,21 @@ func (p *PhoneStateListenerProxy) OnCarrierNetworkChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteBool(active)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCarrierNetworkChange)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(active)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(active)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCarrierNetworkChange)
 	if _err != nil {
@@ -544,7 +844,21 @@ func (p *PhoneStateListenerProxy) OnUserMobileDataStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnUserMobileDataStateChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnUserMobileDataStateChanged)
 	if _err != nil {
@@ -562,9 +876,26 @@ func (p *PhoneStateListenerProxy) OnDisplayInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(1)
-	if _err := telephonyDisplayInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnDisplayInfoChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/TelephonyDisplayInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := telephonyDisplayInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := telephonyDisplayInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnDisplayInfoChanged)
@@ -583,9 +914,26 @@ func (p *PhoneStateListenerProxy) OnPhoneCapabilityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(1)
-	if _err := capability.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnPhoneCapabilityChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/config/PhoneCapability;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := capability.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := capability.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnPhoneCapabilityChanged)
@@ -604,7 +952,21 @@ func (p *PhoneStateListenerProxy) OnActiveDataSubIdChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(subId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnActiveDataSubIdChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(subId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(subId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnActiveDataSubIdChanged)
 	if _err != nil {
@@ -622,7 +984,21 @@ func (p *PhoneStateListenerProxy) OnRadioPowerStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(state)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnRadioPowerStateChanged)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(state)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(state)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnRadioPowerStateChanged)
 	if _err != nil {
@@ -640,14 +1016,38 @@ func (p *PhoneStateListenerProxy) OnCallStatesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	if callStateList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCallStatesChanged)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if callStateList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(callStateList)))
+			for _, _item := range callStateList {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(callStateList)))
-		for _, _item := range callStateList {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if callStateList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(callStateList)))
+					for _, _item := range callStateList {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -668,13 +1068,35 @@ func (p *PhoneStateListenerProxy) OnEmergencyNumberListChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	if emergencyNumberList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnEmergencyNumberListChanged)
+	_compiledDescs := []string{
+		"Ljava/util/Map;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if emergencyNumberList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(emergencyNumberList)))
+			for _k, _v := range emergencyNumberList {
+				_data.WriteString16(_k.(string))
+				_data.WriteString16(_v.(string))
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(emergencyNumberList)))
-		for _k, _v := range emergencyNumberList {
-			_data.WriteString16(_k.(string))
-			_data.WriteString16(_v.(string))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if emergencyNumberList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(emergencyNumberList)))
+					for _k, _v := range emergencyNumberList {
+						_data.WriteString16(_k.(string))
+						_data.WriteString16(_v.(string))
+					}
+				}
+			}
 		}
 	}
 
@@ -695,11 +1117,31 @@ func (p *PhoneStateListenerProxy) OnOutgoingEmergencyCall(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(1)
-	if _err := placedEmergencyNumber.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnOutgoingEmergencyCall)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/voice/EmergencyNumber;",
+		"I",
 	}
-	_data.WriteInt32(subscriptionId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := placedEmergencyNumber.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(subscriptionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := placedEmergencyNumber.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(subscriptionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnOutgoingEmergencyCall)
 	if _err != nil {
@@ -718,11 +1160,31 @@ func (p *PhoneStateListenerProxy) OnOutgoingEmergencySms(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(1)
-	if _err := sentEmergencyNumber.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnOutgoingEmergencySms)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/voice/EmergencyNumber;",
+		"I",
 	}
-	_data.WriteInt32(subscriptionId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := sentEmergencyNumber.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(subscriptionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := sentEmergencyNumber.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(subscriptionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnOutgoingEmergencySms)
 	if _err != nil {
@@ -741,8 +1203,25 @@ func (p *PhoneStateListenerProxy) OnCallDisconnectCauseChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(disconnectCause)
-	_data.WriteInt32(preciseDisconnectCause)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCallDisconnectCauseChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(disconnectCause)
+		_data.WriteInt32(preciseDisconnectCause)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(disconnectCause)
+			case 1:
+				_data.WriteInt32(preciseDisconnectCause)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCallDisconnectCauseChanged)
 	if _err != nil {
@@ -760,9 +1239,26 @@ func (p *PhoneStateListenerProxy) OnImsCallDisconnectCauseChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(1)
-	if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnImsCallDisconnectCauseChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/ImsReasonInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnImsCallDisconnectCauseChanged)
@@ -785,14 +1281,43 @@ func (p *PhoneStateListenerProxy) OnRegistrationFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(1)
-	if _err := cellIdentity.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnRegistrationFailed)
+	_compiledDescs := []string{
+		"Landroid/telephony/CellIdentity;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteString16(chosenPlmn)
-	_data.WriteInt32(domain)
-	_data.WriteInt32(causeCode)
-	_data.WriteInt32(additionalCauseCode)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := cellIdentity.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(chosenPlmn)
+		_data.WriteInt32(domain)
+		_data.WriteInt32(causeCode)
+		_data.WriteInt32(additionalCauseCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := cellIdentity.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(chosenPlmn)
+			case 2:
+				_data.WriteInt32(domain)
+			case 3:
+				_data.WriteInt32(causeCode)
+			case 4:
+				_data.WriteInt32(additionalCauseCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnRegistrationFailed)
 	if _err != nil {
@@ -810,9 +1335,26 @@ func (p *PhoneStateListenerProxy) OnBarringInfoChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(1)
-	if _err := barringInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnBarringInfoChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/network/BarringInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := barringInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := barringInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnBarringInfoChanged)
@@ -831,14 +1373,38 @@ func (p *PhoneStateListenerProxy) OnPhysicalChannelConfigChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	if configs == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnPhysicalChannelConfigChanged)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if configs == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(configs)))
+			for _, _item := range configs {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(configs)))
-		for _, _item := range configs {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if configs == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(configs)))
+					for _, _item := range configs {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -860,8 +1426,25 @@ func (p *PhoneStateListenerProxy) OnDataEnabledChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteBool(enabled)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnDataEnabledChanged)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			case 1:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnDataEnabledChanged)
 	if _err != nil {
@@ -880,8 +1463,25 @@ func (p *PhoneStateListenerProxy) OnAllowedNetworkTypesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(reason)
-	_data.WriteInt64(allowedNetworkType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnAllowedNetworkTypesChanged)
+	_compiledDescs := []string{
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+		_data.WriteInt64(allowedNetworkType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			case 1:
+				_data.WriteInt64(allowedNetworkType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnAllowedNetworkTypesChanged)
 	if _err != nil {
@@ -899,14 +1499,38 @@ func (p *PhoneStateListenerProxy) OnLinkCapacityEstimateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	if linkCapacityEstimateList == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnLinkCapacityEstimateChanged)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if linkCapacityEstimateList == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(linkCapacityEstimateList)))
+			for _, _item := range linkCapacityEstimateList {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(linkCapacityEstimateList)))
-		for _, _item := range linkCapacityEstimateList {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if linkCapacityEstimateList == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(linkCapacityEstimateList)))
+					for _, _item := range linkCapacityEstimateList {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -927,9 +1551,26 @@ func (p *PhoneStateListenerProxy) OnMediaQualityStatusChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(1)
-	if _err := mediaQualityStatus.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnMediaQualityStatusChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/ims/MediaQualityStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := mediaQualityStatus.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := mediaQualityStatus.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnMediaQualityStatusChanged)
@@ -948,7 +1589,21 @@ func (p *PhoneStateListenerProxy) OnCallBackModeStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(type_)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCallBackModeStarted)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(type_)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(type_)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCallBackModeStarted)
 	if _err != nil {
@@ -967,8 +1622,25 @@ func (p *PhoneStateListenerProxy) OnCallBackModeStopped(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteInt32(type_)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCallBackModeStopped)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(type_)
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(type_)
+			case 1:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCallBackModeStopped)
 	if _err != nil {
@@ -986,12 +1658,33 @@ func (p *PhoneStateListenerProxy) OnSimultaneousCallingStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	if subIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnSimultaneousCallingStateChanged)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if subIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(subIds)))
+			for _, _item := range subIds {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(subIds)))
-		for _, _item := range subIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if subIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(subIds)))
+					for _, _item := range subIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -1011,7 +1704,21 @@ func (p *PhoneStateListenerProxy) OnCarrierRoamingNtnModeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	_data.WriteBool(active)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCarrierRoamingNtnModeChanged)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(active)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(active)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnCarrierRoamingNtnModeChanged)
 	if _err != nil {

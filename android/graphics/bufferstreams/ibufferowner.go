@@ -48,11 +48,32 @@ func (p *BufferOwnerProxy) OnBufferReleased(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBufferOwner)
-	_data.WriteInt64(bufferId)
-	if releaseFence != nil {
-		_data.WriteParcelFileDescriptor((*releaseFence))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBufferOwner, MethodIBufferOwnerOnBufferReleased)
+	_compiledDescs := []string{
+		"J",
+		"Landroid/os/ParcelFileDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(bufferId)
+		if releaseFence != nil {
+			_data.WriteParcelFileDescriptor((*releaseFence))
+		} else {
+			_data.WriteInt32(-1)
+		}
 	} else {
-		_data.WriteInt32(-1)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(bufferId)
+			case 1:
+				if releaseFence != nil {
+					_data.WriteParcelFileDescriptor((*releaseFence))
+				} else {
+					_data.WriteInt32(-1)
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferOwner, MethodIBufferOwnerOnBufferReleased)

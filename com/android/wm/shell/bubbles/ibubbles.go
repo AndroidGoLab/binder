@@ -69,7 +69,21 @@ func (p *BubblesProxy) RegisterBubbleListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBubbles, MethodIBubblesRegisterBubbleListener)
+	_compiledDescs := []string{
+		"Lcom/android/wm/shell/bubbles/IBubblesListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesRegisterBubbleListener)
 	if _err != nil {
@@ -87,7 +101,21 @@ func (p *BubblesProxy) UnregisterBubbleListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBubbles, MethodIBubblesUnregisterBubbleListener)
+	_compiledDescs := []string{
+		"Lcom/android/wm/shell/bubbles/IBubblesListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesUnregisterBubbleListener)
 	if _err != nil {
@@ -106,10 +134,30 @@ func (p *BubblesProxy) ShowBubble(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
-	_data.WriteString16(key)
-	_data.WriteInt32(1)
-	if _err := bubbleBarBounds.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBubbles, MethodIBubblesShowBubble)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/graphics/Rect;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteInt32(1)
+		if _err := bubbleBarBounds.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := bubbleBarBounds.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesShowBubble)
@@ -128,7 +176,21 @@ func (p *BubblesProxy) RemoveBubble(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
-	_data.WriteString16(key)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBubbles, MethodIBubblesRemoveBubble)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesRemoveBubble)
 	if _err != nil {
@@ -179,8 +241,25 @@ func (p *BubblesProxy) OnBubbleDrag(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
-	_data.WriteString16(key)
-	_data.WriteBool(isBeingDragged)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBubbles, MethodIBubblesOnBubbleDrag)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteBool(isBeingDragged)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteBool(isBeingDragged)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesOnBubbleDrag)
 	if _err != nil {
@@ -199,8 +278,25 @@ func (p *BubblesProxy) ShowUserEducation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
-	_data.WriteInt32(positionX)
-	_data.WriteInt32(positionY)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBubbles, MethodIBubblesShowUserEducation)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(positionX)
+		_data.WriteInt32(positionY)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(positionX)
+			case 1:
+				_data.WriteInt32(positionY)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesShowUserEducation)
 	if _err != nil {

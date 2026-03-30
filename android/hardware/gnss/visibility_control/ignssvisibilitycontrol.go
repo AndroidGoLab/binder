@@ -50,12 +50,33 @@ func (p *GnssVisibilityControlProxy) EnableNfwLocationAccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssVisibilityControl)
-	if proxyApps == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssVisibilityControl, MethodIGnssVisibilityControlEnableNfwLocationAccess)
+	_compiledDescs := []string{
+		"[Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if proxyApps == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(proxyApps)))
+			for _, _item := range proxyApps {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(proxyApps)))
-		for _, _item := range proxyApps {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if proxyApps == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(proxyApps)))
+					for _, _item := range proxyApps {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -84,7 +105,21 @@ func (p *GnssVisibilityControlProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssVisibilityControl)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIGnssVisibilityControl, MethodIGnssVisibilityControlSetCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/gnss/visibility_control/IGnssVisibilityControlCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssVisibilityControl, MethodIGnssVisibilityControlSetCallback)
 	if _err != nil {

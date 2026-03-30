@@ -48,11 +48,31 @@ func (p *PackageStatsObserverProxy) OnGetStatsCompleted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageStatsObserver)
-	_data.WriteInt32(1)
-	if _err := pStats.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPackageStatsObserver, MethodIPackageStatsObserverOnGetStatsCompleted)
+	_compiledDescs := []string{
+		"Landroid/content/pm/PackageStats;",
+		"Z",
 	}
-	_data.WriteBool(succeeded)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := pStats.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(succeeded)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := pStats.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(succeeded)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageStatsObserver, MethodIPackageStatsObserverOnGetStatsCompleted)
 	if _err != nil {

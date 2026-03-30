@@ -69,11 +69,31 @@ func (p *ImsMediaSessionListenerProxy) OnModifySessionResponse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerOnModifySessionResponse)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/ims/media/RtpConfig;",
+		"Landroid/hardware/radio/ims/media/RtpError;",
 	}
-	_data.WriteInt32(int32(error_))
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(int32(error_))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(int32(error_))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerOnModifySessionResponse)
 	if _err != nil {
@@ -91,9 +111,26 @@ func (p *ImsMediaSessionListenerProxy) OnFirstMediaPacketReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerOnFirstMediaPacketReceived)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/ims/media/RtpConfig;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerOnFirstMediaPacketReceived)
@@ -112,14 +149,38 @@ func (p *ImsMediaSessionListenerProxy) OnHeaderExtensionReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
-	if extensions == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerOnHeaderExtensionReceived)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if extensions == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(extensions)))
+			for _, _item := range extensions {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(extensions)))
-		for _, _item := range extensions {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if extensions == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(extensions)))
+					for _, _item := range extensions {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -140,9 +201,26 @@ func (p *ImsMediaSessionListenerProxy) NotifyMediaQualityStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
-	_data.WriteInt32(1)
-	if _err := quality.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerNotifyMediaQualityStatus)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/ims/media/MediaQualityStatus;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := quality.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := quality.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerNotifyMediaQualityStatus)
@@ -161,9 +239,26 @@ func (p *ImsMediaSessionListenerProxy) TriggerAnbrQuery(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerTriggerAnbrQuery)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/ims/media/RtpConfig;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerTriggerAnbrQuery)
@@ -183,8 +278,25 @@ func (p *ImsMediaSessionListenerProxy) OnDtmfReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
-	_data.WriteInt32(int32(dtmfDigit))
-	_data.WriteInt32(durationMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerOnDtmfReceived)
+	_compiledDescs := []string{
+		"C",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(dtmfDigit))
+		_data.WriteInt32(durationMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(dtmfDigit))
+			case 1:
+				_data.WriteInt32(durationMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerOnDtmfReceived)
 	if _err != nil {
@@ -202,9 +314,26 @@ func (p *ImsMediaSessionListenerProxy) OnCallQualityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
-	_data.WriteInt32(1)
-	if _err := callQuality.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerOnCallQualityChanged)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/ims/media/CallQuality;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := callQuality.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := callQuality.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerOnCallQualityChanged)
@@ -223,9 +352,26 @@ func (p *ImsMediaSessionListenerProxy) NotifyRtpReceptionStats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
-	_data.WriteInt32(1)
-	if _err := stats.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerNotifyRtpReceptionStats)
+	_compiledDescs := []string{
+		"Landroid/hardware/radio/ims/media/RtpReceptionStats;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := stats.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := stats.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMediaSessionListener, MethodIImsMediaSessionListenerNotifyRtpReceptionStats)

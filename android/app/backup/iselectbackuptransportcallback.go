@@ -50,7 +50,21 @@ func (p *SelectBackupTransportCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISelectBackupTransportCallback)
-	_data.WriteString16(transportName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISelectBackupTransportCallback, MethodISelectBackupTransportCallbackOnSuccess)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(transportName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(transportName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISelectBackupTransportCallback, MethodISelectBackupTransportCallbackOnSuccess)
 	if _err != nil {
@@ -68,7 +82,21 @@ func (p *SelectBackupTransportCallbackProxy) OnFailure(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISelectBackupTransportCallback)
-	_data.WriteInt32(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISelectBackupTransportCallback, MethodISelectBackupTransportCallbackOnFailure)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISelectBackupTransportCallback, MethodISelectBackupTransportCallbackOnFailure)
 	if _err != nil {

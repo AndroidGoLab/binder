@@ -56,7 +56,21 @@ func (p *TransportSelectorCallbackProxy) OnCreated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransportSelectorCallback)
-	binder.WriteBinderToParcel(ctx, _data, selector.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnCreated)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telephony/IDomainSelector;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, selector.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, selector.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnCreated)
 	if _err != nil {
@@ -74,7 +88,21 @@ func (p *TransportSelectorCallbackProxy) OnWlanSelected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransportSelectorCallback)
-	_data.WriteBool(useEmergencyPdn)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnWlanSelected)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(useEmergencyPdn)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(useEmergencyPdn)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnWlanSelected)
 	if _err != nil {
@@ -92,7 +120,21 @@ func (p *TransportSelectorCallbackProxy) OnWwanSelectedAsync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransportSelectorCallback)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnWwanSelectedAsync)
+	_compiledDescs := []string{
+		"Lcom/android/internal/telephony/ITransportSelectorResultCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnWwanSelectedAsync)
 	if _err != nil {
@@ -110,7 +152,21 @@ func (p *TransportSelectorCallbackProxy) OnSelectionTerminated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransportSelectorCallback)
-	_data.WriteInt32(cause)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnSelectionTerminated)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(cause)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(cause)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnSelectionTerminated)
 	if _err != nil {

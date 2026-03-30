@@ -56,15 +56,41 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnDetected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback)
-	_data.WriteInt32(1)
-	if _err := hotwordDetectedResult.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnDetected)
+	_compiledDescs := []string{
+		"Landroid/service/voice/HotwordDetectedResult;",
+		"Landroid/media/AudioFormat;",
+		"Landroid/os/ParcelFileDescriptor;",
 	}
-	_data.WriteInt32(1)
-	if _err := audioFormat.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := hotwordDetectedResult.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := audioFormat.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteParcelFileDescriptor(audioStream)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := hotwordDetectedResult.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := audioFormat.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteParcelFileDescriptor(audioStream)
+			}
+		}
 	}
-	_data.WriteParcelFileDescriptor(audioStream)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnDetected)
 	if _err != nil {
@@ -82,9 +108,26 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnHotwordDetec
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback)
-	_data.WriteInt32(1)
-	if _err := hotwordDetectionServiceFailure.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnHotwordDetectionServiceFailure)
+	_compiledDescs := []string{
+		"Landroid/service/voice/HotwordDetectionServiceFailure;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := hotwordDetectionServiceFailure.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := hotwordDetectionServiceFailure.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnHotwordDetectionServiceFailure)
@@ -103,9 +146,26 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnRejected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback)
-	_data.WriteInt32(1)
-	if _err := hotwordRejectedResult.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnRejected)
+	_compiledDescs := []string{
+		"Landroid/service/voice/HotwordRejectedResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := hotwordRejectedResult.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := hotwordRejectedResult.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnRejected)

@@ -52,10 +52,30 @@ func (p *SoundDoseIHalSoundDoseCallbackProxy) OnMomentaryExposureWarning(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDoseIHalSoundDoseCallback)
-	_data.WriteFloat32(currentDbA)
-	_data.WriteInt32(1)
-	if _err := audioDevice.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDoseIHalSoundDoseCallback, MethodISoundDoseIHalSoundDoseCallbackOnMomentaryExposureWarning)
+	_compiledDescs := []string{
+		"F",
+		"Landroid/media/audio/common/AudioDevice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(currentDbA)
+		_data.WriteInt32(1)
+		if _err := audioDevice.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(currentDbA)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := audioDevice.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDoseIHalSoundDoseCallback, MethodISoundDoseIHalSoundDoseCallbackOnMomentaryExposureWarning)
@@ -75,13 +95,36 @@ func (p *SoundDoseIHalSoundDoseCallbackProxy) OnNewMelValues(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDoseIHalSoundDoseCallback)
-	_data.WriteInt32(1)
-	if _err := melRecord.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISoundDoseIHalSoundDoseCallback, MethodISoundDoseIHalSoundDoseCallbackOnNewMelValues)
+	_compiledDescs := []string{
+		"Landroid/hardware/audio/core/sounddose/ISoundDose/IHalSoundDoseCallback/MelRecord;",
+		"Landroid/media/audio/common/AudioDevice;",
 	}
-	_data.WriteInt32(1)
-	if _err := audioDevice.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := melRecord.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := audioDevice.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := melRecord.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := audioDevice.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDoseIHalSoundDoseCallback, MethodISoundDoseIHalSoundDoseCallbackOnNewMelValues)

@@ -55,15 +55,47 @@ func (p *BluetoothLmpEventCallbackProxy) OnEventGenerated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLmpEventCallback)
-	_data.WriteInt32(1)
-	if _err := timestamp.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLmpEventCallback, MethodIBluetoothLmpEventCallbackOnEventGenerated)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/lmp_event/Timestamp;",
+		"Landroid/hardware/bluetooth/lmp_event/AddressType;",
+		"[B",
+		"Landroid/hardware/bluetooth/lmp_event/Direction;",
+		"Landroid/hardware/bluetooth/lmp_event/LmpEventId;",
+		"C",
 	}
-	_data.WritePaddedByte(byte(addressType))
-	_data.WriteByteArray(address)
-	_data.WritePaddedByte(byte(direction))
-	_data.WritePaddedByte(byte(lmpEventId))
-	_data.WriteInt32(int32(connEventCounter))
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := timestamp.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WritePaddedByte(byte(addressType))
+		_data.WriteByteArray(address)
+		_data.WritePaddedByte(byte(direction))
+		_data.WritePaddedByte(byte(lmpEventId))
+		_data.WriteInt32(int32(connEventCounter))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := timestamp.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WritePaddedByte(byte(addressType))
+			case 2:
+				_data.WriteByteArray(address)
+			case 3:
+				_data.WritePaddedByte(byte(direction))
+			case 4:
+				_data.WritePaddedByte(byte(lmpEventId))
+			case 5:
+				_data.WriteInt32(int32(connEventCounter))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLmpEventCallback, MethodIBluetoothLmpEventCallbackOnEventGenerated)
 	if _err != nil {
@@ -90,7 +122,21 @@ func (p *BluetoothLmpEventCallbackProxy) OnRegistered(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLmpEventCallback)
-	_data.WriteBool(status)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLmpEventCallback, MethodIBluetoothLmpEventCallbackOnRegistered)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(status)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(status)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLmpEventCallback, MethodIBluetoothLmpEventCallbackOnRegistered)
 	if _err != nil {

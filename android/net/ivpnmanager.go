@@ -123,9 +123,29 @@ func (p *VpnManagerProxy) PrepareVpn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteString16(oldPackage)
-	_data.WriteString16(newPackage)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerPrepareVpn)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(oldPackage)
+		_data.WriteString16(newPackage)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(oldPackage)
+			case 1:
+				_data.WriteString16(newPackage)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerPrepareVpn)
 	if _err != nil {
@@ -158,9 +178,29 @@ func (p *VpnManagerProxy) SetVpnPackageAuthorization(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(vpnType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerSetVpnPackageAuthorization)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(vpnType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(vpnType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerSetVpnPackageAuthorization)
 	if _err != nil {
@@ -188,9 +228,26 @@ func (p *VpnManagerProxy) EstablishVpn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerEstablishVpn)
+	_compiledDescs := []string{
+		"Lcom/android/internal/net/VpnConfig;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerEstablishVpn)
@@ -224,8 +281,25 @@ func (p *VpnManagerProxy) AddVpnAddress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteString16(address)
-	_data.WriteInt32(prefixLength)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerAddVpnAddress)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(address)
+		_data.WriteInt32(prefixLength)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(address)
+			case 1:
+				_data.WriteInt32(prefixLength)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerAddVpnAddress)
 	if _err != nil {
@@ -258,8 +332,25 @@ func (p *VpnManagerProxy) RemoveVpnAddress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteString16(address)
-	_data.WriteInt32(prefixLength)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerRemoveVpnAddress)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(address)
+		_data.WriteInt32(prefixLength)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(address)
+			case 1:
+				_data.WriteInt32(prefixLength)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerRemoveVpnAddress)
 	if _err != nil {
@@ -328,11 +419,31 @@ func (p *VpnManagerProxy) ProvisionVpnProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteInt32(1)
-	if _err := profile.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerProvisionVpnProfile)
+	_compiledDescs := []string{
+		"Lcom/android/internal/net/VpnProfile;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := profile.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := profile.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerProvisionVpnProfile)
 	if _err != nil {
@@ -363,7 +474,21 @@ func (p *VpnManagerProxy) DeleteVpnProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerDeleteVpnProfile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerDeleteVpnProfile)
 	if _err != nil {
@@ -391,7 +516,21 @@ func (p *VpnManagerProxy) StartVpnProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerStartVpnProfile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerStartVpnProfile)
 	if _err != nil {
@@ -422,7 +561,21 @@ func (p *VpnManagerProxy) StopVpnProfile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerStopVpnProfile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerStopVpnProfile)
 	if _err != nil {
@@ -450,7 +603,21 @@ func (p *VpnManagerProxy) GetProvisionedVpnProfileState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerGetProvisionedVpnProfileState)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerGetProvisionedVpnProfileState)
 	if _err != nil {
@@ -489,14 +656,41 @@ func (p *VpnManagerProxy) SetAppExclusionList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(vpnPackage)
-	if excludedApps == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerSetAppExclusionList)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(vpnPackage)
+		if excludedApps == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(excludedApps)))
+			for _, _item := range excludedApps {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(excludedApps)))
-		for _, _item := range excludedApps {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(vpnPackage)
+			case 2:
+				if excludedApps == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(excludedApps)))
+					for _, _item := range excludedApps {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -531,8 +725,25 @@ func (p *VpnManagerProxy) GetAppExclusionList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(vpnPackage)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerGetAppExclusionList)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(vpnPackage)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(vpnPackage)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerGetAppExclusionList)
 	if _err != nil {
@@ -578,8 +789,25 @@ func (p *VpnManagerProxy) IsAlwaysOnVpnPackageSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerIsAlwaysOnVpnPackageSupported)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerIsAlwaysOnVpnPackageSupported)
 	if _err != nil {
@@ -614,15 +842,45 @@ func (p *VpnManagerProxy) SetAlwaysOnVpnPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(packageName)
-	_data.WriteBool(lockdown)
-	if lockdownAllowlist == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerSetAlwaysOnVpnPackage)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Z",
+		"Ljava/util/List;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(packageName)
+		_data.WriteBool(lockdown)
+		if lockdownAllowlist == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(lockdownAllowlist)))
+			for _, _item := range lockdownAllowlist {
+				_data.WriteString16(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(lockdownAllowlist)))
-		for _, _item := range lockdownAllowlist {
-			_data.WriteString16(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteBool(lockdown)
+			case 3:
+				if lockdownAllowlist == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(lockdownAllowlist)))
+					for _, _item := range lockdownAllowlist {
+						_data.WriteString16(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -656,7 +914,21 @@ func (p *VpnManagerProxy) GetAlwaysOnVpnPackage(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerGetAlwaysOnVpnPackage)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerGetAlwaysOnVpnPackage)
 	if _err != nil {
@@ -688,7 +960,21 @@ func (p *VpnManagerProxy) IsVpnLockdownEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerIsVpnLockdownEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerIsVpnLockdownEnabled)
 	if _err != nil {
@@ -720,7 +1006,21 @@ func (p *VpnManagerProxy) GetVpnLockdownAllowlist(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerGetVpnLockdownAllowlist)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerGetVpnLockdownAllowlist)
 	if _err != nil {
@@ -824,9 +1124,26 @@ func (p *VpnManagerProxy) StartLegacyVpn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteInt32(1)
-	if _err := profile.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerStartLegacyVpn)
+	_compiledDescs := []string{
+		"Lcom/android/internal/net/VpnProfile;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := profile.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := profile.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerStartLegacyVpn)
@@ -855,7 +1172,21 @@ func (p *VpnManagerProxy) GetLegacyVpnInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerGetLegacyVpnInfo)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerGetLegacyVpnInfo)
 	if _err != nil {
@@ -922,7 +1253,21 @@ func (p *VpnManagerProxy) GetVpnConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVpnManager, MethodIVpnManagerGetVpnConfig)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerGetVpnConfig)
 	if _err != nil {

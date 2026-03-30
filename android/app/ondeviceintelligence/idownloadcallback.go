@@ -57,7 +57,21 @@ func (p *DownloadCallbackProxy) OnDownloadStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDownloadCallback)
-	_data.WriteInt64(bytesToDownload)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadStarted)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(bytesToDownload)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(bytesToDownload)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadStarted)
 	if _err != nil {
@@ -75,7 +89,21 @@ func (p *DownloadCallbackProxy) OnDownloadProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDownloadCallback)
-	_data.WriteInt64(bytesDownloaded)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadProgress)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(bytesDownloaded)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(bytesDownloaded)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadProgress)
 	if _err != nil {
@@ -95,11 +123,34 @@ func (p *DownloadCallbackProxy) OnDownloadFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDownloadCallback)
-	_data.WriteInt32(failureStatus)
-	_data.WriteString16(errorMessage)
-	_data.WriteInt32(1)
-	if _err := errorParams.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadFailed)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/PersistableBundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(failureStatus)
+		_data.WriteString16(errorMessage)
+		_data.WriteInt32(1)
+		if _err := errorParams.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(failureStatus)
+			case 1:
+				_data.WriteString16(errorMessage)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := errorParams.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadFailed)
@@ -118,9 +169,26 @@ func (p *DownloadCallbackProxy) OnDownloadCompleted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDownloadCallback)
-	_data.WriteInt32(1)
-	if _err := downloadParams.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadCompleted)
+	_compiledDescs := []string{
+		"Landroid/os/PersistableBundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := downloadParams.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := downloadParams.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadCompleted)

@@ -47,9 +47,26 @@ func (p *SatelliteCapabilitiesCallbackProxy) OnSatelliteCapabilitiesChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteCapabilitiesCallback)
-	_data.WriteInt32(1)
-	if _err := capabilities.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISatelliteCapabilitiesCallback, MethodISatelliteCapabilitiesCallbackOnSatelliteCapabilitiesChanged)
+	_compiledDescs := []string{
+		"Landroid/telephony/satellite/SatelliteCapabilities;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := capabilities.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := capabilities.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteCapabilitiesCallback, MethodISatelliteCapabilitiesCallbackOnSatelliteCapabilitiesChanged)

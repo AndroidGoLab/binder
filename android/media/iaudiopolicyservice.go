@@ -370,14 +370,40 @@ func (p *AudioPolicyServiceProxy) SetDeviceConnectionState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(state))
-	_data.WriteInt32(1)
-	if _err := port.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetDeviceConnectionState)
+	_compiledDescs := []string{
+		"Landroid/media/AudioPolicyDeviceState;",
+		"Landroid/media/audio/common/AudioPort;",
+		"Landroid/media/audio/common/AudioFormatDescription;",
 	}
-	_data.WriteInt32(1)
-	if _err := encodedFormat.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(state))
+		_data.WriteInt32(1)
+		if _err := port.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := encodedFormat.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(state))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := port.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := encodedFormat.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetDeviceConnectionState)
@@ -406,9 +432,26 @@ func (p *AudioPolicyServiceProxy) GetDeviceConnectionState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDeviceConnectionState)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioDevice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDeviceConnectionState)
@@ -443,14 +486,40 @@ func (p *AudioPolicyServiceProxy) HandleDeviceConfigChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceHandleDeviceConfigChange)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioDevice;",
+		"Ljava/lang/String;",
+		"Landroid/media/audio/common/AudioFormatDescription;",
 	}
-	_data.WriteString16(deviceName)
-	_data.WriteInt32(1)
-	if _err := encodedFormat.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(deviceName)
+		_data.WriteInt32(1)
+		if _err := encodedFormat.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(deviceName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := encodedFormat.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceHandleDeviceConfigChange)
@@ -479,8 +548,25 @@ func (p *AudioPolicyServiceProxy) SetPhoneState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(state))
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetPhoneState)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioMode;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(state))
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(state))
+			case 1:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetPhoneState)
 	if _err != nil {
@@ -508,8 +594,25 @@ func (p *AudioPolicyServiceProxy) SetForceUse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(usage))
-	_data.WriteInt32(int32(config))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetForceUse)
+	_compiledDescs := []string{
+		"Landroid/media/AudioPolicyForceUse;",
+		"Landroid/media/AudioPolicyForcedConfig;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(usage))
+		_data.WriteInt32(int32(config))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(usage))
+			case 1:
+				_data.WriteInt32(int32(config))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetForceUse)
 	if _err != nil {
@@ -537,7 +640,21 @@ func (p *AudioPolicyServiceProxy) GetForceUse(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(usage))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetForceUse)
+	_compiledDescs := []string{
+		"Landroid/media/AudioPolicyForceUse;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(usage))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(usage))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetForceUse)
 	if _err != nil {
@@ -570,7 +687,21 @@ func (p *AudioPolicyServiceProxy) GetOutput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(stream))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOutput)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/AudioStreamType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(stream))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(stream))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOutput)
 	if _err != nil {
@@ -607,21 +738,59 @@ func (p *AudioPolicyServiceProxy) GetOutputForAttr(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := attr.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOutputForAttr)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+		"I",
+		"Landroid/content/AttributionSourceState;",
+		"Landroid/media/audio/common/AudioConfig;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(session)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attr.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(session)
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(flags)
+		_data.WriteInt32(selectedDeviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attr.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(session)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				_data.WriteInt32(flags)
+			case 5:
+				_data.WriteInt32(selectedDeviceId)
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(flags)
-	_data.WriteInt32(selectedDeviceId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOutputForAttr)
 	if _err != nil {
@@ -657,7 +826,21 @@ func (p *AudioPolicyServiceProxy) StartOutput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStartOutput)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStartOutput)
 	if _err != nil {
@@ -684,7 +867,21 @@ func (p *AudioPolicyServiceProxy) StopOutput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStopOutput)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStopOutput)
 	if _err != nil {
@@ -711,7 +908,21 @@ func (p *AudioPolicyServiceProxy) ReleaseOutput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseOutput)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseOutput)
 	if _err != nil {
@@ -746,23 +957,67 @@ func (p *AudioPolicyServiceProxy) GetInputForAttr(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := attr.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetInputForAttr)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+		"I",
+		"I",
+		"I",
+		"Landroid/content/AttributionSourceState;",
+		"Landroid/media/audio/common/AudioConfigBase;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(input)
-	_data.WriteInt32(riid)
-	_data.WriteInt32(session)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attr.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(input)
+		_data.WriteInt32(riid)
+		_data.WriteInt32(session)
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(flags)
+		_data.WriteInt32(selectedDeviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attr.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(input)
+			case 2:
+				_data.WriteInt32(riid)
+			case 3:
+				_data.WriteInt32(session)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 5:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 6:
+				_data.WriteInt32(flags)
+			case 7:
+				_data.WriteInt32(selectedDeviceId)
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(flags)
-	_data.WriteInt32(selectedDeviceId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetInputForAttr)
 	if _err != nil {
@@ -798,7 +1053,21 @@ func (p *AudioPolicyServiceProxy) StartInput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStartInput)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStartInput)
 	if _err != nil {
@@ -825,7 +1094,21 @@ func (p *AudioPolicyServiceProxy) StopInput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStopInput)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStopInput)
 	if _err != nil {
@@ -852,7 +1135,21 @@ func (p *AudioPolicyServiceProxy) ReleaseInput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseInput)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseInput)
 	if _err != nil {
@@ -881,9 +1178,29 @@ func (p *AudioPolicyServiceProxy) InitStreamVolume(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(stream))
-	_data.WriteInt32(indexMin)
-	_data.WriteInt32(indexMax)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceInitStreamVolume)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/AudioStreamType;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(stream))
+		_data.WriteInt32(indexMin)
+		_data.WriteInt32(indexMax)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(stream))
+			case 1:
+				_data.WriteInt32(indexMin)
+			case 2:
+				_data.WriteInt32(indexMax)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceInitStreamVolume)
 	if _err != nil {
@@ -912,12 +1229,35 @@ func (p *AudioPolicyServiceProxy) SetStreamVolumeIndex(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(stream))
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetStreamVolumeIndex)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/AudioStreamType;",
+		"Landroid/media/audio/common/AudioDeviceDescription;",
+		"I",
 	}
-	_data.WriteInt32(index)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(stream))
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(index)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(stream))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(index)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetStreamVolumeIndex)
 	if _err != nil {
@@ -946,10 +1286,30 @@ func (p *AudioPolicyServiceProxy) GetStreamVolumeIndex(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(stream))
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetStreamVolumeIndex)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/AudioStreamType;",
+		"Landroid/media/audio/common/AudioDeviceDescription;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(stream))
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(stream))
+			case 1:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetStreamVolumeIndex)
@@ -983,15 +1343,41 @@ func (p *AudioPolicyServiceProxy) SetVolumeIndexForAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := attr.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetVolumeIndexForAttributes)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+		"Landroid/media/audio/common/AudioDeviceDescription;",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attr.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(index)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attr.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(index)
+			}
+		}
 	}
-	_data.WriteInt32(index)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetVolumeIndexForAttributes)
 	if _err != nil {
@@ -1020,13 +1406,36 @@ func (p *AudioPolicyServiceProxy) GetVolumeIndexForAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := attr.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetVolumeIndexForAttributes)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+		"Landroid/media/audio/common/AudioDeviceDescription;",
 	}
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attr.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attr.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetVolumeIndexForAttributes)
@@ -1059,9 +1468,26 @@ func (p *AudioPolicyServiceProxy) GetMaxVolumeIndexForAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := attr.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetMaxVolumeIndexForAttributes)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attr.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attr.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetMaxVolumeIndexForAttributes)
@@ -1094,9 +1520,26 @@ func (p *AudioPolicyServiceProxy) GetMinVolumeIndexForAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := attr.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetMinVolumeIndexForAttributes)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attr.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attr.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetMinVolumeIndexForAttributes)
@@ -1129,7 +1572,21 @@ func (p *AudioPolicyServiceProxy) GetStrategyForStream(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(stream))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetStrategyForStream)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/AudioStreamType;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(stream))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(stream))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetStrategyForStream)
 	if _err != nil {
@@ -1162,11 +1619,31 @@ func (p *AudioPolicyServiceProxy) GetDevicesForAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := attr.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDevicesForAttributes)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+		"Z",
 	}
-	_data.WriteBool(forVolume)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attr.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(forVolume)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attr.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteBool(forVolume)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDevicesForAttributes)
 	if _err != nil {
@@ -1230,9 +1707,26 @@ func (p *AudioPolicyServiceProxy) GetOutputForEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := desc.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOutputForEffect)
+	_compiledDescs := []string{
+		"Landroid/media/EffectDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := desc.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := desc.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOutputForEffect)
@@ -1268,14 +1762,43 @@ func (p *AudioPolicyServiceProxy) RegisterEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := desc.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterEffect)
+	_compiledDescs := []string{
+		"Landroid/media/EffectDescriptor;",
+		"I",
+		"I",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(io)
-	_data.WriteInt32(strategy)
-	_data.WriteInt32(session)
-	_data.WriteInt32(id)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := desc.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(io)
+		_data.WriteInt32(strategy)
+		_data.WriteInt32(session)
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := desc.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(io)
+			case 2:
+				_data.WriteInt32(strategy)
+			case 3:
+				_data.WriteInt32(session)
+			case 4:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterEffect)
 	if _err != nil {
@@ -1302,7 +1825,21 @@ func (p *AudioPolicyServiceProxy) UnregisterEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceUnregisterEffect)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceUnregisterEffect)
 	if _err != nil {
@@ -1330,8 +1867,25 @@ func (p *AudioPolicyServiceProxy) SetEffectEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(id)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetEffectEnabled)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetEffectEnabled)
 	if _err != nil {
@@ -1359,15 +1913,39 @@ func (p *AudioPolicyServiceProxy) MoveEffectsToIo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	if ids == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceMoveEffectsToIo)
+	_compiledDescs := []string{
+		"[I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if ids == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(ids)))
+			for _, _item := range ids {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteInt32(io)
 	} else {
-		_data.WriteInt32(int32(len(ids)))
-		for _, _item := range ids {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if ids == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(ids)))
+					for _, _item := range ids {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 1:
+				_data.WriteInt32(io)
+			}
 		}
 	}
-	_data.WriteInt32(io)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceMoveEffectsToIo)
 	if _err != nil {
@@ -1396,8 +1974,25 @@ func (p *AudioPolicyServiceProxy) IsStreamActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(stream))
-	_data.WriteInt32(inPastMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsStreamActive)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/AudioStreamType;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(stream))
+		_data.WriteInt32(inPastMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(stream))
+			case 1:
+				_data.WriteInt32(inPastMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsStreamActive)
 	if _err != nil {
@@ -1430,8 +2025,25 @@ func (p *AudioPolicyServiceProxy) IsStreamActiveRemotely(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(stream))
-	_data.WriteInt32(inPastMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsStreamActiveRemotely)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/AudioStreamType;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(stream))
+		_data.WriteInt32(inPastMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(stream))
+			case 1:
+				_data.WriteInt32(inPastMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsStreamActiveRemotely)
 	if _err != nil {
@@ -1463,7 +2075,21 @@ func (p *AudioPolicyServiceProxy) IsSourceActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(source))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsSourceActive)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioSource;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(source))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(source))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsSourceActive)
 	if _err != nil {
@@ -1496,10 +2122,30 @@ func (p *AudioPolicyServiceProxy) QueryDefaultPreProcessing(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(audioSession)
-	_data.WriteInt32(1)
-	if _err := count.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceQueryDefaultPreProcessing)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/audio/common/Int;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(audioSession)
+		_data.WriteInt32(1)
+		if _err := count.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(audioSession)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := count.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceQueryDefaultPreProcessing)
@@ -1579,17 +2225,49 @@ func (p *AudioPolicyServiceProxy) AddSourceDefaultEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := type_.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceAddSourceDefaultEffect)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioUuid;",
+		"Ljava/lang/String;",
+		"Landroid/media/audio/common/AudioUuid;",
+		"I",
+		"Landroid/media/audio/common/AudioSource;",
 	}
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := uuid.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := type_.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := uuid.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(priority)
+		_data.WriteInt32(int32(source))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := type_.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := uuid.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteInt32(priority)
+			case 4:
+				_data.WriteInt32(int32(source))
+			}
+		}
 	}
-	_data.WriteInt32(priority)
-	_data.WriteInt32(int32(source))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceAddSourceDefaultEffect)
 	if _err != nil {
@@ -1625,17 +2303,49 @@ func (p *AudioPolicyServiceProxy) AddStreamDefaultEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := type_.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceAddStreamDefaultEffect)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioUuid;",
+		"Ljava/lang/String;",
+		"Landroid/media/audio/common/AudioUuid;",
+		"I",
+		"Landroid/media/audio/common/AudioUsage;",
 	}
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := uuid.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := type_.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt32(1)
+		if _err := uuid.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(priority)
+		_data.WriteInt32(int32(usage))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := type_.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := uuid.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteInt32(priority)
+			case 4:
+				_data.WriteInt32(int32(usage))
+			}
+		}
 	}
-	_data.WriteInt32(priority)
-	_data.WriteInt32(int32(usage))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceAddStreamDefaultEffect)
 	if _err != nil {
@@ -1666,7 +2376,21 @@ func (p *AudioPolicyServiceProxy) RemoveSourceDefaultEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveSourceDefaultEffect)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveSourceDefaultEffect)
 	if _err != nil {
@@ -1693,7 +2417,21 @@ func (p *AudioPolicyServiceProxy) RemoveStreamDefaultEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveStreamDefaultEffect)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveStreamDefaultEffect)
 	if _err != nil {
@@ -1720,12 +2458,33 @@ func (p *AudioPolicyServiceProxy) SetSupportedSystemUsages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	if systemUsages == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetSupportedSystemUsages)
+	_compiledDescs := []string{
+		"[Landroid/media/audio/common/AudioUsage;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if systemUsages == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(systemUsages)))
+			for _, _item := range systemUsages {
+				_data.WriteInt32(int32(_item))
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(systemUsages)))
-		for _, _item := range systemUsages {
-			_data.WriteInt32(int32(_item))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if systemUsages == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(systemUsages)))
+					for _, _item := range systemUsages {
+						_data.WriteInt32(int32(_item))
+					}
+				}
+			}
 		}
 	}
 
@@ -1755,8 +2514,25 @@ func (p *AudioPolicyServiceProxy) SetAllowedCapturePolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(capturePolicy)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAllowedCapturePolicy)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteInt32(capturePolicy)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteInt32(capturePolicy)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAllowedCapturePolicy)
 	if _err != nil {
@@ -1784,9 +2560,26 @@ func (p *AudioPolicyServiceProxy) GetOffloadSupport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOffloadSupport)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioOffloadInfo;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := info.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := info.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOffloadSupport)
@@ -1821,13 +2614,36 @@ func (p *AudioPolicyServiceProxy) IsDirectOutputSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsDirectOutputSupported)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioConfigBase;",
+		"Landroid/media/AudioAttributes;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributes.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributes.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributes.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsDirectOutputSupported)
@@ -1863,11 +2679,34 @@ func (p *AudioPolicyServiceProxy) ListAudioPorts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(role))
-	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(1)
-	if _err := count.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListAudioPorts)
+	_compiledDescs := []string{
+		"Landroid/media/AudioPortRole;",
+		"Landroid/media/AudioPortType;",
+		"Landroid/media/audio/common/Int;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(role))
+		_data.WriteInt32(int32(type_))
+		_data.WriteInt32(1)
+		if _err := count.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(role))
+			case 1:
+				_data.WriteInt32(int32(type_))
+			case 2:
+				_data.WriteInt32(1)
+				if _err := count.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListAudioPorts)
@@ -1929,7 +2768,21 @@ func (p *AudioPolicyServiceProxy) ListDeclaredDevicePorts(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(role))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListDeclaredDevicePorts)
+	_compiledDescs := []string{
+		"Landroid/media/AudioPortRole;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(role))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(role))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListDeclaredDevicePorts)
 	if _err != nil {
@@ -1993,7 +2846,21 @@ func (p *AudioPolicyServiceProxy) GetAudioPort(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetAudioPort)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetAudioPort)
 	if _err != nil {
@@ -2031,11 +2898,31 @@ func (p *AudioPolicyServiceProxy) CreateAudioPatch(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := patch.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceCreateAudioPatch)
+	_compiledDescs := []string{
+		"Landroid/media/AudioPatchFw;",
+		"I",
 	}
-	_data.WriteInt32(handle)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := patch.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(handle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := patch.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(handle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceCreateAudioPatch)
 	if _err != nil {
@@ -2066,7 +2953,21 @@ func (p *AudioPolicyServiceProxy) ReleaseAudioPatch(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(handle)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseAudioPatch)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(handle)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(handle)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseAudioPatch)
 	if _err != nil {
@@ -2095,9 +2996,26 @@ func (p *AudioPolicyServiceProxy) ListAudioPatches(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := count.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListAudioPatches)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/Int;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := count.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := count.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListAudioPatches)
@@ -2158,9 +3076,26 @@ func (p *AudioPolicyServiceProxy) SetAudioPortConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAudioPortConfig)
+	_compiledDescs := []string{
+		"Landroid/media/AudioPortConfigFw;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAudioPortConfig)
@@ -2188,7 +3123,21 @@ func (p *AudioPolicyServiceProxy) RegisterClient(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterClient)
+	_compiledDescs := []string{
+		"Landroid/media/IAudioPolicyServiceClient;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterClient)
 	if _err != nil {
@@ -2215,7 +3164,21 @@ func (p *AudioPolicyServiceProxy) SetAudioPortCallbacksEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAudioPortCallbacksEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAudioPortCallbacksEnabled)
 	if _err != nil {
@@ -2242,7 +3205,21 @@ func (p *AudioPolicyServiceProxy) SetAudioVolumeGroupCallbacksEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAudioVolumeGroupCallbacksEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAudioVolumeGroupCallbacksEnabled)
 	if _err != nil {
@@ -2304,7 +3281,21 @@ func (p *AudioPolicyServiceProxy) ReleaseSoundTriggerSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(session)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseSoundTriggerSession)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(session)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(session)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseSoundTriggerSession)
 	if _err != nil {
@@ -2363,18 +3354,45 @@ func (p *AudioPolicyServiceProxy) RegisterPolicyMixes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	if mixes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterPolicyMixes)
+	_compiledDescs := []string{
+		"[Landroid/media/AudioMix;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if mixes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(mixes)))
+			for _, _item := range mixes {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		_data.WriteBool(registration)
 	} else {
-		_data.WriteInt32(int32(len(mixes)))
-		for _, _item := range mixes {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if mixes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(mixes)))
+					for _, _item := range mixes {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteBool(registration)
 			}
 		}
 	}
-	_data.WriteBool(registration)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterPolicyMixes)
 	if _err != nil {
@@ -2463,14 +3481,38 @@ func (p *AudioPolicyServiceProxy) UpdatePolicyMixes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	if updates == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceUpdatePolicyMixes)
+	_compiledDescs := []string{
+		"[Landroid/media/AudioMixUpdate;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if updates == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(updates)))
+			for _, _item := range updates {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(updates)))
-		for _, _item := range updates {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if updates == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(updates)))
+					for _, _item := range updates {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -2501,15 +3543,42 @@ func (p *AudioPolicyServiceProxy) SetUidDeviceAffinities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(uid)
-	if devices == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetUidDeviceAffinities)
+	_compiledDescs := []string{
+		"I",
+		"[Landroid/media/audio/common/AudioDevice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		if devices == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(devices)))
+			for _, _item := range devices {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				if devices == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(devices)))
+					for _, _item := range devices {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -2539,7 +3608,21 @@ func (p *AudioPolicyServiceProxy) RemoveUidDeviceAffinities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveUidDeviceAffinities)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveUidDeviceAffinities)
 	if _err != nil {
@@ -2567,15 +3650,42 @@ func (p *AudioPolicyServiceProxy) SetUserIdDeviceAffinities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(_identity.UserID)
-	if devices == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetUserIdDeviceAffinities)
+	_compiledDescs := []string{
+		"I",
+		"[Landroid/media/audio/common/AudioDevice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+		if devices == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(devices)))
+			for _, _item := range devices {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			case 1:
+				if devices == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(devices)))
+					for _, _item := range devices {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -2605,7 +3715,21 @@ func (p *AudioPolicyServiceProxy) RemoveUserIdDeviceAffinities(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveUserIdDeviceAffinities)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveUserIdDeviceAffinities)
 	if _err != nil {
@@ -2634,13 +3758,36 @@ func (p *AudioPolicyServiceProxy) StartAudioSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := source.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStartAudioSource)
+	_compiledDescs := []string{
+		"Landroid/media/AudioPortConfigFw;",
+		"Landroid/media/AudioAttributes;",
 	}
-	_data.WriteInt32(1)
-	if _err := attributes.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := source.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := attributes.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := source.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributes.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStartAudioSource)
@@ -2672,7 +3819,21 @@ func (p *AudioPolicyServiceProxy) StopAudioSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStopAudioSource)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStopAudioSource)
 	if _err != nil {
@@ -2699,7 +3860,21 @@ func (p *AudioPolicyServiceProxy) SetMasterMono(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteBool(mono)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetMasterMono)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(mono)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(mono)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetMasterMono)
 	if _err != nil {
@@ -2759,11 +3934,34 @@ func (p *AudioPolicyServiceProxy) GetStreamVolumeDB(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(stream))
-	_data.WriteInt32(index)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetStreamVolumeDB)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/tuner/AudioStreamType;",
+		"I",
+		"Landroid/media/audio/common/AudioDeviceDescription;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(stream))
+		_data.WriteInt32(index)
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(stream))
+			case 1:
+				_data.WriteInt32(index)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetStreamVolumeDB)
@@ -2797,9 +3995,26 @@ func (p *AudioPolicyServiceProxy) GetSurroundFormats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := count.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetSurroundFormats)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/Int;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := count.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := count.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetSurroundFormats)
@@ -2873,9 +4088,26 @@ func (p *AudioPolicyServiceProxy) GetReportedSurroundFormats(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := count.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetReportedSurroundFormats)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/Int;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := count.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := count.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetReportedSurroundFormats)
@@ -2933,9 +4165,26 @@ func (p *AudioPolicyServiceProxy) GetHwOffloadFormatsSupportedForBluetoothMedia(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetHwOffloadFormatsSupportedForBluetoothMedia)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioDeviceDescription;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetHwOffloadFormatsSupportedForBluetoothMedia)
@@ -3000,11 +4249,31 @@ func (p *AudioPolicyServiceProxy) SetSurroundFormatEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := audioFormat.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetSurroundFormatEnabled)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioFormatDescription;",
+		"Z",
 	}
-	_data.WriteBool(enabled)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := audioFormat.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := audioFormat.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetSurroundFormatEnabled)
 	if _err != nil {
@@ -3031,12 +4300,33 @@ func (p *AudioPolicyServiceProxy) SetAssistantServicesUids(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	if uids == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAssistantServicesUids)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if uids == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(uids)))
+			for _, _item := range uids {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(uids)))
-		for _, _item := range uids {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if uids == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(uids)))
+					for _, _item := range uids {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -3065,12 +4355,33 @@ func (p *AudioPolicyServiceProxy) SetActiveAssistantServicesUids(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	if activeUids == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetActiveAssistantServicesUids)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if activeUids == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(activeUids)))
+			for _, _item := range activeUids {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(activeUids)))
-		for _, _item := range activeUids {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if activeUids == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(activeUids)))
+					for _, _item := range activeUids {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -3099,12 +4410,33 @@ func (p *AudioPolicyServiceProxy) SetA11yServicesUids(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	if uids == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetA11yServicesUids)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if uids == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(uids)))
+			for _, _item := range uids {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(uids)))
-		for _, _item := range uids {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if uids == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(uids)))
+					for _, _item := range uids {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -3133,7 +4465,21 @@ func (p *AudioPolicyServiceProxy) SetCurrentImeUid(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(uid)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetCurrentImeUid)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetCurrentImeUid)
 	if _err != nil {
@@ -3221,7 +4567,21 @@ func (p *AudioPolicyServiceProxy) IsHotwordStreamSupported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteBool(lookbackAudio)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsHotwordStreamSupported)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(lookbackAudio)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(lookbackAudio)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsHotwordStreamSupported)
 	if _err != nil {
@@ -3316,11 +4676,31 @@ func (p *AudioPolicyServiceProxy) GetProductStrategyFromAudioAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := aa.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetProductStrategyFromAudioAttributes)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+		"Z",
 	}
-	_data.WriteBool(fallbackOnDefault)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := aa.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(fallbackOnDefault)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := aa.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteBool(fallbackOnDefault)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetProductStrategyFromAudioAttributes)
 	if _err != nil {
@@ -3415,11 +4795,31 @@ func (p *AudioPolicyServiceProxy) GetVolumeGroupFromAudioAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := aa.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetVolumeGroupFromAudioAttributes)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+		"Z",
 	}
-	_data.WriteBool(fallbackOnDefault)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := aa.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(fallbackOnDefault)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := aa.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteBool(fallbackOnDefault)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetVolumeGroupFromAudioAttributes)
 	if _err != nil {
@@ -3450,7 +4850,21 @@ func (p *AudioPolicyServiceProxy) SetRttEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetRttEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetRttEnabled)
 	if _err != nil {
@@ -3509,16 +4923,46 @@ func (p *AudioPolicyServiceProxy) SetDevicesRoleForStrategy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(strategy)
-	_data.WriteInt32(int32(role))
-	if devices == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetDevicesRoleForStrategy)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/DeviceRole;",
+		"[Landroid/media/audio/common/AudioDevice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(strategy)
+		_data.WriteInt32(int32(role))
+		if devices == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(devices)))
+			for _, _item := range devices {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(strategy)
+			case 1:
+				_data.WriteInt32(int32(role))
+			case 2:
+				if devices == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(devices)))
+					for _, _item := range devices {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -3550,16 +4994,46 @@ func (p *AudioPolicyServiceProxy) RemoveDevicesRoleForStrategy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(strategy)
-	_data.WriteInt32(int32(role))
-	if devices == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveDevicesRoleForStrategy)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/DeviceRole;",
+		"[Landroid/media/audio/common/AudioDevice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(strategy)
+		_data.WriteInt32(int32(role))
+		if devices == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(devices)))
+			for _, _item := range devices {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(strategy)
+			case 1:
+				_data.WriteInt32(int32(role))
+			case 2:
+				if devices == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(devices)))
+					for _, _item := range devices {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -3590,8 +5064,25 @@ func (p *AudioPolicyServiceProxy) ClearDevicesRoleForStrategy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(strategy)
-	_data.WriteInt32(int32(role))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceClearDevicesRoleForStrategy)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/DeviceRole;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(strategy)
+		_data.WriteInt32(int32(role))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(strategy)
+			case 1:
+				_data.WriteInt32(int32(role))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceClearDevicesRoleForStrategy)
 	if _err != nil {
@@ -3620,8 +5111,25 @@ func (p *AudioPolicyServiceProxy) GetDevicesForRoleAndStrategy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(strategy)
-	_data.WriteInt32(int32(role))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDevicesForRoleAndStrategy)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/DeviceRole;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(strategy)
+		_data.WriteInt32(int32(role))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(strategy)
+			case 1:
+				_data.WriteInt32(int32(role))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDevicesForRoleAndStrategy)
 	if _err != nil {
@@ -3686,16 +5194,46 @@ func (p *AudioPolicyServiceProxy) SetDevicesRoleForCapturePreset(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(audioSource))
-	_data.WriteInt32(int32(role))
-	if devices == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetDevicesRoleForCapturePreset)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioSource;",
+		"Landroid/media/DeviceRole;",
+		"[Landroid/media/audio/common/AudioDevice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(audioSource))
+		_data.WriteInt32(int32(role))
+		if devices == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(devices)))
+			for _, _item := range devices {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(audioSource))
+			case 1:
+				_data.WriteInt32(int32(role))
+			case 2:
+				if devices == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(devices)))
+					for _, _item := range devices {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -3727,16 +5265,46 @@ func (p *AudioPolicyServiceProxy) AddDevicesRoleForCapturePreset(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(audioSource))
-	_data.WriteInt32(int32(role))
-	if devices == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceAddDevicesRoleForCapturePreset)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioSource;",
+		"Landroid/media/DeviceRole;",
+		"[Landroid/media/audio/common/AudioDevice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(audioSource))
+		_data.WriteInt32(int32(role))
+		if devices == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(devices)))
+			for _, _item := range devices {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(audioSource))
+			case 1:
+				_data.WriteInt32(int32(role))
+			case 2:
+				if devices == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(devices)))
+					for _, _item := range devices {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -3768,16 +5336,46 @@ func (p *AudioPolicyServiceProxy) RemoveDevicesRoleForCapturePreset(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(audioSource))
-	_data.WriteInt32(int32(role))
-	if devices == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveDevicesRoleForCapturePreset)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioSource;",
+		"Landroid/media/DeviceRole;",
+		"[Landroid/media/audio/common/AudioDevice;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(audioSource))
+		_data.WriteInt32(int32(role))
+		if devices == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(devices)))
+			for _, _item := range devices {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(audioSource))
+			case 1:
+				_data.WriteInt32(int32(role))
+			case 2:
+				if devices == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(devices)))
+					for _, _item := range devices {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -3808,8 +5406,25 @@ func (p *AudioPolicyServiceProxy) ClearDevicesRoleForCapturePreset(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(audioSource))
-	_data.WriteInt32(int32(role))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceClearDevicesRoleForCapturePreset)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioSource;",
+		"Landroid/media/DeviceRole;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(audioSource))
+		_data.WriteInt32(int32(role))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(audioSource))
+			case 1:
+				_data.WriteInt32(int32(role))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceClearDevicesRoleForCapturePreset)
 	if _err != nil {
@@ -3838,8 +5453,25 @@ func (p *AudioPolicyServiceProxy) GetDevicesForRoleAndCapturePreset(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(audioSource))
-	_data.WriteInt32(int32(role))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDevicesForRoleAndCapturePreset)
+	_compiledDescs := []string{
+		"Landroid/media/audio/common/AudioSource;",
+		"Landroid/media/DeviceRole;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(audioSource))
+		_data.WriteInt32(int32(role))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(audioSource))
+			case 1:
+				_data.WriteInt32(int32(role))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDevicesForRoleAndCapturePreset)
 	if _err != nil {
@@ -3903,7 +5535,21 @@ func (p *AudioPolicyServiceProxy) RegisterSoundTriggerCaptureStateListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterSoundTriggerCaptureStateListener)
+	_compiledDescs := []string{
+		"Landroid/media/ICaptureStateListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterSoundTriggerCaptureStateListener)
 	if _err != nil {
@@ -3935,7 +5581,21 @@ func (p *AudioPolicyServiceProxy) GetSpatializer(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetSpatializer)
+	_compiledDescs := []string{
+		"Landroid/media/INativeSpatializerCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetSpatializer)
 	if _err != nil {
@@ -3974,30 +5634,74 @@ func (p *AudioPolicyServiceProxy) CanBeSpatialized(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	if attr != nil {
-		_data.WriteInt32(1)
-		if _err := (*attr).MarshalParcel(_data); _err != nil {
-			return _result, _err
-		}
-	} else {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceCanBeSpatialized)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+		"Landroid/media/audio/common/AudioConfig;",
+		"[Landroid/media/audio/common/AudioDevice;",
 	}
-	if config != nil {
-		_data.WriteInt32(1)
-		if _err := (*config).MarshalParcel(_data); _err != nil {
-			return _result, _err
-		}
-	} else {
-		_data.WriteInt32(-1)
-	}
-	if devices == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if attr != nil {
 			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
+			if _err := (*attr).MarshalParcel(_data); _err != nil {
 				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		if config != nil {
+			_data.WriteInt32(1)
+			if _err := (*config).MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		} else {
+			_data.WriteInt32(-1)
+		}
+		if devices == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(devices)))
+			for _, _item := range devices {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if attr != nil {
+					_data.WriteInt32(1)
+					if _err := (*attr).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 1:
+				if config != nil {
+					_data.WriteInt32(1)
+					if _err := (*config).MarshalParcel(_data); _err != nil {
+						return _result, _err
+					}
+				} else {
+					_data.WriteInt32(-1)
+				}
+			case 2:
+				if devices == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(devices)))
+					for _, _item := range devices {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -4033,13 +5737,36 @@ func (p *AudioPolicyServiceProxy) GetDirectPlaybackSupport(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := attr.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDirectPlaybackSupport)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+		"Landroid/media/audio/common/AudioConfig;",
 	}
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attr.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := config.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attr.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := config.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDirectPlaybackSupport)
@@ -4073,9 +5800,26 @@ func (p *AudioPolicyServiceProxy) GetDirectProfilesForAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := attr.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDirectProfilesForAttributes)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attr.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attr.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDirectProfilesForAttributes)
@@ -4140,7 +5884,21 @@ func (p *AudioPolicyServiceProxy) GetSupportedMixerAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetSupportedMixerAttributes)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetSupportedMixerAttributes)
 	if _err != nil {
@@ -4206,15 +5964,44 @@ func (p *AudioPolicyServiceProxy) SetPreferredMixerAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := attr.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetPreferredMixerAttributes)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+		"I",
+		"I",
+		"Landroid/media/AudioMixerAttributesInternal;",
 	}
-	_data.WriteInt32(portId)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(1)
-	if _err := mixerAttr.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attr.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(portId)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(1)
+		if _err := mixerAttr.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attr.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(portId)
+			case 2:
+				_data.WriteInt32(uid)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := mixerAttr.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetPreferredMixerAttributes)
@@ -4244,11 +6031,31 @@ func (p *AudioPolicyServiceProxy) GetPreferredMixerAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := attr.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetPreferredMixerAttributes)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+		"I",
 	}
-	_data.WriteInt32(portId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attr.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attr.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetPreferredMixerAttributes)
 	if _err != nil {
@@ -4286,12 +6093,35 @@ func (p *AudioPolicyServiceProxy) ClearPreferredMixerAttributes(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := attr.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceClearPreferredMixerAttributes)
+	_compiledDescs := []string{
+		"Landroid/media/AudioAttributes;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(portId)
-	_data.WriteInt32(uid)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := attr.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(portId)
+		_data.WriteInt32(uid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := attr.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(portId)
+			case 2:
+				_data.WriteInt32(uid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceClearPreferredMixerAttributes)
 	if _err != nil {

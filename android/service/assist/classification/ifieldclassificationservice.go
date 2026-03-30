@@ -54,8 +54,25 @@ func (p *FieldClassificationServiceProxy) OnConnected(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationService)
-	_data.WriteBool(debug)
-	_data.WriteBool(verbose)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFieldClassificationService, MethodIFieldClassificationServiceOnConnected)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(debug)
+		_data.WriteBool(verbose)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(debug)
+			case 1:
+				_data.WriteBool(verbose)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFieldClassificationService, MethodIFieldClassificationServiceOnConnected)
 	if _err != nil {
@@ -90,11 +107,31 @@ func (p *FieldClassificationServiceProxy) OnFieldClassificationRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationService)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFieldClassificationService, MethodIFieldClassificationServiceOnFieldClassificationRequest)
+	_compiledDescs := []string{
+		"Landroid/service/assist/classification/FieldClassificationRequest;",
+		"Landroid/service/assist/classification/IFieldClassificationCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFieldClassificationService, MethodIFieldClassificationServiceOnFieldClassificationRequest)
 	if _err != nil {

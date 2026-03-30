@@ -295,7 +295,21 @@ func (p *InputManagerProxy) GetInputDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetInputDevice)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetInputDevice)
 	if _err != nil {
@@ -375,7 +389,21 @@ func (p *InputManagerProxy) IsInputDeviceEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerIsInputDeviceEnabled)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerIsInputDeviceEnabled)
 	if _err != nil {
@@ -406,7 +434,21 @@ func (p *InputManagerProxy) EnableInputDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerEnableInputDevice)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerEnableInputDevice)
 	if _err != nil {
@@ -433,7 +475,21 @@ func (p *InputManagerProxy) DisableInputDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerDisableInputDevice)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerDisableInputDevice)
 	if _err != nil {
@@ -464,14 +520,41 @@ func (p *InputManagerProxy) HasKeys(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(sourceMask)
-	if keyCodes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerHasKeys)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(sourceMask)
+		if keyCodes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(keyCodes)))
+			for _, _item := range keyCodes {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(keyCodes)))
-		for _, _item := range keyCodes {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(sourceMask)
+			case 2:
+				if keyCodes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(keyCodes)))
+					for _, _item := range keyCodes {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -522,8 +605,25 @@ func (p *InputManagerProxy) GetKeyCodeForKeyLocation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(locationKeyCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetKeyCodeForKeyLocation)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(locationKeyCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(locationKeyCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetKeyCodeForKeyLocation)
 	if _err != nil {
@@ -555,7 +655,21 @@ func (p *InputManagerProxy) GetKeyCharacterMap(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteString16(layoutDescriptor)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetKeyCharacterMap)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(layoutDescriptor)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(layoutDescriptor)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetKeyCharacterMap)
 	if _err != nil {
@@ -621,7 +735,21 @@ func (p *InputManagerProxy) TryPointerSpeed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(speed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerTryPointerSpeed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(speed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(speed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerTryPointerSpeed)
 	if _err != nil {
@@ -650,11 +778,31 @@ func (p *InputManagerProxy) InjectInputEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(1)
-	if _err := ev.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerInjectInputEvent)
+	_compiledDescs := []string{
+		"Landroid/view/InputEvent;",
+		"I",
 	}
-	_data.WriteInt32(mode)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := ev.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := ev.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerInjectInputEvent)
 	if _err != nil {
@@ -688,12 +836,35 @@ func (p *InputManagerProxy) InjectInputEventToTarget(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(1)
-	if _err := ev.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerInjectInputEventToTarget)
+	_compiledDescs := []string{
+		"Landroid/view/InputEvent;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(mode)
-	_data.WriteInt32(targetUid)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := ev.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(mode)
+		_data.WriteInt32(targetUid)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := ev.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(mode)
+			case 2:
+				_data.WriteInt32(targetUid)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerInjectInputEventToTarget)
 	if _err != nil {
@@ -725,9 +896,26 @@ func (p *InputManagerProxy) VerifyInputEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(1)
-	if _err := ev.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerVerifyInputEvent)
+	_compiledDescs := []string{
+		"Landroid/view/InputEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := ev.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := ev.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerVerifyInputEvent)
@@ -766,8 +954,25 @@ func (p *InputManagerProxy) GetTouchCalibrationForInputDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteString16(inputDeviceDescriptor)
-	_data.WriteInt32(rotation)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetTouchCalibrationForInputDevice)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(inputDeviceDescriptor)
+		_data.WriteInt32(rotation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(inputDeviceDescriptor)
+			case 1:
+				_data.WriteInt32(rotation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetTouchCalibrationForInputDevice)
 	if _err != nil {
@@ -805,11 +1010,34 @@ func (p *InputManagerProxy) SetTouchCalibrationForInputDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteString16(inputDeviceDescriptor)
-	_data.WriteInt32(rotation)
-	_data.WriteInt32(1)
-	if _err := calibration.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerSetTouchCalibrationForInputDevice)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/hardware/input/TouchCalibration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(inputDeviceDescriptor)
+		_data.WriteInt32(rotation)
+		_data.WriteInt32(1)
+		if _err := calibration.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(inputDeviceDescriptor)
+			case 1:
+				_data.WriteInt32(rotation)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := calibration.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerSetTouchCalibrationForInputDevice)
@@ -900,9 +1128,26 @@ func (p *InputManagerProxy) GetKeyboardLayoutsForInputDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(1)
-	if _err := identifier.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetKeyboardLayoutsForInputDevice)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/InputDeviceIdentifier;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := identifier.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := identifier.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetKeyboardLayoutsForInputDevice)
@@ -967,7 +1212,21 @@ func (p *InputManagerProxy) GetKeyboardLayout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteString16(keyboardLayoutDescriptor)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetKeyboardLayout)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(keyboardLayoutDescriptor)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(keyboardLayoutDescriptor)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetKeyboardLayout)
 	if _err != nil {
@@ -1004,9 +1263,26 @@ func (p *InputManagerProxy) GetCurrentKeyboardLayoutForInputDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(1)
-	if _err := identifier.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetCurrentKeyboardLayoutForInputDevice)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/InputDeviceIdentifier;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := identifier.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := identifier.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetCurrentKeyboardLayoutForInputDevice)
@@ -1039,11 +1315,31 @@ func (p *InputManagerProxy) SetCurrentKeyboardLayoutForInputDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(1)
-	if _err := identifier.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerSetCurrentKeyboardLayoutForInputDevice)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/InputDeviceIdentifier;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(keyboardLayoutDescriptor)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := identifier.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(keyboardLayoutDescriptor)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := identifier.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(keyboardLayoutDescriptor)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerSetCurrentKeyboardLayoutForInputDevice)
 	if _err != nil {
@@ -1071,9 +1367,26 @@ func (p *InputManagerProxy) GetEnabledKeyboardLayoutsForInputDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(1)
-	if _err := identifier.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetEnabledKeyboardLayoutsForInputDevice)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/InputDeviceIdentifier;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := identifier.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := identifier.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetEnabledKeyboardLayoutsForInputDevice)
@@ -1119,11 +1432,31 @@ func (p *InputManagerProxy) AddKeyboardLayoutForInputDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(1)
-	if _err := identifier.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerAddKeyboardLayoutForInputDevice)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/InputDeviceIdentifier;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(keyboardLayoutDescriptor)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := identifier.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(keyboardLayoutDescriptor)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := identifier.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(keyboardLayoutDescriptor)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerAddKeyboardLayoutForInputDevice)
 	if _err != nil {
@@ -1151,11 +1484,31 @@ func (p *InputManagerProxy) RemoveKeyboardLayoutForInputDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(1)
-	if _err := identifier.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerRemoveKeyboardLayoutForInputDevice)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/InputDeviceIdentifier;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(keyboardLayoutDescriptor)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := identifier.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(keyboardLayoutDescriptor)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := identifier.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(keyboardLayoutDescriptor)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRemoveKeyboardLayoutForInputDevice)
 	if _err != nil {
@@ -1186,18 +1539,50 @@ func (p *InputManagerProxy) GetKeyboardLayoutForInputDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(1)
-	if _err := identifier.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetKeyboardLayoutForInputDevice)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/InputDeviceIdentifier;",
+		"I",
+		"Landroid/view/inputmethod/InputMethodInfo;",
+		"Landroid/view/inputmethod/InputMethodSubtype;",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := imeInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(1)
-	if _err := imeSubtype.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := identifier.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := imeInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := imeSubtype.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := identifier.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := imeInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := imeSubtype.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetKeyboardLayoutForInputDevice)
@@ -1238,20 +1623,55 @@ func (p *InputManagerProxy) SetKeyboardLayoutForInputDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(1)
-	if _err := identifier.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerSetKeyboardLayoutForInputDevice)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/InputDeviceIdentifier;",
+		"I",
+		"Landroid/view/inputmethod/InputMethodInfo;",
+		"Landroid/view/inputmethod/InputMethodSubtype;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := imeInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := identifier.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := imeInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := imeSubtype.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(keyboardLayoutDescriptor)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := identifier.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := imeInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := imeSubtype.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteString16(keyboardLayoutDescriptor)
+			}
+		}
 	}
-	_data.WriteInt32(1)
-	if _err := imeSubtype.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteString16(keyboardLayoutDescriptor)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerSetKeyboardLayoutForInputDevice)
 	if _err != nil {
@@ -1282,18 +1702,50 @@ func (p *InputManagerProxy) GetKeyboardLayoutListForInputDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(1)
-	if _err := identifier.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetKeyboardLayoutListForInputDevice)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/InputDeviceIdentifier;",
+		"I",
+		"Landroid/view/inputmethod/InputMethodInfo;",
+		"Landroid/view/inputmethod/InputMethodSubtype;",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := imeInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(1)
-	if _err := imeSubtype.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := identifier.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(1)
+		if _err := imeInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(1)
+		if _err := imeSubtype.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := identifier.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := imeInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := imeSubtype.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetKeyboardLayoutListForInputDevice)
@@ -1358,8 +1810,25 @@ func (p *InputManagerProxy) RemapModifierKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(fromKey)
-	_data.WriteInt32(toKey)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerRemapModifierKey)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(fromKey)
+		_data.WriteInt32(toKey)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(fromKey)
+			case 1:
+				_data.WriteInt32(toKey)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRemapModifierKey)
 	if _err != nil {
@@ -1457,7 +1926,21 @@ func (p *InputManagerProxy) RegisterInputDevicesChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerRegisterInputDevicesChangedListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/IInputDevicesChangedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRegisterInputDevicesChangedListener)
 	if _err != nil {
@@ -1514,7 +1997,21 @@ func (p *InputManagerProxy) RegisterTabletModeChangedListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerRegisterTabletModeChangedListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/ITabletModeChangedListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRegisterTabletModeChangedListener)
 	if _err != nil {
@@ -1573,12 +2070,35 @@ func (p *InputManagerProxy) Vibrate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(1)
-	if _err := effect.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerVibrate)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/VibrationEffect;",
+		"Landroid/os/IBinder;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(1)
+		if _err := effect.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := effect.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerVibrate)
 	if _err != nil {
@@ -1607,12 +2127,35 @@ func (p *InputManagerProxy) VibrateCombined(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(1)
-	if _err := vibration.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerVibrateCombined)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/CombinedVibration;",
+		"Landroid/os/IBinder;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(1)
+		if _err := vibration.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := vibration.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerVibrateCombined)
 	if _err != nil {
@@ -1640,8 +2183,25 @@ func (p *InputManagerProxy) CancelVibrate(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerCancelVibrate)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerCancelVibrate)
 	if _err != nil {
@@ -1669,7 +2229,21 @@ func (p *InputManagerProxy) GetVibratorIds(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetVibratorIds)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetVibratorIds)
 	if _err != nil {
@@ -1714,7 +2288,21 @@ func (p *InputManagerProxy) IsVibrating(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerIsVibrating)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerIsVibrating)
 	if _err != nil {
@@ -1747,8 +2335,25 @@ func (p *InputManagerProxy) RegisterVibratorStateListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerRegisterVibratorStateListener)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IVibratorStateListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRegisterVibratorStateListener)
 	if _err != nil {
@@ -1781,8 +2386,25 @@ func (p *InputManagerProxy) UnregisterVibratorStateListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerUnregisterVibratorStateListener)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IVibratorStateListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerUnregisterVibratorStateListener)
 	if _err != nil {
@@ -1814,7 +2436,21 @@ func (p *InputManagerProxy) GetBatteryState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetBatteryState)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetBatteryState)
 	if _err != nil {
@@ -1850,7 +2486,21 @@ func (p *InputManagerProxy) SetPointerIconType(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(typeId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerSetPointerIconType)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(typeId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(typeId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerSetPointerIconType)
 	if _err != nil {
@@ -1877,9 +2527,26 @@ func (p *InputManagerProxy) SetCustomPointerIcon(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(1)
-	if _err := icon.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerSetCustomPointerIcon)
+	_compiledDescs := []string{
+		"Landroid/view/PointerIcon;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := icon.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := icon.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerSetCustomPointerIcon)
@@ -1912,14 +2579,43 @@ func (p *InputManagerProxy) SetPointerIcon(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(1)
-	if _err := icon.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerSetPointerIcon)
+	_compiledDescs := []string{
+		"Landroid/view/PointerIcon;",
+		"I",
+		"I",
+		"I",
+		"Landroid/os/IBinder;",
 	}
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(pointerId)
-	binder.WriteBinderToParcel(ctx, _data, inputToken, p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := icon.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(pointerId)
+		binder.WriteBinderToParcel(ctx, _data, inputToken, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := icon.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteInt32(displayId)
+			case 2:
+				_data.WriteInt32(deviceId)
+			case 3:
+				_data.WriteInt32(pointerId)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, inputToken, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerSetPointerIcon)
 	if _err != nil {
@@ -1951,8 +2647,25 @@ func (p *InputManagerProxy) RequestPointerCapture(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, inputChannelToken, p.Remote.Transport())
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerRequestPointerCapture)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, inputChannelToken, p.Remote.Transport())
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, inputChannelToken, p.Remote.Transport())
+			case 1:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRequestPointerCapture)
 	if _err != nil {
@@ -1973,9 +2686,29 @@ func (p *InputManagerProxy) MonitorGestureInput(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteString16(name)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerMonitorGestureInput)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteString16(name)
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteString16(name)
+			case 2:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerMonitorGestureInput)
 	if _err != nil {
@@ -2012,8 +2745,25 @@ func (p *InputManagerProxy) AddPortAssociation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteString16(inputPort)
-	_data.WriteInt32(displayPort)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerAddPortAssociation)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(inputPort)
+		_data.WriteInt32(displayPort)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(inputPort)
+			case 1:
+				_data.WriteInt32(displayPort)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerAddPortAssociation)
 	if _err != nil {
@@ -2040,7 +2790,21 @@ func (p *InputManagerProxy) RemovePortAssociation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteString16(inputPort)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerRemovePortAssociation)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(inputPort)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(inputPort)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRemovePortAssociation)
 	if _err != nil {
@@ -2068,8 +2832,25 @@ func (p *InputManagerProxy) AddUniqueIdAssociation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteString16(inputPort)
-	_data.WriteString16(displayUniqueId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerAddUniqueIdAssociation)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(inputPort)
+		_data.WriteString16(displayUniqueId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(inputPort)
+			case 1:
+				_data.WriteString16(displayUniqueId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerAddUniqueIdAssociation)
 	if _err != nil {
@@ -2096,7 +2877,21 @@ func (p *InputManagerProxy) RemoveUniqueIdAssociation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteString16(inputPort)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerRemoveUniqueIdAssociation)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(inputPort)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(inputPort)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRemoveUniqueIdAssociation)
 	if _err != nil {
@@ -2124,7 +2919,21 @@ func (p *InputManagerProxy) GetSensorList(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetSensorList)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetSensorList)
 	if _err != nil {
@@ -2188,7 +2997,21 @@ func (p *InputManagerProxy) RegisterSensorListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerRegisterSensorListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/IInputSensorEventListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRegisterSensorListener)
 	if _err != nil {
@@ -2219,7 +3042,21 @@ func (p *InputManagerProxy) UnregisterSensorListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerUnregisterSensorListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/IInputSensorEventListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerUnregisterSensorListener)
 	if _err != nil {
@@ -2250,10 +3087,33 @@ func (p *InputManagerProxy) EnableSensor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(sensorType)
-	_data.WriteInt32(samplingPeriodUs)
-	_data.WriteInt32(maxBatchReportLatencyUs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerEnableSensor)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(sensorType)
+		_data.WriteInt32(samplingPeriodUs)
+		_data.WriteInt32(maxBatchReportLatencyUs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(sensorType)
+			case 2:
+				_data.WriteInt32(samplingPeriodUs)
+			case 3:
+				_data.WriteInt32(maxBatchReportLatencyUs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerEnableSensor)
 	if _err != nil {
@@ -2285,8 +3145,25 @@ func (p *InputManagerProxy) DisableSensor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(sensorType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerDisableSensor)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(sensorType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(sensorType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerDisableSensor)
 	if _err != nil {
@@ -2315,8 +3192,25 @@ func (p *InputManagerProxy) FlushSensor(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(sensorType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerFlushSensor)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(sensorType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(sensorType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerFlushSensor)
 	if _err != nil {
@@ -2348,7 +3242,21 @@ func (p *InputManagerProxy) GetLights(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetLights)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetLights)
 	if _err != nil {
@@ -2413,8 +3321,25 @@ func (p *InputManagerProxy) GetLightState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(lightId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetLightState)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(lightId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(lightId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetLightState)
 	if _err != nil {
@@ -2453,27 +3378,67 @@ func (p *InputManagerProxy) SetLightStates(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	if lightIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(lightIds)))
-		for _, _item := range lightIds {
-			_data.WriteInt32(_item)
-		}
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerSetLightStates)
+	_compiledDescs := []string{
+		"I",
+		"[I",
+		"[Landroid/hardware/lights/LightState;",
+		"Landroid/os/IBinder;",
 	}
-	if states == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		if lightIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(lightIds)))
+			for _, _item := range lightIds {
+				_data.WriteInt32(_item)
+			}
+		}
+		if states == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(states)))
+			for _, _item := range states {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	} else {
-		_data.WriteInt32(int32(len(states)))
-		for _, _item := range states {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				if lightIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(lightIds)))
+					for _, _item := range lightIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 2:
+				if states == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(states)))
+					for _, _item := range states {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 3:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerSetLightStates)
 	if _err != nil {
@@ -2502,9 +3467,29 @@ func (p *InputManagerProxy) OpenLightSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	_data.WriteString16(opPkg)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerOpenLightSession)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteString16(opPkg)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteString16(opPkg)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerOpenLightSession)
 	if _err != nil {
@@ -2532,8 +3517,25 @@ func (p *InputManagerProxy) CloseLightSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerCloseLightSession)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerCloseLightSession)
 	if _err != nil {
@@ -2586,8 +3588,25 @@ func (p *InputManagerProxy) RegisterBatteryListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerRegisterBatteryListener)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/input/IInputDeviceBatteryListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRegisterBatteryListener)
 	if _err != nil {
@@ -2615,8 +3634,25 @@ func (p *InputManagerProxy) UnregisterBatteryListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerUnregisterBatteryListener)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/input/IInputDeviceBatteryListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerUnregisterBatteryListener)
 	if _err != nil {
@@ -2644,7 +3680,21 @@ func (p *InputManagerProxy) GetInputDeviceBluetoothAddress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetInputDeviceBluetoothAddress)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetInputDeviceBluetoothAddress)
 	if _err != nil {
@@ -2675,7 +3725,21 @@ func (p *InputManagerProxy) PilferPointers(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, inputChannelToken, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerPilferPointers)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, inputChannelToken, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, inputChannelToken, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerPilferPointers)
 	if _err != nil {
@@ -2702,7 +3766,21 @@ func (p *InputManagerProxy) RegisterKeyboardBacklightListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerRegisterKeyboardBacklightListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/IKeyboardBacklightListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRegisterKeyboardBacklightListener)
 	if _err != nil {
@@ -2729,7 +3807,21 @@ func (p *InputManagerProxy) UnregisterKeyboardBacklightListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerUnregisterKeyboardBacklightListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/IKeyboardBacklightListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerUnregisterKeyboardBacklightListener)
 	if _err != nil {
@@ -2757,7 +3849,21 @@ func (p *InputManagerProxy) GetHostUsiVersionFromDisplayConfig(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetHostUsiVersionFromDisplayConfig)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetHostUsiVersionFromDisplayConfig)
 	if _err != nil {
@@ -2793,7 +3899,21 @@ func (p *InputManagerProxy) RegisterStickyModifierStateListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerRegisterStickyModifierStateListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/IStickyModifierStateListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRegisterStickyModifierStateListener)
 	if _err != nil {
@@ -2820,7 +3940,21 @@ func (p *InputManagerProxy) UnregisterStickyModifierStateListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerUnregisterStickyModifierStateListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/IStickyModifierStateListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerUnregisterStickyModifierStateListener)
 	if _err != nil {

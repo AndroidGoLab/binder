@@ -51,9 +51,26 @@ func (p *ExternalVibratorServiceProxy) OnExternalVibrationStart(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalVibratorService)
-	_data.WriteInt32(1)
-	if _err := vib.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIExternalVibratorService, MethodIExternalVibratorServiceOnExternalVibrationStart)
+	_compiledDescs := []string{
+		"Landroid/os/ExternalVibration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := vib.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := vib.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalVibratorService, MethodIExternalVibratorServiceOnExternalVibrationStart)
@@ -90,9 +107,26 @@ func (p *ExternalVibratorServiceProxy) OnExternalVibrationStop(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalVibratorService)
-	_data.WriteInt32(1)
-	if _err := vib.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIExternalVibratorService, MethodIExternalVibratorServiceOnExternalVibrationStop)
+	_compiledDescs := []string{
+		"Landroid/os/ExternalVibration;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := vib.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := vib.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalVibratorService, MethodIExternalVibratorServiceOnExternalVibrationStop)

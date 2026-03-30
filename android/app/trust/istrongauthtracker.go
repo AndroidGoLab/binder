@@ -51,8 +51,25 @@ func (p *StrongAuthTrackerProxy) OnStrongAuthRequiredChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStrongAuthTracker)
-	_data.WriteInt32(strongAuthRequired)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStrongAuthTracker, MethodIStrongAuthTrackerOnStrongAuthRequiredChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(strongAuthRequired)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(strongAuthRequired)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStrongAuthTracker, MethodIStrongAuthTrackerOnStrongAuthRequiredChanged)
 	if _err != nil {
@@ -71,8 +88,25 @@ func (p *StrongAuthTrackerProxy) OnIsNonStrongBiometricAllowedChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStrongAuthTracker)
-	_data.WriteBool(allowed)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStrongAuthTracker, MethodIStrongAuthTrackerOnIsNonStrongBiometricAllowedChanged)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(allowed)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(allowed)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStrongAuthTracker, MethodIStrongAuthTrackerOnIsNonStrongBiometricAllowedChanged)
 	if _err != nil {

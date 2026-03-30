@@ -160,9 +160,26 @@ func (p *EvsDisplayProxy) ReturnTargetBufferForDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsDisplay)
-	_data.WriteInt32(1)
-	if _err := buffer.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsDisplay, MethodIEvsDisplayReturnTargetBufferForDisplay)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/BufferDesc;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := buffer.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := buffer.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsDisplay, MethodIEvsDisplayReturnTargetBufferForDisplay)
@@ -190,7 +207,21 @@ func (p *EvsDisplayProxy) SetDisplayState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsDisplay)
-	_data.WriteInt32(int32(state))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEvsDisplay, MethodIEvsDisplaySetDisplayState)
+	_compiledDescs := []string{
+		"Landroid/hardware/automotive/evs/DisplayState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(state))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(state))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsDisplay, MethodIEvsDisplaySetDisplayState)
 	if _err != nil {

@@ -58,8 +58,25 @@ func (p *FocusListenerProxy) AbandonAudioFocus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFocusListener)
-	_data.WriteString16(usage)
-	_data.WriteInt32(zoneId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFocusListener, MethodIFocusListenerAbandonAudioFocus)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(usage)
+		_data.WriteInt32(zoneId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(usage)
+			case 1:
+				_data.WriteInt32(zoneId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFocusListener, MethodIFocusListenerAbandonAudioFocus)
 	if _err != nil {
@@ -79,9 +96,29 @@ func (p *FocusListenerProxy) RequestAudioFocus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFocusListener)
-	_data.WriteString16(usage)
-	_data.WriteInt32(zoneId)
-	_data.WriteInt32(int32(focusGain))
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFocusListener, MethodIFocusListenerRequestAudioFocus)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Landroid/hardware/automotive/audiocontrol/AudioFocusChange;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(usage)
+		_data.WriteInt32(zoneId)
+		_data.WriteInt32(int32(focusGain))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(usage)
+			case 1:
+				_data.WriteInt32(zoneId)
+			case 2:
+				_data.WriteInt32(int32(focusGain))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFocusListener, MethodIFocusListenerRequestAudioFocus)
 	if _err != nil {
@@ -100,11 +137,31 @@ func (p *FocusListenerProxy) AbandonAudioFocusWithMetaData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFocusListener)
-	_data.WriteInt32(1)
-	if _err := playbackMetaData.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFocusListener, MethodIFocusListenerAbandonAudioFocusWithMetaData)
+	_compiledDescs := []string{
+		"Landroid/hardware/audio/common/PlaybackTrackMetadata;",
+		"I",
 	}
-	_data.WriteInt32(zoneId)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := playbackMetaData.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(zoneId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := playbackMetaData.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(zoneId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFocusListener, MethodIFocusListenerAbandonAudioFocusWithMetaData)
 	if _err != nil {
@@ -124,12 +181,35 @@ func (p *FocusListenerProxy) RequestAudioFocusWithMetaData(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFocusListener)
-	_data.WriteInt32(1)
-	if _err := playbackMetaData.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFocusListener, MethodIFocusListenerRequestAudioFocusWithMetaData)
+	_compiledDescs := []string{
+		"Landroid/hardware/audio/common/PlaybackTrackMetadata;",
+		"I",
+		"Landroid/hardware/automotive/audiocontrol/AudioFocusChange;",
 	}
-	_data.WriteInt32(zoneId)
-	_data.WriteInt32(int32(focusGain))
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := playbackMetaData.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(zoneId)
+		_data.WriteInt32(int32(focusGain))
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := playbackMetaData.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(zoneId)
+			case 2:
+				_data.WriteInt32(int32(focusGain))
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFocusListener, MethodIFocusListenerRequestAudioFocusWithMetaData)
 	if _err != nil {

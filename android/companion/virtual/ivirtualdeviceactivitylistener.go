@@ -53,12 +53,35 @@ func (p *VirtualDeviceActivityListenerProxy) OnTopActivityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceActivityListener)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(1)
-	if _err := topActivity.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceActivityListener, MethodIVirtualDeviceActivityListenerOnTopActivityChanged)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		_data.WriteInt32(1)
+		if _err := topActivity.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := topActivity.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceActivityListener, MethodIVirtualDeviceActivityListenerOnTopActivityChanged)
 	if _err != nil {
@@ -76,7 +99,21 @@ func (p *VirtualDeviceActivityListenerProxy) OnDisplayEmpty(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceActivityListener)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceActivityListener, MethodIVirtualDeviceActivityListenerOnDisplayEmpty)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceActivityListener, MethodIVirtualDeviceActivityListenerOnDisplayEmpty)
 	if _err != nil {

@@ -67,9 +67,29 @@ func (p *RequestCallbackProxy) OnCaptureStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
-	_data.WriteInt32(requestId)
-	_data.WriteInt64(frameNumber)
-	_data.WriteInt64(timestamp)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureStarted)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(requestId)
+		_data.WriteInt64(frameNumber)
+		_data.WriteInt64(timestamp)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(requestId)
+			case 1:
+				_data.WriteInt64(frameNumber)
+			case 2:
+				_data.WriteInt64(timestamp)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureStarted)
 	if _err != nil {
@@ -97,10 +117,30 @@ func (p *RequestCallbackProxy) OnCaptureProgressed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
-	_data.WriteInt32(requestId)
-	_data.WriteInt32(1)
-	if _err := partialResult.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureProgressed)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/camera2/extension/ParcelCaptureResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(requestId)
+		_data.WriteInt32(1)
+		if _err := partialResult.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(requestId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := partialResult.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureProgressed)
@@ -129,10 +169,30 @@ func (p *RequestCallbackProxy) OnCaptureCompleted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
-	_data.WriteInt32(requestId)
-	_data.WriteInt32(1)
-	if _err := totalCaptureResult.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureCompleted)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/camera2/extension/ParcelTotalCaptureResult;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(requestId)
+		_data.WriteInt32(1)
+		if _err := totalCaptureResult.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(requestId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := totalCaptureResult.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureCompleted)
@@ -161,10 +221,30 @@ func (p *RequestCallbackProxy) OnCaptureFailed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
-	_data.WriteInt32(requestId)
-	_data.WriteInt32(1)
-	if _err := captureFailure.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureFailed)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/hardware/camera2/extension/CaptureFailure;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(requestId)
+		_data.WriteInt32(1)
+		if _err := captureFailure.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(requestId)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := captureFailure.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureFailed)
@@ -194,9 +274,29 @@ func (p *RequestCallbackProxy) OnCaptureBufferLost(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
-	_data.WriteInt32(requestId)
-	_data.WriteInt64(frameNumber)
-	_data.WriteInt32(outputStreamId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureBufferLost)
+	_compiledDescs := []string{
+		"I",
+		"J",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(requestId)
+		_data.WriteInt64(frameNumber)
+		_data.WriteInt32(outputStreamId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(requestId)
+			case 1:
+				_data.WriteInt64(frameNumber)
+			case 2:
+				_data.WriteInt32(outputStreamId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureBufferLost)
 	if _err != nil {
@@ -224,8 +324,25 @@ func (p *RequestCallbackProxy) OnCaptureSequenceCompleted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
-	_data.WriteInt32(sequenceId)
-	_data.WriteInt64(frameNumber)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureSequenceCompleted)
+	_compiledDescs := []string{
+		"I",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sequenceId)
+		_data.WriteInt64(frameNumber)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sequenceId)
+			case 1:
+				_data.WriteInt64(frameNumber)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureSequenceCompleted)
 	if _err != nil {
@@ -252,7 +369,21 @@ func (p *RequestCallbackProxy) OnCaptureSequenceAborted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
-	_data.WriteInt32(sequenceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureSequenceAborted)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sequenceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sequenceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureSequenceAborted)
 	if _err != nil {

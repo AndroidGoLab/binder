@@ -171,7 +171,21 @@ func (p *ContentServiceProxy) UnregisterContentObserver(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceUnregisterContentObserver)
+	_compiledDescs := []string{
+		"Landroid/database/IContentObserver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceUnregisterContentObserver)
 	if _err != nil {
@@ -202,14 +216,43 @@ func (p *ContentServiceProxy) RegisterContentObserver(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceRegisterContentObserver)
+	_compiledDescs := []string{
+		"Landroid/net/Uri;",
+		"Z",
+		"Landroid/database/IContentObserver;",
+		"I",
+		"I",
 	}
-	_data.WriteBool(notifyForDescendants)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(targetSdkVersion)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(notifyForDescendants)
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(targetSdkVersion)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteBool(notifyForDescendants)
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				_data.WriteInt32(targetSdkVersion)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceRegisterContentObserver)
 	if _err != nil {
@@ -241,23 +284,65 @@ func (p *ContentServiceProxy) NotifyChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	if uris == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceNotifyChange)
+	_compiledDescs := []string{
+		"[Landroid/net/Uri;",
+		"Landroid/database/IContentObserver;",
+		"Z",
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if uris == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(uris)))
+			for _, _item := range uris {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
+		binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+		_data.WriteBool(observerWantsSelfNotifications)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt32(targetSdkVersion)
+		_data.WriteString16(_identity.PackageName)
 	} else {
-		_data.WriteInt32(int32(len(uris)))
-		for _, _item := range uris {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if uris == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(uris)))
+					for _, _item := range uris {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+			case 2:
+				_data.WriteBool(observerWantsSelfNotifications)
+			case 3:
+				_data.WriteInt32(flags)
+			case 4:
+				_data.WriteInt32(_identity.UserID)
+			case 5:
+				_data.WriteInt32(targetSdkVersion)
+			case 6:
+				_data.WriteString16(_identity.PackageName)
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
-	_data.WriteBool(observerWantsSelfNotifications)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(targetSdkVersion)
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceNotifyChange)
 	if _err != nil {
@@ -287,16 +372,45 @@ func (p *ContentServiceProxy) RequestSync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceRequestSync)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(authority)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(authority)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(authority)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
 	}
-	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceRequestSync)
 	if _err != nil {
@@ -324,11 +438,31 @@ func (p *ContentServiceProxy) Sync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceSync)
+	_compiledDescs := []string{
+		"Landroid/content/SyncRequest;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceSync)
 	if _err != nil {
@@ -356,12 +490,35 @@ func (p *ContentServiceProxy) SyncAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceSyncAsUser)
+	_compiledDescs := []string{
+		"Landroid/content/SyncRequest;",
+		"I",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(_identity.PackageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(_identity.PackageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteString16(_identity.PackageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceSyncAsUser)
 	if _err != nil {
@@ -390,14 +547,40 @@ func (p *ContentServiceProxy) CancelSync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceCancelSync)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
 	}
-	_data.WriteString16(authority)
-	_data.WriteInt32(1)
-	if _err := cname.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(authority)
+		_data.WriteInt32(1)
+		if _err := cname.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(authority)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := cname.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceCancelSync)
@@ -428,16 +611,45 @@ func (p *ContentServiceProxy) CancelSyncAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceCancelSyncAsUser)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteString16(authority)
-	_data.WriteInt32(1)
-	if _err := cname.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(authority)
+		_data.WriteInt32(1)
+		if _err := cname.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(authority)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := cname.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceCancelSyncAsUser)
 	if _err != nil {
@@ -464,9 +676,26 @@ func (p *ContentServiceProxy) CancelRequest(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceCancelRequest)
+	_compiledDescs := []string{
+		"Landroid/content/SyncRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceCancelRequest)
@@ -496,11 +725,31 @@ func (p *ContentServiceProxy) GetSyncAutomatically(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceGetSyncAutomatically)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(providerName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(providerName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(providerName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetSyncAutomatically)
 	if _err != nil {
@@ -534,12 +783,35 @@ func (p *ContentServiceProxy) GetSyncAutomaticallyAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceGetSyncAutomaticallyAsUser)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteString16(providerName)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(providerName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(providerName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetSyncAutomaticallyAsUser)
 	if _err != nil {
@@ -572,12 +844,35 @@ func (p *ContentServiceProxy) SetSyncAutomatically(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceSetSyncAutomatically)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Z",
 	}
-	_data.WriteString16(providerName)
-	_data.WriteBool(sync)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(providerName)
+		_data.WriteBool(sync)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(providerName)
+			case 2:
+				_data.WriteBool(sync)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceSetSyncAutomatically)
 	if _err != nil {
@@ -607,13 +902,39 @@ func (p *ContentServiceProxy) SetSyncAutomaticallyAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceSetSyncAutomaticallyAsUser)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Z",
+		"I",
 	}
-	_data.WriteString16(providerName)
-	_data.WriteBool(sync)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(providerName)
+		_data.WriteBool(sync)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(providerName)
+			case 2:
+				_data.WriteBool(sync)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceSetSyncAutomaticallyAsUser)
 	if _err != nil {
@@ -643,14 +964,40 @@ func (p *ContentServiceProxy) GetPeriodicSyncs(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceGetPeriodicSyncs)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
 	}
-	_data.WriteString16(providerName)
-	_data.WriteInt32(1)
-	if _err := cname.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(providerName)
+		_data.WriteInt32(1)
+		if _err := cname.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(providerName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := cname.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetPeriodicSyncs)
@@ -717,16 +1064,45 @@ func (p *ContentServiceProxy) AddPeriodicSync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceAddPeriodicSync)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+		"J",
 	}
-	_data.WriteString16(providerName)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(providerName)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt64(pollFrequency)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(providerName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt64(pollFrequency)
+			}
+		}
 	}
-	_data.WriteInt64(pollFrequency)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceAddPeriodicSync)
 	if _err != nil {
@@ -755,14 +1131,40 @@ func (p *ContentServiceProxy) RemovePeriodicSync(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceRemovePeriodicSync)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
 	}
-	_data.WriteString16(providerName)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(providerName)
+		_data.WriteInt32(1)
+		if _err := extras.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(providerName)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := extras.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceRemovePeriodicSync)
@@ -792,11 +1194,31 @@ func (p *ContentServiceProxy) GetIsSyncable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceGetIsSyncable)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteString16(providerName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(providerName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(providerName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetIsSyncable)
 	if _err != nil {
@@ -830,12 +1252,35 @@ func (p *ContentServiceProxy) GetIsSyncableAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceGetIsSyncableAsUser)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteString16(providerName)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(providerName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(providerName)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetIsSyncableAsUser)
 	if _err != nil {
@@ -868,12 +1313,35 @@ func (p *ContentServiceProxy) SetIsSyncable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceSetIsSyncable)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"I",
 	}
-	_data.WriteString16(providerName)
-	_data.WriteInt32(syncable)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(providerName)
+		_data.WriteInt32(syncable)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(providerName)
+			case 2:
+				_data.WriteInt32(syncable)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceSetIsSyncable)
 	if _err != nil {
@@ -903,13 +1371,39 @@ func (p *ContentServiceProxy) SetIsSyncableAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceSetIsSyncableAsUser)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
 	}
-	_data.WriteString16(providerName)
-	_data.WriteInt32(syncable)
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(providerName)
+		_data.WriteInt32(syncable)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(providerName)
+			case 2:
+				_data.WriteInt32(syncable)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceSetIsSyncableAsUser)
 	if _err != nil {
@@ -936,7 +1430,21 @@ func (p *ContentServiceProxy) SetMasterSyncAutomatically(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteBool(flag)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceSetMasterSyncAutomatically)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(flag)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(flag)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceSetMasterSyncAutomatically)
 	if _err != nil {
@@ -964,8 +1472,25 @@ func (p *ContentServiceProxy) SetMasterSyncAutomaticallyAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteBool(flag)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceSetMasterSyncAutomaticallyAsUser)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(flag)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(flag)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceSetMasterSyncAutomaticallyAsUser)
 	if _err != nil {
@@ -1023,7 +1548,21 @@ func (p *ContentServiceProxy) GetMasterSyncAutomaticallyAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceGetMasterSyncAutomaticallyAsUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetMasterSyncAutomaticallyAsUser)
 	if _err != nil {
@@ -1117,7 +1656,21 @@ func (p *ContentServiceProxy) GetCurrentSyncsAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceGetCurrentSyncsAsUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetCurrentSyncsAsUser)
 	if _err != nil {
@@ -1243,7 +1796,21 @@ func (p *ContentServiceProxy) GetSyncAdapterTypesAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceGetSyncAdapterTypesAsUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetSyncAdapterTypesAsUser)
 	if _err != nil {
@@ -1308,8 +1875,25 @@ func (p *ContentServiceProxy) GetSyncAdapterPackagesForAuthorityAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteString16(authority)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceGetSyncAdapterPackagesForAuthorityAsUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(authority)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(authority)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetSyncAdapterPackagesForAuthorityAsUser)
 	if _err != nil {
@@ -1356,9 +1940,29 @@ func (p *ContentServiceProxy) GetSyncAdapterPackageAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteString16(accountType)
-	_data.WriteString16(authority)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceGetSyncAdapterPackageAsUser)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(accountType)
+		_data.WriteString16(authority)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(accountType)
+			case 1:
+				_data.WriteString16(authority)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetSyncAdapterPackageAsUser)
 	if _err != nil {
@@ -1392,14 +1996,40 @@ func (p *ContentServiceProxy) IsSyncActive(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceIsSyncActive)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
 	}
-	_data.WriteString16(authority)
-	_data.WriteInt32(1)
-	if _err := cname.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(authority)
+		_data.WriteInt32(1)
+		if _err := cname.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(authority)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := cname.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceIsSyncActive)
@@ -1434,14 +2064,40 @@ func (p *ContentServiceProxy) GetSyncStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceGetSyncStatus)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
 	}
-	_data.WriteString16(authority)
-	_data.WriteInt32(1)
-	if _err := cname.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(authority)
+		_data.WriteInt32(1)
+		if _err := cname.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(authority)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := cname.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetSyncStatus)
@@ -1482,16 +2138,45 @@ func (p *ContentServiceProxy) GetSyncStatusAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceGetSyncStatusAsUser)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteString16(authority)
-	_data.WriteInt32(1)
-	if _err := cname.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(authority)
+		_data.WriteInt32(1)
+		if _err := cname.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(authority)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := cname.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetSyncStatusAsUser)
 	if _err != nil {
@@ -1530,14 +2215,40 @@ func (p *ContentServiceProxy) IsSyncPending(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceIsSyncPending)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
 	}
-	_data.WriteString16(authority)
-	_data.WriteInt32(1)
-	if _err := cname.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(authority)
+		_data.WriteInt32(1)
+		if _err := cname.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(authority)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := cname.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceIsSyncPending)
@@ -1573,16 +2284,45 @@ func (p *ContentServiceProxy) IsSyncPendingAsUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(1)
-	if _err := account.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceIsSyncPendingAsUser)
+	_compiledDescs := []string{
+		"Landroid/accounts/Account;",
+		"Ljava/lang/String;",
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteString16(authority)
-	_data.WriteInt32(1)
-	if _err := cname.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := account.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteString16(authority)
+		_data.WriteInt32(1)
+		if _err := cname.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := account.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteString16(authority)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := cname.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceIsSyncPendingAsUser)
 	if _err != nil {
@@ -1614,8 +2354,25 @@ func (p *ContentServiceProxy) AddStatusChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteInt32(mask)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceAddStatusChangeListener)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/content/ISyncStatusObserver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mask)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mask)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceAddStatusChangeListener)
 	if _err != nil {
@@ -1642,7 +2399,21 @@ func (p *ContentServiceProxy) RemoveStatusChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceRemoveStatusChangeListener)
+	_compiledDescs := []string{
+		"Landroid/content/ISyncStatusObserver;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceRemoveStatusChangeListener)
 	if _err != nil {
@@ -1672,16 +2443,45 @@ func (p *ContentServiceProxy) PutCache(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := key.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServicePutCache)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"Landroid/os/Bundle;",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := value.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := key.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := value.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := key.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := value.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
 	}
-	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServicePutCache)
 	if _err != nil {
@@ -1711,12 +2511,35 @@ func (p *ContentServiceProxy) GetCache(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := key.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceGetCache)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(1)
+		if _err := key.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := key.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetCache)
 	if _err != nil {
@@ -1779,9 +2602,29 @@ func (p *ContentServiceProxy) OnDbCorruption(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
-	_data.WriteString16(tag)
-	_data.WriteString16(message)
-	_data.WriteString16(stacktrace)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIContentService, MethodIContentServiceOnDbCorruption)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(tag)
+		_data.WriteString16(message)
+		_data.WriteString16(stacktrace)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(tag)
+			case 1:
+				_data.WriteString16(message)
+			case 2:
+				_data.WriteString16(stacktrace)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceOnDbCorruption)
 	if _err != nil {

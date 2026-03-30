@@ -62,28 +62,73 @@ func (p *DescramblerProxy) Descramble(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
-	_data.WriteInt32(int32(scramblingControl))
-	if subSamples == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDescrambler, MethodIDescramblerDescramble)
+	_compiledDescs := []string{
+		"Landroid/hardware/cas/ScramblingControl;",
+		"[Landroid/hardware/cas/SubSample;",
+		"Landroid/hardware/cas/SharedBuffer;",
+		"J",
+		"Landroid/hardware/cas/DestinationBuffer;",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(int32(scramblingControl))
+		if subSamples == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(subSamples)))
+			for _, _item := range subSamples {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+		_data.WriteInt32(1)
+		if _err := srcBuffer.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt64(srcOffset)
+		_data.WriteInt32(1)
+		if _err := dstBuffer.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt64(dstOffset)
 	} else {
-		_data.WriteInt32(int32(len(subSamples)))
-		for _, _item := range subSamples {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(int32(scramblingControl))
+			case 1:
+				if subSamples == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(subSamples)))
+					for _, _item := range subSamples {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := srcBuffer.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 3:
+				_data.WriteInt64(srcOffset)
+			case 4:
+				_data.WriteInt32(1)
+				if _err := dstBuffer.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 5:
+				_data.WriteInt64(dstOffset)
 			}
 		}
 	}
-	_data.WriteInt32(1)
-	if _err := srcBuffer.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt64(srcOffset)
-	_data.WriteInt32(1)
-	if _err := dstBuffer.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt64(dstOffset)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerDescramble)
 	if _err != nil {
@@ -140,7 +185,21 @@ func (p *DescramblerProxy) RequiresSecureDecoderComponent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
-	_data.WriteString16(mime)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDescrambler, MethodIDescramblerRequiresSecureDecoderComponent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(mime)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(mime)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerRequiresSecureDecoderComponent)
 	if _err != nil {
@@ -171,7 +230,21 @@ func (p *DescramblerProxy) SetMediaCasSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
-	_data.WriteByteArray(sessionId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDescrambler, MethodIDescramblerSetMediaCasSession)
+	_compiledDescs := []string{
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(sessionId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(sessionId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerSetMediaCasSession)
 	if _err != nil {

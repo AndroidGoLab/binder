@@ -48,8 +48,25 @@ func (p *ServiceCallbackProxy) OnRegistration(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceCallback)
-	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIServiceCallback, MethodIServiceCallbackOnRegistration)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(name)
+		binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(name)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceCallback, MethodIServiceCallbackOnRegistration)
 	if _err != nil {

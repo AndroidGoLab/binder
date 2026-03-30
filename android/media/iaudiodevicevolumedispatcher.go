@@ -51,13 +51,36 @@ func (p *AudioDeviceVolumeDispatcherProxy) DispatchDeviceVolumeChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioDeviceVolumeDispatcher)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioDeviceVolumeDispatcher, MethodIAudioDeviceVolumeDispatcherDispatchDeviceVolumeChanged)
+	_compiledDescs := []string{
+		"Landroid/media/AudioDeviceAttributes;",
+		"Landroid/media/VolumeInfo;",
 	}
-	_data.WriteInt32(1)
-	if _err := vol.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := vol.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := vol.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioDeviceVolumeDispatcher, MethodIAudioDeviceVolumeDispatcherDispatchDeviceVolumeChanged)
@@ -79,16 +102,45 @@ func (p *AudioDeviceVolumeDispatcherProxy) DispatchDeviceVolumeAdjusted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioDeviceVolumeDispatcher)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIAudioDeviceVolumeDispatcher, MethodIAudioDeviceVolumeDispatcherDispatchDeviceVolumeAdjusted)
+	_compiledDescs := []string{
+		"Landroid/media/AudioDeviceAttributes;",
+		"Landroid/media/VolumeInfo;",
+		"I",
+		"I",
 	}
-	_data.WriteInt32(1)
-	if _err := vol.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := device.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := vol.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(direction)
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := device.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(1)
+				if _err := vol.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(direction)
+			case 3:
+				_data.WriteInt32(mode)
+			}
+		}
 	}
-	_data.WriteInt32(direction)
-	_data.WriteInt32(mode)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioDeviceVolumeDispatcher, MethodIAudioDeviceVolumeDispatcherDispatchDeviceVolumeAdjusted)
 	if _err != nil {

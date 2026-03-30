@@ -62,7 +62,21 @@ func (p *RemoteDisplayProviderProxy) SetCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderSetCallback)
+	_compiledDescs := []string{
+		"Landroid/media/IRemoteDisplayCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderSetCallback)
 	if _err != nil {
@@ -80,7 +94,21 @@ func (p *RemoteDisplayProviderProxy) SetDiscoveryMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
-	_data.WriteInt32(mode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderSetDiscoveryMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(mode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(mode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderSetDiscoveryMode)
 	if _err != nil {
@@ -98,7 +126,21 @@ func (p *RemoteDisplayProviderProxy) Connect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
-	_data.WriteString16(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderConnect)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderConnect)
 	if _err != nil {
@@ -116,7 +158,21 @@ func (p *RemoteDisplayProviderProxy) Disconnect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
-	_data.WriteString16(id)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderDisconnect)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(id)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(id)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderDisconnect)
 	if _err != nil {
@@ -135,8 +191,25 @@ func (p *RemoteDisplayProviderProxy) SetVolume(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
-	_data.WriteString16(id)
-	_data.WriteInt32(volume)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderSetVolume)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(id)
+		_data.WriteInt32(volume)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(id)
+			case 1:
+				_data.WriteInt32(volume)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderSetVolume)
 	if _err != nil {
@@ -155,8 +228,25 @@ func (p *RemoteDisplayProviderProxy) AdjustVolume(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
-	_data.WriteString16(id)
-	_data.WriteInt32(delta)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderAdjustVolume)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(id)
+		_data.WriteInt32(delta)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(id)
+			case 1:
+				_data.WriteInt32(delta)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderAdjustVolume)
 	if _err != nil {

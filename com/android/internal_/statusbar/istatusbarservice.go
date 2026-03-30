@@ -350,9 +350,29 @@ func (p *StatusBarServiceProxy) Disable(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(what)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceDisable)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(what)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(what)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 2:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceDisable)
 	if _err != nil {
@@ -382,10 +402,33 @@ func (p *StatusBarServiceProxy) DisableForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(what)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteString16(pkg)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceDisableForUser)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(what)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteString16(pkg)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(what)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 2:
+				_data.WriteString16(pkg)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceDisableForUser)
 	if _err != nil {
@@ -414,9 +457,29 @@ func (p *StatusBarServiceProxy) Disable2(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(what)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteString16(pkg)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceDisable2)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(what)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteString16(pkg)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(what)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 2:
+				_data.WriteString16(pkg)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceDisable2)
 	if _err != nil {
@@ -446,10 +509,33 @@ func (p *StatusBarServiceProxy) Disable2ForUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(what)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteString16(pkg)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceDisable2ForUser)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IBinder;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(what)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteString16(pkg)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(what)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 2:
+				_data.WriteString16(pkg)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceDisable2ForUser)
 	if _err != nil {
@@ -478,8 +564,25 @@ func (p *StatusBarServiceProxy) GetDisableFlags(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceGetDisableFlags)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceGetDisableFlags)
 	if _err != nil {
@@ -527,11 +630,37 @@ func (p *StatusBarServiceProxy) SetIcon(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(slot)
-	_data.WriteString16(iconPackage)
-	_data.WriteInt32(iconId)
-	_data.WriteInt32(iconLevel)
-	_data.WriteString16(contentDescription)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceSetIcon)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(slot)
+		_data.WriteString16(iconPackage)
+		_data.WriteInt32(iconId)
+		_data.WriteInt32(iconLevel)
+		_data.WriteString16(contentDescription)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(slot)
+			case 1:
+				_data.WriteString16(iconPackage)
+			case 2:
+				_data.WriteInt32(iconId)
+			case 3:
+				_data.WriteInt32(iconLevel)
+			case 4:
+				_data.WriteString16(contentDescription)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceSetIcon)
 	if _err != nil {
@@ -559,8 +688,25 @@ func (p *StatusBarServiceProxy) SetIconVisibility(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(slot)
-	_data.WriteBool(visible)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceSetIconVisibility)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(slot)
+		_data.WriteBool(visible)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(slot)
+			case 1:
+				_data.WriteBool(visible)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceSetIconVisibility)
 	if _err != nil {
@@ -587,7 +733,21 @@ func (p *StatusBarServiceProxy) RemoveIcon(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(slot)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRemoveIcon)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(slot)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(slot)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRemoveIcon)
 	if _err != nil {
@@ -618,11 +778,37 @@ func (p *StatusBarServiceProxy) SetImeWindowStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(displayId)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(vis)
-	_data.WriteInt32(backDisposition)
-	_data.WriteBool(showImeSwitcher)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceSetImeWindowStatus)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/os/IBinder;",
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(vis)
+		_data.WriteInt32(backDisposition)
+		_data.WriteBool(showImeSwitcher)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 2:
+				_data.WriteInt32(vis)
+			case 3:
+				_data.WriteInt32(backDisposition)
+			case 4:
+				_data.WriteBool(showImeSwitcher)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceSetImeWindowStatus)
 	if _err != nil {
@@ -649,7 +835,21 @@ func (p *StatusBarServiceProxy) ExpandSettingsPanel(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(subPanel)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceExpandSettingsPanel)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(subPanel)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(subPanel)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceExpandSettingsPanel)
 	if _err != nil {
@@ -677,7 +877,21 @@ func (p *StatusBarServiceProxy) RegisterStatusBar(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRegisterStatusBar)
+	_compiledDescs := []string{
+		"Lcom/android/internal/statusbar/IStatusBar;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRegisterStatusBar)
 	if _err != nil {
@@ -714,8 +928,25 @@ func (p *StatusBarServiceProxy) OnPanelRevealed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteBool(clearNotificationEffects)
-	_data.WriteInt32(numItems)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnPanelRevealed)
+	_compiledDescs := []string{
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(clearNotificationEffects)
+		_data.WriteInt32(numItems)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(clearNotificationEffects)
+			case 1:
+				_data.WriteInt32(numItems)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnPanelRevealed)
 	if _err != nil {
@@ -784,10 +1015,30 @@ func (p *StatusBarServiceProxy) OnNotificationClick(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(key)
-	_data.WriteInt32(1)
-	if _err := nv.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationClick)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Lcom/android/internal/statusbar/NotificationVisibility;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteInt32(1)
+		if _err := nv.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := nv.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationClick)
@@ -819,17 +1070,49 @@ func (p *StatusBarServiceProxy) OnNotificationActionClick(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(key)
-	_data.WriteInt32(actionIndex)
-	_data.WriteInt32(1)
-	if _err := action.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationActionClick)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"LNotification/Action;",
+		"Lcom/android/internal/statusbar/NotificationVisibility;",
+		"Z",
 	}
-	_data.WriteInt32(1)
-	if _err := nv.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteInt32(actionIndex)
+		_data.WriteInt32(1)
+		if _err := action.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := nv.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteBool(generatedByAssistant)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteInt32(actionIndex)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := action.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(1)
+				if _err := nv.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 4:
+				_data.WriteBool(generatedByAssistant)
+			}
+		}
 	}
-	_data.WriteBool(generatedByAssistant)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationActionClick)
 	if _err != nil {
@@ -862,13 +1145,45 @@ func (p *StatusBarServiceProxy) OnNotificationError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(pkg)
-	_data.WriteString16(tag)
-	_data.WriteInt32(id)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(initialPid)
-	_data.WriteString16(message)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationError)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteString16(tag)
+		_data.WriteInt32(id)
+		_data.WriteInt32(uid)
+		_data.WriteInt32(initialPid)
+		_data.WriteString16(message)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteString16(tag)
+			case 2:
+				_data.WriteInt32(id)
+			case 3:
+				_data.WriteInt32(uid)
+			case 4:
+				_data.WriteInt32(initialPid)
+			case 5:
+				_data.WriteString16(message)
+			case 6:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationError)
 	if _err != nil {
@@ -895,7 +1210,21 @@ func (p *StatusBarServiceProxy) OnClearAllNotifications(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnClearAllNotifications)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnClearAllNotifications)
 	if _err != nil {
@@ -927,14 +1256,46 @@ func (p *StatusBarServiceProxy) OnNotificationClear(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(pkg)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(key)
-	_data.WriteInt32(dismissalSurface)
-	_data.WriteInt32(dismissalSentiment)
-	_data.WriteInt32(1)
-	if _err := nv.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationClear)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Lcom/android/internal/statusbar/NotificationVisibility;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(pkg)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(key)
+		_data.WriteInt32(dismissalSurface)
+		_data.WriteInt32(dismissalSentiment)
+		_data.WriteInt32(1)
+		if _err := nv.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(pkg)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			case 2:
+				_data.WriteString16(key)
+			case 3:
+				_data.WriteInt32(dismissalSurface)
+			case 4:
+				_data.WriteInt32(dismissalSentiment)
+			case 5:
+				_data.WriteInt32(1)
+				if _err := nv.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationClear)
@@ -963,25 +1324,62 @@ func (p *StatusBarServiceProxy) OnNotificationVisibilityChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	if newlyVisibleKeys == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(newlyVisibleKeys)))
-		for _, _item := range newlyVisibleKeys {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationVisibilityChanged)
+	_compiledDescs := []string{
+		"[Lcom/android/internal/statusbar/NotificationVisibility;",
+		"[Lcom/android/internal/statusbar/NotificationVisibility;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if newlyVisibleKeys == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(newlyVisibleKeys)))
+			for _, _item := range newlyVisibleKeys {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
 			}
 		}
-	}
-	if noLongerVisibleKeys == nil {
-		_data.WriteInt32(-1)
+		if noLongerVisibleKeys == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(noLongerVisibleKeys)))
+			for _, _item := range noLongerVisibleKeys {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(noLongerVisibleKeys)))
-		for _, _item := range noLongerVisibleKeys {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if newlyVisibleKeys == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(newlyVisibleKeys)))
+					for _, _item := range newlyVisibleKeys {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
+			case 1:
+				if noLongerVisibleKeys == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(noLongerVisibleKeys)))
+					for _, _item := range noLongerVisibleKeys {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _err
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1014,10 +1412,33 @@ func (p *StatusBarServiceProxy) OnNotificationExpansionChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(key)
-	_data.WriteBool(userAction)
-	_data.WriteBool(expanded)
-	_data.WriteInt32(notificationLocation)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationExpansionChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteBool(userAction)
+		_data.WriteBool(expanded)
+		_data.WriteInt32(notificationLocation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteBool(userAction)
+			case 2:
+				_data.WriteBool(expanded)
+			case 3:
+				_data.WriteInt32(notificationLocation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationExpansionChanged)
 	if _err != nil {
@@ -1044,7 +1465,21 @@ func (p *StatusBarServiceProxy) OnNotificationDirectReplied(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(key)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationDirectReplied)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationDirectReplied)
 	if _err != nil {
@@ -1075,11 +1510,37 @@ func (p *StatusBarServiceProxy) OnNotificationSmartSuggestionsAdded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(key)
-	_data.WriteInt32(smartReplyCount)
-	_data.WriteInt32(smartActionCount)
-	_data.WriteBool(generatedByAsssistant)
-	_data.WriteBool(editBeforeSending)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationSmartSuggestionsAdded)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteInt32(smartReplyCount)
+		_data.WriteInt32(smartActionCount)
+		_data.WriteBool(generatedByAsssistant)
+		_data.WriteBool(editBeforeSending)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteInt32(smartReplyCount)
+			case 2:
+				_data.WriteInt32(smartActionCount)
+			case 3:
+				_data.WriteBool(generatedByAsssistant)
+			case 4:
+				_data.WriteBool(editBeforeSending)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationSmartSuggestionsAdded)
 	if _err != nil {
@@ -1110,11 +1571,37 @@ func (p *StatusBarServiceProxy) OnNotificationSmartReplySent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(key)
-	_data.WriteInt32(replyIndex)
-	_data.WriteString16(reply)
-	_data.WriteInt32(notificationLocation)
-	_data.WriteBool(modifiedBeforeSending)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationSmartReplySent)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/CharSequence;",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteInt32(replyIndex)
+		_data.WriteString16(reply)
+		_data.WriteInt32(notificationLocation)
+		_data.WriteBool(modifiedBeforeSending)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteInt32(replyIndex)
+			case 2:
+				_data.WriteString16(reply)
+			case 3:
+				_data.WriteInt32(notificationLocation)
+			case 4:
+				_data.WriteBool(modifiedBeforeSending)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationSmartReplySent)
 	if _err != nil {
@@ -1141,7 +1628,21 @@ func (p *StatusBarServiceProxy) OnNotificationSettingsViewed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(key)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationSettingsViewed)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationSettingsViewed)
 	if _err != nil {
@@ -1170,9 +1671,29 @@ func (p *StatusBarServiceProxy) OnNotificationBubbleChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(key)
-	_data.WriteBool(isBubble)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationBubbleChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteBool(isBubble)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteBool(isBubble)
+			case 2:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationBubbleChanged)
 	if _err != nil {
@@ -1200,8 +1721,25 @@ func (p *StatusBarServiceProxy) OnBubbleMetadataFlagChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(key)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnBubbleMetadataFlagChanged)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnBubbleMetadataFlagChanged)
 	if _err != nil {
@@ -1228,7 +1766,21 @@ func (p *StatusBarServiceProxy) HideCurrentInputMethodForBubbles(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceHideCurrentInputMethodForBubbles)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceHideCurrentInputMethodForBubbles)
 	if _err != nil {
@@ -1258,16 +1810,45 @@ func (p *StatusBarServiceProxy) GrantInlineReplyUriPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(key)
-	_data.WriteInt32(1)
-	if _err := uri.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceGrantInlineReplyUriPermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/net/Uri;",
+		"Landroid/os/UserHandle;",
+		"Ljava/lang/String;",
 	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteInt32(1)
+		if _err := uri.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := user.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := uri.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := user.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteString16(packageName)
+			}
+		}
 	}
-	_data.WriteString16(packageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceGrantInlineReplyUriPermission)
 	if _err != nil {
@@ -1294,7 +1875,21 @@ func (p *StatusBarServiceProxy) ClearInlineReplyUriPermissions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(key)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceClearInlineReplyUriPermissions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceClearInlineReplyUriPermissions)
 	if _err != nil {
@@ -1313,10 +1908,30 @@ func (p *StatusBarServiceProxy) OnNotificationFeedbackReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(key)
-	_data.WriteInt32(1)
-	if _err := feedback.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationFeedbackReceived)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(key)
+		_data.WriteInt32(1)
+		if _err := feedback.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(key)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := feedback.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnNotificationFeedbackReceived)
@@ -1419,7 +2034,21 @@ func (p *StatusBarServiceProxy) Reboot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteBool(safeMode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceReboot)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(safeMode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(safeMode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceReboot)
 	if _err != nil {
@@ -1471,9 +2100,26 @@ func (p *StatusBarServiceProxy) AddTile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(1)
-	if _err := tile.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceAddTile)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := tile.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := tile.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceAddTile)
@@ -1501,9 +2147,26 @@ func (p *StatusBarServiceProxy) RemTile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(1)
-	if _err := tile.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRemTile)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := tile.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := tile.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRemTile)
@@ -1531,9 +2194,26 @@ func (p *StatusBarServiceProxy) ClickTile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(1)
-	if _err := tile.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceClickTile)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := tile.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := tile.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceClickTile)
@@ -1561,9 +2241,26 @@ func (p *StatusBarServiceProxy) HandleSystemKey(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(1)
-	if _err := key.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceHandleSystemKey)
+	_compiledDescs := []string{
+		"Landroid/view/KeyEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := key.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := key.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceHandleSystemKey)
@@ -1621,7 +2318,21 @@ func (p *StatusBarServiceProxy) ShowPinningEnterExitToast(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteBool(entering)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceShowPinningEnterExitToast)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(entering)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(entering)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceShowPinningEnterExitToast)
 	if _err != nil {
@@ -1680,25 +2391,73 @@ func (p *StatusBarServiceProxy) ShowAuthenticationDialog(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(1)
-	if _err := promptInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceShowAuthenticationDialog)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/PromptInfo;",
+		"Landroid/hardware/biometrics/IBiometricSysuiReceiver;",
+		"[I",
+		"Z",
+		"Z",
+		"I",
+		"J",
+		"Ljava/lang/String;",
+		"J",
 	}
-	binder.WriteBinderToParcel(ctx, _data, sysuiReceiver.AsBinder(), p.Remote.Transport())
-	if sensorIds == nil {
-		_data.WriteInt32(-1)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := promptInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, sysuiReceiver.AsBinder(), p.Remote.Transport())
+		if sensorIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(sensorIds)))
+			for _, _item := range sensorIds {
+				_data.WriteInt32(_item)
+			}
+		}
+		_data.WriteBool(credentialAllowed)
+		_data.WriteBool(requireConfirmation)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt64(operationId)
+		_data.WriteString16(_identity.PackageName)
+		_data.WriteInt64(requestId)
 	} else {
-		_data.WriteInt32(int32(len(sensorIds)))
-		for _, _item := range sensorIds {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := promptInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, sysuiReceiver.AsBinder(), p.Remote.Transport())
+			case 2:
+				if sensorIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(sensorIds)))
+					for _, _item := range sensorIds {
+						_data.WriteInt32(_item)
+					}
+				}
+			case 3:
+				_data.WriteBool(credentialAllowed)
+			case 4:
+				_data.WriteBool(requireConfirmation)
+			case 5:
+				_data.WriteInt32(_identity.UserID)
+			case 6:
+				_data.WriteInt64(operationId)
+			case 7:
+				_data.WriteString16(_identity.PackageName)
+			case 8:
+				_data.WriteInt64(requestId)
+			}
 		}
 	}
-	_data.WriteBool(credentialAllowed)
-	_data.WriteBool(requireConfirmation)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt64(operationId)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt64(requestId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceShowAuthenticationDialog)
 	if _err != nil {
@@ -1725,7 +2484,21 @@ func (p *StatusBarServiceProxy) OnBiometricAuthenticated(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(modality)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnBiometricAuthenticated)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(modality)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(modality)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnBiometricAuthenticated)
 	if _err != nil {
@@ -1753,8 +2526,25 @@ func (p *StatusBarServiceProxy) OnBiometricHelp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(modality)
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnBiometricHelp)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(modality)
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(modality)
+			case 1:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnBiometricHelp)
 	if _err != nil {
@@ -1783,9 +2573,29 @@ func (p *StatusBarServiceProxy) OnBiometricError(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(modality)
-	_data.WriteInt32(error_)
-	_data.WriteInt32(vendorCode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnBiometricError)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(modality)
+		_data.WriteInt32(error_)
+		_data.WriteInt32(vendorCode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(modality)
+			case 1:
+				_data.WriteInt32(error_)
+			case 2:
+				_data.WriteInt32(vendorCode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnBiometricError)
 	if _err != nil {
@@ -1812,7 +2622,21 @@ func (p *StatusBarServiceProxy) HideAuthenticationDialog(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt64(requestId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceHideAuthenticationDialog)
+	_compiledDescs := []string{
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(requestId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(requestId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceHideAuthenticationDialog)
 	if _err != nil {
@@ -1839,7 +2663,21 @@ func (p *StatusBarServiceProxy) SetBiometicContextListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceSetBiometicContextListener)
+	_compiledDescs := []string{
+		"Landroid/hardware/biometrics/IBiometricContextListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceSetBiometicContextListener)
 	if _err != nil {
@@ -1866,7 +2704,21 @@ func (p *StatusBarServiceProxy) SetUdfpsRefreshRateCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceSetUdfpsRefreshRateCallback)
+	_compiledDescs := []string{
+		"Landroid/hardware/fingerprint/IUdfpsRefreshRateRequestCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceSetUdfpsRefreshRateCallback)
 	if _err != nil {
@@ -1918,7 +2770,21 @@ func (p *StatusBarServiceProxy) DismissInattentiveSleepWarning(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteBool(animated)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceDismissInattentiveSleepWarning)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(animated)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(animated)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceDismissInattentiveSleepWarning)
 	if _err != nil {
@@ -2025,7 +2891,21 @@ func (p *StatusBarServiceProxy) SuppressAmbientDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteBool(suppress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceSuppressAmbientDisplay)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(suppress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(suppress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceSuppressAmbientDisplay)
 	if _err != nil {
@@ -2053,11 +2933,31 @@ func (p *StatusBarServiceProxy) RequestTileServiceListeningState(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRequestTileServiceListeningState)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"I",
 	}
-	_data.WriteInt32(_identity.UserID)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := componentName.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := componentName.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRequestTileServiceListeningState)
 	if _err != nil {
@@ -2088,17 +2988,49 @@ func (p *StatusBarServiceProxy) RequestAddTile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRequestAddTile)
+	_compiledDescs := []string{
+		"Landroid/content/ComponentName;",
+		"Ljava/lang/CharSequence;",
+		"Landroid/graphics/drawable/Icon;",
+		"I",
+		"Lcom/android/internal/statusbar/IAddTileResultCallback;",
 	}
-	_data.WriteString16(label)
-	_data.WriteInt32(1)
-	if _err := icon.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := componentName.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(label)
+		_data.WriteInt32(1)
+		if _err := icon.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(_identity.UserID)
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := componentName.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 1:
+				_data.WriteString16(label)
+			case 2:
+				_data.WriteInt32(1)
+				if _err := icon.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRequestAddTile)
 	if _err != nil {
@@ -2125,7 +3057,21 @@ func (p *StatusBarServiceProxy) CancelRequestAddTile(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteString16(packageName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceCancelRequestAddTile)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceCancelRequestAddTile)
 	if _err != nil {
@@ -2152,7 +3098,21 @@ func (p *StatusBarServiceProxy) SetNavBarMode(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(navBarMode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceSetNavBarMode)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(navBarMode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(navBarMode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceSetNavBarMode)
 	if _err != nil {
@@ -2210,8 +3170,25 @@ func (p *StatusBarServiceProxy) RegisterSessionListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(sessionFlags)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRegisterSessionListener)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/statusbar/ISessionListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionFlags)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionFlags)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRegisterSessionListener)
 	if _err != nil {
@@ -2239,8 +3216,25 @@ func (p *StatusBarServiceProxy) UnregisterSessionListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(sessionFlags)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceUnregisterSessionListener)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/statusbar/ISessionListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionFlags)
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionFlags)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceUnregisterSessionListener)
 	if _err != nil {
@@ -2268,10 +3262,30 @@ func (p *StatusBarServiceProxy) OnSessionStarted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(sessionType)
-	_data.WriteInt32(1)
-	if _err := instanceId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnSessionStarted)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/logging/InstanceId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionType)
+		_data.WriteInt32(1)
+		if _err := instanceId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionType)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := instanceId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnSessionStarted)
@@ -2300,10 +3314,30 @@ func (p *StatusBarServiceProxy) OnSessionEnded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(sessionType)
-	_data.WriteInt32(1)
-	if _err := instanceId.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnSessionEnded)
+	_compiledDescs := []string{
+		"I",
+		"Lcom/android/internal/logging/InstanceId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(sessionType)
+		_data.WriteInt32(1)
+		if _err := instanceId.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(sessionType)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := instanceId.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnSessionEnded)
@@ -2333,12 +3367,35 @@ func (p *StatusBarServiceProxy) UpdateMediaTapToTransferSenderDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(displayState)
-	_data.WriteInt32(1)
-	if _err := routeInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceUpdateMediaTapToTransferSenderDisplay)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/MediaRoute2Info;",
+		"Lcom/android/internal/statusbar/IUndoMediaTransferCallback;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, undoCallback.AsBinder(), p.Remote.Transport())
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayState)
+		_data.WriteInt32(1)
+		if _err := routeInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, undoCallback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayState)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := routeInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, undoCallback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceUpdateMediaTapToTransferSenderDisplay)
 	if _err != nil {
@@ -2368,16 +3425,45 @@ func (p *StatusBarServiceProxy) UpdateMediaTapToTransferReceiverDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(displayState)
-	_data.WriteInt32(1)
-	if _err := routeInfo.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceUpdateMediaTapToTransferReceiverDisplay)
+	_compiledDescs := []string{
+		"I",
+		"Landroid/media/MediaRoute2Info;",
+		"Landroid/graphics/drawable/Icon;",
+		"Ljava/lang/CharSequence;",
 	}
-	_data.WriteInt32(1)
-	if _err := appIcon.MarshalParcel(_data); _err != nil {
-		return _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayState)
+		_data.WriteInt32(1)
+		if _err := routeInfo.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteInt32(1)
+		if _err := appIcon.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+		_data.WriteString16(appName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayState)
+			case 1:
+				_data.WriteInt32(1)
+				if _err := routeInfo.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 2:
+				_data.WriteInt32(1)
+				if _err := appIcon.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			case 3:
+				_data.WriteString16(appName)
+			}
+		}
 	}
-	_data.WriteString16(appName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceUpdateMediaTapToTransferReceiverDisplay)
 	if _err != nil {
@@ -2404,7 +3490,21 @@ func (p *StatusBarServiceProxy) RegisterNearbyMediaDevicesProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	binder.WriteBinderToParcel(ctx, _data, provider.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRegisterNearbyMediaDevicesProvider)
+	_compiledDescs := []string{
+		"Landroid/media/INearbyMediaDevicesProvider;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, provider.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, provider.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRegisterNearbyMediaDevicesProvider)
 	if _err != nil {
@@ -2431,7 +3531,21 @@ func (p *StatusBarServiceProxy) UnregisterNearbyMediaDevicesProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	binder.WriteBinderToParcel(ctx, _data, provider.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceUnregisterNearbyMediaDevicesProvider)
+	_compiledDescs := []string{
+		"Landroid/media/INearbyMediaDevicesProvider;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, provider.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, provider.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceUnregisterNearbyMediaDevicesProvider)
 	if _err != nil {
@@ -2458,7 +3572,21 @@ func (p *StatusBarServiceProxy) ShowRearDisplayDialog(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
-	_data.WriteInt32(currentBaseState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStatusBarService, MethodIStatusBarServiceShowRearDisplayDialog)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(currentBaseState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(currentBaseState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceShowRearDisplayDialog)
 	if _err != nil {

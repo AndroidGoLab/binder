@@ -48,8 +48,25 @@ func (p *StickyModifierStateListenerProxy) OnStickyModifierStateChanged(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStickyModifierStateListener)
-	_data.WriteInt32(modifierState)
-	_data.WriteInt32(lockedModifierState)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIStickyModifierStateListener, MethodIStickyModifierStateListenerOnStickyModifierStateChanged)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(modifierState)
+		_data.WriteInt32(lockedModifierState)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(modifierState)
+			case 1:
+				_data.WriteInt32(lockedModifierState)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStickyModifierStateListener, MethodIStickyModifierStateListenerOnStickyModifierStateChanged)
 	if _err != nil {

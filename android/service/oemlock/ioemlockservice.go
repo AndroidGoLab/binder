@@ -96,8 +96,25 @@ func (p *OemLockServiceProxy) SetOemUnlockAllowedByCarrier(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemLockService)
-	_data.WriteBool(allowed)
-	_data.WriteByteArray(signature)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOemLockService, MethodIOemLockServiceSetOemUnlockAllowedByCarrier)
+	_compiledDescs := []string{
+		"Z",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(allowed)
+		_data.WriteByteArray(signature)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(allowed)
+			case 1:
+				_data.WriteByteArray(signature)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemLockService, MethodIOemLockServiceSetOemUnlockAllowedByCarrier)
 	if _err != nil {
@@ -154,7 +171,21 @@ func (p *OemLockServiceProxy) SetOemUnlockAllowedByUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemLockService)
-	_data.WriteBool(allowed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOemLockService, MethodIOemLockServiceSetOemUnlockAllowedByUser)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(allowed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(allowed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemLockService, MethodIOemLockServiceSetOemUnlockAllowedByUser)
 	if _err != nil {

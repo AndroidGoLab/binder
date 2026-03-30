@@ -51,8 +51,25 @@ func (p *EArcCallbackProxy) OnStateChange(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEArcCallback)
-	_data.WritePaddedByte(byte(status))
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEArcCallback, MethodIEArcCallbackOnStateChange)
+	_compiledDescs := []string{
+		"Landroid/hardware/tv/hdmi/earc/IEArcStatus;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(status))
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(status))
+			case 1:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEArcCallback, MethodIEArcCallbackOnStateChange)
 	if _err != nil {
@@ -71,8 +88,25 @@ func (p *EArcCallbackProxy) OnCapabilitiesReported(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEArcCallback)
-	_data.WriteByteArray(rawCapabilities)
-	_data.WriteInt32(portId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIEArcCallback, MethodIEArcCallbackOnCapabilitiesReported)
+	_compiledDescs := []string{
+		"[B",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteByteArray(rawCapabilities)
+		_data.WriteInt32(portId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteByteArray(rawCapabilities)
+			case 1:
+				_data.WriteInt32(portId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEArcCallback, MethodIEArcCallbackOnCapabilitiesReported)
 	if _err != nil {

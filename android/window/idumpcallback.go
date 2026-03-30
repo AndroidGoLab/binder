@@ -47,7 +47,21 @@ func (p *DumpCallbackProxy) OnDump(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpCallback)
-	_data.WriteParcelFileDescriptor(outFd)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIDumpCallback, MethodIDumpCallbackOnDump)
+	_compiledDescs := []string{
+		"Landroid/os/ParcelFileDescriptor;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteParcelFileDescriptor(outFd)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteParcelFileDescriptor(outFd)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpCallback, MethodIDumpCallbackOnDump)
 	if _err != nil {

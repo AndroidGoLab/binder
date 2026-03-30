@@ -122,8 +122,25 @@ func (p *KeyguardServiceProxy) SetOccluded(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	_data.WriteBool(isOccluded)
-	_data.WriteBool(animate)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceSetOccluded)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isOccluded)
+		_data.WriteBool(animate)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isOccluded)
+			case 1:
+				_data.WriteBool(animate)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceSetOccluded)
 	if _err != nil {
@@ -141,7 +158,21 @@ func (p *KeyguardServiceProxy) AddStateMonitorCallback(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceAddStateMonitorCallback)
+	_compiledDescs := []string{
+		"Lcom/android/internal/policy/IKeyguardStateCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceAddStateMonitorCallback)
 	if _err != nil {
@@ -159,7 +190,21 @@ func (p *KeyguardServiceProxy) VerifyUnlock(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceVerifyUnlock)
+	_compiledDescs := []string{
+		"Lcom/android/internal/policy/IKeyguardExitCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceVerifyUnlock)
 	if _err != nil {
@@ -178,8 +223,25 @@ func (p *KeyguardServiceProxy) Dismiss(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(message)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceDismiss)
+	_compiledDescs := []string{
+		"Lcom/android/internal/policy/IKeyguardDismissCallback;",
+		"Ljava/lang/CharSequence;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(message)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WriteString16(message)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceDismiss)
 	if _err != nil {
@@ -229,7 +291,21 @@ func (p *KeyguardServiceProxy) OnStartedGoingToSleep(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	_data.WriteInt32(pmSleepReason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnStartedGoingToSleep)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(pmSleepReason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(pmSleepReason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnStartedGoingToSleep)
 	if _err != nil {
@@ -248,8 +324,25 @@ func (p *KeyguardServiceProxy) OnFinishedGoingToSleep(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	_data.WriteInt32(pmSleepReason)
-	_data.WriteBool(cameraGestureTriggered)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnFinishedGoingToSleep)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(pmSleepReason)
+		_data.WriteBool(cameraGestureTriggered)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(pmSleepReason)
+			case 1:
+				_data.WriteBool(cameraGestureTriggered)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnFinishedGoingToSleep)
 	if _err != nil {
@@ -268,8 +361,25 @@ func (p *KeyguardServiceProxy) OnStartedWakingUp(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	_data.WriteInt32(pmWakeReason)
-	_data.WriteBool(cameraGestureTriggered)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnStartedWakingUp)
+	_compiledDescs := []string{
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(pmWakeReason)
+		_data.WriteBool(cameraGestureTriggered)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(pmWakeReason)
+			case 1:
+				_data.WriteBool(cameraGestureTriggered)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnStartedWakingUp)
 	if _err != nil {
@@ -303,7 +413,21 @@ func (p *KeyguardServiceProxy) OnScreenTurningOn(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnScreenTurningOn)
+	_compiledDescs := []string{
+		"Lcom/android/internal/policy/IKeyguardDrawnCallback;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnScreenTurningOn)
 	if _err != nil {
@@ -369,7 +493,21 @@ func (p *KeyguardServiceProxy) SetKeyguardEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceSetKeyguardEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceSetKeyguardEnabled)
 	if _err != nil {
@@ -403,9 +541,26 @@ func (p *KeyguardServiceProxy) DoKeyguardTimeout(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceDoKeyguardTimeout)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := options.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := options.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceDoKeyguardTimeout)
@@ -424,7 +579,21 @@ func (p *KeyguardServiceProxy) SetSwitchingUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	_data.WriteBool(switching)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceSetSwitchingUser)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(switching)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(switching)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceSetSwitchingUser)
 	if _err != nil {
@@ -442,7 +611,21 @@ func (p *KeyguardServiceProxy) SetCurrentUser(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceSetCurrentUser)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceSetCurrentUser)
 	if _err != nil {
@@ -477,8 +660,25 @@ func (p *KeyguardServiceProxy) StartKeyguardExitAnimation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	_data.WriteInt64(startTime)
-	_data.WriteInt64(fadeoutDuration)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceStartKeyguardExitAnimation)
+	_compiledDescs := []string{
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt64(startTime)
+		_data.WriteInt64(fadeoutDuration)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt64(startTime)
+			case 1:
+				_data.WriteInt64(fadeoutDuration)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceStartKeyguardExitAnimation)
 	if _err != nil {
@@ -512,9 +712,26 @@ func (p *KeyguardServiceProxy) DismissKeyguardToLaunch(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	_data.WriteInt32(1)
-	if _err := intentToLaunch.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceDismissKeyguardToLaunch)
+	_compiledDescs := []string{
+		"Landroid/content/Intent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := intentToLaunch.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := intentToLaunch.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceDismissKeyguardToLaunch)
@@ -533,7 +750,21 @@ func (p *KeyguardServiceProxy) OnSystemKeyPressed(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
-	_data.WriteInt32(keycode)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnSystemKeyPressed)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(keycode)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(keycode)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnSystemKeyPressed)
 	if _err != nil {

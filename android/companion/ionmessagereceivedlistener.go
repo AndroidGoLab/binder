@@ -48,8 +48,25 @@ func (p *OnMessageReceivedListenerProxy) OnMessageReceived(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnMessageReceivedListener)
-	_data.WriteInt32(associationId)
-	_data.WriteByteArray(data)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIOnMessageReceivedListener, MethodIOnMessageReceivedListenerOnMessageReceived)
+	_compiledDescs := []string{
+		"I",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(associationId)
+		_data.WriteByteArray(data)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(associationId)
+			case 1:
+				_data.WriteByteArray(data)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnMessageReceivedListener, MethodIOnMessageReceivedListenerOnMessageReceived)
 	if _err != nil {

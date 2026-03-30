@@ -48,7 +48,21 @@ func (p *IncrementalServiceConnectorProxy) SetStorageParams(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalServiceConnector)
-	_data.WriteBool(enableReadLogs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIIncrementalServiceConnector, MethodIIncrementalServiceConnectorSetStorageParams)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enableReadLogs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enableReadLogs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalServiceConnector, MethodIIncrementalServiceConnectorSetStorageParams)
 	if _err != nil {

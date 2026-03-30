@@ -89,18 +89,45 @@ func (p *FontManagerProxy) UpdateFontFamily(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFontManager)
-	if request == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIFontManager, MethodIFontManagerUpdateFontFamily)
+	_compiledDescs := []string{
+		"Ljava/util/List;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if request == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(request)))
+			for _, _item := range request {
+				_data.WriteInt32(1)
+				if _err := _item.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
+		_data.WriteInt32(baseVersion)
 	} else {
-		_data.WriteInt32(int32(len(request)))
-		for _, _item := range request {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if request == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(request)))
+					for _, _item := range request {
+						_data.WriteInt32(1)
+						if _err := _item.MarshalParcel(_data); _err != nil {
+							return _result, _err
+						}
+					}
+				}
+			case 1:
+				_data.WriteInt32(baseVersion)
 			}
 		}
 	}
-	_data.WriteInt32(baseVersion)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFontManager, MethodIFontManagerUpdateFontFamily)
 	if _err != nil {

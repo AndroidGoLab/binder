@@ -57,7 +57,21 @@ func (p *HdmiRecordListenerProxy) GetOneTouchRecordSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiRecordListener)
-	_data.WriteInt32(recorderAddress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerGetOneTouchRecordSource)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(recorderAddress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(recorderAddress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerGetOneTouchRecordSource)
 	if _err != nil {
@@ -89,8 +103,25 @@ func (p *HdmiRecordListenerProxy) OnOneTouchRecordResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiRecordListener)
-	_data.WriteInt32(recorderAddress)
-	_data.WriteInt32(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerOnOneTouchRecordResult)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(recorderAddress)
+		_data.WriteInt32(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(recorderAddress)
+			case 1:
+				_data.WriteInt32(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerOnOneTouchRecordResult)
 	if _err != nil {
@@ -118,8 +149,25 @@ func (p *HdmiRecordListenerProxy) OnTimerRecordingResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiRecordListener)
-	_data.WriteInt32(recorderAddress)
-	_data.WriteInt32(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerOnTimerRecordingResult)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(recorderAddress)
+		_data.WriteInt32(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(recorderAddress)
+			case 1:
+				_data.WriteInt32(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerOnTimerRecordingResult)
 	if _err != nil {
@@ -147,8 +195,25 @@ func (p *HdmiRecordListenerProxy) OnClearTimerRecordingResult(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiRecordListener)
-	_data.WriteInt32(recorderAddress)
-	_data.WriteInt32(result)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerOnClearTimerRecordingResult)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(recorderAddress)
+		_data.WriteInt32(result)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(recorderAddress)
+			case 1:
+				_data.WriteInt32(result)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerOnClearTimerRecordingResult)
 	if _err != nil {

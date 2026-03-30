@@ -97,18 +97,53 @@ func (p *VirtualDeviceManagerProxy) CreateVirtualDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerCreateVirtualDevice)
+	_compiledDescs := []string{
+		"Landroid/os/IBinder;",
+		"Landroid/content/AttributionSource;",
+		"I",
+		"Landroid/companion/virtual/VirtualDeviceParams;",
+		"Landroid/companion/virtual/IVirtualDeviceActivityListener;",
+		"Landroid/companion/virtual/IVirtualDeviceSoundEffectListener;",
 	}
-	_data.WriteInt32(associationId)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+		_data.WriteInt32(1)
+		if _err := attributionSource.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteInt32(associationId)
+		_data.WriteInt32(1)
+		if _err := params.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, activityListener.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, soundEffectListener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+			case 1:
+				_data.WriteInt32(1)
+				if _err := attributionSource.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 2:
+				_data.WriteInt32(associationId)
+			case 3:
+				_data.WriteInt32(1)
+				if _err := params.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 4:
+				binder.WriteBinderToParcel(ctx, _data, activityListener.AsBinder(), p.Remote.Transport())
+			case 5:
+				binder.WriteBinderToParcel(ctx, _data, soundEffectListener.AsBinder(), p.Remote.Transport())
+			}
+		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, activityListener.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, soundEffectListener.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerCreateVirtualDevice)
 	if _err != nil {
@@ -203,7 +238,21 @@ func (p *VirtualDeviceManagerProxy) GetVirtualDevice(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetVirtualDevice)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetVirtualDevice)
 	if _err != nil {
@@ -239,7 +288,21 @@ func (p *VirtualDeviceManagerProxy) RegisterVirtualDeviceListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerRegisterVirtualDeviceListener)
+	_compiledDescs := []string{
+		"Landroid/companion/virtual/IVirtualDeviceListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerRegisterVirtualDeviceListener)
 	if _err != nil {
@@ -266,7 +329,21 @@ func (p *VirtualDeviceManagerProxy) UnregisterVirtualDeviceListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerUnregisterVirtualDeviceListener)
+	_compiledDescs := []string{
+		"Landroid/companion/virtual/IVirtualDeviceListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerUnregisterVirtualDeviceListener)
 	if _err != nil {
@@ -294,7 +371,21 @@ func (p *VirtualDeviceManagerProxy) GetDeviceIdForDisplayId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetDeviceIdForDisplayId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetDeviceIdForDisplayId)
 	if _err != nil {
@@ -326,7 +417,21 @@ func (p *VirtualDeviceManagerProxy) GetDisplayNameForPersistentDeviceId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	_data.WriteString16(persistentDeviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetDisplayNameForPersistentDeviceId)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(persistentDeviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(persistentDeviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetDisplayNameForPersistentDeviceId)
 	if _err != nil {
@@ -358,7 +463,21 @@ func (p *VirtualDeviceManagerProxy) IsValidVirtualDeviceId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerIsValidVirtualDeviceId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerIsValidVirtualDeviceId)
 	if _err != nil {
@@ -391,8 +510,25 @@ func (p *VirtualDeviceManagerProxy) GetDevicePolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(policyType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetDevicePolicy)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(policyType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(policyType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetDevicePolicy)
 	if _err != nil {
@@ -427,13 +563,39 @@ func (p *VirtualDeviceManagerProxy) CreateVirtualDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	_data.WriteInt32(1)
-	if _err := virtualDisplayConfig.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerCreateVirtualDisplay)
+	_compiledDescs := []string{
+		"Landroid/hardware/display/VirtualDisplayConfig;",
+		"Landroid/hardware/display/IVirtualDisplayCallback;",
+		"Landroid/companion/virtual/IVirtualDevice;",
+		"Ljava/lang/String;",
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, virtualDevice.AsBinder(), p.Remote.Transport())
-	_data.WriteString16(packageName)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := virtualDisplayConfig.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		binder.WriteBinderToParcel(ctx, _data, virtualDevice.AsBinder(), p.Remote.Transport())
+		_data.WriteString16(packageName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := virtualDisplayConfig.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 2:
+				binder.WriteBinderToParcel(ctx, _data, virtualDevice.AsBinder(), p.Remote.Transport())
+			case 3:
+				_data.WriteString16(packageName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerCreateVirtualDisplay)
 	if _err != nil {
@@ -465,7 +627,21 @@ func (p *VirtualDeviceManagerProxy) GetAudioPlaybackSessionId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetAudioPlaybackSessionId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetAudioPlaybackSessionId)
 	if _err != nil {
@@ -497,7 +673,21 @@ func (p *VirtualDeviceManagerProxy) GetAudioRecordingSessionId(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetAudioRecordingSessionId)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetAudioRecordingSessionId)
 	if _err != nil {
@@ -529,8 +719,25 @@ func (p *VirtualDeviceManagerProxy) PlaySoundEffect(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(effectType)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerPlaySoundEffect)
+	_compiledDescs := []string{
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(effectType)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(deviceId)
+			case 1:
+				_data.WriteInt32(effectType)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerPlaySoundEffect)
 	if _err != nil {
@@ -558,7 +765,21 @@ func (p *VirtualDeviceManagerProxy) IsVirtualDeviceOwnedMirrorDisplay(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerIsVirtualDeviceOwnedMirrorDisplay)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerIsVirtualDeviceOwnedMirrorDisplay)
 	if _err != nil {

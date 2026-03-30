@@ -141,7 +141,21 @@ func (p *PermissionManagerProxy) GetAllPermissionGroups(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetAllPermissionGroups)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetAllPermissionGroups)
 	if _err != nil {
@@ -179,8 +193,25 @@ func (p *PermissionManagerProxy) GetPermissionGroupInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(groupName)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetPermissionGroupInfo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(groupName)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(groupName)
+			case 1:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetPermissionGroupInfo)
 	if _err != nil {
@@ -219,9 +250,29 @@ func (p *PermissionManagerProxy) GetPermissionInfo(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(permissionName)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetPermissionInfo)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(permissionName)
+		_data.WriteString16(packageName)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(permissionName)
+			case 1:
+				_data.WriteString16(packageName)
+			case 2:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetPermissionInfo)
 	if _err != nil {
@@ -259,8 +310,25 @@ func (p *PermissionManagerProxy) QueryPermissionsByGroup(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(groupName)
-	_data.WriteInt32(flags)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerQueryPermissionsByGroup)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(groupName)
+		_data.WriteInt32(flags)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(groupName)
+			case 1:
+				_data.WriteInt32(flags)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerQueryPermissionsByGroup)
 	if _err != nil {
@@ -298,11 +366,31 @@ func (p *PermissionManagerProxy) AddPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteInt32(1)
-	if _err := permissionInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerAddPermission)
+	_compiledDescs := []string{
+		"Landroid/content/pm/PermissionInfo;",
+		"Z",
 	}
-	_data.WriteBool(async)
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := permissionInfo.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+		_data.WriteBool(async)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := permissionInfo.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			case 1:
+				_data.WriteBool(async)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerAddPermission)
 	if _err != nil {
@@ -333,7 +421,21 @@ func (p *PermissionManagerProxy) RemovePermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(permissionName)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerRemovePermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(permissionName)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(permissionName)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerRemovePermission)
 	if _err != nil {
@@ -364,10 +466,33 @@ func (p *PermissionManagerProxy) GetPermissionFlags(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(permissionName)
-	_data.WriteString16(persistentDeviceId)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetPermissionFlags)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(permissionName)
+		_data.WriteString16(persistentDeviceId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(permissionName)
+			case 2:
+				_data.WriteString16(persistentDeviceId)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetPermissionFlags)
 	if _err != nil {
@@ -404,13 +529,45 @@ func (p *PermissionManagerProxy) UpdatePermissionFlags(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(permissionName)
-	_data.WriteInt32(flagMask)
-	_data.WriteInt32(flagValues)
-	_data.WriteBool(checkAdjustPolicyFlagPermission)
-	_data.WriteString16(persistentDeviceId)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerUpdatePermissionFlags)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"Z",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(permissionName)
+		_data.WriteInt32(flagMask)
+		_data.WriteInt32(flagValues)
+		_data.WriteBool(checkAdjustPolicyFlagPermission)
+		_data.WriteString16(persistentDeviceId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(permissionName)
+			case 2:
+				_data.WriteInt32(flagMask)
+			case 3:
+				_data.WriteInt32(flagValues)
+			case 4:
+				_data.WriteBool(checkAdjustPolicyFlagPermission)
+			case 5:
+				_data.WriteString16(persistentDeviceId)
+			case 6:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerUpdatePermissionFlags)
 	if _err != nil {
@@ -439,9 +596,29 @@ func (p *PermissionManagerProxy) UpdatePermissionFlagsForAllApps(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteInt32(flagMask)
-	_data.WriteInt32(flagValues)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerUpdatePermissionFlagsForAllApps)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(flagMask)
+		_data.WriteInt32(flagValues)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(flagMask)
+			case 1:
+				_data.WriteInt32(flagValues)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerUpdatePermissionFlagsForAllApps)
 	if _err != nil {
@@ -468,7 +645,21 @@ func (p *PermissionManagerProxy) AddOnPermissionsChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerAddOnPermissionsChangeListener)
+	_compiledDescs := []string{
+		"Landroid/permission/IOnPermissionsChangeListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerAddOnPermissionsChangeListener)
 	if _err != nil {
@@ -495,7 +686,21 @@ func (p *PermissionManagerProxy) RemoveOnPermissionsChangeListener(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerRemoveOnPermissionsChangeListener)
+	_compiledDescs := []string{
+		"Landroid/permission/IOnPermissionsChangeListener;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerRemoveOnPermissionsChangeListener)
 	if _err != nil {
@@ -525,9 +730,29 @@ func (p *PermissionManagerProxy) GetAllowlistedRestrictedPermissions(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetAllowlistedRestrictedPermissions)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(flags)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetAllowlistedRestrictedPermissions)
 	if _err != nil {
@@ -575,10 +800,33 @@ func (p *PermissionManagerProxy) AddAllowlistedRestrictedPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(permissionName)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerAddAllowlistedRestrictedPermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(permissionName)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(permissionName)
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerAddAllowlistedRestrictedPermission)
 	if _err != nil {
@@ -613,10 +861,33 @@ func (p *PermissionManagerProxy) RemoveAllowlistedRestrictedPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(permissionName)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerRemoveAllowlistedRestrictedPermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(permissionName)
+		_data.WriteInt32(flags)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(permissionName)
+			case 2:
+				_data.WriteInt32(flags)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerRemoveAllowlistedRestrictedPermission)
 	if _err != nil {
@@ -650,10 +921,33 @@ func (p *PermissionManagerProxy) GrantRuntimePermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(permissionName)
-	_data.WriteString16(persistentDeviceId)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerGrantRuntimePermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(permissionName)
+		_data.WriteString16(persistentDeviceId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(permissionName)
+			case 2:
+				_data.WriteString16(persistentDeviceId)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerGrantRuntimePermission)
 	if _err != nil {
@@ -684,11 +978,37 @@ func (p *PermissionManagerProxy) RevokeRuntimePermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(permissionName)
-	_data.WriteString16(persistentDeviceId)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteString16(reason)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerRevokeRuntimePermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"Ljava/lang/String;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(permissionName)
+		_data.WriteString16(persistentDeviceId)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteString16(reason)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(permissionName)
+			case 2:
+				_data.WriteString16(persistentDeviceId)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			case 4:
+				_data.WriteString16(reason)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerRevokeRuntimePermission)
 	if _err != nil {
@@ -716,8 +1036,25 @@ func (p *PermissionManagerProxy) RevokePostNotificationPermissionWithoutKillForT
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerRevokePostNotificationPermissionWithoutKillForTest)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerRevokePostNotificationPermissionWithoutKillForTest)
 	if _err != nil {
@@ -748,10 +1085,33 @@ func (p *PermissionManagerProxy) ShouldShowRequestPermissionRationale(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(permissionName)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerShouldShowRequestPermissionRationale)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(permissionName)
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(permissionName)
+			case 2:
+				_data.WriteInt32(deviceId)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerShouldShowRequestPermissionRationale)
 	if _err != nil {
@@ -786,10 +1146,33 @@ func (p *PermissionManagerProxy) IsPermissionRevokedByPolicy(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(permissionName)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerIsPermissionRevokedByPolicy)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(permissionName)
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(permissionName)
+			case 2:
+				_data.WriteInt32(deviceId)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerIsPermissionRevokedByPolicy)
 	if _err != nil {
@@ -886,11 +1269,37 @@ func (p *PermissionManagerProxy) StartOneTimePermissionSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt64(timeout)
-	_data.WriteInt64(revokeAfterKilledDelay)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerStartOneTimePermissionSession)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+		"I",
+		"J",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(deviceId)
+		_data.WriteInt32(_identity.UserID)
+		_data.WriteInt64(timeout)
+		_data.WriteInt64(revokeAfterKilledDelay)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(deviceId)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			case 3:
+				_data.WriteInt64(timeout)
+			case 4:
+				_data.WriteInt64(revokeAfterKilledDelay)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerStartOneTimePermissionSession)
 	if _err != nil {
@@ -918,8 +1327,25 @@ func (p *PermissionManagerProxy) StopOneTimePermissionSession(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerStopOneTimePermissionSession)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerStopOneTimePermissionSession)
 	if _err != nil {
@@ -947,7 +1373,21 @@ func (p *PermissionManagerProxy) GetAutoRevokeExemptionRequestedPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetAutoRevokeExemptionRequestedPackages)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetAutoRevokeExemptionRequestedPackages)
 	if _err != nil {
@@ -992,7 +1432,21 @@ func (p *PermissionManagerProxy) GetAutoRevokeExemptionGrantedPackages(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetAutoRevokeExemptionGrantedPackages)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetAutoRevokeExemptionGrantedPackages)
 	if _err != nil {
@@ -1039,9 +1493,29 @@ func (p *PermissionManagerProxy) SetAutoRevokeExempted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteBool(exempted)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerSetAutoRevokeExempted)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Z",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteBool(exempted)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteBool(exempted)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerSetAutoRevokeExempted)
 	if _err != nil {
@@ -1074,8 +1548,25 @@ func (p *PermissionManagerProxy) IsAutoRevokeExempted(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerIsAutoRevokeExempted)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerIsAutoRevokeExempted)
 	if _err != nil {
@@ -1107,9 +1598,26 @@ func (p *PermissionManagerProxy) RegisterAttributionSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteInt32(1)
-	if _err := source.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerRegisterAttributionSource)
+	_compiledDescs := []string{
+		"Landroid/content/AttributionSourceState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := source.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := source.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerRegisterAttributionSource)
@@ -1143,9 +1651,26 @@ func (p *PermissionManagerProxy) IsRegisteredAttributionSource(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteInt32(1)
-	if _err := source.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerIsRegisteredAttributionSource)
+	_compiledDescs := []string{
+		"Landroid/content/AttributionSourceState;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := source.MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := source.MarshalParcel(_data); _err != nil {
+					return _result, _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerIsRegisteredAttributionSource)
@@ -1181,10 +1706,33 @@ func (p *PermissionManagerProxy) CheckPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(permissionName)
-	_data.WriteString16(persistentDeviceId)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerCheckPermission)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(permissionName)
+		_data.WriteString16(persistentDeviceId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(permissionName)
+			case 2:
+				_data.WriteString16(persistentDeviceId)
+			case 3:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerCheckPermission)
 	if _err != nil {
@@ -1218,9 +1766,29 @@ func (p *PermissionManagerProxy) CheckUidPermission(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteInt32(uid)
-	_data.WriteString16(permissionName)
-	_data.WriteInt32(deviceId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerCheckUidPermission)
+	_compiledDescs := []string{
+		"I",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(uid)
+		_data.WriteString16(permissionName)
+		_data.WriteInt32(deviceId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(uid)
+			case 1:
+				_data.WriteString16(permissionName)
+			case 2:
+				_data.WriteInt32(deviceId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerCheckUidPermission)
 	if _err != nil {
@@ -1254,9 +1822,29 @@ func (p *PermissionManagerProxy) GetAllPermissionStates(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
-	_data.WriteString16(packageName)
-	_data.WriteString16(persistentDeviceId)
-	_data.WriteInt32(_identity.UserID)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetAllPermissionStates)
+	_compiledDescs := []string{
+		"Ljava/lang/String;",
+		"Ljava/lang/String;",
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteString16(packageName)
+		_data.WriteString16(persistentDeviceId)
+		_data.WriteInt32(_identity.UserID)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteString16(packageName)
+			case 1:
+				_data.WriteString16(persistentDeviceId)
+			case 2:
+				_data.WriteInt32(_identity.UserID)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetAllPermissionStates)
 	if _err != nil {

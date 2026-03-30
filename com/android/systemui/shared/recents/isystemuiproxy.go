@@ -110,7 +110,21 @@ func (p *SystemUiProxyProxy) StartScreenPinning(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	_data.WriteInt32(taskId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxyStartScreenPinning)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(taskId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(taskId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyStartScreenPinning)
 	if _err != nil {
@@ -128,7 +142,21 @@ func (p *SystemUiProxyProxy) OnOverviewShown(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	_data.WriteBool(fromHome)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxyOnOverviewShown)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(fromHome)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(fromHome)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyOnOverviewShown)
 	if _err != nil {
@@ -146,9 +174,26 @@ func (p *SystemUiProxyProxy) OnStatusBarTouchEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxyOnStatusBarTouchEvent)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/common/MotionEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyOnStatusBarTouchEvent)
@@ -167,7 +212,21 @@ func (p *SystemUiProxyProxy) OnAssistantProgress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	_data.WriteFloat32(progress)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxyOnAssistantProgress)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(progress)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(progress)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyOnAssistantProgress)
 	if _err != nil {
@@ -185,7 +244,21 @@ func (p *SystemUiProxyProxy) OnAssistantGestureCompletion(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	_data.WriteFloat32(velocity)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxyOnAssistantGestureCompletion)
+	_compiledDescs := []string{
+		"F",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteFloat32(velocity)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteFloat32(velocity)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyOnAssistantGestureCompletion)
 	if _err != nil {
@@ -203,9 +276,26 @@ func (p *SystemUiProxyProxy) StartAssistant(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	_data.WriteInt32(1)
-	if _err := bundle.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxyStartAssistant)
+	_compiledDescs := []string{
+		"Landroid/os/Bundle;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := bundle.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := bundle.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyStartAssistant)
@@ -224,12 +314,33 @@ func (p *SystemUiProxyProxy) SetAssistantOverridesRequested(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	if invocationTypes == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxySetAssistantOverridesRequested)
+	_compiledDescs := []string{
+		"[I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		if invocationTypes == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(invocationTypes)))
+			for _, _item := range invocationTypes {
+				_data.WriteInt32(_item)
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(invocationTypes)))
-		for _, _item := range invocationTypes {
-			_data.WriteInt32(_item)
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				if invocationTypes == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(invocationTypes)))
+					for _, _item := range invocationTypes {
+						_data.WriteInt32(_item)
+					}
+				}
+			}
 		}
 	}
 
@@ -249,7 +360,21 @@ func (p *SystemUiProxyProxy) NotifyAccessibilityButtonClicked(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	_data.WriteInt32(displayId)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxyNotifyAccessibilityButtonClicked)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(displayId)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(displayId)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyNotifyAccessibilityButtonClicked)
 	if _err != nil {
@@ -299,7 +424,21 @@ func (p *SystemUiProxyProxy) NotifyPrioritizedRotation(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	_data.WriteInt32(rotation)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxyNotifyPrioritizedRotation)
+	_compiledDescs := []string{
+		"I",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(rotation)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(rotation)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyNotifyPrioritizedRotation)
 	if _err != nil {
@@ -349,7 +488,21 @@ func (p *SystemUiProxyProxy) SetHomeRotationEnabled(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	_data.WriteBool(enabled)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxySetHomeRotationEnabled)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enabled)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enabled)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxySetHomeRotationEnabled)
 	if _err != nil {
@@ -368,8 +521,25 @@ func (p *SystemUiProxyProxy) NotifyTaskbarStatus(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	_data.WriteBool(visible)
-	_data.WriteBool(stashed)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxyNotifyTaskbarStatus)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(visible)
+		_data.WriteBool(stashed)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(visible)
+			case 1:
+				_data.WriteBool(stashed)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyNotifyTaskbarStatus)
 	if _err != nil {
@@ -387,7 +557,21 @@ func (p *SystemUiProxyProxy) NotifyTaskbarAutohideSuspend(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	_data.WriteBool(suspend)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxyNotifyTaskbarAutohideSuspend)
+	_compiledDescs := []string{
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(suspend)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(suspend)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyNotifyTaskbarAutohideSuspend)
 	if _err != nil {
@@ -437,9 +621,26 @@ func (p *SystemUiProxyProxy) TakeScreenshot(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxyTakeScreenshot)
+	_compiledDescs := []string{
+		"Lcom/android/internal/util/ScreenshotRequest;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := request.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := request.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyTakeScreenshot)
@@ -458,9 +659,26 @@ func (p *SystemUiProxyProxy) OnStatusBarTrackpadEvent(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxyOnStatusBarTrackpadEvent)
+	_compiledDescs := []string{
+		"Landroid/hardware/input/common/MotionEvent;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(1)
+		if _err := event.MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(1)
+				if _err := event.MarshalParcel(_data); _err != nil {
+					return _err
+				}
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyOnStatusBarTrackpadEvent)
@@ -481,9 +699,29 @@ func (p *SystemUiProxyProxy) AnimateNavBarLongPress(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
-	_data.WriteBool(isTouchDown)
-	_data.WriteBool(shrink)
-	_data.WriteInt64(durationMs)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISystemUiProxy, MethodISystemUiProxyAnimateNavBarLongPress)
+	_compiledDescs := []string{
+		"Z",
+		"Z",
+		"J",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(isTouchDown)
+		_data.WriteBool(shrink)
+		_data.WriteInt64(durationMs)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(isTouchDown)
+			case 1:
+				_data.WriteBool(shrink)
+			case 2:
+				_data.WriteInt64(durationMs)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyAnimateNavBarLongPress)
 	if _err != nil {

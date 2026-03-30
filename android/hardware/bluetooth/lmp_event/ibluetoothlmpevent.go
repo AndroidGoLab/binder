@@ -53,15 +53,45 @@ func (p *BluetoothLmpEventProxy) RegisterForLmpEvents(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLmpEvent)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
-	_data.WritePaddedByte(byte(addressType))
-	_data.WriteByteArray(address)
-	if lmpEventIds == nil {
-		_data.WriteInt32(-1)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLmpEvent, MethodIBluetoothLmpEventRegisterForLmpEvents)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/lmp_event/IBluetoothLmpEventCallback;",
+		"Landroid/hardware/bluetooth/lmp_event/AddressType;",
+		"[B",
+		"[Landroid/hardware/bluetooth/lmp_event/LmpEventId;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+		_data.WritePaddedByte(byte(addressType))
+		_data.WriteByteArray(address)
+		if lmpEventIds == nil {
+			_data.WriteInt32(-1)
+		} else {
+			_data.WriteInt32(int32(len(lmpEventIds)))
+			for _, _item := range lmpEventIds {
+				_data.WritePaddedByte(byte(_item))
+			}
+		}
 	} else {
-		_data.WriteInt32(int32(len(lmpEventIds)))
-		for _, _item := range lmpEventIds {
-			_data.WritePaddedByte(byte(_item))
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+			case 1:
+				_data.WritePaddedByte(byte(addressType))
+			case 2:
+				_data.WriteByteArray(address)
+			case 3:
+				if lmpEventIds == nil {
+					_data.WriteInt32(-1)
+				} else {
+					_data.WriteInt32(int32(len(lmpEventIds)))
+					for _, _item := range lmpEventIds {
+						_data.WritePaddedByte(byte(_item))
+					}
+				}
+			}
 		}
 	}
 
@@ -91,8 +121,25 @@ func (p *BluetoothLmpEventProxy) UnregisterLmpEvents(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLmpEvent)
-	_data.WritePaddedByte(byte(addressType))
-	_data.WriteByteArray(address)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIBluetoothLmpEvent, MethodIBluetoothLmpEventUnregisterLmpEvents)
+	_compiledDescs := []string{
+		"Landroid/hardware/bluetooth/lmp_event/AddressType;",
+		"[B",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WritePaddedByte(byte(addressType))
+		_data.WriteByteArray(address)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WritePaddedByte(byte(addressType))
+			case 1:
+				_data.WriteByteArray(address)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLmpEvent, MethodIBluetoothLmpEventUnregisterLmpEvents)
 	if _err != nil {

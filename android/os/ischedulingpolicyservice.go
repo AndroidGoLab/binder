@@ -54,10 +54,33 @@ func (p *SchedulingPolicyServiceProxy) RequestPriority(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISchedulingPolicyService)
-	_data.WriteInt32(pid)
-	_data.WriteInt32(tid)
-	_data.WriteInt32(prio)
-	_data.WriteBool(isForApp)
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISchedulingPolicyService, MethodISchedulingPolicyServiceRequestPriority)
+	_compiledDescs := []string{
+		"I",
+		"I",
+		"I",
+		"Z",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteInt32(pid)
+		_data.WriteInt32(tid)
+		_data.WriteInt32(prio)
+		_data.WriteBool(isForApp)
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteInt32(pid)
+			case 1:
+				_data.WriteInt32(tid)
+			case 2:
+				_data.WriteInt32(prio)
+			case 3:
+				_data.WriteBool(isForApp)
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISchedulingPolicyService, MethodISchedulingPolicyServiceRequestPriority)
 	if _err != nil {
@@ -90,8 +113,25 @@ func (p *SchedulingPolicyServiceProxy) RequestCpusetBoost(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISchedulingPolicyService)
-	_data.WriteBool(enable)
-	binder.WriteBinderToParcel(ctx, _data, client, p.Remote.Transport())
+	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISchedulingPolicyService, MethodISchedulingPolicyServiceRequestCpusetBoost)
+	_compiledDescs := []string{
+		"Z",
+		"Landroid/os/IBinder;",
+	}
+	if _sig == nil || binder.SignatureMatches(_compiledDescs, _sig) {
+		_data.WriteBool(enable)
+		binder.WriteBinderToParcel(ctx, _data, client, p.Remote.Transport())
+	} else {
+		_paramMap := binder.MatchParamsToSignature(_compiledDescs, _sig)
+		for _, _pi := range _paramMap {
+			switch _pi {
+			case 0:
+				_data.WriteBool(enable)
+			case 1:
+				binder.WriteBinderToParcel(ctx, _data, client, p.Remote.Transport())
+			}
+		}
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISchedulingPolicyService, MethodISchedulingPolicyServiceRequestCpusetBoost)
 	if _err != nil {
