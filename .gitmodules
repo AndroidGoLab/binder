@@ -25,3 +25,6 @@
 [submodule "tools/pkg/3rdparty/packages-modules-bluetooth"]
 	path = tools/pkg/3rdparty/packages-modules-bluetooth
 	url = https://android.googlesource.com/platform/packages/modules/Bluetooth
+[submodule "tools/pkg/3rdparty-api35/packages-modules-bluetooth"]
+	path = tools/pkg/3rdparty-api35/packages-modules-bluetooth
+	url = https://android.googlesource.com/platform/packages/modules/Bluetooth

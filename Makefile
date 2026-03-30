@@ -9,14 +9,21 @@ GO_PACKAGES = $(shell go list -e ./... | grep -v /3rdparty/)
 
 # --- Spec-first pipeline ---
 
+# Baseline 3rdparty directory for param version diffing (API 35).
+BASELINE_3RDPARTY := tools/pkg/3rdparty-api35
+BASELINE_API := 35
+
+# Baseline flags: pass only if the baseline submodule directory exists.
+BASELINE_FLAGS := $(if $(wildcard $(BASELINE_3RDPARTY)/*),-baseline-3rdparty $(BASELINE_3RDPARTY) -baseline-api $(BASELINE_API))
+
 # Extract specs from AIDL sources.
 specs:
-	go run ./tools/cmd/aidl2spec -3rdparty tools/pkg/3rdparty -output specs/
+	go run ./tools/cmd/aidl2spec -3rdparty tools/pkg/3rdparty -output specs/ $(BASELINE_FLAGS)
 	go run ./tools/cmd/java2spec -3rdparty tools/pkg/3rdparty -config tools/cmd/java2spec/constants.yaml -output specs/
 
 # Extract specs with multi-version AOSP transaction code tables.
 specs-versions:
-	go run ./tools/cmd/aidl2spec -3rdparty tools/pkg/3rdparty -output specs/ -versions
+	go run ./tools/cmd/aidl2spec -3rdparty tools/pkg/3rdparty -output specs/ -versions $(BASELINE_FLAGS)
 	go run ./tools/cmd/java2spec -3rdparty tools/pkg/3rdparty -config tools/cmd/java2spec/constants.yaml -output specs/
 
 # Generate all Go code from specs.

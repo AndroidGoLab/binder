@@ -55,6 +55,8 @@ func main() {
 	outputDir := flag.String("output", "specs/", "Output directory for spec files")
 	fetchVersions := flag.Bool("versions", false, "Fetch AOSP tags and embed multi-version transaction codes")
 	defaultAPI := flag.Int("default-api", 36, "API level for the local version entry")
+	baseline3rdparty := flag.String("baseline-3rdparty", "", "Path to the baseline 3rdparty directory for param version diffing")
+	baselineAPI := flag.Int("baseline-api", 35, "API level of the baseline 3rdparty sources")
 
 	var searchPaths searchPathsFlag
 	flag.Var(&searchPaths, "I", "Search path for AIDL imports (can be repeated)")
@@ -68,6 +70,8 @@ func main() {
 		*outputDir,
 		*fetchVersions,
 		*defaultAPI,
+		*baseline3rdparty,
+		*baselineAPI,
 		searchPaths,
 		positionalFiles,
 	); err != nil {
@@ -81,6 +85,8 @@ func run(
 	outputDir string,
 	fetchVersions bool,
 	defaultAPI int,
+	baseline3rdparty string,
+	baselineAPI int,
 	searchPaths []string,
 	positionalFiles []string,
 ) error {
@@ -97,6 +103,8 @@ func run(
 		outputDir,
 		fetchVersions,
 		defaultAPI,
+		baseline3rdparty,
+		baselineAPI,
 	)
 }
 
@@ -130,6 +138,8 @@ func runDiscovery(
 	outputDir string,
 	fetchVersions bool,
 	defaultAPI int,
+	baseline3rdparty string,
+	baselineAPI int,
 ) error {
 	absThirdparty, err := filepath.Abs(thirdpartyDir)
 	if err != nil {
@@ -176,6 +186,12 @@ func runDiscovery(
 	if fetchVersions {
 		if err := embedVersionCodes(absThirdparty, defaultAPI, specs); err != nil {
 			return fmt.Errorf("embedding version codes: %w", err)
+		}
+	}
+
+	if baseline3rdparty != "" {
+		if err := diffBaselineParams(baseline3rdparty, baselineAPI, defaultAPI, specs); err != nil {
+			return fmt.Errorf("diffing baseline params: %w", err)
 		}
 	}
 
