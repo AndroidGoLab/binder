@@ -704,7 +704,7 @@ func TestCodec2HIDL_QueueEmpty(t *testing.T) {
 			{
 				Tag:             0,
 				NativeBlockFds:  []int32{frameFd},
-				NativeBlockInts: []int32{int32(len(frameData))},
+				NativeBlockInts: hidlcodec2.C2HandleLinearInts(uint64(len(frameData))),
 			},
 		},
 	}
@@ -810,7 +810,10 @@ func TestCodec2HIDL_EncodeFrame(t *testing.T) {
 					Buffers: []hidlcodec2.Buffer{
 						{
 							Blocks: []hidlcodec2.Block{
-								{Index: 0},
+								{
+									Index: 0,
+									Meta:  hidlcodec2.BuildRangeInfoParam(0, uint32(len(frameData))),
+								},
 							},
 						},
 					},
@@ -826,7 +829,7 @@ func TestCodec2HIDL_EncodeFrame(t *testing.T) {
 			{
 				Tag:             0, // nativeBlock
 				NativeBlockFds:  []int32{frameFd},
-				NativeBlockInts: []int32{int32(len(frameData))},
+				NativeBlockInts: hidlcodec2.C2HandleLinearInts(uint64(len(frameData))),
 			},
 		},
 	}

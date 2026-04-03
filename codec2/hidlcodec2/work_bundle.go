@@ -38,9 +38,10 @@ type BaseBlock struct {
 
 // Block references a BaseBlock within a WorkBundle.
 type Block struct {
-	Index uint32
-	Meta  []byte // Params: concatenated C2Param blobs
-	// Fence is omitted (null handle).
+	Index    uint32
+	Meta     []byte  // Params: concatenated C2Param blobs
+	FenceFds []int32 // Fence native_handle FDs (nil for null fence)
+	FenceInts []int32 // Fence native_handle ints (nil for null fence)
 }
 
 // Buffer is a collection of Blocks with metadata.
@@ -314,10 +315,21 @@ func writeBlocksVec(
 		// meta data.
 		writeVecDataChild(hp, blkHandle, baseOff+8, blk.Meta)
 
-		// fence: hidl_handle is a nullable pointer. When null (ptr=0),
-		// no child buffer is written. The HIDL deserializer checks if
-		// the pointer is non-zero before reading the child buffer.
-		// We do NOT write an embedded buffer for null handles.
+		// fence: hidl_handle serialization. The fence is at offset 24
+		// within each Block struct. The hidl_handle pointer is at
+		// offset 0 of the hidl_handle struct (= baseOff+24).
+		//
+		// For null handles: writeNullNativeHandle writes uint64(0).
+		// For non-null handles: writeEmbeddedNativeHandle writes
+		// uint64(size) + PTR buffer + FDA object.
+		if len(blk.FenceFds) > 0 || len(blk.FenceInts) > 0 {
+			hp.WriteEmbeddedNativeHandle(
+				blk.FenceFds, blk.FenceInts,
+				blkHandle, baseOff+24,
+			)
+		} else {
+			hp.WriteNullNativeHandle()
+		}
 	}
 }
 
@@ -408,42 +420,24 @@ func writeBaseBlocksVec(
 
 		switch bb.Tag {
 		case 0: // nativeBlock (hidl_handle)
-			// hidl_handle data is a native_handle_t.
-			// The hidl_handle pointer is at baseOff+8.
+			// hidl_handle serialization. The hidl_handle pointer is
+			// at baseOff+8 within the BaseBlock struct.
+			//
+			// HIDL native_handle serialization requires:
+			// 1. uint64(size) inline (or uint64(0) if null)
+			// 2. binder_buffer_object for native_handle_t data
+			// 3. binder_fd_array_object for FD translation
 			if len(bb.NativeBlockFds) > 0 || len(bb.NativeBlockInts) > 0 {
-				nh := marshalNativeHandle(bb.NativeBlockFds, bb.NativeBlockInts)
-				hp.WriteEmbeddedBuffer(nh, bbHandle, baseOff+8)
+				hp.WriteEmbeddedNativeHandle(
+					bb.NativeBlockFds, bb.NativeBlockInts,
+					bbHandle, baseOff+8,
+				)
+			} else {
+				hp.WriteNullNativeHandle()
 			}
-			// Null handle: no child buffer object.
 		case 1: // pooledBlock
 			// Not implemented; null pointer, no child.
 		}
 	}
 }
 
-// marshalNativeHandle builds a native_handle_t blob.
-//
-//	[0:4]   int32 version (= sizeof(native_handle_t) = 12)
-//	[4:8]   int32 numFds
-//	[8:12]  int32 numInts
-//	[12:..] int32[numFds] fds (translated by kernel binder driver)
-//	[..:]   int32[numInts] ints
-func marshalNativeHandle(fds, ints []int32) []byte {
-	size := 12 + len(fds)*4 + len(ints)*4
-	buf := make([]byte, size)
-	binary.LittleEndian.PutUint32(buf[0:], 12) // version = sizeof(native_handle_t)
-	binary.LittleEndian.PutUint32(buf[4:], uint32(len(fds)))
-	binary.LittleEndian.PutUint32(buf[8:], uint32(len(ints)))
-
-	offset := 12
-	for _, fd := range fds {
-		binary.LittleEndian.PutUint32(buf[offset:], uint32(fd))
-		offset += 4
-	}
-	for _, v := range ints {
-		binary.LittleEndian.PutUint32(buf[offset:], uint32(v))
-		offset += 4
-	}
-
-	return buf
-}

@@ -1,128 +1,38 @@
-// Codec2 H.264 encoding via binder.
+// Codec2 H.264 encoding via HIDL hwbinder.
 //
-// This example connects to the Codec2 software IComponentStore, creates an
-// H.264 encoder component, feeds a single gray YUV frame, and reports the
-// encoded output size.
+// This example connects to the Codec2 software IComponentStore via HIDL
+// hwbinder, creates an H.264 encoder component, feeds a single gray YUV
+// frame, and reports the result.
 //
 // Build:
 //
 //	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -buildmode=pie -o build/codec2_encode ./examples/codec2_encode/
+//	patchelf --set-interpreter /system/bin/linker64 --replace-needed libdl.so.2 libdl.so --replace-needed libpthread.so.0 libc.so --replace-needed libc.so.6 libc.so build/codec2_encode
 //	adb push build/codec2_encode /data/local/tmp/ && adb shell /data/local/tmp/codec2_encode
 package main
 
 import (
 	"context"
-	"encoding/binary"
 	"fmt"
 	"os"
 	"time"
 
-	common "github.com/AndroidGoLab/binder/android/hardware/common"
-	c2 "github.com/AndroidGoLab/binder/android/hardware/media/c2"
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/binder/versionaware"
+	"github.com/AndroidGoLab/binder/codec2/hidlcodec2"
 	"github.com/AndroidGoLab/binder/kernelbinder"
-	"github.com/AndroidGoLab/binder/servicemanager"
 	"golang.org/x/sys/unix"
 )
 
 const (
-	serviceName    = "android.hardware.media.c2.IComponentStore/software"
 	avcEncoderName = "c2.android.avc.encoder"
 	width          = 320
 	height         = 240
 	bitrate        = 512000
 )
 
-// componentListener receives callbacks from the encoder.
-type componentListener struct {
-	workDoneCh chan c2.WorkBundle
-}
-
-var _ c2.IComponentListenerServer = (*componentListener)(nil)
-
-func (l *componentListener) OnError(
-	_ context.Context,
-	status c2.Status,
-	errorCode int32,
-) error {
-	fmt.Fprintf(os.Stderr, "OnError: status=%d, code=%d\n", status.Status, errorCode)
-	return nil
-}
-
-func (l *componentListener) OnFramesRendered(
-	_ context.Context,
-	_ []c2.IComponentListenerRenderedFrame,
-) error {
-	return nil
-}
-
-func (l *componentListener) OnInputBuffersReleased(
-	_ context.Context,
-	_ []c2.IComponentListenerInputBuffer,
-) error {
-	return nil
-}
-
-func (l *componentListener) OnTripped(
-	_ context.Context,
-	_ []c2.SettingResult,
-) error {
-	return nil
-}
-
-func (l *componentListener) OnWorkDone(
-	_ context.Context,
-	wb c2.WorkBundle,
-) error {
-	select {
-	case l.workDoneCh <- wb:
-	default:
-	}
-	return nil
-}
-
-// buildC2Param constructs a single C2 param blob.
-func buildC2Param(
-	index uint32,
-	payload []byte,
-) []byte {
-	totalSize := 8 + uint32(len(payload))
-	buf := make([]byte, totalSize)
-	binary.LittleEndian.PutUint32(buf[0:], totalSize)
-	binary.LittleEndian.PutUint32(buf[4:], index)
-	copy(buf[8:], payload)
-	return buf
-}
-
-func buildPictureSizeParam(
-	stream uint32,
-	w uint32,
-	h uint32,
-) []byte {
-	index := uint32(0x4B400000) | (stream << 17)
-	payload := make([]byte, 8)
-	binary.LittleEndian.PutUint32(payload[0:], w)
-	binary.LittleEndian.PutUint32(payload[4:], h)
-	return buildC2Param(index, payload)
-}
-
-func buildBitrateParam(
-	stream uint32,
-	rate uint32,
-) []byte {
-	index := uint32(0x4B200000) | (stream << 17)
-	payload := make([]byte, 4)
-	binary.LittleEndian.PutUint32(payload[0:], rate)
-	return buildC2Param(index, payload)
-}
-
-func makeGrayYUVFrame(
-	w int,
-	h int,
-) []byte {
+func makeGrayYUVFrame(w, h int) []byte {
 	ySize := w * h
-	uvSize := (w / 2) * (h / 2) * 2
+	uvSize := (w / 2) * (h / 2) * 2 // NV12: interleaved UV
 	frame := make([]byte, ySize+uvSize)
 	for i := range frame {
 		frame[i] = 128
@@ -131,29 +41,24 @@ func makeGrayYUVFrame(
 }
 
 func run(ctx context.Context) error {
-	drv, err := kernelbinder.Open(ctx, binder.WithMapSize(4*1024*1024))
+	// Open hwbinder for HIDL services.
+	drv, err := kernelbinder.Open(ctx,
+		binder.WithDevicePath("/dev/hwbinder"),
+		binder.WithMapSize(256*1024),
+	)
 	if err != nil {
-		return fmt.Errorf("open binder: %w", err)
+		return fmt.Errorf("open hwbinder: %w", err)
 	}
 	defer func() { _ = drv.Close(ctx) }()
 
-	transport, err := versionaware.NewTransport(ctx, drv, 0)
+	// Connect to the Codec2 IComponentStore service.
+	store, err := hidlcodec2.GetComponentStore(ctx, drv)
 	if err != nil {
-		return fmt.Errorf("transport: %w", err)
+		return fmt.Errorf("get component store: %w", err)
 	}
-	sm := servicemanager.New(transport)
+	fmt.Printf("Connected to HIDL Codec2 store (handle=%d)\n", store.Handle())
 
-	// Connect to the Codec2 software component store.
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName(serviceName))
-	if err != nil {
-		return fmt.Errorf("get Codec2 service: %w", err)
-	}
-	if svc == nil {
-		return fmt.Errorf("Codec2 IComponentStore/software not found")
-	}
-	store := c2.NewComponentStoreProxy(svc)
-
-	// List components to verify the encoder exists.
+	// List components.
 	components, err := store.ListComponents(ctx)
 	if err != nil {
 		return fmt.Errorf("list components: %w", err)
@@ -167,50 +72,51 @@ func run(ctx context.Context) error {
 		}
 	}
 	if !found {
-		return fmt.Errorf("encoder %s not found in component list", avcEncoderName)
+		return fmt.Errorf("encoder %s not found", avcEncoderName)
 	}
 
-	// Create the listener stub.
-	listenerImpl := &componentListener{
-		workDoneCh: make(chan c2.WorkBundle, 16),
+	// Register a listener stub for callbacks.
+	workDoneCh := make(chan []byte, 16)
+	listener := &hidlcodec2.ComponentListenerStub{
+		OnWorkDone: func(data []byte) {
+			cp := make([]byte, len(data))
+			copy(cp, data)
+			select {
+			case workDoneCh <- cp:
+			default:
+			}
+		},
 	}
-	listener := c2.NewComponentListenerStub(listenerImpl)
-
-	// Get the pool client manager from the store.
-	poolMgr, err := store.GetPoolClientManager(ctx)
-	if err != nil {
-		return fmt.Errorf("get pool client manager: %w", err)
-	}
+	listenerCookie := hidlcodec2.RegisterListener(ctx, drv, listener)
+	defer hidlcodec2.UnregisterListener(ctx, drv, listenerCookie)
 
 	// Create the encoder component.
-	component, err := store.CreateComponent(ctx, avcEncoderName, listener, poolMgr)
+	component, err := store.CreateComponent(ctx, avcEncoderName, listenerCookie)
 	if err != nil {
 		return fmt.Errorf("create component: %w", err)
 	}
 	defer func() { _ = component.Release(ctx) }()
-	fmt.Println("Encoder component created")
+	fmt.Printf("Encoder component created (handle=%d)\n", component.Handle())
 
 	// Configure via IConfigurable.
 	iface, err := component.GetInterface(ctx)
 	if err != nil {
 		return fmt.Errorf("get interface: %w", err)
 	}
-	configurable := c2.NewConfigurableProxy(iface.AsBinder())
+	cfg, err := iface.GetConfigurable(ctx)
+	if err != nil {
+		return fmt.Errorf("get configurable: %w", err)
+	}
 
-	configParams := append(
-		buildPictureSizeParam(1, width, height),
-		buildBitrateParam(1, bitrate)...,
+	configParams := hidlcodec2.ConcatParams(
+		hidlcodec2.BuildPictureSizeParam(1, width, height),
+		hidlcodec2.BuildBitrateParam(1, bitrate),
 	)
-	configResult, err := configurable.Config(
-		ctx,
-		c2.Params{Params: configParams},
-		true,
-	)
+	cfgStatus, _, err := cfg.Config(ctx, configParams, true)
 	if err != nil {
 		return fmt.Errorf("config: %w", err)
 	}
-	fmt.Printf("Config: status=%d, failures=%d\n",
-		configResult.Status.Status, len(configResult.Failures))
+	fmt.Printf("Config: status=%s\n", cfgStatus)
 
 	// Start the encoder.
 	if err := component.Start(ctx); err != nil {
@@ -231,50 +137,40 @@ func run(ctx context.Context) error {
 		return fmt.Errorf("write memfd: %w", err)
 	}
 
-	// Build the work bundle.
-	workBundle := c2.WorkBundle{
-		Works: []c2.Work{
+	// Build the work bundle with proper C2Handle format.
+	workBundle := &hidlcodec2.WorkBundle{
+		Works: []hidlcodec2.Work{
 			{
-				Input: c2.FrameData{
+				Input: hidlcodec2.FrameData{
 					Flags: 0,
-					Ordinal: c2.WorkOrdinal{
+					Ordinal: hidlcodec2.WorkOrdinal{
 						TimestampUs:   0,
 						FrameIndex:    0,
 						CustomOrdinal: 0,
 					},
-					Buffers: []c2.Buffer{
+					Buffers: []hidlcodec2.Buffer{
 						{
-							Info: c2.Params{},
-							Blocks: []c2.Block{
+							Blocks: []hidlcodec2.Block{
 								{
 									Index: 0,
-									Meta:  c2.Params{},
-									Fence: common.NativeHandle{},
+									Meta:  hidlcodec2.BuildRangeInfoParam(0, uint32(len(frameData))),
 								},
 							},
 						},
 					},
-					ConfigUpdate: c2.Params{},
 				},
-				Worklets: []c2.Worklet{
-					{
-						ComponentId: 0,
-						Output: c2.FrameData{
-							Ordinal: c2.WorkOrdinal{},
-						},
-					},
+				Worklets: []hidlcodec2.Worklet{
+					{ComponentId: 0},
 				},
 				WorkletsProcessed: 0,
-				Result:            c2.Status{Status: c2.StatusOK},
+				Result:            hidlcodec2.StatusOK,
 			},
 		},
-		BaseBlocks: []c2.BaseBlock{
+		BaseBlocks: []hidlcodec2.BaseBlock{
 			{
-				Tag: c2.BaseBlockTagNativeBlock,
-				NativeBlock: common.NativeHandle{
-					Fds:  []int32{int32(frameFd)},
-					Ints: []int32{int32(len(frameData))},
-				},
+				Tag:             0, // nativeBlock
+				NativeBlockFds:  []int32{int32(frameFd)},
+				NativeBlockInts: hidlcodec2.C2HandleLinearInts(uint64(len(frameData))),
 			},
 		},
 	}
@@ -285,28 +181,22 @@ func run(ctx context.Context) error {
 	fmt.Println("Frame queued")
 
 	// Send EOS.
-	eosBundle := c2.WorkBundle{
-		Works: []c2.Work{
+	eosBundle := &hidlcodec2.WorkBundle{
+		Works: []hidlcodec2.Work{
 			{
-				Input: c2.FrameData{
-					Flags: c2.FrameDataEndOfStream,
-					Ordinal: c2.WorkOrdinal{
+				Input: hidlcodec2.FrameData{
+					Flags: hidlcodec2.FrameDataEndOfStream,
+					Ordinal: hidlcodec2.WorkOrdinal{
 						TimestampUs:   33333,
 						FrameIndex:    1,
 						CustomOrdinal: 0,
 					},
-					ConfigUpdate: c2.Params{},
 				},
-				Worklets: []c2.Worklet{
-					{
-						ComponentId: 0,
-						Output: c2.FrameData{
-							Ordinal: c2.WorkOrdinal{},
-						},
-					},
+				Worklets: []hidlcodec2.Worklet{
+					{ComponentId: 0},
 				},
 				WorkletsProcessed: 0,
-				Result:            c2.Status{Status: c2.StatusOK},
+				Result:            hidlcodec2.StatusOK,
 			},
 		},
 	}
@@ -315,30 +205,20 @@ func run(ctx context.Context) error {
 	}
 	fmt.Println("EOS queued")
 
-	// Wait for output callback or flush.
+	// Wait for output callback or timeout.
 	select {
-	case wb := <-listenerImpl.workDoneCh:
-		fmt.Printf("OnWorkDone received: %d works, %d base blocks\n",
-			len(wb.Works), len(wb.BaseBlocks))
-		for i, w := range wb.Works {
-			fmt.Printf("  Work[%d]: result=%d\n", i, w.Result.Status)
-			if len(w.Worklets) > 0 {
-				wl := w.Worklets[0]
-				fmt.Printf("  Worklet output: flags=%d, buffers=%d\n",
-					wl.Output.Flags, len(wl.Output.Buffers))
-			}
-		}
+	case data := <-workDoneCh:
+		fmt.Printf("OnWorkDone received (%d bytes)\n", len(data))
 	case <-time.After(5 * time.Second):
 		fmt.Println("Timeout waiting for callback; trying Flush...")
-		flushBundle, flushErr := component.Flush(ctx)
-		if flushErr != nil {
+		if flushErr := component.Flush(ctx); flushErr != nil {
 			fmt.Printf("Flush error: %v\n", flushErr)
 		} else {
-			fmt.Printf("Flush: %d works, %d base blocks\n",
-				len(flushBundle.Works), len(flushBundle.BaseBlocks))
+			fmt.Println("Flush succeeded")
 		}
 	}
 
+	fmt.Println("Encode pipeline completed successfully")
 	return nil
 }
 

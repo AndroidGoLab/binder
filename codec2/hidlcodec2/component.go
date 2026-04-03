@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
-	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/hwparcel"
@@ -164,13 +163,6 @@ func (c *Component) Queue(
 	hp.WriteInterfaceToken(componentFQName)
 
 	wb.WriteTo(hp)
-
-	// Debug: write to stderr for immediate visibility.
-	fmt.Fprintf(os.Stderr, "Queue: %d buffers, %d objects, data=%d bytes\n",
-		hp.BufferCount(), len(hp.ObjectOffsets()), len(hp.DataBytes()))
-	for _, line := range hp.DumpBufferObjects() {
-		fmt.Fprintf(os.Stderr, "  %s\n", line)
-	}
 
 	reply, err := hwservicemanager.TransactHidl(
 		ctx, c.transport, c.handle, transactionQueue, hp,

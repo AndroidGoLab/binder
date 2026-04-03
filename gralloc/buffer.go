@@ -29,6 +29,17 @@ type Buffer struct {
 	// dmaBufSynced tracks whether DMA-BUF CPU access was started via
 	// ioctl, so Munmap can end it.
 	dmaBufSynced bool
+
+	// mmapFull holds the full mmap'd region when MmapData is a sub-slice
+	// (e.g., goldfish buffers where the data starts at an in-page offset).
+	// Munmap uses this for the actual munmap syscall.
+	mmapFull []byte
+
+	// goldfishClaimed tracks whether a goldfish address space region
+	// was claimed, so Munmap can unclaim it.
+	goldfishClaimed   bool
+	goldfishClaimedFD int
+	goldfishOffset    uint64
 }
 
 // BufferSize returns the buffer size in bytes based on dimensions and
@@ -91,16 +102,30 @@ func dmaBufEndCPUAccess(fd int) {
 	_ = dmaBufSync(fd, dmaBufSyncRead|dmaBufSyncEnd)
 }
 
+// goldfishIntsOffsetMmapedOffset is the index into the native handle's
+// ints array where the ranchu/goldfish gralloc stores the mmap offset
+// within the goldfish address space. This matches the cb_handle_30_t
+// layout: ints[7] = mmapedOffset.
+const goldfishIntsOffsetMmapedOffset = 7
+
+// goldfishIntsOffsetAllocSize is the index into the native handle's
+// ints array where the ranchu/goldfish gralloc stores the allocation
+// size. This matches the cb_handle_30_t layout: ints[5] = allocSize.
+const goldfishIntsOffsetAllocSize = 5
+
 // Mmap creates a persistent mmap of this buffer's dmabuf FD.
 // It tries several flag combinations to handle different allocator
 // backends (AIDL gralloc, HIDL gralloc, dma-buf heap, memfd).
 // On kernel 6.6+, DMA-BUF mmap requires a prior SYNC ioctl.
 // The MmapData field can then be read directly. Call Munmap to release.
 //
-// For goldfish emulator buffers (/dev/goldfish_address_space), mmap
-// alone is insufficient: the host GPU must first transfer pixel data
-// into the shared region via rcReadColorBuffer. Use ReadPixels()
-// instead, which handles the IMapper bridge fallback.
+// For goldfish emulator buffers (/dev/goldfish_address_space), the FD
+// requires claiming a shared region via ioctl and mmapping at the
+// buffer's address space offset. The mapped data reflects whatever the
+// host GPU has written; after the camera HAL queues a buffer (which
+// calls rcReadColorBuffer internally), the pixels are readable.
+// If the goldfish path fails, ReadPixels() falls back to the IMapper
+// bridge (gralloc_bridge.so).
 func (b *Buffer) Mmap() error {
 	if len(b.Handle.Fds) == 0 {
 		return fmt.Errorf("no FDs in gralloc buffer")
@@ -109,12 +134,11 @@ func (b *Buffer) Mmap() error {
 	bufSize := b.BufferSize()
 
 	// Goldfish emulator: gralloc buffers use /dev/goldfish_address_space
-	// backed by the host virtual GPU. Mmap alone returns stale/zero data
-	// because the host must explicitly transfer pixels via
-	// rcReadColorBuffer before the mapped region is readable. The HIDL
-	// IMapper bridge (gralloc_bridge.so) handles this transfer.
+	// backed by the host virtual GPU. Standard mmap at offset 0 returns
+	// EPERM. We must claim the shared address space region and mmap at
+	// the buffer's offset within the goldfish address space.
 	if isGoldfishFD(fd) {
-		return fmt.Errorf("goldfish buffer: requires IMapper bridge for CPU read (rcReadColorBuffer)")
+		return b.mmapGoldfish(fd, bufSize)
 	}
 
 	// Standard path: try mmap at offset 0, then with DMA-BUF sync
@@ -139,6 +163,63 @@ func (b *Buffer) Mmap() error {
 		}
 	}
 	return fmt.Errorf("mmap fd=%d size=%d: all strategies failed", fd, bufSize)
+}
+
+// mmapGoldfish maps a goldfish address space buffer by claiming the
+// shared region and mmapping at the buffer's offset. The ranchu
+// cb_handle_30_t stores the mmap offset at ints[7] and the allocation
+// size at ints[5].
+func (b *Buffer) mmapGoldfish(fd int, bufSize int) error {
+	if len(b.Handle.Ints) <= goldfishIntsOffsetMmapedOffset {
+		return fmt.Errorf("goldfish buffer: native handle too short (%d ints, need >%d)",
+			len(b.Handle.Ints), goldfishIntsOffsetMmapedOffset)
+	}
+
+	offset := uint64(uint32(b.Handle.Ints[goldfishIntsOffsetMmapedOffset]))
+	if offset == 0 {
+		return fmt.Errorf("goldfish buffer: mmapedOffset is 0")
+	}
+
+	// Use the allocSize from the handle if available, otherwise use our
+	// calculated buffer size.
+	allocSize := uint64(bufSize)
+	if len(b.Handle.Ints) > goldfishIntsOffsetAllocSize {
+		handleAllocSize := uint64(uint32(b.Handle.Ints[goldfishIntsOffsetAllocSize]))
+		if handleAllocSize > 0 {
+			allocSize = handleAllocSize
+		}
+	}
+
+	// Claim the shared region so the kernel allows mmap.
+	if err := goldfishClaimShared(fd, offset, allocSize); err != nil {
+		return fmt.Errorf("goldfish claimShared offset=0x%x size=%d: %w", offset, allocSize, err)
+	}
+	b.goldfishClaimed = true
+	b.goldfishClaimedFD = fd
+	b.goldfishOffset = offset
+
+	// Page-align the offset for mmap.
+	pageSize := int64(unix.Getpagesize())
+	pageOffset := int64(offset) & ^(pageSize - 1)
+	inPageOffset := int64(offset) - pageOffset
+	mapLen := int(int64(allocSize) + inPageOffset)
+
+	// Try mmap strategies at the goldfish offset.
+	for _, strategy := range mmapStrategies {
+		data, err := unix.Mmap(fd, pageOffset, mapLen, strategy.prot, strategy.flags)
+		if err == nil {
+			// Save the full mmap region for proper munmap later, and
+			// expose only the buffer data sub-slice via MmapData.
+			b.mmapFull = data
+			b.MmapData = data[inPageOffset : inPageOffset+int64(bufSize)]
+			return nil
+		}
+	}
+
+	// Mmap failed even after claiming. Unclaim and report failure.
+	goldfishUnclaimShared(fd, offset)
+	b.goldfishClaimed = false
+	return fmt.Errorf("goldfish buffer: mmap at offset=0x%x failed for all strategies", offset)
 }
 
 // ReadPixels returns the buffer pixel data. When MmapData is available
@@ -236,12 +317,22 @@ func goldfishUnclaimShared(fd int, offset uint64) {
 
 // Munmap releases the persistent mmap created by Mmap.
 func (b *Buffer) Munmap() {
-	if b.MmapData != nil {
+	if b.mmapFull != nil {
+		// Goldfish path: MmapData is a sub-slice of mmapFull, so
+		// munmap the full region instead.
+		_ = unix.Munmap(b.mmapFull)
+		b.mmapFull = nil
+		b.MmapData = nil
+	} else if b.MmapData != nil {
 		_ = unix.Munmap(b.MmapData)
 		b.MmapData = nil
 	}
 	if b.dmaBufSynced && len(b.Handle.Fds) > 0 {
 		dmaBufEndCPUAccess(int(b.Handle.Fds[0]))
 		b.dmaBufSynced = false
+	}
+	if b.goldfishClaimed {
+		goldfishUnclaimShared(b.goldfishClaimedFD, b.goldfishOffset)
+		b.goldfishClaimed = false
 	}
 }

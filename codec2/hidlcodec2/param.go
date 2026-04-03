@@ -51,6 +51,41 @@ func BuildBitrateParam(
 	return BuildC2Param(index, payload)
 }
 
+// BuildRangeInfoParam builds a C2Hal_RangeInfo parameter, which is
+// required as the Block.Meta for linear blocks.
+//
+// C2Hal_RangeInfo is C2GlobalParam<C2Info, C2Hal_Range, 0>.
+// Index = KIND_INFO(0xC0000000) | DIR_GLOBAL(0x20000000) | 0 = 0xE0000000.
+// Payload: uint32 offset, uint32 length.
+func BuildRangeInfoParam(offset uint32, length uint32) []byte {
+	const rangeInfoIndex = uint32(0xE0000000)
+	payload := make([]byte, 8)
+	binary.LittleEndian.PutUint32(payload[0:], offset)
+	binary.LittleEndian.PutUint32(payload[4:], length)
+	return BuildC2Param(rangeInfoIndex, payload)
+}
+
+// C2HandleIonMagic is the magic value for C2HandleIon / C2HandleBuf.
+// Both Ion and DmaBuf allocators use this same magic to identify
+// linear block handles.
+//
+// Computed from the C++ multi-char literal '\xc2io\x00'.
+const C2HandleIonMagic = int32(-1033277696) // 0xc2696f00
+
+// C2HandleLinearInts builds the ints array for a C2HandleIon /
+// C2HandleBuf native_handle_t. This handle format is recognized by
+// the Codec2 framework as a linear block.
+//
+// The native_handle_t should have numFds=1 (the buffer fd) and
+// numInts=3 (sizeLo, sizeHi, magic).
+func C2HandleLinearInts(size uint64) []int32 {
+	return []int32{
+		int32(size & 0xFFFFFFFF),         // sizeLo
+		int32((size >> 32) & 0xFFFFFFFF), // sizeHi
+		C2HandleIonMagic,                 // magic
+	}
+}
+
 // ConcatParams concatenates multiple C2 param blobs into a single
 // byte slice, with 8-byte alignment padding between params as required
 // by the Codec2 wire format.

@@ -440,6 +440,100 @@ func (r *ResponseParcel) ReadNativeHandle() (fds []int32, ints []int32, err erro
 	return nil, nil, fmt.Errorf("hwparcel: ReadNativeHandle not yet implemented")
 }
 
+// WriteFdArrayObject writes a binder_fd_array_object into the data buffer
+// and records its offset in the objects array. This tells the kernel that
+// the buffer at bufferHandle contains file descriptors starting at
+// parentOffset (typically offsetof(native_handle_t, data) = 12).
+//
+// binder_fd_array_object layout (32 bytes):
+//
+//	[0:4]   uint32 type (BINDER_TYPE_FDA = 0x66646185)
+//	[4:8]   uint32 pad
+//	[8:16]  uint64 num_fds
+//	[16:24] uint64 parent (buffer handle index)
+//	[24:32] uint64 parent_offset (offset of FD array within parent buffer)
+func (p *HwParcel) WriteFdArrayObject(
+	numFds int,
+	bufferHandle int,
+	parentOffset uint64,
+) {
+	const binderTypeFDA = uint32(0x66646185)
+	const fdArrayObjectSize = 32
+
+	offset := uint64(len(p.data))
+	p.objects = append(p.objects, offset)
+
+	obj := make([]byte, fdArrayObjectSize)
+	binary.LittleEndian.PutUint32(obj[0:], binderTypeFDA)
+	// pad at offset 4 is zero
+	binary.LittleEndian.PutUint64(obj[8:], uint64(numFds))
+	binary.LittleEndian.PutUint64(obj[16:], uint64(bufferHandle))
+	binary.LittleEndian.PutUint64(obj[24:], parentOffset)
+
+	p.data = append(p.data, obj...)
+}
+
+// WriteNullNativeHandle writes the HIDL serialization for a null
+// native_handle (hidl_handle with mHandle == nullptr).
+//
+// Wire format: uint64(0) inline.
+func (p *HwParcel) WriteNullNativeHandle() {
+	p.WriteUint64(0)
+}
+
+// WriteEmbeddedNativeHandle writes a non-null native_handle_t as an
+// embedded child buffer, plus a binder_fd_array_object so the kernel
+// can translate the file descriptors.
+//
+// Wire format:
+//
+//	uint64 native_handle_size (inline)
+//	binder_buffer_object pointing to native_handle_t data (child of parent)
+//	binder_fd_array_object referencing the FDs in the buffer
+//
+// The native_handle_t buffer contains:
+//
+//	int32 version (= 12 = sizeof(native_handle_t))
+//	int32 numFds
+//	int32 numInts
+//	int32[numFds] fds
+//	int32[numInts] ints
+func (p *HwParcel) WriteEmbeddedNativeHandle(
+	fds []int32,
+	ints []int32,
+	parentHandle int,
+	parentOffset uint64,
+) {
+	const nativeHandleVersion = 12 // sizeof(native_handle_t)
+	const nativeHandleDataOffset = 12
+
+	nativeHandleSize := uint64(nativeHandleVersion + len(fds)*4 + len(ints)*4)
+
+	// Write the size inline.
+	p.WriteUint64(nativeHandleSize)
+
+	// Build the native_handle_t buffer.
+	buf := make([]byte, nativeHandleSize)
+	binary.LittleEndian.PutUint32(buf[0:], uint32(nativeHandleVersion))
+	binary.LittleEndian.PutUint32(buf[4:], uint32(len(fds)))
+	binary.LittleEndian.PutUint32(buf[8:], uint32(len(ints)))
+	off := 12
+	for _, fd := range fds {
+		binary.LittleEndian.PutUint32(buf[off:], uint32(fd))
+		off += 4
+	}
+	for _, v := range ints {
+		binary.LittleEndian.PutUint32(buf[off:], uint32(v))
+		off += 4
+	}
+
+	// Write the buffer as an embedded child.
+	bufHandle := p.WriteEmbeddedBuffer(buf, parentHandle, parentOffset)
+
+	// Write the FD array object so the kernel translates the FDs.
+	p.WriteFdArrayObject(len(fds), bufHandle, nativeHandleDataOffset)
+}
+
 // Verify compile-time size assertion for binder_buffer_object.
 var _ = [binderBufferObjectSize]byte{}
 
