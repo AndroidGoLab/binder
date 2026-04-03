@@ -2,6 +2,43 @@ package hidlcodec2
 
 import "encoding/binary"
 
+// C2Param index bit layout (from AOSP C2Param.h):
+//
+//	bits 31-30: Kind     (INFO=0xC0, SETTING=0x80, TUNING=0x40)
+//	bits 29-28: Direction (INPUT=0x00, OUTPUT=0x10, GLOBAL=0x20)
+//	bit  25:    IS_STREAM_FLAG
+//	bits 24-20: Stream ID (5 bits)
+//	bit  16:    IS_FLEX_FLAG
+//	bit  15:    IS_VENDOR_FLAG
+//	bits 15-0:  Type index
+const (
+	paramKindInfo    = uint32(0xC0000000)
+	paramKindSetting = uint32(0x80000000)
+	paramKindTuning  = uint32(0x40000000)
+
+	paramDirInput  = uint32(0x00000000)
+	paramDirOutput = uint32(0x10000000)
+	paramDirGlobal = uint32(0x20000000)
+
+	paramIsStreamFlag = uint32(0x02000000)
+	paramStreamShift  = 20
+
+	// Core param indices from AOSP C2Config.h.
+	paramIndexPictureSize = uint32(0x1800) // kParamIndexPictureSize
+	paramIndexBitrate     = uint32(0x1000) // kParamIndexBitrate
+)
+
+// c2StreamParamIndex computes the full C2Param index for a stream
+// parameter from its kind, direction, stream ID, and core index.
+func c2StreamParamIndex(
+	kind uint32,
+	dir uint32,
+	stream uint32,
+	coreIndex uint32,
+) uint32 {
+	return kind | dir | paramIsStreamFlag | (stream << paramStreamShift) | coreIndex
+}
+
 // BuildC2Param constructs a single C2 parameter blob.
 //
 // C2 param wire format:
@@ -21,31 +58,35 @@ func BuildC2Param(
 	return buf
 }
 
-// BuildPictureSizeParam builds a C2StreamPictureSizeInfo parameter.
+// BuildPictureSizeParam builds a C2StreamPictureSizeInfo::input parameter.
 //
-// C2StreamPictureSizeInfo::PARAM_TYPE = 0x4B400000 | (stream << 17).
+// The AVC encoder declares picture size as an input-direction stream
+// parameter (C2StreamPictureSizeInfo::input). The full index is:
+// KIND_INFO | DIR_INPUT | IS_STREAM | (stream << 20) | 0x1800.
 // Payload: uint32 width, uint32 height.
 func BuildPictureSizeParam(
 	stream uint32,
 	width uint32,
 	height uint32,
 ) []byte {
-	index := uint32(0x4B400000) | (stream << 17)
+	index := c2StreamParamIndex(paramKindInfo, paramDirInput, stream, paramIndexPictureSize)
 	payload := make([]byte, 8)
 	binary.LittleEndian.PutUint32(payload[0:], width)
 	binary.LittleEndian.PutUint32(payload[4:], height)
 	return BuildC2Param(index, payload)
 }
 
-// BuildBitrateParam builds a C2StreamBitrateInfo parameter.
+// BuildBitrateParam builds a C2StreamBitrateInfo::output parameter.
 //
-// C2StreamBitrateInfo::PARAM_TYPE = 0x4B200000 | (stream << 17).
+// The AVC encoder declares bitrate as an output-direction stream
+// parameter (C2StreamBitrateInfo::output). The full index is:
+// KIND_INFO | DIR_OUTPUT | IS_STREAM | (stream << 20) | 0x1000.
 // Payload: uint32 bitrate.
 func BuildBitrateParam(
 	stream uint32,
 	bitrate uint32,
 ) []byte {
-	index := uint32(0x4B200000) | (stream << 17)
+	index := c2StreamParamIndex(paramKindInfo, paramDirOutput, stream, paramIndexBitrate)
 	payload := make([]byte, 4)
 	binary.LittleEndian.PutUint32(payload[0:], bitrate)
 	return BuildC2Param(index, payload)

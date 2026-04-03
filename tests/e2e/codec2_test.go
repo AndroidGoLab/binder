@@ -4,7 +4,6 @@ package e2e
 
 import (
 	"context"
-	"encoding/binary"
 	"testing"
 	"time"
 
@@ -123,59 +122,29 @@ func createAVCEncoder(
 	return component
 }
 
-// buildC2Param constructs a single C2 param blob.
-// C2 param wire format: uint32(totalSize) | uint32(index) | payload.
-func buildC2Param(
-	index uint32,
-	payload []byte,
-) []byte {
-	totalSize := 8 + uint32(len(payload))
-	buf := make([]byte, totalSize)
-	binary.LittleEndian.PutUint32(buf[0:], totalSize)
-	binary.LittleEndian.PutUint32(buf[4:], index)
-	copy(buf[8:], payload)
-	return buf
-}
-
-// buildPictureSizeParam builds a C2StreamPictureSizeInfo param blob.
-// C2StreamPictureSizeInfo::PARAM_TYPE = 0x4B400000 | (stream << 17).
-// 0x0B400000 is the base index, 0x40000000 is the "setting" flag.
+// buildPictureSizeParam builds a C2StreamPictureSizeInfo::input param blob.
+// Uses the hidlcodec2 package for correct index computation.
 func buildPictureSizeParam(
 	stream uint32,
 	width uint32,
 	height uint32,
 ) []byte {
-	index := uint32(0x4B400000) | (stream << 17)
-	payload := make([]byte, 8)
-	binary.LittleEndian.PutUint32(payload[0:], width)
-	binary.LittleEndian.PutUint32(payload[4:], height)
-	return buildC2Param(index, payload)
+	return hidlcodec2.BuildPictureSizeParam(stream, width, height)
 }
 
-// buildBitrateParam builds a C2StreamBitrateInfo param blob.
-// C2StreamBitrateInfo::PARAM_TYPE = 0x4B200000 | (stream << 17).
+// buildBitrateParam builds a C2StreamBitrateInfo::output param blob.
+// Uses the hidlcodec2 package for correct index computation.
 func buildBitrateParam(
 	stream uint32,
 	bitrate uint32,
 ) []byte {
-	index := uint32(0x4B200000) | (stream << 17)
-	payload := make([]byte, 4)
-	binary.LittleEndian.PutUint32(payload[0:], bitrate)
-	return buildC2Param(index, payload)
+	return hidlcodec2.BuildBitrateParam(stream, bitrate)
 }
 
-// concatParams concatenates multiple C2 param blobs into a single byte slice
-// for use in Params.Params.
+// concatParams concatenates multiple C2 param blobs with 8-byte alignment
+// padding between them, as required by the Codec2 param wire format.
 func concatParams(params ...[]byte) []byte {
-	var total int
-	for _, p := range params {
-		total += len(p)
-	}
-	result := make([]byte, 0, total)
-	for _, p := range params {
-		result = append(result, p...)
-	}
-	return result
+	return hidlcodec2.ConcatParams(params...)
 }
 
 // createMemfd creates a memfd, writes data to it, and returns the fd.
@@ -336,8 +305,8 @@ func TestCodec2_EncodeFrame(t *testing.T) {
 	requireOrSkip(t, err)
 
 	configParams := concatParams(
-		buildPictureSizeParam(1, width, height),
-		buildBitrateParam(1, bitrate),
+		buildPictureSizeParam(0, width, height),
+		buildBitrateParam(0, bitrate),
 	)
 	configResult, err := configurable.Config(ctx, c2.Params{Params: configParams}, true)
 	requireOrSkip(t, err)
@@ -740,8 +709,14 @@ func TestCodec2HIDL_QueueEmpty(t *testing.T) {
 }
 
 // TestCodec2HIDL_EncodeFrame is the full end-to-end test: configure an AVC
-// encoder via HIDL, queue a YUV frame, signal EOS, and retrieve output
-// via flush.
+// encoder via HIDL, queue an EOS work item, and verify that the
+// onWorkDone callback fires. This validates the complete binder
+// round-trip: config, start, queue, callback delivery.
+//
+// We queue only an EOS (no frame data) because the software AVC encoder
+// expects graphic blocks (C2GraphicBlock) for input frames, which
+// require gralloc allocation. An EOS-only work is sufficient to test
+// the callback pipeline without needing gralloc.
 func TestCodec2HIDL_EncodeFrame(t *testing.T) {
 	const (
 		encWidth   = 320
@@ -772,6 +747,7 @@ func TestCodec2HIDL_EncodeFrame(t *testing.T) {
 	defer func() { _ = component.Release(ctx) }()
 
 	// Configure via IConfigurable.
+	// Picture size is input-direction stream 0, bitrate is output-direction stream 0.
 	iface, err := component.GetInterface(ctx)
 	require.NoError(t, err, "GetInterface failed")
 
@@ -779,11 +755,13 @@ func TestCodec2HIDL_EncodeFrame(t *testing.T) {
 	require.NoError(t, err, "GetConfigurable failed")
 
 	configParams := hidlcodec2.ConcatParams(
-		hidlcodec2.BuildPictureSizeParam(1, encWidth, encHeight),
-		hidlcodec2.BuildBitrateParam(1, encBitrate),
+		hidlcodec2.BuildPictureSizeParam(0, encWidth, encHeight),
+		hidlcodec2.BuildBitrateParam(0, encBitrate),
 	)
 	cfgStatus, _, err := cfg.Config(ctx, configParams, true)
 	require.NoError(t, err, "Config failed")
+	require.Equal(t, hidlcodec2.StatusOK, cfgStatus,
+		"Config returned non-OK status: %s", cfgStatus)
 	t.Logf("HIDL Codec2: config status=%s", cfgStatus)
 
 	// Start the encoder.
@@ -792,61 +770,16 @@ func TestCodec2HIDL_EncodeFrame(t *testing.T) {
 	defer func() { _ = component.Stop(ctx) }()
 	t.Log("HIDL Codec2: encoder started")
 
-	// Create a gray YUV frame in a memfd.
-	frameData := makeGrayYUVFrame(encWidth, encHeight)
-	frameFd := createMemfd(t, "hidl-c2-frame", frameData)
-
-	// Build WorkBundle.
-	workBundle := &hidlcodec2.WorkBundle{
-		Works: []hidlcodec2.Work{
-			{
-				Input: hidlcodec2.FrameData{
-					Flags: 0,
-					Ordinal: hidlcodec2.WorkOrdinal{
-						TimestampUs:   0,
-						FrameIndex:    0,
-						CustomOrdinal: 0,
-					},
-					Buffers: []hidlcodec2.Buffer{
-						{
-							Blocks: []hidlcodec2.Block{
-								{
-									Index: 0,
-									Meta:  hidlcodec2.BuildRangeInfoParam(0, uint32(len(frameData))),
-								},
-							},
-						},
-					},
-				},
-				Worklets: []hidlcodec2.Worklet{
-					{ComponentId: 0},
-				},
-				WorkletsProcessed: 0,
-				Result:            hidlcodec2.StatusOK,
-			},
-		},
-		BaseBlocks: []hidlcodec2.BaseBlock{
-			{
-				Tag:             0, // nativeBlock
-				NativeBlockFds:  []int32{frameFd},
-				NativeBlockInts: hidlcodec2.C2HandleLinearInts(uint64(len(frameData))),
-			},
-		},
-	}
-
-	err = component.Queue(ctx, workBundle)
-	require.NoError(t, err, "Queue failed")
-	t.Log("HIDL Codec2: frame queued")
-
-	// Send EOS.
+	// Queue an EOS work item (no frame buffers). The encoder should
+	// acknowledge EOS via the onWorkDone callback.
 	eosBundle := &hidlcodec2.WorkBundle{
 		Works: []hidlcodec2.Work{
 			{
 				Input: hidlcodec2.FrameData{
 					Flags: hidlcodec2.FrameDataEndOfStream,
 					Ordinal: hidlcodec2.WorkOrdinal{
-						TimestampUs:   33333,
-						FrameIndex:    1,
+						TimestampUs:   0,
+						FrameIndex:    0,
 						CustomOrdinal: 0,
 					},
 				},
@@ -862,29 +795,25 @@ func TestCodec2HIDL_EncodeFrame(t *testing.T) {
 	require.NoError(t, err, "Queue EOS failed")
 	t.Log("HIDL Codec2: EOS queued")
 
-	// Wait for onWorkDone callbacks or timeout.
-	var receivedCallback bool
-	deadline := time.After(10 * time.Second)
-	for i := 0; i < 2; i++ {
+	// Wait for onWorkDone callback.
+	select {
+	case data := <-workDoneCh:
+		t.Logf("HIDL Codec2: onWorkDone received (%d bytes)", len(data))
+	case <-time.After(10 * time.Second):
+		// Try drain as a fallback to force the encoder to flush.
+		t.Log("HIDL Codec2: timeout waiting for onWorkDone; trying Drain")
+		drainErr := component.Drain(ctx, true)
+		if drainErr != nil {
+			t.Logf("HIDL Codec2: drain: %v", drainErr)
+		}
+
 		select {
 		case data := <-workDoneCh:
-			t.Logf("HIDL Codec2: onWorkDone received (%d bytes)", len(data))
-			receivedCallback = true
-		case <-deadline:
-			t.Log("HIDL Codec2: timeout waiting for onWorkDone; trying Flush")
-			flushErr := component.Flush(ctx)
-			if flushErr != nil {
-				t.Logf("HIDL Codec2: flush: %v", flushErr)
-			} else {
-				t.Log("HIDL Codec2: flush succeeded")
-			}
-			i = 2 // exit loop
+			t.Logf("HIDL Codec2: onWorkDone after drain (%d bytes)", len(data))
+		case <-time.After(5 * time.Second):
+			t.Fatal("HIDL Codec2: no onWorkDone callback received after queue + drain")
 		}
 	}
 
-	if receivedCallback {
-		t.Log("HIDL Codec2: full encode pipeline verified with callback")
-	} else {
-		t.Log("HIDL Codec2: queue succeeded; callback may not have arrived before timeout")
-	}
+	t.Log("HIDL Codec2: callback pipeline verified (config + queue + onWorkDone)")
 }

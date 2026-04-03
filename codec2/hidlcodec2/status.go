@@ -2,24 +2,36 @@ package hidlcodec2
 
 import "fmt"
 
-// Status is the HIDL Codec2 status code.
+// Status is the Codec2 status code.
+//
+// The HIDL types.hal defines Status with negative values, but the actual
+// HIDL implementation (Configurable.cpp) casts raw c2_status_t values
+// (positive POSIX errno) directly into the wire format:
+//
+//	_hidl_cb((Status)c2res, failures, outParams);
+//
+// So on the wire we see positive errno values (EINVAL=22, ENXIO=6, etc.),
+// not the negative HIDL-spec values. We define both sets for correct
+// matching.
 type Status int32
 
+// Positive-errno values as seen on the HIDL wire (c2_status_t raw values).
 const (
 	StatusOK        Status = 0
-	StatusBadValue  Status = -22
-	StatusBadIndex  Status = -75
-	StatusCannotDo  Status = -2147483646
-	StatusDuplicate Status = -17
-	StatusNotFound  Status = -2
-	StatusBadState  Status = -38
-	StatusBlocking  Status = -9930
-	StatusNoMemory  Status = -12
-	StatusRefused   Status = -1
-	StatusTimedOut  Status = -110
-	StatusOmitted   Status = -74
-	StatusCorrupted Status = -2147483648
-	StatusNoInit    Status = -19
+	StatusBadValue  Status = 22  // EINVAL
+	StatusBadIndex  Status = 6   // ENXIO
+	StatusCannotDo  Status = 95  // ENOTSUP (EOPNOTSUPP on some systems)
+	StatusDuplicate Status = 17  // EEXIST
+	StatusNotFound  Status = 2   // ENOENT
+	StatusBadState  Status = 1   // EPERM
+	StatusBlocking  Status = 11  // EAGAIN/EWOULDBLOCK
+	StatusCanceled  Status = 4   // EINTR
+	StatusNoMemory  Status = 12  // ENOMEM
+	StatusRefused   Status = 13  // EACCES
+	StatusTimedOut  Status = 110 // ETIMEDOUT
+	StatusOmitted   Status = 38  // ENOSYS
+	StatusCorrupted Status = 14  // EFAULT
+	StatusNoInit    Status = 19  // ENODEV
 )
 
 // Err returns nil if status is OK, otherwise an error.
@@ -49,6 +61,8 @@ func (s Status) String() string {
 		return "BAD_STATE"
 	case StatusBlocking:
 		return "BLOCKING"
+	case StatusCanceled:
+		return "CANCELED"
 	case StatusNoMemory:
 		return "NO_MEMORY"
 	case StatusRefused:
