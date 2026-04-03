@@ -172,8 +172,138 @@ interfaces:
             name: void
 parcelables:
     - name: EditingEndedEvent
+      java_wire_format:
+        - name: FinalState
+          write_method: int32
+        - name: FinalProgressPercent
+          write_method: float32
+        - name: ErrorCode
+          write_method: int32
+        - name: TimeSinceCreatedMillis
+          write_method: int64
+        - name: ExporterName
+          write_method: string16
+        - name: MuxerName
+          write_method: string16
+        - name: InputMediaItemInfos
+          write_method: opaque
+        - name: OutputMediaItemInfo
+          write_method: typed_object
+        - name: OperationTypes
+          write_method: int64
+        - name: MetricsBundle
+          write_method: bundle
     - name: NetworkEvent
+      java_wire_format:
+        - name: NetworkType
+          write_method: int32
+        - name: TimeSinceCreatedMillis
+          write_method: int64
+        - name: MetricsBundle
+          write_method: bundle
     - name: PlaybackErrorEvent
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: ExceptionStack
+          write_method: string16
+          condition: mExceptionStack!=null
+        - name: ErrorCode
+          write_method: int32
+        - name: SubErrorCode
+          write_method: int32
+        - name: TimeSinceCreatedMillis
+          write_method: int64
+        - name: MetricsBundle
+          write_method: bundle
     - name: PlaybackMetrics
+      java_wire_format:
+        - name: Flg
+          write_method: int64
+        - name: MediaDurationMillis
+          write_method: int64
+        - name: StreamSource
+          write_method: int32
+        - name: StreamType
+          write_method: int32
+        - name: PlaybackType
+          write_method: int32
+        - name: DrmType
+          write_method: int32
+        - name: ContentType
+          write_method: int32
+        - name: PlayerName
+          write_method: string16
+          condition: mPlayerName!=null
+        - name: PlayerVersion
+          write_method: string16
+          condition: mPlayerVersion!=null
+        - name: ExperimentIds
+          write_method: long_array
+        - name: VideoFramesPlayed
+          write_method: int32
+        - name: VideoFramesDropped
+          write_method: int32
+        - name: AudioUnderrunCount
+          write_method: int32
+        - name: NetworkBytesRead
+          write_method: int64
+        - name: LocalBytesRead
+          write_method: int64
+        - name: NetworkTransferDurationMillis
+          write_method: int64
+        - name: DrmSessionId.length
+          write_method: int32
+        - name: DrmSessionId
+          write_method: byte_array
+        - name: MetricsBundle
+          write_method: bundle
     - name: PlaybackStateEvent
+      java_wire_format:
+        - name: State
+          write_method: int32
+        - name: TimeSinceCreatedMillis
+          write_method: int64
+        - name: MetricsBundle
+          write_method: bundle
     - name: TrackChangeEvent
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: State
+          write_method: int32
+        - name: Reason
+          write_method: int32
+        - name: ContainerMimeType
+          write_method: string16
+          condition: mContainerMimeType!=null
+        - name: SampleMimeType
+          write_method: string16
+          condition: mSampleMimeType!=null
+        - name: CodecName
+          write_method: string16
+          condition: mCodecName!=null
+        - name: Bitrate
+          write_method: int32
+        - name: TimeSinceCreatedMillis
+          write_method: int64
+        - name: Type
+          write_method: int32
+        - name: Language
+          write_method: string16
+          condition: mLanguage!=null
+        - name: LanguageRegion
+          write_method: string16
+          condition: mLanguageRegion!=null
+        - name: ChannelCount
+          write_method: int32
+        - name: AudioSampleRate
+          write_method: int32
+        - name: Width
+          write_method: int32
+        - name: Height
+          write_method: int32
+        - name: VideoFrameRate
+          write_method: float32
+        - name: MetricsBundle
+          write_method: bundle

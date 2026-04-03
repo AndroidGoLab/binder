@@ -236,4 +236,25 @@ interfaces:
             name: void
 parcelables:
     - name: CarrierIdentifier
+      java_wire_format:
+        - name: Mcc
+          write_method: string16
+        - name: Mnc
+          write_method: string16
+        - name: Spn
+          write_method: string16
+        - name: Imsi
+          write_method: string16
+        - name: Gid1
+          write_method: string16
+        - name: Gid2
+          write_method: string16
+        - name: CarrierId
+          write_method: int32
+        - name: SpecificCarrierId
+          write_method: int32
     - name: MessagePdu
+      java_wire_format:
+        - name: NULL_LENGTH
+          write_method: int32
+          condition: mPduList==null

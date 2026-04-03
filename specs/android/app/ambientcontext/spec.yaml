@@ -110,4 +110,18 @@ interfaces:
             name: void
 parcelables:
     - name: AmbientContextEvent
+      java_wire_format:
+        - name: EventType
+          write_method: int32
+        - name: ConfidenceLevel
+          write_method: int32
+        - name: DensityLevel
+          write_method: int32
+        - name: VendorData
+          write_method: typed_object
     - name: AmbientContextEventRequest
+      java_wire_format:
+        - name: NewArraySet<>(mEventTypes)
+          write_method: array_set
+        - name: Options
+          write_method: typed_object

@@ -146,5 +146,16 @@ interfaces:
             name: void
 parcelables:
     - name: VcnConfig
+      java_wire_format:
+        - name: ToPersistableBundle()
+          write_method: typed_object
     - name: VcnNetworkPolicyResult
+      java_wire_format:
+        - name: IsTearDownRequested
+          write_method: bool
+        - name: NetworkCapabilities
+          write_method: typed_object
     - name: VcnUnderlyingNetworkPolicy
+      java_wire_format:
+        - name: VcnNetworkPolicyResult
+          write_method: typed_object

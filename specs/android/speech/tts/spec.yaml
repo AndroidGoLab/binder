@@ -372,3 +372,16 @@ interfaces:
             name: void
 parcelables:
     - name: Voice
+      java_wire_format:
+        - name: Name
+          write_method: string16
+        - name: Locale
+          write_method: opaque
+        - name: Quality
+          write_method: int32
+        - name: Latency
+          write_method: int32
+        - name: (byte)(mRequiresNetworkConnection?1:0)
+          write_method: int32
+        - name: NewArrayList<String>(mFeatures)
+          write_method: opaque

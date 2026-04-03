@@ -64,4 +64,17 @@ interfaces:
             name: void
 parcelables:
     - name: MemoryIntArray
+      java_wire_format:
+        - name: Pfd
+          write_method: typed_object
     - name: MergedConfiguration
+      java_wire_format:
+        - name: GlobalConfig
+          write_method: delegate
+          delegate_type: Configuration
+        - name: OverrideConfig
+          write_method: delegate
+          delegate_type: Configuration
+        - name: MergedConfig
+          write_method: delegate
+          delegate_type: Configuration

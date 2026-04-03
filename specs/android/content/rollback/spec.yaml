@@ -88,4 +88,28 @@ interfaces:
             name: void
 parcelables:
     - name: PackageRollbackInfo
+      java_wire_format:
+        - name: VersionRolledBackFrom
+          write_method: delegate
+          delegate_type: VersionedPackage
+        - name: VersionRolledBackTo
+          write_method: delegate
+          delegate_type: VersionedPackage
+        - name: IsApex
+          write_method: bool
+        - name: IsApkInApex
+          write_method: bool
     - name: RollbackInfo
+      java_wire_format:
+        - name: RollbackId
+          write_method: int32
+        - name: Packages
+          write_method: opaque
+        - name: IsStaged
+          write_method: bool
+        - name: CausePackages
+          write_method: opaque
+        - name: CommittedSessionId
+          write_method: int32
+        - name: RollbackImpactLevel
+          write_method: int32

@@ -693,7 +693,76 @@ interfaces:
             name: void
 parcelables:
     - name: AssociationInfo
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: UserId
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+        - name: Tag
+          write_method: string16
+        - name: DeviceMacAddress
+          write_method: typed_object
+        - name: DisplayName
+          write_method: opaque
+        - name: DeviceProfile
+          write_method: string16
+        - name: AssociatedDevice
+          write_method: typed_object
+        - name: SelfManaged
+          write_method: bool
+        - name: NotifyOnDeviceNearby
+          write_method: bool
+        - name: Revoked
+          write_method: bool
+        - name: Pending
+          write_method: bool
+        - name: TimeApprovedMs
+          write_method: int64
+        - name: LastTimeConnectedMs
+          write_method: int64
+        - name: SystemDataSyncFlags
+          write_method: int32
     - name: AssociationRequest
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: DeviceFilters
+          write_method: opaque
+        - name: DeviceProfile
+          write_method: string16
+          condition: mDeviceProfile!=null
+        - name: DisplayName
+          write_method: opaque
+          condition: mDisplayName!=null
+        - name: AssociatedDevice
+          write_method: typed_object
+          condition: mAssociatedDevice!=null
+        - name: PackageName
+          write_method: string16
+          condition: mPackageName!=null
+        - name: UserId
+          write_method: int32
+        - name: DeviceProfilePrivilegesDescription
+          write_method: string8
+          condition: mDeviceProfilePrivilegesDescription!=null
+        - name: CreationTime
+          write_method: int64
     - name: BluetoothLEDeviceFilter
     - name: DevicePresenceEvent
+      java_wire_format:
+        - name: AssociationId
+          write_method: int32
+        - name: Event
+          write_method: int32
+        - name: PARCEL_UUID_NULL
+          write_method: int32
+          condition: mUuid==null
     - name: ObservingDevicePresenceRequest
+      java_wire_format:
+        - name: AssociationId
+          write_method: int32
+        - name: PARCEL_UUID_NULL
+          write_method: int32
+          condition: mUuid==null

@@ -397,7 +397,21 @@ interfaces:
             name: void
 parcelables:
     - name: MediaProjectionConfig
+      java_wire_format:
+        - name: DisplayToCapture
+          write_method: int32
+        - name: RegionToCapture
+          write_method: int32
     - name: MediaProjectionInfo
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
+        - name: UserHandle
+          write_method: delegate
+          delegate_type: UserHandle
+        - name: LaunchCookie
+          write_method: delegate
+          delegate_type: LaunchCookie
 enums:
     - name: ReviewGrantedConsentResult
       backing_type: int

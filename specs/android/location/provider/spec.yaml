@@ -176,6 +176,90 @@ interfaces:
             name: void
 parcelables:
     - name: ForwardGeocodeRequest
+      java_wire_format:
+        - name: LocationName
+          write_method: string8
+        - name: LowerLeftLatitude
+          write_method: float64
+        - name: LowerLeftLongitude
+          write_method: float64
+        - name: UpperRightLatitude
+          write_method: float64
+        - name: UpperRightLongitude
+          write_method: float64
+        - name: MaxResults
+          write_method: int32
+        - name: Locale.getLanguage()
+          write_method: string8
+        - name: Locale.getCountry()
+          write_method: string8
+        - name: Locale.getVariant()
+          write_method: string8
+        - name: CallingUid
+          write_method: int32
+        - name: CallingPackage
+          write_method: string8
+        - name: CallingAttributionTag
+          write_method: string8
     - name: ProviderProperties
+      java_wire_format:
+        - name: HasNetworkRequirement
+          write_method: bool
+        - name: HasSatelliteRequirement
+          write_method: bool
+        - name: HasCellRequirement
+          write_method: bool
+        - name: HasMonetaryCost
+          write_method: bool
+        - name: HasAltitudeSupport
+          write_method: bool
+        - name: HasSpeedSupport
+          write_method: bool
+        - name: HasBearingSupport
+          write_method: bool
+        - name: PowerUsage
+          write_method: int32
+        - name: Accuracy
+          write_method: int32
     - name: ProviderRequest
+      java_wire_format:
+        - name: IntervalMillis
+          write_method: int64
+        - name: Quality
+          write_method: int32
+          condition: mIntervalMillis!=INTERVAL_DISABLED
+        - name: MaxUpdateDelayMillis
+          write_method: int64
+          condition: mIntervalMillis!=INTERVAL_DISABLED
+        - name: LowPower
+          write_method: bool
+          condition: mIntervalMillis!=INTERVAL_DISABLED
+        - name: AdasGnssBypass
+          write_method: bool
+          condition: mIntervalMillis!=INTERVAL_DISABLED
+        - name: LocationSettingsIgnored
+          write_method: bool
+          condition: mIntervalMillis!=INTERVAL_DISABLED
+        - name: WorkSource
+          write_method: typed_object
+          condition: mIntervalMillis!=INTERVAL_DISABLED
     - name: ReverseGeocodeRequest
+      java_wire_format:
+        - name: Latitude
+          write_method: float64
+        - name: Longitude
+          write_method: float64
+        - name: MaxResults
+          write_method: int32
+        - name: Locale.getLanguage()
+          write_method: string8
+        - name: Locale.getCountry()
+          write_method: string8
+        - name: Locale.getVariant()
+          write_method: string8
+        - name: CallingUid
+          write_method: int32
+        - name: CallingPackage
+          write_method: string8
+        - name: CallingAttributionTag
+          write_method: string8

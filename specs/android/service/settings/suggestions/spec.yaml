@@ -32,3 +32,16 @@ interfaces:
             name: void
 parcelables:
     - name: Suggestion
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: Title
+          write_method: opaque
+        - name: Summary
+          write_method: opaque
+        - name: Icon
+          write_method: typed_object
+        - name: Flags
+          write_method: int32
+        - name: PendingIntent
+          write_method: typed_object

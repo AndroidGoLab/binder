@@ -1151,11 +1151,85 @@ interfaces:
             name: void
 parcelables:
     - name: ApduList
+      java_wire_format:
+        - name: Commands.size()
+          write_method: int32
     - name: AvailableNfcAntenna
+      java_wire_format:
+        - name: LocationX
+          write_method: int32
+        - name: LocationY
+          write_method: int32
     - name: NdefMessage
+      java_wire_format:
+        - name: Records.length
+          write_method: int32
+        - name: Records
+          write_method: typed_array
     - name: NdefRecord
+      java_wire_format:
+        - name: Tnf
+          write_method: int32
+        - name: Type.length
+          write_method: int32
+        - name: Type
+          write_method: byte_array
+        - name: Id.length
+          write_method: int32
+        - name: Id
+          write_method: byte_array
+        - name: Payload.length
+          write_method: int32
+        - name: Payload
+          write_method: byte_array
     - name: NfcAntennaInfo
+      java_wire_format:
+        - name: DeviceWidth
+          write_method: int32
+        - name: DeviceHeight
+          write_method: int32
+        - name: (byte)(mDeviceFoldable?1:0)
+          write_method: int32
+        - name: AvailableNfcAntennas
+          write_method: opaque
     - name: Tag
+      java_wire_format:
+        - name: TechList.length
+          write_method: int32
+        - name: TechList
+          write_method: int_array
+        - name: TechExtras
+          write_method: typed_array
+        - name: ServiceHandle
+          write_method: int32
+        - name: Cookie
+          write_method: int64
+        - name: IsMock
+          write_method: int32
+        - name: TagService.asBinder()
+          write_method: binder
+          condition: isMock==0
     - name: TechListParcel
+      java_wire_format:
+        - name: Count
+          write_method: int32
     - name: TransceiveResult
+      java_wire_format:
+        - name: Result
+          write_method: int32
+        - name: ResponseData.length
+          write_method: int32
+          condition: mResult==RESULT_SUCCESS
+        - name: ResponseData
+          write_method: byte_array
+          condition: mResult==RESULT_SUCCESS
     - name: WlcListenerDeviceInfo
+      java_wire_format:
+        - name: ProductId
+          write_method: int32
+        - name: Temperature
+          write_method: float64
+        - name: BatteryLevel
+          write_method: float64
+        - name: State
+          write_method: int32

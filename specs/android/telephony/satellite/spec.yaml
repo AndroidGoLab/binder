@@ -149,9 +149,54 @@ interfaces:
             name: void
 parcelables:
     - name: AntennaDirection
+      java_wire_format:
+        - name: X
+          write_method: float32
+        - name: "Y"
+          write_method: float32
+        - name: Z
+          write_method: float32
     - name: AntennaPosition
+      java_wire_format:
+        - name: AntennaDirection
+          write_method: typed_object
+        - name: SuggestedHoldPosition
+          write_method: int32
     - name: NtnSignalStrength
+      java_wire_format:
+        - name: Level
+          write_method: int32
     - name: PointingInfo
+      java_wire_format:
+        - name: SatelliteAzimuthDegrees
+          write_method: float32
+        - name: SatelliteElevationDegrees
+          write_method: float32
     - name: SatelliteCapabilities
+      java_wire_format:
+        - name: SupportedRadioTechnologies.size()
+          write_method: int32
+          condition: mSupportedRadioTechnologies!=null&&!mSupportedRadioTechnologies.isEmpty()
+        - name: IsPointingRequired
+          write_method: bool
+        - name: MaxBytesPerOutgoingDatagram
+          write_method: int32
+        - name: Size
+          write_method: int32
+          condition: mAntennaPositionMap!=null&&!mAntennaPositionMap.isEmpty()
     - name: SatelliteDatagram
+      java_wire_format:
+        - name: Data
+          write_method: byte_array
     - name: SatelliteSessionStats
+      java_wire_format:
+        - name: CountOfSuccessfulUserMessages
+          write_method: int32
+        - name: CountOfUnsuccessfulUserMessages
+          write_method: int32
+        - name: CountOfTimedOutUserMessagesWaitingForConnection
+          write_method: int32
+        - name: CountOfTimedOutUserMessagesWaitingForAck
+          write_method: int32
+        - name: CountOfUserMessagesInQueueToBeSent
+          write_method: int32

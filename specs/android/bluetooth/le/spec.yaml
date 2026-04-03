@@ -347,14 +347,310 @@ interfaces:
             name: void
 parcelables:
     - name: AdvertiseData
+      java_wire_format:
+        - name: ServiceUuids.toArray(newParcelUuid[mServiceUuids.size()])
+          write_method: typed_array
+        - name: ServiceSolicitationUuids.toArray(newParcelUuid[mServiceSolicitationUuids.size()])
+          write_method: typed_array
+        - name: TransportDiscoveryData
+          write_method: opaque
+        - name: ManufacturerSpecificData.size()
+          write_method: int32
+        - name: ServiceData.size()
+          write_method: int32
+        - name: (byte)(getIncludeTxPowerLevel()?1:0)
+          write_method: int32
+        - name: (byte)(getIncludeDeviceName()?1:0)
+          write_method: int32
     - name: AdvertiseSettings
+      java_wire_format:
+        - name: AdvertiseMode
+          write_method: int32
+        - name: AdvertiseTxPowerLevel
+          write_method: int32
+        - name: AdvertiseConnectable
+          write_method: bool
+        - name: AdvertiseTimeoutMillis
+          write_method: int32
+        - name: OwnAddressType
+          write_method: int32
+        - name: AdvertiseDiscoverable
+          write_method: bool
     - name: AdvertisingSetParameters
+      java_wire_format:
+        - name: Connectable
+          write_method: bool
+        - name: Scannable
+          write_method: bool
+        - name: IsLegacy
+          write_method: bool
+        - name: IsAnonymous
+          write_method: bool
+        - name: IncludeTxPower
+          write_method: bool
+        - name: PrimaryPhy
+          write_method: int32
+        - name: SecondaryPhy
+          write_method: int32
+        - name: Interval
+          write_method: int32
+        - name: TxPowerLevel
+          write_method: int32
+        - name: OwnAddressType
+          write_method: int32
+        - name: Discoverable
+          write_method: bool
+        - name: IsDirected
+          write_method: bool
+        - name: IsHighDutyCycle
+          write_method: bool
+        - name: Dest
+          write_method: opaque
+        - name: PeerAddressType
+          write_method: int32
     - name: DistanceMeasurementMethod
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: IsAzimuthAngleSupported
+          write_method: bool
+        - name: IsAltitudeAngleSupported
+          write_method: bool
     - name: DistanceMeasurementParams
+      java_wire_format:
+        - name: Device
+          write_method: delegate
+          delegate_type: BluetoothDevice
+        - name: Duration
+          write_method: int32
+        - name: Frequency
+          write_method: int32
+        - name: MethodId
+          write_method: int32
+        - name: ChannelSoundingParams==null
+          write_method: bool
+        - name: ChannelSoundingParams
+          write_method: delegate
+          condition: mChannelSoundingParams!=null
+          delegate_type: ChannelSoundingParams
     - name: DistanceMeasurementResult
+      java_wire_format:
+        - name: Meters
+          write_method: float64
+        - name: ErrorMeters
+          write_method: float64
+        - name: AzimuthAngle
+          write_method: float64
+        - name: ErrorAzimuthAngle
+          write_method: float64
+        - name: AltitudeAngle
+          write_method: float64
+        - name: ErrorAltitudeAngle
+          write_method: float64
+        - name: DelaySpreadMeters
+          write_method: float64
+        - name: ConfidenceLevel
+          write_method: float64
+        - name: DetectedAttackLevel
+          write_method: int32
+        - name: VelocityMetersPerSecond
+          write_method: float64
+        - name: MeasurementTimestampNanos
+          write_method: int64
     - name: PeriodicAdvertisingParameters
+      java_wire_format:
+        - name: IncludeTxPower
+          write_method: bool
+        - name: Interval
+          write_method: int32
     - name: PeriodicAdvertisingReport
+      java_wire_format:
+        - name: SyncHandle
+          write_method: int32
+        - name: TxPower
+          write_method: int32
+        - name: Rssi
+          write_method: int32
+        - name: DataStatus
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: mData!=null
+        - name: Data.getBytes()
+          write_method: byte_array
+          condition: mData!=null
     - name: ResultStorageDescriptor
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Offset
+          write_method: int32
+        - name: Length
+          write_method: int32
     - name: ScanFilter
+      java_wire_format:
+        - name: DeviceName==null
+          write_method: bool
+        - name: Dest
+          write_method: opaque
+          condition: mDeviceName!=null
+        - name: DeviceAddress==null
+          write_method: bool
+        - name: Dest
+          write_method: opaque
+          condition: mDeviceAddress!=null
+        - name: ServiceUuid==null
+          write_method: bool
+        - name: ServiceUuid
+          write_method: delegate
+          condition: mServiceUuid!=null
+          delegate_type: ParcelUuid
+        - name: ServiceUuidMask==null
+          write_method: bool
+          condition: mServiceUuid!=null
+        - name: ServiceUuidMask
+          write_method: delegate
+          condition: mServiceUuid!=null && mServiceUuidMask!=null
+          delegate_type: ParcelUuid
+        - name: ServiceSolicitationUuid==null
+          write_method: bool
+        - name: ServiceSolicitationUuid
+          write_method: delegate
+          condition: mServiceSolicitationUuid!=null
+          delegate_type: ParcelUuid
+        - name: ServiceSolicitationUuidMask==null
+          write_method: bool
+          condition: mServiceSolicitationUuid!=null
+        - name: ServiceSolicitationUuidMask
+          write_method: delegate
+          condition: mServiceSolicitationUuid!=null && mServiceSolicitationUuidMask!=null
+          delegate_type: ParcelUuid
+        - name: ServiceDataUuid==null
+          write_method: bool
+        - name: ServiceDataUuid
+          write_method: delegate
+          condition: mServiceDataUuid!=null
+          delegate_type: ParcelUuid
+        - name: ServiceData==null
+          write_method: bool
+          condition: mServiceDataUuid!=null
+        - name: ServiceData.length
+          write_method: int32
+          condition: mServiceDataUuid!=null && mServiceData!=null
+        - name: ServiceData
+          write_method: byte_array
+          condition: mServiceDataUuid!=null && mServiceData!=null
+        - name: ServiceDataMask==null
+          write_method: bool
+          condition: mServiceDataUuid!=null && mServiceData!=null
+        - name: ServiceDataMask.length
+          write_method: int32
+          condition: mServiceDataUuid!=null && mServiceData!=null && mServiceDataMask!=null
+        - name: ServiceDataMask
+          write_method: byte_array
+          condition: mServiceDataUuid!=null && mServiceData!=null && mServiceDataMask!=null
+        - name: ManufacturerId
+          write_method: int32
+        - name: ManufacturerData==null
+          write_method: bool
+        - name: ManufacturerData.length
+          write_method: int32
+          condition: mManufacturerData!=null
+        - name: ManufacturerData
+          write_method: byte_array
+          condition: mManufacturerData!=null
+        - name: ManufacturerDataMask==null
+          write_method: bool
+          condition: mManufacturerData!=null
+        - name: ManufacturerDataMask.length
+          write_method: int32
+          condition: mManufacturerData!=null && mManufacturerDataMask!=null
+        - name: ManufacturerDataMask
+          write_method: byte_array
+          condition: mManufacturerData!=null && mManufacturerDataMask!=null
+        - name: AddressType
+          write_method: int32
+          condition: mDeviceAddress!=null
+        - name: Irk==null
+          write_method: bool
+          condition: mDeviceAddress!=null
+        - name: Arrays.copyOfRange(mIrk,0,16)
+          write_method: byte_array
+          condition: mDeviceAddress!=null && mIrk!=null
+        - name: AdvertisingDataType
+          write_method: int32
+        - name: AdvertisingData==null
+          write_method: bool
+        - name: AdvertisingData.length
+          write_method: int32
+          condition: mAdvertisingData!=null
+        - name: AdvertisingData
+          write_method: byte_array
+          condition: mAdvertisingData!=null
+        - name: AdvertisingDataMask==null
+          write_method: bool
+          condition: mAdvertisingData!=null
+        - name: AdvertisingDataMask.length
+          write_method: int32
+          condition: mAdvertisingData!=null && mAdvertisingDataMask!=null
+        - name: AdvertisingDataMask
+          write_method: byte_array
+          condition: mAdvertisingData!=null && mAdvertisingDataMask!=null
+        - name: TransportBlockFilter==null
+          write_method: bool
+        - name: TransportBlockFilter
+          write_method: typed_object
+          condition: mTransportBlockFilter!=null
     - name: ScanResult
+      java_wire_format:
+        - name: "1"
+          write_method: int32
+          condition: mDevice!=null
+        - name: Device
+          write_method: delegate
+          condition: mDevice!=null
+          delegate_type: BluetoothDevice
+        - name: "1"
+          write_method: int32
+          condition: mScanRecord!=null
+        - name: ScanRecord.getBytes()
+          write_method: byte_array
+          condition: mScanRecord!=null
+        - name: Rssi
+          write_method: int32
+        - name: TimestampNanos
+          write_method: int64
+        - name: EventType
+          write_method: int32
+        - name: PrimaryPhy
+          write_method: int32
+        - name: SecondaryPhy
+          write_method: int32
+        - name: AdvertisingSid
+          write_method: int32
+        - name: TxPower
+          write_method: int32
+        - name: PeriodicAdvertisingInterval
+          write_method: int32
     - name: ScanSettings
+      java_wire_format:
+        - name: ScanMode
+          write_method: int32
+        - name: CallbackType
+          write_method: int32
+        - name: ScanResultType
+          write_method: int32
+        - name: ReportDelayMillis
+          write_method: int64
+        - name: MatchMode
+          write_method: int32
+        - name: NumOfMatchesPerFilter
+          write_method: int32
+        - name: Legacy
+          write_method: bool
+        - name: Phy
+          write_method: int32
+        - name: RssiThreshold
+          write_method: int32
+        - name: ScanType
+          write_method: int32

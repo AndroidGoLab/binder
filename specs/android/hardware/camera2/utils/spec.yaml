@@ -4,5 +4,19 @@ package: android.hardware.camera2.utils
 go_package: android/hardware/camera2/utils
 parcelables:
     - name: CameraIdAndSessionConfiguration
+      java_wire_format:
+        - name: CameraId
+          write_method: string16
+        - name: SessionConfiguration
+          write_method: delegate
+          delegate_type: SessionConfiguration
     - name: ConcurrentCameraIdCombination
+      java_wire_format:
+        - name: ConcurrentCameraIds.size()
+          write_method: int32
     - name: SubmitInfo
+      java_wire_format:
+        - name: RequestId
+          write_method: int32
+        - name: LastFrameNumber
+          write_method: int64

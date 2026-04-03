@@ -796,4 +796,18 @@ interfaces:
             name: void
 parcelables:
     - name: AutofillId
+      java_wire_format:
+        - name: ViewId
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: SessionId
+          write_method: int32
+          condition: hasSession()
+        - name: VirtualIntId
+          write_method: int32
+          condition: isVirtualInt()
     - name: AutofillValue
+      java_wire_format:
+        - name: Type
+          write_method: int32

@@ -22,14 +22,88 @@ interfaces:
 parcelables:
     - name: ExternalTimeSuggestion
     - name: LocationTimeZoneAlgorithmStatus
+      java_wire_format:
+        - name: Status
+          write_method: int32
+        - name: PrimaryProviderStatus
+          write_method: int32
+        - name: PrimaryProviderReportedStatus
+          write_method: typed_object
+        - name: SecondaryProviderStatus
+          write_method: int32
+        - name: SecondaryProviderReportedStatus
+          write_method: typed_object
     - name: TelephonyTimeZoneAlgorithmStatus
+      java_wire_format:
+        - name: AlgorithmStatus
+          write_method: int32
     - name: TimeCapabilities
+      java_wire_format:
+        - name: UserHandle
+          write_method: delegate
+          delegate_type: UserHandle
+        - name: ConfigureAutoDetectionEnabledCapability
+          write_method: int32
+        - name: SetManualTimeCapability
+          write_method: int32
     - name: TimeCapabilitiesAndConfig
+      java_wire_format:
+        - name: Capabilities
+          write_method: typed_object
+        - name: Configuration
+          write_method: typed_object
     - name: TimeConfiguration
+      java_wire_format:
+        - name: Bundle
+          write_method: bundle
     - name: TimeState
+      java_wire_format:
+        - name: UnixEpochTime
+          write_method: typed_object
+        - name: UserShouldConfirmTime
+          write_method: bool
     - name: TimeZoneCapabilities
+      java_wire_format:
+        - name: UserHandle
+          write_method: delegate
+          delegate_type: UserHandle
+        - name: ConfigureAutoDetectionEnabledCapability
+          write_method: int32
+        - name: UseLocationEnabled
+          write_method: bool
+        - name: ConfigureGeoDetectionEnabledCapability
+          write_method: int32
+        - name: SetManualTimeZoneCapability
+          write_method: int32
     - name: TimeZoneCapabilitiesAndConfig
+      java_wire_format:
+        - name: DetectorStatus
+          write_method: typed_object
+        - name: Capabilities
+          write_method: typed_object
+        - name: Configuration
+          write_method: typed_object
     - name: TimeZoneConfiguration
+      java_wire_format:
+        - name: Bundle
+          write_method: bundle
     - name: TimeZoneDetectorStatus
+      java_wire_format:
+        - name: DetectorStatus
+          write_method: int32
+        - name: TelephonyTimeZoneAlgorithmStatus
+          write_method: typed_object
+        - name: LocationTimeZoneAlgorithmStatus
+          write_method: typed_object
     - name: TimeZoneState
+      java_wire_format:
+        - name: Id
+          write_method: string8
+        - name: UserShouldConfirmId
+          write_method: bool
     - name: UnixEpochTime
+      java_wire_format:
+        - name: ElapsedRealtimeMillis
+          write_method: int64
+        - name: UnixEpochTimeMillis
+          write_method: int64

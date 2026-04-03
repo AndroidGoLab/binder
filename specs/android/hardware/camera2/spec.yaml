@@ -395,3 +395,24 @@ interfaces:
             name: void
 parcelables:
     - name: CaptureRequest
+      java_wire_format:
+        - name: PhysicalCameraCount
+          write_method: int32
+        - name: LogicalCameraId
+          write_method: string16
+        - name: LogicalCameraSettings
+          write_method: delegate
+          delegate_type: CameraMetadataNative
+        - name: IsReprocess
+          write_method: bool
+        - name: Surfaces.toArray(newSurface[surfaces.size()])
+          write_method: opaque
+        - name: StreamIdxArray.length
+          write_method: int32
+          condition: mSurfaceConverted
+        - name: "1"
+          write_method: int32
+          condition: mUserTag!=null && userTagStr!=null&&userTagStr.startsWith(SET_TAG_STRING_PREFIX)
+        - name: UserTagStr.substring(SET_TAG_STRING_PREFIX.length())
+          write_method: string16
+          condition: mUserTag!=null && userTagStr!=null&&userTagStr.startsWith(SET_TAG_STRING_PREFIX)

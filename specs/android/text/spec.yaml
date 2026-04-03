@@ -4,4 +4,15 @@ package: android.text
 go_package: android/text
 parcelables:
     - name: FontConfig
+      java_wire_format:
+        - name: Families
+          write_method: opaque
+        - name: Aliases
+          write_method: opaque
+        - name: NamedFamilyLists
+          write_method: opaque
+        - name: LastModifiedTimeMillis
+          write_method: int64
+        - name: ConfigVersion
+          write_method: int32
     - name: FontVariationAxis

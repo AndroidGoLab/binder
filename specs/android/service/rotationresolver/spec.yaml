@@ -49,3 +49,14 @@ interfaces:
             name: void
 parcelables:
     - name: RotationResolutionRequest
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: ForegroundPackageName
+          write_method: string16
+        - name: CurrentRotation
+          write_method: int32
+        - name: ProposedRotation
+          write_method: int32
+        - name: TimeoutMillis
+          write_method: int64

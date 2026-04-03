@@ -52,5 +52,116 @@ interfaces:
             name: void
 parcelables:
     - name: LegacyVpnInfo
+      java_wire_format:
+        - name: Key
+          write_method: string16
+        - name: State
+          write_method: int32
+        - name: Intent
+          write_method: typed_object
     - name: VpnConfig
+      java_wire_format:
+        - name: User
+          write_method: string16
+        - name: Interfaze
+          write_method: string16
+        - name: Session
+          write_method: string16
+        - name: Mtu
+          write_method: int32
+        - name: Addresses
+          write_method: opaque
+        - name: Routes
+          write_method: opaque
+        - name: DnsServers
+          write_method: opaque
+        - name: SearchDomains
+          write_method: opaque
+        - name: AllowedApplications
+          write_method: opaque
+        - name: DisallowedApplications
+          write_method: opaque
+        - name: ConfigureIntent
+          write_method: typed_object
+        - name: StartTime
+          write_method: int64
+        - name: Legacy
+          write_method: bool
+        - name: Blocking
+          write_method: bool
+        - name: AllowBypass
+          write_method: bool
+        - name: AllowIPv4
+          write_method: bool
+        - name: AllowIPv6
+          write_method: bool
+        - name: IsMetered
+          write_method: bool
+        - name: RequiresInternetValidation
+          write_method: bool
+        - name: ExcludeLocalRoutes
+          write_method: bool
+        - name: UnderlyingNetworks
+          write_method: typed_array
+        - name: ProxyInfo
+          write_method: typed_object
     - name: VpnProfile
+      java_wire_format:
+        - name: Key
+          write_method: string16
+        - name: Name
+          write_method: string16
+        - name: Type
+          write_method: int32
+        - name: Server
+          write_method: string16
+        - name: Username
+          write_method: string16
+        - name: Password
+          write_method: string16
+        - name: DnsServers
+          write_method: string16
+        - name: SearchDomains
+          write_method: string16
+        - name: Routes
+          write_method: string16
+        - name: Mppe
+          write_method: bool
+        - name: L2tpSecret
+          write_method: string16
+        - name: IpsecIdentifier
+          write_method: string16
+        - name: IpsecSecret
+          write_method: string16
+        - name: IpsecUserCert
+          write_method: string16
+        - name: IpsecCaCert
+          write_method: string16
+        - name: IpsecServerCert
+          write_method: string16
+        - name: SaveLogin
+          write_method: bool
+        - name: Proxy
+          write_method: typed_object
+        - name: AllowedAlgorithms
+          write_method: write_list
+        - name: IsBypassable
+          write_method: bool
+        - name: IsMetered
+          write_method: bool
+        - name: MaxMtu
+          write_method: int32
+        - name: AreAuthParamsInline
+          write_method: bool
+        - name: IsRestrictedToTestNetworks
+          write_method: bool
+        - name: ExcludeLocalRoutes
+          write_method: bool
+        - name: RequiresInternetValidation
+          write_method: bool
+        - name: IkeTunConnParams==null
+          write_method: bool
+        - name: AutomaticNattKeepaliveTimerEnabled
+          write_method: bool
+        - name: AutomaticIpVersionSelectionEnabled
+          write_method: bool

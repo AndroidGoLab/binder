@@ -9928,34 +9928,349 @@ interfaces:
             - JavaPassthrough
 parcelables:
     - name: BluetoothActivityEnergyInfo
+      java_wire_format:
+        - name: Timestamp
+          write_method: int64
+        - name: BluetoothStackState
+          write_method: int32
+        - name: ControllerTxTimeMs
+          write_method: int64
+        - name: ControllerRxTimeMs
+          write_method: int64
+        - name: ControllerIdleTimeMs
+          write_method: int64
+        - name: ControllerEnergyUsed
+          write_method: int64
+        - name: UidTraffic
+          write_method: opaque
     - name: BluetoothAudioConfig
+      java_wire_format:
+        - name: SampleRate
+          write_method: int32
+        - name: ChannelConfig
+          write_method: int32
+        - name: AudioFormat
+          write_method: int32
     - name: BluetoothAvrcpPlayerSettings
+      java_wire_format:
+        - name: Settings
+          write_method: int32
+        - name: SettingsValue.size()
+          write_method: int32
     - name: BluetoothBroadcastAudioScanBaseConfig
     - name: BluetoothClass
+      java_wire_format:
+        - name: Class
+          write_method: int32
     - name: BluetoothCodecConfig
+      java_wire_format:
+        - name: "True"
+          write_method: bool
+          condition: mCodecType!=null
+        - name: CodecType
+          write_method: delegate
+          condition: mCodecType!=null
+          delegate_type: BluetoothCodecType
+        - name: CodecPriority
+          write_method: int32
+        - name: SampleRate
+          write_method: int32
+        - name: BitsPerSample
+          write_method: int32
+        - name: ChannelMode
+          write_method: int32
+        - name: CodecSpecific1
+          write_method: int64
+        - name: CodecSpecific2
+          write_method: int64
+        - name: CodecSpecific3
+          write_method: int64
+        - name: CodecSpecific4
+          write_method: int64
     - name: BluetoothCodecStatus
+      java_wire_format:
+        - name: CodecConfig
+          write_method: typed_object
+        - name: CodecsLocalCapabilities
+          write_method: opaque
+        - name: CodecsSelectableCapabilities
+          write_method: opaque
     - name: BluetoothCodecType
+      java_wire_format:
+        - name: NativeCodecType
+          write_method: int32
+        - name: CodecId
+          write_method: int64
+        - name: Dest
+          write_method: opaque
     - name: BluetoothDevice
+      java_wire_format:
+        - name: Out
+          write_method: opaque
+        - name: AddressType
+          write_method: int32
     - name: BluetoothDevice.BluetoothAddress
     - name: BluetoothGattCharacteristic
+      java_wire_format:
+        - name: (newParcelUuid(mUuid))
+          write_method: delegate
+        - name: Instance
+          write_method: int32
+        - name: Properties
+          write_method: int32
+        - name: Permissions
+          write_method: int32
+        - name: KeySize
+          write_method: int32
+        - name: WriteType
+          write_method: int32
+        - name: Descriptors
+          write_method: opaque
     - name: BluetoothGattDescriptor
+      java_wire_format:
+        - name: (newParcelUuid(mUuid))
+          write_method: delegate
+        - name: Instance
+          write_method: int32
+        - name: Permissions
+          write_method: int32
     - name: BluetoothGattIncludedService
+      java_wire_format:
+        - name: (newParcelUuid(mUuid))
+          write_method: delegate
+        - name: InstanceId
+          write_method: int32
+        - name: ServiceType
+          write_method: int32
     - name: BluetoothGattService
+      java_wire_format:
+        - name: (newParcelUuid(mUuid))
+          write_method: delegate
+        - name: InstanceId
+          write_method: int32
+        - name: ServiceType
+          write_method: int32
+        - name: Characteristics
+          write_method: opaque
+        - name: IncludedServices
+          write_method: opaque
     - name: BluetoothHapPresetInfo
+      java_wire_format:
+        - name: Index
+          write_method: int32
+        - name: Dest
+          write_method: opaque
+        - name: IsWritable
+          write_method: bool
+        - name: IsAvailable
+          write_method: bool
     - name: BluetoothHeadsetClientCall
+      java_wire_format:
+        - name: Device
+          write_method: delegate
+          delegate_type: BluetoothDevice
+        - name: Id
+          write_method: int32
+        - name: Out
+          write_method: opaque
+        - name: State
+          write_method: int32
+        - name: Out
+          write_method: opaque
+        - name: MultiParty
+          write_method: bool
+        - name: Outgoing
+          write_method: bool
+        - name: InBandRing
+          write_method: bool
     - name: BluetoothHearingAid.AdvertisementServiceData
     - name: BluetoothHidDeviceAppQosSettings
+      java_wire_format:
+        - name: ServiceType
+          write_method: int32
+        - name: TokenRate
+          write_method: int32
+        - name: TokenBucketSize
+          write_method: int32
+        - name: PeakBandwidth
+          write_method: int32
+        - name: Latency
+          write_method: int32
+        - name: DelayVariation
+          write_method: int32
     - name: BluetoothHidDeviceAppSdpSettings
+      java_wire_format:
+        - name: Out
+          write_method: opaque
+        - name: Out
+          write_method: opaque
+        - name: Out
+          write_method: opaque
+        - name: Subclass
+          write_method: int32
+        - name: Descriptors
+          write_method: byte_array
     - name: BluetoothLeAudioCodecConfig
+      java_wire_format:
+        - name: CodecType
+          write_method: int32
+        - name: CodecPriority
+          write_method: int32
+        - name: SampleRate
+          write_method: int32
+        - name: BitsPerSample
+          write_method: int32
+        - name: ChannelCount
+          write_method: int32
+        - name: FrameDuration
+          write_method: int32
+        - name: OctetsPerFrame
+          write_method: int32
+        - name: MinOctetsPerFrame
+          write_method: int32
+        - name: MaxOctetsPerFrame
+          write_method: int32
     - name: BluetoothLeAudioCodecStatus
+      java_wire_format:
+        - name: InputCodecConfig
+          write_method: typed_object
+        - name: OutputCodecConfig
+          write_method: typed_object
+        - name: InputCodecsLocalCapabilities
+          write_method: opaque
+        - name: OutputCodecsLocalCapabilities
+          write_method: opaque
+        - name: InputCodecsSelectableCapabilities
+          write_method: opaque
+        - name: OutputCodecsSelectableCapabilities
+          write_method: opaque
     - name: BluetoothLeAudioContentMetadata
+      java_wire_format:
+        - name: Out
+          write_method: opaque
+        - name: Out
+          write_method: opaque
+        - name: RawMetadata
+          write_method: byte_array
     - name: BluetoothLeBroadcastMetadata
+      java_wire_format:
+        - name: SourceAddressType
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: mSourceDevice!=null
+        - name: SourceDevice
+          write_method: typed_object
+          condition: mSourceDevice!=null
+        - name: SourceAdvertisingSid
+          write_method: int32
+        - name: BroadcastId
+          write_method: int32
+        - name: PaSyncInterval
+          write_method: int32
+        - name: IsEncrypted
+          write_method: bool
+        - name: BroadcastCode.length
+          write_method: int32
+          condition: mBroadcastCode!=null
+        - name: BroadcastCode
+          write_method: byte_array
+          condition: mBroadcastCode!=null
+        - name: PresentationDelayMicros
+          write_method: int32
+        - name: Subgroups
+          write_method: opaque
+        - name: IsPublicBroadcast
+          write_method: bool
+        - name: Out
+          write_method: opaque
+        - name: AudioConfigQuality
+          write_method: int32
+        - name: PublicBroadcastMetadata
+          write_method: typed_object
+        - name: Rssi
+          write_method: int32
     - name: BluetoothLeBroadcastReceiveState
+      java_wire_format:
+        - name: SourceId
+          write_method: int32
+        - name: SourceAddressType
+          write_method: int32
+        - name: SourceDevice
+          write_method: typed_object
+        - name: SourceAdvertisingSid
+          write_method: int32
+        - name: BroadcastId
+          write_method: int32
+        - name: PaSyncState
+          write_method: int32
+        - name: BigEncryptionState
+          write_method: int32
+        - name: BadCode
+          write_method: byte_array
+        - name: NumSubgroups
+          write_method: int32
+        - name: BisSyncState
+          write_method: write_list
+        - name: SubgroupMetadata
+          write_method: opaque
     - name: BluetoothLeBroadcastSettings
+      java_wire_format:
+        - name: IsPublicBroadcast
+          write_method: bool
+        - name: Out
+          write_method: opaque
+        - name: BroadcastCode
+          write_method: byte_array
+        - name: PublicBroadcastMetadata
+          write_method: typed_object
+        - name: SubgroupSettings
+          write_method: opaque
     - name: BluetoothLeCall
+      java_wire_format:
+        - name: (newParcelUuid(mUuid))
+          write_method: delegate
+        - name: Out
+          write_method: opaque
+        - name: Out
+          write_method: opaque
+        - name: State
+          write_method: int32
+        - name: CallFlags
+          write_method: int32
     - name: BluetoothQualityReport
+      java_wire_format:
+        - name: Out
+          write_method: opaque
+        - name: LmpVer
+          write_method: int32
+        - name: LmpSubVer
+          write_method: int32
+        - name: ManufacturerId
+          write_method: int32
+        - name: Out
+          write_method: opaque
+        - name: BluetoothClass.getClassOfDevice()
+          write_method: int32
+        - name: BqrCommon
+          write_method: delegate
+          delegate_type: BqrCommon
+        - name: BqrVsLsto
+          write_method: delegate
+          condition: id==QUALITY_REPORT_ID_APPROACH_LSTO
+          delegate_type: BqrVsLsto
     - name: BluetoothSinkAudioPolicy
+      java_wire_format:
+        - name: CallEstablishPolicy
+          write_method: int32
+        - name: ConnectingTimePolicy
+          write_method: int32
+        - name: InBandRingtonePolicy
+          write_method: int32
     - name: BufferConstraints
+      java_wire_format:
+        - name: BufferConstraintList
+          write_method: opaque
     - name: EncryptionStatus.InnerParcel
     - name: IncomingRfcommSocketInfo
       fields:
@@ -9969,6 +10284,27 @@ parcelables:
           type:
             name: int
     - name: OobData
+      java_wire_format:
+        - name: DeviceAddressWithType
+          write_method: byte_array
+        - name: ConfirmationHash
+          write_method: byte_array
+        - name: RandomizerHash
+          write_method: byte_array
+        - name: DeviceName
+          write_method: byte_array
+        - name: ClassicLength
+          write_method: byte_array
+        - name: ClassOfDevice
+          write_method: byte_array
+        - name: LeDeviceRole
+          write_method: int32
+        - name: LeTemporaryKey
+          write_method: byte_array
+        - name: LeAppearance
+          write_method: byte_array
+        - name: LeFlags
+          write_method: int32
 enums:
     - name: State
       backing_type: int

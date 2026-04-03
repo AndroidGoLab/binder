@@ -21,3 +21,10 @@ interfaces:
             name: void
 parcelables:
     - name: SplitPermissionInfoParcelable
+      java_wire_format:
+        - name: SplitPermission
+          write_method: string16
+        - name: NewPermissions
+          write_method: opaque
+        - name: TargetSdk
+          write_method: int32

@@ -4,5 +4,78 @@ package: com.android.ims.internal.uce.common
 go_package: com/android/ims/internal_/uce/common
 parcelables:
     - name: CapInfo
+      java_wire_format:
+        - name: ImSupported
+          write_method: bool
+        - name: FtSupported
+          write_method: bool
+        - name: FtThumbSupported
+          write_method: bool
+        - name: FtSnFSupported
+          write_method: bool
+        - name: FtHttpSupported
+          write_method: bool
+        - name: IsSupported
+          write_method: bool
+        - name: VsDuringCSSupported
+          write_method: bool
+        - name: VsSupported
+          write_method: bool
+        - name: SpSupported
+          write_method: bool
+        - name: CdViaPresenceSupported
+          write_method: bool
+        - name: IpVoiceSupported
+          write_method: bool
+        - name: IpVideoSupported
+          write_method: bool
+        - name: GeoPullFtSupported
+          write_method: bool
+        - name: GeoPullSupported
+          write_method: bool
+        - name: GeoPushSupported
+          write_method: bool
+        - name: SmSupported
+          write_method: bool
+        - name: FullSnFGroupChatSupported
+          write_method: bool
+        - name: GeoSmsSupported
+          write_method: bool
+        - name: CallComposerSupported
+          write_method: bool
+        - name: PostCallSupported
+          write_method: bool
+        - name: SharedMapSupported
+          write_method: bool
+        - name: SharedSketchSupported
+          write_method: bool
+        - name: ChatbotSupported
+          write_method: bool
+        - name: ChatbotRoleSupported
+          write_method: bool
+        - name: SmChatbotSupported
+          write_method: bool
+        - name: MmtelCallComposerSupported
+          write_method: bool
+        - name: RcsIpVoiceCallSupported
+          write_method: bool
+        - name: RcsIpVideoCallSupported
+          write_method: bool
+        - name: RcsIpVideoOnlyCallSupported
+          write_method: bool
+        - name: Exts
+          write_method: string_array
+        - name: CapTimestamp
+          write_method: int64
+        - name: CapInfoBundle
+          write_method: bundle
     - name: StatusCode
+      java_wire_format:
+        - name: StatusCode
+          write_method: int32
     - name: UceLong
+      java_wire_format:
+        - name: UceLong
+          write_method: int64
+        - name: ClientId
+          write_method: int32

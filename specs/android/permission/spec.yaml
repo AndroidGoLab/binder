@@ -919,7 +919,48 @@ interfaces:
                 - name: PermissionState
 parcelables:
     - name: AdminPermissionControlParams
+      java_wire_format:
+        - name: GranteePackageName
+          write_method: string16
+        - name: Permission
+          write_method: string16
+        - name: GrantState
+          write_method: int32
+        - name: CanAdminGrantSensorsPermissions
+          write_method: bool
     - name: PermissionGroupUsage
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+        - name: Uid
+          write_method: int32
+        - name: LastAccessTimeMillis
+          write_method: int64
+        - name: PermissionGroupName
+          write_method: string16
+        - name: AttributionTag
+          write_method: opaque
+          condition: mAttributionTag!=null
+        - name: AttributionLabel
+          write_method: opaque
+          condition: mAttributionLabel!=null
+        - name: ProxyLabel
+          write_method: opaque
+          condition: mProxyLabel!=null
+        - name: PersistentDeviceId
+          write_method: string16
     - name: PermissionManager.PermissionState
     - name: RuntimePermissionPresentationInfo
+      java_wire_format:
+        - name: Label
+          write_method: opaque
+        - name: Flags
+          write_method: int32
     - name: RuntimePermissionUsageInfo
+      java_wire_format:
+        - name: Name
+          write_method: string16
+        - name: NumUsers
+          write_method: int32

@@ -170,6 +170,28 @@ interfaces:
             name: void
 parcelables:
     - name: ClassificationsRequest
+      java_wire_format:
+        - name: Selections
+          write_method: opaque
+        - name: Extras
+          write_method: bundle
     - name: ContentClassification
+      java_wire_format:
+        - name: ClassificationId
+          write_method: string16
+        - name: Extras
+          write_method: bundle
     - name: ContentSelection
+      java_wire_format:
+        - name: SelectionId
+          write_method: string16
+        - name: Extras
+          write_method: bundle
     - name: SelectionsRequest
+      java_wire_format:
+        - name: TaskId
+          write_method: int32
+        - name: InterestPoint
+          write_method: typed_object
+        - name: Extras
+          write_method: bundle

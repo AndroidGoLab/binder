@@ -767,9 +767,61 @@ interfaces:
             name: void
 parcelables:
     - name: Face
+      java_wire_format:
+        - name: GetName().toString()
+          write_method: string16
+        - name: GetBiometricId()
+          write_method: int32
+        - name: GetDeviceId()
+          write_method: int64
     - name: FaceAuthenticateOptions
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: UserId
+          write_method: int32
+        - name: SensorId
+          write_method: int32
+        - name: DisplayState
+          write_method: int32
+        - name: AuthenticateReason
+          write_method: int32
+        - name: WakeReason
+          write_method: int32
+        - name: OpPackageName
+          write_method: string16
+        - name: AttributionTag
+          write_method: string16
+          condition: mAttributionTag!=null
     - name: FaceAuthenticationFrame
+      java_wire_format:
+        - name: Data
+          write_method: typed_object
     - name: FaceEnrollFrame
+      java_wire_format:
+        - name: Cell
+          write_method: typed_object
+        - name: Stage
+          write_method: int32
+        - name: Data
+          write_method: typed_object
     - name: FaceEnrollOptions
+      java_wire_format:
+        - name: EnrollReason
+          write_method: int32
     - name: FaceSensorConfigurations
+      java_wire_format:
+        - name: (byte)(mResetLockoutRequiresChallenge?1:0)
+          write_method: int32
+        - name: SensorPropsMap
+          write_method: opaque
     - name: FaceSensorPropertiesInternal
+      java_wire_format:
+        - name: Super
+          write_method: delegate
+        - name: SensorType
+          write_method: int32
+        - name: SupportsFaceDetection
+          write_method: bool
+        - name: SupportsSelfIllumination
+          write_method: bool

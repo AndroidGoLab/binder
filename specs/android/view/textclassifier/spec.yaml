@@ -4,17 +4,157 @@ package: android.view.textclassifier
 go_package: android/view/textclassifier
 parcelables:
     - name: ConversationActions
+      java_wire_format:
+        - name: ConversationActions
+          write_method: opaque
+        - name: Id
+          write_method: string16
     - name: ConversationActions.Request
     - name: SelectionEvent
+      java_wire_format:
+        - name: AbsoluteStart
+          write_method: int32
+        - name: AbsoluteEnd
+          write_method: int32
+        - name: EventType
+          write_method: int32
+        - name: EntityType
+          write_method: string16
+        - name: WidgetVersion!=null
+          write_method: bool
+        - name: WidgetVersion
+          write_method: string16
+          condition: mWidgetVersion!=null
+        - name: PackageName
+          write_method: string16
+        - name: WidgetType
+          write_method: string16
+        - name: InvocationMethod
+          write_method: int32
+        - name: ResultId
+          write_method: string16
+        - name: EventTime
+          write_method: int64
+        - name: DurationSinceSessionStart
+          write_method: int64
+        - name: DurationSincePreviousEvent
+          write_method: int64
+        - name: EventIndex
+          write_method: int32
+        - name: SessionId!=null
+          write_method: bool
+        - name: SessionId
+          write_method: delegate
+          condition: mSessionId!=null
+          delegate_type: TextClassificationSessionId
+        - name: Start
+          write_method: int32
+        - name: End
+          write_method: int32
+        - name: SmartStart
+          write_method: int32
+        - name: SmartEnd
+          write_method: int32
+        - name: SystemTcMetadata
+          write_method: typed_object
     - name: SystemTextClassifierMetadata
+      java_wire_format:
+        - name: CallingPackageName
+          write_method: string16
+        - name: UserId
+          write_method: int32
+        - name: UseDefaultTextClassifier
+          write_method: bool
     - name: TextClassification
+      java_wire_format:
+        - name: Text
+          write_method: string16
+        - name: Actions
+          write_method: opaque
+        - name: EntityConfidence
+          write_method: delegate
+          delegate_type: EntityConfidence
+        - name: Id
+          write_method: string16
+        - name: Extras
+          write_method: bundle
     - name: TextClassification.Request
     - name: TextClassificationContext
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
+        - name: WidgetType
+          write_method: string16
+        - name: WidgetVersion
+          write_method: string16
+        - name: SystemTcMetadata
+          write_method: typed_object
     - name: TextClassificationSessionId
+      java_wire_format:
+        - name: Value
+          write_method: string16
+        - name: Token
+          write_method: binder
     - name: TextClassifierEvent
+      java_wire_format:
+        - name: GetParcelToken()
+          write_method: int32
+        - name: EventCategory
+          write_method: int32
+        - name: EventType
+          write_method: int32
+        - name: EntityTypes
+          write_method: string_array
+        - name: EventContext
+          write_method: typed_object
+        - name: ResultId
+          write_method: string16
+        - name: EventIndex
+          write_method: int32
+        - name: Scores.length
+          write_method: int32
+        - name: Scores
+          write_method: float_array
+        - name: ModelName
+          write_method: string16
+        - name: ActionIndices
+          write_method: int_array
+        - name: Locale==null
+          write_method: bool
+        - name: Extras
+          write_method: bundle
     - name: TextLanguage
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: EntityConfidence
+          write_method: delegate
+          delegate_type: EntityConfidence
+        - name: Bundle
+          write_method: bundle
     - name: TextLanguage.Request
     - name: TextLinks
+      java_wire_format:
+        - name: FullText
+          write_method: string16
+        - name: Links
+          write_method: opaque
+        - name: Extras
+          write_method: bundle
     - name: TextLinks.Request
     - name: TextSelection
+      java_wire_format:
+        - name: StartIndex
+          write_method: int32
+        - name: EndIndex
+          write_method: int32
+        - name: EntityConfidence
+          write_method: delegate
+          delegate_type: EntityConfidence
+        - name: Id
+          write_method: string16
+        - name: Extras
+          write_method: bundle
+        - name: TextClassification
+          write_method: typed_object
     - name: TextSelection.Request

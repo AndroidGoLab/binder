@@ -7691,6 +7691,23 @@ parcelables:
     - name: AudioAttributes
       annotations:
         - JavaOnlyStableParcelable
+      java_wire_format:
+        - name: Usage
+          write_method: int32
+        - name: ContentType
+          write_method: int32
+        - name: Source
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: Flags&ALL_PARCEL_FLAGS
+          write_method: int32
+        - name: TagsArray
+          write_method: string_array
+          condition: (flags&FLATTEN_TAGS)==0
+        - name: ATTR_PARCEL_IS_NULL_BUNDLE
+          write_method: int32
+          condition: mBundle==null
     - name: AudioAttributesEx
       fields:
         - name: attributes
@@ -7711,8 +7728,54 @@ parcelables:
           type:
             name: AttributionSourceState
     - name: AudioDeviceAttributes
+      java_wire_format:
+        - name: Role
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: Address
+          write_method: string16
+        - name: Name
+          write_method: string16
+        - name: NativeType
+          write_method: int32
+        - name: AudioProfiles.toArray(newAudioProfile[mAudioProfiles.size()])
+          write_method: opaque
+        - name: AudioDescriptors.toArray(newAudioDescriptor[mAudioDescriptors.size()])
+          write_method: opaque
     - name: AudioFocusInfo
+      java_wire_format:
+        - name: Attributes
+          write_method: delegate
+          delegate_type: AudioAttributes
+        - name: ClientUid
+          write_method: int32
+        - name: ClientId
+          write_method: string16
+        - name: PackageName
+          write_method: string16
+        - name: GainRequest
+          write_method: int32
+        - name: LossReceived
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: SdkTarget
+          write_method: int32
+        - name: GenCount
+          write_method: int64
     - name: AudioFormat
+      java_wire_format:
+        - name: PropertySetMask
+          write_method: int32
+        - name: Encoding
+          write_method: int32
+        - name: SampleRate
+          write_method: int32
+        - name: ChannelMask
+          write_method: int32
+        - name: ChannelIndexMask
+          write_method: int32
     - name: AudioGainSys
       fields:
         - name: index
@@ -7736,6 +7799,9 @@ parcelables:
       nested_types:
         - AudioHalVersion.Type
     - name: AudioHalVersionInfo
+      java_wire_format:
+        - name: HalVersion
+          write_method: typed_object
     - name: AudioHwModule
       fields:
         - name: handle
@@ -7834,6 +7900,11 @@ parcelables:
             name: AudioMixMatchCriterion
             is_array: true
     - name: AudioMixerAttributes
+      java_wire_format:
+        - name: Format
+          write_method: typed_object
+        - name: MixerBehavior
+          write_method: int32
     - name: AudioMixerAttributesInternal
       fields:
         - name: config
@@ -7856,6 +7927,31 @@ parcelables:
             name: AudioPortConfigFw
             is_array: true
     - name: AudioPlaybackConfiguration
+      java_wire_format:
+        - name: PlayerIId
+          write_method: int32
+        - name: DeviceId
+          write_method: int32
+        - name: MutedState
+          write_method: int32
+        - name: PlayerType
+          write_method: int32
+        - name: ClientUid
+          write_method: int32
+        - name: ClientPid
+          write_method: int32
+        - name: PlayerState
+          write_method: int32
+        - name: PlayerAttr
+          write_method: delegate
+          delegate_type: AudioAttributes
+        - name: Ips==null
+          write_method: bool
+        - name: SessionId
+          write_method: int32
+        - name: FormatInfo
+          write_method: delegate
+          delegate_type: FormatInfo
     - name: AudioPolicyConfig
       fields:
         - name: modules
@@ -7932,6 +8028,23 @@ parcelables:
           type:
             name: AudioPortExtSys
     - name: AudioPresentation
+      java_wire_format:
+        - name: GetPresentationId()
+          write_method: int32
+        - name: GetProgramId()
+          write_method: int32
+        - name: GetULocale()
+          write_method: opaque
+        - name: GetMasteringIndication()
+          write_method: int32
+        - name: HasAudioDescription()
+          write_method: bool
+        - name: HasSpokenSubtitles()
+          write_method: bool
+        - name: HasDialogueEnhancement()
+          write_method: bool
+        - name: Labels
+          write_method: opaque
     - name: AudioProductStrategy
       fields:
         - name: id
@@ -7958,6 +8071,33 @@ parcelables:
           type:
             name: boolean
     - name: AudioRecordingConfiguration
+      java_wire_format:
+        - name: ClientSessionId
+          write_method: int32
+        - name: ClientSource
+          write_method: int32
+        - name: ClientFormat
+          write_method: delegate
+          delegate_type: AudioFormat
+        - name: DeviceFormat
+          write_method: delegate
+          delegate_type: AudioFormat
+        - name: PatchHandle
+          write_method: int32
+        - name: ClientPackageName
+          write_method: string16
+        - name: ClientUid
+          write_method: int32
+        - name: ClientPortId
+          write_method: int32
+        - name: ClientSilenced
+          write_method: bool
+        - name: DeviceSource
+          write_method: int32
+        - name: ClientEffects.length
+          write_method: int32
+        - name: DeviceEffects.length
+          write_method: int32
     - name: AudioRoute
       fields:
         - name: sourcePortIds
@@ -7971,7 +8111,18 @@ parcelables:
           type:
             name: boolean
     - name: AudioRoutesInfo
+      java_wire_format:
+        - name: BluetoothName
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: MainType
+          write_method: int32
     - name: AudioTimestamp
+      java_wire_format:
+        - name: FramePosition
+          write_method: int64
+        - name: NanoTime
+          write_method: int64
     - name: AudioTimestampInternal
       fields:
         - name: position
@@ -8016,6 +8167,15 @@ parcelables:
             name: AudioStreamType
             is_array: true
     - name: BluetoothProfileConnectionInfo
+      java_wire_format:
+        - name: Profile
+          write_method: int32
+        - name: SupprNoisy
+          write_method: bool
+        - name: Volume
+          write_method: int32
+        - name: IsLeOutput
+          write_method: bool
     - name: BufferingParams
     - name: ClientConfigParcel
       fields:
@@ -8337,6 +8497,29 @@ parcelables:
           annotations:
             - utf8InCpp
     - name: FadeManagerConfiguration
+      java_wire_format:
+        - name: FadeState
+          write_method: int32
+        - name: FadeOutDurationMillis
+          write_method: int64
+        - name: FadeInDurationMillis
+          write_method: int64
+        - name: FadeInDelayForOffendersMillis
+          write_method: int64
+        - name: UsageToFadeWrapperMap
+          write_method: opaque
+        - name: AttrToFadeWrapperMap
+          write_method: opaque
+        - name: FadeableUsages.toArray()
+          write_method: int_array
+        - name: UnfadeableContentTypes.toArray()
+          write_method: int_array
+        - name: UnfadeablePlayerTypes.toArray()
+          write_method: int_array
+        - name: UnfadeableUids.toArray()
+          write_method: int_array
+        - name: UnfadeableAudioAttributes
+          write_method: opaque
     - name: GetInputForAttrResponse
       fields:
         - name: input
@@ -8432,9 +8615,34 @@ parcelables:
       annotations:
         - JavaDerive
     - name: MediaDescription
+      java_wire_format:
+        - name: MediaId
+          write_method: string16
+        - name: Title
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: Subtitle
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: Description
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: Icon
+          write_method: typed_object
+        - name: IconUri
+          write_method: typed_object
+        - name: Extras
+          write_method: bundle
+        - name: MediaUri
+          write_method: typed_object
     - name: MediaMetadata
       annotations:
         - JavaOnlyStableParcelable
+      java_wire_format:
+        - name: Bundle
+          write_method: bundle
+        - name: BitmapDimensionLimit
+          write_method: int32
     - name: MediaObservableFilter
       fields:
         - name: type
@@ -8483,8 +8691,59 @@ parcelables:
           annotations:
             - utf8InCpp
     - name: MediaRoute2Info
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: Name
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: Features
+          write_method: opaque
+        - name: Type
+          write_method: int32
+        - name: IsSystem
+          write_method: bool
+        - name: IconUri
+          write_method: typed_object
+        - name: Description
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: ConnectionState
+          write_method: int32
+        - name: ClientPackageName
+          write_method: string16
+        - name: PackageName
+          write_method: string16
+        - name: VolumeHandling
+          write_method: int32
+        - name: VolumeMax
+          write_method: int32
+        - name: Volume
+          write_method: int32
+        - name: Address
+          write_method: string16
+        - name: DeduplicationIds.toArray(newString[mDeduplicationIds.size()])
+          write_method: string_array
+        - name: Extras
+          write_method: bundle
+        - name: ProviderId
+          write_method: string16
+        - name: IsVisibilityRestricted
+          write_method: bool
+        - name: AllowedPackages.toArray(newString[0])
+          write_method: opaque
+        - name: SuitabilityStatus
+          write_method: int32
     - name: MediaRoute2ProviderInfo
+      java_wire_format:
+        - name: UniqueId
+          write_method: string16
+        - name: Routes
+          write_method: opaque
     - name: MediaRouterClientState
+      java_wire_format:
+        - name: Routes
+          write_method: opaque
     - name: MicrophoneInfoFw
       fields:
         - name: info
@@ -8497,6 +8756,11 @@ parcelables:
           type:
             name: int
     - name: NearbyDevice
+      java_wire_format:
+        - name: MediaRoute2Id
+          write_method: string8
+        - name: RangeZone
+          write_method: int32
     - name: OpenInputRequest
       fields:
         - name: module
@@ -8560,8 +8824,24 @@ parcelables:
           type:
             name: int
     - name: PlaybackParams
+      java_wire_format:
+        - name: Set
+          write_method: int32
+        - name: AudioFallbackMode
+          write_method: int32
+        - name: AudioStretchMode
+          write_method: int32
+        - name: Pitch
+          write_method: float32
+        - name: Speed
+          write_method: float32
     - name: PlayerBase.PlayerIdCard
     - name: Rating
+      java_wire_format:
+        - name: RatingStyle
+          write_method: int32
+        - name: RatingValue
+          write_method: float32
     - name: RecordClientInfo
       fields:
         - name: riid
@@ -8583,6 +8863,9 @@ parcelables:
           type:
             name: boolean
     - name: RemoteDisplayState
+      java_wire_format:
+        - name: Displays
+          write_method: opaque
     - name: RenderPosition
       fields:
         - name: halFrames
@@ -8592,8 +8875,61 @@ parcelables:
           type:
             name: int
     - name: RouteDiscoveryPreference
+      java_wire_format:
+        - name: PreferredFeatures
+          write_method: opaque
+        - name: PackageOrder
+          write_method: opaque
+        - name: AllowedPackages
+          write_method: opaque
+        - name: ShouldPerformActiveScan
+          write_method: bool
+        - name: Extras
+          write_method: bundle
     - name: RouteListingPreference
+      java_wire_format:
+        - name: Items
+          write_method: opaque
+        - name: UseSystemOrdering
+          write_method: bool
+        - name: ComponentName
+          write_method: delegate
     - name: RoutingSessionInfo
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: Name
+          write_method: opaque
+        - name: OwnerPackageName
+          write_method: string16
+        - name: ClientPackageName
+          write_method: string16
+        - name: ProviderId
+          write_method: string16
+        - name: SelectedRoutes
+          write_method: opaque
+        - name: SelectableRoutes
+          write_method: opaque
+        - name: DeselectableRoutes
+          write_method: opaque
+        - name: TransferableRoutes
+          write_method: opaque
+        - name: VolumeHandling
+          write_method: int32
+        - name: VolumeMax
+          write_method: int32
+        - name: Volume
+          write_method: int32
+        - name: ControlHints
+          write_method: bundle
+        - name: IsSystemSession
+          write_method: bool
+        - name: TransferReason
+          write_method: int32
+        - name: UserHandle
+          write_method: delegate
+        - name: TransferInitiatorPackageName
+          write_method: string16
     - name: SharedFileRegion
       fields:
         - name: fd
@@ -8815,7 +9151,35 @@ parcelables:
             name: int
           default_value: "-1"
     - name: VolumeInfo
+      java_wire_format:
+        - name: UsesStreamType
+          write_method: bool
+        - name: StreamType
+          write_method: int32
+        - name: HasMuteCommand
+          write_method: bool
+        - name: IsMuted
+          write_method: bool
+        - name: VolIndex
+          write_method: int32
+        - name: MinVolIndex
+          write_method: int32
+        - name: MaxVolIndex
+          write_method: int32
+        - name: VolGroup
+          write_method: delegate
+          condition: '!mUsesStreamType'
+          delegate_type: AudioVolumeGroup
     - name: VolumePolicy
+      java_wire_format:
+        - name: VolumeDownToEnterSilent
+          write_method: bool
+        - name: VolumeUpToExitSilent
+          write_method: bool
+        - name: DoNotDisturbWhenSilent
+          write_method: bool
+        - name: VibrateToSilentDebounce
+          write_method: int32
     - name: VolumeShaper
     - name: VolumeShaper.Configuration
     - name: VolumeShaperConfiguration

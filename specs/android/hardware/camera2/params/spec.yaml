@@ -4,6 +4,64 @@ package: android.hardware.camera2.params
 go_package: android/hardware/camera2/params
 parcelables:
     - name: OutputConfiguration
+      java_wire_format:
+        - name: Rotation
+          write_method: int32
+        - name: SurfaceGroupId
+          write_method: int32
+        - name: SurfaceType
+          write_method: int32
+        - name: ConfiguredSize.getWidth()
+          write_method: int32
+        - name: ConfiguredSize.getHeight()
+          write_method: int32
+        - name: IsDeferredConfig
+          write_method: bool
+        - name: IsShared
+          write_method: bool
+        - name: Surfaces
+          write_method: opaque
+        - name: PhysicalCameraId
+          write_method: string16
+        - name: IsMultiResolution
+          write_method: bool
+        - name: ConvertIntegerToIntList(mSensorPixelModesUsed)
+          write_method: int_array
+        - name: DynamicRangeProfile
+          write_method: int64
+        - name: ColorSpace
+          write_method: int32
+        - name: StreamUseCase
+          write_method: int64
+        - name: TimestampBase
+          write_method: int32
+        - name: MirrorMode
+          write_method: int32
+        - name: ReadoutTimestampEnabled
+          write_method: bool
     - name: SessionConfiguration
+      java_wire_format:
+        - name: SessionType
+          write_method: int32
+        - name: InputConfig.getWidth()
+          write_method: int32
+          condition: mInputConfig!=null
+        - name: InputConfig.getHeight()
+          write_method: int32
+          condition: mInputConfig!=null
+        - name: InputConfig.getFormat()
+          write_method: int32
+          condition: mInputConfig!=null
+        - name: InputConfig.isMultiResolution()
+          write_method: bool
+          condition: mInputConfig!=null
+        - name: OutputConfigurations
+          write_method: opaque
+        - name: "True"
+          write_method: bool
+          condition: Flags.featureCombinationQuery() && mSessionParameters!=null
+        - name: Metadata
+          write_method: delegate
+          condition: Flags.featureCombinationQuery() && mSessionParameters!=null
     - name: VendorTagDescriptor
     - name: VendorTagDescriptorCache

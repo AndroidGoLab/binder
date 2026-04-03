@@ -4,3 +4,10 @@ package: android.widget.inline
 go_package: android/widget/inline
 parcelables:
     - name: InlinePresentationSpec
+      java_wire_format:
+        - name: MinSize
+          write_method: opaque
+        - name: MaxSize
+          write_method: opaque
+        - name: Style
+          write_method: bundle

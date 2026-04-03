@@ -222,7 +222,94 @@ interfaces:
             name: void
 parcelables:
     - name: ContentCaptureCondition
+      java_wire_format:
+        - name: LocusId
+          write_method: typed_object
+        - name: Flags
+          write_method: int32
     - name: ContentCaptureContext
+      java_wire_format:
+        - name: HasClientContext
+          write_method: bool
+        - name: Id
+          write_method: typed_object
+          condition: mHasClientContext
+        - name: Extras
+          write_method: bundle
+          condition: mHasClientContext
+        - name: ComponentName
+          write_method: typed_object
+        - name: DisplayId
+          write_method: int32
+          condition: fromServer()
+        - name: WindowToken
+          write_method: binder
+          condition: fromServer()
+        - name: Flags
+          write_method: int32
+          condition: fromServer()
+        - name: ActivityId
+          write_method: delegate
+          condition: fromServer()
+          delegate_type: ActivityId
     - name: ContentCaptureEvent
+      java_wire_format:
+        - name: SessionId
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: EventTime
+          write_method: int64
+        - name: Id
+          write_method: typed_object
+        - name: Ids
+          write_method: opaque
+        - name: Parcel
+          write_method: delegate
+          delegate_type: ViewNode
+        - name: Text
+          write_method: opaque
+        - name: ParentSessionId
+          write_method: int32
+          condition: mType==TYPE_SESSION_STARTED||mType==TYPE_SESSION_FINISHED
+        - name: ClientContext
+          write_method: typed_object
+          condition: mType==TYPE_SESSION_STARTED||mType==TYPE_CONTEXT_UPDATED
+        - name: Insets
+          write_method: typed_object
+          condition: mType==TYPE_VIEW_INSETS_CHANGED
+        - name: Bounds
+          write_method: typed_object
+          condition: mType==TYPE_WINDOW_BOUNDS_CHANGED
+        - name: ComposingStart
+          write_method: int32
+          condition: mType==TYPE_VIEW_TEXT_CHANGED
+        - name: ComposingEnd
+          write_method: int32
+          condition: mType==TYPE_VIEW_TEXT_CHANGED
+        - name: SelectionStartIndex
+          write_method: int32
+          condition: mType==TYPE_VIEW_TEXT_CHANGED
+        - name: SelectionEndIndex
+          write_method: int32
+          condition: mType==TYPE_VIEW_TEXT_CHANGED
     - name: DataRemovalRequest
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
+        - name: ForEverything
+          write_method: bool
+        - name: Size
+          write_method: int32
+          condition: '!mForEverything'
     - name: DataShareRequest
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+        - name: LocusId
+          write_method: typed_object
+          condition: mLocusId!=null
+        - name: MimeType
+          write_method: string16

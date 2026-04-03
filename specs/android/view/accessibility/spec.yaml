@@ -1124,11 +1124,74 @@ interfaces:
             name: void
 parcelables:
     - name: AccessibilityEvent
+      java_wire_format:
+        - name: IsSealed()
+          write_method: bool
+        - name: EventType
+          write_method: int32
+        - name: MovementGranularity
+          write_method: int32
+        - name: Action
+          write_method: int32
+        - name: ContentChangeTypes
+          write_method: int32
+        - name: WindowChangeTypes
+          write_method: int32
+        - name: SpeechStateChangeTypes
+          write_method: int32
+        - name: PackageName
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: EventTime
+          write_method: int64
+        - name: ConnectionId
+          write_method: int32
+        - name: RecordCount
+          write_method: int32
+        - name: OriginStackTrace.length
+          write_method: int32
+          condition: DEBUG_ORIGIN
     - name: AccessibilityNodeInfo
     - name: AccessibilityNodeInfo.AccessibilityAction
     - name: AccessibilityRecord
     - name: AccessibilityWindowAttributes
+      java_wire_format:
+        - name: WindowTitle
+          write_method: opaque
+        - name: Locales
+          write_method: typed_object
     - name: AccessibilityWindowInfo
+      java_wire_format:
+        - name: DisplayId
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: Layer
+          write_method: int32
+        - name: BooleanProperties
+          write_method: int32
+        - name: Id
+          write_method: int32
+        - name: ParentId
+          write_method: int32
+        - name: TaskId
+          write_method: int32
+        - name: RegionInScreen
+          write_method: delegate
+          delegate_type: Region
+        - name: Title
+          write_method: opaque
+        - name: AnchorId
+          write_method: int64
+        - name: TransitionTime
+          write_method: int64
+        - name: "0"
+          write_method: int32
+          condition: childIds==null
+        - name: ConnectionId
+          write_method: int32
+        - name: Locales
+          write_method: typed_object
     - name: AccessibilityWindowInfo.WindowListSparseArray
     - name: IAccessibilityManager.WindowTransformationSpec
       fields:

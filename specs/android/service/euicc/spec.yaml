@@ -469,7 +469,55 @@ interfaces:
             - UnsupportedAppUsage
 parcelables:
     - name: DownloadSubscriptionResult
+      java_wire_format:
+        - name: Result
+          write_method: int32
+        - name: ResolvableErrors
+          write_method: int32
+        - name: CardId
+          write_method: int32
     - name: EuiccProfileInfo
+      java_wire_format:
+        - name: Iccid
+          write_method: string16
+        - name: Nickname
+          write_method: string16
+        - name: ServiceProviderName
+          write_method: string16
+        - name: ProfileName
+          write_method: string16
+        - name: ProfileClass
+          write_method: int32
+        - name: State
+          write_method: int32
+        - name: (byte)1
+          write_method: int32
+          condition: mCarrierIdentifier!=null
+        - name: CarrierIdentifier
+          write_method: delegate
+          condition: mCarrierIdentifier!=null
+          delegate_type: CarrierIdentifier
+        - name: PolicyRules
+          write_method: int32
+        - name: AccessRules
+          write_method: typed_array
     - name: GetDefaultDownloadableSubscriptionListResult
+      java_wire_format:
+        - name: Result
+          write_method: int32
+        - name: Subscriptions
+          write_method: typed_array
     - name: GetDownloadableSubscriptionMetadataResult
+      java_wire_format:
+        - name: Result
+          write_method: int32
+        - name: This.mSubscription
+          write_method: typed_object
     - name: GetEuiccProfileInfoListResult
+      java_wire_format:
+        - name: Result
+          write_method: int32
+        - name: Profiles
+          write_method: typed_array
+        - name: IsRemovable
+          write_method: bool

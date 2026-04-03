@@ -4,28 +4,382 @@ package: android.view.inputmethod
 go_package: android/view/inputmethod
 parcelables:
     - name: CompletionInfo
+      java_wire_format:
+        - name: Id
+          write_method: int64
+        - name: Position
+          write_method: int32
+        - name: Text
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: Label
+          write_method: char_sequence
+          delegate_type: TextUtils
     - name: CorrectionInfo
+      java_wire_format:
+        - name: Offset
+          write_method: int32
+        - name: OldText
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: NewText
+          write_method: char_sequence
+          delegate_type: TextUtils
     - name: CursorAnchorInfo
+      java_wire_format:
+        - name: HashCode
+          write_method: int32
+        - name: SelectionStart
+          write_method: int32
+        - name: SelectionEnd
+          write_method: int32
+        - name: ComposingTextStart
+          write_method: int32
+        - name: ComposingText
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: InsertionMarkerFlags
+          write_method: int32
+        - name: InsertionMarkerHorizontal
+          write_method: float32
+        - name: InsertionMarkerTop
+          write_method: float32
+        - name: InsertionMarkerBaseline
+          write_method: float32
+        - name: InsertionMarkerBottom
+          write_method: float32
+        - name: CharacterBoundsArray
+          write_method: typed_object
+        - name: EditorBoundsInfo
+          write_method: typed_object
+        - name: MatrixValues
+          write_method: float_array
+        - name: VisibleLineBounds
+          write_method: float_array
+        - name: TextAppearanceInfo
+          write_method: typed_object
     - name: DeleteGesture
+      java_wire_format:
+        - name: FallbackText
+          write_method: string8
+        - name: Granularity
+          write_method: int32
+        - name: Area
+          write_method: typed_object
     - name: DeleteRangeGesture
+      java_wire_format:
+        - name: FallbackText
+          write_method: string8
+        - name: Granularity
+          write_method: int32
+        - name: StartArea
+          write_method: typed_object
+        - name: EndArea
+          write_method: typed_object
     - name: EditorInfo
+      java_wire_format:
+        - name: InputType
+          write_method: int32
+        - name: ImeOptions
+          write_method: int32
+        - name: PrivateImeOptions
+          write_method: string16
+        - name: InternalImeOptions
+          write_method: int32
+        - name: ActionLabel
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: ActionId
+          write_method: int32
+        - name: InitialSelStart
+          write_method: int32
+        - name: InitialSelEnd
+          write_method: int32
+        - name: InitialCapsMode
+          write_method: int32
+        - name: InitialToolType
+          write_method: int32
+        - name: HintText
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: Label
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: PackageName
+          write_method: string16
+        - name: AutofillId
+          write_method: typed_object
+        - name: FieldId
+          write_method: int32
+        - name: FieldName
+          write_method: string16
+        - name: Extras
+          write_method: bundle
+        - name: SupportedHandwritingGestureTypes
+          write_method: int32
+        - name: SupportedHandwritingGesturePreviewTypes
+          write_method: int32
+        - name: IsStylusHandwritingEnabled
+          write_method: bool
+          condition: Flags.editorinfoHandwritingEnabled()
+        - name: InitialSurroundingText!=null
+          write_method: bool
+        - name: InitialSurroundingText
+          write_method: delegate
+          condition: mInitialSurroundingText!=null
+          delegate_type: SurroundingText
+        - name: HintLocales
+          write_method: delegate
+          condition: hintLocales!=null
+          delegate_type: LocaleList
+        - name: ContentMimeTypes
+          write_method: string_array
+        - name: UserHandle
+          write_method: delegate
     - name: ExtractedText
+      java_wire_format:
+        - name: Text
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: StartOffset
+          write_method: int32
+        - name: PartialStartOffset
+          write_method: int32
+        - name: PartialEndOffset
+          write_method: int32
+        - name: SelectionStart
+          write_method: int32
+        - name: SelectionEnd
+          write_method: int32
+        - name: This.flags
+          write_method: int32
+        - name: Hint
+          write_method: char_sequence
+          delegate_type: TextUtils
     - name: ExtractedTextRequest
+      java_wire_format:
+        - name: Token
+          write_method: int32
+        - name: This.flags
+          write_method: int32
+        - name: HintMaxLines
+          write_method: int32
+        - name: HintMaxChars
+          write_method: int32
     - name: ImeTracker.Token
     - name: InlineSuggestion
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: Info
+          write_method: typed_object
+        - name: ContentProvider
+          write_method: opaque
+          condition: mContentProvider!=null
     - name: InlineSuggestionInfo
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: InlinePresentationSpec
+          write_method: typed_object
+        - name: Source
+          write_method: string16
+        - name: AutofillHints
+          write_method: string_array
+          condition: mAutofillHints!=null
+        - name: Type
+          write_method: string16
+        - name: Tooltip
+          write_method: typed_object
+          condition: mTooltip!=null
     - name: InlineSuggestionsRequest
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: MaxSuggestionCount
+          write_method: int32
+        - name: InlinePresentationSpecs
+          write_method: opaque
+        - name: HostPackageName
+          write_method: string16
+        - name: SupportedLocales
+          write_method: typed_object
+        - name: Extras
+          write_method: bundle
+        - name: HostDisplayId
+          write_method: int32
+        - name: InlineTooltipPresentationSpec
+          write_method: typed_object
+          condition: mInlineTooltipPresentationSpec!=null
     - name: InlineSuggestionsResponse
+      java_wire_format:
+        - name: InlineSuggestions
+          write_method: opaque
     - name: InputBinding
+      java_wire_format:
+        - name: ConnectionToken
+          write_method: binder
+        - name: Uid
+          write_method: int32
+        - name: Pid
+          write_method: int32
     - name: InputContentInfo
+      java_wire_format:
+        - name: Uri
+          write_method: delegate
+        - name: ContentUriOwnerUserId
+          write_method: int32
+        - name: Description
+          write_method: delegate
+          delegate_type: ClipDescription
+        - name: Uri
+          write_method: delegate
+        - name: "1"
+          write_method: int32
+          condition: mUriToken!=null
+        - name: UriToken.asBinder()
+          write_method: binder
+          condition: mUriToken!=null
     - name: InputMethodInfo
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: SettingsActivityName
+          write_method: string16
+        - name: LanguageSettingsActivityName
+          write_method: string8
+        - name: IsDefaultResId
+          write_method: int32
+        - name: IsAuxIme
+          write_method: bool
+        - name: SupportsSwitchingToNextInputMethod
+          write_method: bool
+        - name: InlineSuggestionsEnabled
+          write_method: bool
+        - name: SupportsInlineSuggestionsWithTouchExploration
+          write_method: bool
+        - name: SuppressesSpellChecker
+          write_method: bool
+        - name: ShowInInputMethodPicker
+          write_method: bool
+        - name: IsVrOnly
+          write_method: bool
+        - name: IsVirtualDeviceOnly
+          write_method: bool
+        - name: Service
+          write_method: delegate
+          delegate_type: ResolveInfo
+        - name: Subtypes
+          write_method: delegate
+          delegate_type: InputMethodSubtypeArray
+        - name: HandledConfigChanges
+          write_method: int32
+        - name: SupportsStylusHandwriting
+          write_method: bool
+        - name: SupportsConnectionlessStylusHandwriting
+          write_method: bool
+        - name: StylusHandwritingSettingsActivityAttr
+          write_method: string8
     - name: InputMethodSubtype
+      java_wire_format:
+        - name: SubtypeNameResId
+          write_method: int32
+        - name: SubtypeNameOverride
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: PkLanguageTag
+          write_method: string8
+        - name: PkLayoutType
+          write_method: string8
+        - name: SubtypeIconResId
+          write_method: int32
+        - name: SubtypeLocale
+          write_method: string16
+        - name: SubtypeLanguageTag
+          write_method: string16
+        - name: SubtypeMode
+          write_method: string16
+        - name: SubtypeExtraValue
+          write_method: string16
+        - name: IsAuxiliary
+          write_method: bool
+        - name: OverridesImplicitlyEnabledSubtype
+          write_method: bool
+        - name: SubtypeHashCode
+          write_method: int32
+        - name: SubtypeId
+          write_method: int32
+        - name: IsAsciiCapable
+          write_method: bool
     - name: InsertGesture
+      java_wire_format:
+        - name: FallbackText
+          write_method: string8
+        - name: TextToInsert
+          write_method: string8
+        - name: Point
+          write_method: typed_object
     - name: InsertModeGesture
+      java_wire_format:
+        - name: FallbackText
+          write_method: string8
+        - name: Point
+          write_method: typed_object
+        - name: CancellationSignalBeamer.Sender.beamFromScope(mCancellationSignal)
+          write_method: binder
     - name: JoinOrSplitGesture
+      java_wire_format:
+        - name: Point
+          write_method: typed_object
+        - name: FallbackText
+          write_method: string8
     - name: ParcelableHandwritingGesture
+      java_wire_format:
+        - name: Gesture.getGestureType()
+          write_method: int32
+        - name: GestureAsParcelable
+          write_method: delegate
+          delegate_type: Parcelable
     - name: RemoveSpaceGesture
+      java_wire_format:
+        - name: StartPoint
+          write_method: typed_object
+        - name: EndPoint
+          write_method: typed_object
+        - name: FallbackText
+          write_method: string8
     - name: SelectGesture
+      java_wire_format:
+        - name: FallbackText
+          write_method: string8
+        - name: Granularity
+          write_method: int32
+        - name: Area
+          write_method: typed_object
     - name: SelectRangeGesture
+      java_wire_format:
+        - name: FallbackText
+          write_method: string8
+        - name: Granularity
+          write_method: int32
+        - name: StartArea
+          write_method: typed_object
+        - name: EndArea
+          write_method: typed_object
     - name: SurroundingText
+      java_wire_format:
+        - name: Text
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: SelectionStart
+          write_method: int32
+        - name: SelectionEnd
+          write_method: int32
+        - name: Offset
+          write_method: int32
     - name: TextAttribute
+      java_wire_format:
+        - name: TextConversionSuggestions
+          write_method: opaque
+        - name: Extras
+          write_method: opaque

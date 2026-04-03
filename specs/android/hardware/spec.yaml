@@ -933,6 +933,11 @@ parcelables:
           annotations:
             - utf8InCpp
     - name: CameraInfo
+      java_wire_format:
+        - name: Info.facing
+          write_method: int32
+        - name: Info.orientation
+          write_method: int32
     - name: CameraPrivacyAllowlistEntry
       fields:
         - name: packageName
@@ -942,13 +947,72 @@ parcelables:
           type:
             name: boolean
     - name: CameraSessionStats
+      java_wire_format:
+        - name: CameraId
+          write_method: string16
+        - name: Facing
+          write_method: int32
+        - name: NewCameraState
+          write_method: int32
+        - name: ClientName
+          write_method: string16
+        - name: ApiLevel
+          write_method: int32
+        - name: IsNdk
+          write_method: bool
+        - name: LatencyMs
+          write_method: int32
+        - name: LogId
+          write_method: int64
+        - name: MaxPreviewFps
+          write_method: float32
+        - name: SessionType
+          write_method: int32
+        - name: InternalReconfigure
+          write_method: int32
+        - name: RequestCount
+          write_method: int64
+        - name: ResultErrorCount
+          write_method: int64
+        - name: DeviceError
+          write_method: bool
+        - name: StreamStats
+          write_method: opaque
+        - name: UserTag
+          write_method: string16
+        - name: VideoStabilizationMode
+          write_method: int32
+        - name: UsedUltraWide
+          write_method: bool
+        - name: UsedZoomOverride
+          write_method: bool
+        - name: SessionIndex
+          write_method: int32
+        - name: CameraExtensionSessionStats
+          write_method: delegate
+          delegate_type: CameraExtensionSessionStats
     - name: CameraStatus
+      java_wire_format:
+        - name: CameraId
+          write_method: string16
+        - name: Status
+          write_method: int32
+        - name: UnavailablePhysicalCameras
+          write_method: string_array
+        - name: ClientPackage
+          write_method: string16
     - name: HardwareBuffer
       annotations:
         - JavaOnlyStableParcelable
         - NdkOnlyStableParcelable
         - RustOnlyStableParcelable
     - name: OverlayProperties
+      java_wire_format:
+        - name: "0"
+          write_method: int32
+          condition: mNativeObject==0
+        - name: "1"
+          write_method: int32
 enums:
     - name: CameraExtensionSessionStats.Type
       backing_type: int

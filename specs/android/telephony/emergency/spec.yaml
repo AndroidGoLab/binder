@@ -4,3 +4,18 @@ package: android.telephony.emergency
 go_package: android/telephony/emergency
 parcelables:
     - name: EmergencyNumber
+      java_wire_format:
+        - name: Number
+          write_method: string16
+        - name: CountryIso
+          write_method: string16
+        - name: Mnc
+          write_method: string16
+        - name: EmergencyServiceCategoryBitmask
+          write_method: int32
+        - name: EmergencyUrns
+          write_method: opaque
+        - name: EmergencyNumberSourceBitmask
+          write_method: int32
+        - name: EmergencyCallRouting
+          write_method: int32

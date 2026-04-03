@@ -4,5 +4,75 @@ package: android.nfc.cardemulation
 go_package: android/nfc/cardemulation
 parcelables:
     - name: AidGroup
+      java_wire_format:
+        - name: Category
+          write_method: string8
+        - name: Aids.size()
+          write_method: int32
+        - name: Aids
+          write_method: opaque
+          condition: mAids.size()>0
     - name: ApduServiceInfo
+      java_wire_format:
+        - name: Service
+          write_method: delegate
+          delegate_type: ResolveInfo
+        - name: Description
+          write_method: string16
+        - name: OnHost
+          write_method: bool
+        - name: OffHostName
+          write_method: string16
+        - name: StaticOffHostName
+          write_method: string16
+        - name: StaticAidGroups.size()
+          write_method: int32
+        - name: NewArrayList<AidGroup>(mStaticAidGroups.values())
+          write_method: opaque
+          condition: mStaticAidGroups.size()>0
+        - name: DynamicAidGroups.size()
+          write_method: int32
+        - name: NewArrayList<AidGroup>(mDynamicAidGroups.values())
+          write_method: opaque
+          condition: mDynamicAidGroups.size()>0
+        - name: RequiresDeviceUnlock
+          write_method: bool
+        - name: RequiresDeviceScreenOn
+          write_method: bool
+        - name: BannerResourceId
+          write_method: int32
+        - name: Uid
+          write_method: int32
+        - name: SettingsActivityName
+          write_method: string16
+        - name: CategoryOtherServiceEnabled
+          write_method: bool
+        - name: AutoTransact.size()
+          write_method: int32
+        - name: AutoTransact
+          write_method: opaque
     - name: NfcFServiceInfo
+      java_wire_format:
+        - name: Service
+          write_method: delegate
+          delegate_type: ResolveInfo
+        - name: Description
+          write_method: string16
+        - name: SystemCode
+          write_method: string16
+        - name: DynamicSystemCode!=null
+          write_method: bool
+        - name: DynamicSystemCode
+          write_method: string16
+          condition: mDynamicSystemCode!=null
+        - name: Nfcid2
+          write_method: string16
+        - name: DynamicNfcid2!=null
+          write_method: bool
+        - name: DynamicNfcid2
+          write_method: string16
+          condition: mDynamicNfcid2!=null
+        - name: Uid
+          write_method: int32
+        - name: T3tPmm
+          write_method: string16

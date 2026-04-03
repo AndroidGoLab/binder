@@ -16,3 +16,10 @@ interfaces:
             - EnforcePermission
 parcelables:
     - name: PinnedFileStat
+      java_wire_format:
+        - name: Filename
+          write_method: string8
+        - name: BytesPinned
+          write_method: int64
+        - name: GroupName
+          write_method: string8

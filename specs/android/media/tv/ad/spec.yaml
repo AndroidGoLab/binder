@@ -810,3 +810,11 @@ interfaces:
             name: void
 parcelables:
     - name: TvAdServiceInfo
+      java_wire_format:
+        - name: Service
+          write_method: delegate
+          delegate_type: ResolveInfo
+        - name: Id
+          write_method: string16
+        - name: Types
+          write_method: opaque

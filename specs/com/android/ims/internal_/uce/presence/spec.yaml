@@ -240,13 +240,99 @@ interfaces:
             - UnsupportedAppUsage
 parcelables:
     - name: PresCapInfo
+      java_wire_format:
+        - name: ContactUri
+          write_method: string16
+        - name: CapInfo
+          write_method: typed_object
     - name: PresCmdID
     - name: PresCmdStatus
+      java_wire_format:
+        - name: UserData
+          write_method: int32
+        - name: RequestId
+          write_method: int32
+        - name: CmdId
+          write_method: typed_object
+        - name: Status
+          write_method: typed_object
     - name: PresPublishTriggerType
+      java_wire_format:
+        - name: PublishTriggerType
+          write_method: int32
     - name: PresResInfo
+      java_wire_format:
+        - name: ResUri
+          write_method: string16
+        - name: DisplayName
+          write_method: string16
+        - name: InstanceInfo
+          write_method: typed_object
     - name: PresResInstanceInfo
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: Reason
+          write_method: string16
+        - name: ResInstanceState
+          write_method: int32
+        - name: PresentityUri
+          write_method: string16
+        - name: TupleInfoArray
+          write_method: opaque
     - name: PresRlmiInfo
+      java_wire_format:
+        - name: Uri
+          write_method: string16
+        - name: Version
+          write_method: int32
+        - name: FullState
+          write_method: bool
+        - name: ListName
+          write_method: string16
+        - name: RequestId
+          write_method: int32
+        - name: PresSubscriptionState
+          write_method: typed_object
+        - name: SubscriptionExpireTime
+          write_method: int32
+        - name: SubscriptionTerminatedReason
+          write_method: string16
     - name: PresServiceInfo
+      java_wire_format:
+        - name: ServiceID
+          write_method: string16
+        - name: ServiceDesc
+          write_method: string16
+        - name: ServiceVer
+          write_method: string16
+        - name: MediaCap
+          write_method: int32
     - name: PresSipResponse
+      java_wire_format:
+        - name: RequestId
+          write_method: int32
+        - name: SipResponseCode
+          write_method: int32
+        - name: ReasonPhrase
+          write_method: string16
+        - name: CmdId
+          write_method: typed_object
+        - name: RetryAfter
+          write_method: int32
+        - name: ReasonHeader
+          write_method: string16
     - name: PresSubscriptionState
+      java_wire_format:
+        - name: PresSubscriptionState
+          write_method: int32
     - name: PresTupleInfo
+      java_wire_format:
+        - name: FeatureTag
+          write_method: string16
+        - name: ContactUri
+          write_method: string16
+        - name: Timestamp
+          write_method: string16
+        - name: Version
+          write_method: string16

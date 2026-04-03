@@ -241,5 +241,30 @@ interfaces:
             name: void
 parcelables:
     - name: ActivityEvent
+      java_wire_format:
+        - name: ComponentName
+          write_method: typed_object
+        - name: Type
+          write_method: int32
+        - name: ActivityId
+          write_method: typed_object
     - name: FlushMetrics
+      java_wire_format:
+        - name: SessionStarted
+          write_method: int32
+        - name: SessionFinished
+          write_method: int32
+        - name: ViewAppearedCount
+          write_method: int32
+        - name: ViewDisappearedCount
+          write_method: int32
+        - name: ViewTextChangedCount
+          write_method: int32
     - name: SnapshotData
+      java_wire_format:
+        - name: AssistData
+          write_method: bundle
+        - name: AssistStructure
+          write_method: typed_object
+        - name: AssistContent
+          write_method: typed_object

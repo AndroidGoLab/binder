@@ -181,4 +181,19 @@ interfaces:
             name: void
 parcelables:
     - name: Slice
+      java_wire_format:
+        - name: Hints
+          write_method: string_array
+        - name: Items.length
+          write_method: int32
+        - name: Uri
+          write_method: delegate
+          delegate_type: Uri
+        - name: Spec
+          write_method: typed_object
     - name: SliceSpec
+      java_wire_format:
+        - name: Type
+          write_method: string16
+        - name: Revision
+          write_method: int32

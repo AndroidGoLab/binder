@@ -4,7 +4,50 @@ package: android.security.keystore.recovery
 go_package: android/security/keystore/recovery
 parcelables:
     - name: KeyChainProtectionParams
+      java_wire_format:
+        - name: UserSecretType
+          write_method: int32
+        - name: LockScreenUiFormat
+          write_method: int32
+        - name: KeyDerivationParams
+          write_method: typed_object
+        - name: Secret
+          write_method: byte_array
     - name: KeyChainSnapshot
+      java_wire_format:
+        - name: SnapshotVersion
+          write_method: int32
+        - name: KeyChainProtectionParams
+          write_method: opaque
+        - name: EncryptedRecoveryKeyBlob
+          write_method: byte_array
+        - name: EntryRecoveryData
+          write_method: opaque
+        - name: MaxAttempts
+          write_method: int32
+        - name: CounterId
+          write_method: int64
+        - name: ServerParams
+          write_method: byte_array
+        - name: CertPath
+          write_method: typed_object
     - name: KeyDerivationParams
+      java_wire_format:
+        - name: Algorithm
+          write_method: int32
+        - name: Salt
+          write_method: byte_array
+        - name: MemoryDifficulty
+          write_method: int32
     - name: RecoveryCertPath
+      java_wire_format:
+        - name: EncodedCertPath
+          write_method: byte_array
     - name: WrappedApplicationKey
+      java_wire_format:
+        - name: Alias
+          write_method: string16
+        - name: EncryptedKeyMaterial
+          write_method: byte_array
+        - name: Metadata
+          write_method: byte_array

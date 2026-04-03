@@ -57,4 +57,18 @@ interfaces:
             name: void
 parcelables:
     - name: AmbientContextDetectionResult
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: Events
+          write_method: opaque
+        - name: PackageName
+          write_method: string16
     - name: AmbientContextDetectionServiceStatus
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: StatusCode
+          write_method: int32
+        - name: PackageName
+          write_method: string16

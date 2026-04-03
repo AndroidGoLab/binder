@@ -192,5 +192,40 @@ interfaces:
             name: boolean
 parcelables:
     - name: OverlayIdentifier
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+          condition: mPackageName!=null
+        - name: OverlayName
+          write_method: string16
+          condition: mOverlayName!=null
     - name: OverlayInfo
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
+        - name: OverlayName
+          write_method: string16
+        - name: TargetPackageName
+          write_method: string16
+        - name: TargetOverlayableName
+          write_method: string16
+        - name: Category
+          write_method: string16
+        - name: BaseCodePath
+          write_method: string16
+        - name: State
+          write_method: int32
+        - name: UserId
+          write_method: int32
+        - name: Priority
+          write_method: int32
+        - name: IsMutable
+          write_method: bool
+        - name: IsFabricated
+          write_method: bool
     - name: OverlayManagerTransaction
+      java_wire_format:
+        - name: Size
+          write_method: int32

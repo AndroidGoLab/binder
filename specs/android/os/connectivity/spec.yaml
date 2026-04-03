@@ -4,6 +4,90 @@ package: android.os.connectivity
 go_package: android/os/connectivity
 parcelables:
     - name: CellularBatteryStats
+      java_wire_format:
+        - name: LoggingDurationMs
+          write_method: int64
+        - name: KernelActiveTimeMs
+          write_method: int64
+        - name: NumPacketsTx
+          write_method: int64
+        - name: NumBytesTx
+          write_method: int64
+        - name: NumPacketsRx
+          write_method: int64
+        - name: NumBytesRx
+          write_method: int64
+        - name: SleepTimeMs
+          write_method: int64
+        - name: IdleTimeMs
+          write_method: int64
+        - name: RxTimeMs
+          write_method: int64
+        - name: EnergyConsumedMaMs
+          write_method: int64
+        - name: TimeInRatMs
+          write_method: long_array
+        - name: TimeInRxSignalStrengthLevelMs
+          write_method: long_array
+        - name: TxTimeMs
+          write_method: long_array
+        - name: MonitoredRailChargeConsumedMaMs
+          write_method: int64
     - name: GpsBatteryStats
+      java_wire_format:
+        - name: LoggingDurationMs
+          write_method: int64
+        - name: EnergyConsumedMaMs
+          write_method: int64
+        - name: TimeInGpsSignalQualityLevel
+          write_method: long_array
     - name: WifiActivityEnergyInfo
+      java_wire_format:
+        - name: TimeSinceBootMillis
+          write_method: int64
+        - name: StackState
+          write_method: int32
+        - name: ControllerTxDurationMillis
+          write_method: int64
+        - name: ControllerRxDurationMillis
+          write_method: int64
+        - name: ControllerScanDurationMillis
+          write_method: int64
+        - name: ControllerIdleDurationMillis
+          write_method: int64
     - name: WifiBatteryStats
+      java_wire_format:
+        - name: LoggingDurationMillis
+          write_method: int64
+        - name: KernelActiveTimeMillis
+          write_method: int64
+        - name: NumPacketsTx
+          write_method: int64
+        - name: NumBytesTx
+          write_method: int64
+        - name: NumPacketsRx
+          write_method: int64
+        - name: NumBytesRx
+          write_method: int64
+        - name: SleepTimeMillis
+          write_method: int64
+        - name: ScanTimeMillis
+          write_method: int64
+        - name: IdleTimeMillis
+          write_method: int64
+        - name: RxTimeMillis
+          write_method: int64
+        - name: TxTimeMillis
+          write_method: int64
+        - name: EnergyConsumedMaMillis
+          write_method: int64
+        - name: AppScanRequestCount
+          write_method: int64
+        - name: TimeInStateMillis
+          write_method: long_array
+        - name: TimeInRxSignalStrengthLevelMillis
+          write_method: long_array
+        - name: TimeInSupplicantStateMillis
+          write_method: long_array
+        - name: MonitoredRailChargeConsumedMaMillis
+          write_method: int64

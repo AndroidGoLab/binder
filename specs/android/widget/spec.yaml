@@ -4,5 +4,38 @@ package: android.widget
 go_package: android/widget
 parcelables:
     - name: RemoteViews
+      java_wire_format:
+        - name: MODE_NORMAL
+          write_method: int32
+          condition: '!hasMultipleLayouts()'
+        - name: Dest
+          write_method: opaque
+          condition: '!hasMultipleLayouts() && mIsRoot'
+        - name: CollectionCache
+          write_method: delegate
+          condition: '!hasMultipleLayouts() && mIsRoot'
+          delegate_type: RemoteCollectionCache
+        - name: Application
+          write_method: delegate
+          condition: '!hasMultipleLayouts()'
+          delegate_type: ApplicationInfo
+        - name: "0"
+          write_method: int32
+          condition: '!hasMultipleLayouts() && mIsRoot||mIdealSize==null'
+        - name: LayoutId
+          write_method: int32
+          condition: '!hasMultipleLayouts()'
+        - name: ViewId
+          write_method: int32
+          condition: '!hasMultipleLayouts()'
+        - name: LightBackgroundLayoutId
+          write_method: int32
+          condition: '!hasMultipleLayouts()'
+        - name: ApplyFlags
+          write_method: int32
+        - name: ProviderInstanceId
+          write_method: int64
+        - name: HasDrawInstructions
+          write_method: bool
     - name: RemoteViews.DrawInstructions
     - name: RemoteViews.RemoteCollectionItems

@@ -44,4 +44,23 @@ interfaces:
             name: void
 parcelables:
     - name: CinematicEffectRequest
+      java_wire_format:
+        - name: TaskId
+          write_method: string16
+        - name: Bitmap
+          write_method: delegate
+          delegate_type: Bitmap
     - name: CinematicEffectResponse
+      java_wire_format:
+        - name: StatusCode
+          write_method: int32
+        - name: TaskId
+          write_method: string16
+        - name: ImageContentType
+          write_method: int32
+        - name: TexturedMeshes
+          write_method: opaque
+        - name: StartKeyFrame
+          write_method: typed_object
+        - name: EndKeyFrame
+          write_method: typed_object

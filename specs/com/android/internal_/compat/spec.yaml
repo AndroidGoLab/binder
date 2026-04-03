@@ -356,9 +356,48 @@ interfaces:
             name: boolean
 parcelables:
     - name: CompatibilityChangeConfig
+      java_wire_format:
+        - name: Enabled
+          write_method: long_array
+        - name: Disabled
+          write_method: long_array
     - name: CompatibilityChangeInfo
+      java_wire_format:
+        - name: ChangeId
+          write_method: int64
+        - name: Name
+          write_method: string16
+        - name: EnableSinceTargetSdk
+          write_method: int32
+        - name: Disabled
+          write_method: bool
+        - name: LoggingOnly
+          write_method: bool
+        - name: Description
+          write_method: string16
+        - name: Overridable
+          write_method: bool
     - name: CompatibilityOverrideConfig
+      java_wire_format:
+        - name: Overrides.size()
+          write_method: int32
     - name: CompatibilityOverridesByPackageConfig
+      java_wire_format:
+        - name: PackageNameToOverrides.size()
+          write_method: int32
     - name: CompatibilityOverridesToRemoveByPackageConfig
+      java_wire_format:
+        - name: PackageNameToOverridesToRemove.size()
+          write_method: int32
     - name: CompatibilityOverridesToRemoveConfig
+      java_wire_format:
+        - name: ChangeIds.size()
+          write_method: int32
     - name: OverrideAllowedState
+      java_wire_format:
+        - name: State
+          write_method: int32
+        - name: AppTargetSdk
+          write_method: int32
+        - name: ChangeIdTargetSdk
+          write_method: int32

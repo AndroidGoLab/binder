@@ -18,3 +18,12 @@ interfaces:
             name: void
 parcelables:
     - name: AndroidFuture
+      java_wire_format:
+        - name: Done
+          write_method: bool
+        - name: "False"
+          write_method: bool
+          condition: done
+        - name: Result
+          write_method: opaque
+          condition: done

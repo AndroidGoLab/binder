@@ -107,7 +107,64 @@ interfaces:
             name: void
 parcelables:
     - name: Query
+      java_wire_format:
+        - name: Input
+          write_method: string16
+        - name: TimestampMillis
+          write_method: int64
+        - name: Extras
+          write_method: bundle
     - name: SearchContext
+      java_wire_format:
+        - name: ResultTypes
+          write_method: int32
+        - name: TimeoutMillis
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+        - name: Extras
+          write_method: bundle
     - name: SearchSessionId
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: UserId
+          write_method: int32
     - name: SearchTarget
+      java_wire_format:
+        - name: ResultType
+          write_method: int32
+        - name: LayoutType
+          write_method: string16
+        - name: Id
+          write_method: string16
+        - name: ParentId
+          write_method: string16
+        - name: Score
+          write_method: float32
+        - name: Hidden
+          write_method: bool
+        - name: PackageName
+          write_method: string16
+        - name: UserHandle.getIdentifier()
+          write_method: int32
+        - name: SearchAction
+          write_method: typed_object
+        - name: ShortcutInfo
+          write_method: typed_object
+        - name: AppWidgetProviderInfo
+          write_method: typed_object
+        - name: SliceUri
+          write_method: typed_object
+        - name: Extras
+          write_method: bundle
     - name: SearchTargetEvent
+      java_wire_format:
+        - name: TargetIds
+          write_method: opaque
+        - name: Location
+          write_method: string16
+        - name: Action
+          write_method: int32
+        - name: Flags
+          write_method: int32

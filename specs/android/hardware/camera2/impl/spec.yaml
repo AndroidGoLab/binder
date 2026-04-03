@@ -5,4 +5,42 @@ go_package: android/hardware/camera2/impl
 parcelables:
     - name: CameraMetadataNative
     - name: CaptureResultExtras
+      java_wire_format:
+        - name: RequestId
+          write_method: int32
+        - name: SubsequenceId
+          write_method: int32
+        - name: AfTriggerId
+          write_method: int32
+        - name: PrecaptureTriggerId
+          write_method: int32
+        - name: FrameNumber
+          write_method: int64
+        - name: PartialResultCount
+          write_method: int32
+        - name: ErrorStreamId
+          write_method: int32
+        - name: "True"
+          write_method: bool
+          condition: (errorPhysicalCameraId!=null)&&!errorPhysicalCameraId.isEmpty()
+        - name: ErrorPhysicalCameraId
+          write_method: string16
+          condition: (errorPhysicalCameraId!=null)&&!errorPhysicalCameraId.isEmpty()
+        - name: LastCompletedRegularFrameNumber
+          write_method: int64
+        - name: LastCompletedReprocessFrameNumber
+          write_method: int64
+        - name: LastCompletedZslFrameNumber
+          write_method: int64
+        - name: HasReadoutTimestamp
+          write_method: bool
+        - name: ReadoutTimestamp
+          write_method: int64
+          condition: hasReadoutTimestamp
     - name: PhysicalCaptureResultInfo
+      java_wire_format:
+        - name: CameraId
+          write_method: string16
+        - name: CameraMetadata
+          write_method: delegate
+          delegate_type: CameraMetadataNative

@@ -4,7 +4,58 @@ package: android.view.textservice
 go_package: android/view/textservice
 parcelables:
     - name: SentenceSuggestionsInfo
+      java_wire_format:
+        - name: InfoSize
+          write_method: int32
+        - name: SuggestionsInfos
+          write_method: typed_array
+        - name: Offsets
+          write_method: int_array
+        - name: Lengths
+          write_method: int_array
     - name: SpellCheckerInfo
+      java_wire_format:
+        - name: Label
+          write_method: int32
+        - name: Id
+          write_method: string16
+        - name: SettingsActivityName
+          write_method: string16
+        - name: Service
+          write_method: delegate
+          delegate_type: ResolveInfo
+        - name: Subtypes
+          write_method: opaque
     - name: SpellCheckerSubtype
+      java_wire_format:
+        - name: SubtypeNameResId
+          write_method: int32
+        - name: SubtypeLocale
+          write_method: string16
+        - name: SubtypeLanguageTag
+          write_method: string16
+        - name: SubtypeExtraValue
+          write_method: string16
+        - name: SubtypeId
+          write_method: int32
     - name: SuggestionsInfo
+      java_wire_format:
+        - name: SuggestionsAttributes
+          write_method: int32
+        - name: Suggestions
+          write_method: string_array
+        - name: Cookie
+          write_method: int32
+        - name: Sequence
+          write_method: int32
+        - name: SuggestionsAvailable
+          write_method: bool
     - name: TextInfo
+      java_wire_format:
+        - name: CharSequence
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: Cookie
+          write_method: int32
+        - name: SequenceNumber
+          write_method: int32

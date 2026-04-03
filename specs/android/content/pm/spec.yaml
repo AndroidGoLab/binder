@@ -5430,6 +5430,68 @@ interfaces:
             name: void
 parcelables:
     - name: ActivityInfo
+      java_wire_format:
+        - name: Super
+          write_method: delegate
+        - name: Theme
+          write_method: int32
+        - name: LaunchMode
+          write_method: int32
+        - name: DocumentLaunchMode
+          write_method: int32
+        - name: Permission
+          write_method: string8
+        - name: TaskAffinity
+          write_method: string8
+        - name: TargetActivity
+          write_method: string8
+        - name: LaunchToken
+          write_method: string8
+        - name: Flags
+          write_method: int32
+        - name: PrivateFlags
+          write_method: int32
+        - name: ScreenOrientation
+          write_method: int32
+        - name: ConfigChanges
+          write_method: int32
+        - name: SoftInputMode
+          write_method: int32
+        - name: UiOptions
+          write_method: int32
+        - name: ParentActivityName
+          write_method: string8
+        - name: PersistableMode
+          write_method: int32
+        - name: MaxRecents
+          write_method: int32
+        - name: LockTaskLaunchMode
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: windowLayout!=null
+        - name: WindowLayout
+          write_method: delegate
+          condition: windowLayout!=null
+          delegate_type: WindowLayout
+        - name: ResizeMode
+          write_method: int32
+        - name: RequestedVrComponent
+          write_method: string8
+        - name: RotationAnimation
+          write_method: int32
+        - name: ColorMode
+          write_method: int32
+        - name: MaxAspectRatio
+          write_method: float32
+        - name: MinAspectRatio
+          write_method: float32
+        - name: SupportsSizeChanges
+          write_method: bool
+        - name: RequiredDisplayCategory
+          write_method: string8
+        - name: RequireContentUriPermissionFromCaller
+          write_method: int32
     - name: ApexStagedEvent
       fields:
         - name: stagedApexModuleNames
@@ -5439,7 +5501,172 @@ parcelables:
           annotations:
             - utf8InCpp
     - name: ApkChecksum
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: SplitName
+          write_method: string16
+          condition: mSplitName!=null
+        - name: Checksum
+          write_method: typed_object
+        - name: InstallerPackageName
+          write_method: string16
+          condition: mInstallerPackageName!=null
+        - name: InstallerCertificate
+          write_method: byte_array
+          condition: mInstallerCertificate!=null
     - name: ApplicationInfo
+      java_wire_format:
+        - name: Super
+          write_method: delegate
+        - name: TaskAffinity
+          write_method: string8
+        - name: Permission
+          write_method: string8
+        - name: ProcessName
+          write_method: string8
+        - name: ClassName
+          write_method: string8
+        - name: Theme
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: PrivateFlags
+          write_method: int32
+        - name: PrivateFlagsExt
+          write_method: int32
+        - name: RequiresSmallestWidthDp
+          write_method: int32
+        - name: CompatibleWidthLimitDp
+          write_method: int32
+        - name: LargestWidthLimitDp
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: storageUuid!=null
+        - name: StorageUuid.getMostSignificantBits()
+          write_method: int64
+          condition: storageUuid!=null
+        - name: StorageUuid.getLeastSignificantBits()
+          write_method: int64
+          condition: storageUuid!=null
+        - name: ScanSourceDir
+          write_method: string8
+        - name: ScanPublicSourceDir
+          write_method: string8
+        - name: SourceDir
+          write_method: string8
+        - name: PublicSourceDir
+          write_method: string8
+        - name: SplitNames
+          write_method: opaque
+        - name: SplitSourceDirs
+          write_method: opaque
+        - name: SplitPublicSourceDirs
+          write_method: opaque
+        - name: (SparseArray)splitDependencies
+          write_method: opaque
+        - name: NativeLibraryDir
+          write_method: string8
+        - name: SecondaryNativeLibraryDir
+          write_method: string8
+        - name: NativeLibraryRootDir
+          write_method: string8
+        - name: NativeLibraryRootRequiresIsa
+          write_method: bool
+        - name: PrimaryCpuAbi
+          write_method: string8
+        - name: SecondaryCpuAbi
+          write_method: string8
+        - name: ResourceDirs
+          write_method: opaque
+        - name: OverlayPaths
+          write_method: opaque
+        - name: SeInfo
+          write_method: string8
+        - name: SeInfoUser
+          write_method: string8
+        - name: SharedLibraryFiles
+          write_method: opaque
+        - name: SharedLibraryInfos
+          write_method: opaque
+        - name: OptionalSharedLibraryInfos
+          write_method: opaque
+        - name: DataDir
+          write_method: string8
+        - name: DeviceProtectedDataDir
+          write_method: string8
+        - name: CredentialProtectedDataDir
+          write_method: string8
+        - name: Uid
+          write_method: int32
+        - name: MinSdkVersion
+          write_method: int32
+        - name: TargetSdkVersion
+          write_method: int32
+        - name: LongVersionCode
+          write_method: int64
+        - name: Enabled
+          write_method: bool
+        - name: EnabledSetting
+          write_method: int32
+        - name: InstallLocation
+          write_method: int32
+        - name: ManageSpaceActivityName
+          write_method: string8
+        - name: BackupAgentName
+          write_method: string8
+        - name: DescriptionRes
+          write_method: int32
+        - name: UiOptions
+          write_method: int32
+        - name: FullBackupContent
+          write_method: int32
+        - name: DataExtractionRulesRes
+          write_method: int32
+        - name: CrossProfile
+          write_method: bool
+        - name: NetworkSecurityConfigRes
+          write_method: int32
+        - name: Category
+          write_method: int32
+        - name: TargetSandboxVersion
+          write_method: int32
+        - name: ClassLoaderName
+          write_method: string8
+        - name: SplitClassLoaderNames
+          write_method: opaque
+        - name: CompileSdkVersion
+          write_method: int32
+        - name: CompileSdkVersionCodename
+          write_method: string8
+        - name: AppComponentFactory
+          write_method: string8
+        - name: IconRes
+          write_method: int32
+        - name: RoundIconRes
+          write_method: int32
+        - name: HiddenApiPolicy
+          write_method: int32
+        - name: HiddenUntilInstalled
+          write_method: bool
+        - name: ZygotePreloadName
+          write_method: string8
+        - name: GwpAsanMode
+          write_method: int32
+        - name: MemtagMode
+          write_method: int32
+        - name: NativeHeapZeroInitialized
+          write_method: int32
+        - name: CreateTimestamp
+          write_method: int64
+        - name: "0"
+          write_method: int32
+          condition: mAppClassNamesByProcess==null
+        - name: LocaleConfigRes
+          write_method: int32
+        - name: AllowCrossUidActivitySwitchFromBelow
+          write_method: bool
     - name: ArchivedActivityParcel
       fields:
         - name: title
@@ -5487,12 +5714,48 @@ parcelables:
             name: ArchivedActivityParcel
             is_array: true
     - name: Attribution
+      java_wire_format:
+        - name: Tag
+          write_method: string16
+        - name: Label
+          write_method: int32
     - name: BasicActivityInfo
     - name: Capability
+      java_wire_format:
+        - name: Name
+          write_method: string16
     - name: CapabilityParams
+      java_wire_format:
+        - name: Name
+          write_method: string16
+        - name: PrimaryValue
+          write_method: string16
+        - name: Aliases
+          write_method: opaque
     - name: ChangedPackages
+      java_wire_format:
+        - name: SequenceNumber
+          write_method: int32
+        - name: PackageNames
+          write_method: opaque
     - name: Checksum
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Value
+          write_method: byte_array
     - name: ConfigurationInfo
+      java_wire_format:
+        - name: ReqTouchScreen
+          write_method: int32
+        - name: ReqKeyboardType
+          write_method: int32
+        - name: ReqNavigation
+          write_method: int32
+        - name: ReqInputFeatures
+          write_method: int32
+        - name: ReqGlEsVersion
+          write_method: int32
     - name: DataLoaderParamsParcel
       fields:
         - name: type
@@ -5515,6 +5778,15 @@ parcelables:
           annotations:
             - utf8InCpp
     - name: FeatureInfo
+      java_wire_format:
+        - name: Name
+          write_method: string8
+        - name: Version
+          write_method: int32
+        - name: ReqGlEsVersion
+          write_method: int32
+        - name: Flags
+          write_method: int32
     - name: FileSystemControlParcel
       fields:
         - name: incremental
@@ -5533,7 +5805,27 @@ parcelables:
           annotations:
             - nullable
     - name: IncrementalStatesInfo
+      java_wire_format:
+        - name: IsLoading
+          write_method: bool
+        - name: Progress
+          write_method: float32
+        - name: LoadingCompletedTime
+          write_method: int64
     - name: InstallSourceInfo
+      java_wire_format:
+        - name: InitiatingPackageName
+          write_method: string16
+        - name: InitiatingPackageSigningInfo
+          write_method: typed_object
+        - name: OriginatingPackageName
+          write_method: string16
+        - name: InstallingPackageName
+          write_method: string16
+        - name: UpdateOwnerPackageName
+          write_method: string8
+        - name: PackageSource
+          write_method: int32
     - name: InstallationFile
     - name: InstallationFileParcel
       fields:
@@ -5556,17 +5848,247 @@ parcelables:
             name: byte
             is_array: true
     - name: InstantAppInfo
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
+        - name: LabelText
+          write_method: opaque
+        - name: RequestedPermissions
+          write_method: string_array
+        - name: GrantedPermissions
+          write_method: string_array
+        - name: ApplicationInfo
+          write_method: typed_object
     - name: InstantAppRequestInfo
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: Intent
+          write_method: typed_object
+        - name: HostDigestPrefix
+          write_method: int_array
+          condition: mHostDigestPrefix!=null
+        - name: UserHandle
+          write_method: typed_object
+        - name: Token
+          write_method: string16
     - name: InstrumentationInfo
+      java_wire_format:
+        - name: Super
+          write_method: delegate
+        - name: TargetPackage
+          write_method: string8
+        - name: TargetProcesses
+          write_method: string8
+        - name: SourceDir
+          write_method: string8
+        - name: PublicSourceDir
+          write_method: string8
+        - name: SplitNames
+          write_method: opaque
+        - name: SplitSourceDirs
+          write_method: opaque
+        - name: SplitPublicSourceDirs
+          write_method: opaque
+        - name: (SparseArray)splitDependencies
+          write_method: opaque
+        - name: DataDir
+          write_method: string8
+        - name: DeviceProtectedDataDir
+          write_method: string8
+        - name: CredentialProtectedDataDir
+          write_method: string8
+        - name: PrimaryCpuAbi
+          write_method: string8
+        - name: SecondaryCpuAbi
+          write_method: string8
+        - name: NativeLibraryDir
+          write_method: string8
+        - name: SecondaryNativeLibraryDir
+          write_method: string8
+        - name: (handleProfiling==false)
+          write_method: bool
+        - name: (functionalTest==false)
+          write_method: bool
     - name: IntentFilterVerificationInfo
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
+        - name: Status
+          write_method: int32
+        - name: NewArrayList<>(mDomains)
+          write_method: opaque
     - name: KeySet
+      java_wire_format:
+        - name: Token
+          write_method: binder
     - name: LabeledIntent
+      java_wire_format:
+        - name: Super
+          write_method: delegate
+        - name: SourcePackage
+          write_method: string16
+        - name: LabelRes
+          write_method: int32
+        - name: NonLocalizedLabel
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: Icon
+          write_method: int32
     - name: LauncherActivityInfoInternal
+      java_wire_format:
+        - name: ActivityInfo
+          write_method: typed_object
+        - name: IncrementalStatesInfo
+          write_method: typed_object
+        - name: User
+          write_method: typed_object
     - name: LauncherApps.AppUsageLimit
     - name: LauncherUserInfo
+      java_wire_format:
+        - name: UserType
+          write_method: opaque
+        - name: UserSerialNumber
+          write_method: int32
     - name: ModuleInfo
+      java_wire_format:
+        - name: Name
+          write_method: opaque
+        - name: PackageName
+          write_method: string16
+        - name: Hidden
+          write_method: bool
+        - name: ApexModuleName
+          write_method: string16
+        - name: ApkInApexPackageNames
+          write_method: opaque
     - name: PackageInfo
+      java_wire_format:
+        - name: PackageName
+          write_method: string8
+        - name: SplitNames
+          write_method: opaque
+        - name: VersionCode
+          write_method: int32
+        - name: VersionCodeMajor
+          write_method: int32
+        - name: VersionName
+          write_method: string8
+        - name: BaseRevisionCode
+          write_method: int32
+        - name: SplitRevisionCodes
+          write_method: int_array
+        - name: SharedUserId
+          write_method: string8
+        - name: SharedUserLabel
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: applicationInfo!=null
+        - name: ApplicationInfo
+          write_method: delegate
+          condition: applicationInfo!=null
+          delegate_type: ApplicationInfo
+        - name: FirstInstallTime
+          write_method: int64
+        - name: LastUpdateTime
+          write_method: int64
+        - name: Gids
+          write_method: int_array
+        - name: Activities
+          write_method: typed_array
+        - name: Receivers
+          write_method: typed_array
+        - name: Services
+          write_method: typed_array
+        - name: Providers
+          write_method: typed_array
+        - name: Instrumentation
+          write_method: typed_array
+        - name: Permissions
+          write_method: typed_array
+        - name: RequestedPermissions
+          write_method: opaque
+        - name: RequestedPermissionsFlags
+          write_method: int_array
+        - name: Signatures
+          write_method: typed_array
+        - name: ConfigPreferences
+          write_method: typed_array
+        - name: ReqFeatures
+          write_method: typed_array
+        - name: FeatureGroups
+          write_method: typed_array
+        - name: Attributions
+          write_method: typed_array
+        - name: InstallLocation
+          write_method: int32
+        - name: IsStub
+          write_method: bool
+        - name: CoreApp
+          write_method: bool
+        - name: RequiredForAllUsers
+          write_method: bool
+        - name: RestrictedAccountType
+          write_method: string8
+        - name: RequiredAccountType
+          write_method: string8
+        - name: OverlayTarget
+          write_method: string8
+        - name: OverlayCategory
+          write_method: string8
+        - name: OverlayPriority
+          write_method: int32
+        - name: OverlayIsStatic
+          write_method: bool
+        - name: CompileSdkVersion
+          write_method: int32
+        - name: CompileSdkVersionCodename
+          write_method: string8
+        - name: "1"
+          write_method: int32
+          condition: signingInfo!=null
+        - name: SigningInfo
+          write_method: delegate
+          condition: signingInfo!=null
+          delegate_type: SigningInfo
+        - name: IsApex
+          write_method: bool
+        - name: IsActiveApex
+          write_method: bool
+        - name: ArchiveTimeMillis
+          write_method: int64
+        - name: "1"
+          write_method: int32
+          condition: mApexPackageName!=null
+        - name: ApexPackageName
+          write_method: string8
+          condition: mApexPackageName!=null
     - name: PackageInfoLite
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
+        - name: SplitNames
+          write_method: string_array
+        - name: VersionCode
+          write_method: int32
+        - name: VersionCodeMajor
+          write_method: int32
+        - name: BaseRevisionCode
+          write_method: int32
+        - name: SplitRevisionCodes
+          write_method: int_array
+        - name: RecommendedInstallLocation
+          write_method: int32
+        - name: InstallLocation
+          write_method: int32
+        - name: MultiArch
+          write_method: bool
+        - name: Debuggable
+          write_method: bool
+        - name: "0"
+          write_method: int32
+          condition: verifiers==null||verifiers.length==0
     - name: PackageInstaller.InstallConstraints
     - name: PackageInstaller.PreapprovalDetails
     - name: PackageInstaller.SessionInfo
@@ -5574,16 +6096,287 @@ parcelables:
     - name: PackageManager.ComponentEnabledSetting
     - name: PackageManager.Property
     - name: PackageStats
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
+        - name: UserHandle
+          write_method: int32
+        - name: CodeSize
+          write_method: int64
+        - name: DataSize
+          write_method: int64
+        - name: CacheSize
+          write_method: int64
+        - name: ApkSize
+          write_method: int64
+        - name: LibSize
+          write_method: int64
+        - name: DmSize
+          write_method: int64
+        - name: DexoptSize
+          write_method: int64
+        - name: CurProfSize
+          write_method: int64
+        - name: RefProfSize
+          write_method: int64
+        - name: ExternalCodeSize
+          write_method: int64
+        - name: ExternalDataSize
+          write_method: int64
+        - name: ExternalCacheSize
+          write_method: int64
+        - name: ExternalMediaSize
+          write_method: int64
+        - name: ExternalObbSize
+          write_method: int64
     - name: ParceledListSlice
     - name: PermissionGroupInfo
+      java_wire_format:
+        - name: Super
+          write_method: delegate
+        - name: DescriptionRes
+          write_method: int32
+        - name: RequestRes
+          write_method: int32
+        - name: RequestDetailResourceId
+          write_method: int32
+        - name: BackgroundRequestResourceId
+          write_method: int32
+        - name: BackgroundRequestDetailResourceId
+          write_method: int32
+        - name: NonLocalizedDescription
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: Flags
+          write_method: int32
+        - name: Priority
+          write_method: int32
     - name: PermissionInfo
+      java_wire_format:
+        - name: Super
+          write_method: delegate
+        - name: ProtectionLevel
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: Group
+          write_method: string8
+        - name: BackgroundPermission
+          write_method: string8
+        - name: DescriptionRes
+          write_method: int32
+        - name: RequestRes
+          write_method: int32
+        - name: NonLocalizedDescription
+          write_method: char_sequence
+          delegate_type: TextUtils
     - name: ProviderInfo
+      java_wire_format:
+        - name: Super
+          write_method: delegate
+        - name: Authority
+          write_method: string8
+        - name: ReadPermission
+          write_method: string8
+        - name: WritePermission
+          write_method: string8
+        - name: GrantUriPermissions
+          write_method: bool
+        - name: ForceUriPermissions
+          write_method: bool
+        - name: UriPermissionPatterns
+          write_method: typed_array
+        - name: PathPermissions
+          write_method: typed_array
+        - name: Multiprocess
+          write_method: bool
+        - name: InitOrder
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: IsSyncable
+          write_method: bool
     - name: ProviderInfoList
+      java_wire_format:
+        - name: List
+          write_method: opaque
     - name: ResolveInfo
+      java_wire_format:
+        - name: "1"
+          write_method: int32
+          condition: activityInfo!=null
+        - name: ActivityInfo
+          write_method: delegate
+          condition: activityInfo!=null
+          delegate_type: ActivityInfo
+        - name: "1"
+          write_method: int32
+          condition: filter!=null
+        - name: Filter
+          write_method: delegate
+          condition: filter!=null
+          delegate_type: IntentFilter
+        - name: Priority
+          write_method: int32
+        - name: PreferredOrder
+          write_method: int32
+        - name: Match
+          write_method: int32
+        - name: SpecificIndex
+          write_method: int32
+        - name: LabelRes
+          write_method: int32
+        - name: NonLocalizedLabel
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: Icon
+          write_method: int32
+        - name: ResolvePackageName
+          write_method: string8
+        - name: TargetUserId
+          write_method: int32
+        - name: System
+          write_method: bool
+        - name: NoResourceId
+          write_method: bool
+        - name: IconResourceId
+          write_method: int32
+        - name: HandleAllWebDataURI
+          write_method: bool
+        - name: AutoResolutionAllowed
+          write_method: bool
+        - name: IsInstantAppAvailable
+          write_method: bool
+        - name: UserHandle!=null
+          write_method: bool
     - name: ServiceInfo
+      java_wire_format:
+        - name: Super
+          write_method: delegate
+        - name: Permission
+          write_method: string8
+        - name: Flags
+          write_method: int32
+        - name: ForegroundServiceType
+          write_method: int32
     - name: SharedLibraryInfo
+      java_wire_format:
+        - name: Path
+          write_method: string8
+        - name: PackageName
+          write_method: string8
+        - name: "1"
+          write_method: int32
+          condition: mCodePaths!=null
+        - name: CodePaths.toArray(newString[mCodePaths.size()])
+          write_method: opaque
+          condition: mCodePaths!=null
+        - name: Name
+          write_method: string8
+        - name: Version
+          write_method: int64
+        - name: Type
+          write_method: int32
+        - name: DeclaringPackage
+          write_method: typed_object
+        - name: DependentPackages
+          write_method: write_list
+        - name: Dependencies
+          write_method: opaque
+        - name: IsNative
+          write_method: bool
+        - name: OptionalDependentPackages
+          write_method: opaque
     - name: ShortcutInfo
+      java_wire_format:
+        - name: UserId
+          write_method: int32
+        - name: Id
+          write_method: string8
+        - name: PackageName
+          write_method: string8
+        - name: Activity
+          write_method: typed_object
+        - name: Flags
+          write_method: int32
+        - name: IconResId
+          write_method: int32
+        - name: LastChangedTimestamp
+          write_method: int64
+        - name: DisabledReason
+          write_method: int32
+        - name: "0"
+          write_method: int32
+          condition: hasKeyFieldsOnly()
+        - name: "1"
+          write_method: int32
+        - name: Icon
+          write_method: typed_object
+        - name: Title
+          write_method: opaque
+        - name: TitleResId
+          write_method: int32
+        - name: Text
+          write_method: opaque
+        - name: TextResId
+          write_method: int32
+        - name: DisabledMessage
+          write_method: opaque
+        - name: DisabledMessageResId
+          write_method: int32
+        - name: Intents
+          write_method: opaque
+        - name: IntentPersistableExtrases
+          write_method: opaque
+        - name: Rank
+          write_method: int32
+        - name: Extras
+          write_method: typed_object
+        - name: BitmapPath
+          write_method: string8
+        - name: IconResName
+          write_method: string8
+        - name: TitleResName
+          write_method: string8
+        - name: TextResName
+          write_method: string8
+        - name: DisabledMessageResName
+          write_method: string8
+        - name: "N"
+          write_method: int32
+          condition: mCategories!=null
+        - name: Persons
+          write_method: opaque
+        - name: LocusId
+          write_method: typed_object
+        - name: IconUri
+          write_method: string8
+        - name: StartingThemeResName
+          write_method: string8
+        - name: ExcludedSurfaces
+          write_method: int32
+        - name: CapabilityBindings
+          write_method: opaque
     - name: ShortcutQueryWrapper
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: ChangedSince
+          write_method: int64
+        - name: Package
+          write_method: string16
+          condition: mPackage!=null
+        - name: ShortcutIds
+          write_method: opaque
+          condition: mShortcutIds!=null
+        - name: LocusIds
+          write_method: opaque
+          condition: mLocusIds!=null
+        - name: Activity
+          write_method: typed_object
+          condition: mActivity!=null
+        - name: QueryFlags
+          write_method: int32
     - name: SignedPackageParcel
       fields:
         - name: packageName
@@ -5594,6 +6387,17 @@ parcelables:
             name: byte
             is_array: true
     - name: SigningDetails
+      java_wire_format:
+        - name: IsUnknown
+          write_method: bool
+        - name: Signatures
+          write_method: typed_array
+        - name: SignatureSchemeVersion
+          write_method: int32
+        - name: PublicKeys
+          write_method: array_set
+        - name: PastSigningCertificates
+          write_method: typed_array
     - name: StagedApexInfo
       fields:
         - name: moduleName
@@ -5619,11 +6423,113 @@ parcelables:
             name: boolean
     - name: StringParceledListSlice
     - name: SuspendDialogInfo
+      java_wire_format:
+        - name: IconResId
+          write_method: int32
+        - name: TitleResId
+          write_method: int32
+        - name: Title
+          write_method: string16
+        - name: DialogMessageResId
+          write_method: int32
+        - name: DialogMessage
+          write_method: string16
+        - name: NeutralButtonTextResId
+          write_method: int32
+        - name: NeutralButtonText
+          write_method: string16
+        - name: NeutralButtonAction
+          write_method: int32
     - name: UserInfo
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: Name
+          write_method: string8
+        - name: IconPath
+          write_method: string8
+        - name: Flags
+          write_method: int32
+        - name: UserType
+          write_method: string8
+        - name: SerialNumber
+          write_method: int32
+        - name: CreationTime
+          write_method: int64
+        - name: LastLoggedInTime
+          write_method: int64
+        - name: LastLoggedInFingerprint
+          write_method: string8
+        - name: Partial
+          write_method: bool
+        - name: PreCreated
+          write_method: bool
+        - name: ProfileGroupId
+          write_method: int32
+        - name: GuestToRemove
+          write_method: bool
+        - name: RestrictedProfileParentId
+          write_method: int32
+        - name: ProfileBadge
+          write_method: int32
     - name: UserProperties
+      java_wire_format:
+        - name: PropertiesPresent
+          write_method: int64
+        - name: ShowInLauncher
+          write_method: int32
+        - name: StartWithParent
+          write_method: bool
+        - name: ShowInSettings
+          write_method: int32
+        - name: ShowInQuietMode
+          write_method: int32
+        - name: ShowInSharingSurfaces
+          write_method: int32
+        - name: InheritDevicePolicy
+          write_method: int32
+        - name: UseParentsContacts
+          write_method: bool
+        - name: UpdateCrossProfileIntentFiltersOnOTA
+          write_method: bool
+        - name: CrossProfileIntentFilterAccessControl
+          write_method: int32
+        - name: CrossProfileIntentResolutionStrategy
+          write_method: int32
+        - name: MediaSharedWithParent
+          write_method: bool
+        - name: CredentialShareableWithParent
+          write_method: bool
+        - name: AuthAlwaysRequiredToDisableQuietMode
+          write_method: bool
+        - name: AllowStoppingUserWithDelayedLocking
+          write_method: bool
+        - name: DeleteAppWithParent
+          write_method: bool
+        - name: AlwaysVisible
+          write_method: bool
+        - name: CrossProfileContentSharingStrategy
+          write_method: int32
+        - name: ProfileApiVisibility
+          write_method: int32
+        - name: ItemsRestrictedOnHomeScreen
+          write_method: bool
     - name: VerifierDeviceIdentity
+      java_wire_format:
+        - name: Identity
+          write_method: int64
     - name: VerifierInfo
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
+        - name: PublicKey
+          write_method: opaque
     - name: VersionedPackage
+      java_wire_format:
+        - name: PackageName
+          write_method: string8
+        - name: VersionCode
+          write_method: int64
 enums:
     - name: DataLoaderType
       backing_type: int

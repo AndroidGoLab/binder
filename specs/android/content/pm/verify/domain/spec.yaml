@@ -125,6 +125,21 @@ interfaces:
             name: Bundle
 parcelables:
     - name: DomainOwner
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: PackageName
+          write_method: string16
     - name: DomainSet
     - name: DomainVerificationInfo
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
     - name: DomainVerificationUserState
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+        - name: User
+          write_method: typed_object

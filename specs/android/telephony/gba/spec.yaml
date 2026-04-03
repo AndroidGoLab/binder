@@ -18,4 +18,28 @@ interfaces:
             name: void
 parcelables:
     - name: GbaAuthRequest
+      java_wire_format:
+        - name: Token
+          write_method: int32
+        - name: SubId
+          write_method: int32
+        - name: AppType
+          write_method: int32
+        - name: NafUrl
+          write_method: typed_object
+        - name: SecurityProtocol.length
+          write_method: int32
+        - name: SecurityProtocol
+          write_method: byte_array
+        - name: ForceBootStrapping
+          write_method: bool
+        - name: Callback
+          write_method: opaque
     - name: UaSecurityProtocolIdentifier
+      java_wire_format:
+        - name: Org
+          write_method: int32
+        - name: Protocol
+          write_method: int32
+        - name: TlsCipherSuite
+          write_method: int32

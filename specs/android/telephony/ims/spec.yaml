@@ -4,31 +4,358 @@ package: android.telephony.ims
 go_package: android/telephony/ims
 parcelables:
     - name: AudioCodecAttributes
+      java_wire_format:
+        - name: BitrateKbps
+          write_method: float32
+        - name: BitrateRangeKbps.getLower()
+          write_method: float32
+        - name: BitrateRangeKbps.getUpper()
+          write_method: float32
+        - name: BandwidthKhz
+          write_method: float32
+        - name: BandwidthRangeKhz.getLower()
+          write_method: float32
+        - name: BandwidthRangeKhz.getUpper()
+          write_method: float32
     - name: DelegateRegistrationState
+      java_wire_format:
+        - name: RegisteredTags
+          write_method: array_set
+        - name: RegisteringTags
+          write_method: array_set
     - name: DelegateRequest
+      java_wire_format:
+        - name: FeatureTags
+          write_method: write_list
     - name: FeatureTagState
+      java_wire_format:
+        - name: FeatureTag
+          write_method: string16
+        - name: State
+          write_method: int32
     - name: ImsCallForwardInfo
+      java_wire_format:
+        - name: Condition
+          write_method: int32
+        - name: Status
+          write_method: int32
+        - name: ToA
+          write_method: int32
+        - name: Number
+          write_method: string16
+        - name: TimeSeconds
+          write_method: int32
+        - name: ServiceClass
+          write_method: int32
     - name: ImsCallProfile
+      java_wire_format:
+        - name: ServiceType
+          write_method: int32
+        - name: CallType
+          write_method: int32
+        - name: FilteredExtras
+          write_method: bundle
+        - name: MediaProfile
+          write_method: typed_object
+        - name: EmergencyServiceCategories
+          write_method: int32
+        - name: EmergencyUrns
+          write_method: opaque
+        - name: EmergencyCallRouting
+          write_method: int32
+        - name: EmergencyCallTesting
+          write_method: bool
+        - name: HasKnownUserIntentEmergency
+          write_method: bool
+        - name: RestrictCause
+          write_method: int32
+        - name: CallerNumberVerificationStatus
+          write_method: int32
+        - name: AcceptedRtpHeaderExtensionTypes.toArray()
+          write_method: opaque
     - name: ImsConferenceState
+      java_wire_format:
+        - name: Participants.size()
+          write_method: int32
     - name: ImsExternalCallState
+      java_wire_format:
+        - name: CallId
+          write_method: int32
+        - name: Address
+          write_method: typed_object
+        - name: LocalAddress
+          write_method: typed_object
+        - name: IsPullable
+          write_method: bool
+        - name: CallState
+          write_method: int32
+        - name: CallType
+          write_method: int32
+        - name: IsHeld
+          write_method: bool
     - name: ImsReasonInfo
+      java_wire_format:
+        - name: Code
+          write_method: int32
+        - name: ExtraCode
+          write_method: int32
+        - name: ExtraMessage
+          write_method: string16
     - name: ImsRegistrationAttributes
+      java_wire_format:
+        - name: RegistrationTech
+          write_method: int32
+        - name: TransportType
+          write_method: int32
+        - name: ImsAttributeFlags
+          write_method: int32
+        - name: FeatureTags
+          write_method: write_list
+        - name: SipDetails
+          write_method: typed_object
     - name: ImsSsData
+      java_wire_format:
+        - name: GetServiceType()
+          write_method: int32
+        - name: GetRequestType()
+          write_method: int32
+        - name: GetTeleserviceType()
+          write_method: int32
+        - name: GetServiceClass()
+          write_method: int32
+        - name: GetResult()
+          write_method: int32
+        - name: SsInfo
+          write_method: int_array
+        - name: CfInfo
+          write_method: opaque
+        - name: ImsSsInfo
+          write_method: opaque
     - name: ImsSsInfo
+      java_wire_format:
+        - name: Status
+          write_method: int32
+        - name: IcbNum
+          write_method: string16
+        - name: ProvisionStatus
+          write_method: int32
+        - name: ClirInterrogationStatus
+          write_method: int32
+        - name: ClirOutgoingState
+          write_method: int32
     - name: ImsStreamMediaProfile
+      java_wire_format:
+        - name: AudioQuality
+          write_method: int32
+        - name: AudioDirection
+          write_method: int32
+        - name: AudioCodecAttributes
+          write_method: typed_object
+        - name: VideoQuality
+          write_method: int32
+        - name: VideoDirection
+          write_method: int32
+        - name: RttMode
+          write_method: int32
+        - name: IsReceivingRttAudio
+          write_method: bool
     - name: ImsSuppServiceNotification
+      java_wire_format:
+        - name: NotificationType
+          write_method: int32
+        - name: Code
+          write_method: int32
+        - name: Index
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: Number
+          write_method: string16
+        - name: History
+          write_method: string_array
     - name: MediaQualityStatus
+      java_wire_format:
+        - name: ImsCallSessionId
+          write_method: string16
+        - name: MediaSessionType
+          write_method: int32
+        - name: TransportType
+          write_method: int32
+        - name: RtpPacketLossRate
+          write_method: int32
+        - name: RtpJitterMillis
+          write_method: int32
+        - name: RtpInactivityTimeMillis
+          write_method: int64
     - name: MediaThreshold
+      java_wire_format:
+        - name: RtpPacketLossRate
+          write_method: int_array
+        - name: RtpJitter
+          write_method: int_array
+        - name: RtpInactivityTimeMillis
+          write_method: long_array
     - name: PublishAttributes
+      java_wire_format:
+        - name: PublishState
+          write_method: int32
+        - name: PresenceTuples
+          write_method: write_list
+        - name: SipDetails
+          write_method: typed_object
     - name: RcsClientConfiguration
+      java_wire_format:
+        - name: RcsVersion
+          write_method: string16
+        - name: RcsProfile
+          write_method: string16
+        - name: ClientVendor
+          write_method: string16
+        - name: ClientVersion
+          write_method: string16
+        - name: RcsEnabledByUser
+          write_method: bool
     - name: RcsContactPresenceTuple
+      java_wire_format:
+        - name: ContactUri
+          write_method: typed_object
+        - name: ConvertInstantToStringFormat(mTimestamp)
+          write_method: string16
+        - name: Status
+          write_method: string16
+        - name: ServiceId
+          write_method: string16
+        - name: ServiceVersion
+          write_method: string16
+        - name: ServiceDescription
+          write_method: string16
+        - name: ServiceCapabilities
+          write_method: typed_object
     - name: RcsContactTerminatedReason
+      java_wire_format:
+        - name: ContactUri
+          write_method: typed_object
+        - name: Reason
+          write_method: string16
     - name: RcsContactUceCapability
+      java_wire_format:
+        - name: ContactUri
+          write_method: typed_object
+        - name: CapabilityMechanism
+          write_method: int32
+        - name: SourceType
+          write_method: int32
+        - name: RequestResult
+          write_method: int32
+        - name: EntityUri
+          write_method: typed_object
+        - name: NewArrayList<>(mFeatureTags)
+          write_method: opaque
+        - name: PresenceTuples
+          write_method: opaque
     - name: RtpHeaderExtension
+      java_wire_format:
+        - name: LocalIdentifier
+          write_method: int32
+        - name: ExtensionData
+          write_method: byte_array
     - name: RtpHeaderExtensionType
+      java_wire_format:
+        - name: LocalIdentifier
+          write_method: int32
+        - name: Uri
+          write_method: typed_object
     - name: SipDelegateConfiguration
+      java_wire_format:
+        - name: Version
+          write_method: int64
+        - name: TransportType
+          write_method: int32
+        - name: IsSipCompactFormEnabled
+          write_method: bool
+        - name: IsSipKeepaliveEnabled
+          write_method: bool
+        - name: MaxUdpPayloadSize
+          write_method: int32
+        - name: PublicUserIdentifier
+          write_method: string16
+        - name: PrivateUserIdentifier
+          write_method: string16
+        - name: HomeDomain
+          write_method: string16
+        - name: Imei
+          write_method: string16
+        - name: Gruu
+          write_method: typed_object
+        - name: SipAuthHeader
+          write_method: string16
+        - name: SipAuthNonce
+          write_method: string16
+        - name: ServiceRouteHeader
+          write_method: string16
+        - name: PathHeader
+          write_method: string16
+        - name: UserAgentHeader
+          write_method: string16
+        - name: ContactUserParam
+          write_method: string16
+        - name: PaniHeader
+          write_method: string16
+        - name: PlaniHeader
+          write_method: string16
+        - name: CniHeader
+          write_method: string16
+        - name: AssociatedUriHeader
+          write_method: string16
+        - name: IpSecConfiguration!=null
+          write_method: bool
+        - name: NatAddress!=null
+          write_method: bool
     - name: SipDelegateImsConfiguration
+      java_wire_format:
+        - name: Version
+          write_method: int64
+        - name: Bundle
+          write_method: opaque
     - name: SipDetails
+      java_wire_format:
+        - name: Method
+          write_method: int32
+        - name: Cseq
+          write_method: int32
+        - name: ResponseCode
+          write_method: int32
+        - name: ResponsePhrase
+          write_method: string16
+        - name: ReasonHeaderCause
+          write_method: int32
+        - name: ReasonHeaderText
+          write_method: string16
+        - name: CallId
+          write_method: string16
     - name: SipDialogState
+      java_wire_format:
+        - name: State
+          write_method: int32
     - name: SipMessage
+      java_wire_format:
+        - name: StartLine
+          write_method: string16
+        - name: HeaderSection
+          write_method: string16
+        - name: Content.length
+          write_method: int32
+        - name: Content
+          write_method: byte_array
+        - name: ViaBranchParam
+          write_method: string16
+        - name: CallIdParam
+          write_method: string16
     - name: SrvccCall
+      java_wire_format:
+        - name: CallId
+          write_method: string16
+        - name: CallState
+          write_method: int32
+        - name: ImsCallProfile
+          write_method: typed_object

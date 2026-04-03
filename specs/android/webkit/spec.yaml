@@ -64,4 +64,20 @@ interfaces:
             name: WebViewProviderInfo
 parcelables:
     - name: WebViewProviderInfo
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
+        - name: Description
+          write_method: string16
+        - name: AvailableByDefault
+          write_method: bool
+        - name: IsFallback
+          write_method: bool
+        - name: Signatures
+          write_method: typed_array
     - name: WebViewProviderResponse
+      java_wire_format:
+        - name: PackageInfo
+          write_method: typed_object
+        - name: Status
+          write_method: int32

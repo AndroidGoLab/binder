@@ -257,5 +257,36 @@ interfaces:
             name: void
 parcelables:
     - name: BlobHandle
+      java_wire_format:
+        - name: Algorithm
+          write_method: string16
+        - name: Digest
+          write_method: byte_array
+        - name: Label
+          write_method: opaque
+        - name: ExpiryTimeMillis
+          write_method: int64
+        - name: Tag
+          write_method: string16
     - name: BlobInfo
+      java_wire_format:
+        - name: Id
+          write_method: int64
+        - name: ExpiryTimeMs
+          write_method: int64
+        - name: Label
+          write_method: opaque
+        - name: SizeBytes
+          write_method: int64
+        - name: LeaseInfos
+          write_method: write_list
     - name: LeaseInfo
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
+        - name: ExpiryTimeMillis
+          write_method: int64
+        - name: DescriptionResId
+          write_method: int32
+        - name: Description
+          write_method: opaque

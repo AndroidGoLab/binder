@@ -342,12 +342,168 @@ interfaces:
             name: void
 parcelables:
     - name: ConvertCredentialRequest
+      java_wire_format:
+        - name: GetCredentialResponse
+          write_method: typed_object
+        - name: ClientState
+          write_method: bundle
     - name: ConvertCredentialResponse
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: Dataset
+          write_method: typed_object
+        - name: ClientState
+          write_method: bundle
+          condition: mClientState!=null
     - name: Dataset
+      java_wire_format:
+        - name: Presentation
+          write_method: typed_object
+        - name: DialogPresentation
+          write_method: typed_object
+        - name: InlinePresentation
+          write_method: typed_object
+        - name: InlineTooltipPresentation
+          write_method: typed_object
+        - name: FieldIds
+          write_method: opaque
+        - name: FieldValues
+          write_method: opaque
+        - name: FieldPresentations
+          write_method: opaque
+        - name: FieldDialogPresentations
+          write_method: opaque
+        - name: FieldInlinePresentations
+          write_method: opaque
+        - name: FieldInlineTooltipPresentations
+          write_method: opaque
+        - name: FieldFilters
+          write_method: opaque
+        - name: AutofillDatatypes
+          write_method: opaque
+        - name: FieldContent
+          write_method: typed_object
+        - name: Authentication
+          write_method: typed_object
+        - name: Id
+          write_method: string16
+        - name: EligibleReason
+          write_method: int32
+        - name: CredentialFillInIntent
+          write_method: typed_object
     - name: FieldClassification.AlgorithmInfo
     - name: FillEventHistory
+      java_wire_format:
+        - name: ClientState
+          write_method: bundle
+        - name: "0"
+          write_method: int32
+          condition: mEvents==null
     - name: FillRequest
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: Id
+          write_method: int32
+        - name: FillContexts
+          write_method: opaque
+        - name: Hints
+          write_method: opaque
+        - name: ClientState
+          write_method: bundle
+          condition: mClientState!=null
+        - name: Flags
+          write_method: int32
+        - name: InlineSuggestionsRequest
+          write_method: typed_object
+          condition: mInlineSuggestionsRequest!=null
+        - name: DelayedFillIntentSender
+          write_method: typed_object
+          condition: mDelayedFillIntentSender!=null
     - name: FillResponse
+      java_wire_format:
+        - name: Datasets
+          write_method: typed_object
+        - name: SaveInfo
+          write_method: typed_object
+        - name: ClientState
+          write_method: typed_object
+        - name: AuthenticationIds
+          write_method: opaque
+        - name: Authentication
+          write_method: typed_object
+        - name: Presentation
+          write_method: typed_object
+        - name: InlinePresentation
+          write_method: typed_object
+        - name: InlineTooltipPresentation
+          write_method: typed_object
+        - name: DialogPresentation
+          write_method: typed_object
+        - name: DialogHeader
+          write_method: typed_object
+        - name: DialogPendingIntent
+          write_method: typed_object
+        - name: FillDialogTriggerIds
+          write_method: opaque
+        - name: Header
+          write_method: typed_object
+        - name: Footer
+          write_method: typed_object
+        - name: UserData
+          write_method: typed_object
+        - name: IgnoredIds
+          write_method: opaque
+        - name: DisableDuration
+          write_method: int64
+        - name: FieldClassificationIds
+          write_method: opaque
+        - name: DetectedFieldTypes
+          write_method: opaque
+        - name: IconResourceId
+          write_method: int32
+        - name: ServiceDisplayNameResourceId
+          write_method: int32
+        - name: ShowFillDialogIcon
+          write_method: bool
+        - name: ShowSaveDialogIcon
+          write_method: bool
+        - name: Flags
+          write_method: int32
+        - name: CancelIds
+          write_method: int_array
+        - name: RequestId
+          write_method: int32
     - name: InlinePresentation
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: Slice
+          write_method: typed_object
+        - name: InlinePresentationSpec
+          write_method: typed_object
     - name: SaveRequest
+      java_wire_format:
+        - name: FillContexts
+          write_method: opaque
+        - name: ClientState
+          write_method: bundle
+        - name: DatasetIds
+          write_method: opaque
     - name: UserData
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: CategoryIds
+          write_method: string_array
+        - name: Values
+          write_method: string_array
+        - name: DefaultAlgorithm
+          write_method: string16
+        - name: DefaultArgs
+          write_method: bundle
+        - name: CategoryAlgorithms
+          write_method: opaque
+        - name: CategoryArgs
+          write_method: opaque

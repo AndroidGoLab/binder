@@ -4,3 +4,16 @@ package: android.telephony.cdma
 go_package: android/telephony/cdma
 parcelables:
     - name: CdmaSmsCbProgramData
+      java_wire_format:
+        - name: Operation
+          write_method: int32
+        - name: Category
+          write_method: int32
+        - name: Language
+          write_method: int32
+        - name: MaxMessages
+          write_method: int32
+        - name: AlertOption
+          write_method: int32
+        - name: CategoryName
+          write_method: string16

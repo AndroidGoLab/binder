@@ -173,6 +173,11 @@ interfaces:
             name: ParcelFileDescriptor
 parcelables:
     - name: AppFuseMount
+      java_wire_format:
+        - name: This.mountPointId
+          write_method: int32
+        - name: Fd
+          write_method: typed_object
     - name: IBinaryTransparencyService.ApexInfo
       fields:
         - name: packageName

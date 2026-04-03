@@ -4,3 +4,10 @@ package: com.android.internal.content
 go_package: com/android/internal_/content
 parcelables:
     - name: ReferrerIntent
+      java_wire_format:
+        - name: Super
+          write_method: delegate
+        - name: Referrer
+          write_method: string16
+        - name: CallerToken
+          write_method: binder

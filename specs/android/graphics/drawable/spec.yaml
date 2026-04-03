@@ -4,3 +4,11 @@ package: android.graphics.drawable
 go_package: android/graphics/drawable
 parcelables:
     - name: Icon
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: "0"
+          write_method: int32
+          condition: mTintList==null
+        - name: BlendMode.toValue(mBlendMode)
+          write_method: int32

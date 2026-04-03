@@ -4,4 +4,16 @@ package: android.telephony.ims.feature
 go_package: android/telephony/ims/feature
 parcelables:
     - name: CapabilityChangeRequest
+      java_wire_format:
+        - name: CapabilitiesToEnable.size()
+          write_method: int32
+        - name: CapabilitiesToDisable.size()
+          write_method: int32
     - name: ConnectionFailureInfo
+      java_wire_format:
+        - name: Reason
+          write_method: int32
+        - name: CauseCode
+          write_method: int32
+        - name: WaitTimeMillis
+          write_method: int32

@@ -40,3 +40,20 @@ interfaces:
             name: void
 parcelables:
     - name: ChooserTarget
+      java_wire_format:
+        - name: Title
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: mIcon!=null
+        - name: Icon
+          write_method: delegate
+          condition: mIcon!=null
+          delegate_type: Icon
+        - name: Score
+          write_method: float32
+        - name: ComponentName
+          write_method: delegate
+          delegate_type: ComponentName
+        - name: IntentExtras
+          write_method: bundle

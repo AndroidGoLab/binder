@@ -1656,6 +1656,40 @@ parcelables:
           type:
             name: ImeOnBackInvokedDispatcher
     - name: InlineSuggestionsRequestInfo
+      java_wire_format:
+        - name: ComponentName
+          write_method: typed_object
+        - name: AutofillId
+          write_method: typed_object
+        - name: UiExtras
+          write_method: bundle
     - name: InputBindResult
+      java_wire_format:
+        - name: Result
+          write_method: int32
+        - name: Method
+          write_method: opaque
+        - name: "-1"
+          write_method: int32
+          condition: accessibilitySessions==null
+        - name: "1"
+          write_method: int32
+          condition: channel!=null
+        - name: Channel
+          write_method: delegate
+          condition: channel!=null
+          delegate_type: InputChannel
+        - name: Id
+          write_method: string16
+        - name: Sequence
+          write_method: int32
+        - name: IsInputMethodSuppressingSpellChecker
+          write_method: bool
     - name: InputConnectionCommandHeader
+      java_wire_format:
+        - name: SessionId
+          write_method: int32
     - name: InputMethodSubtypeHandle
+      java_wire_format:
+        - name: ToStringHandle()
+          write_method: string8

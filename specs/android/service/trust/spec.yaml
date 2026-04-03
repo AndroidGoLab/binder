@@ -230,3 +230,6 @@ interfaces:
             name: void
 parcelables:
     - name: GrantTrustResult
+      java_wire_format:
+        - name: Status
+          write_method: int32

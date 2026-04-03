@@ -4,3 +4,20 @@ package: com.android.internal.util
 go_package: com/android/internal_/util
 parcelables:
     - name: ScreenshotRequest
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Source
+          write_method: int32
+        - name: TopComponent
+          write_method: typed_object
+        - name: TaskId
+          write_method: int32
+        - name: UserId
+          write_method: int32
+        - name: HardwareBitmapBundler.hardwareBitmapToBundle(mBitmap)
+          write_method: typed_object
+        - name: BoundsInScreen
+          write_method: typed_object
+        - name: Insets
+          write_method: typed_object

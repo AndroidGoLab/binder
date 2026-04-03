@@ -51,3 +51,14 @@ interfaces:
             name: void
 parcelables:
     - name: VirtualCameraConfig
+      java_wire_format:
+        - name: Name
+          write_method: string8
+        - name: Callback
+          write_method: opaque
+        - name: StreamConfigurations.toArray(newVirtualCameraStreamConfig[0])
+          write_method: opaque
+        - name: SensorOrientation
+          write_method: int32
+        - name: LensFacing
+          write_method: int32

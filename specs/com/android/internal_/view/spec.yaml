@@ -600,3 +600,8 @@ interfaces:
             name: IImeTracker
 parcelables:
     - name: AppearanceRegion
+      java_wire_format:
+        - name: Appearance
+          write_method: int32
+        - name: Bounds
+          write_method: typed_object

@@ -1102,4 +1102,26 @@ interfaces:
             - UnsupportedAppUsage
 parcelables:
     - name: Account
+      java_wire_format:
+        - name: Name
+          write_method: string16
+        - name: Type
+          write_method: string16
+        - name: AccessId
+          write_method: string16
     - name: AuthenticatorDescription
+      java_wire_format:
+        - name: Type
+          write_method: string16
+        - name: PackageName
+          write_method: string16
+        - name: LabelId
+          write_method: int32
+        - name: IconId
+          write_method: int32
+        - name: SmallIconId
+          write_method: int32
+        - name: AccountPreferencesId
+          write_method: int32
+        - name: (byte)(customTokens?1:0)
+          write_method: int32

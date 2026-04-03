@@ -78,7 +78,52 @@ interfaces:
             name: void
 parcelables:
     - name: AudioMix
+      java_wire_format:
+        - name: RouteFlags
+          write_method: int32
+        - name: CallbackFlags
+          write_method: int32
+        - name: DeviceSystemType
+          write_method: int32
+        - name: DeviceAddress
+          write_method: string8
+        - name: Format
+          write_method: delegate
+          delegate_type: AudioFormat
+        - name: Rule
+          write_method: delegate
+          delegate_type: AudioMixingRule
+        - name: Token
+          write_method: binder
     - name: AudioMixingRule
+      java_wire_format:
+        - name: AllowPrivilegedPlaybackCapture
+          write_method: bool
+        - name: VoiceCommunicationCaptureAllowed
+          write_method: bool
+        - name: TargetMixType
+          write_method: int32
+        - name: Criteria.size()
+          write_method: int32
     - name: AudioPolicyConfig
+      java_wire_format:
+        - name: Mixes.size()
+          write_method: int32
     - name: AudioProductStrategy
+      java_wire_format:
+        - name: Name
+          write_method: string16
+        - name: Id
+          write_method: int32
+        - name: AudioAttributesGroups.length
+          write_method: int32
     - name: AudioVolumeGroup
+      java_wire_format:
+        - name: Name
+          write_method: string16
+        - name: Id
+          write_method: int32
+        - name: AudioAttributes.length
+          write_method: int32
+        - name: LegacyStreamTypes.length
+          write_method: int32

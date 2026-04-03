@@ -493,11 +493,88 @@ interfaces:
             name: void
 parcelables:
     - name: HotwordAudioStream
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: AudioFormat
+          write_method: typed_object
+        - name: AudioStreamParcelFileDescriptor
+          write_method: typed_object
+        - name: Timestamp
+          write_method: typed_object
+          condition: mTimestamp!=null
+        - name: Metadata
+          write_method: typed_object
+        - name: InitialAudio
+          write_method: byte_array
     - name: HotwordDetectedResult
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: SpeakerId
+          write_method: int32
+        - name: ConfidenceLevel
+          write_method: int32
+        - name: MediaSyncEvent
+          write_method: typed_object
+          condition: mMediaSyncEvent!=null
+        - name: HotwordOffsetMillis
+          write_method: int32
+        - name: HotwordDurationMillis
+          write_method: int32
+        - name: AudioChannel
+          write_method: int32
+        - name: Score
+          write_method: int32
+        - name: PersonalizedScore
+          write_method: int32
+        - name: HotwordPhraseId
+          write_method: int32
+        - name: AudioStreams
+          write_method: opaque
+        - name: Extras
+          write_method: typed_object
+        - name: BackgroundAudioPower
+          write_method: int32
     - name: HotwordDetectionServiceFailure
+      java_wire_format:
+        - name: ErrorCode
+          write_method: int32
+        - name: ErrorMessage
+          write_method: string8
     - name: HotwordRejectedResult
+      java_wire_format:
+        - name: ConfidenceLevel
+          write_method: int32
     - name: SoundTriggerFailure
+      java_wire_format:
+        - name: ErrorCode
+          write_method: int32
+        - name: ErrorMessage
+          write_method: string8
     - name: VisibleActivityInfo
+      java_wire_format:
+        - name: TaskId
+          write_method: int32
+        - name: AssistToken
+          write_method: binder
     - name: VisualQueryAttentionResult
+      java_wire_format:
+        - name: InteractionIntention
+          write_method: int32
+        - name: EngagementLevel
+          write_method: int32
     - name: VisualQueryDetectedResult
+      java_wire_format:
+        - name: PartialQuery
+          write_method: string16
+        - name: SpeakerId
+          write_method: int32
+        - name: AccessibilityDetectionData
+          write_method: byte_array
     - name: VisualQueryDetectionServiceFailure
+      java_wire_format:
+        - name: ErrorCode
+          write_method: int32
+        - name: ErrorMessage
+          write_method: string8
