@@ -24,7 +24,7 @@ func (s *ContentCaptureEvent) MarshalParcel(
 	p.WriteInt64(s.EventTime)
 	p.WriteInt32(0)  // null Id
 	p.WriteInt32(-1) // null Ids
-	p.WriteInt32(-1) // null ViewNode
+	p.WriteInt32(-1) // null Parcel
 	p.WriteInt32(-1) // null Text
 	p.WriteInt32(0)  // null ParentSessionId
 	p.WriteInt32(0)  // null ClientContext

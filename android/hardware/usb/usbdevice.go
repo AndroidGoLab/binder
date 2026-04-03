@@ -37,8 +37,8 @@ func (s *UsbDevice) MarshalParcel(
 	p.WriteString16(s.ManufacturerName)
 	p.WriteString16(s.ProductName)
 	p.WriteString16(s.Version)
-	p.WriteInt32(-1) // null SerialNumberReader.asBinder()
-	p.WriteInt32(-1) // null Configurations
+	p.WriteNullStrongBinder() // null SerialNumberReader.asBinder()
+	p.WriteInt32(-1)          // null Configurations
 	p.WriteBool(s.HasAudioPlayback)
 	p.WriteBool(s.HasAudioCapture)
 	p.WriteBool(s.HasMidi)
@@ -87,5 +87,8 @@ func (s *UsbDevice) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque SerialNumberReader.asBinder(): cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil // opaque Configurations: cannot skip without known wire format
 }

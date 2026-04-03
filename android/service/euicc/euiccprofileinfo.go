@@ -76,5 +76,14 @@ func (s *EuiccProfileInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque AccessRules: cannot skip without known wire format
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			return nil // non-empty typed_array AccessRules: cannot skip
+		}
+	}
+	return nil
 }

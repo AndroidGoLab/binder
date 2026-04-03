@@ -3631,6 +3631,7 @@ parcelables:
       java_wire_format:
         - name: KeyCharacterMap
           write_method: delegate
+          delegate_type: KeyCharacterMap
         - name: Id
           write_method: int32
         - name: Generation
@@ -3669,6 +3670,7 @@ parcelables:
           write_method: bool
         - name: HostUsiVersion
           write_method: delegate
+          delegate_type: HostUsiVersion
         - name: AssociatedDisplayId
           write_method: int32
         - name: NumRanges
@@ -3705,12 +3707,15 @@ parcelables:
       java_wire_format:
         - name: DisplayFrame
           write_method: delegate
+          delegate_type: Rect
         - name: DisplayCutout
           write_method: delegate
+          delegate_type: ParcelableWrapper
         - name: RoundedCorners
           write_method: typed_object
         - name: RoundedCornerFrame
           write_method: delegate
+          delegate_type: Rect
         - name: PrivacyIndicatorBounds
           write_method: typed_object
         - name: DisplayShape
@@ -3771,6 +3776,7 @@ parcelables:
           write_method: int32
         - name: Bitmap
           write_method: delegate
+          delegate_type: Bitmap
         - name: HotSpotX
           write_method: float32
         - name: HotSpotY
@@ -3980,6 +3986,7 @@ parcelables:
           write_method: bool
         - name: RegionInScreen
           write_method: delegate
+          delegate_type: Region
         - name: Title
           write_method: opaque
         - name: AccessibilityIdOfAnchor
@@ -3998,6 +4005,7 @@ parcelables:
           condition: childTokens!=null&&!childTokens.isEmpty()
         - name: MagnificationSpec
           write_method: delegate
+          delegate_type: MagnificationSpec
         - name: Locales
           write_method: typed_object
     - name: WindowManager.LayoutParams

@@ -26,5 +26,14 @@ func (s *ActivityChangedEvent) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil { // skip ActivityRecognitionEventArray.length
 		return _err
 	}
-	return nil // opaque ActivityRecognitionEventArray: cannot skip without known wire format
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			return nil // non-empty typed_array ActivityRecognitionEventArray: cannot skip
+		}
+	}
+	return nil
 }

@@ -1,6 +1,7 @@
 package app
 
 import (
+	types "github.com/AndroidGoLab/binder/android/content/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -30,6 +31,7 @@ type SearchableInfo struct {
 	VoicePromptTextId      int32
 	VoiceLanguageId        int32
 	VoiceMaxResults        int32
+	SearchActivity         types.ComponentName
 }
 
 var _ parcel.Parcelable = (*SearchableInfo)(nil)
@@ -38,7 +40,9 @@ func (s *SearchableInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.LabelId)
-	p.WriteInt32(-1) // null SearchActivity
+	if _err := s.SearchActivity.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.HintId)
 	p.WriteInt32(s.SearchMode)
 	p.WriteInt32(s.IconId)
@@ -73,5 +77,99 @@ func (s *SearchableInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque SearchActivity: cannot skip without known wire format
+	if _err := s.SearchActivity.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	s.HintId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.SearchMode, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.IconId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.SearchButtonText, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.SearchInputType, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.SearchImeOptions, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.IncludeInGlobalSearch, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.QueryAfterZeroResults, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.AutoUrlDetect, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.SettingsDescriptionId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.SuggestAuthority, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.SuggestPath, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.SuggestSelection, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.SuggestIntentAction, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.SuggestIntentData, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.SuggestThreshold, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
+	}
+	s.SuggestProviderPackage, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.VoiceSearchMode, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.VoiceLanguageModeId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.VoicePromptTextId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.VoiceLanguageId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.VoiceMaxResults, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

@@ -22,8 +22,8 @@ func (s *DisconnectCause) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.DisconnectCode)
-	p.WriteInt32(-1) // null TextUtils
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null DisconnectLabel
+	p.WriteInt32(-1) // null DisconnectDescription
 	p.WriteString16(s.DisconnectReason)
 	p.WriteInt32(s.ToneToPlay)
 	p.WriteInt32(s.TelephonyDisconnectCause)
@@ -47,5 +47,39 @@ func (s *DisconnectCause) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque TextUtils: cannot skip without known wire format
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	s.DisconnectReason, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.ToneToPlay, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.TelephonyDisconnectCause, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.TelephonyPreciseDisconnectCause, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.ImsReasonInfo = &ims.ImsReasonInfo{}
+			if _err = s.ImsReasonInfo.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
+	}
+	return nil
 }

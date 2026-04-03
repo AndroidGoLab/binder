@@ -7747,6 +7747,7 @@ parcelables:
       java_wire_format:
         - name: Attributes
           write_method: delegate
+          delegate_type: AudioAttributes
         - name: ClientUid
           write_method: int32
         - name: ClientId
@@ -7943,12 +7944,14 @@ parcelables:
           write_method: int32
         - name: PlayerAttr
           write_method: delegate
+          delegate_type: AudioAttributes
         - name: Ips==null
           write_method: bool
         - name: SessionId
           write_method: int32
         - name: FormatInfo
           write_method: delegate
+          delegate_type: FormatInfo
     - name: AudioPolicyConfig
       fields:
         - name: modules
@@ -8075,8 +8078,10 @@ parcelables:
           write_method: int32
         - name: ClientFormat
           write_method: delegate
+          delegate_type: AudioFormat
         - name: DeviceFormat
           write_method: delegate
+          delegate_type: AudioFormat
         - name: PatchHandle
           write_method: int32
         - name: ClientPackageName
@@ -8107,8 +8112,9 @@ parcelables:
             name: boolean
     - name: AudioRoutesInfo
       java_wire_format:
-        - name: TextUtils
-          write_method: delegate
+        - name: BluetoothName
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: MainType
           write_method: int32
     - name: AudioTimestamp
@@ -8612,12 +8618,15 @@ parcelables:
       java_wire_format:
         - name: MediaId
           write_method: string16
-        - name: TextUtils
-          write_method: delegate
-        - name: TextUtils
-          write_method: delegate
-        - name: TextUtils
-          write_method: delegate
+        - name: Title
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: Subtitle
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: Description
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: Icon
           write_method: typed_object
         - name: IconUri
@@ -8685,8 +8694,9 @@ parcelables:
       java_wire_format:
         - name: Id
           write_method: string16
-        - name: TextUtils
-          write_method: delegate
+        - name: Name
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: Features
           write_method: opaque
         - name: Type
@@ -8695,8 +8705,9 @@ parcelables:
           write_method: bool
         - name: IconUri
           write_method: typed_object
-        - name: TextUtils
-          write_method: delegate
+        - name: Description
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: ConnectionState
           write_method: int32
         - name: ClientPackageName
@@ -9158,6 +9169,7 @@ parcelables:
         - name: VolGroup
           write_method: delegate
           condition: '!mUsesStreamType'
+          delegate_type: AudioVolumeGroup
     - name: VolumePolicy
       java_wire_format:
         - name: VolumeDownToEnterSilent

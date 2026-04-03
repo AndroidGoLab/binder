@@ -16,6 +16,7 @@ parcelables:
       java_wire_format:
         - name: Service
           write_method: delegate
+          delegate_type: ResolveInfo
         - name: Description
           write_method: string16
         - name: OnHost
@@ -54,6 +55,7 @@ parcelables:
       java_wire_format:
         - name: Service
           write_method: delegate
+          delegate_type: ResolveInfo
         - name: Description
           write_method: string16
         - name: SystemCode

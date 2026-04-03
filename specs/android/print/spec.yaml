@@ -929,18 +929,21 @@ parcelables:
         - name: MediaSize
           write_method: delegate
           condition: mMediaSize!=null
+          delegate_type: MediaSize
         - name: "1"
           write_method: int32
           condition: mResolution!=null
         - name: Resolution
           write_method: delegate
           condition: mResolution!=null
+          delegate_type: Resolution
         - name: "1"
           write_method: int32
           condition: mMinMargins!=null
         - name: MinMargins
           write_method: delegate
           condition: mMinMargins!=null
+          delegate_type: Margins
         - name: ColorMode
           write_method: int32
         - name: DuplexMode

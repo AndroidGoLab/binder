@@ -18,8 +18,8 @@ func (s *ExternalVibration) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Uid)
 	p.WriteString16(s.Pkg)
-	p.WriteInt32(-1) // null Controller.asBinder()
-	p.WriteInt32(-1) // null Token
+	p.WriteNullStrongBinder() // null Controller.asBinder()
+	p.WriteNullStrongBinder() // null Token
 	return nil
 }
 
@@ -35,5 +35,11 @@ func (s *ExternalVibration) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque Controller.asBinder(): cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

@@ -22,9 +22,9 @@ func (s *CredentialProviderInfo) MarshalParcel(
 	p.WriteInt32(-1) // null Capabilities
 	p.WriteBool(s.IsEnabled)
 	p.WriteBool(s.IsPrimary)
-	p.WriteInt32(-1) // null TextUtils
-	p.WriteInt32(-1) // null TextUtils
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null OverrideLabel
+	p.WriteInt32(-1) // null SettingsSubtitle
+	p.WriteInt32(-1) // null SettingsActivity
 	return nil
 }
 

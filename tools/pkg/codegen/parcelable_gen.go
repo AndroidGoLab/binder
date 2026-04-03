@@ -94,11 +94,11 @@ func GenerateParcelable(
 				continue
 			}
 			goName := AIDLToGoName(wf.Name)
-			if wf.Condition == "_null_flag" {
-				// Nullable delegation: pointer field with null flag.
+			// Self-references and nullable delegates use pointer types
+			// to avoid infinite-size structs and represent null.
+			if wf.Condition == "_null_flag" || goType == structName {
 				f.P("\t%s *%s", goName, goType)
 			} else {
-				// Delegation: not nullable — embedded directly.
 				f.P("\t%s %s", goName, goType)
 			}
 		}
@@ -908,8 +908,9 @@ func writeJavaWireMarshalParcel(
 				continue
 			}
 			goName := AIDLToGoName(wf.Name)
-			if wf.Condition == "_null_flag" {
-				// Nullable delegate: write int32 flag, then marshal if non-nil.
+			if wf.Condition == "_null_flag" || goType == structName {
+				// Nullable or self-referencing delegate: pointer field
+				// with int32 null flag.
 				f.P("\tif s.%s != nil {", goName)
 				f.P("\t\tp.WriteInt32(1)")
 				f.P("\t\tif _err := s.%s.MarshalParcel(p); _err != nil {", goName)
@@ -953,10 +954,13 @@ func writeJavaWireMarshalParcel(
 			//   bundle: int32(-1) — writeBundle null protocol
 			//   *_array: int32(-1) — writeIntArray/writeStringArray null protocol
 			//   typed_object: int32(0) — writeTypedObject null protocol (0=null, 1=present)
+			//   binder: WriteNullStrongBinder — flat_binder_object null
 			//   others: int32(-1) — length-based protocols use -1 for null
 			switch wf.WriteMethod {
 			case "typed_object":
 				f.P("\tp.WriteInt32(0) // null %s", wf.Name)
+			case "binder":
+				f.P("\tp.WriteNullStrongBinder() // null %s", wf.Name)
 			default:
 				f.P("\tp.WriteInt32(-1) // null %s", wf.Name)
 			}
@@ -1024,7 +1028,9 @@ func computeReachableWireFields(
 		}
 		// Handled opaque-skip cases (no unconditional return).
 		switch wf.WriteMethod {
-		case "component_name", "string_array", "int_array", "bundle", "write_list":
+		case "component_name", "string_array", "int_array", "long_array",
+			"bundle", "write_list", "binder", "typed_array", "array_set",
+			"char_sequence":
 			continue
 		case "typed_object":
 			// Conditional return (only when non-null); field after is reachable.
@@ -1080,8 +1086,9 @@ fieldLoop:
 				continue
 			}
 			goName := AIDLToGoName(wf.Name)
-			if wf.Condition == "_null_flag" {
-				// Nullable delegate: read int32 flag, then unmarshal if non-zero.
+			if wf.Condition == "_null_flag" || goType == structName {
+				// Nullable or self-referencing delegate: pointer field
+				// with int32 null flag.
 				f.P("\t{")
 				f.P("\t\t_flag, _err := p.ReadInt32()")
 				f.P("\t\tif _err != nil {")
@@ -1176,6 +1183,61 @@ fieldLoop:
 				f.P("\t\tif _arrLen > 0 {")
 				f.P("\t\t\tp.SetPosition(p.Position() + int(_arrLen)*4)")
 				f.P("\t\t}")
+				f.P("\t}")
+			case "long_array":
+				// Java writeLongArray: int32 count, then count int64s.
+				f.P("\t{")
+				f.P("\t\t_arrLen, _arrErr := p.ReadInt32()")
+				f.P("\t\tif _arrErr != nil {")
+				f.P("\t\t\treturn _arrErr")
+				f.P("\t\t}")
+				f.P("\t\tif _arrLen > 0 {")
+				f.P("\t\t\tp.SetPosition(p.Position() + int(_arrLen)*8)")
+				f.P("\t\t}")
+				f.P("\t}")
+			case "binder":
+				// Java writeStrongBinder: flat_binder_object in the
+				// parcel. Use ReadNullableStrongBinder to skip it
+				// (handles both null and non-null binder objects).
+				f.P("\tif _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {")
+				f.P("\t\treturn _binderErr")
+				f.P("\t}")
+			case "typed_array":
+				// Java writeTypedArray: int32 count, then count typed
+				// Parcelable objects. Cannot skip without knowing the
+				// element type's wire format, so bail if non-empty.
+				f.P("\t{")
+				f.P("\t\t_arrLen, _arrErr := p.ReadInt32()")
+				f.P("\t\tif _arrErr != nil {")
+				f.P("\t\t\treturn _arrErr")
+				f.P("\t\t}")
+				f.P("\t\tif _arrLen > 0 {")
+				f.P("\t\t\treturn nil // non-empty typed_array %s: cannot skip", wf.Name)
+				f.P("\t\t}")
+				f.P("\t}")
+			case "array_set":
+				// Java writeArraySet: int32 count, then count
+				// type-tagged values. Skip via SkipWriteValue.
+				f.P("\t{")
+				f.P("\t\t_arrLen, _arrErr := p.ReadInt32()")
+				f.P("\t\tif _arrErr != nil {")
+				f.P("\t\t\treturn _arrErr")
+				f.P("\t\t}")
+				f.P("\t\tfor _j := int32(0); _j < _arrLen; _j++ {")
+				f.P("\t\t\t_tag, _tagErr := p.ReadInt32()")
+				f.P("\t\t\tif _tagErr != nil {")
+				f.P("\t\t\t\treturn _tagErr")
+				f.P("\t\t\t}")
+				f.P("\t\t\tif _skipErr := p.SkipWriteValue(_tag); _skipErr != nil {")
+				f.P("\t\t\t\treturn _skipErr")
+				f.P("\t\t\t}")
+				f.P("\t\t}")
+				f.P("\t}")
+			case "char_sequence":
+				// TextUtils.writeToParcel: int32 kind + string16 text
+				// + optional spans. Skip via parcel.SkipCharSequence.
+				f.P("\tif _csErr := parcel.SkipCharSequence(p); _csErr != nil {")
+				f.P("\t\treturn _csErr")
 				f.P("\t}")
 			case "bundle":
 				f.P("\t{")

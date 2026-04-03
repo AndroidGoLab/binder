@@ -65,7 +65,7 @@ parcelables:
         - name: Keyphrase
           write_method: string16
         - name: SupportedLocales
-          write_method: opaque
+          write_method: array_set
         - name: RecognitionModeFlags
           write_method: int32
     - name: SoundTrigger.ConfidenceLevel

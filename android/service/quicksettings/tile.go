@@ -28,11 +28,11 @@ func (s *Tile) MarshalParcel(
 		return _err
 	}
 	p.WriteInt32(s.State)
-	p.WriteInt32(-1) // null TextUtils
-	p.WriteInt32(-1) // null TextUtils
-	p.WriteInt32(-1) // null TextUtils
-	p.WriteInt32(-1) // null TextUtils
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null Label
+	p.WriteInt32(-1) // null DefaultLabel
+	p.WriteInt32(-1) // null Subtitle
+	p.WriteInt32(-1) // null ContentDescription
+	p.WriteInt32(-1) // null StateDescription
 	return nil
 }
 
@@ -56,5 +56,20 @@ func (s *Tile) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque TextUtils: cannot skip without known wire format
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	return nil
 }

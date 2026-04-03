@@ -28,7 +28,7 @@ func (s *InputMethodSubtype) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.SubtypeNameResId)
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null SubtypeNameOverride
 	p.WriteString(s.PkLanguageTag)
 	p.WriteString(s.PkLayoutType)
 	p.WriteInt32(s.SubtypeIconResId)
@@ -52,5 +52,56 @@ func (s *InputMethodSubtype) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque TextUtils: cannot skip without known wire format
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	s.PkLanguageTag, _err = p.ReadString()
+	if _err != nil {
+		return _err
+	}
+	s.PkLayoutType, _err = p.ReadString()
+	if _err != nil {
+		return _err
+	}
+	s.SubtypeIconResId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.SubtypeLocale, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.SubtypeLanguageTag, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.SubtypeMode, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.SubtypeExtraValue, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.IsAuxiliary, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.OverridesImplicitlyEnabledSubtype, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.SubtypeHashCode, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.SubtypeId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.IsAsciiCapable, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

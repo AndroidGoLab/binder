@@ -1,11 +1,19 @@
 .PHONY: specs generate cli readme test e2e e2e-bindercli vet build lint clean \
-       bindercli list-commands check-generated release proofs difftest javaparser
+       bindercli list-commands check-generated release proofs difftest javaparser \
+       gralloc-bridge
 
 # Generated top-level directories.
 GENERATED_DIRS := android com fuzztest libgui_test_server parcelables src
 
 # All non-3rdparty Go packages.
 GO_PACKAGES = $(shell go list -e ./... | grep -v /3rdparty/)
+
+# --- Android NDK / GrapheneOS paths ---
+
+NDK          := $(HOME)/Android/Sdk/ndk/28.0.13004108
+NDK_CC       := $(NDK)/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android35-clang++
+GRAPHENEOS   := /home/streaming/grapheneos
+HIDL_GEN     := $(GRAPHENEOS)/out/soong/.intermediates
 
 # --- Spec-first pipeline ---
 
@@ -62,13 +70,45 @@ test:
 
 # Run E2E tests on a connected device via adb.
 e2e:
-	GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go test -tags e2e -c -o build/e2e_test ./tests/e2e/
+	@mkdir -p build
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go test -tags e2e -c -buildmode=pie -o build/e2e_test ./tests/e2e/
+	patchelf --set-interpreter /system/bin/linker64 \
+		--replace-needed libdl.so.2 libdl.so \
+		--replace-needed libpthread.so.0 libc.so \
+		--replace-needed libc.so.6 libc.so \
+		build/e2e_test
 	adb push build/e2e_test /data/local/tmp/
 	adb shell /data/local/tmp/e2e_test -test.v -test.timeout 300s
 
 # Run bindercli E2E tests via emulator.
 e2e-bindercli:
 	go test -tags e2e ./tests/e2e/... -run TestBindercli -v -timeout 300s
+
+# Build gralloc bridge shared library for x86_64 Android using NDK.
+# Requires stub libs (libhidlbase.so, libmapper3.so, libutils.so, libcutils.so)
+# to be pulled from the emulator into /tmp first:
+#   adb pull /system/lib64/libhidlbase.so /tmp/
+#   adb pull /system/lib64/libutils.so /tmp/
+#   adb pull /system/lib64/libcutils.so /tmp/
+#   (libmapper3.so is a thin wrapper — pull or build separately)
+gralloc-bridge:
+	@mkdir -p build
+	$(NDK_CC) -shared -fPIC -o build/gralloc_bridge.so gralloc/bridge/native/gralloc_bridge.cpp \
+		-I$(GRAPHENEOS)/system/libhidl/transport/include \
+		-I$(GRAPHENEOS)/system/libhidl/base/include \
+		-I$(GRAPHENEOS)/system/core/libcutils/include \
+		-I$(GRAPHENEOS)/system/core/libutils/include \
+		-I$(GRAPHENEOS)/system/core/libsystem/include \
+		-I$(GRAPHENEOS)/system/libfmq/base \
+		-I$(HIDL_GEN)/hardware/interfaces/graphics/mapper/3.0/android.hardware.graphics.mapper@3.0_genc++_headers/gen \
+		-I$(HIDL_GEN)/hardware/interfaces/graphics/common/1.0/android.hardware.graphics.common@1.0_genc++_headers/gen \
+		-I$(HIDL_GEN)/hardware/interfaces/graphics/common/1.1/android.hardware.graphics.common@1.1_genc++_headers/gen \
+		-I$(HIDL_GEN)/hardware/interfaces/graphics/common/1.2/android.hardware.graphics.common@1.2_genc++_headers/gen \
+		-I$(HIDL_GEN)/hardware/interfaces/graphics/mapper/2.0/android.hardware.graphics.mapper@2.0_genc++_headers/gen \
+		-I$(HIDL_GEN)/hardware/interfaces/graphics/mapper/2.1/android.hardware.graphics.mapper@2.1_genc++_headers/gen \
+		-I$(HIDL_GEN)/system/libhidl/transport/base/1.0/android.hidl.base@1.0_genc++_headers/gen \
+		-I$(HIDL_GEN)/system/libhidl/transport/manager/1.0/android.hidl.manager@1.0_genc++_headers/gen \
+		-L/tmp -lhidlbase -lmapper3 -lutils -lcutils -std=c++17 -static-libstdc++
 
 # --- Build ---
 

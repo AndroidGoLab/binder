@@ -16,7 +16,7 @@ func (s *VisibleActivityInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.TaskId)
-	p.WriteInt32(-1) // null AssistToken
+	p.WriteNullStrongBinder() // null AssistToken
 	return nil
 }
 
@@ -28,5 +28,8 @@ func (s *VisibleActivityInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque AssistToken: cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

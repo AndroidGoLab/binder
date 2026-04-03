@@ -1,6 +1,8 @@
 package controls
 
 import (
+	app "github.com/AndroidGoLab/binder/android/app"
+	drawable "github.com/AndroidGoLab/binder/android/graphics/drawable"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -11,6 +13,8 @@ type Control struct {
 	DeviceType   int32
 	Status       int32
 	AuthRequired bool
+	AppIntent    app.PendingIntent
+	CustomIcon   drawable.Icon
 }
 
 var _ parcel.Parcelable = (*Control)(nil)
@@ -26,9 +30,13 @@ func (s *Control) MarshalParcel(
 	p.WriteInt32(-1) // null Structure
 	p.WriteInt32(0)  // placeholder (byte)1
 	p.WriteInt32(-1) // null Zone
-	p.WriteInt32(-1) // null AppIntent
-	p.WriteInt32(0)  // placeholder (byte)1
-	p.WriteInt32(-1) // null CustomIcon
+	if _err := s.AppIntent.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	p.WriteInt32(0) // placeholder (byte)1
+	if _err := s.CustomIcon.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(0)  // placeholder (byte)1
 	p.WriteInt32(-1) // null CustomColor
 	p.WriteInt32(s.Status)

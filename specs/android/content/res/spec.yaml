@@ -87,6 +87,7 @@ parcelables:
           write_method: int32
         - name: WindowConfiguration
           write_method: delegate
+          delegate_type: WindowConfiguration
         - name: AssetsSeq
           write_method: int32
         - name: Seq

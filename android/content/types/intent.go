@@ -15,7 +15,9 @@ type Intent struct {
 	Package         string
 	ContentUserHint int32
 	ComponentName   ComponentName
-	ClipData        ClipData
+	Selector        *Intent
+	ClipData        *ClipData
+	OriginalIntent  *Intent
 }
 
 var _ parcel.Parcelable = (*Intent)(nil)
@@ -32,19 +34,34 @@ func (s *Intent) MarshalParcel(
 	if _err := s.ComponentName.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null SourceBounds
 	p.WriteInt32(0)  // null N
-	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Selector
-	p.WriteInt32(1)
-	if _err := s.ClipData.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Selector != nil {
+		p.WriteInt32(1)
+		if _err := s.Selector.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
+	}
+	if s.ClipData != nil {
+		p.WriteInt32(1)
+		if _err := s.ClipData.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
 	}
 	p.WriteInt32(s.ContentUserHint)
 	p.WriteInt32(-1) // null Extras
-	p.WriteInt32(1)
-	p.WriteInt32(-1) // null OriginalIntent
+	if s.OriginalIntent != nil {
+		p.WriteInt32(1)
+		if _err := s.OriginalIntent.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
+	}
 	return nil
 }
 
@@ -77,9 +94,6 @@ func (s *Intent) UnmarshalParcel(
 		return _err
 	}
 	if _err := s.ComponentName.UnmarshalParcel(p); _err != nil {
-		return _err
-	}
-	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
 	return nil // opaque SourceBounds: cannot skip without known wire format

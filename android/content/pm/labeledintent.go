@@ -20,7 +20,7 @@ func (s *LabeledIntent) MarshalParcel(
 	p.WriteInt32(-1) // null Super
 	p.WriteString16(s.SourcePackage)
 	p.WriteInt32(s.LabelRes)
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null NonLocalizedLabel
 	p.WriteInt32(s.Icon)
 	return nil
 }

@@ -5473,6 +5473,7 @@ parcelables:
         - name: WindowLayout
           write_method: delegate
           condition: windowLayout!=null
+          delegate_type: WindowLayout
         - name: ResizeMode
           write_method: int32
         - name: RequestedVrComponent
@@ -5929,8 +5930,9 @@ parcelables:
           write_method: string16
         - name: LabelRes
           write_method: int32
-        - name: TextUtils
-          write_method: delegate
+        - name: NonLocalizedLabel
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: Icon
           write_method: int32
     - name: LauncherActivityInfoInternal
@@ -5986,6 +5988,7 @@ parcelables:
         - name: ApplicationInfo
           write_method: delegate
           condition: applicationInfo!=null
+          delegate_type: ApplicationInfo
         - name: FirstInstallTime
           write_method: int64
         - name: LastUpdateTime
@@ -5993,31 +5996,31 @@ parcelables:
         - name: Gids
           write_method: int_array
         - name: Activities
-          write_method: opaque
+          write_method: typed_array
         - name: Receivers
-          write_method: opaque
+          write_method: typed_array
         - name: Services
-          write_method: opaque
+          write_method: typed_array
         - name: Providers
-          write_method: opaque
+          write_method: typed_array
         - name: Instrumentation
-          write_method: opaque
+          write_method: typed_array
         - name: Permissions
-          write_method: opaque
+          write_method: typed_array
         - name: RequestedPermissions
           write_method: opaque
         - name: RequestedPermissionsFlags
           write_method: int_array
         - name: Signatures
-          write_method: opaque
+          write_method: typed_array
         - name: ConfigPreferences
-          write_method: opaque
+          write_method: typed_array
         - name: ReqFeatures
-          write_method: opaque
+          write_method: typed_array
         - name: FeatureGroups
-          write_method: opaque
+          write_method: typed_array
         - name: Attributions
-          write_method: opaque
+          write_method: typed_array
         - name: InstallLocation
           write_method: int32
         - name: IsStub
@@ -6048,6 +6051,7 @@ parcelables:
         - name: SigningInfo
           write_method: delegate
           condition: signingInfo!=null
+          delegate_type: SigningInfo
         - name: IsApex
           write_method: bool
         - name: IsActiveApex
@@ -6140,8 +6144,9 @@ parcelables:
           write_method: int32
         - name: BackgroundRequestDetailResourceId
           write_method: int32
-        - name: TextUtils
-          write_method: delegate
+        - name: NonLocalizedDescription
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: Flags
           write_method: int32
         - name: Priority
@@ -6162,8 +6167,9 @@ parcelables:
           write_method: int32
         - name: RequestRes
           write_method: int32
-        - name: TextUtils
-          write_method: delegate
+        - name: NonLocalizedDescription
+          write_method: char_sequence
+          delegate_type: TextUtils
     - name: ProviderInfo
       java_wire_format:
         - name: Super
@@ -6179,9 +6185,9 @@ parcelables:
         - name: ForceUriPermissions
           write_method: bool
         - name: UriPermissionPatterns
-          write_method: opaque
+          write_method: typed_array
         - name: PathPermissions
-          write_method: opaque
+          write_method: typed_array
         - name: Multiprocess
           write_method: bool
         - name: InitOrder
@@ -6202,12 +6208,14 @@ parcelables:
         - name: ActivityInfo
           write_method: delegate
           condition: activityInfo!=null
+          delegate_type: ActivityInfo
         - name: "1"
           write_method: int32
           condition: filter!=null
         - name: Filter
           write_method: delegate
           condition: filter!=null
+          delegate_type: IntentFilter
         - name: Priority
           write_method: int32
         - name: PreferredOrder
@@ -6218,8 +6226,9 @@ parcelables:
           write_method: int32
         - name: LabelRes
           write_method: int32
-        - name: TextUtils
-          write_method: delegate
+        - name: NonLocalizedLabel
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: Icon
           write_method: int32
         - name: ResolvePackageName
@@ -6382,13 +6391,13 @@ parcelables:
         - name: IsUnknown
           write_method: bool
         - name: Signatures
-          write_method: opaque
+          write_method: typed_array
         - name: SignatureSchemeVersion
           write_method: int32
         - name: PublicKeys
-          write_method: opaque
+          write_method: array_set
         - name: PastSigningCertificates
-          write_method: opaque
+          write_method: typed_array
     - name: StagedApexInfo
       fields:
         - name: moduleName

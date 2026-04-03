@@ -28,11 +28,11 @@ func (s *TaskFragmentOperation) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(-1) // null ActivityToken
-	p.WriteInt32(0)  // null ActivityIntent
-	p.WriteInt32(-1) // null Bundle
-	p.WriteInt32(-1) // null SecondaryFragmentToken
-	p.WriteInt32(0)  // null AnimationParams
+	p.WriteNullStrongBinder() // null ActivityToken
+	p.WriteInt32(0)           // null ActivityIntent
+	p.WriteInt32(-1)          // null Bundle
+	p.WriteNullStrongBinder() // null SecondaryFragmentToken
+	p.WriteInt32(0)           // null AnimationParams
 	p.WriteBool(s.IsolatedNav)
 	p.WriteBool(s.DimOnTask)
 	p.WriteBool(s.MoveToBottomIfClearWhenLaunch)
@@ -59,5 +59,50 @@ func (s *TaskFragmentOperation) UnmarshalParcel(
 			}
 		}
 	}
-	return nil // opaque ActivityToken: cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null ActivityIntent: cannot skip unknown-size typed object
+		}
+	}
+	{
+		_opaqueLen, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueLen > 0 {
+			p.SetPosition(p.Position() + int(_opaqueLen))
+		}
+	}
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null AnimationParams: cannot skip unknown-size typed object
+		}
+	}
+	s.IsolatedNav, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.DimOnTask, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.MoveToBottomIfClearWhenLaunch, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

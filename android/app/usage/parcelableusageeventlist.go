@@ -17,7 +17,7 @@ func (s *ParcelableUsageEventList) MarshalParcel(
 ) error {
 	p.WriteInt32(s.N)
 	p.WriteInt32(0)
-	p.WriteInt32(-1) // null Retriever
+	p.WriteNullStrongBinder() // null Retriever
 	return nil
 }
 
@@ -32,5 +32,8 @@ func (s *ParcelableUsageEventList) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
-	return nil // opaque Retriever: cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

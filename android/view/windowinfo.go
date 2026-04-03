@@ -1,6 +1,7 @@
 package view
 
 import (
+	graphics "github.com/AndroidGoLab/binder/android/graphics"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -15,6 +16,7 @@ type WindowInfo struct {
 	AccessibilityIdOfAnchor  int64
 	InPictureInPicture       bool
 	HasFlagWatchOutsideTouch bool
+	RegionInScreen           graphics.Region
 	MagnificationSpec        MagnificationSpec
 }
 
@@ -27,11 +29,13 @@ func (s *WindowInfo) MarshalParcel(
 	p.WriteInt32(s.TaskId)
 	p.WriteInt32(s.Type)
 	p.WriteInt32(s.Layer)
-	p.WriteInt32(-1) // null Token
-	p.WriteInt32(-1) // null ParentToken
-	p.WriteInt32(-1) // null ActivityToken
+	p.WriteNullStrongBinder() // null Token
+	p.WriteNullStrongBinder() // null ParentToken
+	p.WriteNullStrongBinder() // null ActivityToken
 	p.WriteBool(s.Focused)
-	p.WriteInt32(-1) // null RegionInScreen
+	if _err := s.RegionInScreen.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(-1) // null Title
 	p.WriteInt64(s.AccessibilityIdOfAnchor)
 	p.WriteBool(s.InPictureInPicture)
@@ -66,5 +70,21 @@ func (s *WindowInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque Token: cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	s.Focused, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	if _err := s.RegionInScreen.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	return nil // opaque Title: cannot skip without known wire format
 }

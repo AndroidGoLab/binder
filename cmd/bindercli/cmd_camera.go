@@ -17,8 +17,8 @@ import (
 	fwkService "github.com/AndroidGoLab/binder/android/frameworks/cameraservice/service"
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/camera"
-	"github.com/AndroidGoLab/binder/camera/gralloc"
-	cameraIGBP "github.com/AndroidGoLab/binder/camera/igbp"
+	"github.com/AndroidGoLab/binder/gralloc"
+	"github.com/AndroidGoLab/binder/igbp"
 
 	"github.com/spf13/cobra"
 )
@@ -248,7 +248,7 @@ func runCameraRecord(
 
 	// Step 3: Create IGBP and CreateStream.
 	fmt.Fprintln(os.Stderr, "\n=== Step 3: CreateStream with IGBP Surface ===")
-	igbpStub := cameraIGBP.NewProducerStub(uint32(width), uint32(height), grallocBufs)
+	igbpStub := igbp.NewProducerStub(uint32(width), uint32(height), grallocBufs)
 	igbpStubBinder := binder.NewStubBinder(igbpStub)
 	igbpStubBinder.RegisterWithTransport(ctx, transport)
 

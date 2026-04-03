@@ -31,7 +31,8 @@ type PackageInfo struct {
 	IsApex                    bool
 	IsActiveApex              bool
 	ArchiveTimeMillis         int64
-	ApplicationInfo           ApplicationInfo
+	ApexPackageName           string
+	ApplicationInfo           *ApplicationInfo
 }
 
 var _ parcel.Parcelable = (*PackageInfo)(nil)
@@ -48,9 +49,13 @@ func (s *PackageInfo) MarshalParcel(
 	p.WriteInt32(-1) // null SplitRevisionCodes
 	p.WriteString(s.SharedUserId)
 	p.WriteInt32(s.SharedUserLabel)
-	p.WriteInt32(1)
-	if _err := s.ApplicationInfo.MarshalParcel(p); _err != nil {
-		return _err
+	if s.ApplicationInfo != nil {
+		p.WriteInt32(1)
+		if _err := s.ApplicationInfo.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
 	}
 	p.WriteInt64(s.FirstInstallTime)
 	p.WriteInt64(s.LastUpdateTime)
@@ -80,13 +85,16 @@ func (s *PackageInfo) MarshalParcel(
 	p.WriteBool(s.OverlayIsStatic)
 	p.WriteInt32(s.CompileSdkVersion)
 	p.WriteString(s.CompileSdkVersionCodename)
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null SigningInfo
 	p.WriteBool(s.IsApex)
 	p.WriteBool(s.IsActiveApex)
 	p.WriteInt64(s.ArchiveTimeMillis)
-	p.WriteInt32(1)
-	p.WriteInt32(0) // null ApexPackageName
+	if s.ApexPackageName != "" {
+		p.WriteInt32(1)
+		p.WriteString(s.ApexPackageName)
+	} else {
+		p.WriteInt32(0)
+	}
 	return nil
 }
 

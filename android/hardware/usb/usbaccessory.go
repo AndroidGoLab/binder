@@ -24,7 +24,7 @@ func (s *UsbAccessory) MarshalParcel(
 	p.WriteString16(s.Description)
 	p.WriteString16(s.Version)
 	p.WriteString16(s.Uri)
-	p.WriteInt32(-1) // null SerialNumberReader.asBinder()
+	p.WriteNullStrongBinder() // null SerialNumberReader.asBinder()
 	return nil
 }
 
@@ -52,5 +52,8 @@ func (s *UsbAccessory) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque SerialNumberReader.asBinder(): cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

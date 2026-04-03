@@ -824,6 +824,7 @@ parcelables:
       java_wire_format:
         - name: Implementation
           write_method: delegate
+          delegate_type: BrightnessCorrectionImplementation
     - name: BrightnessInfo
       java_wire_format:
         - name: Brightness
@@ -883,7 +884,7 @@ parcelables:
         - name: WindowManagerMirroringEnabled
           write_method: bool
         - name: DisplayCategories
-          write_method: opaque
+          write_method: array_set
         - name: RequestedRefreshRate
           write_method: float32
         - name: IsHomeSupported
@@ -916,7 +917,9 @@ parcelables:
         - name: ActiveDisplay
           write_method: delegate
           condition: mActiveDisplay!=null
+          delegate_type: WifiDisplay
         - name: Displays.length
           write_method: int32
         - name: SessionInfo
           write_method: delegate
+          delegate_type: WifiDisplaySessionInfo

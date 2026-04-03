@@ -1,6 +1,7 @@
 package app
 
 import (
+	types "github.com/AndroidGoLab/binder/android/content/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -10,6 +11,7 @@ type ResultInfo struct {
 	ResultWho   string
 	RequestCode int32
 	ResultCode  int32
+	Data        *types.Intent
 }
 
 var _ parcel.Parcelable = (*ResultInfo)(nil)
@@ -20,9 +22,15 @@ func (s *ResultInfo) MarshalParcel(
 	p.WriteString16(s.ResultWho)
 	p.WriteInt32(s.RequestCode)
 	p.WriteInt32(s.ResultCode)
-	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Data
-	p.WriteInt32(-1) // null CallerToken
+	if s.Data != nil {
+		p.WriteInt32(1)
+		if _err := s.Data.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
+	}
+	p.WriteNullStrongBinder() // null CallerToken
 	return nil
 }
 
@@ -42,8 +50,20 @@ func (s *ResultInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	if _, _err = p.ReadInt32(); _err != nil {
-		return _err
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.Data = &types.Intent{}
+			if _err = s.Data.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
-	return nil // opaque Data: cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

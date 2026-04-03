@@ -15,6 +15,7 @@ type SyncResult struct {
 	PartialSyncUnavailable bool
 	MoreRecordsToGet       bool
 	DelayUntil             int64
+	Stats                  SyncStats
 }
 
 var _ parcel.Parcelable = (*SyncResult)(nil)
@@ -30,7 +31,9 @@ func (s *SyncResult) MarshalParcel(
 	p.WriteBool(s.PartialSyncUnavailable)
 	p.WriteBool(s.MoreRecordsToGet)
 	p.WriteInt64(s.DelayUntil)
-	p.WriteInt32(-1) // null Stats
+	if _err := s.Stats.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	return nil
 }
 
@@ -70,5 +73,8 @@ func (s *SyncResult) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque Stats: cannot skip without known wire format
+	if _err := s.Stats.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	return nil
 }

@@ -42,5 +42,40 @@ func (s *PrepareGetCredentialResponseInternal) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque CredentialResultTypes: cannot skip without known wire format
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		for _j := int32(0); _j < _arrLen; _j++ {
+			_tag, _tagErr := p.ReadInt32()
+			if _tagErr != nil {
+				return _tagErr
+			}
+			if _skipErr := p.SkipWriteValue(_tag); _skipErr != nil {
+				return _skipErr
+			}
+		}
+	}
+	s.HasAuthenticationResults, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.HasRemoteResults, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.PendingIntent = &types.PendingIntent{}
+			if _err = s.PendingIntent.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
+	}
+	return nil
 }

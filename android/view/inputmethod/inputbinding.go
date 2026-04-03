@@ -16,7 +16,7 @@ var _ parcel.Parcelable = (*InputBinding)(nil)
 func (s *InputBinding) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null ConnectionToken
+	p.WriteNullStrongBinder() // null ConnectionToken
 	p.WriteInt32(s.Uid)
 	p.WriteInt32(s.Pid)
 	return nil
@@ -25,5 +25,17 @@ func (s *InputBinding) MarshalParcel(
 func (s *InputBinding) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque ConnectionToken: cannot skip without known wire format
+	var _err error
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	s.Uid, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.Pid, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

@@ -23,7 +23,7 @@ func (s *Tag) MarshalParcel(
 	p.WriteInt32(s.ServiceHandle)
 	p.WriteInt64(s.Cookie)
 	p.WriteInt32(s.IsMock)
-	p.WriteInt32(-1) // null TagService.asBinder()
+	p.WriteNullStrongBinder() // null TagService.asBinder()
 	return nil
 }
 
@@ -43,5 +43,29 @@ func (s *Tag) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
-	return nil // opaque TechExtras: cannot skip without known wire format
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			return nil // non-empty typed_array TechExtras: cannot skip
+		}
+	}
+	s.ServiceHandle, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.Cookie, _err = p.ReadInt64()
+	if _err != nil {
+		return _err
+	}
+	s.IsMock, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

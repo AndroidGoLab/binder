@@ -23,6 +23,7 @@ type SelectionEvent struct {
 	End                        int32
 	SmartStart                 int32
 	SmartEnd                   int32
+	SessionId                  TextClassificationSessionId
 }
 
 var _ parcel.Parcelable = (*SelectionEvent)(nil)
@@ -45,7 +46,9 @@ func (s *SelectionEvent) MarshalParcel(
 	p.WriteInt64(s.DurationSincePreviousEvent)
 	p.WriteInt32(s.EventIndex)
 	p.WriteBool(false) // placeholder SessionId!=null
-	p.WriteInt32(-1)   // null SessionId
+	if _err := s.SessionId.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.Start)
 	p.WriteInt32(s.End)
 	p.WriteInt32(s.SmartStart)
@@ -121,5 +124,33 @@ func (s *SelectionEvent) UnmarshalParcel(
 	if _, _err = p.ReadBool(); _err != nil { // skip SessionId!=null
 		return _err
 	}
-	return nil // opaque SessionId: cannot skip without known wire format
+	if _err := s.SessionId.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	s.Start, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.End, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.SmartStart, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.SmartEnd, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null SystemTcMetadata: cannot skip unknown-size typed object
+		}
+	}
+	return nil
 }

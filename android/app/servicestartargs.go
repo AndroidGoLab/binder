@@ -1,6 +1,7 @@
 package app
 
 import (
+	types "github.com/AndroidGoLab/binder/android/content/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -10,6 +11,7 @@ type ServiceStartArgs struct {
 	TaskRemoved bool
 	StartId     int32
 	Flags       int32
+	Args        *types.Intent
 }
 
 var _ parcel.Parcelable = (*ServiceStartArgs)(nil)
@@ -20,8 +22,14 @@ func (s *ServiceStartArgs) MarshalParcel(
 	p.WriteBool(s.TaskRemoved)
 	p.WriteInt32(s.StartId)
 	p.WriteInt32(s.Flags)
-	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Args
+	if s.Args != nil {
+		p.WriteInt32(1)
+		if _err := s.Args.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
+	}
 	return nil
 }
 
@@ -41,8 +49,17 @@ func (s *ServiceStartArgs) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	if _, _err = p.ReadInt32(); _err != nil {
-		return _err
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.Args = &types.Intent{}
+			if _err = s.Args.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
-	return nil // opaque Args: cannot skip without known wire format
+	return nil
 }

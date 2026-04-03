@@ -407,7 +407,7 @@ parcelables:
         - name: Bsic
           write_method: int32
         - name: AdditionalPlmns
-          write_method: opaque
+          write_method: array_set
     - name: CellIdentityLte
       java_wire_format:
         - name: Super
@@ -425,7 +425,7 @@ parcelables:
         - name: Bandwidth
           write_method: int32
         - name: AdditionalPlmns
-          write_method: opaque
+          write_method: array_set
         - name: CsgInfo
           write_method: typed_object
     - name: CellIdentityTdscdma
@@ -441,7 +441,7 @@ parcelables:
         - name: Uarfcn
           write_method: int32
         - name: AdditionalPlmns
-          write_method: opaque
+          write_method: array_set
         - name: CsgInfo
           write_method: typed_object
     - name: CellIdentityWcdma
@@ -457,7 +457,7 @@ parcelables:
         - name: Uarfcn
           write_method: int32
         - name: AdditionalPlmns
-          write_method: opaque
+          write_method: array_set
         - name: CsgInfo
           write_method: typed_object
     - name: CellInfo
@@ -582,7 +582,7 @@ parcelables:
         - name: IdleTimeMs
           write_method: int32
         - name: ActivityStatsTechSpecificInfo
-          write_method: opaque
+          write_method: typed_array
     - name: NeighboringCellInfo
       java_wire_format:
         - name: Rssi
@@ -837,10 +837,12 @@ parcelables:
           write_method: string16
         - name: SimSlotIndex
           write_method: int32
-        - name: TextUtils
-          write_method: delegate
-        - name: TextUtils
-          write_method: delegate
+        - name: DisplayName
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: CarrierName
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: DisplayNameSource
           write_method: int32
         - name: IconTint
@@ -858,7 +860,7 @@ parcelables:
         - name: IsEmbedded
           write_method: bool
         - name: NativeAccessRules
-          write_method: opaque
+          write_method: typed_array
         - name: CardString
           write_method: string16
         - name: CardId
@@ -884,7 +886,7 @@ parcelables:
         - name: GroupOwner
           write_method: string16
         - name: CarrierConfigAccessRules
-          write_method: opaque
+          write_method: typed_array
         - name: AreUiccApplicationsEnabled
           write_method: bool
         - name: UsageSetting
@@ -1020,8 +1022,9 @@ parcelables:
       java_wire_format:
         - name: UssdRequest
           write_method: string16
-        - name: TextUtils
-          write_method: delegate
+        - name: ReturnMessage
+          write_method: char_sequence
+          delegate_type: TextUtils
     - name: VisualVoicemailSmsFilterSettings
       java_wire_format:
         - name: ClientPrefix

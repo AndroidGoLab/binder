@@ -1,6 +1,7 @@
 package accessibility
 
 import (
+	graphics "github.com/AndroidGoLab/binder/android/graphics"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -17,6 +18,7 @@ type AccessibilityWindowInfo struct {
 	AnchorId          int64
 	TransitionTime    int64
 	ConnectionId      int32
+	RegionInScreen    graphics.Region
 }
 
 var _ parcel.Parcelable = (*AccessibilityWindowInfo)(nil)
@@ -31,7 +33,9 @@ func (s *AccessibilityWindowInfo) MarshalParcel(
 	p.WriteInt32(s.Id)
 	p.WriteInt32(s.ParentId)
 	p.WriteInt32(s.TaskId)
-	p.WriteInt32(-1) // null RegionInScreen
+	if _err := s.RegionInScreen.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(-1) // null Title
 	p.WriteInt64(s.AnchorId)
 	p.WriteInt64(s.TransitionTime)
@@ -73,5 +77,8 @@ func (s *AccessibilityWindowInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque RegionInScreen: cannot skip without known wire format
+	if _err := s.RegionInScreen.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	return nil // opaque Title: cannot skip without known wire format
 }

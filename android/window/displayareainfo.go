@@ -11,6 +11,7 @@ type DisplayAreaInfo struct {
 	DisplayId         int32
 	FeatureId         int32
 	RootDisplayAreaId int32
+	Token             WindowContainerToken
 	Configuration     types.Configuration
 }
 
@@ -19,7 +20,9 @@ var _ parcel.Parcelable = (*DisplayAreaInfo)(nil)
 func (s *DisplayAreaInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Token
+	if _err := s.Token.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	if _err := s.Configuration.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -32,5 +35,24 @@ func (s *DisplayAreaInfo) MarshalParcel(
 func (s *DisplayAreaInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque Token: cannot skip without known wire format
+	var _err error
+	if _err := s.Token.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.Configuration.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	s.DisplayId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.FeatureId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.RootDisplayAreaId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

@@ -14,12 +14,15 @@ var _ parcel.Parcelable = (*PendingIntent)(nil)
 func (s *PendingIntent) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Target.asBinder()
+	p.WriteNullStrongBinder() // null Target.asBinder()
 	return nil
 }
 
 func (s *PendingIntent) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque Target.asBinder(): cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

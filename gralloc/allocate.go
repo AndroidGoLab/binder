@@ -8,8 +8,8 @@ import (
 	gfxCommon "github.com/AndroidGoLab/binder/android/hardware/graphics/common"
 	common "github.com/AndroidGoLab/binder/android/hardware/common"
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/camera/gralloc/dmaheap"
-	"github.com/AndroidGoLab/binder/camera/gralloc/hidlalloc"
+	"github.com/AndroidGoLab/binder/gralloc/dmaheap"
+	"github.com/AndroidGoLab/binder/gralloc/hidlalloc"
 	"github.com/AndroidGoLab/binder/kernelbinder"
 	"github.com/AndroidGoLab/binder/logger"
 	"github.com/AndroidGoLab/binder/servicemanager"
@@ -219,18 +219,64 @@ func allocateMemfd(
 	}, nil
 }
 
-// calcBufferSize estimates the buffer size for a given format.
-func calcBufferSize(width, height int32, format gfxCommon.PixelFormat) int64 {
+// BytesPerPixel returns the bytes per pixel for common formats.
+// Returns 0 for planar formats (YCbCr) where bytes-per-pixel is not
+// a meaningful concept.
+func BytesPerPixel(format gfxCommon.PixelFormat) int {
 	switch format {
-	case gfxCommon.PixelFormatYcbcr420888:
-		// Y plane (w*h) + CbCr interleaved (w*h/2)
-		return int64(width) * int64(height) * 3 / 2
-	case gfxCommon.PixelFormatRgba8888, gfxCommon.PixelFormatRgbx8888:
-		return int64(width) * int64(height) * 4
+	case gfxCommon.PixelFormatRgba8888,
+		gfxCommon.PixelFormatRgbx8888,
+		gfxCommon.PixelFormatBgra8888,
+		gfxCommon.PixelFormatRgba1010102:
+		return 4
 	case gfxCommon.PixelFormatRgb888:
-		return int64(width) * int64(height) * 3
+		return 3
+	case gfxCommon.PixelFormatRgb565:
+		return 2
+	case gfxCommon.PixelFormatRgbaFp16:
+		return 8
+	case gfxCommon.PixelFormatY8:
+		return 1
+	case gfxCommon.PixelFormatY16, gfxCommon.PixelFormatRAW16:
+		return 2
+	default:
+		return 0
+	}
+}
+
+// calcBufferSize estimates the buffer size for a given pixel format.
+func calcBufferSize(width, height int32, format gfxCommon.PixelFormat) int64 {
+	w, h := int64(width), int64(height)
+	switch format {
+	case gfxCommon.PixelFormatRgba8888,
+		gfxCommon.PixelFormatRgbx8888,
+		gfxCommon.PixelFormatBgra8888,
+		gfxCommon.PixelFormatRgba1010102:
+		return w * h * 4
+	case gfxCommon.PixelFormatRgb888:
+		return w * h * 3
+	case gfxCommon.PixelFormatRgb565:
+		return w * h * 2
+	case gfxCommon.PixelFormatRgbaFp16:
+		return w * h * 8
+	case gfxCommon.PixelFormatYcbcr420888, gfxCommon.PixelFormatYcrcb420Sp:
+		return w * h * 3 / 2
+	case gfxCommon.PixelFormatYcbcr422Sp, gfxCommon.PixelFormatYcbcr422I:
+		return w * h * 2
+	case gfxCommon.PixelFormatRAW16:
+		return w * h * 2
+	case gfxCommon.PixelFormatRAW10:
+		// 4 pixels per 5 bytes, row-aligned to 16 bytes.
+		return ((w*5 + 15) / 16 * 16) * h
+	case gfxCommon.PixelFormatRAW12:
+		// 2 pixels per 3 bytes, row-aligned to 16 bytes.
+		return ((w*3 + 15) / 16 * 16) * h
+	case gfxCommon.PixelFormatY8:
+		return w * h
+	case gfxCommon.PixelFormatY16:
+		return w * h * 2
 	default:
 		// Conservative estimate: 4 bytes per pixel.
-		return int64(width) * int64(height) * 4
+		return w * h * 4
 	}
 }

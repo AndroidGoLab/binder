@@ -62,6 +62,7 @@ parcelables:
           write_method: int32
         - name: Identifier
           write_method: delegate
+          delegate_type: ParcelUuid
     - name: CallEndpointException
       java_wire_format:
         - name: Message
@@ -103,10 +104,12 @@ parcelables:
       java_wire_format:
         - name: DisconnectCode
           write_method: int32
-        - name: TextUtils
-          write_method: delegate
-        - name: TextUtils
-          write_method: delegate
+        - name: DisconnectLabel
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: DisconnectDescription
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: DisconnectReason
           write_method: string16
         - name: ToneToPlay
@@ -321,10 +324,12 @@ parcelables:
       java_wire_format:
         - name: ComponentName
           write_method: delegate
+          delegate_type: ComponentName
         - name: Id
           write_method: string16
         - name: UserHandle
           write_method: delegate
+          delegate_type: UserHandle
     - name: PhoneAccountSuggestion
       java_wire_format:
         - name: Handle

@@ -13,7 +13,7 @@ type JobWorkItem struct {
 	MinimumChunkBytes    int64
 	DeliveryCount        int32
 	WorkId               int32
-	Intent               content.Intent
+	Intent               *content.Intent
 }
 
 var _ parcel.Parcelable = (*JobWorkItem)(nil)
@@ -21,9 +21,13 @@ var _ parcel.Parcelable = (*JobWorkItem)(nil)
 func (s *JobWorkItem) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(1)
-	if _err := s.Intent.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Intent != nil {
+		p.WriteInt32(1)
+		if _err := s.Intent.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
 	}
 	p.WriteInt32(-1) // null Extras
 	p.WriteInt64(s.NetworkDownloadBytes)
@@ -37,12 +41,17 @@ func (s *JobWorkItem) MarshalParcel(
 func (s *JobWorkItem) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	var _err error
-	if _, _err = p.ReadInt32(); _err != nil {
-		return _err
-	}
-	if _err := s.Intent.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.Intent = &content.Intent{}
+			if _err = s.Intent.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
 	return nil // opaque Extras: cannot skip without known wire format
 }

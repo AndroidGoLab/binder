@@ -14,13 +14,16 @@ var _ parcel.Parcelable = (*TaskFragmentTransaction)(nil)
 func (s *TaskFragmentTransaction) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null TransactionToken
-	p.WriteInt32(-1) // null Changes
+	p.WriteNullStrongBinder() // null TransactionToken
+	p.WriteInt32(-1)          // null Changes
 	return nil
 }
 
 func (s *TaskFragmentTransaction) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque TransactionToken: cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil // opaque Changes: cannot skip without known wire format
 }

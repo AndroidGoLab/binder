@@ -14,12 +14,15 @@ var _ parcel.Parcelable = (*ResultReceiver)(nil)
 func (s *ResultReceiver) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Receiver.asBinder()
+	p.WriteNullStrongBinder() // null Receiver.asBinder()
 	return nil
 }
 
 func (s *ResultReceiver) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque Receiver.asBinder(): cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

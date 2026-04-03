@@ -9,6 +9,7 @@ import (
 
 type AutomaticZenRule struct {
 	Enabled            bool
+	Name               string
 	InterruptionFilter int32
 	CreationTime       int64
 	Modified           bool
@@ -22,8 +23,12 @@ func (s *AutomaticZenRule) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteBool(s.Enabled)
-	p.WriteInt32(1)
-	p.WriteInt32(0) // null Name
+	if s.Name != "" {
+		p.WriteInt32(1)
+		p.WriteString16(s.Name)
+	} else {
+		p.WriteInt32(0)
+	}
 	p.WriteInt32(s.InterruptionFilter)
 	p.WriteInt32(0) // null ConditionId
 	p.WriteInt32(0) // null Owner
@@ -55,16 +60,16 @@ func (s *AutomaticZenRule) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	if _, _err = p.ReadInt32(); _err != nil {
-		return _err
-	}
 	{
-		_opaqueFlag, _opaqueErr := p.ReadInt32()
-		if _opaqueErr != nil {
-			return _opaqueErr
+		_flag, _flagErr := p.ReadInt32()
+		if _flagErr != nil {
+			return _flagErr
 		}
-		if _opaqueFlag != 0 {
-			return nil // non-null Name: cannot skip unknown-size typed object
+		if _flag != 0 {
+			s.Name, _err = p.ReadString16()
+			if _err != nil {
+				return _err
+			}
 		}
 	}
 	s.InterruptionFilter, _err = p.ReadInt32()

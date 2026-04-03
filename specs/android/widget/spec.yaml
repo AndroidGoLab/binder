@@ -14,9 +14,11 @@ parcelables:
         - name: CollectionCache
           write_method: delegate
           condition: '!hasMultipleLayouts() && mIsRoot'
+          delegate_type: RemoteCollectionCache
         - name: Application
           write_method: delegate
           condition: '!hasMultipleLayouts()'
+          delegate_type: ApplicationInfo
         - name: "0"
           write_method: int32
           condition: '!hasMultipleLayouts() && mIsRoot||mIdealSize==null'

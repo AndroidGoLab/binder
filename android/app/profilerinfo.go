@@ -22,7 +22,6 @@ func (s *ProfilerInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.ProfileFile)
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null ProfileFd
 	p.WriteInt32(s.SamplingInterval)
 	p.WriteBool(s.AutoStopProfiler)
@@ -39,9 +38,6 @@ func (s *ProfilerInfo) UnmarshalParcel(
 	var _err error
 	s.ProfileFile, _err = p.ReadString16()
 	if _err != nil {
-		return _err
-	}
-	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
 	return nil // opaque ProfileFd: cannot skip without known wire format

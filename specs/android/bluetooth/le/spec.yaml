@@ -349,9 +349,9 @@ parcelables:
     - name: AdvertiseData
       java_wire_format:
         - name: ServiceUuids.toArray(newParcelUuid[mServiceUuids.size()])
-          write_method: opaque
+          write_method: typed_array
         - name: ServiceSolicitationUuids.toArray(newParcelUuid[mServiceSolicitationUuids.size()])
-          write_method: opaque
+          write_method: typed_array
         - name: TransportDiscoveryData
           write_method: opaque
         - name: ManufacturerSpecificData.size()
@@ -420,6 +420,7 @@ parcelables:
       java_wire_format:
         - name: Device
           write_method: delegate
+          delegate_type: BluetoothDevice
         - name: Duration
           write_method: int32
         - name: Frequency
@@ -431,6 +432,7 @@ parcelables:
         - name: ChannelSoundingParams
           write_method: delegate
           condition: mChannelSoundingParams!=null
+          delegate_type: ChannelSoundingParams
     - name: DistanceMeasurementResult
       java_wire_format:
         - name: Meters
@@ -502,28 +504,33 @@ parcelables:
         - name: ServiceUuid
           write_method: delegate
           condition: mServiceUuid!=null
+          delegate_type: ParcelUuid
         - name: ServiceUuidMask==null
           write_method: bool
           condition: mServiceUuid!=null
         - name: ServiceUuidMask
           write_method: delegate
           condition: mServiceUuid!=null && mServiceUuidMask!=null
+          delegate_type: ParcelUuid
         - name: ServiceSolicitationUuid==null
           write_method: bool
         - name: ServiceSolicitationUuid
           write_method: delegate
           condition: mServiceSolicitationUuid!=null
+          delegate_type: ParcelUuid
         - name: ServiceSolicitationUuidMask==null
           write_method: bool
           condition: mServiceSolicitationUuid!=null
         - name: ServiceSolicitationUuidMask
           write_method: delegate
           condition: mServiceSolicitationUuid!=null && mServiceSolicitationUuidMask!=null
+          delegate_type: ParcelUuid
         - name: ServiceDataUuid==null
           write_method: bool
         - name: ServiceDataUuid
           write_method: delegate
           condition: mServiceDataUuid!=null
+          delegate_type: ParcelUuid
         - name: ServiceData==null
           write_method: bool
           condition: mServiceDataUuid!=null
@@ -602,6 +609,7 @@ parcelables:
         - name: Device
           write_method: delegate
           condition: mDevice!=null
+          delegate_type: BluetoothDevice
         - name: "1"
           write_method: int32
           condition: mScanRecord!=null

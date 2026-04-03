@@ -1,7 +1,8 @@
 package audiopolicy
 
 import (
-	types "github.com/AndroidGoLab/binder/android/content/integrity/types"
+	integrityTypes "github.com/AndroidGoLab/binder/android/content/integrity/types"
+	types "github.com/AndroidGoLab/binder/android/media/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -12,7 +13,8 @@ type AudioMix struct {
 	CallbackFlags    int32
 	DeviceSystemType int32
 	DeviceAddress    string
-	Rule             types.Rule
+	Format           types.AudioFormat
+	Rule             integrityTypes.Rule
 }
 
 var _ parcel.Parcelable = (*AudioMix)(nil)
@@ -24,11 +26,13 @@ func (s *AudioMix) MarshalParcel(
 	p.WriteInt32(s.CallbackFlags)
 	p.WriteInt32(s.DeviceSystemType)
 	p.WriteString(s.DeviceAddress)
-	p.WriteInt32(-1) // null Format
+	if _err := s.Format.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	if _err := s.Rule.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	p.WriteInt32(-1) // null Token
+	p.WriteNullStrongBinder() // null Token
 	return nil
 }
 
@@ -52,5 +56,14 @@ func (s *AudioMix) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque Format: cannot skip without known wire format
+	if _err := s.Format.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.Rule.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

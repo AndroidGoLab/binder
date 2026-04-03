@@ -19,7 +19,7 @@ func (s *SignalStrengthUpdateRequest) MarshalParcel(
 	p.WriteInt32(-1) // null SignalThresholdInfos
 	p.WriteBool(s.IsReportingRequestedWhileIdle)
 	p.WriteBool(s.IsSystemThresholdReportingRequestedWhileIdle)
-	p.WriteInt32(-1) // null LiveToken
+	p.WriteNullStrongBinder() // null LiveToken
 	return nil
 }
 

@@ -14,20 +14,13 @@ var _ parcel.Parcelable = (*BroadcastResponseStatsList)(nil)
 func (s *BroadcastResponseStatsList) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
+	p.WriteInt32(-1) // null BroadcastResponseStats
+	p.WriteInt32(-1) // null Data.marshall()
 	return nil
 }
 
 func (s *BroadcastResponseStatsList) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
-	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
-	return nil
+	return nil // opaque BroadcastResponseStats: cannot skip without known wire format
 }

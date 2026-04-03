@@ -1006,3 +1006,90 @@ func TestWindowSurface_SurfaceComposer_CreateDisplay(t *testing.T) {
 	requireOrSkip(t, err)
 	t.Logf("destroyed virtual display")
 }
+
+func TestWindowSurface_SurfaceComposer_CaptureLayersSync(t *testing.T) {
+	ctx := context.Background()
+	driver := windowSurfaceOpenBinder(t)
+	sf := getSurfaceComposerProxy(ctx, t, driver)
+
+	// Get a physical display ID so we can create a mirror layer.
+	physIds, err := sf.GetPhysicalDisplayIds(ctx)
+	requireOrSkip(t, err)
+	require.NotEmpty(t, physIds, "need at least one physical display")
+
+	// Create a mirror-display layer. MirrorDisplay works through the
+	// generated proxy (unlike createSurface which panics on nil parent),
+	// and returns a CreateSurfaceResult with a valid layer Handle.
+	client, err := sf.CreateConnection(ctx)
+	requireOrSkip(t, err)
+	require.NotNil(t, client)
+
+	mirror, err := client.MirrorDisplay(ctx, physIds[0])
+	requireOrSkip(t, err)
+	require.NotNil(t, mirror.Handle, "mirror layer handle should not be nil")
+	t.Logf("created mirror layer: layerId=%d, name=%q, handle=%d",
+		mirror.LayerId, mirror.LayerName, mirror.Handle.Handle())
+
+	// Capture the mirror layer, which mirrors the physical display content.
+	args := genGui.LayerCaptureArgs{
+		CaptureArgs: genGui.CaptureArgs{
+			PixelFormat: 1, // RGBA_8888
+			FrameScaleX: 1.0,
+			FrameScaleY: 1.0,
+			Uid:         -1, // UNSET
+		},
+		LayerHandle: mirror.Handle,
+	}
+
+	result, err := sf.CaptureLayersSync(ctx, args)
+	if err != nil {
+		errStr := err.Error()
+		// Permission denied or security error: environment limitation.
+		if strings.Contains(errStr, "Permission") ||
+			strings.Contains(errStr, "SecurityException") {
+			t.Skipf("capture denied (permission): %v", err)
+		}
+		requireOrSkip(t, err)
+	}
+
+	buf := result.Buffer
+	if buf == nil {
+		t.Logf("capture returned nil buffer (effect layer has no content)")
+		return
+	}
+
+	assert.Greater(t, buf.Width, uint32(0), "buffer width should be > 0")
+	assert.Greater(t, buf.Height, uint32(0), "buffer height should be > 0")
+	t.Logf("capture buffer: %dx%d, format=%d, stride=%d, usage=0x%x",
+		buf.Width, buf.Height, buf.Format, buf.Stride, buf.Usage)
+	t.Logf("capture metadata: secureLayers=%v, hdrLayers=%v, dataspace=%d, hdrSdrRatio=%f",
+		result.CapturedSecureLayers, result.CapturedHdrLayers,
+		result.CapturedDataspace, result.HdrSdrRatio)
+
+	// Try to mmap + read pixels from the buffer.
+	mmapErr := buf.Mmap()
+	if mmapErr != nil {
+		t.Logf("Mmap failed (may be expected on some allocators): %v", mmapErr)
+	} else {
+		defer buf.Munmap()
+	}
+
+	pixels, err := buf.ReadPixels()
+	if err != nil {
+		t.Logf("ReadPixels failed (not a library bug if mapper unavailable): %v", err)
+		return
+	}
+
+	totalBytes := len(pixels)
+	nonZero := 0
+	for _, b := range pixels {
+		if b != 0 {
+			nonZero++
+		}
+	}
+	pct := float64(0)
+	if totalBytes > 0 {
+		pct = float64(nonZero) / float64(totalBytes) * 100.0
+	}
+	t.Logf("pixel stats: size=%d bytes, non-zero=%.1f%%", totalBytes, pct)
+}

@@ -1,6 +1,7 @@
 package content
 
 import (
+	types "github.com/AndroidGoLab/binder/android/os/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -12,6 +13,7 @@ type IntentFilter struct {
 	HasDynamicPartialTypes bool
 	InstantAppVisibility   int32
 	Order                  int32
+	Extras                 *types.PersistableBundle
 }
 
 var _ parcel.Parcelable = (*IntentFilter)(nil)
@@ -20,15 +22,10 @@ func (s *IntentFilter) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(-1) // null Actions.toArray(newString[mActions.size()])
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null Categories
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null DataSchemes
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null StaticDataTypes
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null DataTypes
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null MimeGroups
 	p.WriteInt32(0)  // null N
 	p.WriteInt32(0)  // null N
@@ -39,16 +36,21 @@ func (s *IntentFilter) MarshalParcel(
 	p.WriteBool(false) // placeholder GetAutoVerify()
 	p.WriteInt32(s.InstantAppVisibility)
 	p.WriteInt32(s.Order)
-	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Extras
-	p.WriteInt32(0)  // null N
+	if s.Extras != nil {
+		p.WriteInt32(1)
+		if _err := s.Extras.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
+	}
+	p.WriteInt32(0) // null N
 	return nil
 }
 
 func (s *IntentFilter) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	var _err error
 	{
 		_arrLen, _arrErr := p.ReadInt32()
 		if _arrErr != nil {
@@ -59,9 +61,6 @@ func (s *IntentFilter) UnmarshalParcel(
 				return _arrErr
 			}
 		}
-	}
-	if _, _err = p.ReadInt32(); _err != nil {
-		return _err
 	}
 	return nil // opaque Categories: cannot skip without known wire format
 }

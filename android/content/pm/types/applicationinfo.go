@@ -84,7 +84,6 @@ func (s *ApplicationInfo) MarshalParcel(
 	p.WriteInt32(s.RequiresSmallestWidthDp)
 	p.WriteInt32(s.CompatibleWidthLimitDp)
 	p.WriteInt32(s.LargestWidthLimitDp)
-	p.WriteInt32(1)
 	p.WriteInt64(0) // placeholder StorageUuid.getMostSignificantBits()
 	p.WriteInt64(0) // placeholder StorageUuid.getLeastSignificantBits()
 	p.WriteString(s.ScanSourceDir)

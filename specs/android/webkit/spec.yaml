@@ -74,7 +74,7 @@ parcelables:
         - name: IsFallback
           write_method: bool
         - name: Signatures
-          write_method: opaque
+          write_method: typed_array
     - name: WebViewProviderResponse
       java_wire_format:
         - name: PackageInfo

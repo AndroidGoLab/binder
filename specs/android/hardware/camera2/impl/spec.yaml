@@ -43,3 +43,4 @@ parcelables:
           write_method: string16
         - name: CameraMetadata
           write_method: delegate
+          delegate_type: CameraMetadataNative

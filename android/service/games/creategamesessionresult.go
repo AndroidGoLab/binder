@@ -14,13 +14,25 @@ var _ parcel.Parcelable = (*CreateGameSessionResult)(nil)
 func (s *CreateGameSessionResult) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null GameSession.asBinder()
-	p.WriteInt32(0)  // null SurfacePackage
+	p.WriteNullStrongBinder() // null GameSession.asBinder()
+	p.WriteInt32(0)           // null SurfacePackage
 	return nil
 }
 
 func (s *CreateGameSessionResult) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque GameSession.asBinder(): cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null SurfacePackage: cannot skip unknown-size typed object
+		}
+	}
+	return nil
 }

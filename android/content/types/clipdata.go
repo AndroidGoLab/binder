@@ -10,7 +10,7 @@ import (
 type ClipData struct {
 	N               int32
 	ClipDescription ClipDescription
-	Icon            drawable.Icon
+	Icon            *drawable.Icon
 }
 
 var _ parcel.Parcelable = (*ClipData)(nil)
@@ -21,9 +21,13 @@ func (s *ClipData) MarshalParcel(
 	if _err := s.ClipDescription.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	p.WriteInt32(1)
-	if _err := s.Icon.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Icon != nil {
+		p.WriteInt32(1)
+		if _err := s.Icon.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
 	}
 	p.WriteInt32(s.N)
 	return nil
@@ -36,11 +40,17 @@ func (s *ClipData) UnmarshalParcel(
 	if _err := s.ClipDescription.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
-	if _, _err = p.ReadInt32(); _err != nil {
-		return _err
-	}
-	if _err := s.Icon.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.Icon = &drawable.Icon{}
+			if _err = s.Icon.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
 	s.N, _err = p.ReadInt32()
 	if _err != nil {

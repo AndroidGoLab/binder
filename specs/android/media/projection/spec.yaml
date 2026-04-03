@@ -408,8 +408,10 @@ parcelables:
           write_method: string16
         - name: UserHandle
           write_method: delegate
+          delegate_type: UserHandle
         - name: LaunchCookie
           write_method: delegate
+          delegate_type: LaunchCookie
 enums:
     - name: ReviewGrantedConsentResult
       backing_type: int

@@ -166,18 +166,21 @@ parcelables:
           condition: mZone!=null
         - name: AppIntent
           write_method: delegate
+          delegate_type: PendingIntent
         - name: (byte)1
           write_method: int32
           condition: mCustomIcon!=null
         - name: CustomIcon
           write_method: delegate
           condition: mCustomIcon!=null
+          delegate_type: Icon
         - name: (byte)1
           write_method: int32
           condition: mCustomColor!=null
         - name: CustomColor
           write_method: delegate
           condition: mCustomColor!=null
+          delegate_type: ColorStateList
         - name: Status
           write_method: int32
         - name: NewControlTemplateWrapper(mControlTemplate)

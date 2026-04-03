@@ -99,5 +99,41 @@ func (s *PlaybackMetrics) UnmarshalParcel(
 			return nil // non-null PlayerVersion: cannot skip unknown-size typed object
 		}
 	}
-	return nil // opaque ExperimentIds: cannot skip without known wire format
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*8)
+		}
+	}
+	s.VideoFramesPlayed, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.VideoFramesDropped, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.AudioUnderrunCount, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.NetworkBytesRead, _err = p.ReadInt64()
+	if _err != nil {
+		return _err
+	}
+	s.LocalBytesRead, _err = p.ReadInt64()
+	if _err != nil {
+		return _err
+	}
+	s.NetworkTransferDurationMillis, _err = p.ReadInt64()
+	if _err != nil {
+		return _err
+	}
+	if _, _err = p.ReadInt32(); _err != nil { // skip DrmSessionId.length
+		return _err
+	}
+	return nil // opaque DrmSessionId: cannot skip without known wire format
 }

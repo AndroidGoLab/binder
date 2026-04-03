@@ -27,5 +27,23 @@ func (s *AdvertiseData) MarshalParcel(
 func (s *AdvertiseData) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque ServiceUuids.toArray(newParcelUuid[mServiceUuids.size()]): cannot skip without known wire format
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			return nil // non-empty typed_array ServiceUuids.toArray(newParcelUuid[mServiceUuids.size()]): cannot skip
+		}
+	}
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			return nil // non-empty typed_array ServiceSolicitationUuids.toArray(newParcelUuid[mServiceSolicitationUuids.size()]): cannot skip
+		}
+	}
+	return nil // opaque TransportDiscoveryData: cannot skip without known wire format
 }

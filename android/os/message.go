@@ -23,6 +23,7 @@ func (s *Message) MarshalParcel(
 	p.WriteInt32(s.What)
 	p.WriteInt32(s.Arg1)
 	p.WriteInt32(s.Arg2)
+	p.WriteInt32(0) // null p
 	p.WriteInt64(s.When)
 	p.WriteInt32(-1) // null Data
 	p.WriteInt32(-1) // null ReplyTo
@@ -46,6 +47,15 @@ func (s *Message) UnmarshalParcel(
 	s.Arg2, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null p: cannot skip unknown-size typed object
+		}
 	}
 	s.When, _err = p.ReadInt64()
 	if _err != nil {

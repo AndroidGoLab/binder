@@ -496,16 +496,17 @@ parcelables:
         - name: CarrierIdentifier
           write_method: delegate
           condition: mCarrierIdentifier!=null
+          delegate_type: CarrierIdentifier
         - name: PolicyRules
           write_method: int32
         - name: AccessRules
-          write_method: opaque
+          write_method: typed_array
     - name: GetDefaultDownloadableSubscriptionListResult
       java_wire_format:
         - name: Result
           write_method: int32
         - name: Subscriptions
-          write_method: opaque
+          write_method: typed_array
     - name: GetDownloadableSubscriptionMetadataResult
       java_wire_format:
         - name: Result
@@ -517,6 +518,6 @@ parcelables:
         - name: Result
           write_method: int32
         - name: Profiles
-          write_method: opaque
+          write_method: typed_array
         - name: IsRemovable
           write_method: bool

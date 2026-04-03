@@ -47,7 +47,8 @@ interfaces:
 parcelables:
     - name: Rule
       java_wire_format:
-        - name: IntegrityFormula
+        - name: Formula
           write_method: delegate
+          delegate_type: IntegrityFormula
         - name: Effect
           write_method: int32

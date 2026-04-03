@@ -375,8 +375,18 @@ parcelables:
         - name: AllowedNotificationTypes
           write_method: int32
         - name: DisallowedPackages
-          write_method: opaque
+          write_method: array_set
     - name: NotificationRankingUpdate
+      java_wire_format:
+        - name: MarshalableRankingMap
+          write_method: typed_object
+          condition: Flags.rankingUpdateAshmem()
+        - name: RankingMapFd
+          write_method: typed_object
+          condition: Flags.rankingUpdateAshmem()
+        - name: SmartActionsBundle
+          write_method: bundle
+          condition: Flags.rankingUpdateAshmem()
     - name: NotificationStats
       java_wire_format:
         - name: (byte)(mSeen?1:0)
@@ -448,6 +458,7 @@ parcelables:
           write_method: delegate
         - name: User
           write_method: delegate
+          delegate_type: UserHandle
         - name: This.postTime
           write_method: int64
         - name: "1"
@@ -462,6 +473,7 @@ parcelables:
         - name: InstanceId
           write_method: delegate
           condition: this.mInstanceId!=null
+          delegate_type: InstanceId
     - name: ZenModeConfig
       java_wire_format:
         - name: AllowCalls

@@ -17,7 +17,7 @@ var _ parcel.Parcelable = (*SurroundingText)(nil)
 func (s *SurroundingText) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null Text
 	p.WriteInt32(s.SelectionStart)
 	p.WriteInt32(s.SelectionEnd)
 	p.WriteInt32(s.Offset)
@@ -27,5 +27,21 @@ func (s *SurroundingText) MarshalParcel(
 func (s *SurroundingText) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque TextUtils: cannot skip without known wire format
+	var _err error
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	s.SelectionStart, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.SelectionEnd, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.Offset, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

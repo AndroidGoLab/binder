@@ -23,7 +23,7 @@ func (s *ContentRecordingSession) MarshalParcel(
 	p.WriteInt32(s.VirtualDisplayId)
 	p.WriteInt32(s.ContentToRecord)
 	p.WriteInt32(s.DisplayToRecord)
-	p.WriteInt32(-1) // null TokenToRecord
+	p.WriteNullStrongBinder() // null TokenToRecord
 	p.WriteInt32(s.TargetUid)
 	return nil
 }
@@ -48,5 +48,12 @@ func (s *ContentRecordingSession) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque TokenToRecord: cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	s.TargetUid, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

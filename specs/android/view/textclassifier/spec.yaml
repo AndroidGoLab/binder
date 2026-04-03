@@ -46,6 +46,7 @@ parcelables:
         - name: SessionId
           write_method: delegate
           condition: mSessionId!=null
+          delegate_type: TextClassificationSessionId
         - name: Start
           write_method: int32
         - name: End
@@ -72,6 +73,7 @@ parcelables:
           write_method: opaque
         - name: EntityConfidence
           write_method: delegate
+          delegate_type: EntityConfidence
         - name: Id
           write_method: string16
         - name: Extras
@@ -127,6 +129,7 @@ parcelables:
           write_method: string16
         - name: EntityConfidence
           write_method: delegate
+          delegate_type: EntityConfidence
         - name: Bundle
           write_method: bundle
     - name: TextLanguage.Request
@@ -147,6 +150,7 @@ parcelables:
           write_method: int32
         - name: EntityConfidence
           write_method: delegate
+          delegate_type: EntityConfidence
         - name: Id
           write_method: string16
         - name: Extras

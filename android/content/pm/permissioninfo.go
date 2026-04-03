@@ -27,7 +27,7 @@ func (s *PermissionInfo) MarshalParcel(
 	p.WriteString(s.BackgroundPermission)
 	p.WriteInt32(s.DescriptionRes)
 	p.WriteInt32(s.RequestRes)
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null NonLocalizedDescription
 	return nil
 }
 

@@ -91,8 +91,10 @@ parcelables:
       java_wire_format:
         - name: VersionRolledBackFrom
           write_method: delegate
+          delegate_type: VersionedPackage
         - name: VersionRolledBackTo
           write_method: delegate
+          delegate_type: VersionedPackage
         - name: IsApex
           write_method: bool
         - name: IsApkInApex

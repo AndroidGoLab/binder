@@ -875,6 +875,7 @@ parcelables:
         - name: Disk
           write_method: delegate
           condition: disk!=null
+          delegate_type: DiskInfo
         - name: PartGuid
           write_method: string8
         - name: MountFlags

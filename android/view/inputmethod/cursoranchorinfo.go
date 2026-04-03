@@ -27,7 +27,7 @@ func (s *CursorAnchorInfo) MarshalParcel(
 	p.WriteInt32(s.SelectionStart)
 	p.WriteInt32(s.SelectionEnd)
 	p.WriteInt32(s.ComposingTextStart)
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null ComposingText
 	p.WriteInt32(s.InsertionMarkerFlags)
 	p.WriteFloat32(s.InsertionMarkerHorizontal)
 	p.WriteFloat32(s.InsertionMarkerTop)
@@ -61,5 +61,46 @@ func (s *CursorAnchorInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque TextUtils: cannot skip without known wire format
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	s.InsertionMarkerFlags, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.InsertionMarkerHorizontal, _err = p.ReadFloat32()
+	if _err != nil {
+		return _err
+	}
+	s.InsertionMarkerTop, _err = p.ReadFloat32()
+	if _err != nil {
+		return _err
+	}
+	s.InsertionMarkerBaseline, _err = p.ReadFloat32()
+	if _err != nil {
+		return _err
+	}
+	s.InsertionMarkerBottom, _err = p.ReadFloat32()
+	if _err != nil {
+		return _err
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null CharacterBoundsArray: cannot skip unknown-size typed object
+		}
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null EditorBoundsInfo: cannot skip unknown-size typed object
+		}
+	}
+	return nil // opaque MatrixValues: cannot skip without known wire format
 }

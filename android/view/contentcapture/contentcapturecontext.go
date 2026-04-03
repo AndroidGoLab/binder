@@ -28,10 +28,10 @@ func (s *ContentCaptureContext) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0)  // null DisplayId
-	p.WriteInt32(-1) // null WindowToken
-	p.WriteInt32(0)  // null Flags
-	p.WriteInt32(-1) // null ActivityId
+	p.WriteInt32(0)           // null DisplayId
+	p.WriteNullStrongBinder() // null WindowToken
+	p.WriteInt32(0)           // null Flags
+	p.WriteInt32(-1)          // null ActivityId
 	return nil
 }
 
@@ -82,5 +82,17 @@ func (s *ContentCaptureContext) UnmarshalParcel(
 			return nil // non-null DisplayId: cannot skip unknown-size typed object
 		}
 	}
-	return nil // opaque WindowToken: cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null Flags: cannot skip unknown-size typed object
+		}
+	}
+	return nil // opaque ActivityId: cannot skip without known wire format
 }

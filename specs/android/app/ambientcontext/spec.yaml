@@ -122,6 +122,6 @@ parcelables:
     - name: AmbientContextEventRequest
       java_wire_format:
         - name: NewArraySet<>(mEventTypes)
-          write_method: opaque
+          write_method: array_set
         - name: Options
           write_method: typed_object

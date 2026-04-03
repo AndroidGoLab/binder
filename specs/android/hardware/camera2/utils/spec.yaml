@@ -9,6 +9,7 @@ parcelables:
           write_method: string16
         - name: SessionConfiguration
           write_method: delegate
+          delegate_type: SessionConfiguration
     - name: ConcurrentCameraIdCombination
       java_wire_format:
         - name: ConcurrentCameraIds.size()

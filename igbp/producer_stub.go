@@ -8,8 +8,7 @@ import (
 	"sync"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/camera/gralloc"
-	"github.com/AndroidGoLab/binder/igbp"
+	"github.com/AndroidGoLab/binder/gralloc"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -17,6 +16,9 @@ import (
 // gralloc-allocated buffers to the camera HAL. Queued frames are
 // delivered via QueuedFrames().
 type ProducerStub struct {
+	// ConsumerName is returned by the GetConsumerName transaction.
+	ConsumerName string
+
 	width  uint32
 	height uint32
 	format int32
@@ -25,7 +27,7 @@ type ProducerStub struct {
 
 	mu       sync.Mutex
 	nextSlot int
-	slots    [igbp.MaxBufferSlots]*slotBuffer
+	slots    [MaxBufferSlots]*slotBuffer
 	queuedCh chan int // slot index of queued buffer
 }
 
@@ -42,11 +44,12 @@ func NewProducerStub(
 	grallocBufs [4]*gralloc.Buffer,
 ) *ProducerStub {
 	return &ProducerStub{
-		width:       width,
-		height:      height,
-		format:      int32(igbp.PixelFormatYCbCr420_888),
-		grallocBufs: grallocBufs,
-		queuedCh:    make(chan int, 16),
+		ConsumerName: "GoIGBP",
+		width:        width,
+		height:       height,
+		format:       int32(PixelFormatYCbCr420_888),
+		grallocBufs:  grallocBufs,
+		queuedCh:     make(chan int, 16),
 	}
 }
 
@@ -70,7 +73,7 @@ func (g *ProducerStub) SlotBuffer(slot int) *gralloc.Buffer {
 
 // Descriptor implements binder.NativeTransactionHandler.
 func (g *ProducerStub) Descriptor() string {
-	return igbp.Descriptor
+	return Descriptor
 }
 
 // OnTransaction implements binder.NativeTransactionHandler.
@@ -84,50 +87,50 @@ func (g *ProducerStub) OnTransaction(
 	}
 
 	switch code {
-	case igbp.RequestBuffer:
+	case RequestBuffer:
 		return g.onRequestBuffer(data)
-	case igbp.DequeueBuffer:
+	case DequeueBuffer:
 		return g.onDequeueBuffer(data)
-	case igbp.QueueBuffer:
+	case QueueBuffer:
 		return g.onQueueBuffer(data)
-	case igbp.CancelBuffer:
+	case CancelBuffer:
 		return g.onCancelBuffer(data)
-	case igbp.Query:
+	case Query:
 		return g.onQuery(data)
-	case igbp.Connect:
+	case Connect:
 		return g.onConnect(data)
-	case igbp.Disconnect:
+	case Disconnect:
 		return g.onDisconnect(data)
-	case igbp.SetMaxDequeuedBufCount,
-		igbp.SetAsyncMode,
-		igbp.AllowAllocation,
-		igbp.SetGenerationNumber,
-		igbp.SetDequeueTimeout,
-		igbp.SetSharedBufferMode,
-		igbp.SetAutoRefresh,
-		igbp.SetLegacyBufferDrop,
-		igbp.SetAutoPrerotation,
-		igbp.DetachBuffer:
+	case SetMaxDequeuedBufCount,
+		SetAsyncMode,
+		AllowAllocation,
+		SetGenerationNumber,
+		SetDequeueTimeout,
+		SetSharedBufferMode,
+		SetAutoRefresh,
+		SetLegacyBufferDrop,
+		SetAutoPrerotation,
+		DetachBuffer:
 		return simpleOKReply()
-	case igbp.GetConsumerName:
+	case GetConsumerName:
 		return g.onGetConsumerName()
-	case igbp.GetUniqueId:
+	case GetUniqueId:
 		return g.onGetUniqueId()
-	case igbp.GetConsumerUsage:
+	case GetConsumerUsage:
 		return g.onGetConsumerUsage()
-	case igbp.AllocateBuffers, igbp.GetFrameTimestamps:
+	case AllocateBuffers, GetFrameTimestamps:
 		return nil, nil // void
-	case igbp.GetLastQueuedBuffer:
+	case GetLastQueuedBuffer:
 		return g.onGetLastQueuedBuffer()
 	default:
 		reply := parcel.New()
-		reply.WriteInt32(int32(igbp.StatusNoInit))
+		reply.WriteInt32(int32(StatusNoInit))
 		return reply, nil
 	}
 }
 
 func simpleOKReply() (*parcel.Parcel, error) {
 	reply := parcel.New()
-	reply.WriteInt32(int32(igbp.StatusOK))
+	reply.WriteInt32(int32(StatusOK))
 	return reply, nil
 }

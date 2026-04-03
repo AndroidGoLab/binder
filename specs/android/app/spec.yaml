@@ -11691,6 +11691,7 @@ parcelables:
       java_wire_format:
         - name: Info
           write_method: delegate
+          delegate_type: ProviderInfo
         - name: Provider.asBinder()
           write_method: binder
           condition: provider!=null
@@ -11745,7 +11746,183 @@ parcelables:
         - name: Locales
           write_method: typed_object
     - name: Notification
-      native_parcelable: true
+      java_wire_format:
+        - name: "1"
+          write_method: int32
+        - name: AllowlistToken
+          write_method: binder
+        - name: When
+          write_method: int64
+        - name: CreationTime
+          write_method: int64
+        - name: "1"
+          write_method: int32
+          condition: mSmallIcon!=null
+        - name: SmallIcon
+          write_method: delegate
+          condition: mSmallIcon!=null
+          delegate_type: Icon
+        - name: Number
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: contentIntent!=null
+        - name: ContentIntent
+          write_method: delegate
+          condition: contentIntent!=null
+          delegate_type: PendingIntent
+        - name: "1"
+          write_method: int32
+          condition: deleteIntent!=null
+        - name: DeleteIntent
+          write_method: delegate
+          condition: deleteIntent!=null
+          delegate_type: PendingIntent
+        - name: "1"
+          write_method: int32
+          condition: tickerText!=null
+        - name: TickerText
+          write_method: char_sequence
+          condition: tickerText!=null
+          delegate_type: TextUtils
+        - name: "1"
+          write_method: int32
+          condition: tickerView!=null
+        - name: TickerView
+          write_method: delegate
+          condition: tickerView!=null
+          delegate_type: RemoteViews
+        - name: "1"
+          write_method: int32
+          condition: contentView!=null
+        - name: ContentView
+          write_method: delegate
+          condition: contentView!=null
+          delegate_type: RemoteViews
+        - name: "1"
+          write_method: int32
+          condition: mLargeIcon!=null
+        - name: LargeIcon
+          write_method: delegate
+          condition: mLargeIcon!=null
+          delegate_type: Icon
+        - name: Defaults
+          write_method: int32
+        - name: This.flags
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: sound!=null
+        - name: Sound
+          write_method: delegate
+          condition: sound!=null
+          delegate_type: Uri
+        - name: AudioStreamType
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: audioAttributes!=null
+        - name: AudioAttributes
+          write_method: delegate
+          condition: audioAttributes!=null
+          delegate_type: AudioAttributes
+        - name: Vibrate
+          write_method: long_array
+        - name: LedARGB
+          write_method: int32
+        - name: LedOnMS
+          write_method: int32
+        - name: LedOffMS
+          write_method: int32
+        - name: IconLevel
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: fullScreenIntent!=null
+        - name: FullScreenIntent
+          write_method: delegate
+          condition: fullScreenIntent!=null
+          delegate_type: PendingIntent
+        - name: Priority
+          write_method: int32
+        - name: Category
+          write_method: string8
+        - name: GroupKey
+          write_method: string8
+        - name: SortKey
+          write_method: string8
+        - name: Extras
+          write_method: bundle
+        - name: Actions
+          write_method: typed_array
+        - name: "1"
+          write_method: int32
+          condition: bigContentView!=null
+        - name: BigContentView
+          write_method: delegate
+          condition: bigContentView!=null
+          delegate_type: RemoteViews
+        - name: "1"
+          write_method: int32
+          condition: headsUpContentView!=null
+        - name: HeadsUpContentView
+          write_method: delegate
+          condition: headsUpContentView!=null
+          delegate_type: RemoteViews
+        - name: Visibility
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: publicVersion!=null
+        - name: PublicVersion
+          write_method: delegate
+          condition: publicVersion!=null
+          delegate_type: Notification
+        - name: Color
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: mChannelId!=null
+        - name: ChannelId
+          write_method: string8
+          condition: mChannelId!=null
+        - name: Timeout
+          write_method: int64
+        - name: "1"
+          write_method: int32
+          condition: mShortcutId!=null
+        - name: ShortcutId
+          write_method: string8
+          condition: mShortcutId!=null
+        - name: "1"
+          write_method: int32
+          condition: mLocusId!=null
+        - name: LocusId
+          write_method: delegate
+          condition: mLocusId!=null
+          delegate_type: LocusId
+        - name: BadgeIcon
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: mSettingsText!=null
+        - name: SettingsText
+          write_method: char_sequence
+          condition: mSettingsText!=null
+          delegate_type: TextUtils
+        - name: GroupAlertBehavior
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: mBubbleMetadata!=null
+        - name: BubbleMetadata
+          write_method: delegate
+          condition: mBubbleMetadata!=null
+          delegate_type: BubbleMetadata
+        - name: AllowSystemGeneratedContextualActions
+          write_method: bool
+        - name: FgsDeferBehavior
+          write_method: int32
     - name: Notification.Action
     - name: NotificationChannel
       java_wire_format:
@@ -11779,6 +11956,7 @@ parcelables:
         - name: Sound
           write_method: delegate
           condition: mSound!=null
+          delegate_type: Uri
         - name: Lights
           write_method: bool
         - name: VibrationPattern
@@ -11789,6 +11967,7 @@ parcelables:
         - name: VibrationEffect
           write_method: delegate
           condition: Flags.notificationChannelVibrationEffectApi() && mVibrationEffect!=null
+          delegate_type: VibrationEffect
         - name: UserLockedFields
           write_method: int32
         - name: UserVisibleTaskShown
@@ -11811,6 +11990,7 @@ parcelables:
         - name: AudioAttributes
           write_method: delegate
           condition: mAudioAttributes!=null
+          delegate_type: AudioAttributes
         - name: LightColor
           write_method: int32
         - name: BlockableSystem
@@ -11870,6 +12050,12 @@ parcelables:
         - name: StringPool
           write_method: string_array
           condition: mHistoryCount>0
+        - name: ListByteLength
+          write_method: int32
+          condition: mHistoryCount>0 && !mNotificationsToWrite.isEmpty()
+        - name: "0"
+          write_method: int32
+          condition: mHistoryCount>0 && !mNotificationsToWrite.isEmpty()
         - name: Data.marshall()
           write_method: blob
     - name: NotificationManager.Policy
@@ -11893,6 +12079,7 @@ parcelables:
         - name: SourceRectHint
           write_method: delegate
           condition: mSourceRectHint!=null
+          delegate_type: Rect
         - name: "1"
           write_method: int32
           condition: mAutoEnterEnabled!=null
@@ -11939,6 +12126,7 @@ parcelables:
         - name: ProfileFd
           write_method: delegate
           condition: profileFd!=null
+          delegate_type: ParcelFileDescriptor
         - name: SamplingInterval
           write_method: int32
         - name: AutoStopProfiler
@@ -12006,12 +12194,16 @@ parcelables:
       java_wire_format:
         - name: Icon
           write_method: delegate
-        - name: TextUtils
-          write_method: delegate
-        - name: TextUtils
-          write_method: delegate
+          delegate_type: Icon
+        - name: Title
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: ContentDescription
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: ActionIntent
           write_method: delegate
+          delegate_type: PendingIntent
         - name: Enabled
           write_method: bool
         - name: ShouldShowIcon
@@ -12044,6 +12236,7 @@ parcelables:
         - name: Data
           write_method: delegate
           condition: mData!=null
+          delegate_type: Intent
         - name: CallerToken
           write_method: binder
     - name: RuntimeAppOpAccessMessage
@@ -12069,6 +12262,7 @@ parcelables:
           write_method: int32
         - name: SearchActivity
           write_method: delegate
+          delegate_type: ComponentName
         - name: HintId
           write_method: int32
         - name: SearchMode
@@ -12130,6 +12324,7 @@ parcelables:
         - name: Args
           write_method: delegate
           condition: args!=null
+          delegate_type: Intent
     - name: SyncNotedAppOp
       java_wire_format:
         - name: Flg
@@ -12204,14 +12399,17 @@ parcelables:
           write_method: bool
         - name: Service
           write_method: delegate
+          delegate_type: ResolveInfo
     - name: WindowConfiguration
       java_wire_format:
         - name: Bounds
           write_method: delegate
+          delegate_type: Rect
         - name: AppBounds
           write_method: typed_object
         - name: MaxBounds
           write_method: delegate
+          delegate_type: Rect
         - name: WindowingMode
           write_method: int32
         - name: ActivityType

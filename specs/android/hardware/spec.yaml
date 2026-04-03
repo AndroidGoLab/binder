@@ -990,6 +990,7 @@ parcelables:
           write_method: int32
         - name: CameraExtensionSessionStats
           write_method: delegate
+          delegate_type: CameraExtensionSessionStats
     - name: CameraStatus
       java_wire_format:
         - name: CameraId

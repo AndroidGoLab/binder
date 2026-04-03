@@ -15,7 +15,7 @@ var _ parcel.Parcelable = (*Rule)(nil)
 func (s *Rule) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null IntegrityFormula
+	p.WriteInt32(-1) // null Formula
 	p.WriteInt32(s.Effect)
 	return nil
 }
@@ -23,5 +23,5 @@ func (s *Rule) MarshalParcel(
 func (s *Rule) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque IntegrityFormula: cannot skip without known wire format
+	return nil // opaque Formula: cannot skip without known wire format
 }

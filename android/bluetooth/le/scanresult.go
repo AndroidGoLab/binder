@@ -1,6 +1,7 @@
 package le
 
 import (
+	types "github.com/AndroidGoLab/binder/android/bluetooth/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -15,6 +16,7 @@ type ScanResult struct {
 	AdvertisingSid              int32
 	TxPower                     int32
 	PeriodicAdvertisingInterval int32
+	Device                      *types.BluetoothDevice
 }
 
 var _ parcel.Parcelable = (*ScanResult)(nil)
@@ -22,9 +24,14 @@ var _ parcel.Parcelable = (*ScanResult)(nil)
 func (s *ScanResult) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Device
-	p.WriteInt32(1)
+	if s.Device != nil {
+		p.WriteInt32(1)
+		if _err := s.Device.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
+	}
 	p.WriteInt32(-1) // null ScanRecord.getBytes()
 	p.WriteInt32(s.Rssi)
 	p.WriteInt64(s.TimestampNanos)
@@ -40,9 +47,17 @@ func (s *ScanResult) MarshalParcel(
 func (s *ScanResult) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	var _err error
-	if _, _err = p.ReadInt32(); _err != nil {
-		return _err
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.Device = &types.BluetoothDevice{}
+			if _err = s.Device.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
-	return nil // opaque Device: cannot skip without known wire format
+	return nil // opaque ScanRecord.getBytes(): cannot skip without known wire format
 }

@@ -1,7 +1,6 @@
 package igbp
 
 import (
-	"github.com/AndroidGoLab/binder/igbp"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -17,7 +16,7 @@ func (g *ProducerStub) onRequestBuffer(
 	reply := parcel.New()
 	if buf == nil {
 		reply.WriteInt32(0) // nonNull=0
-		reply.WriteInt32(int32(igbp.StatusOK))
+		reply.WriteInt32(int32(StatusOK))
 		return reply, nil
 	}
 
@@ -26,7 +25,7 @@ func (g *ProducerStub) onRequestBuffer(
 	bufID := uint64(0xCAFE0000) | uint64(slot)
 	WriteGrallocGraphicBuffer(reply, buf.gralloc, bufID)
 
-	reply.WriteInt32(int32(igbp.StatusOK))
+	reply.WriteInt32(int32(StatusOK))
 	return reply, nil
 }
 
@@ -68,9 +67,9 @@ func (g *ProducerStub) onDequeueBuffer(
 	}
 
 	if needsRealloc {
-		reply.WriteInt32(int32(igbp.BufferNeedsRealloc))
+		reply.WriteInt32(int32(BufferNeedsRealloc))
 	} else {
-		reply.WriteInt32(int32(igbp.StatusOK))
+		reply.WriteInt32(int32(StatusOK))
 	}
 	return reply, nil
 }
@@ -87,7 +86,7 @@ func (g *ProducerStub) onQueueBuffer(
 
 	reply := parcel.New()
 	WriteQueueBufferOutput(reply)
-	reply.WriteInt32(int32(igbp.StatusOK))
+	reply.WriteInt32(int32(StatusOK))
 	return reply, nil
 }
 
@@ -96,7 +95,7 @@ func (g *ProducerStub) onCancelBuffer(
 ) (*parcel.Parcel, error) {
 	_, _ = data.ReadInt32()
 	reply := parcel.New()
-	reply.WriteInt32(int32(igbp.StatusOK))
+	reply.WriteInt32(int32(StatusOK))
 	return reply, nil
 }
 
@@ -104,45 +103,45 @@ func (g *ProducerStub) onQuery(
 	data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	rawWhat, _ := data.ReadInt32()
-	what := igbp.NativeWindowQuery(rawWhat)
+	what := NativeWindowQuery(rawWhat)
 
 	var value int32
 	switch what {
-	case igbp.NativeWindowWidth:
+	case NativeWindowWidth:
 		value = int32(g.width)
-	case igbp.NativeWindowHeight:
+	case NativeWindowHeight:
 		value = int32(g.height)
-	case igbp.NativeWindowFormat:
+	case NativeWindowFormat:
 		value = g.format
-	case igbp.NativeWindowMinUndequeued:
+	case NativeWindowMinUndequeued:
 		value = 1
-	case igbp.NativeWindowQueuesToComposer:
+	case NativeWindowQueuesToComposer:
 		value = 0
-	case igbp.NativeWindowConcreteType:
-		value = int32(igbp.NativeWindowSurface)
-	case igbp.NativeWindowDefaultWidth:
+	case NativeWindowConcreteType:
+		value = int32(NativeWindowSurface)
+	case NativeWindowDefaultWidth:
 		value = int32(g.width)
-	case igbp.NativeWindowDefaultHeight:
+	case NativeWindowDefaultHeight:
 		value = int32(g.height)
-	case igbp.NativeWindowTransformHint:
+	case NativeWindowTransformHint:
 		value = 0
-	case igbp.NativeWindowConsumerRunning:
+	case NativeWindowConsumerRunning:
 		value = 0
-	case igbp.NativeWindowConsumerUsageBits:
+	case NativeWindowConsumerUsageBits:
 		value = 0
-	case igbp.NativeWindowStickyTransform:
+	case NativeWindowStickyTransform:
 		value = 0
-	case igbp.NativeWindowDefaultDataspace:
+	case NativeWindowDefaultDataspace:
 		value = 0
-	case igbp.NativeWindowBufferAge:
+	case NativeWindowBufferAge:
 		value = 0
-	case igbp.NativeWindowMaxBufferCount:
+	case NativeWindowMaxBufferCount:
 		value = 64
 	}
 
 	reply := parcel.New()
 	reply.WriteInt32(value)
-	reply.WriteInt32(int32(igbp.StatusOK))
+	reply.WriteInt32(int32(StatusOK))
 	return reply, nil
 }
 
@@ -158,7 +157,7 @@ func (g *ProducerStub) onConnect(
 
 	reply := parcel.New()
 	WriteQueueBufferOutput(reply)
-	reply.WriteInt32(int32(igbp.StatusOK))
+	reply.WriteInt32(int32(StatusOK))
 	return reply, nil
 }
 
@@ -167,32 +166,32 @@ func (g *ProducerStub) onDisconnect(
 ) (*parcel.Parcel, error) {
 	_, _ = data.ReadInt32()
 	reply := parcel.New()
-	reply.WriteInt32(int32(igbp.StatusOK))
+	reply.WriteInt32(int32(StatusOK))
 	return reply, nil
 }
 
 func (g *ProducerStub) onGetConsumerName() (*parcel.Parcel, error) {
 	reply := parcel.New()
-	reply.WriteString16("GoCamera")
+	reply.WriteString16(g.ConsumerName)
 	return reply, nil
 }
 
 func (g *ProducerStub) onGetUniqueId() (*parcel.Parcel, error) {
 	reply := parcel.New()
 	reply.WriteUint64(0x12345678)
-	reply.WriteInt32(int32(igbp.StatusOK))
+	reply.WriteInt32(int32(StatusOK))
 	return reply, nil
 }
 
 func (g *ProducerStub) onGetConsumerUsage() (*parcel.Parcel, error) {
 	reply := parcel.New()
 	reply.WriteUint64(0)
-	reply.WriteInt32(int32(igbp.StatusOK))
+	reply.WriteInt32(int32(StatusOK))
 	return reply, nil
 }
 
 func (g *ProducerStub) onGetLastQueuedBuffer() (*parcel.Parcel, error) {
 	reply := parcel.New()
-	reply.WriteInt32(int32(igbp.StatusNoInit))
+	reply.WriteInt32(int32(StatusNoInit))
 	return reply, nil
 }

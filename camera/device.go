@@ -11,8 +11,8 @@ import (
 	fwkDevice "github.com/AndroidGoLab/binder/android/frameworks/cameraservice/device"
 	fwkService "github.com/AndroidGoLab/binder/android/frameworks/cameraservice/service"
 	"github.com/AndroidGoLab/binder/binder"
-	cameraIGBP "github.com/AndroidGoLab/binder/camera/igbp"
-	"github.com/AndroidGoLab/binder/camera/gralloc"
+	"github.com/AndroidGoLab/binder/igbp"
+	"github.com/AndroidGoLab/binder/gralloc"
 	"github.com/AndroidGoLab/binder/logger"
 	"github.com/AndroidGoLab/binder/servicemanager"
 )
@@ -29,7 +29,7 @@ type Device struct {
 	cameraID   string
 
 	// Set after ConfigureStream.
-	igbpStub    *cameraIGBP.ProducerStub
+	igbpStub    *igbp.ProducerStub
 	grallocBufs [4]*gralloc.Buffer
 	streamID    int32
 	metadata    []byte
@@ -122,7 +122,7 @@ func (d *Device) ConfigureStream(
 	d.metadata = metadata
 
 	// Create IGBP stub and stream.
-	d.igbpStub = cameraIGBP.NewProducerStub(uint32(width), uint32(height), d.grallocBufs)
+	d.igbpStub = igbp.NewProducerStub(uint32(width), uint32(height), d.grallocBufs)
 	igbpStubBinder := binder.NewStubBinder(d.igbpStub)
 	igbpStubBinder.RegisterWithTransport(ctx, d.transport)
 
@@ -188,13 +188,10 @@ func (d *Device) CaptureFrame(
 		return nil, ctx.Err()
 	case slot := <-d.igbpStub.QueuedFrames():
 		buf := d.igbpStub.SlotBuffer(slot)
-		if buf == nil || buf.MmapData == nil {
-			return nil, fmt.Errorf("slot %d has no mmap'd buffer", slot)
+		if buf == nil {
+			return nil, fmt.Errorf("slot %d: buffer not assigned (dequeue may not have been called for this slot)", slot)
 		}
-		// Return a copy so the caller owns the data.
-		frame := make([]byte, len(buf.MmapData))
-		copy(frame, buf.MmapData)
-		return frame, nil
+		return buf.ReadPixels()
 	}
 }
 

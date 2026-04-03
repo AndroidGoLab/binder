@@ -796,6 +796,11 @@ parcelables:
         - name: NotificationsCancelledCount
           write_method: int32
     - name: BroadcastResponseStatsList
+      java_wire_format:
+        - name: BroadcastResponseStats
+          write_method: opaque
+        - name: Data.marshall()
+          write_method: blob
     - name: CacheQuotaHint
       java_wire_format:
         - name: Uuid

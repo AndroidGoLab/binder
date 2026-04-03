@@ -102,7 +102,7 @@ parcelables:
         - name: ExcludeLocalRoutes
           write_method: bool
         - name: UnderlyingNetworks
-          write_method: opaque
+          write_method: typed_array
         - name: ProxyInfo
           write_method: typed_object
     - name: VpnProfile

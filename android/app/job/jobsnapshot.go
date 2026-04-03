@@ -9,6 +9,7 @@ import (
 type JobSnapshot struct {
 	SatisfiedConstraints int32
 	IsRunnable           bool
+	Job                  JobInfo
 }
 
 var _ parcel.Parcelable = (*JobSnapshot)(nil)
@@ -16,7 +17,9 @@ var _ parcel.Parcelable = (*JobSnapshot)(nil)
 func (s *JobSnapshot) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Job
+	if _err := s.Job.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.SatisfiedConstraints)
 	p.WriteBool(s.IsRunnable)
 	return nil
@@ -25,5 +28,17 @@ func (s *JobSnapshot) MarshalParcel(
 func (s *JobSnapshot) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque Job: cannot skip without known wire format
+	var _err error
+	if _err := s.Job.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	s.SatisfiedConstraints, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.IsRunnable, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

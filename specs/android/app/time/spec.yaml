@@ -41,6 +41,7 @@ parcelables:
       java_wire_format:
         - name: UserHandle
           write_method: delegate
+          delegate_type: UserHandle
         - name: ConfigureAutoDetectionEnabledCapability
           write_method: int32
         - name: SetManualTimeCapability
@@ -65,6 +66,7 @@ parcelables:
       java_wire_format:
         - name: UserHandle
           write_method: delegate
+          delegate_type: UserHandle
         - name: ConfigureAutoDetectionEnabledCapability
           write_method: int32
         - name: UseLocationEnabled

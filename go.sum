@@ -10,6 +10,8 @@ github.com/cyphar/filepath-securejoin v0.5.1/go.mod h1:Sdj7gXlvMcPZsbhwhQ33GguGL
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/ebitengine/purego v0.10.0 h1:QIw4xfpWT6GWTzaW5XEKy3HXoqrJGx1ijYHzTF0/ISU=
+github.com/ebitengine/purego v0.10.0/go.mod h1:iIjxzd6CiRiOG0UyXP+V1+jWqUXVjPKLAI0mRfJZTmQ=
 github.com/electricbubble/gadb v0.1.0 h1:h7RKlToMlFtGW4rUkAd4GSiFAHioMH5Nx7jtbb2nKi4=
 github.com/electricbubble/gadb v0.1.0/go.mod h1:3293YJ6OWHv/Q6NA5dwSbK43MbmYm8+Vz2d7h5J3IA8=
 github.com/facebookincubator/go-belt v0.0.0-20250308011339-62fb7027b11f h1:MlG3PjCUpnbPN0JVX8UFu2Qherr6VzWqXo4GYF3J5nI=

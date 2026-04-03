@@ -1,6 +1,7 @@
 package app
 
 import (
+	types "github.com/AndroidGoLab/binder/android/content/pm/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -18,6 +19,7 @@ type WallpaperInfo struct {
 	SettingsSliceUri                 string
 	SupportMultipleDisplays          bool
 	ShouldUseDefaultUnfoldTransition bool
+	Service                          types.ResolveInfo
 }
 
 var _ parcel.Parcelable = (*WallpaperInfo)(nil)
@@ -36,7 +38,9 @@ func (s *WallpaperInfo) MarshalParcel(
 	p.WriteString16(s.SettingsSliceUri)
 	p.WriteBool(s.SupportMultipleDisplays)
 	p.WriteBool(s.ShouldUseDefaultUnfoldTransition)
-	p.WriteInt32(-1) // null Service
+	if _err := s.Service.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	return nil
 }
 
@@ -88,5 +92,8 @@ func (s *WallpaperInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque Service: cannot skip without known wire format
+	if _err := s.Service.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	return nil
 }

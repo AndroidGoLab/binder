@@ -3,8 +3,7 @@ package igbp
 import (
 	"encoding/binary"
 
-	"github.com/AndroidGoLab/binder/camera/gralloc"
-	"github.com/AndroidGoLab/binder/igbp"
+	"github.com/AndroidGoLab/binder/gralloc"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -27,7 +26,7 @@ func WriteGrallocGraphicBuffer(
 	p.WriteInt32(numFds)
 
 	raw := make([]byte, flattenedSize)
-	binary.LittleEndian.PutUint32(raw[0:], uint32(igbp.GraphicBufferMagicGB01))
+	binary.LittleEndian.PutUint32(raw[0:], uint32(GraphicBufferMagicGB01))
 	binary.LittleEndian.PutUint32(raw[4:], buf.Width)
 	binary.LittleEndian.PutUint32(raw[8:], buf.Height)
 	binary.LittleEndian.PutUint32(raw[12:], uint32(buf.Stride))

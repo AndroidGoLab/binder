@@ -1678,6 +1678,7 @@ parcelables:
         - name: Channel
           write_method: delegate
           condition: channel!=null
+          delegate_type: InputChannel
         - name: Id
           write_method: string16
         - name: Sequence

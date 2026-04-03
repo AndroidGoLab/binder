@@ -4931,7 +4931,7 @@ parcelables:
         - name: PolicyType
           write_method: int32
         - name: PackageNames
-          write_method: opaque
+          write_method: array_set
     - name: ParcelableGranteeMap
       java_wire_format:
         - name: PackagesByUid.size()
@@ -5004,4 +5004,4 @@ parcelables:
         - name: PolicyType
           write_method: int32
         - name: Ssids
-          write_method: opaque
+          write_method: array_set

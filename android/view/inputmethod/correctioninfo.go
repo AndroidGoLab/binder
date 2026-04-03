@@ -16,8 +16,8 @@ func (s *CorrectionInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.Offset)
-	p.WriteInt32(-1) // null TextUtils
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null OldText
+	p.WriteInt32(-1) // null NewText
 	return nil
 }
 
@@ -29,5 +29,11 @@ func (s *CorrectionInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque TextUtils: cannot skip without known wire format
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	return nil
 }

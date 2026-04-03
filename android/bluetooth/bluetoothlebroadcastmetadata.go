@@ -24,7 +24,6 @@ func (s *BluetoothLeBroadcastMetadata) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(s.SourceAddressType)
-	p.WriteInt32(1)
 	p.WriteInt32(0) // null SourceDevice
 	p.WriteInt32(s.SourceAdvertisingSid)
 	p.WriteInt32(s.BroadcastId)
@@ -48,9 +47,6 @@ func (s *BluetoothLeBroadcastMetadata) UnmarshalParcel(
 	var _err error
 	s.SourceAddressType, _err = p.ReadInt32()
 	if _err != nil {
-		return _err
-	}
-	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
 	{

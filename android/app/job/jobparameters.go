@@ -16,7 +16,7 @@ type JobParameters struct {
 	StopReason              int32
 	InternalStopReason      int32
 	DebugStopReason         string
-	ClipData                content.ClipData
+	ClipData                *content.ClipData
 }
 
 var _ parcel.Parcelable = (*JobParameters)(nil)
@@ -28,18 +28,21 @@ func (s *JobParameters) MarshalParcel(
 	p.WriteString16(s.JobNamespace)
 	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(-1) // null TransientExtras
-	p.WriteInt32(1)
-	if _err := s.ClipData.MarshalParcel(p); _err != nil {
-		return _err
+	if s.ClipData != nil {
+		p.WriteInt32(1)
+		if _err := s.ClipData.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
 	}
-	p.WriteInt32(0)  // null ClipGrantFlags
-	p.WriteInt32(-1) // null Callback
+	p.WriteInt32(0)           // null ClipGrantFlags
+	p.WriteNullStrongBinder() // null Callback
 	p.WriteBool(s.OverrideDeadlineExpired)
 	p.WriteBool(s.IsExpedited)
 	p.WriteBool(s.IsUserInitiated)
 	p.WriteInt32(-1) // null TriggeredContentUris
 	p.WriteInt32(-1) // null TriggeredContentAuthorities
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null Network
 	p.WriteInt32(s.StopReason)
 	p.WriteInt32(s.InternalStopReason)

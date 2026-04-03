@@ -14,7 +14,7 @@ import (
 	fwkService "github.com/AndroidGoLab/binder/android/frameworks/cameraservice/service"
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/binder/versionaware"
-	"github.com/AndroidGoLab/binder/camera/gralloc/hidlalloc"
+	"github.com/AndroidGoLab/binder/gralloc/hidlalloc"
 	"github.com/AndroidGoLab/binder/kernelbinder"
 	"github.com/AndroidGoLab/binder/parcel"
 	"github.com/AndroidGoLab/binder/servicemanager"

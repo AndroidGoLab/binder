@@ -251,6 +251,7 @@ parcelables:
         - name: ActivityId
           write_method: delegate
           condition: fromServer()
+          delegate_type: ActivityId
     - name: ContentCaptureEvent
       java_wire_format:
         - name: SessionId
@@ -263,8 +264,9 @@ parcelables:
           write_method: typed_object
         - name: Ids
           write_method: opaque
-        - name: ViewNode
+        - name: Parcel
           write_method: delegate
+          delegate_type: ViewNode
         - name: Text
           write_method: opaque
         - name: ParentSessionId

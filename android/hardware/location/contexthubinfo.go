@@ -128,5 +128,18 @@ func (s *ContextHubInfo) UnmarshalParcel(
 			p.SetPosition(p.Position() + int(_arrLen)*4)
 		}
 	}
-	return nil // opaque MemoryRegions: cannot skip without known wire format
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			return nil // non-empty typed_array MemoryRegions: cannot skip
+		}
+	}
+	s.SupportsReliableMessages, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

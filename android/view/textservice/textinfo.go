@@ -16,7 +16,7 @@ var _ parcel.Parcelable = (*TextInfo)(nil)
 func (s *TextInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null CharSequence
 	p.WriteInt32(s.Cookie)
 	p.WriteInt32(s.SequenceNumber)
 	return nil
@@ -25,5 +25,17 @@ func (s *TextInfo) MarshalParcel(
 func (s *TextInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque TextUtils: cannot skip without known wire format
+	var _err error
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	s.Cookie, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.SequenceNumber, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

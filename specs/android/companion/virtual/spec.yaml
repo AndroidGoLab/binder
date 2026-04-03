@@ -689,15 +689,15 @@ parcelables:
         - name: LockState
           write_method: int32
         - name: UsersWithMatchingAccounts
-          write_method: opaque
+          write_method: array_set
         - name: DefaultNavigationPolicy
           write_method: int32
         - name: CrossTaskNavigationExemptions
-          write_method: opaque
+          write_method: array_set
         - name: DefaultActivityPolicy
           write_method: int32
         - name: ActivityPolicyExemptions
-          write_method: opaque
+          write_method: array_set
         - name: Name
           write_method: string8
         - name: DevicePolicies

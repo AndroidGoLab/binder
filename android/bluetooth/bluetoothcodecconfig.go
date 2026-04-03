@@ -15,6 +15,7 @@ type BluetoothCodecConfig struct {
 	CodecSpecific2 int64
 	CodecSpecific3 int64
 	CodecSpecific4 int64
+	CodecType      BluetoothCodecType
 }
 
 var _ parcel.Parcelable = (*BluetoothCodecConfig)(nil)
@@ -22,8 +23,10 @@ var _ parcel.Parcelable = (*BluetoothCodecConfig)(nil)
 func (s *BluetoothCodecConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(0)  // null True
-	p.WriteInt32(-1) // null CodecType
+	p.WriteInt32(0) // null True
+	if _err := s.CodecType.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.CodecPriority)
 	p.WriteInt32(s.SampleRate)
 	p.WriteInt32(s.BitsPerSample)
@@ -38,6 +41,7 @@ func (s *BluetoothCodecConfig) MarshalParcel(
 func (s *BluetoothCodecConfig) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	var _err error
 	{
 		_opaqueFlag, _opaqueErr := p.ReadInt32()
 		if _opaqueErr != nil {
@@ -47,5 +51,40 @@ func (s *BluetoothCodecConfig) UnmarshalParcel(
 			return nil // non-null True: cannot skip unknown-size typed object
 		}
 	}
-	return nil // opaque CodecType: cannot skip without known wire format
+	if _err := s.CodecType.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	s.CodecPriority, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.SampleRate, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.BitsPerSample, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.ChannelMode, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.CodecSpecific1, _err = p.ReadInt64()
+	if _err != nil {
+		return _err
+	}
+	s.CodecSpecific2, _err = p.ReadInt64()
+	if _err != nil {
+		return _err
+	}
+	s.CodecSpecific3, _err = p.ReadInt64()
+	if _err != nil {
+		return _err
+	}
+	s.CodecSpecific4, _err = p.ReadInt64()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

@@ -18,6 +18,7 @@ type VolumeInfo struct {
 	FsLabel      string
 	Path         string
 	InternalPath string
+	Disk         *DiskInfo
 }
 
 var _ parcel.Parcelable = (*VolumeInfo)(nil)
@@ -27,8 +28,14 @@ func (s *VolumeInfo) MarshalParcel(
 ) error {
 	p.WriteString(s.Id)
 	p.WriteInt32(s.Type)
-	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Disk
+	if s.Disk != nil {
+		p.WriteInt32(1)
+		if _err := s.Disk.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
+	}
 	p.WriteString(s.PartGuid)
 	p.WriteInt32(s.MountFlags)
 	p.WriteInt32(s.MountUserId)
@@ -53,8 +60,53 @@ func (s *VolumeInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	if _, _err = p.ReadInt32(); _err != nil {
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.Disk = &DiskInfo{}
+			if _err = s.Disk.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
+	}
+	s.PartGuid, _err = p.ReadString()
+	if _err != nil {
 		return _err
 	}
-	return nil // opaque Disk: cannot skip without known wire format
+	s.MountFlags, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.MountUserId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.State, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.FsType, _err = p.ReadString()
+	if _err != nil {
+		return _err
+	}
+	s.FsUuid, _err = p.ReadString()
+	if _err != nil {
+		return _err
+	}
+	s.FsLabel, _err = p.ReadString()
+	if _err != nil {
+		return _err
+	}
+	s.Path, _err = p.ReadString()
+	if _err != nil {
+		return _err
+	}
+	s.InternalPath, _err = p.ReadString()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

@@ -2383,12 +2383,14 @@ parcelables:
       java_wire_format:
         - name: ComponentName
           write_method: delegate
+          delegate_type: ComponentName
         - name: UriString
           write_method: string16
     - name: TvInteractiveAppServiceInfo
       java_wire_format:
         - name: Service
           write_method: delegate
+          delegate_type: ResolveInfo
         - name: Id
           write_method: string16
         - name: Types

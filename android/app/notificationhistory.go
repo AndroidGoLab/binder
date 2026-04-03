@@ -19,6 +19,8 @@ func (s *NotificationHistory) MarshalParcel(
 	p.WriteInt32(s.HistoryCount)
 	p.WriteInt32(s.Index)
 	p.WriteInt32(-1) // null StringPool
+	p.WriteInt32(0)  // null ListByteLength
+	p.WriteInt32(0)
 	p.WriteInt32(-1) // null Data.marshall()
 	return nil
 }
@@ -45,6 +47,18 @@ func (s *NotificationHistory) UnmarshalParcel(
 				return _arrErr
 			}
 		}
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null ListByteLength: cannot skip unknown-size typed object
+		}
+	}
+	if _, _err = p.ReadInt32(); _err != nil {
+		return _err
 	}
 	return nil // opaque Data.marshall(): cannot skip without known wire format
 }

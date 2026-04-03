@@ -10,7 +10,7 @@ import (
 
 type ChooserTarget struct {
 	Score         float32
-	Icon          drawable.Icon
+	Icon          *drawable.Icon
 	ComponentName content.ComponentName
 }
 
@@ -20,9 +20,13 @@ func (s *ChooserTarget) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(-1) // null Title
-	p.WriteInt32(1)
-	if _err := s.Icon.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Icon != nil {
+		p.WriteInt32(1)
+		if _err := s.Icon.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
 	}
 	p.WriteFloat32(s.Score)
 	if _err := s.ComponentName.MarshalParcel(p); _err != nil {

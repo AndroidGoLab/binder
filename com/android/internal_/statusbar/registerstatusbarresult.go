@@ -33,7 +33,7 @@ func (s *RegisterStatusBarResult) MarshalParcel(
 	p.WriteInt32(s.ImeBackDisposition)
 	p.WriteBool(s.ShowImeSwitcher)
 	p.WriteInt32(s.DisabledFlags2)
-	p.WriteInt32(-1) // null ImeToken
+	p.WriteNullStrongBinder() // null ImeToken
 	p.WriteBool(s.NavbarColorManagedByIme)
 	p.WriteInt32(s.Behavior)
 	p.WriteInt32(s.RequestedVisibleTypes)

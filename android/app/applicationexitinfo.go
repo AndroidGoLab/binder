@@ -44,11 +44,9 @@ func (s *ApplicationExitInfo) MarshalParcel(
 	p.WriteInt64(s.Rss)
 	p.WriteInt64(s.Timestamp)
 	p.WriteString16(s.Description)
-	p.WriteInt32(-1) // null State
-	p.WriteInt32(1)
-	p.WriteInt32(-1) // null AppTraceRetriever.asBinder()
-	p.WriteInt32(1)
-	p.WriteInt32(-1) // null NativeTombstoneRetriever.asBinder()
+	p.WriteInt32(-1)          // null State
+	p.WriteNullStrongBinder() // null AppTraceRetriever.asBinder()
+	p.WriteNullStrongBinder() // null NativeTombstoneRetriever.asBinder()
 	return nil
 }
 

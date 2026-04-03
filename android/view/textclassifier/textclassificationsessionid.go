@@ -16,7 +16,7 @@ func (s *TextClassificationSessionId) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Value)
-	p.WriteInt32(-1) // null Token
+	p.WriteNullStrongBinder() // null Token
 	return nil
 }
 
@@ -28,5 +28,8 @@ func (s *TextClassificationSessionId) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque Token: cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

@@ -23,7 +23,7 @@ func (s *AssistStructure) MarshalParcel(
 		return _err
 	}
 	p.WriteBool(s.IsHomeActivity)
-	p.WriteInt32(-1) // null SendChannel
+	p.WriteNullStrongBinder() // null SendChannel
 	return nil
 }
 
@@ -42,5 +42,8 @@ func (s *AssistStructure) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque SendChannel: cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

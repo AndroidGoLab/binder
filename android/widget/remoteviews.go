@@ -1,6 +1,7 @@
 package widget
 
 import (
+	types "github.com/AndroidGoLab/binder/android/content/pm/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -10,6 +11,7 @@ type RemoteViews struct {
 	ApplyFlags          int32
 	ProviderInstanceId  int64
 	HasDrawInstructions bool
+	Application         types.ApplicationInfo
 }
 
 var _ parcel.Parcelable = (*RemoteViews)(nil)
@@ -20,7 +22,9 @@ func (s *RemoteViews) MarshalParcel(
 	p.WriteInt32(0)  // null MODE_NORMAL
 	p.WriteInt32(-1) // null Dest
 	p.WriteInt32(-1) // null CollectionCache
-	p.WriteInt32(-1) // null Application
+	if _err := s.Application.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(0)
 	p.WriteInt32(0) // null LayoutId
 	p.WriteInt32(0) // null ViewId

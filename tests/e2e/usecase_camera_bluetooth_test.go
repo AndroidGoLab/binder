@@ -256,7 +256,9 @@ func TestUseCase24_CameraFrameCapture(t *testing.T) {
 
 	t.Logf("Captured frame: %d bytes, %.1f%% non-zero",
 		len(frame), float64(nonZero)/float64(len(frame))*100)
-	assert.Greater(t, len(frame), 0, "frame should not be empty")
+	require.Greater(t, len(frame), 0, "frame should not be empty")
+	require.Greater(t, nonZero, len(frame)/100,
+		"captured frame has too few non-zero bytes — no actual pixel data")
 }
 
 // ---------------------------------------------------------------------------
@@ -284,6 +286,7 @@ func TestUseCase25_QRScannerDaemon(t *testing.T) {
 
 	t.Logf("Capturing %d frames for QR scanning", frameCount)
 
+	anyFrameHasPixels := false
 	for i := 0; i < frameCount; i++ {
 		captureCtx, cancel := context.WithTimeout(ctx, 10*time.Second)
 		frame, err := cam.CaptureFrame(captureCtx)
@@ -298,8 +301,13 @@ func TestUseCase25_QRScannerDaemon(t *testing.T) {
 		}
 		t.Logf("  Frame %d: %d bytes, %.1f%% non-zero",
 			i, len(frame), float64(nonZero)/float64(len(frame))*100)
-		assert.Greater(t, len(frame), 0, "frame %d should not be empty", i)
+		require.Greater(t, len(frame), 0, "frame %d should not be empty", i)
+		if nonZero > len(frame)/100 {
+			anyFrameHasPixels = true
+		}
 	}
+	require.True(t, anyFrameHasPixels,
+		"all %d captured frames have <1%% non-zero bytes — no actual pixel data", frameCount)
 }
 
 // ---------------------------------------------------------------------------
@@ -329,6 +337,7 @@ func TestUseCase26_TimelapseCapture(t *testing.T) {
 	t.Logf("Timelapse: %d frames, %v interval", captureCount, interval)
 
 	var frameSizes []int
+	anyFrameHasPixels := false
 	for i := 0; i < captureCount; i++ {
 		if i > 0 {
 			time.Sleep(interval)
@@ -339,14 +348,26 @@ func TestUseCase26_TimelapseCapture(t *testing.T) {
 		cancel()
 		requireOrSkip(t, err)
 
+		nonZero := 0
+		for _, b := range frame {
+			if b != 0 {
+				nonZero++
+			}
+		}
 		frameSizes = append(frameSizes, len(frame))
-		t.Logf("  Frame %d: %d bytes", i, len(frame))
+		t.Logf("  Frame %d: %d bytes, %.1f%% non-zero",
+			i, len(frame), float64(nonZero)/float64(len(frame))*100)
+		if nonZero > len(frame)/100 {
+			anyFrameHasPixels = true
+		}
 	}
 
-	assert.Equal(t, captureCount, len(frameSizes), "should capture all frames")
+	require.Equal(t, captureCount, len(frameSizes), "should capture all frames")
 	for i, sz := range frameSizes {
-		assert.Greater(t, sz, 0, "frame %d should not be empty", i)
+		require.Greater(t, sz, 0, "frame %d should not be empty", i)
 	}
+	require.True(t, anyFrameHasPixels,
+		"all %d captured frames have <1%% non-zero bytes — no actual pixel data", captureCount)
 }
 
 // ucCleanupLeakedScanners unregisters scanner IDs 0..15 to free BLE

@@ -36,9 +36,9 @@ func (s *StartingWindowInfo) MarshalParcel(
 		p.WriteInt32(0)
 	}
 	p.WriteInt32(s.RequestedVisibleTypes)
-	p.WriteInt32(-1) // null AppToken
-	p.WriteInt32(-1) // null WindowlessStartingSurfaceCallback
-	p.WriteInt32(0)  // null RootSurface
+	p.WriteNullStrongBinder() // null AppToken
+	p.WriteInt32(-1)          // null WindowlessStartingSurfaceCallback
+	p.WriteInt32(0)           // null RootSurface
 	return nil
 }
 
@@ -119,5 +119,8 @@ func (s *StartingWindowInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque AppToken: cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil // opaque WindowlessStartingSurfaceCallback: cannot skip without known wire format
 }

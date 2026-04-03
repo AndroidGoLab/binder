@@ -15,6 +15,8 @@ type AudioRecordingConfiguration struct {
 	ClientPortId      int32
 	ClientSilenced    bool
 	DeviceSource      int32
+	ClientFormat      AudioFormat
+	DeviceFormat      AudioFormat
 }
 
 var _ parcel.Parcelable = (*AudioRecordingConfiguration)(nil)
@@ -24,8 +26,12 @@ func (s *AudioRecordingConfiguration) MarshalParcel(
 ) error {
 	p.WriteInt32(s.ClientSessionId)
 	p.WriteInt32(s.ClientSource)
-	p.WriteInt32(-1) // null ClientFormat
-	p.WriteInt32(-1) // null DeviceFormat
+	if _err := s.ClientFormat.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.DeviceFormat.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.PatchHandle)
 	p.WriteString16(s.ClientPackageName)
 	p.WriteInt32(s.ClientUid)
@@ -49,5 +55,41 @@ func (s *AudioRecordingConfiguration) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque ClientFormat: cannot skip without known wire format
+	if _err := s.ClientFormat.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.DeviceFormat.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	s.PatchHandle, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.ClientPackageName, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.ClientUid, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.ClientPortId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.ClientSilenced, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.DeviceSource, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	if _, _err = p.ReadInt32(); _err != nil { // skip ClientEffects.length
+		return _err
+	}
+	if _, _err = p.ReadInt32(); _err != nil { // skip DeviceEffects.length
+		return _err
+	}
+	return nil
 }

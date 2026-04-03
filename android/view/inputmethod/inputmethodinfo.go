@@ -1,6 +1,7 @@
 package inputmethod
 
 import (
+	types "github.com/AndroidGoLab/binder/android/content/pm/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -23,6 +24,7 @@ type InputMethodInfo struct {
 	SupportsStylusHandwriting                     bool
 	SupportsConnectionlessStylusHandwriting       bool
 	StylusHandwritingSettingsActivityAttr         string
+	Service                                       types.ResolveInfo
 }
 
 var _ parcel.Parcelable = (*InputMethodInfo)(nil)
@@ -42,7 +44,9 @@ func (s *InputMethodInfo) MarshalParcel(
 	p.WriteBool(s.ShowInInputMethodPicker)
 	p.WriteBool(s.IsVrOnly)
 	p.WriteBool(s.IsVirtualDeviceOnly)
-	p.WriteInt32(-1) // null Service
+	if _err := s.Service.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(-1) // null Subtypes
 	p.WriteInt32(s.HandledConfigChanges)
 	p.WriteBool(s.SupportsStylusHandwriting)
@@ -103,5 +107,8 @@ func (s *InputMethodInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque Service: cannot skip without known wire format
+	if _err := s.Service.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	return nil // opaque Subtypes: cannot skip without known wire format
 }

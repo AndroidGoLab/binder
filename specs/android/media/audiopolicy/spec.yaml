@@ -89,8 +89,10 @@ parcelables:
           write_method: string8
         - name: Format
           write_method: delegate
+          delegate_type: AudioFormat
         - name: Rule
           write_method: delegate
+          delegate_type: AudioMixingRule
         - name: Token
           write_method: binder
     - name: AudioMixingRule

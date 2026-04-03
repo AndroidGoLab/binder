@@ -9,18 +9,22 @@ parcelables:
           write_method: int64
         - name: Position
           write_method: int32
-        - name: TextUtils
-          write_method: delegate
-        - name: TextUtils
-          write_method: delegate
+        - name: Text
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: Label
+          write_method: char_sequence
+          delegate_type: TextUtils
     - name: CorrectionInfo
       java_wire_format:
         - name: Offset
           write_method: int32
-        - name: TextUtils
-          write_method: delegate
-        - name: TextUtils
-          write_method: delegate
+        - name: OldText
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: NewText
+          write_method: char_sequence
+          delegate_type: TextUtils
     - name: CursorAnchorInfo
       java_wire_format:
         - name: HashCode
@@ -31,8 +35,9 @@ parcelables:
           write_method: int32
         - name: ComposingTextStart
           write_method: int32
-        - name: TextUtils
-          write_method: delegate
+        - name: ComposingText
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: InsertionMarkerFlags
           write_method: int32
         - name: InsertionMarkerHorizontal
@@ -81,8 +86,9 @@ parcelables:
           write_method: string16
         - name: InternalImeOptions
           write_method: int32
-        - name: TextUtils
-          write_method: delegate
+        - name: ActionLabel
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: ActionId
           write_method: int32
         - name: InitialSelStart
@@ -93,10 +99,12 @@ parcelables:
           write_method: int32
         - name: InitialToolType
           write_method: int32
-        - name: TextUtils
-          write_method: delegate
-        - name: TextUtils
-          write_method: delegate
+        - name: HintText
+          write_method: char_sequence
+          delegate_type: TextUtils
+        - name: Label
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: PackageName
           write_method: string16
         - name: AutofillId
@@ -119,17 +127,20 @@ parcelables:
         - name: InitialSurroundingText
           write_method: delegate
           condition: mInitialSurroundingText!=null
+          delegate_type: SurroundingText
         - name: HintLocales
           write_method: delegate
           condition: hintLocales!=null
+          delegate_type: LocaleList
         - name: ContentMimeTypes
           write_method: string_array
         - name: UserHandle
           write_method: delegate
     - name: ExtractedText
       java_wire_format:
-        - name: TextUtils
-          write_method: delegate
+        - name: Text
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: StartOffset
           write_method: int32
         - name: PartialStartOffset
@@ -142,8 +153,9 @@ parcelables:
           write_method: int32
         - name: This.flags
           write_method: int32
-        - name: TextUtils
-          write_method: delegate
+        - name: Hint
+          write_method: char_sequence
+          delegate_type: TextUtils
     - name: ExtractedTextRequest
       java_wire_format:
         - name: Token
@@ -219,6 +231,7 @@ parcelables:
           write_method: int32
         - name: Description
           write_method: delegate
+          delegate_type: ClipDescription
         - name: Uri
           write_method: delegate
         - name: "1"
@@ -255,8 +268,10 @@ parcelables:
           write_method: bool
         - name: Service
           write_method: delegate
+          delegate_type: ResolveInfo
         - name: Subtypes
           write_method: delegate
+          delegate_type: InputMethodSubtypeArray
         - name: HandledConfigChanges
           write_method: int32
         - name: SupportsStylusHandwriting
@@ -269,8 +284,9 @@ parcelables:
       java_wire_format:
         - name: SubtypeNameResId
           write_method: int32
-        - name: TextUtils
-          write_method: delegate
+        - name: SubtypeNameOverride
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: PkLanguageTag
           write_method: string8
         - name: PkLayoutType
@@ -323,6 +339,7 @@ parcelables:
           write_method: int32
         - name: GestureAsParcelable
           write_method: delegate
+          delegate_type: Parcelable
     - name: RemoveSpaceGesture
       java_wire_format:
         - name: StartPoint
@@ -351,8 +368,9 @@ parcelables:
           write_method: typed_object
     - name: SurroundingText
       java_wire_format:
-        - name: TextUtils
-          write_method: delegate
+        - name: Text
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: SelectionStart
           write_method: int32
         - name: SelectionEnd

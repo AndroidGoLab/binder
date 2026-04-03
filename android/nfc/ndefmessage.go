@@ -26,5 +26,14 @@ func (s *NdefMessage) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil { // skip Records.length
 		return _err
 	}
-	return nil // opaque Records: cannot skip without known wire format
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			return nil // non-empty typed_array Records: cannot skip
+		}
+	}
+	return nil
 }

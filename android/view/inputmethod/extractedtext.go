@@ -20,19 +20,50 @@ var _ parcel.Parcelable = (*ExtractedText)(nil)
 func (s *ExtractedText) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null Text
 	p.WriteInt32(s.StartOffset)
 	p.WriteInt32(s.PartialStartOffset)
 	p.WriteInt32(s.PartialEndOffset)
 	p.WriteInt32(s.SelectionStart)
 	p.WriteInt32(s.SelectionEnd)
 	p.WriteInt32(s.Flags)
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null Hint
 	return nil
 }
 
 func (s *ExtractedText) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque TextUtils: cannot skip without known wire format
+	var _err error
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	s.StartOffset, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.PartialStartOffset, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.PartialEndOffset, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.SelectionStart, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.SelectionEnd, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.Flags, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	return nil
 }

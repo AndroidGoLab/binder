@@ -12,6 +12,7 @@ type BluetoothHeadsetClientCall struct {
 	MultiParty bool
 	Outgoing   bool
 	InBandRing bool
+	Device     BluetoothDevice
 }
 
 var _ parcel.Parcelable = (*BluetoothHeadsetClientCall)(nil)
@@ -19,7 +20,9 @@ var _ parcel.Parcelable = (*BluetoothHeadsetClientCall)(nil)
 func (s *BluetoothHeadsetClientCall) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Device
+	if _err := s.Device.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.Id)
 	p.WriteInt32(-1) // null Out
 	p.WriteInt32(s.State)
@@ -33,5 +36,13 @@ func (s *BluetoothHeadsetClientCall) MarshalParcel(
 func (s *BluetoothHeadsetClientCall) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque Device: cannot skip without known wire format
+	var _err error
+	if _err := s.Device.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	s.Id, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	return nil // opaque Out: cannot skip without known wire format
 }

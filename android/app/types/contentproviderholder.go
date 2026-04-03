@@ -16,9 +16,8 @@ var _ parcel.Parcelable = (*ContentProviderHolder)(nil)
 func (s *ContentProviderHolder) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Info
-	p.WriteInt32(-1) // null Provider.asBinder()
-	p.WriteInt32(-1) // null Connection
+	p.WriteNullStrongBinder() // null Provider.asBinder()
+	p.WriteNullStrongBinder() // null Connection
 	p.WriteBool(s.NoReleaseNeeded)
 	p.WriteBool(s.Local)
 	return nil
@@ -27,5 +26,20 @@ func (s *ContentProviderHolder) MarshalParcel(
 func (s *ContentProviderHolder) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque Info: cannot skip without known wire format
+	var _err error
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	s.NoReleaseNeeded, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.Local, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

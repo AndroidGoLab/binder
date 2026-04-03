@@ -30,7 +30,7 @@ func (s *AccessibilityEvent) MarshalParcel(
 	p.WriteInt32(s.ContentChangeTypes)
 	p.WriteInt32(s.WindowChangeTypes)
 	p.WriteInt32(s.SpeechStateChangeTypes)
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null PackageName
 	p.WriteInt64(s.EventTime)
 	p.WriteInt32(s.ConnectionId)
 	p.WriteInt32(s.RecordCount)
@@ -69,5 +69,23 @@ func (s *AccessibilityEvent) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque TextUtils: cannot skip without known wire format
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	s.EventTime, _err = p.ReadInt64()
+	if _err != nil {
+		return _err
+	}
+	s.ConnectionId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.RecordCount, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	if _, _err = p.ReadInt32(); _err != nil { // skip OriginStackTrace.length
+		return _err
+	}
+	return nil
 }

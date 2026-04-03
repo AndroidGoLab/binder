@@ -141,8 +141,10 @@ parcelables:
           write_method: int32
         - name: TableData
           write_method: delegate
+          delegate_type: SparseMappingTable
         - name: SysMemUsage
           write_method: delegate
+          delegate_type: SysMemUsageTable
         - name: NumOfUids
           write_method: int32
         - name: NPROC

@@ -1,6 +1,7 @@
 package cardemulation
 
 import (
+	pm "github.com/AndroidGoLab/binder/android/content/pm"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -17,6 +18,7 @@ type ApduServiceInfo struct {
 	Uid                         int32
 	SettingsActivityName        string
 	CategoryOtherServiceEnabled bool
+	Service                     pm.ResolveInfo
 }
 
 var _ parcel.Parcelable = (*ApduServiceInfo)(nil)
@@ -24,7 +26,9 @@ var _ parcel.Parcelable = (*ApduServiceInfo)(nil)
 func (s *ApduServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Service
+	if _err := s.Service.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteString16(s.Description)
 	p.WriteBool(s.OnHost)
 	p.WriteString16(s.OffHostName)
@@ -47,5 +51,28 @@ func (s *ApduServiceInfo) MarshalParcel(
 func (s *ApduServiceInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque Service: cannot skip without known wire format
+	var _err error
+	if _err := s.Service.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	s.Description, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.OnHost, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.OffHostName, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.StaticOffHostName, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	if _, _err = p.ReadInt32(); _err != nil { // skip StaticAidGroups.size()
+		return _err
+	}
+	return nil // opaque NewArrayList<AidGroup>(mStaticAidGroups.values()): cannot skip without known wire format
 }

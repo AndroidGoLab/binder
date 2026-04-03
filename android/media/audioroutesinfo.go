@@ -15,7 +15,7 @@ var _ parcel.Parcelable = (*AudioRoutesInfo)(nil)
 func (s *AudioRoutesInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null BluetoothName
 	p.WriteInt32(s.MainType)
 	return nil
 }
@@ -23,5 +23,13 @@ func (s *AudioRoutesInfo) MarshalParcel(
 func (s *AudioRoutesInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque TextUtils: cannot skip without known wire format
+	var _err error
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	s.MainType, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

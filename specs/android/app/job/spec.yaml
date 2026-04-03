@@ -425,6 +425,7 @@ parcelables:
         - name: ClipData
           write_method: delegate
           condition: clipData!=null
+          delegate_type: ClipData
         - name: ClipGrantFlags
           write_method: int32
           condition: clipData!=null
@@ -433,7 +434,7 @@ parcelables:
         - name: ConstraintFlags
           write_method: int32
         - name: TriggerContentUris
-          write_method: opaque
+          write_method: typed_array
         - name: TriggerContentUpdateDelay
           write_method: int64
         - name: TriggerContentMaxDelay
@@ -444,6 +445,7 @@ parcelables:
         - name: NetworkRequest
           write_method: delegate
           condition: networkRequest!=null
+          delegate_type: NetworkRequest
         - name: NetworkDownloadBytes
           write_method: int64
         - name: NetworkUploadBytes
@@ -496,6 +498,7 @@ parcelables:
         - name: ClipData
           write_method: delegate
           condition: clipData!=null
+          delegate_type: ClipData
         - name: ClipGrantFlags
           write_method: int32
           condition: clipData!=null
@@ -508,7 +511,7 @@ parcelables:
         - name: IsUserInitiated
           write_method: bool
         - name: TriggeredContentUris
-          write_method: opaque
+          write_method: typed_array
         - name: TriggeredContentAuthorities
           write_method: string_array
         - name: "1"
@@ -517,6 +520,7 @@ parcelables:
         - name: Network
           write_method: delegate
           condition: mNetwork!=null
+          delegate_type: Network
         - name: StopReason
           write_method: int32
         - name: InternalStopReason
@@ -527,6 +531,7 @@ parcelables:
       java_wire_format:
         - name: Job
           write_method: delegate
+          delegate_type: JobInfo
         - name: SatisfiedConstraints
           write_method: int32
         - name: IsRunnable
@@ -539,6 +544,7 @@ parcelables:
         - name: Intent
           write_method: delegate
           condition: mIntent!=null
+          delegate_type: Intent
         - name: Extras
           write_method: opaque
         - name: NetworkDownloadBytes

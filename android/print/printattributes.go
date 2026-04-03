@@ -16,11 +16,8 @@ var _ parcel.Parcelable = (*PrintAttributes)(nil)
 func (s *PrintAttributes) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null MediaSize
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null Resolution
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null MinMargins
 	p.WriteInt32(s.ColorMode)
 	p.WriteInt32(s.DuplexMode)
@@ -30,9 +27,5 @@ func (s *PrintAttributes) MarshalParcel(
 func (s *PrintAttributes) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	var _err error
-	if _, _err = p.ReadInt32(); _err != nil {
-		return _err
-	}
 	return nil // opaque MediaSize: cannot skip without known wire format
 }

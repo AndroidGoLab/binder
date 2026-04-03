@@ -14,12 +14,15 @@ var _ parcel.Parcelable = (*KeySet)(nil)
 func (s *KeySet) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Token
+	p.WriteNullStrongBinder() // null Token
 	return nil
 }
 
 func (s *KeySet) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque Token: cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

@@ -39,5 +39,23 @@ func (s *ProgramSelector) UnmarshalParcel(
 			return nil // non-null PrimaryId: cannot skip unknown-size typed object
 		}
 	}
-	return nil // opaque SecondaryIds: cannot skip without known wire format
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			return nil // non-empty typed_array SecondaryIds: cannot skip
+		}
+	}
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*8)
+		}
+	}
+	return nil
 }

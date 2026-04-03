@@ -31,5 +31,14 @@ func (s *UniqueProgramIdentifier) UnmarshalParcel(
 			return nil // non-null PrimaryId: cannot skip unknown-size typed object
 		}
 	}
-	return nil // opaque CriticalSecondaryIds: cannot skip without known wire format
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			return nil // non-empty typed_array CriticalSecondaryIds: cannot skip
+		}
+	}
+	return nil
 }

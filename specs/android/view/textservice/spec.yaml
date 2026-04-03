@@ -8,7 +8,7 @@ parcelables:
         - name: InfoSize
           write_method: int32
         - name: SuggestionsInfos
-          write_method: opaque
+          write_method: typed_array
         - name: Offsets
           write_method: int_array
         - name: Lengths
@@ -23,6 +23,7 @@ parcelables:
           write_method: string16
         - name: Service
           write_method: delegate
+          delegate_type: ResolveInfo
         - name: Subtypes
           write_method: opaque
     - name: SpellCheckerSubtype
@@ -51,8 +52,9 @@ parcelables:
           write_method: bool
     - name: TextInfo
       java_wire_format:
-        - name: TextUtils
-          write_method: delegate
+        - name: CharSequence
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: Cookie
           write_method: int32
         - name: SequenceNumber

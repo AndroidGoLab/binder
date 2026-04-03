@@ -188,6 +188,7 @@ parcelables:
           write_method: int32
         - name: Uri
           write_method: delegate
+          delegate_type: Uri
         - name: Spec
           write_method: typed_object
     - name: SliceSpec

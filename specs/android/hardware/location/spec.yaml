@@ -756,7 +756,7 @@ parcelables:
         - name: ActivityRecognitionEventArray.length
           write_method: int32
         - name: ActivityRecognitionEventArray
-          write_method: opaque
+          write_method: typed_array
     - name: ContextHubInfo
       java_wire_format:
         - name: Id
@@ -794,7 +794,7 @@ parcelables:
         - name: SupportedSensors
           write_method: int_array
         - name: MemoryRegions
-          write_method: opaque
+          write_method: typed_array
         - name: SupportsReliableMessages
           write_method: bool
     - name: ContextHubMessage

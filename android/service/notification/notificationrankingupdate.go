@@ -14,20 +14,41 @@ var _ parcel.Parcelable = (*NotificationRankingUpdate)(nil)
 func (s *NotificationRankingUpdate) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_headerPos := parcel.WriteParcelableHeader(p)
-
-	parcel.WriteParcelableFooter(p, _headerPos)
+	p.WriteInt32(0)  // null MarshalableRankingMap
+	p.WriteInt32(0)  // null RankingMapFd
+	p.WriteInt32(-1) // null SmartActionsBundle
 	return nil
 }
 
 func (s *NotificationRankingUpdate) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	_endPos, _err := parcel.ReadParcelableHeader(p)
-	if _err != nil {
-		return _err
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null MarshalableRankingMap: cannot skip unknown-size typed object
+		}
 	}
-
-	parcel.SkipToParcelableEnd(p, _endPos)
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null RankingMapFd: cannot skip unknown-size typed object
+		}
+	}
+	{
+		_opaqueLen, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueLen > 0 {
+			p.SetPosition(p.Position() + int(_opaqueLen))
+		}
+	}
 	return nil
 }

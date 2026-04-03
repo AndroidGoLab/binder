@@ -29,7 +29,7 @@ func (s *PlaybackState) MarshalParcel(
 	p.WriteInt64(s.Actions)
 	p.WriteInt32(-1) // null CustomActions
 	p.WriteInt64(s.ActiveItemId)
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null ErrorMessage
 	p.WriteInt32(-1) // null Extras
 	return nil
 }

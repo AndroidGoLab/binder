@@ -1,6 +1,7 @@
 package cardemulation
 
 import (
+	pm "github.com/AndroidGoLab/binder/android/content/pm"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -12,6 +13,7 @@ type NfcFServiceInfo struct {
 	Nfcid2      string
 	Uid         int32
 	T3tPmm      string
+	Service     pm.ResolveInfo
 }
 
 var _ parcel.Parcelable = (*NfcFServiceInfo)(nil)
@@ -19,7 +21,9 @@ var _ parcel.Parcelable = (*NfcFServiceInfo)(nil)
 func (s *NfcFServiceInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Service
+	if _err := s.Service.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteString16(s.Description)
 	p.WriteString16(s.SystemCode)
 	p.WriteBool(false) // placeholder DynamicSystemCode!=null
@@ -35,5 +39,53 @@ func (s *NfcFServiceInfo) MarshalParcel(
 func (s *NfcFServiceInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque Service: cannot skip without known wire format
+	var _err error
+	if _err := s.Service.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	s.Description, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.SystemCode, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	if _, _err = p.ReadBool(); _err != nil { // skip DynamicSystemCode!=null
+		return _err
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null DynamicSystemCode: cannot skip unknown-size typed object
+		}
+	}
+	s.Nfcid2, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	if _, _err = p.ReadBool(); _err != nil { // skip DynamicNfcid2!=null
+		return _err
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null DynamicNfcid2: cannot skip unknown-size typed object
+		}
+	}
+	s.Uid, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.T3tPmm, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

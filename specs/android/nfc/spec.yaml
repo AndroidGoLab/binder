@@ -1165,7 +1165,7 @@ parcelables:
         - name: Records.length
           write_method: int32
         - name: Records
-          write_method: opaque
+          write_method: typed_array
     - name: NdefRecord
       java_wire_format:
         - name: Tnf
@@ -1199,7 +1199,7 @@ parcelables:
         - name: TechList
           write_method: int_array
         - name: TechExtras
-          write_method: opaque
+          write_method: typed_array
         - name: ServiceHandle
           write_method: int32
         - name: Cookie

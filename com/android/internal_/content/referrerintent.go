@@ -17,7 +17,7 @@ func (s *ReferrerIntent) MarshalParcel(
 ) error {
 	p.WriteInt32(-1) // null Super
 	p.WriteString16(s.Referrer)
-	p.WriteInt32(-1) // null CallerToken
+	p.WriteNullStrongBinder() // null CallerToken
 	return nil
 }
 

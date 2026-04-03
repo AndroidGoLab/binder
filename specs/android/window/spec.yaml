@@ -906,8 +906,10 @@ parcelables:
           write_method: bool
         - name: TaskBounds
           write_method: delegate
+          delegate_type: Rect
         - name: TaskFragmentBounds
           write_method: delegate
+          delegate_type: Rect
     - name: AddToSurfaceSyncGroupResult
       fields:
         - name: mParentSyncGroup
@@ -956,10 +958,13 @@ parcelables:
       java_wire_format:
         - name: Frame
           write_method: delegate
+          delegate_type: Rect
         - name: DisplayFrame
           write_method: delegate
+          delegate_type: Rect
         - name: ParentFrame
           write_method: delegate
+          delegate_type: Rect
         - name: AttachedFrame
           write_method: typed_object
         - name: IsParentFrameClippedByDisplayCutout
@@ -976,8 +981,10 @@ parcelables:
       java_wire_format:
         - name: Token
           write_method: delegate
+          delegate_type: WindowContainerToken
         - name: Configuration
           write_method: delegate
+          delegate_type: Configuration
         - name: DisplayId
           write_method: int32
         - name: FeatureId
@@ -1110,12 +1117,14 @@ parcelables:
       java_wire_format:
         - name: Organizer
           write_method: delegate
+          delegate_type: TaskFragmentOrganizerToken
         - name: FragmentToken
           write_method: binder
         - name: OwnerToken
           write_method: binder
         - name: InitialRelativeBounds
           write_method: delegate
+          delegate_type: Rect
         - name: WindowingMode
           write_method: int32
         - name: PairedPrimaryFragmentToken
@@ -1132,6 +1141,7 @@ parcelables:
           write_method: typed_object
         - name: Configuration
           write_method: delegate
+          delegate_type: Configuration
         - name: RunningActivityCount
           write_method: int32
         - name: IsVisible
@@ -1142,6 +1152,7 @@ parcelables:
           write_method: opaque
         - name: PositionInParent
           write_method: delegate
+          delegate_type: Point
         - name: IsTaskClearedForReuse
           write_method: bool
         - name: IsTaskFragmentClearedForPip
@@ -1150,6 +1161,7 @@ parcelables:
           write_method: bool
         - name: MinimumDimensions
           write_method: delegate
+          delegate_type: Point
     - name: TaskFragmentOperation
       java_wire_format:
         - name: OpType
@@ -1176,6 +1188,7 @@ parcelables:
       java_wire_format:
         - name: Configuration
           write_method: delegate
+          delegate_type: Configuration
         - name: DisplayId
           write_method: int32
         - name: Visible
@@ -1232,7 +1245,7 @@ parcelables:
         - name: NotFlags
           write_method: int32
         - name: Requirements
-          write_method: opaque
+          write_method: typed_array
     - name: TransitionInfo
       java_wire_format:
         - name: Type

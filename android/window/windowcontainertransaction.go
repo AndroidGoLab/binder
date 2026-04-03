@@ -14,10 +14,10 @@ var _ parcel.Parcelable = (*WindowContainerTransaction)(nil)
 func (s *WindowContainerTransaction) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Changes
-	p.WriteInt32(-1) // null HierarchyOps
-	p.WriteInt32(-1) // null ErrorCallbackToken
-	p.WriteInt32(-1) // null TaskFragmentOrganizer
+	p.WriteInt32(-1)          // null Changes
+	p.WriteInt32(-1)          // null HierarchyOps
+	p.WriteNullStrongBinder() // null ErrorCallbackToken
+	p.WriteInt32(-1)          // null TaskFragmentOrganizer
 	return nil
 }
 

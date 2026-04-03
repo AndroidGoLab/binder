@@ -10,6 +10,7 @@ type WifiDisplayStatus struct {
 	FeatureState       int32
 	ScanState          int32
 	ActiveDisplayState int32
+	ActiveDisplay      *WifiDisplay
 }
 
 var _ parcel.Parcelable = (*WifiDisplayStatus)(nil)
@@ -20,8 +21,14 @@ func (s *WifiDisplayStatus) MarshalParcel(
 	p.WriteInt32(s.FeatureState)
 	p.WriteInt32(s.ScanState)
 	p.WriteInt32(s.ActiveDisplayState)
-	p.WriteInt32(1)
-	p.WriteInt32(-1) // null ActiveDisplay
+	if s.ActiveDisplay != nil {
+		p.WriteInt32(1)
+		if _err := s.ActiveDisplay.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
+	}
 	p.WriteInt32(0)  // placeholder Displays.length
 	p.WriteInt32(-1) // null SessionInfo
 	return nil
@@ -43,8 +50,20 @@ func (s *WifiDisplayStatus) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	if _, _err = p.ReadInt32(); _err != nil {
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.ActiveDisplay = &WifiDisplay{}
+			if _err = s.ActiveDisplay.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
+	}
+	if _, _err = p.ReadInt32(); _err != nil { // skip Displays.length
 		return _err
 	}
-	return nil // opaque ActiveDisplay: cannot skip without known wire format
+	return nil // opaque SessionInfo: cannot skip without known wire format
 }

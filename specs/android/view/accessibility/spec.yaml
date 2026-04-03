@@ -1139,8 +1139,9 @@ parcelables:
           write_method: int32
         - name: SpeechStateChangeTypes
           write_method: int32
-        - name: TextUtils
-          write_method: delegate
+        - name: PackageName
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: EventTime
           write_method: int64
         - name: ConnectionId
@@ -1177,6 +1178,7 @@ parcelables:
           write_method: int32
         - name: RegionInScreen
           write_method: delegate
+          delegate_type: Region
         - name: Title
           write_method: opaque
         - name: AnchorId

@@ -17,7 +17,7 @@ var _ parcel.Parcelable = (*VirtualDevice)(nil)
 func (s *VirtualDevice) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null VirtualDevice.asBinder()
+	p.WriteNullStrongBinder() // null VirtualDevice.asBinder()
 	p.WriteInt32(s.Id)
 	p.WriteString(s.PersistentId)
 	p.WriteString(s.Name)
@@ -28,5 +28,21 @@ func (s *VirtualDevice) MarshalParcel(
 func (s *VirtualDevice) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque VirtualDevice.asBinder(): cannot skip without known wire format
+	var _err error
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	s.Id, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.PersistentId, _err = p.ReadString()
+	if _err != nil {
+		return _err
+	}
+	s.Name, _err = p.ReadString()
+	if _err != nil {
+		return _err
+	}
+	return nil // opaque DisplayName: cannot skip without known wire format
 }

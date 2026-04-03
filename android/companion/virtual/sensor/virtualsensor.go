@@ -20,8 +20,8 @@ func (s *VirtualSensor) MarshalParcel(
 	p.WriteInt32(s.Handle)
 	p.WriteInt32(s.Type)
 	p.WriteString(s.Name)
-	p.WriteInt32(-1) // null VirtualDevice.asBinder()
-	p.WriteInt32(-1) // null Token
+	p.WriteNullStrongBinder() // null VirtualDevice.asBinder()
+	p.WriteNullStrongBinder() // null Token
 	return nil
 }
 
@@ -41,5 +41,11 @@ func (s *VirtualSensor) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque VirtualDevice.asBinder(): cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

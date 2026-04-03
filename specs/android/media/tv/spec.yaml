@@ -2469,6 +2469,7 @@ parcelables:
         - name: FileDescriptor
           write_method: delegate
           condition: mFileDescriptor!=null
+          delegate_type: ParcelFileDescriptor
         - name: StartTime
           write_method: int64
         - name: StopTime
@@ -2586,14 +2587,16 @@ parcelables:
       java_wire_format:
         - name: Service
           write_method: delegate
+          delegate_type: ResolveInfo
         - name: Id
           write_method: string16
         - name: Type
           write_method: int32
         - name: IsHardwareInput
           write_method: bool
-        - name: TextUtils
-          write_method: delegate
+        - name: Label
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: IconUri
           write_method: typed_object
         - name: LabelResId

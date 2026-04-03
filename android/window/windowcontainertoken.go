@@ -14,12 +14,15 @@ var _ parcel.Parcelable = (*WindowContainerToken)(nil)
 func (s *WindowContainerToken) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null RealToken.asBinder()
+	p.WriteNullStrongBinder() // null RealToken.asBinder()
 	return nil
 }
 
 func (s *WindowContainerToken) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque RealToken.asBinder(): cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

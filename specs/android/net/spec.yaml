@@ -1188,12 +1188,14 @@ parcelables:
       java_wire_format:
         - name: NetworkKey
           write_method: delegate
+          delegate_type: NetworkKey
         - name: (byte)1
           write_method: int32
           condition: rssiCurve!=null
         - name: RssiCurve
           write_method: delegate
           condition: rssiCurve!=null
+          delegate_type: RssiCurve
         - name: (byte)(meteredHint?1:0)
           write_method: int32
         - name: Attributes

@@ -87,6 +87,8 @@ var javaWriteMethodToSpecType = map[string]string{
 	"writeBlob":         "blob",
 	"writeStrongBinder": "binder",
 	"writeList":         "write_list",
+	"writeTypedArray":   "typed_array",
+	"writeArraySet":     "array_set",
 }
 
 // deriveFieldName converts a Java field name to a spec field name

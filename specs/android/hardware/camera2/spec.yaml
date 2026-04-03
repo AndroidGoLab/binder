@@ -402,6 +402,7 @@ parcelables:
           write_method: string16
         - name: LogicalCameraSettings
           write_method: delegate
+          delegate_type: CameraMetadataNative
         - name: IsReprocess
           write_method: bool
         - name: Surfaces.toArray(newSurface[surfaces.size()])

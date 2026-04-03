@@ -49,6 +49,7 @@ parcelables:
           write_method: string16
         - name: Bitmap
           write_method: delegate
+          delegate_type: Bitmap
     - name: CinematicEffectResponse
       java_wire_format:
         - name: StatusCode

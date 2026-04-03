@@ -202,9 +202,11 @@ func delegateFieldName(name string) string {
 }
 
 // isNullCheckCondition returns true if the condition is a Java-style null
-// check like "this.tag!=null" or "this.mInstanceId!=null".
+// check like "this.tag!=null", "this.mInstanceId!=null", or "mFoo!=null".
+// Both "this."-prefixed and bare field references are accepted since
+// different Java classes use different conventions.
 func isNullCheckCondition(cond string) bool {
-	return strings.HasSuffix(cond, "!=null") && strings.HasPrefix(cond, "this.")
+	return strings.HasSuffix(cond, "!=null")
 }
 
 // mergeNullFlagPairs preprocesses JavaWireFormat fields to merge the

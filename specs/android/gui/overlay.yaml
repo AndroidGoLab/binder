@@ -1,0 +1,7 @@
+parcelables:
+    - name: ScreenCaptureResults
+      native_parcelable: true
+    - name: CaptureArgs
+      native_parcelable: true
+    - name: LayerCaptureArgs
+      native_parcelable: true

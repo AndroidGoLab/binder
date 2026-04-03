@@ -5825,6 +5825,7 @@ parcelables:
           write_method: bool
         - name: BatteryConsumersCursorWindow
           write_method: delegate
+          delegate_type: CursorWindow
         - name: "True"
           write_method: bool
           condition: mBatteryStatsHistory!=null
@@ -6126,6 +6127,12 @@ parcelables:
           write_method: int32
         - name: Arg2
           write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: obj!=null
+        - name: p
+          write_method: typed_object
+          condition: obj!=null
         - name: When
           write_method: int64
         - name: Data
@@ -6316,6 +6323,7 @@ parcelables:
           write_method: float32
         - name: FrequencyProfile
           write_method: delegate
+          delegate_type: FrequencyProfile
     - name: WakeLockStats
       java_wire_format:
         - name: WakelockSize

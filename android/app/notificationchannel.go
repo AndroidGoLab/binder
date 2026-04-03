@@ -1,7 +1,8 @@
 package app
 
 import (
-	types "github.com/AndroidGoLab/binder/android/os/types"
+	types "github.com/AndroidGoLab/binder/android/net/types"
+	osTypes "github.com/AndroidGoLab/binder/android/os/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -27,7 +28,8 @@ type NotificationChannel struct {
 	ImportantConvo             bool
 	DeletedTime                int64
 	ImportanceLockedDefaultApp bool
-	VibrationEffect            types.VibrationEffect
+	Sound                      types.Uri
+	VibrationEffect            *osTypes.VibrationEffect
 }
 
 var _ parcel.Parcelable = (*NotificationChannel)(nil)
@@ -44,22 +46,27 @@ func (s *NotificationChannel) MarshalParcel(
 	p.WriteInt32(s.Importance)
 	p.WriteBool(s.BypassDnd)
 	p.WriteInt32(s.LockscreenVisibility)
-	p.WriteInt32(0)  // placeholder (byte)1
-	p.WriteInt32(-1) // null Sound
+	p.WriteInt32(0) // placeholder (byte)1
+	if _err := s.Sound.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteBool(s.Lights)
 	p.WriteInt32(-1) // null VibrationPattern
-	p.WriteInt32(1)
-	if _err := s.VibrationEffect.MarshalParcel(p); _err != nil {
-		return _err
+	if s.VibrationEffect != nil {
+		p.WriteInt32(1)
+		if _err := s.VibrationEffect.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
 	}
 	p.WriteInt32(s.UserLockedFields)
 	p.WriteBool(s.UserVisibleTaskShown)
 	p.WriteBool(s.VibrationEnabled)
 	p.WriteBool(s.ShowBadge)
 	p.WriteBool(s.Deleted)
-	p.WriteInt32(0) // placeholder (byte)1
-	p.WriteInt32(0) // null Group
-	p.WriteInt32(1)
+	p.WriteInt32(0)  // placeholder (byte)1
+	p.WriteInt32(0)  // null Group
 	p.WriteInt32(-1) // null AudioAttributes
 	p.WriteInt32(s.LightColor)
 	p.WriteBool(s.BlockableSystem)
@@ -129,5 +136,65 @@ func (s *NotificationChannel) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
 		return _err
 	}
-	return nil // opaque Sound: cannot skip without known wire format
+	if _err := s.Sound.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	s.Lights, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*8)
+		}
+	}
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.VibrationEffect = &osTypes.VibrationEffect{}
+			if _err = s.VibrationEffect.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
+	}
+	s.UserLockedFields, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.UserVisibleTaskShown, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.VibrationEnabled, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.ShowBadge, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.Deleted, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null Group: cannot skip unknown-size typed object
+		}
+	}
+	return nil // opaque AudioAttributes: cannot skip without known wire format
 }

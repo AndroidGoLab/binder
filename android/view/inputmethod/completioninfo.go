@@ -18,8 +18,8 @@ func (s *CompletionInfo) MarshalParcel(
 ) error {
 	p.WriteInt64(s.Id)
 	p.WriteInt32(s.Position)
-	p.WriteInt32(-1) // null TextUtils
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null Text
+	p.WriteInt32(-1) // null Label
 	return nil
 }
 
@@ -35,5 +35,11 @@ func (s *CompletionInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque TextUtils: cannot skip without known wire format
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	return nil
 }

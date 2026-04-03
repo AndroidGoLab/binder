@@ -15,7 +15,7 @@ func (s *GetWalletCardsError) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteInt32(0)  // placeholder (byte)0
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null Message
 	return nil
 }
 
@@ -26,5 +26,8 @@ func (s *GetWalletCardsError) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)0
 		return _err
 	}
-	return nil // opaque TextUtils: cannot skip without known wire format
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	return nil
 }

@@ -16,8 +16,8 @@ func (s *InsertModeGesture) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString(s.FallbackText)
-	p.WriteInt32(0)  // null Point
-	p.WriteInt32(-1) // null CancellationSignalBeamer.Sender.beamFromScope(mCancellationSignal)
+	p.WriteInt32(0)           // null Point
+	p.WriteNullStrongBinder() // null CancellationSignalBeamer.Sender.beamFromScope(mCancellationSignal)
 	return nil
 }
 
@@ -38,5 +38,8 @@ func (s *InsertModeGesture) UnmarshalParcel(
 			return nil // non-null Point: cannot skip unknown-size typed object
 		}
 	}
-	return nil // opaque CancellationSignalBeamer.Sender.beamFromScope(mCancellationSignal): cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

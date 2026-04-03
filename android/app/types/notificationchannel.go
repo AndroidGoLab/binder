@@ -42,19 +42,16 @@ func (s *NotificationChannel) MarshalParcel(
 	p.WriteInt32(s.Importance)
 	p.WriteBool(s.BypassDnd)
 	p.WriteInt32(s.LockscreenVisibility)
-	p.WriteInt32(0)  // placeholder (byte)1
-	p.WriteInt32(-1) // null Sound
+	p.WriteInt32(0) // placeholder (byte)1
 	p.WriteBool(s.Lights)
 	p.WriteInt32(-1) // null VibrationPattern
-	p.WriteInt32(1)
 	p.WriteInt32(s.UserLockedFields)
 	p.WriteBool(s.UserVisibleTaskShown)
 	p.WriteBool(s.VibrationEnabled)
 	p.WriteBool(s.ShowBadge)
 	p.WriteBool(s.Deleted)
-	p.WriteInt32(0) // placeholder (byte)1
-	p.WriteInt32(0) // null Group
-	p.WriteInt32(1)
+	p.WriteInt32(0)  // placeholder (byte)1
+	p.WriteInt32(0)  // null Group
 	p.WriteInt32(-1) // null AudioAttributes
 	p.WriteInt32(s.LightColor)
 	p.WriteBool(s.BlockableSystem)
@@ -124,5 +121,50 @@ func (s *NotificationChannel) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
 		return _err
 	}
-	return nil // opaque Sound: cannot skip without known wire format
+	s.Lights, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*8)
+		}
+	}
+	s.UserLockedFields, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.UserVisibleTaskShown, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.VibrationEnabled, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.ShowBadge, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.Deleted, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)1
+		return _err
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null Group: cannot skip unknown-size typed object
+		}
+	}
+	return nil // opaque AudioAttributes: cannot skip without known wire format
 }

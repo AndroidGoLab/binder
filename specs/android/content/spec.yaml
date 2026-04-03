@@ -1097,6 +1097,7 @@ parcelables:
       java_wire_format:
         - name: AttributionSourceState
           write_method: delegate
+          delegate_type: AttributionSourceState
     - name: AttributionSourceState
       fields:
         - name: pid
@@ -1148,7 +1149,7 @@ parcelables:
         - name: AugmentedAutofillEnabled
           write_method: bool
         - name: WhitelistedActivitiesForAugmentedAutofill
-          write_method: opaque
+          write_method: array_set
         - name: AppDisabledExpiration
           write_method: int64
         - name: Size
@@ -1157,18 +1158,21 @@ parcelables:
       java_wire_format:
         - name: ClipDescription
           write_method: delegate
+          delegate_type: ClipDescription
         - name: "1"
           write_method: int32
           condition: mIcon!=null
         - name: Icon
           write_method: delegate
           condition: mIcon!=null
+          delegate_type: Bitmap
         - name: "N"
           write_method: int32
     - name: ClipDescription
       java_wire_format:
-        - name: TextUtils
-          write_method: delegate
+        - name: Label
+          write_method: char_sequence
+          delegate_type: TextUtils
         - name: MimeTypes
           write_method: opaque
         - name: Extras
@@ -1207,8 +1211,9 @@ parcelables:
           write_method: bool
         - name: ContentProtectionOptions
           write_method: delegate
+          delegate_type: ContentProtectionOptions
         - name: WhitelistedComponents
-          write_method: opaque
+          write_method: array_set
     - name: ContentValues
       java_wire_format:
         - name: Map.size()
@@ -1239,6 +1244,7 @@ parcelables:
         - name: SourceBounds
           write_method: delegate
           condition: mSourceBounds!=null
+          delegate_type: Rect
         - name: "N"
           write_method: int32
           condition: mCategories!=null
@@ -1248,12 +1254,14 @@ parcelables:
         - name: Selector
           write_method: delegate
           condition: mSelector!=null
+          delegate_type: Intent
         - name: "1"
           write_method: int32
           condition: mClipData!=null
         - name: ClipData
           write_method: delegate
           condition: mClipData!=null
+          delegate_type: ClipData
         - name: ContentUserHint
           write_method: int32
         - name: Extras
@@ -1264,6 +1272,7 @@ parcelables:
         - name: OriginalIntent
           write_method: delegate
           condition: mOriginalIntent!=null
+          delegate_type: Intent
     - name: IntentFilter
       java_wire_format:
         - name: Actions.toArray(newString[mActions.size()])
@@ -1325,6 +1334,7 @@ parcelables:
         - name: Extras
           write_method: delegate
           condition: mExtras!=null
+          delegate_type: PersistableBundle
         - name: "N"
           write_method: int32
           condition: Flags.relativeReferenceIntentFilters()&&mUriRelativeFilterGroups!=null
@@ -1438,6 +1448,7 @@ parcelables:
           write_method: int64
         - name: Stats
           write_method: delegate
+          delegate_type: SyncStats
     - name: SyncStats
       java_wire_format:
         - name: NumAuthExceptions
@@ -1509,8 +1520,10 @@ parcelables:
           write_method: int64
         - name: TodayStats
           write_method: delegate
+          delegate_type: Stats
         - name: YesterdayStats
           write_method: delegate
+          delegate_type: Stats
         - name: PerSourceLastSuccessTimes
           write_method: long_array
         - name: PerSourceLastFailureTimes

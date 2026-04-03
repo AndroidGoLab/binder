@@ -12,7 +12,7 @@ type InputBindResult struct {
 	Id                                   string
 	Sequence                             int32
 	IsInputMethodSuppressingSpellChecker bool
-	Channel                              stats.Channel
+	Channel                              *stats.Channel
 }
 
 var _ parcel.Parcelable = (*InputBindResult)(nil)
@@ -23,9 +23,13 @@ func (s *InputBindResult) MarshalParcel(
 	p.WriteInt32(s.Result)
 	p.WriteInt32(-1) // null Method
 	p.WriteInt32(-1)
-	p.WriteInt32(1)
-	if _err := s.Channel.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Channel != nil {
+		p.WriteInt32(1)
+		if _err := s.Channel.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
 	}
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.Sequence)

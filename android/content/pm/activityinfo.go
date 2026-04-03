@@ -58,7 +58,6 @@ func (s *ActivityInfo) MarshalParcel(
 	p.WriteInt32(s.PersistableMode)
 	p.WriteInt32(s.MaxRecents)
 	p.WriteInt32(s.LockTaskLaunchMode)
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null WindowLayout
 	p.WriteInt32(s.ResizeMode)
 	p.WriteString(s.RequestedVrComponent)

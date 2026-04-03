@@ -30,5 +30,32 @@ func (s *WindowContentFrameStats) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque FramesPostedTimeNano: cannot skip without known wire format
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*8)
+		}
+	}
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*8)
+		}
+	}
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			p.SetPosition(p.Position() + int(_arrLen)*8)
+		}
+	}
+	return nil
 }

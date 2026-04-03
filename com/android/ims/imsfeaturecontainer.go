@@ -16,10 +16,10 @@ var _ parcel.Parcelable = (*ImsFeatureContainer)(nil)
 func (s *ImsFeatureContainer) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null ImsFeature
-	p.WriteInt32(-1) // null ImsConfig
-	p.WriteInt32(-1) // null ImsRegistration
-	p.WriteInt32(-1) // null SipTransport
+	p.WriteNullStrongBinder() // null ImsFeature
+	p.WriteInt32(-1)          // null ImsConfig
+	p.WriteInt32(-1)          // null ImsRegistration
+	p.WriteInt32(-1)          // null SipTransport
 	p.WriteInt32(s.State)
 	p.WriteInt64(s.Capabilities)
 	return nil
@@ -28,5 +28,8 @@ func (s *ImsFeatureContainer) MarshalParcel(
 func (s *ImsFeatureContainer) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque ImsFeature: cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil // opaque ImsConfig: cannot skip without known wire format
 }

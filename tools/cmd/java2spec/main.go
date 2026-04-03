@@ -257,9 +257,10 @@ func mergeJavaWireFormats(
 					wireFields := make([]spec.JavaWireField, len(js.Fields))
 					for i, f := range js.Fields {
 						wireFields[i] = spec.JavaWireField{
-							Name:        f.Name,
-							WriteMethod: f.Type,
-							Condition:   f.Condition,
+							Name:         f.Name,
+							WriteMethod:  f.Type,
+							Condition:    f.Condition,
+							DelegateType: f.DelegateType,
 						}
 					}
 

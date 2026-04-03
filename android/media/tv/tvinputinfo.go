@@ -1,6 +1,7 @@
 package tv
 
 import (
+	pm "github.com/AndroidGoLab/binder/android/content/pm"
 	drawable "github.com/AndroidGoLab/binder/android/graphics/drawable"
 	hdmi "github.com/AndroidGoLab/binder/android/hardware/hdmi"
 	"github.com/AndroidGoLab/binder/parcel"
@@ -20,6 +21,7 @@ type TvInputInfo struct {
 	IsConnectedToHdmiSwitch        bool
 	HdmiConnectionRelativePosition int32
 	ParentId                       string
+	Service                        pm.ResolveInfo
 	Icon                           *drawable.Icon
 	HdmiDeviceInfo                 *hdmi.HdmiDeviceInfo
 }
@@ -29,11 +31,13 @@ var _ parcel.Parcelable = (*TvInputInfo)(nil)
 func (s *TvInputInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Service
+	if _err := s.Service.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.Type)
 	p.WriteBool(s.IsHardwareInput)
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null Label
 	p.WriteInt32(0)  // null IconUri
 	p.WriteInt32(s.LabelResId)
 	if s.Icon != nil {
@@ -68,5 +72,116 @@ func (s *TvInputInfo) MarshalParcel(
 func (s *TvInputInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque Service: cannot skip without known wire format
+	var _err error
+	if _err := s.Service.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	s.Id, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.Type, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.IsHardwareInput, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null IconUri: cannot skip unknown-size typed object
+		}
+	}
+	s.LabelResId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.Icon = &drawable.Icon{}
+			if _err = s.Icon.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null IconStandby: cannot skip unknown-size typed object
+		}
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null IconDisconnected: cannot skip unknown-size typed object
+		}
+	}
+	s.SetupActivity, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.CanRecord, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.CanPauseRecording, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.TunerCount, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.HdmiDeviceInfo = &hdmi.HdmiDeviceInfo{}
+			if _err = s.HdmiDeviceInfo.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
+	}
+	s.IsConnectedToHdmiSwitch, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.HdmiConnectionRelativePosition, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.ParentId, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	{
+		_opaqueLen, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueLen > 0 {
+			p.SetPosition(p.Position() + int(_opaqueLen))
+		}
+	}
+	return nil
 }

@@ -355,7 +355,7 @@ parcelables:
         - name: PrimaryId
           write_method: typed_object
         - name: SecondaryIds
-          write_method: opaque
+          write_method: typed_array
         - name: VendorIds
           write_method: long_array
     - name: RadioConst
@@ -419,7 +419,7 @@ parcelables:
         - name: PrimaryId
           write_method: typed_object
         - name: CriticalSecondaryIds
-          write_method: opaque
+          write_method: typed_array
 enums:
     - name: AccessNetwork
       backing_type: int

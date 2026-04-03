@@ -42,8 +42,8 @@ func (s *SubscriptionInfo) MarshalParcel(
 	p.WriteInt32(s.Id)
 	p.WriteString16(s.IccId)
 	p.WriteInt32(s.SimSlotIndex)
-	p.WriteInt32(-1) // null TextUtils
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null DisplayName
+	p.WriteInt32(-1) // null CarrierName
 	p.WriteInt32(s.DisplayNameSource)
 	p.WriteInt32(s.IconTint)
 	p.WriteString16(s.Number)
@@ -90,5 +90,142 @@ func (s *SubscriptionInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque TextUtils: cannot skip without known wire format
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	s.DisplayNameSource, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.IconTint, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.Number, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.DataRoaming, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.Mcc, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.Mnc, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.CountryIso, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.IsEmbedded, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			return nil // non-empty typed_array NativeAccessRules: cannot skip
+		}
+	}
+	s.CardString, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	s.CardId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.PortIndex, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.IsOpportunistic, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	if _, _err = p.ReadBool(); _err != nil { // skip GroupUuid==null
+		return _err
+	}
+	s.IsGroupDisabled, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.CarrierId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.ProfileClass, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.Type, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		for _j := int32(0); _j < _arrLen; _j++ {
+			if _, _arrErr = p.ReadString16(); _arrErr != nil {
+				return _arrErr
+			}
+		}
+	}
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		for _j := int32(0); _j < _arrLen; _j++ {
+			if _, _arrErr = p.ReadString16(); _arrErr != nil {
+				return _arrErr
+			}
+		}
+	}
+	s.GroupOwner, _err = p.ReadString16()
+	if _err != nil {
+		return _err
+	}
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			return nil // non-empty typed_array CarrierConfigAccessRules: cannot skip
+		}
+	}
+	s.AreUiccApplicationsEnabled, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.UsageSetting, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.IsOnlyNonTerrestrialNetwork, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.ServiceCapabilities, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.TransferStatus, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

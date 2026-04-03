@@ -1,6 +1,7 @@
 package inputmethod
 
 import (
+	contentTypes "github.com/AndroidGoLab/binder/android/content/types"
 	types "github.com/AndroidGoLab/binder/android/net/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
@@ -10,6 +11,7 @@ import (
 type InputContentInfo struct {
 	ContentUriOwnerUserId int32
 	Uri                   types.Uri
+	Description           contentTypes.ClipDescription
 	Uri2                  types.Uri
 }
 
@@ -22,12 +24,13 @@ func (s *InputContentInfo) MarshalParcel(
 		return _err
 	}
 	p.WriteInt32(s.ContentUriOwnerUserId)
-	p.WriteInt32(-1) // null Description
+	if _err := s.Description.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	if _err := s.Uri2.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	p.WriteInt32(1)
-	p.WriteInt32(-1) // null UriToken.asBinder()
+	p.WriteNullStrongBinder() // null UriToken.asBinder()
 	return nil
 }
 
@@ -42,5 +45,14 @@ func (s *InputContentInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque Description: cannot skip without known wire format
+	if _err := s.Description.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.Uri2.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

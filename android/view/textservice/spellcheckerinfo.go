@@ -1,6 +1,7 @@
 package textservice
 
 import (
+	pm "github.com/AndroidGoLab/binder/android/content/pm"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -10,6 +11,7 @@ type SpellCheckerInfo struct {
 	Label                int32
 	Id                   string
 	SettingsActivityName string
+	Service              pm.ResolveInfo
 }
 
 var _ parcel.Parcelable = (*SpellCheckerInfo)(nil)
@@ -20,7 +22,9 @@ func (s *SpellCheckerInfo) MarshalParcel(
 	p.WriteInt32(s.Label)
 	p.WriteString16(s.Id)
 	p.WriteString16(s.SettingsActivityName)
-	p.WriteInt32(-1) // null Service
+	if _err := s.Service.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(-1) // null Subtypes
 	return nil
 }
@@ -41,5 +45,8 @@ func (s *SpellCheckerInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque Service: cannot skip without known wire format
+	if _err := s.Service.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	return nil // opaque Subtypes: cannot skip without known wire format
 }

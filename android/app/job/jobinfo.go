@@ -30,7 +30,7 @@ type JobInfo struct {
 	Flags                     int32
 	NumDebugTags              int32
 	TraceTag                  string
-	ClipData                  content.ClipData
+	ClipData                  *content.ClipData
 }
 
 var _ parcel.Parcelable = (*JobInfo)(nil)
@@ -41,9 +41,13 @@ func (s *JobInfo) MarshalParcel(
 	p.WriteInt32(s.JobId)
 	p.WriteInt32(-1) // null Extras
 	p.WriteInt32(-1) // null TransientExtras
-	p.WriteInt32(1)
-	if _err := s.ClipData.MarshalParcel(p); _err != nil {
-		return _err
+	if s.ClipData != nil {
+		p.WriteInt32(1)
+		if _err := s.ClipData.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
 	}
 	p.WriteInt32(0) // null ClipGrantFlags
 	p.WriteInt32(0) // null Service
@@ -51,7 +55,6 @@ func (s *JobInfo) MarshalParcel(
 	p.WriteInt32(-1) // null TriggerContentUris
 	p.WriteInt64(s.TriggerContentUpdateDelay)
 	p.WriteInt64(s.TriggerContentMaxDelay)
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null NetworkRequest
 	p.WriteInt64(s.NetworkDownloadBytes)
 	p.WriteInt64(s.NetworkUploadBytes)

@@ -16,7 +16,7 @@ func (s *UssdResponse) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.UssdRequest)
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null ReturnMessage
 	return nil
 }
 
@@ -28,5 +28,8 @@ func (s *UssdResponse) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque TextUtils: cannot skip without known wire format
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	return nil
 }

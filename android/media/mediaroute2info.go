@@ -28,12 +28,12 @@ func (s *MediaRoute2Info) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Id)
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null Name
 	p.WriteInt32(-1) // null Features
 	p.WriteInt32(s.Type)
 	p.WriteBool(s.IsSystem)
 	p.WriteInt32(0)  // null IconUri
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null Description
 	p.WriteInt32(s.ConnectionState)
 	p.WriteString16(s.ClientPackageName)
 	p.WriteString16(s.PackageName)
@@ -58,5 +58,8 @@ func (s *MediaRoute2Info) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque TextUtils: cannot skip without known wire format
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	return nil // opaque Features: cannot skip without known wire format
 }

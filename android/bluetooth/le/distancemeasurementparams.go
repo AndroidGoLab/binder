@@ -1,6 +1,7 @@
 package le
 
 import (
+	types "github.com/AndroidGoLab/binder/android/bluetooth/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -10,6 +11,7 @@ type DistanceMeasurementParams struct {
 	Duration  int32
 	Frequency int32
 	MethodId  int32
+	Device    types.BluetoothDevice
 }
 
 var _ parcel.Parcelable = (*DistanceMeasurementParams)(nil)
@@ -17,7 +19,9 @@ var _ parcel.Parcelable = (*DistanceMeasurementParams)(nil)
 func (s *DistanceMeasurementParams) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Device
+	if _err := s.Device.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.Duration)
 	p.WriteInt32(s.Frequency)
 	p.WriteInt32(s.MethodId)
@@ -29,5 +33,24 @@ func (s *DistanceMeasurementParams) MarshalParcel(
 func (s *DistanceMeasurementParams) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque Device: cannot skip without known wire format
+	var _err error
+	if _err := s.Device.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	s.Duration, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.Frequency, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.MethodId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	if _, _err = p.ReadBool(); _err != nil { // skip ChannelSoundingParams==null
+		return _err
+	}
+	return nil // opaque ChannelSoundingParams: cannot skip without known wire format
 }

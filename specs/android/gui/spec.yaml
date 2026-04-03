@@ -927,6 +927,7 @@ parcelables:
             name: int
     - name: BitTube
     - name: CaptureArgs
+      native_parcelable: true
     - name: Color
       fields:
         - name: r
@@ -1340,6 +1341,7 @@ parcelables:
           type:
             name: long
     - name: LayerCaptureArgs
+      native_parcelable: true
     - name: LayerDebugInfo
     - name: LayerMetadata
     - name: OverlayProperties
@@ -1390,6 +1392,7 @@ parcelables:
           type:
             name: int
     - name: ScreenCaptureResults
+      native_parcelable: true
     - name: Size
       fields:
         - name: width

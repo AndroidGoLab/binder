@@ -21,8 +21,8 @@ var _ parcel.Parcelable = (*TaskFragmentInfo)(nil)
 func (s *TaskFragmentInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null FragmentToken
-	p.WriteInt32(0)  // null Token
+	p.WriteNullStrongBinder() // null FragmentToken
+	p.WriteInt32(0)           // null Token
 	if _err := s.Configuration.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -41,5 +41,29 @@ func (s *TaskFragmentInfo) MarshalParcel(
 func (s *TaskFragmentInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque FragmentToken: cannot skip without known wire format
+	var _err error
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null Token: cannot skip unknown-size typed object
+		}
+	}
+	if _err := s.Configuration.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	s.RunningActivityCount, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.IsVisible, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	return nil // opaque Activities: cannot skip without known wire format
 }

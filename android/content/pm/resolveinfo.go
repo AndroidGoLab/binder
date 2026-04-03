@@ -1,6 +1,7 @@
 package pm
 
 import (
+	types "github.com/AndroidGoLab/binder/android/content/types"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -21,7 +22,8 @@ type ResolveInfo struct {
 	HandleAllWebDataURI   bool
 	AutoResolutionAllowed bool
 	IsInstantAppAvailable bool
-	ActivityInfo          ActivityInfo
+	ActivityInfo          *ActivityInfo
+	Filter                *types.IntentFilter
 }
 
 var _ parcel.Parcelable = (*ResolveInfo)(nil)
@@ -29,18 +31,28 @@ var _ parcel.Parcelable = (*ResolveInfo)(nil)
 func (s *ResolveInfo) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(1)
-	if _err := s.ActivityInfo.MarshalParcel(p); _err != nil {
-		return _err
+	if s.ActivityInfo != nil {
+		p.WriteInt32(1)
+		if _err := s.ActivityInfo.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
 	}
-	p.WriteInt32(1)
-	p.WriteInt32(-1) // null Filter
+	if s.Filter != nil {
+		p.WriteInt32(1)
+		if _err := s.Filter.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	} else {
+		p.WriteInt32(0)
+	}
 	p.WriteInt32(s.Priority)
 	p.WriteInt32(s.PreferredOrder)
 	p.WriteInt32(s.Match)
 	p.WriteInt32(s.SpecificIndex)
 	p.WriteInt32(s.LabelRes)
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null NonLocalizedLabel
 	p.WriteInt32(s.Icon)
 	p.WriteString(s.ResolvePackageName)
 	p.WriteInt32(s.TargetUserId)
@@ -58,14 +70,91 @@ func (s *ResolveInfo) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	if _, _err = p.ReadInt32(); _err != nil {
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.ActivityInfo = &ActivityInfo{}
+			if _err = s.ActivityInfo.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
+	}
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.Filter = &types.IntentFilter{}
+			if _err = s.Filter.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
+	}
+	s.Priority, _err = p.ReadInt32()
+	if _err != nil {
 		return _err
 	}
-	if _err := s.ActivityInfo.UnmarshalParcel(p); _err != nil {
+	s.PreferredOrder, _err = p.ReadInt32()
+	if _err != nil {
 		return _err
 	}
-	if _, _err = p.ReadInt32(); _err != nil {
+	s.Match, _err = p.ReadInt32()
+	if _err != nil {
 		return _err
 	}
-	return nil // opaque Filter: cannot skip without known wire format
+	s.SpecificIndex, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.LabelRes, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	s.Icon, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.ResolvePackageName, _err = p.ReadString()
+	if _err != nil {
+		return _err
+	}
+	s.TargetUserId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.System, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.NoResourceId, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.IconResourceId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.HandleAllWebDataURI, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.AutoResolutionAllowed, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.IsInstantAppAvailable, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	if _, _err = p.ReadBool(); _err != nil { // skip UserHandle!=null
+		return _err
+	}
+	return nil
 }

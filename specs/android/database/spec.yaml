@@ -46,3 +46,6 @@ interfaces:
             name: void
 parcelables:
     - name: CursorWindow
+      java_wire_format:
+        - name: StartPos
+          write_method: int32

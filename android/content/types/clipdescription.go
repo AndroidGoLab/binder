@@ -17,7 +17,7 @@ var _ parcel.Parcelable = (*ClipDescription)(nil)
 func (s *ClipDescription) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null TextUtils
+	p.WriteInt32(-1) // null Label
 	p.WriteInt32(-1) // null MimeTypes
 	p.WriteInt32(-1) // null Extras
 	p.WriteInt64(s.TimeStamp)
@@ -30,5 +30,8 @@ func (s *ClipDescription) MarshalParcel(
 func (s *ClipDescription) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque TextUtils: cannot skip without known wire format
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	return nil // opaque MimeTypes: cannot skip without known wire format
 }

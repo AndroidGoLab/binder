@@ -14,12 +14,15 @@ var _ parcel.Parcelable = (*RemoteCallback)(nil)
 func (s *RemoteCallback) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(-1) // null Callback.asBinder()
+	p.WriteNullStrongBinder() // null Callback.asBinder()
 	return nil
 }
 
 func (s *RemoteCallback) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	return nil // opaque Callback.asBinder(): cannot skip without known wire format
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	return nil
 }

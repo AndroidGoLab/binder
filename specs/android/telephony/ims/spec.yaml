@@ -20,9 +20,9 @@ parcelables:
     - name: DelegateRegistrationState
       java_wire_format:
         - name: RegisteredTags
-          write_method: opaque
+          write_method: array_set
         - name: RegisteringTags
-          write_method: opaque
+          write_method: array_set
     - name: DelegateRequest
       java_wire_format:
         - name: FeatureTags

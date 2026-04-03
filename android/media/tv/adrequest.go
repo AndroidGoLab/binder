@@ -22,7 +22,6 @@ func (s *AdRequest) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Id)
 	p.WriteInt32(s.RequestType)
-	p.WriteInt32(1)
 	p.WriteInt32(-1) // null FileDescriptor
 	p.WriteInt64(s.StartTime)
 	p.WriteInt64(s.StopTime)
@@ -42,9 +41,6 @@ func (s *AdRequest) UnmarshalParcel(
 	}
 	s.RequestType, _err = p.ReadInt32()
 	if _err != nil {
-		return _err
-	}
-	if _, _err = p.ReadInt32(); _err != nil {
 		return _err
 	}
 	return nil // opaque FileDescriptor: cannot skip without known wire format

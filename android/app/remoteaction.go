@@ -11,6 +11,7 @@ type RemoteAction struct {
 	Enabled        bool
 	ShouldShowIcon bool
 	Icon           drawable.Icon
+	ActionIntent   PendingIntent
 }
 
 var _ parcel.Parcelable = (*RemoteAction)(nil)
@@ -21,9 +22,11 @@ func (s *RemoteAction) MarshalParcel(
 	if _err := s.Icon.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	p.WriteInt32(-1) // null TextUtils
-	p.WriteInt32(-1) // null TextUtils
-	p.WriteInt32(-1) // null ActionIntent
+	p.WriteInt32(-1) // null Title
+	p.WriteInt32(-1) // null ContentDescription
+	if _err := s.ActionIntent.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteBool(s.Enabled)
 	p.WriteBool(s.ShouldShowIcon)
 	return nil
@@ -32,8 +35,26 @@ func (s *RemoteAction) MarshalParcel(
 func (s *RemoteAction) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	var _err error
 	if _err := s.Icon.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
-	return nil // opaque TextUtils: cannot skip without known wire format
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	if _csErr := parcel.SkipCharSequence(p); _csErr != nil {
+		return _csErr
+	}
+	if _err := s.ActionIntent.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+	s.Enabled, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.ShouldShowIcon, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }
