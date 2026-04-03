@@ -29,8 +29,8 @@ func (s *TaskSnapshot) MarshalParcel(
 	if _err := s.ComponentName.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	p.WriteBool(false) // placeholder IsClosed()
-	p.WriteInt32(0)    // placeholder GetId()
+	p.WriteInt32(0) // null Snapshot
+	p.WriteInt32(0) // placeholder GetId()
 	p.WriteInt32(s.Orientation)
 	p.WriteInt32(s.Rotation)
 	p.WriteInt32(0) // null TaskSize
@@ -56,8 +56,14 @@ func (s *TaskSnapshot) UnmarshalParcel(
 	if _err := s.ComponentName.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
-	if _, _err = p.ReadBool(); _err != nil { // skip IsClosed()
-		return _err
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null Snapshot: cannot skip unknown-size typed object
+		}
 	}
 	if _, _err = p.ReadInt32(); _err != nil { // skip GetId()
 		return _err

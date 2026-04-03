@@ -16,7 +16,7 @@ func (s *TrafficDescriptor) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	p.WriteString16(s.Dnn)
-	p.WriteBool(false) // placeholder OsAppId!=null
+	p.WriteInt32(-1) // null GetBytes()
 	return nil
 }
 
@@ -28,8 +28,5 @@ func (s *TrafficDescriptor) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	if _, _err = p.ReadBool(); _err != nil { // skip OsAppId!=null
-		return _err
-	}
-	return nil
+	return nil // opaque GetBytes(): cannot skip without known wire format
 }

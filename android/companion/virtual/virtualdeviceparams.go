@@ -27,9 +27,9 @@ func (s *VirtualDeviceParams) MarshalParcel(
 	p.WriteInt32(s.DefaultActivityPolicy)
 	p.WriteInt32(-1) // null ActivityPolicyExemptions
 	p.WriteString(s.Name)
-	p.WriteInt32(-1)   // null DevicePolicies
-	p.WriteInt32(-1)   // null VirtualSensorConfigs
-	p.WriteBool(false) // placeholder VirtualSensorCallback!=null
+	p.WriteInt32(-1)          // null DevicePolicies
+	p.WriteInt32(-1)          // null VirtualSensorConfigs
+	p.WriteNullStrongBinder() // null AsBinder()
 	p.WriteInt32(s.AudioPlaybackSessionId)
 	p.WriteInt32(s.AudioRecordingSessionId)
 	p.WriteInt32(0) // null HomeComponent

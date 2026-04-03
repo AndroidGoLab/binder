@@ -1180,8 +1180,8 @@ parcelables:
               write_method: typed_object
             - name: Uri
               write_method: typed_object
-            - name: ParcelItemActivityInfos
-              write_method: bool
+            - name: ActivityInfo
+              write_method: typed_object
             - name: TextLinks
               write_method: typed_object
     - name: ClipDescription

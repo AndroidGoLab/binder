@@ -63,9 +63,9 @@ func (s *ParcelableCall) MarshalParcel(
 	} else {
 		p.WriteInt32(0)
 	}
-	p.WriteInt32(0)    // null AccountHandle
-	p.WriteInt32(0)    // placeholder (byte)(mIsVideoCallProviderChanged?1:0)
-	p.WriteBool(false) // placeholder VideoCallProvider!=null
+	p.WriteInt32(0)           // null AccountHandle
+	p.WriteInt32(0)           // placeholder (byte)(mIsVideoCallProviderChanged?1:0)
+	p.WriteNullStrongBinder() // null AsBinder()
 	p.WriteString16(s.ParentCallId)
 	p.WriteInt32(-1) // null ChildCallIds
 	if s.StatusHints != nil {
@@ -170,8 +170,8 @@ func (s *ParcelableCall) UnmarshalParcel(
 	if _, _err = p.ReadInt32(); _err != nil { // skip (byte)(mIsVideoCallProviderChanged?1:0)
 		return _err
 	}
-	if _, _err = p.ReadBool(); _err != nil { // skip VideoCallProvider!=null
-		return _err
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
 	}
 	s.ParentCallId, _err = p.ReadString16()
 	if _err != nil {

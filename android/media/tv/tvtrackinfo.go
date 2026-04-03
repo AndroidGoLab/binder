@@ -32,7 +32,7 @@ func (s *TvTrackInfo) MarshalParcel(
 	p.WriteInt32(s.Type)
 	p.WriteString16(s.Id)
 	p.WriteString16(s.Language)
-	p.WriteBool(false) // placeholder Description!=null
+	p.WriteString16("") // placeholder ToString()
 	p.WriteString16(s.Encoding)
 	p.WriteBool(s.Encrypted)
 	p.WriteInt32(s.AudioChannelCount)
@@ -65,7 +65,7 @@ func (s *TvTrackInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	if _, _err = p.ReadBool(); _err != nil { // skip Description!=null
+	if _, _err = p.ReadString16(); _err != nil { // skip ToString()
 		return _err
 	}
 	s.Encoding, _err = p.ReadString16()

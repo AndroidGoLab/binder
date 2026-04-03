@@ -600,8 +600,22 @@ func (l *parcelableListener) extractFieldFromExpression(
 
 	argText := allExprs[0].GetText()
 
-	// Handle ternary: dest.writeInt(mFoo ? 1 : 0) -> field name "Foo", type bool.
+	// Handle ternary in the first argument:
+	//   writeInt(mFoo ? 1 : 0)  → bool field "Foo" (boolean-as-int)
+	//   writeTypedObject(cond ? val : null) → field from non-null branch
 	if ternary, ok := allExprs[0].(*javaparser.TernaryExpressionContext); ok {
+		falseText := ternary.Expression(2).GetText()
+		if falseText == "null" {
+			// Nullable pass-through: cond ? value : null.
+			// The true branch is the actual field being written.
+			trueText := ternary.Expression(1).GetText()
+			return &FieldSpec{
+				Name:      deriveFieldName(trueText),
+				Type:      specType,
+				Condition: condition,
+			}
+		}
+		// Literal branches (e.g., mFoo ? 1 : 0): boolean-as-int.
 		condText := ternary.Expression(0).GetText()
 		return &FieldSpec{
 			Name:      deriveFieldName(condText),

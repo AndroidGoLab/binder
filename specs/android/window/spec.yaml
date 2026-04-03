@@ -1210,8 +1210,8 @@ parcelables:
           write_method: int64
         - name: ComponentName
           write_method: delegate
-        - name: IsClosed()
-          write_method: bool
+        - name: Snapshot
+          write_method: typed_object
         - name: GetId()
           write_method: int32
         - name: Orientation

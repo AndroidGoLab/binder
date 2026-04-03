@@ -159,8 +159,8 @@ parcelables:
           write_method: typed_object
         - name: (byte)(mIsVideoCallProviderChanged?1:0)
           write_method: int32
-        - name: VideoCallProvider!=null
-          write_method: bool
+        - name: AsBinder()
+          write_method: binder
         - name: ParentCallId
           write_method: string16
         - name: ChildCallIds
@@ -205,8 +205,8 @@ parcelables:
           write_method: write_list
         - name: ConnectTimeMillis
           write_method: int64
-        - name: VideoProvider!=null
-          write_method: bool
+        - name: AsBinder()
+          write_method: binder
         - name: VideoState
           write_method: int32
         - name: StatusHints
@@ -247,8 +247,8 @@ parcelables:
           write_method: string16
         - name: CallerDisplayNamePresentation
           write_method: int32
-        - name: VideoProvider!=null
-          write_method: bool
+        - name: AsBinder()
+          write_method: binder
         - name: VideoState
           write_method: int32
         - name: (byte)(mRingbackRequested?1:0)

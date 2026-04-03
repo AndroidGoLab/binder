@@ -2675,8 +2675,8 @@ parcelables:
           write_method: string16
         - name: Language
           write_method: string16
-        - name: Description!=null
-          write_method: bool
+        - name: ToString()
+          write_method: string16
         - name: Encoding
           write_method: string16
         - name: Encrypted

@@ -69,9 +69,9 @@ func GenerateParcelable(
 			case "string_list":
 				f.P("\t%s []string", elemGoName)
 			case "string8":
-				f.P("\t%s string", elemGoName)
+				f.P("\t%s *string", elemGoName)
 			case "string16":
-				f.P("\t%s string", elemGoName)
+				f.P("\t%s *string", elemGoName)
 			case "bool":
 				f.P("\t%s bool", elemGoName)
 			case "int32":
@@ -1038,9 +1038,9 @@ func writeJavaWireMarshalParcel(
 				case "string_list":
 					f.P("\t\tp.WriteStringList(_item.%s)", elemGoName)
 				case "string8":
-					f.P("\t\tp.WriteString(_item.%s)", elemGoName)
+					f.P("\t\tp.WriteNullableString(_item.%s)", elemGoName)
 				case "string16":
-					f.P("\t\tp.WriteString16(_item.%s)", elemGoName)
+					f.P("\t\tp.WriteNullableString16(_item.%s)", elemGoName)
 				case "bool":
 					f.P("\t\tp.WriteBool(_item.%s)", elemGoName)
 				case "int32":
@@ -1321,7 +1321,7 @@ fieldLoop:
 					f.P("\t\t\t}")
 				case "string8":
 					f.P("\t\t\t{")
-					f.P("\t\t\t\t_s, _sErr := p.ReadString()")
+					f.P("\t\t\t\t_s, _sErr := p.ReadNullableString()")
 					f.P("\t\t\t\tif _sErr != nil {")
 					f.P("\t\t\t\t\treturn _sErr")
 					f.P("\t\t\t\t}")
@@ -1329,7 +1329,7 @@ fieldLoop:
 					f.P("\t\t\t}")
 				case "string16":
 					f.P("\t\t\t{")
-					f.P("\t\t\t\t_s, _sErr := p.ReadString16()")
+					f.P("\t\t\t\t_s, _sErr := p.ReadNullableString16()")
 					f.P("\t\t\t\tif _sErr != nil {")
 					f.P("\t\t\t\t\treturn _sErr")
 					f.P("\t\t\t\t}")

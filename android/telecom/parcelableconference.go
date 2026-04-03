@@ -42,7 +42,7 @@ func (s *ParcelableConference) MarshalParcel(
 	p.WriteInt32(s.ConnectionCapabilities)
 	p.WriteInt32(-1) // null ConnectionIds
 	p.WriteInt64(s.ConnectTimeMillis)
-	p.WriteBool(false) // placeholder VideoProvider!=null
+	p.WriteNullStrongBinder() // null AsBinder()
 	p.WriteInt32(s.VideoState)
 	if s.StatusHints != nil {
 		p.WriteInt32(1)
@@ -110,8 +110,8 @@ func (s *ParcelableConference) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	if _, _err = p.ReadBool(); _err != nil { // skip VideoProvider!=null
-		return _err
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
 	}
 	s.VideoState, _err = p.ReadInt32()
 	if _err != nil {

@@ -54,7 +54,7 @@ func (s *ParcelableConnection) MarshalParcel(
 	p.WriteInt32(s.AddressPresentation)
 	p.WriteString16(s.CallerDisplayName)
 	p.WriteInt32(s.CallerDisplayNamePresentation)
-	p.WriteBool(false) // placeholder VideoProvider!=null
+	p.WriteNullStrongBinder() // null AsBinder()
 	p.WriteInt32(s.VideoState)
 	p.WriteInt32(0) // placeholder (byte)(mRingbackRequested?1:0)
 	p.WriteInt32(0) // placeholder (byte)(mIsVoipAudioMode?1:0)
@@ -134,8 +134,8 @@ func (s *ParcelableConnection) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	if _, _err = p.ReadBool(); _err != nil { // skip VideoProvider!=null
-		return _err
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
 	}
 	s.VideoState, _err = p.ReadInt32()
 	if _err != nil {

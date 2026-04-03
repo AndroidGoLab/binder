@@ -52,6 +52,16 @@ func (p *Parcel) WriteNullString16() {
 	p.WriteInt32(-1)
 }
 
+// WriteNullableString16 writes a nullable string in UTF-16LE wire format.
+// If s is nil, writes a null sentinel (-1). Otherwise writes the string.
+func (p *Parcel) WriteNullableString16(s *string) {
+	if s == nil {
+		p.WriteNullString16()
+		return
+	}
+	p.WriteString16(*s)
+}
+
 // ReadString16 reads a string in UTF-16LE wire format.
 // Reads int32 char count. If -1, returns empty string.
 // Then reads (charCount+1)*2 bytes (including null terminator), padded to 4 bytes.
@@ -146,6 +156,16 @@ func (p *Parcel) WriteString(
 // WriteNullString writes a null string sentinel (-1 length) in UTF-8 wire format.
 func (p *Parcel) WriteNullString() {
 	p.WriteInt32(-1)
+}
+
+// WriteNullableString writes a nullable string in UTF-8 wire format.
+// If s is nil, writes a null sentinel (-1). Otherwise writes the string.
+func (p *Parcel) WriteNullableString(s *string) {
+	if s == nil {
+		p.WriteNullString()
+		return
+	}
+	p.WriteString(*s)
 }
 
 // ReadString reads a string in UTF-8 wire format (for @utf8InCpp).
