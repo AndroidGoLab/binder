@@ -26,6 +26,11 @@ const (
 	// Core param indices from AOSP C2Config.h.
 	paramIndexPictureSize = uint32(0x1800) // kParamIndexPictureSize
 	paramIndexBitrate     = uint32(0x1000) // kParamIndexBitrate
+
+	// Audio param indices from AOSP C2Config.h.
+	// C2_PARAM_INDEX_AUDIO_PARAM_START = 0x3000.
+	paramIndexSampleRate  = uint32(0x3000) // kParamIndexSampleRate
+	paramIndexChannelCount = uint32(0x3001) // kParamIndexChannelCount
 )
 
 // c2StreamParamIndex computes the full C2Param index for a stream
@@ -104,6 +109,86 @@ func BuildRangeInfoParam(offset uint32, length uint32) []byte {
 	binary.LittleEndian.PutUint32(payload[0:], offset)
 	binary.LittleEndian.PutUint32(payload[4:], length)
 	return BuildC2Param(rangeInfoIndex, payload)
+}
+
+// BuildSampleRateParam builds a C2StreamSampleRateInfo::input parameter.
+//
+// The AAC encoder declares sample rate as an input-direction stream
+// parameter. The full index is:
+// KIND_INFO | DIR_INPUT | IS_STREAM | (stream << 20) | 0x3000.
+// Payload: uint32 sampleRate.
+func BuildSampleRateParam(
+	stream uint32,
+	sampleRate uint32,
+) []byte {
+	index := c2StreamParamIndex(paramKindInfo, paramDirInput, stream, paramIndexSampleRate)
+	payload := make([]byte, 4)
+	binary.LittleEndian.PutUint32(payload[0:], sampleRate)
+	return BuildC2Param(index, payload)
+}
+
+// BuildChannelCountParam builds a C2StreamChannelCountInfo::input parameter.
+//
+// The AAC encoder declares channel count as an input-direction stream
+// parameter. The full index is:
+// KIND_INFO | DIR_INPUT | IS_STREAM | (stream << 20) | 0x3001.
+// Payload: uint32 channelCount.
+func BuildChannelCountParam(
+	stream uint32,
+	channelCount uint32,
+) []byte {
+	index := c2StreamParamIndex(paramKindInfo, paramDirInput, stream, paramIndexChannelCount)
+	payload := make([]byte, 4)
+	binary.LittleEndian.PutUint32(payload[0:], channelCount)
+	return BuildC2Param(index, payload)
+}
+
+// C2HandleGrallocMagic is the magic value for C2HandleGralloc.
+// Computed from the C++ multi-char literal '\xc2gr\x00':
+// bytes LE: 0xC2, 'g'(0x67), 'r'(0x72), 0x00 -> uint32 0x007267C2.
+const C2HandleGrallocMagic = int32(0x007267C2)
+
+// C2HandleGrallocExtraInts is the number of extra int32 values appended
+// by C2HandleGralloc::WrapNativeHandle to the gralloc native_handle.
+const C2HandleGrallocExtraInts = 11
+
+// C2HandleGrallocInts builds the extra ints that C2HandleGralloc appends
+// to a gralloc native_handle_t. The Codec2 framework recognizes handles
+// with this trailing ExtraData as graphic blocks.
+//
+// ExtraData layout (11 x int32):
+//
+//	[0] width
+//	[1] height
+//	[2] format (PixelFormat)
+//	[3] usage_lo (low 32 bits of BufferUsage)
+//	[4] usage_hi (high 32 bits of BufferUsage)
+//	[5] stride
+//	[6] generation
+//	[7] igbp_id_lo
+//	[8] igbp_id_hi
+//	[9] igbp_slot
+//	[10] magic (C2HandleGrallocMagic)
+func C2HandleGrallocInts(
+	width uint32,
+	height uint32,
+	format uint32,
+	usage uint64,
+	stride uint32,
+) []int32 {
+	return []int32{
+		int32(width),
+		int32(height),
+		int32(format),
+		int32(usage & 0xFFFFFFFF),
+		int32(usage >> 32),
+		int32(stride),
+		0, // generation
+		0, // igbp_id_lo
+		0, // igbp_id_hi
+		0, // igbp_slot
+		C2HandleGrallocMagic,
+	}
 }
 
 // C2HandleIonMagic is the magic value for C2HandleIon / C2HandleBuf.

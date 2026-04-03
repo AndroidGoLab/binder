@@ -8,9 +8,11 @@ import (
 	"time"
 
 	common "github.com/AndroidGoLab/binder/android/hardware/common"
+	gfxCommon "github.com/AndroidGoLab/binder/android/hardware/graphics/common"
 	c2 "github.com/AndroidGoLab/binder/android/hardware/media/c2"
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/codec2/hidlcodec2"
+	"github.com/AndroidGoLab/binder/gralloc"
 	"github.com/AndroidGoLab/binder/kernelbinder"
 	"github.com/AndroidGoLab/binder/servicemanager"
 
@@ -26,6 +28,7 @@ import (
 const (
 	codec2ServiceName = "android.hardware.media.c2.IComponentStore/software"
 	avcEncoderName    = "c2.android.avc.encoder"
+	aacEncoderName    = "c2.android.aac.encoder"
 )
 
 // ---------------------------------------------------------------------------
