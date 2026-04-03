@@ -250,6 +250,145 @@ func TestExtractSpec_Location(t *testing.T) {
 	require.Empty(t, lastField.Condition)
 }
 
+func TestExtractSpecs_WriteStringList(t *testing.T) {
+	src := `
+package com.example;
+
+public class Desc implements Parcelable {
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringList(mMimeTypes);
+        dest.writeLong(mTimeStamp);
+    }
+}
+`
+
+	specs := ExtractSpecs(src, "com.example")
+	require.Len(t, specs, 1)
+
+	fields := specs[0].Fields
+	require.Len(t, fields, 2)
+
+	require.Equal(t, "MimeTypes", fields[0].Name)
+	require.Equal(t, "string_list", fields[0].Type)
+
+	require.Equal(t, "TimeStamp", fields[1].Name)
+	require.Equal(t, "int64", fields[1].Type)
+}
+
+func TestExtractSpecs_ForLoop(t *testing.T) {
+	src := `
+package com.example;
+
+public class Container implements Parcelable {
+    private int mFlags;
+    private ArrayList<Item> mItems;
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mFlags);
+        final int N = mItems.size();
+        dest.writeInt(N);
+        for (int i=0; i<N; i++) {
+            Item item = mItems.get(i);
+            dest.writeString8(item.mName);
+            dest.writeInt(item.mValue);
+        }
+    }
+}
+`
+
+	specs := ExtractSpecs(src, "com.example")
+	require.Len(t, specs, 1)
+
+	fields := specs[0].Fields
+	require.Len(t, fields, 2, "expected mFlags + repeated Items")
+
+	require.Equal(t, "Flags", fields[0].Name)
+	require.Equal(t, "int32", fields[0].Type)
+
+	require.Equal(t, "Items", fields[1].Name)
+	require.Equal(t, "repeated", fields[1].Type)
+	require.Len(t, fields[1].Elements, 2)
+	require.Equal(t, "Name", fields[1].Elements[0].Name)
+	require.Equal(t, "string8", fields[1].Elements[0].Type)
+	require.Equal(t, "Value", fields[1].Elements[1].Name)
+	require.Equal(t, "int32", fields[1].Elements[1].Type)
+}
+
+func TestExtractSpec_ClipDescription(t *testing.T) {
+	src, err := os.ReadFile(
+		"../3rdparty/frameworks-base/core/java/android/content/ClipDescription.java",
+	)
+	if err != nil {
+		t.Skip("3rdparty submodules not available")
+	}
+
+	specs := ExtractSpecs(string(src), "android.content")
+	require.Len(t, specs, 1)
+
+	spec := specs[0]
+	require.Equal(t, "ClipDescription", spec.Type)
+
+	// Find MimeTypes field -- should be string_list, not opaque.
+	var mimeField *FieldSpec
+	for i := range spec.Fields {
+		if spec.Fields[i].Name == "MimeTypes" {
+			mimeField = &spec.Fields[i]
+			break
+		}
+	}
+	require.NotNil(t, mimeField, "MimeTypes field must exist")
+	require.Equal(t, "string_list", mimeField.Type)
+}
+
+func TestExtractSpec_ClipData(t *testing.T) {
+	src, err := os.ReadFile(
+		"../3rdparty/frameworks-base/core/java/android/content/ClipData.java",
+	)
+	if err != nil {
+		t.Skip("3rdparty submodules not available")
+	}
+
+	specs := ExtractSpecs(string(src), "android.content")
+	require.NotEmpty(t, specs)
+
+	// Find the ClipData spec (might have inner classes too).
+	var clipSpec *ParcelableSpec
+	for i := range specs {
+		if specs[i].Type == "ClipData" {
+			clipSpec = &specs[i]
+			break
+		}
+	}
+	require.NotNil(t, clipSpec, "ClipData spec must exist")
+
+	// Find the repeated Items field.
+	var itemsField *FieldSpec
+	for i := range clipSpec.Fields {
+		if clipSpec.Fields[i].Name == "Items" {
+			itemsField = &clipSpec.Fields[i]
+			break
+		}
+	}
+	require.NotNil(t, itemsField, "Items repeated field must exist")
+	require.Equal(t, "repeated", itemsField.Type)
+	require.NotEmpty(t, itemsField.Elements, "Items must have element fields")
+
+	// The first element should be the Text char_sequence.
+	require.Equal(t, "Text", itemsField.Elements[0].Name)
+	require.Equal(t, "char_sequence", itemsField.Elements[0].Type)
+
+	// HtmlText is the second element.
+	require.Equal(t, "HtmlText", itemsField.Elements[1].Name)
+	require.Equal(t, "string8", itemsField.Elements[1].Type)
+
+	// There should be no standalone "N" int32 field (it was subsumed by repeated).
+	for _, f := range clipSpec.Fields {
+		require.NotEqual(t, "N", f.Name, "count field N should be subsumed by repeated")
+	}
+}
+
 func TestDeriveFieldName(t *testing.T) {
 	tests := []struct {
 		input    string
@@ -261,6 +400,8 @@ func TestDeriveFieldName(t *testing.T) {
 		{"provider", "Provider"},
 		{"x", "x"},
 		{"mX", "X"},
+		{"item.mText", "Text"},
+		{"item.mHtmlText", "HtmlText"},
 	}
 
 	for _, tc := range tests {

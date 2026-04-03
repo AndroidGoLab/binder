@@ -29,7 +29,7 @@ type parcelableListener struct {
 
 	// fieldTypes maps field names (PascalCase, m-prefix stripped) to their
 	// declared Java type names. Used to resolve delegate types when the
-	// field name differs from the type name (e.g., mSmallIcon → Icon).
+	// field name differs from the type name (e.g., mSmallIcon -> Icon).
 	fieldTypes map[string]string
 
 	// classDepth tracks nesting level so we can identify the outermost class.
@@ -67,7 +67,7 @@ func (l *parcelableListener) ExitClassDeclaration(_ *javaparser.ClassDeclaration
 
 // EnterFieldDeclaration collects:
 // 1. "private static final int HAS_*_MASK = <value>" constants for mask resolution.
-// 2. Field name → type mappings for delegate type resolution.
+// 2. Field name -> type mappings for delegate type resolution.
 func (l *parcelableListener) EnterFieldDeclaration(ctx *javaparser.FieldDeclarationContext) {
 	if l.classDepth != 1 {
 		return
@@ -79,7 +79,7 @@ func (l *parcelableListener) EnterFieldDeclaration(ctx *javaparser.FieldDeclarat
 	}
 	rawTypeName := tt.GetText()
 
-	// Collect field name → type mappings for all fields.
+	// Collect field name -> type mappings for all fields.
 	simpleType := extractSimpleTypeName(rawTypeName)
 	if simpleType != "" {
 		declarators := ctx.VariableDeclarators()
@@ -196,24 +196,202 @@ func (l *parcelableListener) processWriteToParcel(
 	})
 }
 
+// sizeVarInfo records a local variable that holds a collection.size() result.
+// For example: final int N = mItems.size() produces varName="N", collectionName="mItems".
+type sizeVarInfo struct {
+	varName        string
+	collectionName string
+}
+
 // extractFieldsFromBlock walks block statements and extracts FieldSpec entries.
 // The condition parameter is set when we're inside a conditional block.
+//
+// It also recognizes for-loop patterns where a preceding writeInt wrote the
+// count of a collection, and the loop body writes each element's fields:
+//
+//	final int N = mItems.size();
+//	dest.writeInt(N);
+//	for (int i=0; i<N; i++) { ... }
+//
+// These are collapsed into a single "repeated" FieldSpec whose Elements
+// contain the loop body fields.
 func (l *parcelableListener) extractFieldsFromBlock(
 	block javaparser.IBlockContext,
 	condition string,
 ) []FieldSpec {
 	var fields []FieldSpec
 
+	// Track local variables assigned from .size() calls so we can
+	// correlate a subsequent writeInt + for-loop into a "repeated" field.
+	sizeVars := map[string]sizeVarInfo{}
+
 	for _, blockStmt := range block.AllBlockStatement() {
+		// Check for local variable declarations like: final int N = mItems.size()
+		if lvd := blockStmt.LocalVariableDeclaration(); lvd != nil {
+			if info, ok := extractSizeVarDecl(lvd); ok {
+				sizeVars[info.varName] = info
+			}
+			continue
+		}
+
 		stmt := blockStmt.Statement()
 		if stmt == nil {
 			continue
+		}
+
+		// Check for for-loop: correlate with preceding count field.
+		if stmt.FOR() != nil {
+			if repeated := l.extractFieldsFromForLoop(stmt, condition, sizeVars, fields); repeated != nil {
+				// Remove the preceding count field that the for-loop subsumes.
+				if len(fields) > 0 && fields[len(fields)-1].Type == "int32" {
+					countName := fields[len(fields)-1].Name
+					forControl := stmt.ForControl()
+					if forControl != nil {
+						condExpr := forControl.Expression()
+						if condExpr != nil && strings.Contains(condExpr.GetText(), countName) {
+							fields = fields[:len(fields)-1]
+						}
+					}
+				}
+				fields = append(fields, *repeated)
+				continue
+			}
 		}
 
 		fields = append(fields, l.extractFieldsFromStatement(stmt, condition)...)
 	}
 
 	return fields
+}
+
+// extractSizeVarDecl checks if a local variable declaration is of the form
+// "final int N = collection.size()" and returns the variable and collection names.
+func extractSizeVarDecl(
+	lvd javaparser.ILocalVariableDeclarationContext,
+) (sizeVarInfo, bool) {
+	decls := lvd.VariableDeclarators()
+	if decls == nil {
+		return sizeVarInfo{}, false
+	}
+
+	allDecls := decls.AllVariableDeclarator()
+	if len(allDecls) != 1 {
+		return sizeVarInfo{}, false
+	}
+
+	decl := allDecls[0]
+	declID := decl.VariableDeclaratorId()
+	if declID == nil {
+		return sizeVarInfo{}, false
+	}
+
+	init := decl.VariableInitializer()
+	if init == nil {
+		return sizeVarInfo{}, false
+	}
+
+	initText := init.GetText()
+	if !strings.HasSuffix(initText, ".size()") {
+		return sizeVarInfo{}, false
+	}
+
+	collectionName := strings.TrimSuffix(initText, ".size()")
+
+	return sizeVarInfo{
+		varName:        declID.Identifier().GetText(),
+		collectionName: collectionName,
+	}, true
+}
+
+// extractFieldsFromForLoop handles a for-loop statement by extracting its
+// body fields as elements of a "repeated" FieldSpec. It correlates the loop
+// with sizeVars to determine the collection name for the field.
+//
+// Returns nil if the loop doesn't match the expected pattern or if element
+// names contain method calls that the code generator cannot handle.
+func (l *parcelableListener) extractFieldsFromForLoop(
+	stmt javaparser.IStatementContext,
+	condition string,
+	sizeVars map[string]sizeVarInfo,
+	precedingFields []FieldSpec,
+) *FieldSpec {
+	forControl := stmt.ForControl()
+	if forControl == nil {
+		return nil
+	}
+
+	// Only handle C-style for loops (not enhanced for).
+	if forControl.EnhancedForControl() != nil {
+		return nil
+	}
+
+	// Extract the loop body.
+	bodyStmts := stmt.AllStatement()
+	if len(bodyStmts) == 0 {
+		return nil
+	}
+
+	bodyStmt := bodyStmts[0]
+	var bodyFields []FieldSpec
+	if blk := bodyStmt.Block(); blk != nil {
+		bodyFields = l.extractFieldsFromBlock(blk, condition)
+	} else {
+		bodyFields = l.extractFieldsFromStatement(bodyStmt, condition)
+	}
+
+	if len(bodyFields) == 0 {
+		return nil
+	}
+
+	// Only produce a repeated field if all element names are clean
+	// field references (no method calls like "Get(i)" or "ValueAt(i)")
+	// that the code generator cannot map to struct fields.
+	if !allCleanFieldNames(bodyFields) {
+		return nil
+	}
+
+	// Determine the collection name from the loop condition.
+	// The condition is typically "i < N" where N is a sizeVar.
+	fieldName := "Items" // default fallback
+	condExpr := forControl.Expression()
+	if condExpr != nil {
+		condText := condExpr.GetText()
+		for _, info := range sizeVars {
+			if strings.Contains(condText, info.varName) {
+				fieldName = deriveFieldName(info.collectionName)
+				break
+			}
+		}
+	}
+
+	return &FieldSpec{
+		Name:      fieldName,
+		Type:      "repeated",
+		Condition: condition,
+		Elements:  bodyFields,
+	}
+}
+
+// allCleanFieldNames returns true if the loop body fields form a
+// well-structured repeated element that the code generator can handle:
+//   - At least 2 element fields (single-element loops produce simpler types)
+//   - No method calls or array indexing in field names (parentheses/brackets)
+//   - Not all delegates (produces empty item structs)
+func allCleanFieldNames(fields []FieldSpec) bool {
+	if len(fields) < 2 {
+		return false
+	}
+
+	allDelegate := true
+	for _, f := range fields {
+		if strings.ContainsAny(f.Name, "()[]") {
+			return false
+		}
+		if f.Type != "delegate" {
+			allDelegate = false
+		}
+	}
+	return !allDelegate
 }
 
 // extractFieldsFromStatement processes a single statement, handling
@@ -368,7 +546,7 @@ func (l *parcelableListener) extractFieldFromExpression(
 		if argCount >= 3 && len(receiverText) > 0 && unicode.IsUpper(rune(receiverText[0])) {
 			// Static helper: first argument is the field being serialized.
 			fieldName := deriveFieldName(args.ExpressionList().AllExpression()[0].GetText())
-			// TextUtils.writeToParcel writes a CharSequence — use a
+			// TextUtils.writeToParcel writes a CharSequence -- use a
 			// dedicated spec type so the codegen can skip it.
 			specType := "delegate"
 			if receiverText == "TextUtils" {
@@ -385,7 +563,7 @@ func (l *parcelableListener) extractFieldFromExpression(
 		fieldName := deriveFieldName(receiverText)
 		// Use collected field type declarations to resolve the delegate
 		// type when the field name differs from the type (e.g., mSmallIcon
-		// is declared as type Icon → DelegateType = "Icon").
+		// is declared as type Icon -> DelegateType = "Icon").
 		delegateType := l.fieldTypes[fieldName]
 		return &FieldSpec{
 			Name:         fieldName,
@@ -422,7 +600,7 @@ func (l *parcelableListener) extractFieldFromExpression(
 
 	argText := allExprs[0].GetText()
 
-	// Handle ternary: dest.writeInt(mFoo ? 1 : 0) → field name "Foo", type bool.
+	// Handle ternary: dest.writeInt(mFoo ? 1 : 0) -> field name "Foo", type bool.
 	if ternary, ok := allExprs[0].(*javaparser.TernaryExpressionContext); ok {
 		condText := ternary.Expression(0).GetText()
 		return &FieldSpec{
@@ -571,7 +749,7 @@ func combineConditions(parent, child string) string {
 }
 
 // extractSimpleTypeName extracts the simple class name from a Java type
-// expression like "Icon", "List<Foo>", "android.app.Icon" → "Icon".
+// expression like "Icon", "List<Foo>", "android.app.Icon" -> "Icon".
 func extractSimpleTypeName(text string) string {
 	// Strip generic parameters.
 	if idx := strings.IndexByte(text, '<'); idx != -1 {

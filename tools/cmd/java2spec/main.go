@@ -254,15 +254,7 @@ func mergeJavaWireFormats(
 						continue
 					}
 
-					wireFields := make([]spec.JavaWireField, len(js.Fields))
-					for i, f := range js.Fields {
-						wireFields[i] = spec.JavaWireField{
-							Name:         f.Name,
-							WriteMethod:  f.Type,
-							Condition:    f.Condition,
-							DelegateType: f.DelegateType,
-						}
-					}
+					wireFields := convertFieldSpecs(js.Fields)
 
 					mu.Lock()
 					// Prefer the wire format with more fields — avoids
@@ -287,6 +279,22 @@ func mergeJavaWireFormats(
 
 	fmt.Fprintf(os.Stderr, "java2spec: merged wire formats for %d parcelables\n", merged.Load())
 	return nil
+}
+
+// convertFieldSpecs converts parcelspec.FieldSpec entries to spec.JavaWireField,
+// recursively converting Elements for repeated (loop) fields.
+func convertFieldSpecs(fields []parcelspec.FieldSpec) []spec.JavaWireField {
+	result := make([]spec.JavaWireField, len(fields))
+	for i, f := range fields {
+		result[i] = spec.JavaWireField{
+			Name:         f.Name,
+			WriteMethod:  f.Type,
+			Condition:    f.Condition,
+			DelegateType: f.DelegateType,
+			Elements:     convertFieldSpecs(f.Elements),
+		}
+	}
+	return result
 }
 
 // constantSpec describes one set of Java constants to extract.

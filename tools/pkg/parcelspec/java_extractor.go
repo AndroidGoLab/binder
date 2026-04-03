@@ -1,6 +1,7 @@
 package parcelspec
 
 import (
+	"strings"
 	"unicode"
 
 	antlr "github.com/antlr4-go/antlr/v4"
@@ -65,35 +66,44 @@ func ExtractSpecs(
 // javaWriteMethodToSpecType maps Java Parcel write method names
 // to their corresponding spec type strings.
 var javaWriteMethodToSpecType = map[string]string{
-	"writeString8":      "string8",
-	"writeString":       "string16",
-	"writeString16":     "string16",
-	"writeInt":          "int32",
-	"writeLong":         "int64",
-	"writeFloat":        "float32",
-	"writeDouble":       "float64",
-	"writeBoolean":      "bool",
-	"writeBundle":       "bundle",
-	"writeParcelable":   "typed_object",
-	"writeTypedObject":  "typed_object",
-	"writeByte":         "int32",
-	"writeByteArray":    "byte_array",
-	"writeIntArray":     "int_array",
-	"writeLongArray":    "long_array",
-	"writeFloatArray":   "float_array",
-	"writeDoubleArray":  "double_array",
-	"writeBooleanArray": "boolean_array",
-	"writeStringArray":  "string_array",
-	"writeBlob":         "blob",
-	"writeStrongBinder": "binder",
-	"writeList":         "write_list",
-	"writeTypedArray":   "typed_array",
-	"writeArraySet":     "array_set",
+	"writeString8":           "string8",
+	"writeString":            "string16",
+	"writeString16":          "string16",
+	"writeInt":               "int32",
+	"writeLong":              "int64",
+	"writeFloat":             "float32",
+	"writeDouble":            "float64",
+	"writeBoolean":           "bool",
+	"writeBundle":            "bundle",
+	"writeParcelable":        "typed_object",
+	"writeTypedObject":       "typed_object",
+	"writeByte":              "int32",
+	"writeByteArray":         "byte_array",
+	"writeIntArray":          "int_array",
+	"writeLongArray":         "long_array",
+	"writeFloatArray":        "float_array",
+	"writeDoubleArray":       "double_array",
+	"writeBooleanArray":      "boolean_array",
+	"writeStringArray":       "string_array",
+	"writeBlob":              "blob",
+	"writeStrongBinder":      "binder",
+	"writeList":              "write_list",
+	"writeTypedArray":        "typed_array",
+	"writeArraySet":          "array_set",
+	"writeStringList":        "string_list",
+	"writePersistableBundle": "persistable_bundle",
 }
 
 // deriveFieldName converts a Java field name to a spec field name
 // by stripping the leading "m" prefix convention.
+// For dot-qualified names (e.g., "item.mText"), only the last segment
+// is used, so the loop variable prefix is discarded.
 func deriveFieldName(javaFieldName string) string {
+	// Strip qualifier prefix: "item.mText" -> "mText".
+	if idx := strings.LastIndexByte(javaFieldName, '.'); idx >= 0 {
+		javaFieldName = javaFieldName[idx+1:]
+	}
+
 	if len(javaFieldName) < 2 {
 		return javaFieldName
 	}
