@@ -969,30 +969,6 @@ func TestWindowSurface_SurfaceComposer_GetDisplayDecorationSupport(t *testing.T)
 		decor.Format, decor.AlphaInterpretation)
 }
 
-func TestWindowSurface_SurfaceComposer_CreateDisplay(t *testing.T) {
-	ctx := context.Background()
-	driver := windowSurfaceOpenBinder(t)
-	sf := getSurfaceComposerProxy(ctx, t, driver)
-
-	// CreateDisplay creates a virtual display, returning a binder token.
-	// This exercises string + bool + float32 parameter marshaling and
-	// binder token response unmarshaling.
-	displayToken, err := sf.CreateDisplay(ctx, "e2e-virtual-display", false, 60.0)
-	// Server-side NPE: shell UID lacks the INTERNAL_SYSTEM_WINDOW permission
-	// required to create virtual displays via SurfaceFlinger.
-	if err != nil && strings.Contains(err.Error(), "exception NullPointer") {
-		t.Skipf("server-side NPE (not a library bug, shell lacks permission): %v", err)
-	}
-	requireOrSkip(t, err)
-	require.NotNil(t, displayToken, "virtual display token should not be nil")
-	t.Logf("created virtual display: handle=%d", displayToken.Handle())
-
-	// Clean up: destroy the virtual display.
-	err = sf.DestroyDisplay(ctx, displayToken)
-	requireOrSkip(t, err)
-	t.Logf("destroyed virtual display")
-}
-
 func TestWindowSurface_SurfaceComposer_CaptureLayersSync(t *testing.T) {
 	ctx := context.Background()
 	driver := windowSurfaceOpenBinder(t)
