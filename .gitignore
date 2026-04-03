@@ -39,6 +39,12 @@
 /aidl2spec
 /getservice_vs_checkservice
 
+# Example binaries built to repo root
+/clipboard_monitor
+/input_injector
+/sensor_gateway
+/sensor_reader
+
 # Lean 4
 /.lake
 proofs/.lake

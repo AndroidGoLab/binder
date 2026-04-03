@@ -1,7 +1,11 @@
-// Sensor data collection relay: list available sensors and query defaults.
+// Stream live sensor events via the SensorManager event queue callback.
 //
-// Uses the frameworks SensorManager (android.frameworks.sensorservice)
-// to enumerate device sensors and query the default accelerometer.
+// Demonstrates the ISensorManager.CreateEventQueue API: registers an
+// IEventQueueCallback stub, enables the accelerometer at 100 ms sampling,
+// and prints incoming sensor events for a fixed duration.
+//
+// This is the callback-driven counterpart to sensor_reader (which only
+// lists sensor metadata).
 //
 // Build:
 //
@@ -13,6 +17,10 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"os/signal"
+	"sync/atomic"
+	"syscall"
+	"time"
 
 	"github.com/AndroidGoLab/binder/android/frameworks/sensorservice"
 	"github.com/AndroidGoLab/binder/android/hardware/sensors"
@@ -22,8 +30,49 @@ import (
 	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
+const (
+	// samplingPeriodUs is the desired sensor sampling interval.
+	// 100 000 us = 100 ms = 10 Hz.
+	samplingPeriodUs int32 = 100_000
+
+	// streamDuration is how long to collect events before exiting.
+	streamDuration = 5 * time.Second
+)
+
+// eventHandler implements IEventQueueCallbackServer, receiving sensor
+// events from the HAL via binder oneway transactions.
+type eventHandler struct {
+	count atomic.Int64
+}
+
+func (h *eventHandler) OnEvent(
+	_ context.Context,
+	event sensors.Event,
+) error {
+	n := h.count.Add(1)
+	ts := time.Duration(event.Timestamp) * time.Nanosecond
+
+	switch event.Payload.Tag {
+	case sensors.EventEventPayloadTagVec3:
+		v := event.Payload.Vec3
+		fmt.Printf("#%-4d  t=%12s  sensor=%d  type=%-3d  x=%+9.4f  y=%+9.4f  z=%+9.4f\n",
+			n, ts.Truncate(time.Millisecond), event.SensorHandle, event.SensorType,
+			v.X, v.Y, v.Z)
+	case sensors.EventEventPayloadTagScalar:
+		fmt.Printf("#%-4d  t=%12s  sensor=%d  type=%-3d  value=%+9.4f\n",
+			n, ts.Truncate(time.Millisecond), event.SensorHandle, event.SensorType,
+			event.Payload.Scalar)
+	default:
+		fmt.Printf("#%-4d  t=%12s  sensor=%d  type=%-3d  payload_tag=%d\n",
+			n, ts.Truncate(time.Millisecond), event.SensorHandle, event.SensorType,
+			event.Payload.Tag)
+	}
+	return nil
+}
+
 func main() {
-	ctx := context.Background()
+	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer cancel()
 
 	driver, err := kernelbinder.Open(ctx, binder.WithMapSize(128*1024))
 	if err != nil {
@@ -40,74 +89,53 @@ func main() {
 
 	sm := servicemanager.New(transport)
 
-	// The frameworks sensor manager is an AIDL service, not the SDK
-	// Context.SENSOR_SERVICE ("sensor"). Use the full AIDL instance name.
-	sensorSvc, err := sm.GetService(ctx, "android.frameworks.sensorservice.ISensorManager/default")
+	svc, err := sm.GetService(ctx, "android.frameworks.sensorservice.ISensorManager/default")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get sensor service: %v\n", err)
 		os.Exit(1)
 	}
 
-	sensorMgr := sensorservice.NewSensorManagerProxy(sensorSvc)
+	sensorMgr := sensorservice.NewSensorManagerProxy(svc)
 
-	fmt.Println("=== Sensor Gateway ===")
-	fmt.Println()
-
-	// List all sensors.
-	sensorList, err := sensorMgr.GetSensorList(ctx)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "GetSensorList: %v\n", err)
-	} else {
-		fmt.Printf("Available sensors: %d\n\n", len(sensorList))
-		for i, s := range sensorList {
-			typeName := sensorTypeName(s.Type)
-			fmt.Printf("  [%2d] %-30s type=%-25s handle=%d\n",
-				i, s.Name, typeName, s.SensorHandle)
-		}
-	}
-	fmt.Println()
-
-	// Query default accelerometer.
+	// Find the accelerometer so we know its handle.
 	accel, err := sensorMgr.GetDefaultSensor(ctx, sensors.SensorTypeACCELEROMETER)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "GetDefaultSensor(ACCELEROMETER): %v\n", err)
-	} else {
-		fmt.Printf("Default accelerometer:\n")
-		fmt.Printf("  Name:       %s\n", accel.Name)
-		fmt.Printf("  Vendor:     %s\n", accel.Vendor)
-		fmt.Printf("  Resolution: %f\n", accel.Resolution)
-		fmt.Printf("  Max range:  %f\n", accel.MaxRange)
-		fmt.Printf("  Power:      %f mA\n", accel.Power)
+		os.Exit(1)
 	}
+	fmt.Printf("Streaming accelerometer: %s (handle=%d, vendor=%s)\n",
+		accel.Name, accel.SensorHandle, accel.Vendor)
+	fmt.Printf("Sampling period: %d us, duration: %s\n\n", samplingPeriodUs, streamDuration)
 
-	// Query default light sensor.
-	light, err := sensorMgr.GetDefaultSensor(ctx, sensors.SensorTypeLIGHT)
+	// Create a callback stub that receives sensor events.
+	handler := &eventHandler{}
+	callbackStub := sensorservice.NewEventQueueCallbackStub(handler)
+
+	// Create an event queue bound to our callback.
+	eventQueue, err := sensorMgr.CreateEventQueue(ctx, callbackStub)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "GetDefaultSensor(LIGHT): %v\n", err)
-	} else {
-		fmt.Printf("\nDefault light sensor:\n")
-		fmt.Printf("  Name:       %s\n", light.Name)
-		fmt.Printf("  Max range:  %f lux\n", light.MaxRange)
+		fmt.Fprintf(os.Stderr, "CreateEventQueue: %v\n", err)
+		os.Exit(1)
 	}
-}
 
-func sensorTypeName(t sensors.SensorType) string {
-	names := map[sensors.SensorType]string{
-		sensors.SensorTypeACCELEROMETER:   "ACCELEROMETER",
-		sensors.SensorTypeMagneticField:   "MAGNETIC_FIELD",
-		sensors.SensorTypeGYROSCOPE:       "GYROSCOPE",
-		sensors.SensorTypeLIGHT:           "LIGHT",
-		sensors.SensorTypePRESSURE:        "PRESSURE",
-		sensors.SensorTypePROXIMITY:       "PROXIMITY",
-		sensors.SensorTypeGRAVITY:         "GRAVITY",
-		sensors.SensorTypeRotationVector:   "ROTATION_VECTOR",
-		sensors.SensorTypeAmbientTemperature: "AMBIENT_TEMPERATURE",
-		sensors.SensorTypeStepCounter:      "STEP_COUNTER",
-		sensors.SensorTypeStepDetector:     "STEP_DETECTOR",
-		sensors.SensorTypeHeartRate:        "HEART_RATE",
+	// Enable the accelerometer on this queue.
+	err = eventQueue.EnableSensor(ctx, accel.SensorHandle, samplingPeriodUs, 0)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "EnableSensor: %v\n", err)
+		os.Exit(1)
 	}
-	if name, ok := names[t]; ok {
-		return name
+	fmt.Println("Sensor enabled, waiting for events...")
+
+	// Wait for events until duration elapses or signal arrives.
+	select {
+	case <-ctx.Done():
+	case <-time.After(streamDuration):
 	}
-	return fmt.Sprintf("TYPE_%d", t)
+
+	// Disable the sensor before exiting.
+	if disableErr := eventQueue.DisableSensor(ctx, accel.SensorHandle); disableErr != nil {
+		fmt.Fprintf(os.Stderr, "DisableSensor: %v\n", disableErr)
+	}
+
+	fmt.Printf("\nReceived %d events total.\n", handler.count.Load())
 }

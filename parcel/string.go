@@ -206,6 +206,47 @@ func (p *Parcel) ReadNullableString() (*string, error) {
 	return &s, nil
 }
 
+// WriteStringList writes a list of strings in the format used by Java's
+// Parcel.writeStringList: int32 count (or -1 for nil), then count strings
+// each written via writeString (UTF-16LE wire format, i.e. WriteString16).
+func (p *Parcel) WriteStringList(
+	items []string,
+) {
+	if items == nil {
+		p.WriteInt32(-1)
+		return
+	}
+	p.WriteInt32(int32(len(items)))
+	for _, s := range items {
+		p.WriteString16(s)
+	}
+}
+
+// ReadStringList reads a list of strings written by Java's
+// Parcel.writeStringList (or createStringArrayList).
+// Returns nil for a null list (count == -1).
+func (p *Parcel) ReadStringList() ([]string, error) {
+	count, err := p.ReadInt32()
+	if err != nil {
+		return nil, err
+	}
+	if count < 0 {
+		return nil, nil
+	}
+	if int(count) > maxStringChars {
+		return nil, fmt.Errorf("parcel: ReadStringList count %d exceeds limit %d", count, maxStringChars)
+	}
+	items := make([]string, count)
+	for i := range items {
+		s, err := p.ReadString16()
+		if err != nil {
+			return nil, fmt.Errorf("parcel: ReadStringList[%d]: %w", i, err)
+		}
+		items[i] = s
+	}
+	return items, nil
+}
+
 // WriteCString writes a null-terminated C string (no length prefix).
 // The string data plus its null terminator are padded to 4-byte alignment.
 // This matches C++ Parcel::writeCString.

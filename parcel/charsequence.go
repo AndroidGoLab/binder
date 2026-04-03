@@ -2,6 +2,60 @@ package parcel
 
 import "fmt"
 
+// WritePlainCharSequence writes a plain (non-Spanned) CharSequence in the wire
+// format used by TextUtils.writeToParcel. The format is:
+//
+//	int32 kind=1  (plain String)
+//	string8 text  (or null string8 if text is nil)
+//
+// Use nil to write a null CharSequence.
+func WritePlainCharSequence(
+	p *Parcel,
+	text *string,
+) {
+	p.WriteInt32(1) // kind = plain String
+	if text != nil {
+		p.WriteString(*text)
+	} else {
+		p.WriteNullString()
+	}
+}
+
+// ReadPlainCharSequence reads a CharSequence written by TextUtils.writeToParcel
+// and returns the text content. Spanned text is read as plain text (spans are
+// skipped). Returns nil for null CharSequences.
+func ReadPlainCharSequence(
+	p *Parcel,
+) (*string, error) {
+	kind, err := p.ReadInt32()
+	if err != nil {
+		return nil, err
+	}
+
+	text, err := p.ReadNullableString()
+	if err != nil {
+		return nil, err
+	}
+
+	// For Spanned text (kind != 1), skip the span data.
+	if kind != 1 {
+		for {
+			spanType, err := p.ReadInt32()
+			if err != nil {
+				return nil, err
+			}
+			if spanType == 0 {
+				break
+			}
+			if err := skipParcelableSpan(p, spanType); err != nil {
+				return nil, fmt.Errorf("span type %d: %w", spanType, err)
+			}
+		}
+	}
+
+	return text, nil
+}
+
 // SkipCharSequence reads and discards a CharSequence written by
 // TextUtils.writeToParcel. The wire format is:
 //

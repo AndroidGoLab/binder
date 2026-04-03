@@ -6,7 +6,7 @@
 GENERATED_DIRS := android com fuzztest libgui_test_server parcelables src
 
 # All non-3rdparty Go packages.
-GO_PACKAGES = $(shell go list -e ./... | grep -v /3rdparty/)
+GO_PACKAGES = $(shell go list -e ./... | grep -v -e /3rdparty/ -e /native_impls/)
 
 # --- Android NDK / GrapheneOS paths ---
 
