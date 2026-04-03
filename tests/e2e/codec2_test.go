@@ -4,6 +4,7 @@ package e2e
 
 import (
 	"context"
+	"strings"
 	"testing"
 	"time"
 
@@ -103,26 +104,31 @@ func getComponentStore(
 	return c2.NewComponentStoreProxy(svc)
 }
 
-// createAVCEncoder creates an AVC encoder component with a listener.
-// Skips the test if the AIDL IComponentStore does not support CreateComponent
-// (e.g. on emulators where Codec2 is backed by HIDL rather than native AIDL).
-func createAVCEncoder(
-	ctx context.Context,
-	t *testing.T,
-	store c2.IComponentStore,
-	listenerImpl *componentListenerStub,
-) c2.IComponent {
-	t.Helper()
+// isUnknownTransaction reports whether the error indicates the remote
+// service returned STATUS_UNKNOWN_TRANSACTION (0x80000001). This happens
+// when the AIDL C2 wrapper on HIDL-backed emulators does not implement
+// certain methods (e.g. createComponent).
+func isUnknownTransaction(err error) bool {
+	return err != nil && strings.Contains(err.Error(), "0x80000001")
+}
 
+// tryAIDLCreateComponent attempts to create a component via the AIDL
+// IComponentStore. Returns the component and nil on success, or nil
+// and the error on failure. The caller decides whether to fall back.
+func tryAIDLCreateComponent(
+	ctx context.Context,
+	store c2.IComponentStore,
+	name string,
+	listenerImpl *componentListenerStub,
+) (c2.IComponent, error) {
 	listener := c2.NewComponentListenerStub(listenerImpl)
 
 	poolMgr, err := store.GetPoolClientManager(ctx)
-	requireOrSkip(t, err)
+	if err != nil {
+		return nil, err
+	}
 
-	component, err := store.CreateComponent(ctx, avcEncoderName, listener, poolMgr)
-	requireOrSkip(t, err)
-	require.NotNil(t, component, "CreateComponent returned nil")
-	return component
+	return store.CreateComponent(ctx, name, listener, poolMgr)
 }
 
 // buildPictureSizeParam builds a C2StreamPictureSizeInfo::input param blob.
@@ -245,6 +251,9 @@ func TestCodec2_ListComponents(t *testing.T) {
 }
 
 // TestCodec2_CreateEncoder verifies the Create/Start/Stop/Release lifecycle.
+// Tries the AIDL path first; on HIDL-backed emulators where the AIDL
+// wrapper returns UNKNOWN_TRANSACTION for createComponent, falls back
+// to HIDL hwbinder.
 func TestCodec2_CreateEncoder(t *testing.T) {
 	ctx := context.Background()
 	store := getComponentStore(ctx, t)
@@ -252,7 +261,18 @@ func TestCodec2_CreateEncoder(t *testing.T) {
 	listenerImpl := &componentListenerStub{
 		workDoneCh: make(chan c2.WorkBundle, 16),
 	}
-	component := createAVCEncoder(ctx, t, store, listenerImpl)
+	component, err := tryAIDLCreateComponent(ctx, store, avcEncoderName, listenerImpl)
+	switch {
+	case isUnknownTransaction(err):
+		// AIDL wrapper on HIDL-backed emulator — fall back to HIDL.
+		t.Log("AIDL createComponent unsupported, falling back to HIDL")
+		testCodec2CreateEncoderHIDL(t)
+		return
+	case err != nil:
+		requireOrSkip(t, err)
+		return
+	}
+	require.NotNil(t, component, "CreateComponent returned nil")
 	defer func() {
 		_ = component.Release(ctx)
 	}()
@@ -280,8 +300,50 @@ func TestCodec2_CreateEncoder(t *testing.T) {
 	t.Log("Encoder stopped successfully")
 }
 
-// TestCodec2_EncodeFrame is the full end-to-end test: configure an AVC
-// encoder, queue a YUV frame, signal EOS, and wait for encoded output.
+// testCodec2CreateEncoderHIDL runs the CreateEncoder lifecycle test
+// using the HIDL hwbinder path. Used as fallback when the AIDL wrapper
+// does not support createComponent.
+func testCodec2CreateEncoderHIDL(t *testing.T) {
+	t.Helper()
+	ctx := context.Background()
+	store, drv := getHIDLComponentStore(ctx, t)
+
+	listener := &hidlcodec2.ComponentListenerStub{}
+	listenerCookie := hidlcodec2.RegisterListener(ctx, drv, listener)
+	defer hidlcodec2.UnregisterListener(ctx, drv, listenerCookie)
+
+	component, err := store.CreateComponent(ctx, avcEncoderName, listenerCookie)
+	require.NoError(t, err, "HIDL CreateComponent failed")
+	require.NotNil(t, component, "HIDL CreateComponent returned nil")
+	defer func() { _ = component.Release(ctx) }()
+
+	t.Logf("HIDL fallback: component handle=%d", component.Handle())
+
+	iface, err := component.GetInterface(ctx)
+	require.NoError(t, err, "GetInterface failed")
+
+	cfg, err := iface.GetConfigurable(ctx)
+	require.NoError(t, err, "GetConfigurable failed")
+
+	name, err := cfg.GetName(ctx)
+	require.NoError(t, err, "GetName failed")
+	t.Logf("Configurable name: %s", name)
+	assert.Equal(t, avcEncoderName, name)
+
+	err = component.Start(ctx)
+	require.NoError(t, err, "Start failed")
+	t.Log("Encoder started successfully (HIDL)")
+
+	err = component.Stop(ctx)
+	require.NoError(t, err, "Stop failed")
+	t.Log("Encoder stopped successfully (HIDL)")
+}
+
+// TestCodec2_EncodeFrame is the full end-to-end test: configure an
+// encoder, queue input, signal EOS, and wait for encoded output.
+// Tries AIDL first (AVC); on HIDL-backed emulators where the AIDL
+// wrapper returns UNKNOWN_TRANSACTION, falls back to HIDL AAC encoding
+// which requires no gralloc and works reliably on goldfish.
 func TestCodec2_EncodeFrame(t *testing.T) {
 	const (
 		width   = 320
@@ -295,7 +357,15 @@ func TestCodec2_EncodeFrame(t *testing.T) {
 	listenerImpl := &componentListenerStub{
 		workDoneCh: make(chan c2.WorkBundle, 16),
 	}
-	component := createAVCEncoder(ctx, t, store, listenerImpl)
+	component, err := tryAIDLCreateComponent(ctx, store, avcEncoderName, listenerImpl)
+	if isUnknownTransaction(err) {
+		// AIDL wrapper on HIDL-backed emulator — fall back to HIDL AAC.
+		t.Log("AIDL createComponent unsupported, falling back to HIDL AAC encode")
+		testCodec2EncodeFrameHIDL(t)
+		return
+	}
+	requireOrSkip(t, err)
+	require.NotNil(t, component, "CreateComponent returned nil")
 	defer func() {
 		_ = component.Release(ctx)
 	}()
@@ -454,6 +524,143 @@ func TestCodec2_EncodeFrame(t *testing.T) {
 	} else {
 		t.Log("Queue succeeded; callback dispatch not yet received (binder read loop integration)")
 	}
+}
+
+// testCodec2EncodeFrameHIDL encodes a PCM audio frame through the AAC
+// encoder via HIDL. Used as fallback when the AIDL wrapper does not
+// support createComponent. AAC encoding is used instead of AVC because
+// it requires no gralloc and works reliably on goldfish emulators.
+func testCodec2EncodeFrameHIDL(t *testing.T) {
+	t.Helper()
+
+	const (
+		sampleRate      = 44100
+		channelCount    = 1
+		bitrate         = 64000
+		samplesPerFrame = 1024
+		bytesPerSample  = 2
+		frameSize       = samplesPerFrame * bytesPerSample * channelCount
+	)
+
+	ctx := context.Background()
+	store, drv := getHIDLComponentStore(ctx, t)
+
+	workDoneCh := make(chan []byte, 16)
+	listener := &hidlcodec2.ComponentListenerStub{
+		OnWorkDone: func(data []byte) {
+			cp := make([]byte, len(data))
+			copy(cp, data)
+			select {
+			case workDoneCh <- cp:
+			default:
+			}
+		},
+	}
+	listenerCookie := hidlcodec2.RegisterListener(ctx, drv, listener)
+	defer hidlcodec2.UnregisterListener(ctx, drv, listenerCookie)
+
+	component, err := store.CreateComponent(ctx, aacEncoderName, listenerCookie)
+	require.NoError(t, err, "HIDL CreateComponent(AAC) failed")
+	defer func() { _ = component.Release(ctx) }()
+
+	iface, err := component.GetInterface(ctx)
+	require.NoError(t, err, "GetInterface failed")
+
+	cfg, err := iface.GetConfigurable(ctx)
+	require.NoError(t, err, "GetConfigurable failed")
+
+	configParams := hidlcodec2.ConcatParams(
+		hidlcodec2.BuildSampleRateParam(0, sampleRate),
+		hidlcodec2.BuildChannelCountParam(0, channelCount),
+		hidlcodec2.BuildBitrateParam(0, bitrate),
+	)
+	cfgStatus, _, err := cfg.Config(ctx, configParams, true)
+	require.NoError(t, err, "Config failed")
+	require.Equal(t, hidlcodec2.StatusOK, cfgStatus)
+	t.Logf("HIDL AAC encoder configured: %dHz %dch %dbps", sampleRate, channelCount, bitrate)
+
+	err = component.Start(ctx)
+	require.NoError(t, err, "Start failed")
+	defer func() { _ = component.Stop(ctx) }()
+	t.Log("HIDL AAC encoder started")
+
+	// Queue a silent PCM frame.
+	pcmData := make([]byte, frameSize)
+	pcmFd := createMemfd(t, "aac-input-pcm", pcmData)
+
+	frameBundle := &hidlcodec2.WorkBundle{
+		Works: []hidlcodec2.Work{
+			{
+				Input: hidlcodec2.FrameData{
+					Ordinal: hidlcodec2.WorkOrdinal{FrameIndex: 0},
+					Buffers: []hidlcodec2.Buffer{
+						{
+							Blocks: []hidlcodec2.Block{
+								{
+									Index: 0,
+									Meta:  hidlcodec2.BuildRangeInfoParam(0, frameSize),
+								},
+							},
+						},
+					},
+				},
+				Worklets: []hidlcodec2.Worklet{{ComponentId: 0}},
+				Result:   hidlcodec2.StatusOK,
+			},
+		},
+		BaseBlocks: []hidlcodec2.BaseBlock{
+			{
+				Tag:             0, // nativeBlock
+				NativeBlockFds:  []int32{pcmFd},
+				NativeBlockInts: hidlcodec2.C2HandleLinearInts(frameSize),
+			},
+		},
+	}
+	err = component.Queue(ctx, frameBundle)
+	require.NoError(t, err, "Queue PCM frame failed")
+	t.Log("HIDL AAC PCM frame queued")
+
+	// Queue EOS.
+	eosBundle := &hidlcodec2.WorkBundle{
+		Works: []hidlcodec2.Work{
+			{
+				Input: hidlcodec2.FrameData{
+					Flags:   hidlcodec2.FrameDataEndOfStream,
+					Ordinal: hidlcodec2.WorkOrdinal{FrameIndex: 1},
+				},
+				Worklets: []hidlcodec2.Worklet{{ComponentId: 0}},
+				Result:   hidlcodec2.StatusOK,
+			},
+		},
+	}
+	err = component.Queue(ctx, eosBundle)
+	require.NoError(t, err, "Queue EOS failed")
+	t.Log("HIDL AAC EOS queued")
+
+	// Wait for output.
+	var totalOutputBytes int
+	deadline := time.After(10 * time.Second)
+	for i := 0; i < 3; i++ {
+		select {
+		case data := <-workDoneCh:
+			t.Logf("HIDL AAC onWorkDone[%d]: %d bytes", i, len(data))
+			totalOutputBytes += len(data)
+		case <-deadline:
+			if totalOutputBytes == 0 {
+				_ = component.Drain(ctx, true)
+				select {
+				case data := <-workDoneCh:
+					totalOutputBytes += len(data)
+				case <-time.After(5 * time.Second):
+					t.Fatal("HIDL AAC: no onWorkDone callback received")
+				}
+			}
+			i = 3 // exit loop
+		}
+	}
+
+	require.Greater(t, totalOutputBytes, 0, "HIDL AAC encoder produced no output")
+	t.Logf("HIDL AAC encode complete: %d bytes output", totalOutputBytes)
 }
 
 // ---------------------------------------------------------------------------

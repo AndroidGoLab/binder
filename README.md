@@ -7,7 +7,7 @@
 [![Go Version](https://img.shields.io/github/go-mod/go-version/AndroidGoLab/binder)](go.mod)
 [![Ask AI](https://img.shields.io/badge/Ask_AI-Context7-059669)](https://context7.com/androidgolab/binder)
 
-Call Android system services from pure Go. Provides ~9,000 type-safe Go methods across 1,500+ Android interfaces — ActivityManager, PowerManager, SurfaceFlinger, PackageManager, audio, camera and sensor HALs, and more — by speaking the Binder IPC wire protocol directly via `/dev/binder` ioctl syscalls. No Java, no NDK, no cgo required.
+Call Android system services from pure Go. Provides ~14,000 type-safe Go methods across 1,500+ Android interfaces — ActivityManager, PowerManager, SurfaceFlinger, PackageManager, audio, camera and sensor HALs, and more — by speaking the Binder IPC wire protocol directly via `/dev/binder` ioctl syscalls. No Java, no NDK, no cgo required.
 
 Includes a complete AIDL compiler that parses Android Interface Definition Language files and generates the Go proxies, a version-aware runtime that adapts transaction codes across Android API levels, and a CLI tool (`bindercli`) for interactive service discovery and invocation.
 
@@ -1504,7 +1504,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 ## bindercli
 
-`bindercli` is a unified command-line tool for interacting with Android Binder services and the AIDL compiler. It auto-generates subcommands for every AIDL interface in the project (1,500+ interfaces, 9,000+ methods), so you can call any Android system service method directly from the command line with typed flags.
+`bindercli` is a unified command-line tool for interacting with Android Binder services and the AIDL compiler. It auto-generates subcommands for every AIDL interface in the project (1,500+ interfaces, 14,000+ methods), so you can call any Android system service method directly from the command line with typed flags.
 
 Build and deploy:
 
@@ -2064,7 +2064,7 @@ git submodule update --init --depth 1
 go run ./tools/cmd/aospgen -3rdparty tools/pkg/3rdparty -output . -smoke-tests
 ```
 
-This discovers all AIDL files across `frameworks-base`, `frameworks-native`, `hardware-interfaces`, and `system-hardware-interfaces`, infers search roots from package declarations, and generates Go proxies for all AOSP services. The current AOSP snapshot produces **3,213 Go files** across **341 packages**.
+This discovers all AIDL files across `frameworks-base`, `frameworks-native`, `hardware-interfaces`, and `system-hardware-interfaces`, infers search roots from package declarations, and generates Go proxies for all AOSP services. The current AOSP snapshot produces **5,151 Go files** across **407 packages**.
 
 ### Transaction Code Resolution
 
@@ -2356,11 +2356,11 @@ See the example app at [`examples/gomobile/`](examples/gomobile/).
 │   └── driver.go             Open, mmap, ioctl BINDER_WRITE_READ
 ├── servicemanager/           ServiceManager client
 ├── errors/                   AIDL exception types (ExceptionCode, StatusError)
-├── android/                  Pre-generated AOSP service proxies (3,213 files)
+├── android/                  Pre-generated AOSP service proxies (5,151 files)
 │   ├── app/                  ActivityManager, AlarmManager, ...
 │   ├── os/                   ServiceManager, PowerManager, ...
 │   ├── hardware/             HAL interfaces
-│   └── ...                   341 packages total
+│   └── ...                   407 packages total
 ├── com/                      AOSP com.android.* service proxies
 ├── examples/                 106 runnable examples
 └── .github/workflows/        CI configuration

@@ -41,6 +41,7 @@ func (s *JobWorkItem) MarshalParcel(
 func (s *JobWorkItem) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
+	var _err error
 	{
 		_flag, _err := p.ReadInt32()
 		if _err != nil {
@@ -53,5 +54,34 @@ func (s *JobWorkItem) UnmarshalParcel(
 			}
 		}
 	}
-	return nil // opaque Extras: cannot skip without known wire format
+	{
+		_opaqueLen, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueLen > 0 {
+			p.SetPosition(p.Position() + int(_opaqueLen))
+		}
+	}
+	s.NetworkDownloadBytes, _err = p.ReadInt64()
+	if _err != nil {
+		return _err
+	}
+	s.NetworkUploadBytes, _err = p.ReadInt64()
+	if _err != nil {
+		return _err
+	}
+	s.MinimumChunkBytes, _err = p.ReadInt64()
+	if _err != nil {
+		return _err
+	}
+	s.DeliveryCount, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.WorkId, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	return nil
 }

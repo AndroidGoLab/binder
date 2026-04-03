@@ -62,5 +62,79 @@ func (s *JobParameters) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque Extras: cannot skip without known wire format
+	{
+		_opaqueLen, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueLen > 0 {
+			p.SetPosition(p.Position() + int(_opaqueLen))
+		}
+	}
+	{
+		_opaqueLen, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueLen > 0 {
+			p.SetPosition(p.Position() + int(_opaqueLen))
+		}
+	}
+	{
+		_flag, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _flag != 0 {
+			s.ClipData = &content.ClipData{}
+			if _err = s.ClipData.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
+	}
+	{
+		_opaqueFlag, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueFlag != 0 {
+			return nil // non-null ClipGrantFlags: cannot skip unknown-size typed object
+		}
+	}
+	if _, _, _binderErr := p.ReadNullableStrongBinder(); _binderErr != nil {
+		return _binderErr
+	}
+	s.OverrideDeadlineExpired, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.IsExpedited, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	s.IsUserInitiated, _err = p.ReadBool()
+	if _err != nil {
+		return _err
+	}
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		if _arrLen > 0 {
+			return nil // non-empty typed_array TriggeredContentUris: cannot skip
+		}
+	}
+	{
+		_arrLen, _arrErr := p.ReadInt32()
+		if _arrErr != nil {
+			return _arrErr
+		}
+		for _j := int32(0); _j < _arrLen; _j++ {
+			if _, _arrErr = p.ReadString16(); _arrErr != nil {
+				return _arrErr
+			}
+		}
+	}
+	return nil // opaque Network: cannot skip without known wire format
 }

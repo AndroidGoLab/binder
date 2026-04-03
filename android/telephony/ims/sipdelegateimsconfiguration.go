@@ -28,5 +28,14 @@ func (s *SipDelegateImsConfiguration) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	return nil // opaque Bundle: cannot skip without known wire format
+	{
+		_opaqueLen, _opaqueErr := p.ReadInt32()
+		if _opaqueErr != nil {
+			return _opaqueErr
+		}
+		if _opaqueLen > 0 {
+			p.SetPosition(p.Position() + int(_opaqueLen))
+		}
+	}
+	return nil
 }

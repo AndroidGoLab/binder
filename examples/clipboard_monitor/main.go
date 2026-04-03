@@ -1,12 +1,8 @@
 // Set and read clipboard text via the Android clipboard binder service.
 //
 // Demonstrates actual clipboard copy-paste through the IClipboard binder
-// interface: sets a plain-text clip using MarshalPlainTextClipData, reads
-// it back with UnmarshalClipDataText, and verifies the round-trip.
-//
-// The generated ClipData.MarshalParcel writes an incomplete ClipDescription
-// (null label, null mimeTypes), so we build the SetPrimaryClip transaction
-// parcel manually using the correct wire format from clipdata_plaintext.go.
+// interface: sets a plain-text clip using the generated ClipData struct,
+// reads it back with ClipData.UnmarshalParcel, and verifies the round-trip.
 //
 // Build:
 //
@@ -93,14 +89,22 @@ func run(
 	}
 
 	fmt.Printf("Read back %d item(s):\n", len(clipText.Items))
-	fmt.Printf("  Label:      %q\n", clipText.Label)
-	fmt.Printf("  MIME types: %s\n", strings.Join(clipText.MIMETypes, ", "))
+	label := ""
+	if clipText.ClipDescription.Label != nil {
+		label = *clipText.ClipDescription.Label
+	}
+	fmt.Printf("  Label:      %q\n", label)
+	fmt.Printf("  MIME types: %s\n", strings.Join(clipText.ClipDescription.MimeTypes, ", "))
 	for i, item := range clipText.Items {
-		fmt.Printf("  Item[%d]:    %q\n", i, item)
+		itemText := ""
+		if item.Text != nil {
+			itemText = *item.Text
+		}
+		fmt.Printf("  Item[%d]:    %q\n", i, itemText)
 	}
 
 	// Verify round-trip.
-	if len(clipText.Items) > 0 && clipText.Items[0] == text {
+	if len(clipText.Items) > 0 && clipText.Items[0].Text != nil && *clipText.Items[0].Text == text {
 		fmt.Println("Round-trip verified: clipboard text matches.")
 	} else {
 		fmt.Println("WARNING: clipboard text does not match what was set.")
@@ -141,9 +145,21 @@ func setPrimaryClipText(
 		"I",
 	}
 
+	clipData := &content.ClipData{
+		ClipDescription: content.ClipDescription{
+			Label:     &label,
+			MimeTypes: []string{"text/plain"},
+		},
+		Items: []content.ClipDataItem{
+			{Text: &text},
+		},
+	}
+
 	if sig == nil || binder.SignatureMatches(compiledDescs, sig) {
 		data.WriteInt32(1) // non-null ClipData
-		content.MarshalPlainTextClipData(data, label, text)
+		if err := clipData.MarshalParcel(data); err != nil {
+			return fmt.Errorf("marshaling ClipData: %w", err)
+		}
 		data.WriteString16(identity.PackageName)
 		data.WriteString16(identity.AttributionTag)
 		data.WriteInt32(identity.UserID)
@@ -154,7 +170,9 @@ func setPrimaryClipText(
 			switch pi {
 			case 0:
 				data.WriteInt32(1) // non-null ClipData
-				content.MarshalPlainTextClipData(data, label, text)
+				if err := clipData.MarshalParcel(data); err != nil {
+					return fmt.Errorf("marshaling ClipData: %w", err)
+				}
 			case 1:
 				data.WriteString16(identity.PackageName)
 			case 2:
@@ -188,14 +206,12 @@ func setPrimaryClipText(
 }
 
 // getPrimaryClipText reads the primary clip from the clipboard and extracts
-// text content. Uses a raw GetPrimaryClip transaction so we can parse the
-// reply with UnmarshalClipDataText instead of the generated (incomplete)
-// ClipData.UnmarshalParcel.
+// text content using the generated ClipData.UnmarshalParcel.
 func getPrimaryClipText(
 	ctx context.Context,
 	remote binder.IBinder,
-) (content.ClipDataText, error) {
-	var empty content.ClipDataText
+) (content.ClipData, error) {
+	var empty content.ClipData
 	identity := remote.Identity()
 
 	data := parcel.New()
@@ -266,5 +282,9 @@ func getPrimaryClipText(
 		return empty, fmt.Errorf("clipboard returned null ClipData")
 	}
 
-	return content.UnmarshalClipDataText(reply)
+	var clipData content.ClipData
+	if err := clipData.UnmarshalParcel(reply); err != nil {
+		return empty, fmt.Errorf("unmarshaling ClipData: %w", err)
+	}
+	return clipData, nil
 }
