@@ -23,8 +23,8 @@ type BufferHandle uintptr
 var (
 	fnInit      func() int32
 	fnImport    func(fds unsafe.Pointer, numFds int32, ints unsafe.Pointer, numInts int32) uintptr
-	fnLock      func(buffer uintptr, width, height int32, data *uintptr) int32
-	fnLockYCbCr func(buffer uintptr, width, height int32, y, cb, cr *uintptr, yStride, cStride, chromaStep *uint32) int32
+	fnLock      func(buffer uintptr, width, height int32, data *unsafe.Pointer) int32
+	fnLockYCbCr func(buffer uintptr, width, height int32, y, cb, cr *unsafe.Pointer, yStride, cStride, chromaStep *uint32) int32
 	fnUnlock    func(buffer uintptr)
 	fnFree      func(buffer uintptr)
 )
@@ -105,12 +105,12 @@ func ImportBuffer(fds []int32, ints []int32) (BufferHandle, error) {
 // LockGeneric locks a buffer for CPU read and copies the pixel data
 // into a Go byte slice. The buffer is unlocked before returning.
 func LockGeneric(h BufferHandle, width, height int32, bufSize int) ([]byte, error) {
-	var dataPtr uintptr
+	var dataPtr unsafe.Pointer
 	if ret := fnLock(uintptr(h), width, height, &dataPtr); ret != 0 {
 		return nil, fmt.Errorf("bridge_lock: error %d", ret)
 	}
 	result := make([]byte, bufSize)
-	copy(result, unsafe.Slice((*byte)(unsafe.Pointer(dataPtr)), bufSize)) //nolint:govet // C bridge pointer
+	copy(result, unsafe.Slice((*byte)(dataPtr), bufSize))
 	fnUnlock(uintptr(h))
 	return result, nil
 }
@@ -119,7 +119,7 @@ func LockGeneric(h BufferHandle, width, height int32, bufSize int) ([]byte, erro
 // planes (Y, Cb, Cr) into a Go byte slice. The buffer is unlocked
 // before returning.
 func LockYCbCr(h BufferHandle, width, height int32) ([]byte, error) {
-	var yPtr, cbPtr, crPtr uintptr
+	var yPtr, cbPtr, crPtr unsafe.Pointer
 	var yStride, cStride, chromaStep uint32
 	if ret := fnLockYCbCr(uintptr(h), width, height,
 		&yPtr, &cbPtr, &crPtr,
@@ -134,12 +134,12 @@ func LockYCbCr(h BufferHandle, width, height int32) ([]byte, error) {
 	crSize := int(cStride) * chromaHeight
 
 	result := make([]byte, ySize+cbSize+crSize)
-	copy(result[:ySize], unsafe.Slice((*byte)(unsafe.Pointer(yPtr)), ySize)) //nolint:govet // C bridge pointer
-	if cbPtr != 0 && cbSize > 0 {
-		copy(result[ySize:ySize+cbSize], unsafe.Slice((*byte)(unsafe.Pointer(cbPtr)), cbSize)) //nolint:govet // C bridge pointer
+	copy(result[:ySize], unsafe.Slice((*byte)(yPtr), ySize))
+	if cbPtr != nil && cbSize > 0 {
+		copy(result[ySize:ySize+cbSize], unsafe.Slice((*byte)(cbPtr), cbSize))
 	}
-	if crPtr != 0 && crSize > 0 {
-		copy(result[ySize+cbSize:], unsafe.Slice((*byte)(unsafe.Pointer(crPtr)), crSize)) //nolint:govet // C bridge pointer
+	if crPtr != nil && crSize > 0 {
+		copy(result[ySize+cbSize:], unsafe.Slice((*byte)(crPtr), crSize))
 	}
 	fnUnlock(uintptr(h))
 	return result, nil
