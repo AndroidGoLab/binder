@@ -472,6 +472,24 @@ func convertParcelableToAST(
 				jwf.Name = cleanName
 			}
 
+			// repeated wire field: array-of-structs with sub-elements.
+			// Handle early before typed_object/delegate or knownType checks.
+			if jwf.WriteMethod == "repeated" && len(jwf.Elements) > 0 {
+				var elems []parser.JavaWireField
+				for _, e := range jwf.Elements {
+					elems = append(elems, parser.JavaWireField{
+						Name:        e.Name,
+						WriteMethod: e.WriteMethod,
+					})
+				}
+				wireFields = append(wireFields, parser.JavaWireField{
+					Name:        jwf.Name,
+					WriteMethod: "repeated",
+					Elements:    elems,
+				})
+				continue
+			}
+
 			// Check if this field has a valid name and resolvable condition.
 			validName := isValidJavaWireFieldName(jwf.Name)
 			resolvableCond := isResolvableJavaWireCondition(jwf.Condition)
