@@ -101,10 +101,9 @@ func (d *Device) ConfigureStream(
 		}
 		logger.Debugf(ctx, "gralloc buffer %d: fds=%v ints=%v stride=%d", i, buf.Handle.Fds, buf.Handle.Ints, buf.Stride)
 		if err := buf.Mmap(); err != nil {
-			// HIDL gralloc buffers are GPU memory and may not be
-			// mmappable without IMapper.lock(). Capture still works
-			// via IGBP callbacks but CaptureFrame() can't read pixels.
-			logger.Debugf(ctx, "mmap gralloc buffer %d: %v (capture will work but CPU pixel read unavailable)", i, err)
+			// Goldfish gralloc buffers may fail mmap (EPERM) but the
+			// claimed region allows pread fallback in ReadPixels.
+			logger.Debugf(ctx, "mmap gralloc buffer %d: %v (will use pread fallback if goldfish)", i, err)
 		}
 		d.grallocBufs[i] = buf
 	}
