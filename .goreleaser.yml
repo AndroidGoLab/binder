@@ -28,6 +28,12 @@ builds:
     goarch:
       - amd64
       - arm64
+    # bindercli pulls in 923 packages (~1.2M lines of generated code).
+    # Compiling packages in parallel exhausts the 7GB GitHub runner RAM
+    # during cross-compilation. Limit to 1 concurrent package compilation.
+    flags:
+      - -p
+      - '1'
     ldflags:
       - -s -w
 
