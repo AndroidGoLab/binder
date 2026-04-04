@@ -914,12 +914,11 @@ func testCodec2HIDL_EncodeAVC(t *testing.T) {
 		t.Logf("AVC gralloc mmap failed (expected on goldfish): %v", mmapErr)
 	} else {
 		grayFrame := makeGrayYUVFrame(encWidth, encHeight)
-		copyLen := len(grayFrame)
-		if copyLen > len(buf.MmapData) {
-			copyLen = len(buf.MmapData)
-		}
-		copy(buf.MmapData[:copyLen], grayFrame[:copyLen])
-		t.Logf("AVC: wrote %d bytes of gray YUV to gralloc buffer", copyLen)
+		// Use CopyToMMIO instead of copy(): goldfish address space is
+		// backed by a PCI BAR (UC MMIO), and Go's copy() emits AVX2
+		// VMOVDQU instructions that cause SIGSEGV on UC memory.
+		n := gralloc.CopyToMMIO(buf.MmapData, grayFrame)
+		t.Logf("AVC: wrote %d bytes of gray YUV to gralloc buffer", n)
 	}
 
 	// Register listener and create component.

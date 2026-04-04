@@ -66,10 +66,10 @@ type mmapAttempt struct {
 //   - Some gralloc FDs require PROT_READ|PROT_WRITE
 //   - Some FDs only support MAP_PRIVATE
 var mmapStrategies = []mmapAttempt{
-	{unix.PROT_READ, unix.MAP_SHARED, "PROT_READ|MAP_SHARED"},
 	{unix.PROT_READ | unix.PROT_WRITE, unix.MAP_SHARED, "PROT_READ|PROT_WRITE|MAP_SHARED"},
-	{unix.PROT_READ, unix.MAP_PRIVATE, "PROT_READ|MAP_PRIVATE"},
+	{unix.PROT_READ, unix.MAP_SHARED, "PROT_READ|MAP_SHARED"},
 	{unix.PROT_READ | unix.PROT_WRITE, unix.MAP_PRIVATE, "PROT_READ|PROT_WRITE|MAP_PRIVATE"},
+	{unix.PROT_READ, unix.MAP_PRIVATE, "PROT_READ|MAP_PRIVATE"},
 }
 
 // DMA-BUF sync ioctl constants. On kernel 6.6+ the DMA-BUF subsystem
@@ -338,6 +338,30 @@ func copyFromMMIO(src []byte) []byte {
 	}
 
 	return dst
+}
+
+// CopyToMMIO copies src into a goldfish address space mmap region dst.
+// Like copyFromMMIO, this avoids Go's runtime.memmove which uses AVX2
+// VMOVDQU instructions that crash on UC (uncacheable) PCI BAR memory.
+// Only min(len(src), len(dst)) bytes are copied; the count is returned.
+//
+//go:noinline
+func CopyToMMIO(dst []byte, src []byte) int {
+	n := len(src)
+	if len(dst) < n {
+		n = len(dst)
+	}
+
+	i := 0
+	for ; i+8 <= n; i += 8 {
+		v := *(*uint64)(unsafe.Pointer(&src[i]))
+		*(*uint64)(unsafe.Pointer(&dst[i])) = v
+	}
+	for ; i < n; i++ {
+		dst[i] = src[i]
+	}
+
+	return n
 }
 
 // isGoldfishFD checks if an FD points to the goldfish emulator's
