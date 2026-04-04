@@ -39,9 +39,10 @@ type Buffer struct {
 
 	// goldfishClaimed tracks whether a goldfish address space region
 	// was claimed, so Munmap can unclaim it.
-	goldfishClaimed   bool
-	goldfishClaimedFD int
-	goldfishOffset    uint64
+	goldfishClaimed       bool
+	goldfishClaimedFD     int
+	goldfishClaimedOffset uint64 // page-aligned offset passed to claimShared
+	goldfishOffset        uint64 // raw buffer offset within the address space
 }
 
 // BufferSize returns the buffer size in bytes based on dimensions and
@@ -190,37 +191,43 @@ func (b *Buffer) mmapGoldfish(fd int, bufSize int) error {
 		}
 	}
 
+	// Page-align the offset for mmap.
+	pageSize := uint64(unix.Getpagesize())
+	pageOffset := offset & ^(pageSize - 1)
+	inPageOffset := offset - pageOffset
+	mapLen := allocSize + inPageOffset
+
+	// The kernel page-aligns the mmap size via __PAGE_ALIGN, so the
+	// claimed region must cover the full page-aligned extent. Otherwise
+	// as_blocks_check_if_mine rejects the mmap with EPERM because the
+	// page-aligned end exceeds the raw claim end.
+	claimSize := (mapLen + pageSize - 1) & ^(pageSize - 1)
+
 	// Claim the shared region so the kernel allows mmap.
-	if err := goldfishClaimShared(fd, offset, allocSize); err != nil {
-		return fmt.Errorf("goldfish claimShared offset=0x%x size=%d: %w", offset, allocSize, err)
+	if err := goldfishClaimShared(fd, pageOffset, claimSize); err != nil {
+		return fmt.Errorf("goldfish claimShared offset=0x%x size=%d: %w", pageOffset, claimSize, err)
 	}
 	b.goldfishClaimed = true
 	b.goldfishClaimedFD = fd
+	b.goldfishClaimedOffset = pageOffset
 	b.goldfishOffset = offset
 
-	// Page-align the offset for mmap.
-	pageSize := int64(unix.Getpagesize())
-	pageOffset := int64(offset) & ^(pageSize - 1)
-	inPageOffset := int64(offset) - pageOffset
-	mapLen := int(int64(allocSize) + inPageOffset)
-
 	// Try mmap strategies at the goldfish offset.
+	var lastErr error
 	for _, strategy := range mmapStrategies {
-		data, err := unix.Mmap(fd, pageOffset, mapLen, strategy.prot, strategy.flags)
+		data, err := unix.Mmap(fd, int64(pageOffset), int(mapLen), strategy.prot, strategy.flags)
 		if err == nil {
 			// Save the full mmap region for proper munmap later, and
 			// expose only the buffer data sub-slice via MmapData.
 			b.mmapFull = data
-			b.MmapData = data[inPageOffset : inPageOffset+int64(bufSize)]
+			b.MmapData = data[inPageOffset : inPageOffset+uint64(bufSize)]
 			return nil
 		}
+		lastErr = err
 	}
 
-	// Mmap failed but the region is claimed. Keep the claim active so
-	// ReadPixels can use pread at the goldfish offset as a fallback.
-	// This is common on kernels where the goldfish address space driver
-	// denies mmap from userspace (EPERM) but allows read/pread.
-	return nil
+	return fmt.Errorf("goldfish mmap fd=%d pageOffset=0x%x mapLen=%d claimOffset=0x%x claimSize=%d allocSize=%d: %w",
+		fd, pageOffset, mapLen, pageOffset, claimSize, allocSize, lastErr)
 }
 
 // ReadPixels returns the buffer pixel data.
@@ -249,10 +256,20 @@ func (b *Buffer) ReadPixels(ctx context.Context) ([]byte, error) {
 			if lockErr == nil {
 				return pixels, nil
 			}
-			logger.Debugf(ctx, "IMapper lock failed: %v; trying direct pread", lockErr)
+			logger.Debugf(ctx, "IMapper lock failed: %v", lockErr)
 		} else {
-			logger.Debugf(ctx, "IMapper unavailable: %v; trying direct pread", err)
+			logger.Debugf(ctx, "IMapper unavailable: %v", err)
 		}
+
+		// The IMapper lock is a cross-process call that may fail (e.g.,
+		// the passthrough mapper cannot be accessed via hwbinder). If the
+		// buffer is mmap'd, the camera HAL has already rendered frame
+		// data into the goldfish shared memory via the host GPU before
+		// queueing the buffer back. Read directly from the mmap.
+		if b.MmapData != nil {
+			return copyFromMMIO(b.MmapData), nil
+		}
+
 		return b.preadGoldfish(ctx)
 	}
 
@@ -294,6 +311,33 @@ func (b *Buffer) preadGoldfish(ctx context.Context) ([]byte, error) {
 	logger.Debugf(ctx, "pread goldfish buffer: %d/%d bytes read", n, bufSize)
 
 	return out[:n], nil
+}
+
+// copyFromMMIO copies data from a goldfish address space mmap region.
+// The goldfish address space is backed by a PCI BAR (MMIO), which does
+// not support vectorized reads (AVX2/SSE). Go's runtime.memmove (used
+// by copy()) uses VMOVDQU which causes SIGILL on MMIO memory. This
+// function uses a volatile-style byte loop that reads 8 bytes at a time
+// via uint64 loads, which the compiler emits as plain MOV instructions.
+//
+//go:noinline
+func copyFromMMIO(src []byte) []byte {
+	n := len(src)
+	dst := make([]byte, n)
+
+	// Read 8 bytes at a time using unsafe pointer arithmetic. The Go
+	// compiler emits scalar MOV instructions for unsafe.Pointer-based
+	// uint64 reads, avoiding vectorization.
+	i := 0
+	for ; i+8 <= n; i += 8 {
+		v := *(*uint64)(unsafe.Pointer(&src[i]))
+		*(*uint64)(unsafe.Pointer(&dst[i])) = v
+	}
+	for ; i < n; i++ {
+		dst[i] = src[i]
+	}
+
+	return dst
 }
 
 // isGoldfishFD checks if an FD points to the goldfish emulator's
@@ -389,7 +433,7 @@ func (b *Buffer) Munmap() {
 		b.dmaBufSynced = false
 	}
 	if b.goldfishClaimed {
-		goldfishUnclaimShared(b.goldfishClaimedFD, b.goldfishOffset)
+		goldfishUnclaimShared(b.goldfishClaimedFD, b.goldfishClaimedOffset)
 		b.goldfishClaimed = false
 	}
 }

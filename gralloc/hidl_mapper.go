@@ -98,17 +98,15 @@ func (m *hidlMapper) LockBuffer(ctx context.Context, b *Buffer) ([]byte, error) 
 	// goldfish address space memory. Read pixels from the best
 	// available source.
 
-	// Fast path: mmap is available -- copy directly.
+	// Fast path: mmap is available. The goldfish address space is backed
+	// by a PCI BAR, so we use copyFromMMIO (scalar loads) instead of
+	// copy() which uses AVX2 VMOVDQU that crashes on UC MMIO memory.
 	if b.MmapData != nil {
-		out := make([]byte, len(b.MmapData))
-		copy(out, b.MmapData)
-		return out, nil
+		return copyFromMMIO(b.MmapData), nil
 	}
 
-	// Fallback: mmap failed (common on goldfish where the kernel denies
-	// mmap with EPERM). Use pread on the goldfish FD at the buffer's
-	// address space offset to read the pixel data that rcReadColorBuffer
-	// wrote into the shared region.
+	// Fallback: pread on the goldfish FD at the buffer's address space
+	// offset.
 	return m.preadGoldfishPixels(ctx, b)
 }
 
