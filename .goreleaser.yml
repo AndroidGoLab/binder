@@ -45,6 +45,7 @@ builds:
     goos:
       - linux
     goarch:
+      - amd64
       - arm64
     ldflags:
       - -s -w
